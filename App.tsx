@@ -8,6 +8,8 @@ import { places } from './src/data/places';
 import { loadPreferences, savePreferences } from './src/persistence';
 import { recommendPlaces } from './src/recommendations';
 import { Interest, Mood, Place } from './src/types';
+import { Coordinates, distanceInKm } from './src/domain';
+import { loadPreferences, savePreferences } from './src/persistence';
 
 type Step = 'mood' | 'interest' | 'results';
 
