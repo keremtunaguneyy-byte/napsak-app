@@ -1,6 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { useMemo, useState } from 'react';
-import { Alert, Linking, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as Location from 'expo-location';
+import { useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, Alert, Linking, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import { Coordinates, distanceInKm } from './src/domain';
+import { loadPreferences, savePreferences } from './src/persistence';
 
 type Mood = 'Enerjik' | 'Sakin' | 'Sosyal' | 'Meraklı';
 type Interest = 'Kahve' | 'Sanat' | 'Doğa' | 'Lezzet' | 'Etkinlik';
@@ -34,7 +38,44 @@ export default function App() {
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]);
   const [recommendationRun, setRecommendationRun] = useState(0);
-  const results = useMemo(() => places.filter(p => !dismissed.includes(p.id)).map(p => ({ ...p, score: (mood && p.moods.includes(mood) ? 40 : 0) + (chosen.includes(p.category) ? 35 : 0) + p.rating * 4 - p.distance + ((Number(p.id) * 17 + recommendationRun * 13) % 11) })).sort((a, b) => b.score - a.score).slice(0, 5), [mood, chosen, dismissed, recommendationRun]);
+  const [hydrated, setHydrated] = useState(false);
+  const [coordinates, setCoordinates] = useState<Coordinates>();
+  const [locating, setLocating] = useState(false);
+  const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
+  const results = useMemo(() => places.filter(p => !dismissed.includes(p.id)).map(p => {
+    const distance = coordinates ? distanceInKm(coordinates, p) : p.distance;
+    return { ...p, distance, score: (mood && p.moods.includes(mood) ? 40 : 0) + (chosen.includes(p.category) ? 35 : 0) + p.rating * 4 - distance + ((Number(p.id) * 17 + recommendationRun * 13) % 11) };
+  }).sort((a, b) => b.score - a.score).slice(0, 5), [mood, chosen, dismissed, recommendationRun, coordinates]);
+
+  useEffect(() => {
+    loadPreferences().then(preferences => {
+      setSaved(preferences.saved);
+      setDismissed(preferences.dismissed);
+    }).finally(() => setHydrated(true));
+  }, []);
+  useEffect(() => {
+    if (!hydrated) return;
+    savePreferences({ saved, dismissed }).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+  }, [saved, dismissed, hydrated]);
+
+  const requestLocation = async () => {
+    setLocating(true);
+    try {
+      const permission = await Location.requestForegroundPermissionsAsync();
+      if (permission.status !== 'granted') {
+        setLocationMessage('Konum izni kapalı. Ayarlardan dilediğin zaman açabilirsin.');
+        if (!permission.canAskAgain) Alert.alert('Konum izni gerekli', 'Yakınındaki sonuçları görmek için uygulama ayarlarından konum iznini açabilirsin.', [{ text: 'Vazgeç', style: 'cancel' }, { text: 'Ayarları aç', onPress: () => Linking.openSettings() }]);
+        return;
+      }
+      const current = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      setCoordinates(current.coords);
+      setLocationMessage('Canlı konumuna göre mesafeler güncellendi.');
+    } catch {
+      setLocationMessage('Konum alınamadı. Bağlantını kontrol edip tekrar dene.');
+    } finally {
+      setLocating(false);
+    }
+  };
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
   const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setDismissed([]); setRecommendationRun(0); };
   const openInMaps = async (place: Place) => {
@@ -67,6 +108,10 @@ export default function App() {
       </View>}
       {step === 'results' && <View>
         <Lead eyebrow="SANA GÖRE" title="Bugün bunlar olur." subtitle={`${mood} moduna ve seçimlerine göre sıraladık.`} />
+        <TouchableOpacity disabled={locating} onPress={requestLocation} style={s.locationCard}>
+          {locating ? <ActivityIndicator color={c.lime} /> : <Text style={s.locationIcon}>{coordinates ? '✓' : '⌖'}</Text>}
+          <View style={s.locationCopy}><Text style={s.locationTitle}>{coordinates ? 'Konum kullanılıyor' : 'Yakınımdakileri bul'}</Text><Text style={s.locationText}>{locationMessage}</Text></View>
+        </TouchableOpacity>
         {results.map((p, i) => <View key={p.id} style={s.result}>
           <Text style={s.rank}>{i + 1}</Text><Text style={s.resultName}>{p.name}</Text>
           <Text style={s.meta}>★ {p.rating}  ·  {p.distance.toFixed(1)} km  ·  {p.district}</Text>
@@ -93,4 +138,5 @@ const s = StyleSheet.create({
   button: { height: 62, borderRadius: 18, backgroundColor: c.lime, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 21, marginTop: 28 }, disabled: { opacity: .32 }, buttonText: { color: '#14160E', fontSize: 16, fontWeight: '900' }, arrow: { color: '#14160E', fontSize: 25 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 11 }, chip: { borderWidth: 1, borderColor: c.line, backgroundColor: c.card, borderRadius: 99, paddingVertical: 14, paddingHorizontal: 17 }, chipText: { color: c.ink, fontSize: 15, fontWeight: '700' }, back: { color: c.muted, textAlign: 'center', marginTop: 22, fontWeight: '700' },
   result: { backgroundColor: c.card, borderRadius: 22, borderWidth: 1, borderColor: c.line, padding: 18, marginBottom: 14, overflow: 'hidden' }, rank: { position: 'absolute', right: 14, top: 10, color: '#56603A', fontSize: 32, fontWeight: '900' }, resultName: { color: c.ink, fontSize: 19, fontWeight: '900', paddingRight: 38 }, meta: { color: c.muted, fontSize: 12, marginTop: 6 }, note: { color: c.ink, fontSize: 14, lineHeight: 20, marginTop: 16 }, why: { color: '#A8BD61', fontSize: 12, marginTop: 10 }, actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, borderTopWidth: 1, borderTopColor: c.line, marginTop: 16, paddingTop: 14 }, action: { color: c.lime, fontWeight: '800', fontSize: 13 }, mutedAction: { color: c.muted, fontWeight: '700', fontSize: 13 }, secondaryButton: { height: 54, borderRadius: 17, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center', marginTop: 8 }, secondaryButtonText: { color: c.ink, fontSize: 14, fontWeight: '800' },
+  locationCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: '#56603A', backgroundColor: '#202518', borderRadius: 18, padding: 16, marginBottom: 18 }, locationIcon: { color: c.lime, fontSize: 24, fontWeight: '900', width: 28, textAlign: 'center' }, locationCopy: { flex: 1 }, locationTitle: { color: c.ink, fontSize: 14, fontWeight: '900' }, locationText: { color: c.muted, fontSize: 12, lineHeight: 17, marginTop: 3 },
 });
