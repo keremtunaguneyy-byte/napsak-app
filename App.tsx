@@ -3,13 +3,15 @@ import * as Location from 'expo-location';
 import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Linking, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { Coordinates } from './src/domain';
+import { places } from './src/data/places';
+import { loadPreferences, savePreferences } from './src/persistence';
+import { recommendPlaces } from './src/recommendations';
+import { Interest, Mood, Place } from './src/types';
 import { Coordinates, distanceInKm } from './src/domain';
 import { loadPreferences, savePreferences } from './src/persistence';
 
-type Mood = 'Enerjik' | 'Sakin' | 'Sosyal' | 'Meraklı';
-type Interest = 'Kahve' | 'Sanat' | 'Doğa' | 'Lezzet' | 'Etkinlik';
 type Step = 'mood' | 'interest' | 'results';
-type Place = { id: string; name: string; district: string; category: Interest; moods: Mood[]; rating: number; distance: number; note: string; latitude: number; longitude: number };
 
 const moods: { label: Mood; emoji: string; hint: string }[] = [
   { label: 'Enerjik', emoji: '⚡', hint: 'Hareket ve tempo' },
@@ -22,15 +24,6 @@ const interests: { label: Interest; emoji: string }[] = [
   { label: 'Doğa', emoji: '🌳' }, { label: 'Lezzet', emoji: '🍜' },
   { label: 'Etkinlik', emoji: '🎭' },
 ];
-const places: Place[] = [
-  { id: '1', name: 'CerModern', district: 'Altındağ', category: 'Sanat', moods: ['Meraklı', 'Sakin'], rating: 4.6, distance: 2.4, note: 'Sergi gez, avluda soluklan.', latitude: 39.9313, longitude: 32.8500 },
-  { id: '2', name: 'Seğmenler Parkı', district: 'Çankaya', category: 'Doğa', moods: ['Sakin', 'Sosyal', 'Enerjik'], rating: 4.7, distance: 3.1, note: 'Kısa yürüyüş ve şehir içinde yeşil mola.', latitude: 39.8985, longitude: 32.8633 },
-  { id: '3', name: 'Erimtan Müzesi', district: 'Altındağ', category: 'Sanat', moods: ['Meraklı', 'Sakin'], rating: 4.7, distance: 3.8, note: 'Ankara Kalesi rotasına kültür molası ekle.', latitude: 39.9382, longitude: 32.8624 },
-  { id: '4', name: 'Kuğulu Park çevresi', district: 'Çankaya', category: 'Kahve', moods: ['Sakin', 'Sosyal'], rating: 4.5, distance: 1.8, note: 'Park turundan sonra yakınlarda kahve keşfet.', latitude: 39.9027, longitude: 32.8608 },
-  { id: '5', name: 'CSO Ada Ankara', district: 'Altındağ', category: 'Etkinlik', moods: ['Sosyal', 'Meraklı'], rating: 4.8, distance: 2.9, note: 'Bugünün programına göz at, akşamı sahneye bırak.', latitude: 39.9368, longitude: 32.8439 },
-  { id: '6', name: 'Atakule seyir rotası', district: 'Çankaya', category: 'Lezzet', moods: ['Sosyal', 'Meraklı'], rating: 4.4, distance: 4.2, note: 'Manzarayı yemek veya tatlı molasıyla birleştir.', latitude: 39.8868, longitude: 32.8553 },
-];
-
 export default function App() {
   const [step, setStep] = useState<Step>('mood');
   const [mood, setMood] = useState<Mood>();
@@ -42,10 +35,11 @@ export default function App() {
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
-  const results = useMemo(() => places.filter(p => !dismissed.includes(p.id)).map(p => {
-    const distance = coordinates ? distanceInKm(coordinates, p) : p.distance;
-    return { ...p, distance, score: (mood && p.moods.includes(mood) ? 40 : 0) + (chosen.includes(p.category) ? 35 : 0) + p.rating * 4 - distance + ((Number(p.id) * 17 + recommendationRun * 13) % 11) };
-  }).sort((a, b) => b.score - a.score).slice(0, 5), [mood, chosen, dismissed, recommendationRun, coordinates]);
+  const results = useMemo(() => {
+    const ranked = recommendPlaces({ places, mood, interests: chosen, dismissed, coordinates, limit: places.length });
+    const offset = ranked.length ? recommendationRun % ranked.length : 0;
+    return [...ranked.slice(offset), ...ranked.slice(0, offset)].slice(0, 5);
+  }, [mood, chosen, dismissed, recommendationRun, coordinates]);
 
   useEffect(() => {
     loadPreferences().then(preferences => {
@@ -90,6 +84,7 @@ export default function App() {
     }
     await Linking.openURL(url);
   };
+  const openSource = (place: Place) => Linking.openURL(place.sourceUrl);
 
   return <SafeAreaView style={s.safe}>
     <StatusBar style="light" /><View style={s.orb} />
@@ -114,9 +109,10 @@ export default function App() {
         </TouchableOpacity>
         {results.map((p, i) => <View key={p.id} style={s.result}>
           <Text style={s.rank}>{i + 1}</Text><Text style={s.resultName}>{p.name}</Text>
-          <Text style={s.meta}>★ {p.rating}  ·  {p.distance.toFixed(1)} km  ·  {p.district}</Text>
-          <Text style={s.note}>{p.note}</Text><Text style={s.why}>Neden? {mood && p.moods.includes(mood) ? `${mood} moduna uygun` : 'yüksek puanlı'} · yakınında</Text>
-          <View style={s.actions}><TouchableOpacity onPress={() => setSaved(c => c.includes(p.id) ? c.filter(id => id !== p.id) : [...c, p.id])}><Text style={s.action}>{saved.includes(p.id) ? '♥ Kaydedildi' : '♡ Kaydet'}</Text></TouchableOpacity><TouchableOpacity onPress={() => openInMaps(p)}><Text style={s.action}>Haritada aç</Text></TouchableOpacity><TouchableOpacity onPress={() => setDismissed(c => [...c, p.id])}><Text style={s.mutedAction}>Bana göre değil</Text></TouchableOpacity></View>
+          <Text style={s.meta}>N’apsak {p.editorialScore}  ·  {p.distance === undefined ? 'Konum bekleniyor' : `${p.distance.toFixed(1)} km`}  ·  {p.district}</Text>
+          <Text style={s.address}>{p.address}</Text>
+          <Text style={s.note}>{p.note}</Text><Text style={s.why}>Neden? {p.reasons.join(' · ')}</Text>
+          <View style={s.actions}><TouchableOpacity onPress={() => setSaved(c => c.includes(p.id) ? c.filter(id => id !== p.id) : [...c, p.id])}><Text style={s.action}>{saved.includes(p.id) ? '♥ Kaydedildi' : '♡ Kaydet'}</Text></TouchableOpacity><TouchableOpacity onPress={() => openInMaps(p)}><Text style={s.action}>Haritada aç</Text></TouchableOpacity><TouchableOpacity onPress={() => openSource(p)}><Text style={s.action}>Resmî bilgi</Text></TouchableOpacity><TouchableOpacity onPress={() => setDismissed(c => [...c, p.id])}><Text style={s.mutedAction}>Bana göre değil</Text></TouchableOpacity></View>
         </View>)}
         <TouchableOpacity style={s.secondaryButton} onPress={() => setRecommendationRun(run => run + 1)}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
@@ -137,6 +133,6 @@ const s = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 }, mood: { width: '48%', minHeight: 145, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 18, justifyContent: 'flex-end' }, selected: { borderColor: c.lime, backgroundColor: '#252B18' }, emoji: { fontSize: 28, marginBottom: 17 }, cardTitle: { color: c.ink, fontSize: 19, fontWeight: '800' }, hint: { color: c.muted, fontSize: 12, marginTop: 4 },
   button: { height: 62, borderRadius: 18, backgroundColor: c.lime, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 21, marginTop: 28 }, disabled: { opacity: .32 }, buttonText: { color: '#14160E', fontSize: 16, fontWeight: '900' }, arrow: { color: '#14160E', fontSize: 25 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 11 }, chip: { borderWidth: 1, borderColor: c.line, backgroundColor: c.card, borderRadius: 99, paddingVertical: 14, paddingHorizontal: 17 }, chipText: { color: c.ink, fontSize: 15, fontWeight: '700' }, back: { color: c.muted, textAlign: 'center', marginTop: 22, fontWeight: '700' },
-  result: { backgroundColor: c.card, borderRadius: 22, borderWidth: 1, borderColor: c.line, padding: 18, marginBottom: 14, overflow: 'hidden' }, rank: { position: 'absolute', right: 14, top: 10, color: '#56603A', fontSize: 32, fontWeight: '900' }, resultName: { color: c.ink, fontSize: 19, fontWeight: '900', paddingRight: 38 }, meta: { color: c.muted, fontSize: 12, marginTop: 6 }, note: { color: c.ink, fontSize: 14, lineHeight: 20, marginTop: 16 }, why: { color: '#A8BD61', fontSize: 12, marginTop: 10 }, actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, borderTopWidth: 1, borderTopColor: c.line, marginTop: 16, paddingTop: 14 }, action: { color: c.lime, fontWeight: '800', fontSize: 13 }, mutedAction: { color: c.muted, fontWeight: '700', fontSize: 13 }, secondaryButton: { height: 54, borderRadius: 17, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center', marginTop: 8 }, secondaryButtonText: { color: c.ink, fontSize: 14, fontWeight: '800' },
+  result: { backgroundColor: c.card, borderRadius: 22, borderWidth: 1, borderColor: c.line, padding: 18, marginBottom: 14, overflow: 'hidden' }, rank: { position: 'absolute', right: 14, top: 10, color: '#56603A', fontSize: 32, fontWeight: '900' }, resultName: { color: c.ink, fontSize: 19, fontWeight: '900', paddingRight: 38 }, meta: { color: c.muted, fontSize: 12, marginTop: 6 }, address: { color: c.muted, fontSize: 12, marginTop: 5 }, note: { color: c.ink, fontSize: 14, lineHeight: 20, marginTop: 16 }, why: { color: '#A8BD61', fontSize: 12, marginTop: 10 }, actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, borderTopWidth: 1, borderTopColor: c.line, marginTop: 16, paddingTop: 14 }, action: { color: c.lime, fontWeight: '800', fontSize: 13 }, mutedAction: { color: c.muted, fontWeight: '700', fontSize: 13 }, secondaryButton: { height: 54, borderRadius: 17, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center', marginTop: 8 }, secondaryButtonText: { color: c.ink, fontSize: 14, fontWeight: '800' },
   locationCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: '#56603A', backgroundColor: '#202518', borderRadius: 18, padding: 16, marginBottom: 18 }, locationIcon: { color: c.lime, fontSize: 24, fontWeight: '900', width: 28, textAlign: 'center' }, locationCopy: { flex: 1 }, locationTitle: { color: c.ink, fontSize: 14, fontWeight: '900' }, locationText: { color: c.muted, fontSize: 12, lineHeight: 17, marginTop: 3 },
 });
