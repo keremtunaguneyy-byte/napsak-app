@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { distanceInKm, uniqueIds } = require('../.test-build/domain.js');
+const { distanceInKm, resolveSavedPlaces, uniqueIds } = require('../.test-build/domain.js');
 const { recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
@@ -18,6 +18,12 @@ test('distanceInKm calculates a realistic Ankara distance', () => {
 test('uniqueIds removes invalid and duplicate values', () => {
   assert.deepEqual(uniqueIds(['1', '1', 2, null, '3']), ['1', '3']);
   assert.deepEqual(uniqueIds(null), []);
+});
+
+test('resolveSavedPlaces preserves save order and ignores stale or duplicate ids', () => {
+  const catalogue = [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }];
+  assert.deepEqual(resolveSavedPlaces(catalogue, ['b', 'missing', 'a', 'b']), [catalogue[1], catalogue[0]]);
+  assert.deepEqual(resolveSavedPlaces(catalogue, []), []);
 });
 
 const fixture = (overrides) => ({
