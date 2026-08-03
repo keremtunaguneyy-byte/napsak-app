@@ -7,9 +7,9 @@ import { places } from './src/data/places';
 import { loadPreferences, savePreferences } from './src/persistence';
 import { recommendPlaces } from './src/recommendations';
 import { Interest, Mood, Place } from './src/types';
-import { Coordinates } from './src/domain';
+import { Coordinates, resolveSavedPlaces } from './src/domain';
 
-type Step = 'welcome' | 'mood' | 'interest' | 'results';
+type Step = 'welcome' | 'mood' | 'interest' | 'results' | 'saved';
 
 const moods: { label: Mood; emoji: string; hint: string }[] = [
   { label: 'Enerjik', emoji: '⚡', hint: 'Hareket ve tempo' },
@@ -38,6 +38,7 @@ export default function App() {
     const offset = ranked.length ? recommendationRun % ranked.length : 0;
     return [...ranked.slice(offset), ...ranked.slice(0, offset)].slice(0, 5);
   }, [mood, chosen, dismissed, recommendationRun, coordinates]);
+  const savedPlaces = useMemo(() => resolveSavedPlaces(places, saved), [saved]);
 
   useEffect(() => {
     loadPreferences().then(preferences => {
@@ -50,7 +51,7 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (!hydrated) return;
-    savePreferences({ saved, dismissed, mood, interests: chosen, onboardingCompleted: step === 'results' }).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+    savePreferences({ saved, dismissed, mood, interests: chosen, onboardingCompleted: step === 'results' || step === 'saved' }).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
   }, [saved, dismissed, mood, chosen, step, hydrated]);
 
   const requestLocation = async () => {
@@ -93,7 +94,7 @@ export default function App() {
   return <SafeAreaView style={s.safe}>
     <StatusBar style="light" /><View style={s.orb} />
     <ScrollView contentContainerStyle={s.page} showsVerticalScrollIndicator={false}>
-      <View style={s.header}><Text style={s.logo}>n’apsak?</Text><Text style={s.counter}>{stepNumber} / 04</Text></View>
+      <View style={s.header}><TouchableOpacity onPress={() => step === 'saved' ? setStep('results') : undefined}><Text style={s.logo}>n’apsak?</Text></TouchableOpacity><View style={s.headerActions}>{(step === 'results' || step === 'saved') && <TouchableOpacity onPress={() => setStep(step === 'saved' ? 'results' : 'saved')}><Text style={s.savedLink}>{step === 'saved' ? 'Öneriler' : `Kaydedilenler (${saved.length})`}</Text></TouchableOpacity>}<Text style={s.counter}>{stepNumber} / 04</Text></View></View>
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
@@ -125,8 +126,14 @@ export default function App() {
           <Text style={s.note}>{p.note}</Text><Text style={s.why}>Neden? {p.reasons.join(' · ')}</Text>
           <View style={s.actions}><TouchableOpacity onPress={() => setSaved(c => c.includes(p.id) ? c.filter(id => id !== p.id) : [...c, p.id])}><Text style={s.action}>{saved.includes(p.id) ? '♥ Kaydedildi' : '♡ Kaydet'}</Text></TouchableOpacity><TouchableOpacity onPress={() => openInMaps(p)}><Text style={s.action}>Haritada aç</Text></TouchableOpacity><TouchableOpacity onPress={() => openSource(p)}><Text style={s.action}>Resmî bilgi</Text></TouchableOpacity><TouchableOpacity onPress={() => setDismissed(c => [...c, p.id])}><Text style={s.mutedAction}>Bana göre değil</Text></TouchableOpacity></View>
         </View>)}
+        {!results.length && <View style={s.empty}><Text style={s.emptyIcon}>↻</Text><Text style={s.emptyTitle}>Yeni bir öneri kalmadı</Text><Text style={s.emptyText}>“Bana göre değil” dediğin mekânları geri getirip yeniden başlayabilirsin.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity></View>}
         <TouchableOpacity style={s.secondaryButton} onPress={() => setRecommendationRun(run => run + 1)}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
+      </View>}
+      {step === 'saved' && <View>
+        <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="Sonra bakmak için ayırdığın Ankara mekânları burada." />
+        {!savedPlaces.length && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir mekân kaydetmedin</Text><Text style={s.emptyText}>Önerilerdeki “Kaydet” seçeneğine dokunduğunda mekânlar burada görünecek.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
+        {savedPlaces.map(p => <View key={p.id} style={s.result}><Text style={s.resultName}>{p.name}</Text><Text style={s.meta}>{p.category} · {p.district}</Text><Text style={s.address}>{p.address}</Text><Text style={s.note}>{p.note}</Text><View style={s.actions}><TouchableOpacity onPress={() => openInMaps(p)}><Text style={s.action}>Haritada aç</Text></TouchableOpacity><TouchableOpacity onPress={() => setSaved(current => current.filter(id => id !== p.id))}><Text style={s.removeAction}>Kayıttan çıkar</Text></TouchableOpacity></View></View>)}
       </View>}
     </ScrollView>
   </SafeAreaView>;
@@ -140,7 +147,7 @@ const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.bg }, page: { paddingHorizontal: 22, paddingTop: 18, paddingBottom: 48 },
   loading: { alignItems: 'center', justifyContent: 'center', gap: 14 }, loadingText: { color: c.muted, fontSize: 14 },
   orb: { position: 'absolute', width: 280, height: 280, borderRadius: 140, backgroundColor: '#4A5E13', opacity: .22, top: -120, right: -90 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 54 }, logo: { color: c.ink, fontSize: 25, fontWeight: '900', letterSpacing: -1.2 }, counter: { color: c.muted, fontSize: 12, fontWeight: '700', letterSpacing: 1.5 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 54 }, headerActions: { flexDirection: 'row', alignItems: 'center', gap: 14 }, logo: { color: c.ink, fontSize: 25, fontWeight: '900', letterSpacing: -1.2 }, savedLink: { color: c.lime, fontSize: 12, fontWeight: '800' }, counter: { color: c.muted, fontSize: 12, fontWeight: '700', letterSpacing: 1.5 },
   eyebrow: { color: c.lime, fontSize: 12, fontWeight: '800', letterSpacing: 2.2, marginBottom: 12 }, title: { color: c.ink, fontSize: 39, lineHeight: 43, fontWeight: '900', letterSpacing: -1.8 }, subtitle: { color: c.muted, fontSize: 16, lineHeight: 24, marginTop: 14, marginBottom: 30 },
   welcomeEmoji: { color: c.lime, fontSize: 48, marginBottom: 30 }, promise: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 18 }, promiseTitle: { color: c.ink, fontSize: 16, fontWeight: '900' }, promiseText: { color: c.muted, fontSize: 13, lineHeight: 19, marginTop: 6 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 }, mood: { width: '48%', minHeight: 145, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 18, justifyContent: 'flex-end' }, selected: { borderColor: c.lime, backgroundColor: '#252B18' }, emoji: { fontSize: 28, marginBottom: 17 }, cardTitle: { color: c.ink, fontSize: 19, fontWeight: '800' }, hint: { color: c.muted, fontSize: 12, marginTop: 4 },
@@ -149,4 +156,5 @@ const s = StyleSheet.create({
   result: { backgroundColor: c.card, borderRadius: 22, borderWidth: 1, borderColor: c.line, padding: 18, marginBottom: 14, overflow: 'hidden' }, rank: { position: 'absolute', right: 14, top: 10, color: '#56603A', fontSize: 32, fontWeight: '900' }, resultName: { color: c.ink, fontSize: 19, fontWeight: '900', paddingRight: 38 }, meta: { color: c.muted, fontSize: 12, marginTop: 6 }, address: { color: c.muted, fontSize: 12, marginTop: 5 }, note: { color: c.ink, fontSize: 14, lineHeight: 20, marginTop: 16 }, why: { color: '#A8BD61', fontSize: 12, marginTop: 10 }, actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, borderTopWidth: 1, borderTopColor: c.line, marginTop: 16, paddingTop: 14 }, action: { color: c.lime, fontWeight: '800', fontSize: 13 }, mutedAction: { color: c.muted, fontWeight: '700', fontSize: 13 }, secondaryButton: { height: 54, borderRadius: 17, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center', marginTop: 8 }, secondaryButtonText: { color: c.ink, fontSize: 14, fontWeight: '800' },
   locationCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: '#56603A', backgroundColor: '#202518', borderRadius: 18, padding: 16, marginBottom: 18 }, locationIcon: { color: c.lime, fontSize: 24, fontWeight: '900', width: 28, textAlign: 'center' }, locationCopy: { flex: 1 }, locationTitle: { color: c.ink, fontSize: 14, fontWeight: '900' }, locationText: { color: c.muted, fontSize: 12, lineHeight: 17, marginTop: 3 },
   preferenceBar: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: c.line, paddingBottom: 16, marginBottom: 18 }, preferenceCopy: { flex: 1 }, preferenceLabel: { color: c.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.4 }, preferenceText: { color: c.ink, fontSize: 13, fontWeight: '700', marginTop: 5 }, edit: { color: c.lime, fontSize: 13, fontWeight: '900' },
+  empty: { alignItems: 'center', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 28, marginBottom: 18 }, emptyIcon: { color: c.lime, fontSize: 38, fontWeight: '900' }, emptyTitle: { color: c.ink, fontSize: 19, fontWeight: '900', marginTop: 14, textAlign: 'center' }, emptyText: { color: c.muted, fontSize: 14, lineHeight: 20, marginTop: 8, textAlign: 'center' }, emptyAction: { borderWidth: 1, borderColor: c.lime, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12, marginTop: 20 }, emptyActionText: { color: c.lime, fontSize: 13, fontWeight: '900' }, removeAction: { color: '#FF9A8D', fontWeight: '800', fontSize: 13 },
 });

@@ -20,3 +20,12 @@ export function uniqueIds(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return [...new Set(value.filter((item): item is string => typeof item === 'string'))];
 }
+
+/** Resolves persisted ids against the current catalogue and preserves save order. */
+export function resolveSavedPlaces<T extends { id: string }>(places: T[], savedIds: string[]): T[] {
+  const byId = new Map(places.map(place => [place.id, place]));
+  return uniqueIds(savedIds).flatMap(id => {
+    const place = byId.get(id);
+    return place ? [place] : [];
+  });
+}
