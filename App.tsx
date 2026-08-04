@@ -40,9 +40,7 @@ function AppContent() {
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
   const results = useMemo(() => {
-    const ranked = recommendPlaces({ places, mood, interests: chosen, dismissed, coordinates, limit: places.length });
-    const offset = ranked.length ? recommendationRun % ranked.length : 0;
-    return [...ranked.slice(offset), ...ranked.slice(0, offset)].slice(0, 5);
+    return recommendPlaces({ places, mood, interests: chosen, dismissed, coordinates, limit: 5, seed: recommendationRun });
   }, [mood, chosen, dismissed, recommendationRun, coordinates]);
   const savedPlaces = useMemo(() => resolveSavedPlaces(places, saved), [saved]);
 
