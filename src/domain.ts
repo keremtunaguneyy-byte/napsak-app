@@ -21,6 +21,12 @@ export function uniqueIds(value: unknown): string[] {
   return [...new Set(value.filter((item): item is string => typeof item === 'string'))];
 }
 
+/** Adds or removes an id while keeping persisted collections duplicate-free. */
+export function toggleId(ids: string[], id: string): string[] {
+  const current = uniqueIds(ids);
+  return current.includes(id) ? current.filter(item => item !== id) : [...current, id];
+}
+
 /** Resolves persisted ids against the current catalogue and preserves save order. */
 export function resolveSavedPlaces<T extends { id: string }>(places: T[], savedIds: string[]): T[] {
   const byId = new Map(places.map(place => [place.id, place]));
