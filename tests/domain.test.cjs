@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { distanceInKm, resolveSavedPlaces, uniqueIds } = require('../.test-build/domain.js');
+const { distanceInKm, resolveSavedPlaces, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
@@ -24,6 +24,11 @@ test('resolveSavedPlaces preserves save order and ignores stale or duplicate ids
   const catalogue = [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }];
   assert.deepEqual(resolveSavedPlaces(catalogue, ['b', 'missing', 'a', 'b']), [catalogue[1], catalogue[0]]);
   assert.deepEqual(resolveSavedPlaces(catalogue, []), []);
+});
+
+test('toggleId adds and removes saved ids without carrying duplicate state forward', () => {
+  assert.deepEqual(toggleId(['a', 'a'], 'b'), ['a', 'b']);
+  assert.deepEqual(toggleId(['a', 'b', 'a'], 'a'), ['b']);
 });
 
 const fixture = (overrides) => ({
