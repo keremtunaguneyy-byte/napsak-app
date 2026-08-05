@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { distanceInKm, resolveSavedPlaces, toggleId, uniqueIds } = require('../.test-build/domain.js');
+const { dismissId, distanceInKm, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
@@ -31,6 +31,12 @@ test('toggleId adds and removes saved ids without carrying duplicate state forwa
   assert.deepEqual(toggleId(['a', 'b', 'a'], 'a'), ['b']);
 });
 
+test('dismissId persists hidden places and restoreId supports undo', () => {
+  assert.deepEqual(dismissId(['a', 'a'], 'b'), ['a', 'b']);
+  assert.deepEqual(dismissId(['a'], 'a'), ['a']);
+  assert.deepEqual(restoreId(['a', 'b', 'b'], 'b'), ['a']);
+});
+
 const fixture = (overrides) => ({
   id: 'place', name: 'Place', district: 'Çankaya', address: 'Adres', category: 'Doğa',
   moods: ['Sakin'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4, note: 'Not', latitude: 39.9, longitude: 32.85,
@@ -44,6 +50,33 @@ test('recommendPlaces prioritizes preference matches and explains the score', ()
   });
   assert.equal(results[0].id, 'match');
   assert.deepEqual(results[0].reasons, ['Sakin moduna uygun', 'Doğa seçiminle eşleşiyor']);
+});
+
+
+test('explicit Lezzet selection excludes unrelated pure parks', () => {
+  const results = recommendPlaces({
+    places: [
+      fixture({ id: 'park', category: 'Doğa', interests: ['Doğa'], editorialScore: 5 }),
+      fixture({ id: 'food', category: 'Lezzet', interests: ['Lezzet'], editorialScore: 2 }),
+    ],
+    mood: 'Sakin', interests: ['Lezzet'], dismissed: [], random: () => 0,
+  });
+  assert.deepEqual(results.map(place => place.id), ['food']);
+});
+
+test('budget preference changes ranking without hard filtering', () => {
+  const free = fixture({ id: 'free', category: 'Sanat', interests: ['Sanat'], priceLevel: 0, editorialScore: 4 });
+  const premium = fixture({ id: 'premium', category: 'Sanat', interests: ['Sanat'], priceLevel: 3, editorialScore: 5 });
+  const results = recommendPlaces({ places: [premium, free], interests: ['Sanat'], dismissed: [], budget: 'Ücretsiz', random: () => 0 });
+  assert.equal(results[0].id, 'free');
+  assert.ok(results.some(place => place.id === 'premium'));
+});
+
+test('group size preference changes ranking from safe metadata signals', () => {
+  const solo = fixture({ id: 'solo', category: 'Kahve', interests: ['Kahve'], moods: ['Sakin'], editorialScore: 4 });
+  const crowd = fixture({ id: 'crowd', category: 'Etkinlik', interests: ['Etkinlik'], moods: ['Sosyal'], editorialScore: 4 });
+  assert.equal(recommendPlaces({ places: [crowd, solo], interests: [], dismissed: [], groupSize: 'Tek', random: () => 0 })[0].id, 'solo');
+  assert.equal(recommendPlaces({ places: [solo, crowd], interests: [], dismissed: [], groupSize: '5+', random: () => 0 })[0].id, 'crowd');
 });
 
 test('recommendPlaces excludes dismissed places and uses live proximity', () => {
@@ -101,4 +134,14 @@ test('recommendations preserve dismissals and promote category and district vari
   assert.ok(new Set(results.map(place => place.category)).size >= 3);
   assert.ok(new Set(results.map(place => place.district)).size >= 3);
   assert.deepEqual(recommendPlaces({ places, interests: [], dismissed: places.map(place => place.id) }), []);
+});
+
+
+const { migratePreferences } = require('../.test-build/persistence.js');
+
+test('migration reads legacy preference data while adding new optional fields safely', () => {
+  assert.deepEqual(migratePreferences({ saved: ['a', 'a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], onboardingCompleted: true }), {
+    saved: ['a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], budget: undefined, groupSize: undefined, onboardingCompleted: true,
+  });
+  assert.deepEqual(migratePreferences({ budget: '₺₺', groupSize: '3–4 kişi', interests: ['Invalid'] }).budget, '₺₺');
 });

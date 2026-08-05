@@ -7,10 +7,10 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { places } from './src/data/places';
 import { loadPreferences, savePreferences } from './src/persistence';
 import { recommendPlaces } from './src/recommendations';
-import { Interest, Mood, Place } from './src/types';
-import { Coordinates, resolveSavedPlaces, toggleId } from './src/domain';
+import { BudgetPreference, GroupSizePreference, Interest, Mood, Place } from './src/types';
+import { Coordinates, dismissId, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
 
-type Step = 'welcome' | 'mood' | 'interest' | 'results' | 'saved';
+type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'results' | 'saved' | 'hidden';
 
 const moods: { label: Mood; emoji: string; hint: string }[] = [
   { label: 'Enerjik', emoji: '⚡', hint: 'Hareket ve tempo' },
@@ -23,6 +23,8 @@ const interests: { label: Interest; emoji: string }[] = [
   { label: 'Doğa', emoji: '🌳' }, { label: 'Lezzet', emoji: '🍜' },
   { label: 'Etkinlik', emoji: '🎭' },
 ];
+const budgets: BudgetPreference[] = ['Ücretsiz', '₺', '₺₺', '₺₺₺', 'Fark etmez'];
+const groupSizes: GroupSizePreference[] = ['Tek', '2 kişi', '3–4 kişi', '5+'];
 export default function App() {
   return <SafeAreaProvider><AppContent /></SafeAreaProvider>;
 }
@@ -32,6 +34,9 @@ function AppContent() {
   const [step, setStep] = useState<Step>('welcome');
   const [mood, setMood] = useState<Mood>();
   const [chosen, setChosen] = useState<Interest[]>([]);
+  const [budget, setBudget] = useState<BudgetPreference>('Fark etmez');
+  const [groupSize, setGroupSize] = useState<GroupSizePreference>();
+  const [lastDismissed, setLastDismissed] = useState<string>();
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]);
   const [recommendationRun, setRecommendationRun] = useState(0);
@@ -40,9 +45,10 @@ function AppContent() {
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
   const results = useMemo(() => {
-    return recommendPlaces({ places, mood, interests: chosen, dismissed, coordinates, limit: 5, seed: recommendationRun });
-  }, [mood, chosen, dismissed, recommendationRun, coordinates]);
+    return recommendPlaces({ places, mood, interests: chosen, dismissed, budget, groupSize, coordinates, limit: 5, seed: recommendationRun });
+  }, [mood, chosen, dismissed, budget, groupSize, recommendationRun, coordinates]);
   const savedPlaces = useMemo(() => resolveSavedPlaces(places, saved), [saved]);
+  const hiddenPlaces = useMemo(() => resolveSavedPlaces(places, dismissed), [dismissed]);
 
   useEffect(() => {
     loadPreferences().then(preferences => {
@@ -50,13 +56,15 @@ function AppContent() {
       setDismissed(preferences.dismissed);
       setMood(preferences.mood);
       setChosen(preferences.interests);
+      setBudget(preferences.budget ?? 'Fark etmez');
+      setGroupSize(preferences.groupSize);
       if (preferences.onboardingCompleted && preferences.mood) setStep('results');
     }).finally(() => setHydrated(true));
   }, []);
   useEffect(() => {
     if (!hydrated) return;
-    savePreferences({ saved, dismissed, mood, interests: chosen, onboardingCompleted: step === 'results' || step === 'saved' }).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
-  }, [saved, dismissed, mood, chosen, step, hydrated]);
+    savePreferences({ saved, dismissed, mood, interests: chosen, budget, groupSize, onboardingCompleted: step !== 'welcome' }).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+  }, [saved, dismissed, mood, chosen, budget, groupSize, step, hydrated]);
 
   const requestLocation = async () => {
     setLocating(true);
@@ -77,7 +85,9 @@ function AppContent() {
     }
   };
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
-  const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setRecommendationRun(0); };
+  const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setRecommendationRun(0); };
+  const dismissPlace = (id: string) => { setDismissed(c => dismissId(c, id)); setLastDismissed(id); };
+  const restorePlace = (id: string) => setDismissed(current => restoreId(current, id));
   const openInMaps = async (place: Place) => {
     const label = encodeURIComponent(place.name);
     const url = Platform.select({
@@ -101,12 +111,12 @@ function AppContent() {
 
   if (!hydrated) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading]}><StatusBar style="light" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={c.lime} size="large" /><Text accessibilityLiveRegion="polite" style={s.loadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
 
-  const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : '04';
+  const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : '06';
   return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
     <StatusBar style="light" /><View style={s.orb} />
     <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     <ScrollView contentContainerStyle={[s.page, width >= 700 && s.pageWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-      <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => step === 'saved' ? setStep('results') : undefined}><Text style={s.logo}>n’apsak?</Text></TouchableOpacity><View style={s.headerActions}>{(step === 'results' || step === 'saved') && <TouchableOpacity accessibilityRole="button" accessibilityLabel={step === 'saved' ? 'Önerilere dön' : `${saved.length} kaydedilen mekânı göster`} hitSlop={10} onPress={() => setStep(step === 'saved' ? 'results' : 'saved')}><Text style={s.savedLink}>{step === 'saved' ? 'Öneriler' : `Kaydedilenler (${saved.length})`}</Text></TouchableOpacity>}<Text accessibilityLabel={`Adım ${stepNumber}, toplam 4`} style={s.counter}>{stepNumber} / 04</Text></View></View>
+      <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => step === 'saved' ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity><View style={s.headerActions}>{(step === 'results' || step === 'saved' || step === 'hidden') && <TouchableOpacity accessibilityRole="button" accessibilityLabel={step === 'saved' ? 'Önerilere dön' : `${saved.length} kaydedilen mekânı göster`} hitSlop={10} onPress={() => setStep(step === 'saved' ? 'results' : 'saved')}><Text style={s.savedLink}>{step === 'saved' ? 'Öneriler' : `Kaydedilenler (${saved.length})`}</Text></TouchableOpacity>}<Text accessibilityLabel={`Adım ${stepNumber}, toplam 6`} style={s.counter}>{stepNumber} / 06</Text></View></View>
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
@@ -114,33 +124,54 @@ function AppContent() {
         <Button label="Hadi başlayalım" onPress={() => setStep('mood')} />
       </View>}
       {step === 'mood' && <View>
-        <Lead eyebrow="ŞU AN" title="Nasıl hissediyorsun?" subtitle="Modunu seç, Ankara’da sana iyi gelecek bir plan bulalım." />
+        <Lead eyebrow="ŞU AN" title="Bugün neye açıksın?" subtitle="Modunu seç, Ankara’da sana iyi gelecek bir plan bulalım." />
         <View style={s.grid}>{moods.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={`${x.label}: ${x.hint}`} accessibilityState={{ selected: mood === x.label }} key={x.label} activeOpacity={.8} style={[s.mood, mood === x.label && s.selected]} onPress={() => setMood(x.label)}><Text style={s.emoji}>{x.emoji}</Text><Text style={s.cardTitle}>{x.label}</Text><Text style={s.hint}>{x.hint}</Text></TouchableOpacity>)}</View>
         <Button label="Devam et" disabled={!mood} onPress={() => setStep('interest')} />
       </View>}
       {step === 'interest' && <View>
         <Lead eyebrow="BUGÜN" title="Neye açıksın?" subtitle="Bir veya birkaç ilgi alanı seç. Kararsızsan hepsini bize bırak." />
         <View style={s.chips}>{interests.map(x => <TouchableOpacity accessibilityRole="checkbox" accessibilityLabel={x.label} accessibilityState={{ checked: chosen.includes(x.label) }} key={x.label} style={[s.chip, chosen.includes(x.label) && s.selected]} onPress={() => toggle(x.label)}><Text style={s.chipText}>{x.emoji}  {x.label}</Text></TouchableOpacity>)}</View>
-        <Button label="Tercihlerimi kaydet ve 5 fikir ver" onPress={() => setStep('results')} />
+        <Button label="Bütçeyi seç" onPress={() => setStep('budget')} />
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Mod seçimine geri dön" hitSlop={10} onPress={() => setStep('mood')}><Text style={s.back}>← Modumu değiştir</Text></TouchableOpacity>
       </View>}
+      {step === 'budget' && <View>
+        <Lead eyebrow="BÜTÇE" title="Bütçen ne olsun?" subtitle="Bu kesin eleme değil; iyi eşleşen fikirler sadece sıralamada dengelenir." />
+        <View style={s.chips}>{budgets.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={x} accessibilityState={{ selected: budget === x }} key={x} style={[s.chip, budget === x && s.selected]} onPress={() => setBudget(x)}><Text style={s.chipText}>{x}</Text></TouchableOpacity>)}</View>
+        <Button label="Kişi sayısını seç" onPress={() => setStep('group')} />
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="İlgi seçimine geri dön" hitSlop={10} onPress={() => setStep('interest')}><Text style={s.back}>← İlgilerimi değiştir</Text></TouchableOpacity>
+      </View>}
+      {step === 'group' && <View>
+        <Lead eyebrow="KİŞİ SAYISI" title="Kaç kişisiniz?" subtitle="Katalogda kesin kapasite yoksa bunu kategori, mod ve aktivite sinyalleriyle sıralamaya yansıtırız." />
+        <View style={s.chips}>{groupSizes.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={x} accessibilityState={{ selected: groupSize === x }} key={x} style={[s.chip, groupSize === x && s.selected]} onPress={() => setGroupSize(x)}><Text style={s.chipText}>{x}</Text></TouchableOpacity>)}</View>
+        <Button label="Tercihlerimi kaydet ve 5 fikir ver" disabled={!groupSize} onPress={() => setStep('results')} />
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Bütçe seçimine geri dön" hitSlop={10} onPress={() => setStep('budget')}><Text style={s.back}>← Bütçemi değiştir</Text></TouchableOpacity>
+      </View>}
       {step === 'results' && <View>
-        <Lead eyebrow="SANA GÖRE" title="Bugün bunlar olur." subtitle={`${mood} moduna ve seçimlerine göre sıraladık.`} />
-        <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => setStep('mood')}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
+        <Lead eyebrow="SANA GÖRE" title="Bugün bunlar olur." subtitle={`${mood} moduna, ilgi, bütçe ve kişi sayısı seçimlerine göre sıraladık.`} />
+        <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'} · {budget} · {groupSize ?? 'Kişi sayısı yok'}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => setStep('mood')}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel={coordinates ? 'Konumu yeniden güncelle' : 'Konum izni iste ve yakındaki mekânları bul'} accessibilityState={{ disabled: locating, busy: locating }} disabled={locating} onPress={requestLocation} style={[s.locationCard, locating && s.controlDisabled]}>
           {locating ? <ActivityIndicator color={c.lime} /> : <Text style={s.locationIcon}>{coordinates ? '✓' : '⌖'}</Text>}
           <View style={s.locationCopy}><Text style={s.locationTitle}>{coordinates ? 'Konum kullanılıyor' : 'Yakınımdakileri bul'}</Text><Text style={s.locationText}>{locationMessage}</Text></View>
         </TouchableOpacity>
+        {lastDismissed && <View style={s.undoBar}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" onPress={() => { restorePlace(lastDismissed); setLastDismissed(undefined); }}><Text style={s.edit}>Geri al</Text></TouchableOpacity></View>}
         {results.map((p, i) => <View key={p.id} style={s.result}>
           <Text style={s.rank}>{i + 1}</Text><Text style={s.resultName}>{p.name}</Text>
           <Text style={s.meta}>N’apsak {p.editorialScore}  ·  {p.distance === undefined ? 'Konum bekleniyor' : `${p.distance.toFixed(1)} km`}  ·  {p.district}</Text>
           <Text style={s.address}>{p.address}</Text>
           <Text style={s.note}>{p.note}</Text><Text style={s.why}>Neden? {p.reasons.join(' · ')}</Text>
-          <View style={s.actions}><Action label={saved.includes(p.id) ? 'Kaydedildi, kayıttan çıkar' : 'Mekânı kaydet'} onPress={() => setSaved(c => toggleId(c, p.id))} text={saved.includes(p.id) ? '♥ Kaydedildi' : '♡ Kaydet'} /><Action label={`${p.name} mekânını haritada aç`} onPress={() => openInMaps(p)} text="Haritada aç" /><Action label={`${p.name} resmî bilgisini aç`} onPress={() => openSource(p)} text="Resmî bilgi" /><Action label={`${p.name} önerisini gizle`} muted onPress={() => setDismissed(c => c.includes(p.id) ? c : [...c, p.id])} text="Bana göre değil" /></View>
+          <View style={s.actions}><Action label={saved.includes(p.id) ? 'Kaydedildi, kayıttan çıkar' : 'Mekânı kaydet'} onPress={() => setSaved(c => toggleId(c, p.id))} text={saved.includes(p.id) ? '♥ Kaydedildi' : '♡ Kaydet'} /><Action label={`${p.name} mekânını haritada aç`} onPress={() => openInMaps(p)} text="Haritada aç" /><Action label={`${p.name} resmî bilgisini aç`} onPress={() => openSource(p)} text="Resmî bilgi" /><Action label={`${p.name} önerisini gizle`} muted onPress={() => dismissPlace(p.id)} text="Bana göre değil" /></View>
         </View>)}
         {!results.length && <View style={s.empty}><Text style={s.emptyIcon}>↻</Text><Text style={s.emptyTitle}>Yeni bir öneri kalmadı</Text><Text style={s.emptyText}>“Bana göre değil” dediğin mekânları geri getirip yeniden başlayabilirsin.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity></View>}
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={() => setRecommendationRun(run => run + 1)}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenPlaces.length})</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
+      </View>}
+      {step === 'hidden' && <View>
+        <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin mekânları tek tek veya topluca geri getirebilirsin." />
+        {!hiddenPlaces.length && <View style={s.empty}><Text style={s.emptyIcon}>✓</Text><Text style={s.emptyTitle}>Gizli önerin yok</Text><Text style={s.emptyText}>Bir öneriyi gizlediğinde burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
+        {hiddenPlaces.map(p => <View key={p.id} style={s.result}><Text style={s.resultName}>{p.name}</Text><Text style={s.meta}>{p.category} · {p.district}</Text><Text style={s.address}>{p.address}</Text><Text style={s.note}>{p.note}</Text><View style={s.actions}><Action label={`${p.name} önerisini geri getir`} onPress={() => restorePlace(p.id)} text="Geri getir" /></View></View>)}
+        {!!hiddenPlaces.length && <TouchableOpacity style={s.secondaryButton} onPress={() => setDismissed([])}><Text style={s.secondaryButtonText}>Tüm gizlenenleri geri getir</Text></TouchableOpacity>}
+        <Button label="Önerilere dön" onPress={() => setStep('results')} />
       </View>}
       {step === 'saved' && <View>
         <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="Sonra bakmak için ayırdığın Ankara mekânları burada." />
@@ -160,7 +191,7 @@ const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.bg }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
   loading: { alignItems: 'center', justifyContent: 'center', gap: 14 }, loadingText: { color: c.muted, fontSize: 14 },
   orb: { position: 'absolute', width: 280, height: 280, borderRadius: 140, backgroundColor: '#4A5E13', opacity: .22, top: -120, right: -90 },
-  header: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between', alignItems: 'center', marginBottom: 44 }, headerActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 14 }, logo: { color: c.ink, fontSize: 25, fontWeight: '900', letterSpacing: -1.2 }, savedLink: { color: c.lime, fontSize: 12, fontWeight: '800', paddingVertical: 10 }, counter: { color: '#C4C1B8', fontSize: 12, fontWeight: '700', letterSpacing: 1.5 },
+  header: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between', alignItems: 'center', marginBottom: 44 }, headerActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 14 }, logo: { color: c.ink, fontSize: 28, fontWeight: '900', letterSpacing: -1.2 }, savedLink: { color: c.lime, fontSize: 12, fontWeight: '800', paddingVertical: 10 }, counter: { color: '#C4C1B8', fontSize: 12, fontWeight: '700', letterSpacing: 1.5 },
   eyebrow: { color: c.lime, fontSize: 12, fontWeight: '800', letterSpacing: 2.2, marginBottom: 12 }, title: { color: c.ink, fontSize: 39, lineHeight: 43, fontWeight: '900', letterSpacing: -1.8 }, subtitle: { color: c.muted, fontSize: 16, lineHeight: 24, marginTop: 14, marginBottom: 30 },
   welcomeEmoji: { color: c.lime, fontSize: 48, marginBottom: 30 }, promise: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 18 }, promiseTitle: { color: c.ink, fontSize: 16, fontWeight: '900' }, promiseText: { color: c.muted, fontSize: 13, lineHeight: 19, marginTop: 6 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 }, mood: { width: '48%', minHeight: 145, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 18, justifyContent: 'flex-end' }, selected: { borderColor: c.lime, backgroundColor: '#252B18' }, emoji: { fontSize: 28, marginBottom: 17 }, cardTitle: { color: c.ink, fontSize: 19, fontWeight: '800' }, hint: { color: c.muted, fontSize: 12, marginTop: 4 },
@@ -168,6 +199,7 @@ const s = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 11 }, chip: { borderWidth: 1, borderColor: c.line, backgroundColor: c.card, borderRadius: 99, paddingVertical: 14, paddingHorizontal: 17 }, chipText: { color: c.ink, fontSize: 15, fontWeight: '700' }, back: { color: c.muted, textAlign: 'center', marginTop: 22, fontWeight: '700' },
   result: { backgroundColor: c.card, borderRadius: 22, borderWidth: 1, borderColor: c.line, padding: 18, marginBottom: 14, overflow: 'hidden' }, rank: { position: 'absolute', right: 14, top: 10, color: '#7D8C55', fontSize: 32, fontWeight: '900' }, resultName: { color: c.ink, fontSize: 19, fontWeight: '900', paddingRight: 38 }, meta: { color: '#C4C1B8', fontSize: 12, marginTop: 6 }, address: { color: '#C4C1B8', fontSize: 12, marginTop: 5 }, note: { color: c.ink, fontSize: 14, lineHeight: 20, marginTop: 16 }, why: { color: '#C6DE76', fontSize: 12, marginTop: 10 }, actions: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, rowGap: 6, borderTopWidth: 1, borderTopColor: c.line, marginTop: 16, paddingTop: 8 }, actionHit: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 4 }, action: { color: c.lime, fontWeight: '800', fontSize: 13 }, mutedAction: { color: '#C4C1B8', fontWeight: '700', fontSize: 13 }, secondaryButton: { minHeight: 54, borderRadius: 17, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center', marginTop: 8, padding: 12 }, secondaryButtonText: { color: c.ink, fontSize: 14, fontWeight: '800', textAlign: 'center' },
   locationCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: '#56603A', backgroundColor: '#202518', borderRadius: 18, padding: 16, marginBottom: 18 }, locationIcon: { color: c.lime, fontSize: 24, fontWeight: '900', width: 28, textAlign: 'center' }, locationCopy: { flex: 1 }, locationTitle: { color: c.ink, fontSize: 14, fontWeight: '900' }, locationText: { color: c.muted, fontSize: 12, lineHeight: 17, marginTop: 3 },
+  undoBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#202518', borderWidth: 1, borderColor: '#56603A', borderRadius: 16, padding: 14, marginBottom: 14 }, undoText: { color: c.ink, fontSize: 13, fontWeight: '800' },
   preferenceBar: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: c.line, paddingBottom: 16, marginBottom: 18 }, preferenceCopy: { flex: 1 }, preferenceLabel: { color: c.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.4 }, preferenceText: { color: c.ink, fontSize: 13, fontWeight: '700', marginTop: 5 }, edit: { color: c.lime, fontSize: 13, fontWeight: '900' },
   empty: { alignItems: 'center', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 28, marginBottom: 18 }, emptyIcon: { color: c.lime, fontSize: 38, fontWeight: '900' }, emptyTitle: { color: c.ink, fontSize: 19, fontWeight: '900', marginTop: 14, textAlign: 'center' }, emptyText: { color: c.muted, fontSize: 14, lineHeight: 20, marginTop: 8, textAlign: 'center' }, emptyAction: { borderWidth: 1, borderColor: c.lime, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12, marginTop: 20 }, emptyActionText: { color: c.lime, fontSize: 13, fontWeight: '900' }, removeAction: { color: '#FF9A8D', fontWeight: '800', fontSize: 13 },
 });

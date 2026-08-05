@@ -23,6 +23,6 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "test": "rm -rf .test-build && tsc src/domain.ts src/types.ts src/recommendations.ts src/data/places.ts --ignoreConfig --outDir .test-build --module commonjs --target es2020 --skipLibCheck && node --test tests/domain.test.cjs && rm -rf .test-build"
+    "test": "rm -rf .test-build && tsc src/domain.ts src/types.ts src/recommendations.ts src/data/places.ts src/persistence.ts --ignoreConfig --esModuleInterop --moduleResolution node16 --outDir .test-build --module Node16 --target es2020 --skipLibCheck && node --test tests/domain.test.cjs && rm -rf .test-build"
   }
 }
