@@ -27,6 +27,17 @@ export function toggleId(ids: string[], id: string): string[] {
   return current.includes(id) ? current.filter(item => item !== id) : [...current, id];
 }
 
+/** Permanently hides an id while keeping dismissal state duplicate-free. */
+export function dismissId(ids: string[], id: string): string[] {
+  const current = uniqueIds(ids);
+  return current.includes(id) ? current : [...current, id];
+}
+
+/** Restores a previously hidden id. */
+export function restoreId(ids: string[], id: string): string[] {
+  return uniqueIds(ids).filter(item => item !== id);
+}
+
 /** Resolves persisted ids against the current catalogue and preserves save order. */
 export function resolveSavedPlaces<T extends { id: string }>(places: T[], savedIds: string[]): T[] {
   const byId = new Map(places.map(place => [place.id, place]));

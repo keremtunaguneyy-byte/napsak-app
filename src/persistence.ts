@@ -1,15 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { uniqueIds } from './domain';
+import { BudgetPreference, GroupSizePreference, Interest, KNOWN_BUDGETS, KNOWN_GROUP_SIZES, KNOWN_INTERESTS, KNOWN_MOODS, Mood } from './types';
 
-const STORAGE_KEY = '@napsak/preferences/v2';
-const LEGACY_STORAGE_KEY = '@napsak/preferences/v1';
+const STORAGE_KEY = '@napsak/preferences/v3';
+const LEGACY_STORAGE_KEYS = ['@napsak/preferences/v2', '@napsak/preferences/v1'];
 
 export type PersistedPreferences = {
   saved: string[];
   dismissed: string[];
-  mood?: import('./types').Mood;
-  interests: import('./types').Interest[];
+  mood?: Mood;
+  interests: Interest[];
+  budget?: BudgetPreference;
+  groupSize?: GroupSizePreference;
   onboardingCompleted: boolean;
 };
 
@@ -20,9 +23,6 @@ export const emptyPreferences: PersistedPreferences = {
   onboardingCompleted: false,
 };
 
-const moods = ['Enerjik', 'Sakin', 'Sosyal', 'Meraklı'] as const;
-const interests = ['Kahve', 'Sanat', 'Doğa', 'Lezzet', 'Etkinlik'] as const;
-
 function oneOf<T extends string>(value: unknown, values: readonly T[]): T | undefined {
   return typeof value === 'string' && values.includes(value as T) ? value as T : undefined;
 }
@@ -31,20 +31,26 @@ function manyOf<T extends string>(value: unknown, values: readonly T[]): T[] {
   return uniqueIds(value).filter((item): item is T => values.includes(item as T));
 }
 
+export function migratePreferences(raw: unknown): PersistedPreferences {
+  if (!raw || typeof raw !== 'object') return emptyPreferences;
+  const value = raw as Partial<PersistedPreferences>;
+  return {
+    saved: uniqueIds(value.saved),
+    dismissed: uniqueIds(value.dismissed),
+    mood: oneOf(value.mood, KNOWN_MOODS),
+    interests: manyOf(value.interests, KNOWN_INTERESTS),
+    budget: oneOf(value.budget, KNOWN_BUDGETS),
+    groupSize: oneOf(value.groupSize, KNOWN_GROUP_SIZES),
+    onboardingCompleted: value.onboardingCompleted === true,
+  };
+}
+
 export async function loadPreferences(): Promise<PersistedPreferences> {
   try {
-    const raw = await AsyncStorage.getItem(STORAGE_KEY) ?? await AsyncStorage.getItem(LEGACY_STORAGE_KEY);
+    let raw = await AsyncStorage.getItem(STORAGE_KEY);
+    for (const key of LEGACY_STORAGE_KEYS) raw = raw ?? await AsyncStorage.getItem(key);
     if (!raw) return emptyPreferences;
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object') return emptyPreferences;
-    const value = parsed as Partial<PersistedPreferences>;
-    return {
-      saved: uniqueIds(value.saved),
-      dismissed: uniqueIds(value.dismissed),
-      mood: oneOf(value.mood, moods),
-      interests: manyOf(value.interests, interests),
-      onboardingCompleted: value.onboardingCompleted === true,
-    };
+    return migratePreferences(JSON.parse(raw));
   } catch {
     return emptyPreferences;
   }
