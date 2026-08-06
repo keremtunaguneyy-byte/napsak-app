@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
@@ -40,13 +40,15 @@ function AppContent() {
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]);
   const [recommendationRun, setRecommendationRun] = useState(0);
+  const [previousBatch, setPreviousBatch] = useState<string[]>([]);
+  const scrollRef = useRef<ScrollView>(null);
   const [hydrated, setHydrated] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
   const results = useMemo(() => {
-    return recommendPlaces({ places, mood, interests: chosen, dismissed, budget, groupSize, coordinates, limit: 5, seed: recommendationRun });
-  }, [mood, chosen, dismissed, budget, groupSize, recommendationRun, coordinates]);
+    return recommendPlaces({ places, mood, interests: chosen, dismissed, budget, groupSize, coordinates, limit: 5, seed: recommendationRun, previousBatch });
+  }, [mood, chosen, dismissed, budget, groupSize, recommendationRun, coordinates, previousBatch]);
   const savedPlaces = useMemo(() => resolveSavedPlaces(places, saved), [saved]);
   const hiddenPlaces = useMemo(() => resolveSavedPlaces(places, dismissed), [dismissed]);
 
@@ -86,6 +88,11 @@ function AppContent() {
   };
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
   const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setRecommendationRun(0); };
+  const rotateRecommendations = () => {
+    setPreviousBatch(results.map(place => place.id));
+    setRecommendationRun(run => run + 1);
+    requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: true }));
+  };
   const dismissPlace = (id: string) => { setDismissed(c => dismissId(c, id)); setLastDismissed(id); };
   const restorePlace = (id: string) => setDismissed(current => restoreId(current, id));
   const openInMaps = async (place: Place) => {
@@ -115,7 +122,7 @@ function AppContent() {
   return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
     <StatusBar style="light" /><View style={s.orb} />
     <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-    <ScrollView contentContainerStyle={[s.page, width >= 700 && s.pageWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && s.pageWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
       <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => step === 'saved' ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity><View style={s.headerActions}>{(step === 'results' || step === 'saved' || step === 'hidden') && <TouchableOpacity accessibilityRole="button" accessibilityLabel={step === 'saved' ? 'Önerilere dön' : `${saved.length} kaydedilen mekânı göster`} hitSlop={10} onPress={() => setStep(step === 'saved' ? 'results' : 'saved')}><Text style={s.savedLink}>{step === 'saved' ? 'Öneriler' : `Kaydedilenler (${saved.length})`}</Text></TouchableOpacity>}<Text accessibilityLabel={`Adım ${stepNumber}, toplam 6`} style={s.counter}>{stepNumber} / 06</Text></View></View>
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
@@ -162,7 +169,7 @@ function AppContent() {
           <View style={s.actions}><Action label={saved.includes(p.id) ? 'Kaydedildi, kayıttan çıkar' : 'Mekânı kaydet'} onPress={() => setSaved(c => toggleId(c, p.id))} text={saved.includes(p.id) ? '♥ Kaydedildi' : '♡ Kaydet'} /><Action label={`${p.name} mekânını haritada aç`} onPress={() => openInMaps(p)} text="Haritada aç" /><Action label={`${p.name} resmî bilgisini aç`} onPress={() => openSource(p)} text="Resmî bilgi" /><Action label={`${p.name} önerisini gizle`} muted onPress={() => dismissPlace(p.id)} text="Bana göre değil" /></View>
         </View>)}
         {!results.length && <View style={s.empty}><Text style={s.emptyIcon}>↻</Text><Text style={s.emptyTitle}>Yeni bir öneri kalmadı</Text><Text style={s.emptyText}>“Bana göre değil” dediğin mekânları geri getirip yeniden başlayabilirsin.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity></View>}
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={() => setRecommendationRun(run => run + 1)}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={rotateRecommendations}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenPlaces.length})</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
       </View>}
