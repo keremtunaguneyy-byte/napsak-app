@@ -103,7 +103,8 @@ test('result tabs omit the mixed feed and default to places', () => {
 });
 
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
-  assert.ok(events.length > 0);
+  assert.ok(events.length >= 10);
+  assert.equal(new Set(events.map(event => event.id)).size, events.length);
   for (const event of events) {
     assert.equal(event.kind, 'event');
     assert.equal(event.city, 'Ankara');
@@ -122,9 +123,21 @@ test('event feed excludes expired events and admits future events regardless of 
 });
 
 test('empty and fully expired event catalogues are safe', () => {
-  const common = { places: [], ideas: [], filter: 'event', interests: [], dismissed: [], now: new Date('2026-08-12T00:00:00+03:00') };
+  const common = { places: [], ideas: [], filter: 'event', interests: [], dismissed: [], now: new Date('2027-01-01T00:00:00+03:00') };
   assert.deepEqual(recommendAll({ ...common, events: [] }), []);
   assert.deepEqual(recommendAll({ ...common, events }), []);
+});
+
+test('event rotation can produce two fresh five-item batches from the current catalogue', () => {
+  const common = {
+    places: [], ideas: [], events, filter: 'event', mood: 'Sosyal', interests: ['Kahve'],
+    dismissed: [], limit: 5, now: new Date('2026-08-06T12:00:00+03:00'), seed: 60,
+  };
+  const first = recommendAll(common);
+  const second = recommendAll({ ...common, seed: 61, previousBatch: first.map(item => item.id) });
+  assert.equal(first.length, 5);
+  assert.equal(second.length, 5);
+  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
 });
 
 test('catalog has 120–150 complete, uniquely identified Ankara entries', () => {
