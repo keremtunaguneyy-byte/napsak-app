@@ -215,6 +215,10 @@ export function recommendAll(options: {
       };
     });
 
+  // Preserve the exact PR #8 place ordering (including its category/district
+  // diversity penalties) when the user explicitly asks for places only.
+  if (filter === 'place') return placeItems.slice(0, limit);
+
   const pool = [...placeItems, ...ideaItems, ...eventItems]
     .filter(item => !previousBatch.includes(item.id))
     .sort((a, b) => b.score - a.score || ('name' in a ? a.name : a.title).localeCompare('name' in b ? b.name : b.title, 'tr'));
@@ -227,8 +231,15 @@ export function recommendAll(options: {
   const selected: RecommendationItem[] = [];
   while (candidates.length && selected.length < limit) {
     candidates.sort((a, b) => {
-      const adjusted = (item: RecommendationItem) => item.score
-        - selected.filter(chosen => chosen.kind === item.kind).length * 12;
+      const adjusted = (item: RecommendationItem) => {
+        let adjustedScore = item.score
+          - selected.filter(chosen => chosen.kind === item.kind).length * 12;
+        if (item.kind === 'place') {
+          adjustedScore -= selected.filter(chosen => chosen.kind === 'place' && chosen.category === item.category).length * 16;
+          adjustedScore -= selected.filter(chosen => chosen.kind === 'place' && chosen.district === item.district).length * 7;
+        }
+        return adjustedScore;
+      };
       return adjusted(b) - adjusted(a);
     });
     selected.push(candidates.shift()!);
