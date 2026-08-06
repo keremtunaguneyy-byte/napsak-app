@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
-const { recommendPlaces } = require('../.test-build/recommendations.js');
+const { recommendAll, recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
   assert.equal(distanceInKm({ latitude: 39.93, longitude: 32.85 }, { latitude: 39.93, longitude: 32.85 }), 0);
@@ -91,6 +91,7 @@ test('recommendPlaces excludes dismissed places and uses live proximity', () => 
 });
 
 const { places } = require('../.test-build/data/places.js');
+const { ideas } = require('../.test-build/data/ideas.js');
 const { KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
 
 test('catalog has 120–150 complete, uniquely identified Ankara entries', () => {
@@ -116,6 +117,53 @@ test('catalog coordinates, official URL shapes, categories and tags are valid', 
     assert.ok(place.interests.length && place.interests.every(value => KNOWN_INTERESTS.includes(value)), `${place.id}: interests`);
     assert.ok(place.moods.length && place.moods.every(value => KNOWN_MOODS.includes(value)), `${place.id}: moods`);
   }
+});
+
+test('timeless idea catalog is curated, complete and uniquely identified', () => {
+  assert.ok(ideas.length >= 40 && ideas.length <= 60);
+  assert.equal(new Set(ideas.map(idea => idea.id)).size, ideas.length);
+  for (const idea of ideas) {
+    assert.equal(idea.kind, 'idea');
+    assert.ok(idea.title.trim(), `${idea.id}: title`);
+    assert.ok(idea.note.trim().length >= 40, `${idea.id}: note should explain the actual activity`);
+    assert.ok(idea.actionLabel.trim(), `${idea.id}: action label`);
+    assert.equal(new URL(idea.actionUrl).protocol, 'https:', `${idea.id}: action URL`);
+    assert.ok(idea.editorialScore >= 0 && idea.editorialScore <= 10, `${idea.id}: editorialScore`);
+    assert.ok(idea.groupSizes.length, `${idea.id}: group sizes`);
+    assert.ok(KNOWN_INTERESTS.includes(idea.category), `${idea.id}: category`);
+    assert.ok(idea.interests.length && idea.interests.every(value => KNOWN_INTERESTS.includes(value)), `${idea.id}: interests`);
+    assert.ok(idea.moods.length && idea.moods.every(value => KNOWN_MOODS.includes(value)), `${idea.id}: moods`);
+  }
+});
+
+test('unified feed mixes places and ideas while preserving hard interest eligibility', () => {
+  const mixed = recommendAll({ places, ideas, mood: 'Meraklı', interests: ['Sanat'], dismissed: [], limit: 5, seed: 31 });
+  assert.equal(mixed.length, 5);
+  assert.ok(mixed.some(item => item.kind === 'place'));
+  assert.ok(mixed.some(item => item.kind === 'idea'));
+  assert.ok(mixed.every(item => item.category === 'Sanat' || item.interests.includes('Sanat')));
+});
+
+test('content filters isolate place and idea feeds without fabricating events', () => {
+  const common = { places, ideas, mood: 'Sosyal', interests: [], dismissed: [], limit: 5, seed: 12 };
+  assert.ok(recommendAll({ ...common, filter: 'place' }).every(item => item.kind === 'place'));
+  assert.ok(recommendAll({ ...common, filter: 'idea' }).every(item => item.kind === 'idea'));
+  assert.deepEqual(recommendAll({ ...common, filter: 'event' }), []);
+});
+
+test('unified rotation avoids the previous mixed batch when enough candidates remain', () => {
+  const options = { places, ideas, mood: 'Sakin', interests: [], dismissed: [], limit: 5, seed: 40 };
+  const first = recommendAll(options);
+  const second = recommendAll({ ...options, seed: 41, previousBatch: first.map(item => item.id) });
+  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
+});
+
+test('dismissed idea ids stay out and idea-only recommendations are deterministic', () => {
+  const first = recommendAll({ places, ideas, filter: 'idea', mood: 'Meraklı', interests: ['Etkinlik'], dismissed: [], limit: 5, seed: 22 });
+  const repeated = recommendAll({ places, ideas, filter: 'idea', mood: 'Meraklı', interests: ['Etkinlik'], dismissed: [], limit: 5, seed: 22 });
+  assert.deepEqual(first.map(item => item.id), repeated.map(item => item.id));
+  const hidden = first[0].id;
+  assert.ok(!recommendAll({ places, ideas, filter: 'idea', mood: 'Meraklı', interests: ['Etkinlik'], dismissed: [hidden], limit: 10, seed: 22 }).some(item => item.id === hidden));
 });
 
 test('recommendations are deterministic for a seed and injectable random source', () => {
