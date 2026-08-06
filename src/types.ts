@@ -46,6 +46,7 @@ export type Event = {
   kind: 'event';
   title: string;
   venue: string;
+  city: 'Ankara';
   startsAt: string;
   endsAt?: string;
   category: Interest;
@@ -55,5 +56,8 @@ export type Event = {
   editorialScore: number;
   note: string;
   sourceUrl: string;
+  sourceLabel: string;
+  priceNote?: string;
+  verifiedAt: string;
   groupSizes: GroupSizePreference[];
 };

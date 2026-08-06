@@ -93,6 +93,39 @@ test('recommendPlaces excludes dismissed places and uses live proximity', () => 
 const { places } = require('../.test-build/data/places.js');
 const { ideas } = require('../.test-build/data/ideas.js');
 const { KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
+const { events } = require('../.test-build/data/events.js');
+const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
+
+test('result tabs omit the mixed feed and default to places', () => {
+  assert.equal(DEFAULT_RESULT_FILTER, 'place');
+  assert.deepEqual(RESULT_FILTERS.map(filter => filter.value), ['place', 'event', 'idea']);
+  assert.ok(!RESULT_FILTERS.some(filter => filter.value === 'all' || filter.label === 'Hepsi'));
+});
+
+test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
+  assert.ok(events.length > 0);
+  for (const event of events) {
+    assert.equal(event.kind, 'event');
+    assert.equal(event.city, 'Ankara');
+    assert.match(event.startsAt, /[+-]\d\d:\d\d$/);
+    assert.ok(Number.isFinite(Date.parse(event.startsAt)));
+    assert.equal(new URL(event.sourceUrl).protocol, 'https:');
+    assert.ok(event.sourceLabel && event.verifiedAt && event.note);
+  }
+});
+
+test('event feed excludes expired events and admits future events regardless of general interests', () => {
+  const now = new Date('2026-08-06T12:00:00+03:00');
+  const expired = { ...events[0], id: 'expired', startsAt: '2026-08-05T22:00:00+03:00' };
+  const result = recommendAll({ places: [], ideas: [], events: [expired, events[0]], filter: 'event', interests: ['Kahve'], dismissed: [], now });
+  assert.deepEqual(result.map(item => item.id), [events[0].id]);
+});
+
+test('empty and fully expired event catalogues are safe', () => {
+  const common = { places: [], ideas: [], filter: 'event', interests: [], dismissed: [], now: new Date('2026-08-12T00:00:00+03:00') };
+  assert.deepEqual(recommendAll({ ...common, events: [] }), []);
+  assert.deepEqual(recommendAll({ ...common, events }), []);
+});
 
 test('catalog has 120–150 complete, uniquely identified Ankara entries', () => {
   assert.ok(places.length >= 120 && places.length <= 150);
@@ -171,6 +204,14 @@ test('dismissed idea ids stay out and idea-only recommendations are deterministi
   assert.deepEqual(first.map(item => item.id), repeated.map(item => item.id));
   const hidden = first[0].id;
   assert.ok(!recommendAll({ places, ideas, filter: 'idea', mood: 'Meraklı', interests: ['Etkinlik'], dismissed: [hidden], limit: 10, seed: 22 }).some(item => item.id === hidden));
+});
+
+test('different-things rotation produces a fresh idea batch', () => {
+  const options = { places, ideas, filter: 'idea', mood: 'Sakin', interests: [], dismissed: [], limit: 5, seed: 50 };
+  const first = recommendAll(options);
+  const next = recommendAll({ ...options, seed: 51, previousBatch: first.map(item => item.id) });
+  assert.equal(next.length, 5);
+  assert.equal(next.filter(item => first.some(previous => previous.id === item.id)).length, 0);
 });
 
 test('recommendations are deterministic for a seed and injectable random source', () => {

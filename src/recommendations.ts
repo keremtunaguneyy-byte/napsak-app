@@ -182,10 +182,12 @@ export function recommendAll(options: {
   limit?: number;
   seed?: number;
   previousBatch?: string[];
+  /** Current instant, injectable for deterministic expiry tests. */
+  now?: Date;
 }): RecommendationItem[] {
   const {
     places, ideas, events = [], filter = 'all', mood, interests, dismissed, budget,
-    groupSize, coordinates, limit = 5, seed = 0, previousBatch = [],
+    groupSize, coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
   } = options;
   const candidateLimit = Math.max(limit * 3, 15);
   const placeItems: RecommendationItem[] = filter === 'idea' || filter === 'event' ? [] : recommendPlaces({
@@ -198,7 +200,12 @@ export function recommendAll(options: {
   });
   const eventItems: RecommendationItem[] = filter === 'place' || filter === 'idea' ? [] : events
     .filter(event => !dismissed.includes(event.id))
-    .filter(event => !interests.length || interests.some(interest => event.category === interest || event.interests.includes(interest)))
+    .filter(event => {
+      const startsAt = Date.parse(event.startsAt);
+      return Number.isFinite(startsAt) && startsAt > now.getTime();
+    })
+    // An explicit Event selection ranks by preferences without emptying the tab.
+    .filter(event => filter === 'event' || !interests.length || interests.some(interest => event.category === interest || event.interests.includes(interest)))
     .map(event => {
       const moodMatch = Boolean(mood && event.moods.includes(mood));
       const matchedInterests = interests.filter(interest => event.category === interest || event.interests.includes(interest));
