@@ -140,6 +140,22 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
   }
 });
 
+test('every explicit interest has enough places for two fresh five-item batches', () => {
+  for (const interest of KNOWN_INTERESTS) {
+    const eligible = places.filter(place => place.category === interest || place.interests.includes(interest));
+    assert.ok(eligible.length >= 10, `${interest}: expected at least 10 eligible places, found ${eligible.length}`);
+  }
+});
+
+test('coffee place rotation can produce a completely fresh second batch', () => {
+  const common = { places, ideas, filter: 'place', mood: 'Sakin', interests: ['Kahve'], dismissed: [], limit: 5, seed: 80 };
+  const first = recommendAll(common);
+  const second = recommendAll({ ...common, seed: 81, previousBatch: first.map(item => item.id) });
+  assert.equal(first.length, 5);
+  assert.equal(second.length, 5);
+  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
+});
+
 test('catalog coordinates, official URL shapes, categories and tags are valid', () => {
   for (const place of places) {
     assert.ok(place.latitude >= 38 && place.latitude <= 41, `${place.id}: latitude`);
