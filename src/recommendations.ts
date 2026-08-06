@@ -58,8 +58,10 @@ export function recommendPlaces(options: {
   limit?: number;
   seed?: number;
   random?: () => number;
+  /** IDs from the immediately preceding batch. Avoided while enough fresh matches exist. */
+  previousBatch?: string[];
 }): Recommendation[] {
-  const { places, mood, interests, dismissed, budget, groupSize, coordinates, limit = 5, seed = 0, random = seededRandom(seed) } = options;
+  const { places, mood, interests, dismissed, budget, groupSize, coordinates, limit = 5, seed = 0, random = seededRandom(seed), previousBatch = [] } = options;
   const candidates = places
     .filter(place => !dismissed.includes(place.id))
     .filter(place => interestEligible(place, interests))
@@ -85,14 +87,22 @@ export function recommendPlaces(options: {
     .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name, 'tr'));
 
   const selected: Recommendation[] = [];
-  while (candidates.length && selected.length < limit) {
-    candidates.sort((a, b) => {
+  const previous = new Set(previousBatch);
+  // A fresh pool makes rotation predictable and eliminates overlap whenever the
+  // eligible catalogue has a complete new batch. Old items remain a safe fallback.
+  const fresh = candidates.filter(place => !previous.has(place.id));
+  const fallback = candidates.filter(place => previous.has(place.id));
+  const pool = fresh.length >= limit ? fresh : [...fresh, ...fallback];
+  while (pool.length && selected.length < limit) {
+    pool.sort((a, b) => {
       const adjusted = (place: Recommendation) => place.score
-        - selected.filter(item => item.category === place.category).length * 9
-        - selected.filter(item => item.district === place.district).length * 6;
+        // Repetition penalties only re-rank eligible candidates; they never let an
+        // unrelated item through the hard interest gate.
+        - selected.filter(item => item.category === place.category).length * 16
+        - selected.filter(item => item.district === place.district).length * 7;
       return adjusted(b) - adjusted(a) || a.name.localeCompare(b.name, 'tr');
     });
-    selected.push(candidates.shift()!);
+    selected.push(pool.shift()!);
   }
   return selected;
 }

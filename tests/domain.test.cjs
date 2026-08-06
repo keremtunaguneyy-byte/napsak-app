@@ -93,8 +93,8 @@ test('recommendPlaces excludes dismissed places and uses live proximity', () => 
 const { places } = require('../.test-build/data/places.js');
 const { KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
 
-test('catalog has at least 40 complete, uniquely identified Ankara entries', () => {
-  assert.ok(places.length >= 40);
+test('catalog has 120–150 complete, uniquely identified Ankara entries', () => {
+  assert.ok(places.length >= 120 && places.length <= 150);
   assert.equal(new Set(places.map(place => place.id)).size, places.length);
   for (const place of places) {
     for (const field of ['id', 'name', 'district', 'address', 'note', 'sourceUrl', 'verifiedAt']) {
@@ -134,6 +134,15 @@ test('recommendations preserve dismissals and promote category and district vari
   assert.ok(new Set(results.map(place => place.category)).size >= 3);
   assert.ok(new Set(results.map(place => place.district)).size >= 3);
   assert.deepEqual(recommendPlaces({ places, interests: [], dismissed: places.map(place => place.id) }), []);
+});
+
+test('rotation avoids the previous batch and safely falls back for a small pool', () => {
+  const options = { places, mood: 'Meraklı', interests: ['Sanat'], dismissed: [], limit: 5, seed: 7 };
+  const first = recommendPlaces(options);
+  const second = recommendPlaces({ ...options, seed: 8, previousBatch: first.map(place => place.id) });
+  assert.equal(second.filter(place => first.some(previous => previous.id === place.id)).length, 0);
+  const small = places.filter(place => place.interests.includes('Kahve')).slice(0, 3);
+  assert.equal(recommendPlaces({ places: small, interests: ['Kahve'], dismissed: [], limit: 5, previousBatch: small.map(place => place.id) }).length, 3);
 });
 
 
