@@ -151,6 +151,13 @@ test('content filters isolate place and idea feeds without fabricating events', 
   assert.deepEqual(recommendAll({ ...common, filter: 'event' }), []);
 });
 
+test('place-only unified feed preserves PR #8 place ranking and diversity order', () => {
+  const common = { places, mood: 'Sosyal', interests: [], dismissed: [], budget: '₺₺', groupSize: '3–4 kişi', limit: 5, seed: 12 };
+  const legacy = recommendPlaces(common).map(item => item.id);
+  const unified = recommendAll({ ...common, ideas, filter: 'place' }).map(item => item.id);
+  assert.deepEqual(unified, legacy);
+});
+
 test('unified rotation avoids the previous mixed batch when enough candidates remain', () => {
   const options = { places, ideas, mood: 'Sakin', interests: [], dismissed: [], limit: 5, seed: 40 };
   const first = recommendAll(options);
