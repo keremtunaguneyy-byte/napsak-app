@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
-const { recommendAll, recommendPlaces } = require('../.test-build/recommendations.js');
+const { recommendAll, recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
   assert.equal(distanceInKm({ latitude: 39.93, longitude: 32.85 }, { latitude: 39.93, longitude: 32.85 }), 0);
@@ -92,14 +92,83 @@ test('recommendPlaces excludes dismissed places and uses live proximity', () => 
 
 const { places } = require('../.test-build/data/places.js');
 const { ideas } = require('../.test-build/data/ideas.js');
-const { KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
+const { KNOWN_DURATIONS, KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
 const { events } = require('../.test-build/data/events.js');
+const { experiences } = require('../.test-build/data/experiences.js');
 const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
 
-test('result tabs omit the mixed feed and default to places', () => {
-  assert.equal(DEFAULT_RESULT_FILTER, 'place');
-  assert.deepEqual(RESULT_FILTERS.map(filter => filter.value), ['place', 'event', 'idea']);
+test('result tabs default to N’apsak and preserve the established content order', () => {
+  assert.equal(DEFAULT_RESULT_FILTER, 'experience');
+  assert.deepEqual(RESULT_FILTERS.map(filter => filter.value), ['experience', 'place', 'event', 'idea']);
   assert.ok(!RESULT_FILTERS.some(filter => filter.value === 'all' || filter.label === 'Hepsi'));
+});
+
+test('experience catalogue contains 20 complete, sourced and honestly scoped micro-plans', () => {
+  assert.equal(experiences.length, 20);
+  assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
+  for (const item of experiences) {
+    assert.equal(item.kind, 'experience');
+    assert.equal(item.lifecycle, 'evergreen');
+    assert.ok(item.points.length && item.sources.length, `${item.id}: points and sources`);
+    assert.ok(item.minDurationMinutes >= 30 && item.maxDurationMinutes >= item.minDurationMinutes, `${item.id}: duration`);
+    assert.ok(item.groupSizes.length, `${item.id}: group sizes`);
+    assert.ok(item.availabilityNote.trim(), `${item.id}: availability note`);
+    assert.ok(item.confidenceScore > 0 && item.confidenceScore <= 1, `${item.id}: confidence`);
+    assert.ok(item.editorialScore > 0 && item.editorialScore <= 10, `${item.id}: editorial score`);
+    assert.ok(Number.isFinite(Date.parse(item.lastVerifiedAt)), `${item.id}: verified date`);
+    for (const source of item.sources) {
+      assert.equal(new URL(source.url).protocol, 'https:', `${item.id}: source URL`);
+      assert.ok(Number.isFinite(Date.parse(source.verifiedAt)), `${item.id}: source verification`);
+    }
+  }
+});
+
+test('duration is a hard eligibility gate and Fark etmez leaves the catalogue open', () => {
+  const common = { experiences, interests: [], dismissed: [], limit: 30, now: new Date('2026-08-08T00:00:00Z') };
+  const short = recommendExperiences({ ...common, duration: '30–60 dk' });
+  const oneToTwo = recommendExperiences({ ...common, duration: '1–2 saat' });
+  const threeToFour = recommendExperiences({ ...common, duration: '3–4 saat' });
+  const halfDay = recommendExperiences({ ...common, duration: 'Yarım gün' });
+  const any = recommendExperiences({ ...common, duration: 'Fark etmez' });
+  assert.ok(short.length && short.every(item => item.minDurationMinutes >= 30 && item.maxDurationMinutes <= 60));
+  assert.ok(oneToTwo.length && oneToTwo.every(item => item.minDurationMinutes >= 60 && item.maxDurationMinutes <= 120));
+  assert.ok(threeToFour.length && threeToFour.every(item => item.minDurationMinutes >= 180 && item.maxDurationMinutes <= 240));
+  assert.ok(halfDay.length && halfDay.every(item => item.minDurationMinutes >= 240 && item.maxDurationMinutes <= 360));
+  assert.equal(any.length, experiences.length);
+});
+
+test('expired or malformed seasonal/live experiences never reach results', () => {
+  const base = experiences[0];
+  const active = { ...base, id: 'active-live', lifecycle: 'live', expiresAt: '2026-08-09T00:00:00Z' };
+  const expired = { ...base, id: 'expired-live', lifecycle: 'live', expiresAt: '2026-08-07T00:00:00Z' };
+  const malformed = { ...base, id: 'malformed-seasonal', lifecycle: 'seasonal', expiresAt: 'not-a-date' };
+  const missing = { ...base, id: 'missing-expiry', lifecycle: 'live', expiresAt: undefined };
+  const result = recommendExperiences({ experiences: [expired, malformed, missing, active], interests: [], dismissed: [], now: new Date('2026-08-08T00:00:00Z') });
+  assert.deepEqual(result.map(item => item.id), ['active-live']);
+});
+
+test('experience interest, dismissal and rotation gates stay intact', () => {
+  const common = { experiences, mood: 'Meraklı', interests: [], dismissed: [], limit: 5, seed: 101, now: new Date('2026-08-08T00:00:00Z') };
+  const first = recommendExperiences(common);
+  const second = recommendExperiences({ ...common, seed: 102, previousBatch: first.map(item => item.id) });
+  assert.equal(first.length, 5);
+  assert.equal(second.length, 5);
+  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
+  const hidden = first[0].id;
+  assert.ok(!recommendExperiences({ ...common, dismissed: [hidden], limit: 20 }).some(item => item.id === hidden));
+  const coffee = recommendExperiences({ ...common, interests: ['Kahve'], limit: 20 });
+  assert.ok(coffee.length);
+  assert.ok(coffee.every(item => item.category === 'Kahve' || item.interests.includes('Kahve')));
+});
+
+test('each duration keeps at least one honest match for every explicit interest', () => {
+  for (const duration of KNOWN_DURATIONS.filter(value => value !== 'Fark etmez')) {
+    for (const interest of KNOWN_INTERESTS) {
+      const result = recommendExperiences({ experiences, duration, interests: [interest], dismissed: [], limit: 20, now: new Date('2026-08-08T00:00:00Z') });
+      assert.ok(result.length, `${duration} + ${interest} has no Experience`);
+      assert.ok(result.every(item => item.category === interest || item.interests.includes(interest)), `${duration} + ${interest} leaked an unrelated Experience`);
+    }
+  }
 });
 
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
@@ -271,11 +340,21 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
 });
 
 
-const { migratePreferences } = require('../.test-build/persistence.js');
+const { deserializePreferences, migratePreferences, serializePreferences } = require('../.test-build/persistence.js');
 
 test('migration reads legacy preference data while adding new optional fields safely', () => {
   assert.deepEqual(migratePreferences({ saved: ['a', 'a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], onboardingCompleted: true }), {
-    saved: ['a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], budget: undefined, groupSize: undefined, onboardingCompleted: true,
+    saved: ['a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], budget: undefined, groupSize: undefined, duration: undefined, onboardingCompleted: true,
   });
   assert.deepEqual(migratePreferences({ budget: '₺₺', groupSize: '3–4 kişi', interests: ['Invalid'] }).budget, '₺₺');
+  assert.equal(migratePreferences({ duration: '1–2 saat' }).duration, '1–2 saat');
+  assert.equal(migratePreferences({ duration: 'Sonsuza kadar' }).duration, undefined);
+});
+
+test('duration survives the exact preference serialization round trip', () => {
+  const preferences = migratePreferences({ mood: 'Sosyal', interests: ['Sanat'], duration: '3–4 saat', onboardingCompleted: true });
+  assert.equal(deserializePreferences(serializePreferences(preferences)).duration, '3–4 saat');
+  assert.deepEqual(deserializePreferences('{broken'), {
+    saved: [], dismissed: [], interests: [], onboardingCompleted: false,
+  });
 });
