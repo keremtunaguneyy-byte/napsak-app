@@ -1,13 +1,15 @@
 import { Coordinates, distanceInKm } from './domain';
-import { BudgetPreference, Event, GroupSizePreference, Idea, Interest, Mood, Place, PriceLevel, RecommendationKind } from './types';
+import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Idea, Interest, Mood, Place, PriceLevel, RecommendationKind } from './types';
 
 export type Recommendation = Place & { distance?: number; score: number; reasons: string[] };
 export type IdeaRecommendation = Idea & { score: number; reasons: string[] };
 export type EventRecommendation = Event & { score: number; reasons: string[] };
+export type ExperienceRecommendation = Experience & { distance?: number; score: number; reasons: string[] };
 export type RecommendationItem =
   | ({ kind: 'place' } & Recommendation)
   | IdeaRecommendation
-  | EventRecommendation;
+  | EventRecommendation
+  | ExperienceRecommendation;
 export type ContentFilter = 'all' | RecommendationKind;
 
 /** Small deterministic PRNG so recommendation runs can be reproduced in tests. */
@@ -59,6 +61,96 @@ function groupSignal(place: Place, groupSize?: GroupSizePreference): number {
 function interestEligible(place: Place, interests: Interest[]): boolean {
   if (!interests.length) return true;
   return interests.some(interest => place.category === interest || place.interests.includes(interest));
+}
+
+const durationRanges: Record<Exclude<DurationPreference, 'Fark etmez'>, readonly [number, number]> = {
+  '30–60 dk': [30, 60],
+  '1–2 saat': [60, 120],
+  '3–4 saat': [180, 240],
+  'Yarım gün': [240, 360],
+};
+
+export function durationEligible(experience: Experience, duration?: DurationPreference): boolean {
+  if (!duration || duration === 'Fark etmez') return true;
+  const [minimum, maximum] = durationRanges[duration];
+  return experience.minDurationMinutes >= minimum && experience.maxDurationMinutes <= maximum;
+}
+
+function lifecycleEligible(experience: Experience, now: Date): boolean {
+  if (experience.lifecycle === 'evergreen') return true;
+  const expiresAt = Date.parse(experience.expiresAt);
+  return Number.isFinite(expiresAt) && expiresAt > now.getTime();
+}
+
+export function recommendExperiences(options: {
+  experiences: Experience[];
+  mood?: Mood;
+  interests: Interest[];
+  dismissed: string[];
+  budget?: BudgetPreference;
+  groupSize?: GroupSizePreference;
+  duration?: DurationPreference;
+  coordinates?: Coordinates;
+  limit?: number;
+  seed?: number;
+  previousBatch?: string[];
+  now?: Date;
+}): ExperienceRecommendation[] {
+  const {
+    experiences, mood, interests, dismissed, budget, groupSize, duration,
+    coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
+  } = options;
+  const random = seededRandom(seed ^ 0xE7E11E);
+  const previous = new Set(previousBatch);
+  const candidates = experiences
+    .filter(item => !dismissed.includes(item.id))
+    .filter(item => lifecycleEligible(item, now))
+    .filter(item => durationEligible(item, duration))
+    .filter(item => !interests.length || interests.some(interest => item.category === interest || item.interests.includes(interest)))
+    .map(item => {
+      const distance = coordinates ? distanceInKm(coordinates, item) : undefined;
+      const moodMatch = Boolean(mood && item.moods.includes(mood));
+      const matchedInterests = interests.filter(interest => item.category === interest || item.interests.includes(interest));
+      const budgetScore = priceSignal(item.priceLevel, budget);
+      const groupMatch = !groupSize || item.groupSizes.includes(groupSize);
+      const groupScore = !groupSize ? 0 : groupMatch ? 10 : -8;
+      const proximityScore = distance === undefined ? 0 : Math.max(0, 14 - distance * 1.25);
+      const verifiedAt = Date.parse(`${item.lastVerifiedAt}T00:00:00Z`);
+      const ageDays = Number.isFinite(verifiedAt) ? Math.max(0, (now.getTime() - verifiedAt) / 86_400_000) : 365;
+      const freshnessScore = Math.max(-8, 8 - ageDays / 45);
+      const reasons = [
+        ...(moodMatch ? [`${mood} moduna uygun`] : []),
+        ...(matchedInterests.length ? [`${matchedInterests.join(', ')} seçiminle eşleşiyor`] : []),
+        ...(groupMatch && groupSize ? [`${groupSize} planına uygun`] : []),
+        ...(duration && duration !== 'Fark etmez' ? [`${duration} sürene sığıyor`] : []),
+        ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
+        ...(distance !== undefined && distance < 5 ? ['başlangıç noktası sana yakın'] : []),
+        ...(!moodMatch && !matchedInterests.length ? ['editoryal olarak güçlü bir mikro plan'] : []),
+      ];
+      return {
+        ...item,
+        distance,
+        reasons,
+        score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + item.editorialScore * 3
+          + item.confidenceScore * 20 + budgetScore + groupScore + proximityScore + freshnessScore + random() * 8,
+      };
+    })
+    .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'tr'));
+
+  const fresh = candidates.filter(item => !previous.has(item.id));
+  const fallback = candidates.filter(item => previous.has(item.id));
+  const pool = fresh.length >= limit ? fresh : [...fresh, ...fallback];
+  const selected: ExperienceRecommendation[] = [];
+  while (pool.length && selected.length < limit) {
+    pool.sort((a, b) => {
+      const adjusted = (item: ExperienceRecommendation) => item.score
+        - selected.filter(chosen => chosen.category === item.category).length * 16
+        - selected.filter(chosen => chosen.district === item.district).length * 7;
+      return adjusted(b) - adjusted(a) || a.title.localeCompare(b.title, 'tr');
+    });
+    selected.push(pool.shift()!);
+  }
+  return selected;
 }
 
 export function recommendPlaces(options: {
@@ -172,12 +264,14 @@ export function recommendAll(options: {
   places: Place[];
   ideas: Idea[];
   events?: Event[];
+  experiences?: Experience[];
   filter?: ContentFilter;
   mood?: Mood;
   interests: Interest[];
   dismissed: string[];
   budget?: BudgetPreference;
   groupSize?: GroupSizePreference;
+  duration?: DurationPreference;
   coordinates?: Coordinates;
   limit?: number;
   seed?: number;
@@ -186,19 +280,23 @@ export function recommendAll(options: {
   now?: Date;
 }): RecommendationItem[] {
   const {
-    places, ideas, events = [], filter = 'all', mood, interests, dismissed, budget,
-    groupSize, coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
+    places, ideas, events = [], experiences = [], filter = 'all', mood, interests, dismissed, budget,
+    groupSize, duration, coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
   } = options;
   const candidateLimit = Math.max(limit * 3, 15);
-  const placeItems: RecommendationItem[] = filter === 'idea' || filter === 'event' ? [] : recommendPlaces({
+  const experienceItems: RecommendationItem[] = filter === 'experience' || filter === 'all' ? recommendExperiences({
+    experiences, mood, interests, dismissed, budget, groupSize, duration, coordinates,
+    limit: candidateLimit, seed, previousBatch, now,
+  }) : [];
+  const placeItems: RecommendationItem[] = filter === 'place' || filter === 'all' ? recommendPlaces({
     places, mood, interests, dismissed, budget, groupSize, coordinates,
     limit: candidateLimit, seed, previousBatch,
-  }).map(item => ({ ...item, kind: 'place' as const }));
-  const ideaItems: RecommendationItem[] = filter === 'place' || filter === 'event' ? [] : recommendIdeas({
+  }).map(item => ({ ...item, kind: 'place' as const })) : [];
+  const ideaItems: RecommendationItem[] = filter === 'idea' || filter === 'all' ? recommendIdeas({
     ideas, mood, interests, dismissed, budget, groupSize,
     limit: candidateLimit, seed, previousBatch,
-  });
-  const eventItems: RecommendationItem[] = filter === 'place' || filter === 'idea' ? [] : events
+  }) : [];
+  const eventItems: RecommendationItem[] = filter === 'event' || filter === 'all' ? events
     .filter(event => !dismissed.includes(event.id))
     .filter(event => {
       const startsAt = Date.parse(event.startsAt);
@@ -220,16 +318,16 @@ export function recommendAll(options: {
         ],
         score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + event.editorialScore * 3 + budgetScore + (groupMatch && groupSize ? 10 : 0),
       };
-    });
+    }) : [];
 
   // Preserve the exact PR #8 place ordering (including its category/district
   // diversity penalties) when the user explicitly asks for places only.
   if (filter === 'place') return placeItems.slice(0, limit);
 
-  const pool = [...placeItems, ...ideaItems, ...eventItems]
+  const pool = [...experienceItems, ...placeItems, ...ideaItems, ...eventItems]
     .filter(item => !previousBatch.includes(item.id))
     .sort((a, b) => b.score - a.score || ('name' in a ? a.name : a.title).localeCompare('name' in b ? b.name : b.title, 'tr'));
-  const fallback = [...placeItems, ...ideaItems, ...eventItems]
+  const fallback = [...experienceItems, ...placeItems, ...ideaItems, ...eventItems]
     .filter(item => previousBatch.includes(item.id))
     .sort((a, b) => b.score - a.score);
   const candidates = pool.length >= limit ? pool : [...pool, ...fallback];
