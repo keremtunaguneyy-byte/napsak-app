@@ -1,7 +1,8 @@
 const assert = require('node:assert/strict');
 const { places } = require('../.test-build/data/places.js');
-const { recommendPlaces } = require('../.test-build/recommendations.js');
-const { KNOWN_MOODS, KNOWN_INTERESTS, KNOWN_BUDGETS, KNOWN_GROUP_SIZES } = require('../.test-build/types.js');
+const { experiences } = require('../.test-build/data/experiences.js');
+const { durationEligible, recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
+const { KNOWN_MOODS, KNOWN_INTERESTS, KNOWN_BUDGETS, KNOWN_DURATIONS, KNOWN_GROUP_SIZES } = require('../.test-build/types.js');
 
 const interestSets = [[]];
 for (let mask = 1; mask < 1 << KNOWN_INTERESTS.length; mask++) {
@@ -52,3 +53,32 @@ assert.equal(report.diversityProblems, 0);
 assert.ok(report.averageBatchOverlap <= 1, `average overlap too high: ${report.averageBatchOverlap}`);
 assert.ok(budgetChanges > 10, 'budget does not materially affect enough profiles');
 assert.ok(groupChanges > 10, 'group size does not materially affect enough profiles');
+
+const experienceReport = { scenarios: 0, empty: 0, interestMismatch: 0, durationMismatch: 0, duplicates: 0, rotationChecks: 0, overlapTotal: 0 };
+for (const mood of KNOWN_MOODS) for (const interests of interestSets) for (const duration of KNOWN_DURATIONS) {
+  experienceReport.scenarios++;
+  const options = { experiences, mood, interests, duration, dismissed: [], limit: 5, seed: 91, now: new Date('2026-08-08T00:00:00Z') };
+  const eligibleExperiences = experiences.filter(item => durationEligible(item, duration) && (!interests.length || interests.some(interest => item.category === interest || item.interests.includes(interest))));
+  const first = recommendExperiences(options);
+  if (eligibleExperiences.length && !first.length) experienceReport.empty++;
+  if (first.some(item => interests.length && !interests.some(interest => item.category === interest || item.interests.includes(interest)))) experienceReport.interestMismatch++;
+  if (first.some(item => !durationEligible(item, duration))) experienceReport.durationMismatch++;
+  if (new Set(ids(first)).size !== first.length) experienceReport.duplicates++;
+  const repeat = recommendExperiences(options);
+  assert.deepEqual(ids(first), ids(repeat), 'Experience deterministic mode changed output');
+  const dismissed = first.slice(0, 2).map(item => item.id);
+  assert.ok(recommendExperiences({ ...options, dismissed }).every(item => !dismissed.includes(item.id)), 'dismissed Experience returned');
+  if (eligibleExperiences.length >= 10) {
+    const second = recommendExperiences({ ...options, seed: 92, previousBatch: ids(first) });
+    experienceReport.rotationChecks++;
+    experienceReport.overlapTotal += second.filter(item => ids(first).includes(item.id)).length;
+  }
+}
+experienceReport.averageBatchOverlap = experienceReport.rotationChecks ? Number((experienceReport.overlapTotal / experienceReport.rotationChecks).toFixed(3)) : 0;
+console.log('\nExperience stress analysis');
+console.table(experienceReport);
+assert.equal(experienceReport.empty, 0);
+assert.equal(experienceReport.interestMismatch, 0);
+assert.equal(experienceReport.durationMismatch, 0);
+assert.equal(experienceReport.duplicates, 0);
+assert.equal(experienceReport.averageBatchOverlap, 0);
