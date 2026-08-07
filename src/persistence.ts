@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { uniqueIds } from './domain';
-import { BudgetPreference, GroupSizePreference, Interest, KNOWN_BUDGETS, KNOWN_GROUP_SIZES, KNOWN_INTERESTS, KNOWN_MOODS, Mood } from './types';
+import { BudgetPreference, DurationPreference, GroupSizePreference, Interest, KNOWN_BUDGETS, KNOWN_DURATIONS, KNOWN_GROUP_SIZES, KNOWN_INTERESTS, KNOWN_MOODS, Mood } from './types';
 
-const STORAGE_KEY = '@napsak/preferences/v3';
-const LEGACY_STORAGE_KEYS = ['@napsak/preferences/v2', '@napsak/preferences/v1'];
+const STORAGE_KEY = '@napsak/preferences/v4';
+const LEGACY_STORAGE_KEYS = ['@napsak/preferences/v3', '@napsak/preferences/v2', '@napsak/preferences/v1'];
 
 export type PersistedPreferences = {
   saved: string[];
@@ -13,6 +13,7 @@ export type PersistedPreferences = {
   interests: Interest[];
   budget?: BudgetPreference;
   groupSize?: GroupSizePreference;
+  duration?: DurationPreference;
   onboardingCompleted: boolean;
 };
 
@@ -41,8 +42,21 @@ export function migratePreferences(raw: unknown): PersistedPreferences {
     interests: manyOf(value.interests, KNOWN_INTERESTS),
     budget: oneOf(value.budget, KNOWN_BUDGETS),
     groupSize: oneOf(value.groupSize, KNOWN_GROUP_SIZES),
+    duration: oneOf(value.duration, KNOWN_DURATIONS),
     onboardingCompleted: value.onboardingCompleted === true,
   };
+}
+
+export function serializePreferences(preferences: PersistedPreferences): string {
+  return JSON.stringify(migratePreferences(preferences));
+}
+
+export function deserializePreferences(raw: string): PersistedPreferences {
+  try {
+    return migratePreferences(JSON.parse(raw));
+  } catch {
+    return emptyPreferences;
+  }
 }
 
 export async function loadPreferences(): Promise<PersistedPreferences> {
@@ -50,12 +64,12 @@ export async function loadPreferences(): Promise<PersistedPreferences> {
     let raw = await AsyncStorage.getItem(STORAGE_KEY);
     for (const key of LEGACY_STORAGE_KEYS) raw = raw ?? await AsyncStorage.getItem(key);
     if (!raw) return emptyPreferences;
-    return migratePreferences(JSON.parse(raw));
+    return deserializePreferences(raw);
   } catch {
     return emptyPreferences;
   }
 }
 
 export async function savePreferences(preferences: PersistedPreferences): Promise<void> {
-  await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+  await AsyncStorage.setItem(STORAGE_KEY, serializePreferences(preferences));
 }
