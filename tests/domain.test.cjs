@@ -100,6 +100,7 @@ const { ideas } = require('../.test-build/data/ideas.js');
 const { KNOWN_DURATIONS, KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
 const { events } = require('../.test-build/data/events.js');
 const { experiences } = require('../.test-build/data/experiences.js');
+const { guides } = require('../.test-build/data/guides.js');
 const { cities } = require('../.test-build/data/cities.js');
 const { CATALOG_SCHEMA_VERSION, embeddedCatalog } = require('../.test-build/data/catalog.js');
 const { parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
@@ -110,6 +111,18 @@ test('result tabs default to N’apsak and preserve the established content orde
   assert.equal(DEFAULT_RESULT_FILTER, 'experience');
   assert.deepEqual(RESULT_FILTERS.map(filter => filter.value), ['experience', 'place', 'event', 'idea']);
   assert.ok(!RESULT_FILTERS.some(filter => filter.value === 'all' || filter.label === 'Hepsi'));
+});
+
+test('Ankara 101 contains 12 sourced, unique and city-scoped evergreen guides', () => {
+  assert.equal(guides.length, 12);
+  assert.equal(new Set(guides.map(guide => guide.id)).size, guides.length);
+  for (const guide of guides) {
+    assert.equal(guide.kind, 'guide');
+    assert.equal(guide.cityId, 'ankara');
+    assert.ok(guide.title && guide.summary && guide.category && guide.district && guide.sourceLabel);
+    assert.equal(new URL(guide.sourceUrl).protocol, 'https:');
+    assert.ok(Number.isFinite(Date.parse(guide.verifiedAt)));
+  }
 });
 
 test('experience catalogue contains 20 complete, sourced and honestly scoped micro-plans', () => {

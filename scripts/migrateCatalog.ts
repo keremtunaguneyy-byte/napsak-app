@@ -17,6 +17,7 @@ const ankaraIds = {
   places: new Set(known.places.map(item => item.id)),
   experiences: new Set(known.experiences.map(item => item.id)),
   events: new Set(known.events.map(item => item.id)),
+  guides: new Set(known.guides.map(item => item.id)),
 };
 const planned: { collection: keyof typeof ankaraIds; id: string }[] = [];
 

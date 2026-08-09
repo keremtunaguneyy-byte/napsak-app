@@ -1,5 +1,5 @@
 import {
-  City, Event, Experience, GroupSizePreference, Idea, Interest, KNOWN_GROUP_SIZES,
+  City, Event, Experience, GroupSizePreference, Guide, Idea, Interest, KNOWN_GROUP_SIZES,
   KNOWN_INTERESTS, KNOWN_MOODS, Mood, Place, PriceLevel,
 } from '../types';
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from './catalog';
@@ -68,6 +68,13 @@ export function isExperience(value: unknown): value is Experience {
     && Array.isArray(value.sources) && value.sources.length > 0 && value.sources.every(source => isObject(source) && isString(source.label) && isHttps(source.url) && isString(source.verifiedAt));
 }
 
+export function isGuide(value: unknown): value is Guide {
+  if (!isObject(value)) return false;
+  return value.kind === 'guide' && isString(value.id) && isString(value.cityId) && isString(value.title)
+    && isString(value.summary) && ['Tarih', 'Müze', 'Doğa', 'Mahalle', 'Şehir Rotası'].includes(String(value.category))
+    && isString(value.district) && isString(value.sourceLabel) && isHttps(value.sourceUrl) && isString(value.verifiedAt);
+}
+
 export function parseCatalogMeta(value: unknown): CatalogMeta | undefined {
   if (!isObject(value) || !isString(value.cityId) || !isNumber(value.schemaVersion) || !isString(value.catalogVersion) || !isString(value.updatedAt)) return undefined;
   return value as CatalogMeta;
@@ -80,16 +87,18 @@ export function parseCatalogSnapshot(value: unknown): CatalogSnapshot | undefine
     || !Array.isArray(value.places) || !value.places.every(isPlace)
     || !Array.isArray(value.experiences) || !value.experiences.every(isExperience)
     || !Array.isArray(value.events) || !value.events.every(isEvent)
-    || !Array.isArray(value.ideas) || !value.ideas.every(isIdea)) return undefined;
+    || !Array.isArray(value.ideas) || !value.ideas.every(isIdea)
+    || !Array.isArray(value.guides) || !value.guides.every(isGuide)) return undefined;
   const snapshot = value as CatalogSnapshot;
   if (snapshot.cities.some(item => item.id !== snapshot.cityId)
     || snapshot.places.some(item => item.cityId !== snapshot.cityId)
     || snapshot.experiences.some(item => item.cityId !== snapshot.cityId)
-    || snapshot.events.some(item => item.cityId !== snapshot.cityId)) return undefined;
-  if (!snapshot.cities.length || !snapshot.places.length || !snapshot.experiences.length || !snapshot.ideas.length) return undefined;
+    || snapshot.events.some(item => item.cityId !== snapshot.cityId)
+    || snapshot.guides.some(item => item.cityId !== snapshot.cityId)) return undefined;
+  if (!snapshot.cities.length || !snapshot.places.length || !snapshot.experiences.length || !snapshot.ideas.length || !snapshot.guides.length) return undefined;
   const hasUniqueIds = (items: { id: string }[]) => new Set(items.map(item => item.id)).size === items.length;
   if (!hasUniqueIds(snapshot.cities) || !hasUniqueIds(snapshot.places) || !hasUniqueIds(snapshot.experiences)
-    || !hasUniqueIds(snapshot.events) || !hasUniqueIds(snapshot.ideas)) return undefined;
+    || !hasUniqueIds(snapshot.events) || !hasUniqueIds(snapshot.ideas) || !hasUniqueIds(snapshot.guides)) return undefined;
   const placeIds = new Set(snapshot.places.map(item => item.id));
   if (snapshot.experiences.some(item => item.points.some(point => !placeIds.has(point.placeId)))) return undefined;
   return snapshot;
