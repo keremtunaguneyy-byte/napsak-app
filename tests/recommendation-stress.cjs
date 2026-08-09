@@ -58,10 +58,10 @@ const experienceReport = { scenarios: 0, empty: 0, interestMismatch: 0, duration
 for (const mood of KNOWN_MOODS) for (const interests of interestSets) for (const duration of KNOWN_DURATIONS) {
   experienceReport.scenarios++;
   const options = { experiences, mood, interests, duration, dismissed: [], limit: 5, seed: 91, now: new Date('2026-08-08T00:00:00Z') };
-  const eligibleExperiences = experiences.filter(item => durationEligible(item, duration) && (!interests.length || interests.some(interest => item.category === interest || item.interests.includes(interest))));
+  const eligibleExperiences = experiences.filter(item => durationEligible(item, duration) && (!interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest))));
   const first = recommendExperiences(options);
   if (eligibleExperiences.length && !first.length) experienceReport.empty++;
-  if (first.some(item => interests.length && !interests.some(interest => item.category === interest || item.interests.includes(interest)))) experienceReport.interestMismatch++;
+  if (first.some(item => interests.length && !interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))) experienceReport.interestMismatch++;
   if (first.some(item => !durationEligible(item, duration))) experienceReport.durationMismatch++;
   if (new Set(ids(first)).size !== first.length) experienceReport.duplicates++;
   const repeat = recommendExperiences(options);
