@@ -1,7 +1,7 @@
 import { Event } from '../types';
 
 /** Manually verified MVP catalogue. Dated listings are never inferred. */
-export const events: Event[] = [
+const ankaraEvents: Omit<Event, 'cityId'>[] = [
   {
     id: 'event-emre-fel-oran-2026-08-07', kind: 'event', title: 'Emre Fel',
     venue: 'Oran Açıkhava Sahnesi', city: 'Ankara',
@@ -136,3 +136,5 @@ export const events: Event[] = [
     verifiedAt: '2026-08-06', groupSizes: ['Tek', '2 kişi', '3–4 kişi'],
   },
 ];
+
+export const events: Event[] = ankaraEvents.map(event => ({ ...event, cityId: 'ankara' }));
