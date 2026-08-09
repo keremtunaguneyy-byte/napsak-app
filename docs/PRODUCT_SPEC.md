@@ -376,6 +376,8 @@ MVP backend yönü Firebase Authentication + Cloud Firestore'dur. Bu seçim kal�
 - Development ve production Firebase ortamları ayrılır.
 - Authentication ilk kullanımda anonim kimlikle başlayabilir; hesap yükseltme aynı kullanıcı kimliğini koruyacak şekilde tasarlanır.
 - Security Rules ilk Firestore sürümünün zorunlu parçasıdır. App Check gözlem/uyumluluk doğrulamasından sonra enforcement'a alınır.
+- Katalog istemci tarafından yazılamaz; yalnız güvenilir admin/seed pipeline'ı katalog mutasyonu yapar.
+- Katalog versiyonu değişmedikçe aktif şehir koleksiyonları tekrar okunmaz. İlk güvenlik sınırları şehir başına 1.500 mekân, 500 Experience, 500 etkinlik ve 250 global Fikir olarak uygulanır; bu sınırlar ölçek stratejisinin yerine geçmez.
 
 ### 10.6 Offline ve senkronizasyon — Kararlaştırıldı
 
@@ -387,6 +389,8 @@ Expo + Firebase JS SDK yapısında Firestore'un kalıcı cihaz cache'ine güveni
 
 Kaydetme/gizleme gibi kullanıcı işlemleri önce yerelde uygulanır, bağlantı yoksa senkronizasyon kuyruğunda bekler ve bağlantı dönünce sunucuya yazılır. Remote katalog erişilemese de son sağlam katalogla temel öneri akışı çalışmaya devam etmelidir.
 
+İlk anonymous Auth kimliği oluştuğunda mevcut cihazın eski `saved`, `dismissed` ve kalıcı `interests` verisi remote kullanıcı belgesi yoksa bir defalık ilk senkronizasyona alınır. Remote yazı başarısız olursa yerel veri silinmez; idempotent tam snapshot kuyruğu sonraki açılış/değişiklikte yeniden denenir.
+
 ### 10.7 Ölçek, geo ve migration eşiği — Kararlaştırıldı
 
 - Firestore seçimini yalnız toplam belge sayısı değil; oturum başına belge okuması, geo/arama karmaşıklığı, JOIN ihtiyacı ve gerçek maliyet belirler.
@@ -397,6 +401,8 @@ Kaydetme/gizleme gibi kullanıcı işlemleri önce yerelde uygulanır, bağlant�
 ### 10.8 Mimari hazırlık kontrol listesi — Kararlaştırıldı
 
 Firebase omurgası ve sonraki altyapı PR'larında şu başlıklar izlenir: development/production ayrımı, runtime validation, Security Rules + emulator testleri, App Check hazırlığı, katalog sürümleme/cache, offline write queue, eski yerel verinin ilk senkronizasyonu, yedek/export planı, hata izleme, fotoğraf kaynak/lisans politikası, gizlilik ve mağaza izin metinleri, öneri kalite golden testleri ve okuma/maliyet gözlemi.
+
+Firebase operasyon sözleşmesi, seed/migration güvenlikleri, local/Firestore parity ve backup prosedürü `docs/FIREBASE_RUNBOOK.md` içinde tutulur.
 
 ## 11. MVP kapsam sınırları
 

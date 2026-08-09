@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "development": "replace-with-napsak-dev-project-id",
+    "production": "replace-with-napsak-production-project-id"
+  }
+}
