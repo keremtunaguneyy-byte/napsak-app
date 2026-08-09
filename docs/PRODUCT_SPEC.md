@@ -105,6 +105,8 @@ Belirli tarih/saat veya dönemle sınırlı; çoğu zaman bilet, kayıt veya pro
 
 Belirli bir işletmeye veya canlı programa bağlı olmak zorunda olmayan yapılabilir aktivite fikridir. Örneğin evde temalı film gecesi veya fotoğraf yürüyüşü gibi zamansız öneriler bu katmanda bulunabilir.
 
+Fikir sekmesi bir ilgi alanı aramasının tekrarı değil, kontrollü keşif alanıdır. Kullanıcının seçili ilgi alanı varsa beş sonuçluk standart grupta yalnızca bir fikir seçili ilgi alanlarından biriyle eşleşir; kalan dört fikir seçili ilgi alanlarının tamamından bağımsız seçilir. Bu dört keşif fikri yine ruh hâli, bütçe, kişi sayısı, editoryal kalite, yenilik ve seed'li sürpriz sinyallerinden yararlanır. Katalog bu kotayı dolduramıyorsa boş sonuç bırakmamak için kontrollü fallback uygulanabilir.
+
 ### 4.6 Ankara 101 — Gelecek kapsam / Kararlaştırıldı
 
 Şehrin zamansız ve temel deneyimlerini sunan ayrı bir editoryal sınıf olacaktır. Experience, etkinlik veya mekân akışını kalabalıklaştırmadan daha sonra geliştirilecektir.
@@ -188,6 +190,8 @@ Hard filter örnekleri:
 - kullanıcının “Bana göre değil” diyerek gizlemesi,
 - süresi dolmuş etkinlik/canlı deneyim,
 - seçilen süreye sığmayan Experience.
+
+İlgi hard filter'ı içerik katmanına göre uygulanır. Mekân, Experience ve `N’apsak` karma akışındaki uygunluk davranışı korunur; açık `Fikir` sekmesi 4.5'teki kontrollü keşif kotasının bilinçli istisnasıdır.
 
 ### 6.2 Süre filtresi — Kararlaştırıldı
 
