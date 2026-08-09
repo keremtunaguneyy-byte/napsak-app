@@ -16,6 +16,17 @@ export function distanceInKm(from: Coordinates, to: Coordinates): number {
   return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(haversine));
 }
 
+/** Formats a duration without mixing hours and raw minutes in the same range. */
+export function formatDurationRange(minimum: number, maximum: number): string {
+  const format = (value: number) => {
+    if (value < 60) return `${value} dk`;
+    const hours = Math.floor(value / 60);
+    const minutes = value % 60;
+    return minutes ? `${hours} sa ${minutes} dk` : `${hours} sa`;
+  };
+  return `${format(minimum)}–${format(maximum)}`;
+}
+
 export function uniqueIds(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return [...new Set(value.filter((item): item is string => typeof item === 'string'))];
