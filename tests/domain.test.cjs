@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { dismissId, distanceInKm, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
+const { dismissId, distanceInKm, formatDurationRange, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendAll, recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
@@ -13,6 +13,11 @@ test('distanceInKm calculates a realistic Ankara distance', () => {
     { latitude: 39.8985, longitude: 32.8633 },
   );
   assert.ok(distance > 2.5 && distance < 2.7);
+});
+
+test('formatDurationRange renders mixed hour/minute bounds naturally', () => {
+  assert.equal(formatDurationRange(240, 330), '4 sa–5 sa 30 dk');
+  assert.equal(formatDurationRange(45, 60), '45 dk–1 sa');
 });
 
 test('uniqueIds removes invalid and duplicate values', () => {
@@ -109,6 +114,12 @@ test('experience catalogue contains 20 complete, sourced and honestly scoped mic
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
     assert.equal(item.lifecycle, 'evergreen');
+    assert.equal(item.cityId, 'ankara');
+    assert.ok(item.primaryInterests.length, `${item.id}: primary interests`);
+    assert.ok(item.primaryInterests.includes(item.category), `${item.id}: category must be a primary interest`);
+    assert.ok(item.primaryInterests.every(value => KNOWN_INTERESTS.includes(value)), `${item.id}: primary interests valid`);
+    assert.ok(item.secondaryInterests.every(value => KNOWN_INTERESTS.includes(value)), `${item.id}: secondary interests valid`);
+    assert.equal(item.primaryInterests.filter(value => item.secondaryInterests.includes(value)).length, 0, `${item.id}: interest tiers overlap`);
     assert.ok(item.points.length && item.sources.length, `${item.id}: points and sources`);
     assert.ok(item.minDurationMinutes >= 30 && item.maxDurationMinutes >= item.minDurationMinutes, `${item.id}: duration`);
     assert.ok(item.groupSizes.length, `${item.id}: group sizes`);
@@ -158,7 +169,11 @@ test('experience interest, dismissal and rotation gates stay intact', () => {
   assert.ok(!recommendExperiences({ ...common, dismissed: [hidden], limit: 20 }).some(item => item.id === hidden));
   const coffee = recommendExperiences({ ...common, interests: ['Kahve'], limit: 20 });
   assert.ok(coffee.length);
-  assert.ok(coffee.every(item => item.category === 'Kahve' || item.interests.includes('Kahve')));
+  assert.ok(coffee.every(item => item.primaryInterests.includes('Kahve') || item.secondaryInterests.includes('Kahve')));
+  assert.equal(coffee[0].id, 'xp-tunali-kugulu-short');
+  assert.ok(coffee[0].reasons.includes('Kahve planın ana odağında'));
+  assert.ok(coffee.slice(1).every(item => !item.primaryInterests.includes('Kahve')));
+  assert.ok(coffee.slice(1).every(item => item.reasons.includes('Kahve ikincil olarak eşleşiyor')));
 });
 
 test('each duration keeps at least one honest match for every explicit interest', () => {
@@ -166,7 +181,7 @@ test('each duration keeps at least one honest match for every explicit interest'
     for (const interest of KNOWN_INTERESTS) {
       const result = recommendExperiences({ experiences, duration, interests: [interest], dismissed: [], limit: 20, now: new Date('2026-08-08T00:00:00Z') });
       assert.ok(result.length, `${duration} + ${interest} has no Experience`);
-      assert.ok(result.every(item => item.category === interest || item.interests.includes(interest)), `${duration} + ${interest} leaked an unrelated Experience`);
+      assert.ok(result.every(item => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)), `${duration} + ${interest} leaked an unrelated Experience`);
     }
   }
 });
@@ -176,6 +191,7 @@ test('verified event catalogue has explicit Ankara time zones and trustworthy me
   assert.equal(new Set(events.map(event => event.id)).size, events.length);
   for (const event of events) {
     assert.equal(event.kind, 'event');
+    assert.equal(event.cityId, 'ankara');
     assert.equal(event.city, 'Ankara');
     assert.match(event.startsAt, /[+-]\d\d:\d\d$/);
     assert.ok(Number.isFinite(Date.parse(event.startsAt)));
@@ -213,6 +229,7 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
   assert.ok(places.length >= 120 && places.length <= 150);
   assert.equal(new Set(places.map(place => place.id)).size, places.length);
   for (const place of places) {
+    assert.equal(place.cityId, 'ankara', `${place.id}: city`);
     for (const field of ['id', 'name', 'district', 'address', 'note', 'sourceUrl', 'verifiedAt']) {
       assert.equal(typeof place[field], 'string', `${place.id}: ${field}`);
       assert.ok(place[field].trim(), `${place.id}: ${field} is required`);
