@@ -100,6 +100,10 @@ const { ideas } = require('../.test-build/data/ideas.js');
 const { KNOWN_DURATIONS, KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
 const { events } = require('../.test-build/data/events.js');
 const { experiences } = require('../.test-build/data/experiences.js');
+const { cities } = require('../.test-build/data/cities.js');
+const { CATALOG_SCHEMA_VERSION, embeddedCatalog } = require('../.test-build/data/catalog.js');
+const { parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
+const { EmbeddedContentRepository } = require('../.test-build/data/contentRepository.js');
 const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
 
 test('result tabs default to N’apsak and preserve the established content order', () => {
@@ -282,6 +286,28 @@ test('timeless idea catalog is curated, complete and uniquely identified', () =>
     assert.ok(idea.interests.length && idea.interests.every(value => KNOWN_INTERESTS.includes(value)), `${idea.id}: interests`);
     assert.ok(idea.moods.length && idea.moods.every(value => KNOWN_MOODS.includes(value)), `${idea.id}: moods`);
   }
+});
+
+test('embedded content repository preserves exact local catalogue parity', async () => {
+  const repository = new EmbeddedContentRepository();
+  const snapshot = await repository.getCatalog('ankara');
+  assert.equal(snapshot.schemaVersion, CATALOG_SCHEMA_VERSION);
+  assert.deepEqual(snapshot.cities.map(item => item.id), cities.map(item => item.id));
+  assert.deepEqual(snapshot.places.map(item => item.id), places.map(item => item.id));
+  assert.deepEqual(snapshot.experiences.map(item => item.id), experiences.map(item => item.id));
+  assert.deepEqual(snapshot.events.map(item => item.id), events.map(item => item.id));
+  assert.deepEqual(snapshot.ideas.map(item => item.id), ideas.map(item => item.id));
+  assert.ok(parseCatalogSnapshot(snapshot));
+});
+
+test('runtime catalogue validation rejects malformed remote data', () => {
+  const valid = embeddedCatalog('ankara');
+  assert.ok(parseCatalogSnapshot(valid));
+  assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 999 }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, places: [{ ...valid.places[0], sourceUrl: 'javascript:bad' }] }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], cityId: 'istanbul' }] }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, places: [] }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], points: [{ ...valid.experiences[0].points[0], placeId: 'missing-place' }] }] }), undefined);
 });
 
 test('unified feed mixes places and ideas while preserving hard interest eligibility', () => {

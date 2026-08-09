@@ -4,10 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { places } from './src/data/places';
-import { ideas } from './src/data/ideas';
-import { events } from './src/data/events';
-import { experiences } from './src/data/experiences';
+import { initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
 import { loadPreferences, savePreferences } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
@@ -36,6 +33,8 @@ export default function App() {
 
 function AppContent() {
   const { width } = useWindowDimensions();
+  const [catalog, setCatalog] = useState(() => initialCatalog());
+  const { places, ideas, events, experiences } = catalog;
   const [step, setStep] = useState<Step>('welcome');
   const [mood, setMood] = useState<Mood>();
   const [chosen, setChosen] = useState<Interest[]>([]);
@@ -58,7 +57,7 @@ function AppContent() {
   const results = useMemo(() => {
     return recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
   }, [mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
-  const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], []);
+  const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], [experiences, places, ideas, events]);
   const savedItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, saved), [catalogItems, saved]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
 
@@ -72,11 +71,18 @@ function AppContent() {
       setGroupSize(preferences.groupSize);
       setDuration(preferences.duration ?? 'Fark etmez');
       if (preferences.onboardingCompleted && preferences.mood) setStep('results');
+      initializeDataBackbone(preferences).then(setCatalog).catch(() => {
+        // The embedded catalogue is already usable; remote recovery retries later.
+      });
     }).finally(() => setHydrated(true));
   }, []);
   useEffect(() => {
     if (!hydrated) return;
-    savePreferences({ saved, dismissed, mood, interests: chosen, budget, groupSize, duration, onboardingCompleted: step !== 'welcome' }).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+    const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, onboardingCompleted: step !== 'welcome' };
+    savePreferences(preferences).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+    queuePreferencesForRemoteSync(preferences).catch(() => {
+      // Local persistence remains authoritative while offline.
+    });
   }, [saved, dismissed, mood, chosen, budget, groupSize, duration, step, hydrated]);
   useEffect(() => {
     if (!scrollAfterRotation.current) return;
@@ -179,7 +185,7 @@ function AppContent() {
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
-        <View style={s.promise}><Text style={s.promiseTitle}>Sana göre öneriler</Text><Text style={s.promiseText}>Tercihlerin yalnızca cihazında saklanır. İstediğin zaman değiştirebilirsin.</Text></View>
+        <View style={s.promise}><Text style={s.promiseTitle}>Sana göre öneriler</Text><Text style={s.promiseText}>Tercihlerin cihazında saklanır; çevrimiçiyken anonim hesabınla güvenli biçimde eşitlenebilir. İstediğin zaman değiştirebilirsin.</Text></View>
         <Button label="Hadi başlayalım" onPress={() => setStep('mood')} />
       </View>}
       {step === 'mood' && <View>
