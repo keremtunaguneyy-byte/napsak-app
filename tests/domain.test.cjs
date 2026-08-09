@@ -299,6 +299,24 @@ test('content filters isolate place and idea feeds without fabricating events', 
   assert.deepEqual(recommendAll({ ...common, filter: 'event' }), []);
 });
 
+test('idea tab uses one selected-interest idea plus four independent discoveries', () => {
+  const result = recommendAll({ places, ideas, filter: 'idea', mood: 'Enerjik', interests: ['Kahve'], dismissed: [], limit: 5, seed: 12 });
+  const coffeeMatches = result.filter(item => item.category === 'Kahve' || item.interests.includes('Kahve'));
+  const discoveries = result.filter(item => item.category !== 'Kahve' && !item.interests.includes('Kahve'));
+  assert.equal(result.length, 5);
+  assert.equal(coffeeMatches.length, 1);
+  assert.equal(discoveries.length, 4);
+  assert.ok(discoveries.every(item => item.reasons.includes('farklı bir şey keşfetmen için')));
+});
+
+test('idea discovery quota excludes every selected interest from the four discovery slots', () => {
+  const selectedInterests = ['Kahve', 'Sanat'];
+  const result = recommendAll({ places, ideas, filter: 'idea', mood: 'Meraklı', interests: selectedInterests, dismissed: [], limit: 5, seed: 19 });
+  const matchesAnySelection = item => selectedInterests.some(interest => item.category === interest || item.interests.includes(interest));
+  assert.equal(result.filter(matchesAnySelection).length, 1);
+  assert.equal(result.filter(item => !matchesAnySelection(item)).length, 4);
+});
+
 test('place-only unified feed preserves PR #8 place ranking and diversity order', () => {
   const common = { places, mood: 'Sosyal', interests: [], dismissed: [], budget: '₺₺', groupSize: '3–4 kişi', limit: 5, seed: 12 };
   const legacy = recommendPlaces(common).map(item => item.id);
@@ -322,10 +340,11 @@ test('dismissed idea ids stay out and idea-only recommendations are deterministi
 });
 
 test('different-things rotation produces a fresh idea batch', () => {
-  const options = { places, ideas, filter: 'idea', mood: 'Sakin', interests: [], dismissed: [], limit: 5, seed: 50 };
+  const options = { places, ideas, filter: 'idea', mood: 'Sakin', interests: ['Kahve'], dismissed: [], limit: 5, seed: 50 };
   const first = recommendAll(options);
   const next = recommendAll({ ...options, seed: 51, previousBatch: first.map(item => item.id) });
   assert.equal(next.length, 5);
+  assert.equal(next.filter(item => item.category === 'Kahve' || item.interests.includes('Kahve')).length, 1);
   assert.equal(next.filter(item => first.some(previous => previous.id === item.id)).length, 0);
 });
 
