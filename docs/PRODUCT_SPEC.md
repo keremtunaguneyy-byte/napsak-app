@@ -1,8 +1,8 @@
 # N’apsak Product Spec ve Karar Günlüğü
 
-**Sürüm:** 0.1
+**Sürüm:** 0.2
 
-**Tarih:** 8 Ağustos 2026
+**Tarih:** 9 Ağustos 2026
 
 **Durum:** Yaşayan doküman — mevcut kararların ilk konsolidasyonu
 **Hedef konum:** Repo içinde `docs/PRODUCT_SPEC.md`
@@ -226,6 +226,14 @@ Skorların ağırlıkları uygulama verisi olmadan “nihai doğrular” değild
 
 Her öneri, kullanıcıya kısa bir “neden sana uygun” gerekçesi göstermelidir. Sistem yalnızca puan üretmemeli; puanın anlamını kullanıcı diline çevirmelidir.
 
+### 6.6 Experience ilgi önceliği — Kararlaştırıldı
+
+- Experience ilgi etiketleri `primaryInterests` ve `secondaryInterests` olarak ayrılır.
+- `primaryInterests` planın asıl nedenini/odağını anlatır; `category` bu kümenin içinde olmalıdır.
+- `secondaryInterests` planı destekleyen fakat planı tek başına tanımlamayan etiketlerdir.
+- Açık bir ilgi seçildiğinde ana eşleşmeler ikincil eşleşmelerden önce sıralanır; ikincil eşleşmeler sonuç havuzunu dürüstçe genişleten fallback'tir.
+- Kullanıcıya gösterilen gerekçe ana ve ikincil eşleşmeyi aynı şeymiş gibi anlatmamalıdır.
+
 ## 7. Experience veri kalitesi
 
 ### 7.1 Asgari veri sözleşmesi — Kararlaştırıldı
@@ -237,7 +245,7 @@ Bir Experience mümkün olduğunca şunları taşımalıdır:
 - kısa eylem odaklı açıklama,
 - bağlı noktalar,
 - deneyim türü,
-- ruh hâli ve ilgi etiketleri,
+- ruh hâli, ana ilgi ve ikincil ilgi etiketleri,
 - uygun kişi sayısı,
 - minimum/maksimum süre,
 - fiyat seviyesi,
@@ -344,6 +352,48 @@ Her ilgili PR en az şunları doğrulamalıdır:
 
 Testin geçtiğini yazmak yeterli değildir; komut ve sonuç PR açıklamasında bulunmalıdır. Çalıştırılamayan kontrol açıkça belirtilmelidir.
 
+### 10.4 Çok şehirli veri omurgası — Kararlaştırıldı
+
+- Ankara ilk MVP şehridir; ürün mimarisi Ankara ile sınırlı değildir.
+- Şehir bağımlı katalog kayıtlarında insan tarafından okunabilir şehir adından ayrı, kararlı bir `cityId` bulunur.
+- `Place`, `Experience` ve `Event` ilk günden `cityId` taşır. Guide ve şehir bağımlı Idea modelleri eklendiğinde aynı anahtarı kullanır.
+- Şehir metadatası ayrı `City` sözleşmesinde tutulur: `id`, ad, ülke kodu, saat dilimi, merkez koordinatı ve yayın durumu.
+- İstanbul eklemek uygulama şemasını değiştirmek yerine yeni şehir/katalog verisi eklemek olmalıdır.
+- Cihaz yalnız ihtiyaç duyduğu şehir/katalog dilimini indirmelidir; Türkiye kataloğunun tamamı her açılışta indirilmez.
+
+### 10.5 Backend ve veri kaynağı yönü — Kararlaştırıldı
+
+MVP backend yönü Firebase Authentication + Cloud Firestore'dur. Bu seçim kalıcı veritabanı bağımlılığı anlamına gelmez.
+
+- Öneri motoru doğrudan Firestore SDK çağrısı yapmayacak; doğrulanmış katalog bir `ContentRepository` sınırından gelecektir.
+- Aynı repository sözleşmesi bugün yerel/Firestore, ileride API veya PostgreSQL/PostGIS kaynağıyla çalışabilmelidir.
+- Firestore'da sürekli katalog listener'ları yerine sürümlü ve kontrollü okuma tercih edilir.
+- Katalog belgeleri TypeScript tiplerine ek olarak çalışma zamanında doğrulanır; bozuk remote kayıt algoritmaya giremez.
+- Development ve production Firebase ortamları ayrılır.
+- Authentication ilk kullanımda anonim kimlikle başlayabilir; hesap yükseltme aynı kullanıcı kimliğini koruyacak şekilde tasarlanır.
+- Security Rules ilk Firestore sürümünün zorunlu parçasıdır. App Check gözlem/uyumluluk doğrulamasından sonra enforcement'a alınır.
+
+### 10.6 Offline ve senkronizasyon — Kararlaştırıldı
+
+Expo + Firebase JS SDK yapısında Firestore'un kalıcı cihaz cache'ine güvenilmez. Uygulama kendi sürümlü yerel katmanını tutar:
+
+1. APK ile gelen güvenli başlangıç kataloğu,
+2. AsyncStorage'daki son doğrulanmış katalog,
+3. ağ varsa daha yeni remote katalog.
+
+Kaydetme/gizleme gibi kullanıcı işlemleri önce yerelde uygulanır, bağlantı yoksa senkronizasyon kuyruğunda bekler ve bağlantı dönünce sunucuya yazılır. Remote katalog erişilemese de son sağlam katalogla temel öneri akışı çalışmaya devam etmelidir.
+
+### 10.7 Ölçek, geo ve migration eşiği — Kararlaştırıldı
+
+- Firestore seçimini yalnız toplam belge sayısı değil; oturum başına belge okuması, geo/arama karmaşıklığı, JOIN ihtiyacı ve gerçek maliyet belirler.
+- İlk geo sıralaması koordinat + cihaz tarafı mesafe hesabıyla yapılabilir. Katalog büyüdüğünde geohash/aday daraltma kullanılır; güçlü yarıçap, poligon veya ilişki sorguları gerektiğinde PostGIS değerlendirilir.
+- PostgreSQL/PostGIS'e geçiş “kullanıcı sayısı X oldu” gibi yapay bir eşikle değil ölçümle tetiklenir.
+- Stable ID'ler ve veri sözleşmeleri migration boyunca korunur. Veri kaynağı değişikliği öneri algoritmasını yeniden yazmayı gerektirmemelidir.
+
+### 10.8 Mimari hazırlık kontrol listesi — Kararlaştırıldı
+
+Firebase omurgası ve sonraki altyapı PR'larında şu başlıklar izlenir: development/production ayrımı, runtime validation, Security Rules + emulator testleri, App Check hazırlığı, katalog sürümleme/cache, offline write queue, eski yerel verinin ilk senkronizasyonu, yedek/export planı, hata izleme, fotoğraf kaynak/lisans politikası, gizlilik ve mağaza izin metinleri, öneri kalite golden testleri ve okuma/maliyet gözlemi.
+
 ## 11. MVP kapsam sınırları
 
 ### 11.1 Şimdiki odak — Kararlaştırıldı
@@ -355,6 +405,8 @@ Testin geçtiğini yazmak yeterli değildir; komut ve sonuç PR açıklamasında
 - açıklanabilir öneri motoru,
 - kaydetme, gizleme ve rotasyon,
 - erişilebilir mobil arayüz.
+
+Ankara kapsam sınırıdır, mimari sınır değildir. Ankara'da ürün davranışı ve içerik pipeline'ı doğrulandıktan sonra planlanan ilk büyük şehir genişlemesi İstanbul'dur; ardından aynı şehir sözleşmesiyle diğer şehirler eklenebilir.
 
 ### 11.2 Bu aşamada kapsam dışı — Kararlaştırıldı
 
@@ -429,6 +481,22 @@ Bu ilk sürüm; onboarding, kalıcı/anlık tercih ayrımı, kaydetme, gizleme/g
 
 **Neden:** Bir mekânın varlığını doğrulayan kaynak, rota içindeki her operasyonel ayrıntıyı otomatik olarak doğrulamaz. Veri modelinin dürüst belirsizlik taşıması, sahte kesinlikten daha değerlidir.
 **Sonuç:** Kartlar güncel koşulları kontrol etme notu taşır. `seasonal` ve `live` kayıtlar tip seviyesinde `expiresAt` gerektirir; eksik veya geçersiz bitiş tarihi olan kayıtlar çalışma zamanında da elenir.
+
+### 2026-08-09 — Experience ilgi niyeti ve çok şehir temeli
+
+**Karar:** Experience etiketleri ana/ikincil ilgi olarak ayrılacak; ikincil eşleşme ana eşleşmenin önüne geçmeyecek. Ankara MVP olarak kalırken katalog kimliği `cityId` ile çok şehirli kurulacak.
+
+**Neden:** Bir rotada kahve durağı bulunması rotayı otomatik olarak Kahve odaklı yapmıyor. Aynı şekilde Ankara'ya gömülü veri modeli İstanbul genişlemesinde gereksiz migration borcu yaratır.
+
+**Sonuç:** Mevcut 20 Experience editoryal olarak yeniden etiketlenir; Place, Experience ve Event kayıtları `cityId` taşır. İstanbul ekleme şema değişikliği olmaktan çıkar.
+
+### 2026-08-09 — Firestore MVP, migration-ready mimari
+
+**Karar:** Firebase/Firestore MVP veri omurgası olarak kullanılacak; öneri motoru Firestore'a doğrudan bağımlı olmayacak. Sürüm kontrollü yerel cache/offline senkronizasyon ve `ContentRepository` sınırı ilk backend tasarımının parçasıdır.
+
+**Neden:** Firestore ilk kullanıcı ve ilk şehir aşamasında operasyon yükünü düşük tutar. N’apsak'ın uzun vadeli geo/JOIN ihtiyacının büyüyebileceği kabul edildiğinden PostgreSQL/PostGIS'e geçiş kapısı baştan açık tutulur.
+
+**Sonuç:** İstanbul veya daha büyük katalog Firestore'u tek başına geçersiz kılmaz. Migration kararı gerçek read maliyeti, sorgu şekli, geo gereksinimi ve operasyon ölçümlerine göre verilir.
 
 ## 16. Değişiklik yönetimi
 
