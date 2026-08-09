@@ -10,6 +10,16 @@ export const KNOWN_GROUP_SIZES: readonly GroupSizePreference[] = ['Tek', '2 kiş
 export const KNOWN_DURATIONS: readonly DurationPreference[] = ['30–60 dk', '1–2 saat', '3–4 saat', 'Yarım gün', 'Fark etmez'];
 export type PriceLevel = 0 | 1 | 2 | 3;
 export type RecommendationKind = 'experience' | 'place' | 'event' | 'idea';
+export type CityId = string;
+
+export type City = {
+  id: CityId;
+  name: string;
+  countryCode: string;
+  timezone: string;
+  center: { latitude: number; longitude: number };
+  status: 'active' | 'planned' | 'paused';
+};
 
 export type ExperienceType = 'micro-route' | 'culture' | 'outdoors' | 'food-and-walk' | 'active';
 export type WeatherCondition = 'any' | 'dry' | 'indoor';
@@ -37,9 +47,11 @@ type ExperienceBase = {
   points: ExperiencePoint[];
   sources: ExperienceSource[];
   experienceType: ExperienceType;
+  cityId: CityId;
   category: Interest;
   moods: Mood[];
-  interests: Interest[];
+  primaryInterests: Interest[];
+  secondaryInterests: Interest[];
   groupSizes: GroupSizePreference[];
   minDurationMinutes: number;
   maxDurationMinutes: number;
@@ -62,6 +74,7 @@ export type Experience = ExperienceBase & (
 
 export type Place = {
   id: string;
+  cityId: CityId;
   name: string;
   district: string;
   address: string;
@@ -97,7 +110,9 @@ export type Event = {
   kind: 'event';
   title: string;
   venue: string;
-  city: 'Ankara';
+  cityId: CityId;
+  /** Display label retained while cityId is the stable data key. */
+  city: string;
   startsAt: string;
   endsAt?: string;
   category: Interest;
