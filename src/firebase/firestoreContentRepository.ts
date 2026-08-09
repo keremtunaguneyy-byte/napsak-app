@@ -1,7 +1,7 @@
 import { Firestore, collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
 
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from '../data/catalog';
-import { isCity, isEvent, isExperience, isIdea, isPlace, parseCatalogMeta } from '../data/catalogValidation';
+import { isCity, isEvent, isExperience, isGuide, isIdea, isPlace, parseCatalogMeta } from '../data/catalogValidation';
 import { ContentRepository } from '../data/contentRepository';
 import { CityId } from '../types';
 
@@ -10,6 +10,7 @@ export const FIRESTORE_READ_LIMITS = {
   experiencesPerCity: 500,
   eventsPerCity: 500,
   globalIdeas: 250,
+  guidesPerCity: 250,
 } as const;
 
 type Validator<T> = (value: unknown) => value is T;
@@ -44,12 +45,13 @@ export class FirestoreContentRepository implements ContentRepository {
     if (!meta) throw new Error(`Catalog metadata not found for ${cityId}.`);
     if (meta.schemaVersion !== CATALOG_SCHEMA_VERSION) throw new Error(`Unsupported remote catalog schema ${meta.schemaVersion}.`);
 
-    const [citySnapshot, places, experiences, events, ideas] = await Promise.all([
+    const [citySnapshot, places, experiences, events, ideas, guides] = await Promise.all([
       getDoc(doc(this.db, 'cities', cityId)),
       this.readBounded('places', FIRESTORE_READ_LIMITS.placesPerCity, isPlace, cityId),
       this.readBounded('experiences', FIRESTORE_READ_LIMITS.experiencesPerCity, isExperience, cityId),
       this.readBounded('events', FIRESTORE_READ_LIMITS.eventsPerCity, isEvent, cityId),
       this.readBounded('ideas', FIRESTORE_READ_LIMITS.globalIdeas, isIdea),
+      this.readBounded('guides', FIRESTORE_READ_LIMITS.guidesPerCity, isGuide, cityId),
     ]);
     const city = citySnapshot.data();
     if (!citySnapshot.exists() || !isCity(city) || city.id !== cityId) {
@@ -65,6 +67,7 @@ export class FirestoreContentRepository implements ContentRepository {
       experiences,
       events,
       ideas,
+      guides,
     };
   }
 }

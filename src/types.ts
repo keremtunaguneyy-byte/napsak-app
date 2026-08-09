@@ -12,6 +12,21 @@ export type PriceLevel = 0 | 1 | 2 | 3;
 export type RecommendationKind = 'experience' | 'place' | 'event' | 'idea';
 export type CityId = string;
 
+export type GuideCategory = 'Tarih' | 'Müze' | 'Doğa' | 'Mahalle' | 'Şehir Rotası';
+
+export type Guide = {
+  id: string;
+  kind: 'guide';
+  cityId: CityId;
+  title: string;
+  summary: string;
+  category: GuideCategory;
+  district: string;
+  sourceLabel: string;
+  sourceUrl: string;
+  verifiedAt: string;
+};
+
 export type City = {
   id: CityId;
   name: string;

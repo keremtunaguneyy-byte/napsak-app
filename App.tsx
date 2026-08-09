@@ -1,17 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
 import { loadPreferences, savePreferences } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
-import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Idea, Interest, Mood, Place } from './src/types';
+import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
 import { Coordinates, dismissId, formatDurationRange, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
 
-type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden';
+type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides';
 
 const moods: { label: Mood; emoji: string; hint: string }[] = [
   { label: 'Enerjik', emoji: '⚡', hint: 'Hareket ve tempo' },
@@ -34,7 +34,7 @@ export default function App() {
 function AppContent() {
   const { width } = useWindowDimensions();
   const [catalog, setCatalog] = useState(() => initialCatalog());
-  const { places, ideas, events, experiences } = catalog;
+  const { places, ideas, events, experiences, guides } = catalog;
   const [step, setStep] = useState<Step>('welcome');
   const [mood, setMood] = useState<Mood>();
   const [chosen, setChosen] = useState<Interest[]>([]);
@@ -54,12 +54,24 @@ function AppContent() {
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
+  const [guideQuery, setGuideQuery] = useState('');
+  const [guideCategory, setGuideCategory] = useState('Tümü');
+  const [guideDistrict, setGuideDistrict] = useState('Tümü');
   const results = useMemo(() => {
     return recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
   }, [mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], [experiences, places, ideas, events]);
   const savedItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, saved), [catalogItems, saved]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
+  const savedGuides = useMemo(() => resolveSavedPlaces<Guide>(guides, saved), [guides, saved]);
+  const guideCategories = useMemo(() => ['Tümü', ...Array.from(new Set(guides.map(guide => guide.category)))], [guides]);
+  const guideDistricts = useMemo(() => ['Tümü', ...Array.from(new Set(guides.map(guide => guide.district)))], [guides]);
+  const filteredGuides = useMemo(() => {
+    const query = guideQuery.trim().toLocaleLowerCase('tr-TR');
+    return guides.filter(guide => (guideCategory === 'Tümü' || guide.category === guideCategory)
+      && (guideDistrict === 'Tümü' || guide.district === guideDistrict)
+      && (!query || `${guide.title} ${guide.summary} ${guide.category} ${guide.district}`.toLocaleLowerCase('tr-TR').includes(query)));
+  }, [guides, guideCategory, guideDistrict, guideQuery]);
 
   useEffect(() => {
     loadPreferences().then(preferences => {
@@ -172,6 +184,14 @@ function AppContent() {
       Alert.alert('Bağlantı açılamadı', 'Bu planın resmî bilgi bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
+  const openGuideSource = async (guide: Guide) => {
+    try {
+      if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
+      await Linking.openURL(guide.sourceUrl);
+    } catch {
+      Alert.alert('Bağlantı açılamadı', 'Rehberin resmî kaynağı şu anda açılamıyor. Lütfen tekrar dene.');
+    }
+  };
 
 
   if (!hydrated) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading]}><StatusBar style="light" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={c.lime} size="large" /><Text accessibilityLiveRegion="polite" style={s.loadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
@@ -181,7 +201,7 @@ function AppContent() {
     <StatusBar style="light" /><View style={s.orb} />
     <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && s.pageWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => step === 'saved' || step === 'hidden' ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity><View style={s.headerActions}>{(step === 'results' || step === 'saved' || step === 'hidden') && <TouchableOpacity accessibilityRole="button" accessibilityLabel={step === 'saved' ? 'Önerilere dön' : `${saved.length} kaydedilen öneriyi göster`} hitSlop={10} onPress={() => setStep(step === 'saved' ? 'results' : 'saved')}><Text style={s.savedLink}>{step === 'saved' ? 'Öneriler' : `Kaydedilenler (${saved.length})`}</Text></TouchableOpacity>}<Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text></View></View>
+      <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => ['saved', 'hidden', 'guides'].includes(step) ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity><View style={s.headerActions}><Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text></View></View>
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
@@ -235,6 +255,30 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
       </View>}
+      {step === 'guides' && <View>
+        <Lead eyebrow="ŞEHRİN HAFIZASI" title="Ankara 101" subtitle="Bugünün önerilerinden ayrı, her zaman dönüp bakabileceğin kısa ve kaynaklı Ankara rehberi." />
+        <TextInput
+          accessibilityLabel="Ankara 101 rehberlerinde ara"
+          autoCorrect={false}
+          onChangeText={setGuideQuery}
+          placeholder="Kale, müze, Gölbaşı…"
+          placeholderTextColor="#777B70"
+          returnKeyType="search"
+          style={s.searchInput}
+          value={guideQuery}
+        />
+        <Text style={s.filterLabel}>KATEGORİ</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
+          {guideCategories.map(category => <TouchableOpacity key={category} accessibilityRole="radio" accessibilityState={{ selected: guideCategory === category }} onPress={() => setGuideCategory(category)} style={[s.filterChip, guideCategory === category && s.filterChipSelected]}><Text style={[s.filterText, guideCategory === category && s.filterTextSelected]}>{category}</Text></TouchableOpacity>)}
+        </ScrollView>
+        <Text style={s.filterLabel}>İLÇE / BÖLGE</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
+          {guideDistricts.map(district => <TouchableOpacity key={district} accessibilityRole="radio" accessibilityState={{ selected: guideDistrict === district }} onPress={() => setGuideDistrict(district)} style={[s.filterChip, guideDistrict === district && s.filterChipSelected]}><Text style={[s.filterText, guideDistrict === district && s.filterTextSelected]}>{district}</Text></TouchableOpacity>)}
+        </ScrollView>
+        <Text accessibilityLiveRegion="polite" style={s.guideCount}>{filteredGuides.length} rehber</Text>
+        {!filteredGuides.length && <View style={s.empty}><Text style={s.emptyIcon}>⌕</Text><Text style={s.emptyTitle}>Eşleşen rehber yok</Text><Text style={s.emptyText}>Aramayı kısalt veya filtreleri “Tümü”ne getir.</Text></View>}
+        {filteredGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved={saved.includes(guide.id)} onSave={() => setSaved(current => toggleId(current, guide.id))} onOpen={() => openGuideSource(guide)} />)}
+      </View>}
       {step === 'hidden' && <View>
         <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
         {!hiddenItems.length && <View style={s.empty}><Text style={s.emptyIcon}>✓</Text><Text style={s.emptyTitle}>Gizli önerin yok</Text><Text style={s.emptyText}>Bir öneriyi gizlediğinde burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
@@ -244,10 +288,17 @@ function AppContent() {
       </View>}
       {step === 'saved' && <View>
         <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="Sonra bakmak için ayırdığın planlar ve diğer öneriler burada." />
-        {!savedItems.length && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir öneri kaydetmedin</Text><Text style={s.emptyText}>Önerilerdeki “Kaydet” seçeneğine dokunduğunda burada görünecek.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
+        {!savedItems.length && !savedGuides.length && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir şey kaydetmedin</Text><Text style={s.emptyText}>Önerilerde veya Ankara 101’de “Kaydet”e dokunduğunda burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Ana sayfaya dön</Text></TouchableOpacity></View>}
         {savedItems.map(item => <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text><Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => setSaved(current => current.filter(id => id !== item.id))} text="Kayıttan çıkar" /></View></View>)}
+        {savedGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved onSave={() => setSaved(current => current.filter(id => id !== guide.id))} onOpen={() => openGuideSource(guide)} />)}
       </View>}
-    </ScrollView></KeyboardAvoidingView>
+    </ScrollView>
+    {['results', 'saved', 'hidden', 'guides'].includes(step) && <View accessibilityRole="tablist" style={s.bottomNav}>
+      <NavTab label="Ana Sayfa" selected={step === 'results' || step === 'hidden'} onPress={() => setStep('results')} />
+      <NavTab label={`Kaydedilenler (${saved.length})`} selected={step === 'saved'} onPress={() => setStep('saved')} />
+      <NavTab label="Ankara 101" selected={step === 'guides'} onPress={() => setStep('guides')} />
+    </View>}
+    </KeyboardAvoidingView>
   </SafeAreaView>;
 }
 
@@ -261,6 +312,18 @@ function itemMeta(item: Place | Idea | Event | Experience): string {
 }
 function Button({ label, onPress, disabled = false }: { label: string; onPress: () => void; disabled?: boolean }) { return <TouchableOpacity accessibilityRole="button" accessibilityState={{ disabled }} activeOpacity={.85} disabled={disabled} onPress={onPress} style={[s.button, disabled && s.disabled]}><Text style={[s.buttonText, disabled && s.disabledText]}>{label}</Text><Text style={[s.arrow, disabled && s.disabledText]}>→</Text></TouchableOpacity>; }
 function Action({ label, onPress, text, muted, remove }: { label: string; onPress: () => void; text: string; muted?: boolean; remove?: boolean }) { return <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} hitSlop={6} onPress={onPress} style={s.actionHit}><Text style={remove ? s.removeAction : muted ? s.mutedAction : s.action}>{text}</Text></TouchableOpacity>; }
+function NavTab({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) { return <TouchableOpacity accessibilityRole="tab" accessibilityState={{ selected }} onPress={onPress} style={s.navTab}><Text numberOfLines={1} style={[s.navText, selected && s.navTextSelected]}>{label}</Text></TouchableOpacity>; }
+
+function GuideCard({ guide, saved, onSave, onOpen }: { guide: Guide; saved: boolean; onSave: () => void; onOpen: () => void }) {
+  return <View style={s.result}>
+    <View style={s.kindBadge}><Text style={s.kindBadgeText}>ANKARA 101</Text></View>
+    <Text style={s.resultName}>{guide.title}</Text>
+    <Text style={s.meta}>{guide.category} · {guide.district}</Text>
+    <Text style={s.note}>{guide.summary}</Text>
+    <Text style={s.sourceNote}>Kaynak: {guide.sourceLabel}</Text>
+    <View style={s.actions}><Action label={saved ? `${guide.title} rehberini kayıttan çıkar` : `${guide.title} rehberini kaydet`} onPress={onSave} text={saved ? '♥ Kaydedildi' : '♡ Kaydet'} /><Action label={`${guide.title} resmî kaynağını aç`} onPress={onOpen} text="Kaynağı aç" /></View>
+  </View>;
+}
 
 function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceSource: (experience: Experience) => void }) {
   const title = item.kind === 'place' ? item.name : item.title;
@@ -284,6 +347,7 @@ const s = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 }, mood: { width: '48%', minHeight: 145, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 18, justifyContent: 'flex-end' }, selected: { borderColor: c.lime, backgroundColor: '#252B18' }, emoji: { fontSize: 28, marginBottom: 17 }, cardTitle: { color: c.ink, fontSize: 19, fontWeight: '800' }, hint: { color: c.muted, fontSize: 12, marginTop: 4 },
   button: { minHeight: 62, borderRadius: 18, backgroundColor: c.lime, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 21, paddingVertical: 12, marginTop: 28 }, disabled: { backgroundColor: '#5C6345' }, disabledText: { color: '#DADCCF' }, controlDisabled: { opacity: .65 }, buttonText: { flexShrink: 1, color: '#14160E', fontSize: 16, fontWeight: '900' }, arrow: { color: '#14160E', fontSize: 25 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 11 }, chip: { borderWidth: 1, borderColor: c.line, backgroundColor: c.card, borderRadius: 99, paddingVertical: 14, paddingHorizontal: 17 }, chipText: { color: c.ink, fontSize: 15, fontWeight: '700' }, back: { color: c.muted, textAlign: 'center', marginTop: 22, fontWeight: '700' },
+  searchInput: { minHeight: 54, borderWidth: 1, borderColor: c.line, borderRadius: 17, backgroundColor: c.card, color: c.ink, fontSize: 15, paddingHorizontal: 16, marginBottom: 22 }, filterLabel: { color: c.muted, fontSize: 10, fontWeight: '900', letterSpacing: 1.4, marginBottom: 9 }, guideCount: { color: '#C4C1B8', fontSize: 12, fontWeight: '800', marginBottom: 14 }, sourceNote: { color: '#C6DE76', fontSize: 11, lineHeight: 16, marginTop: 12 },
   filterRow: { gap: 8, paddingBottom: 18 }, filterChip: { borderWidth: 1, borderColor: c.line, backgroundColor: c.card, borderRadius: 99, paddingVertical: 10, paddingHorizontal: 16 }, filterChipSelected: { backgroundColor: c.lime, borderColor: c.lime }, filterText: { color: c.ink, fontSize: 13, fontWeight: '800' }, filterTextSelected: { color: '#14160E' },
   result: { backgroundColor: c.card, borderRadius: 22, borderWidth: 1, borderColor: c.line, padding: 18, marginBottom: 14, overflow: 'hidden' }, rank: { position: 'absolute', right: 14, top: 10, color: '#7D8C55', fontSize: 32, fontWeight: '900' }, resultName: { color: c.ink, fontSize: 19, fontWeight: '900', paddingRight: 38 }, meta: { color: '#C4C1B8', fontSize: 12, marginTop: 6 }, address: { color: '#C4C1B8', fontSize: 12, marginTop: 5 }, note: { color: c.ink, fontSize: 14, lineHeight: 20, marginTop: 16 }, why: { color: '#C6DE76', fontSize: 12, marginTop: 10 }, actions: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, rowGap: 6, borderTopWidth: 1, borderTopColor: c.line, marginTop: 16, paddingTop: 8 }, actionHit: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 4 }, action: { color: c.lime, fontWeight: '800', fontSize: 13 }, mutedAction: { color: '#C4C1B8', fontWeight: '700', fontSize: 13 }, secondaryButton: { minHeight: 54, borderRadius: 17, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center', marginTop: 8, padding: 12 }, secondaryButtonText: { color: c.ink, fontSize: 14, fontWeight: '800', textAlign: 'center' },
   kindBadge: { alignSelf: 'flex-start', borderRadius: 999, backgroundColor: '#2B321A', paddingHorizontal: 8, paddingVertical: 4, marginBottom: 10 }, kindBadgeText: { color: c.lime, fontSize: 9, fontWeight: '900', letterSpacing: 1.2 },
@@ -291,4 +355,5 @@ const s = StyleSheet.create({
   undoBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#202518', borderWidth: 1, borderColor: '#56603A', borderRadius: 16, padding: 14, marginBottom: 14 }, undoText: { color: c.ink, fontSize: 13, fontWeight: '800' },
   preferenceBar: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: c.line, paddingBottom: 16, marginBottom: 18 }, preferenceCopy: { flex: 1 }, preferenceLabel: { color: c.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.4 }, preferenceText: { color: c.ink, fontSize: 13, fontWeight: '700', marginTop: 5 }, edit: { color: c.lime, fontSize: 13, fontWeight: '900' },
   empty: { alignItems: 'center', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 28, marginBottom: 18 }, emptyIcon: { color: c.lime, fontSize: 38, fontWeight: '900' }, emptyTitle: { color: c.ink, fontSize: 19, fontWeight: '900', marginTop: 14, textAlign: 'center' }, emptyText: { color: c.muted, fontSize: 14, lineHeight: 20, marginTop: 8, textAlign: 'center' }, emptyAction: { borderWidth: 1, borderColor: c.lime, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12, marginTop: 20 }, emptyActionText: { color: c.lime, fontSize: 13, fontWeight: '900' }, removeAction: { color: '#FF9A8D', fontWeight: '800', fontSize: 13 },
+  bottomNav: { minHeight: 64, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderTopColor: c.line, backgroundColor: '#171914', paddingHorizontal: 8 }, navTab: { flex: 1, minHeight: 56, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, navText: { color: c.muted, fontSize: 11, fontWeight: '800', textAlign: 'center' }, navTextSelected: { color: c.lime },
 });

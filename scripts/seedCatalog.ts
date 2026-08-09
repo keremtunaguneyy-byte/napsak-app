@@ -27,6 +27,7 @@ const counts = {
   experiences: snapshot.experiences.length,
   events: snapshot.events.length,
   ideas: snapshot.ideas.length,
+  guides: snapshot.guides.length,
 };
 
 if (!apply) {
@@ -55,6 +56,7 @@ async function main(): Promise<void> {
   await upsertCollection('experiences', snapshot.experiences);
   await upsertCollection('events', snapshot.events);
   await upsertCollection('ideas', snapshot.ideas);
+  await upsertCollection('guides', snapshot.guides);
   await db.collection('catalogMeta').doc(snapshot.cityId).set({
     cityId: snapshot.cityId,
     schemaVersion: snapshot.schemaVersion,

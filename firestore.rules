@@ -54,6 +54,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    match /guides/{documentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
     match /users/{uid} {
       allow read: if owns(uid);
       allow create, update: if owns(uid) && validUserState();

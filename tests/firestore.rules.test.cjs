@@ -28,6 +28,9 @@ test('catalog reads require authentication and client catalog writes are denied'
   await assertFails(getDoc(doc(anonymous, 'cities', 'ankara')));
   await assertSucceeds(getDoc(doc(alice, 'cities', 'ankara')));
   await assertFails(setDoc(doc(alice, 'cities', 'ankara'), { id: 'ankara' }));
+  await assertFails(getDoc(doc(anonymous, 'guides', 'guide-ankara-kalesi')));
+  await assertSucceeds(getDoc(doc(alice, 'guides', 'guide-ankara-kalesi')));
+  await assertFails(setDoc(doc(alice, 'guides', 'guide-ankara-kalesi'), { id: 'guide-ankara-kalesi' }));
 });
 
 test('a user can write only a bounded valid document at their own uid', async () => {

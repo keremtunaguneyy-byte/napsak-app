@@ -14,6 +14,7 @@ const localCounts = {
   experiences: local.experiences.length,
   events: local.events.length,
   ideas: local.ideas.length,
+  guides: local.guides.length,
 };
 const projectArg = process.argv.find(item => item.startsWith('--project='))?.slice('--project='.length);
 if (!projectArg) {
@@ -55,6 +56,7 @@ async function main(): Promise<void> {
     ['experiences', local.experiences, await documents('experiences', true)],
     ['events', local.events, await documents('events', true)],
     ['ideas', local.ideas, await documents('ideas', false)],
+    ['guides', local.guides, await documents('guides', true)],
   ];
   for (const [name, expected, actual] of comparisons) {
     const expectedCitySlice = name === 'cities' ? expected.filter(item => (item as { id: string }).id === local.cityId) : expected;
