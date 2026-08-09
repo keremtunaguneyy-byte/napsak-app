@@ -227,36 +227,89 @@ function recommendIdeas(options: {
   limit?: number;
   seed?: number;
   previousBatch?: string[];
+  discoveryMode?: boolean;
 }): IdeaRecommendation[] {
-  const { ideas, mood, interests, dismissed, budget, groupSize, limit = 5, seed = 0, previousBatch = [] } = options;
+  const {
+    ideas, mood, interests, dismissed, budget, groupSize, limit = 5, seed = 0,
+    previousBatch = [], discoveryMode = false,
+  } = options;
   const random = seededRandom(seed ^ 0xA11DEA);
   const previous = new Set(previousBatch);
-  const eligible = ideas
+  const scored = ideas
     .filter(idea => !dismissed.includes(idea.id))
-    .filter(idea => !interests.length || interests.some(interest => idea.category === interest || idea.interests.includes(interest)))
     .map(idea => {
       const moodMatch = Boolean(mood && idea.moods.includes(mood));
       const matchedInterests = interests.filter(interest => idea.category === interest || idea.interests.includes(interest));
       const budgetScore = priceSignal(idea.priceLevel, budget);
       const groupMatch = !groupSize || idea.groupSizes.includes(groupSize);
       const groupScore = !groupSize ? 0 : groupMatch ? 10 : -8;
+      // The explicit Fikir tab is intentionally more exploratory than other
+      // recommendation surfaces. Context still matters, but discovery items get
+      // enough seeded variation to avoid becoming the same editorial top four.
+      const surprise = random() * (discoveryMode && !matchedInterests.length ? 18 : 8);
       const reasons = [
         ...(moodMatch ? [`${mood} moduna uygun`] : []),
         ...(matchedInterests.length ? [`${matchedInterests.join(', ')} seçiminle eşleşiyor`] : []),
         ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
         ...(groupMatch && groupSize ? [`${groupSize} planına uygun`] : []),
+        ...(discoveryMode && interests.length && !matchedInterests.length ? ['farklı bir şey keşfetmen için'] : []),
         ...(!moodMatch && !matchedInterests.length ? ['yüksek N’apsak puanı'] : []),
       ];
       return {
         ...idea,
         reasons,
-        score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + idea.editorialScore * 3 + budgetScore + groupScore + random() * 8,
+        score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + idea.editorialScore * 3 + budgetScore + groupScore + surprise,
       };
     })
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'tr'));
-  const fresh = eligible.filter(item => !previous.has(item.id));
-  const fallback = eligible.filter(item => previous.has(item.id));
-  return (fresh.length >= limit ? fresh : [...fresh, ...fallback]).slice(0, limit);
+
+  // Outside the explicit Fikir tab, keep the existing hard-interest behavior so
+  // the mixed N'apsak feed does not become looser as a side effect of discovery.
+  if (!discoveryMode) {
+    const eligible = scored.filter(idea => !interests.length || interests.some(interest => idea.category === interest || idea.interests.includes(interest)));
+    const fresh = eligible.filter(item => !previous.has(item.id));
+    const fallback = eligible.filter(item => previous.has(item.id));
+    return (fresh.length >= limit ? fresh : [...fresh, ...fallback]).slice(0, limit);
+  }
+
+  const matchesSelection = (idea: IdeaRecommendation) => interests.some(interest => idea.category === interest || idea.interests.includes(interest));
+  const takeRotated = (items: IdeaRecommendation[], count: number, diversify = false): IdeaRecommendation[] => {
+    if (count <= 0) return [];
+    const fresh = items.filter(item => !previous.has(item.id));
+    const fallback = items.filter(item => previous.has(item.id));
+    const pool = fresh.length >= count ? [...fresh] : [...fresh, ...fallback];
+    const selected: IdeaRecommendation[] = [];
+    while (pool.length && selected.length < count) {
+      if (diversify) {
+        pool.sort((a, b) => {
+          const adjusted = (item: IdeaRecommendation) => item.score
+            - selected.filter(chosen => chosen.category === item.category).length * 14;
+          return adjusted(b) - adjusted(a) || a.title.localeCompare(b.title, 'tr');
+        });
+      }
+      selected.push(pool.shift()!);
+    }
+    return selected;
+  };
+
+  // Fikir is the controlled-discovery surface: when interests exist, reserve a
+  // single slot for them and keep the rest genuinely outside every selected
+  // interest. This prevents a Kahve selection from turning the tab into five
+  // variations of coffee while still acknowledging the user's profile once.
+  const related = interests.length ? scored.filter(matchesSelection) : [];
+  const independent = interests.length ? scored.filter(item => !matchesSelection(item)) : scored;
+  const selectedRelated = takeRotated(related, interests.length && limit > 0 ? 1 : 0);
+  const selectedIndependent = takeRotated(independent, limit - selectedRelated.length, true);
+  const selected = [...selectedRelated, ...selectedIndependent];
+
+  // Small/custom catalogues may not have four independent ideas. Prefer a full
+  // result set over an empty slot, but only break the 1+4 quota as a last resort.
+  if (selected.length < limit) {
+    const selectedIds = new Set(selected.map(item => item.id));
+    const remainder = scored.filter(item => !selectedIds.has(item.id));
+    selected.push(...takeRotated(remainder, limit - selected.length));
+  }
+  return selected.slice(0, limit);
 }
 
 /**
@@ -298,7 +351,8 @@ export function recommendAll(options: {
   }).map(item => ({ ...item, kind: 'place' as const })) : [];
   const ideaItems: RecommendationItem[] = filter === 'idea' || filter === 'all' ? recommendIdeas({
     ideas, mood, interests, dismissed, budget, groupSize,
-    limit: candidateLimit, seed, previousBatch,
+    limit: filter === 'idea' ? limit : candidateLimit, seed, previousBatch,
+    discoveryMode: filter === 'idea',
   }) : [];
   const eventItems: RecommendationItem[] = filter === 'event' || filter === 'all' ? events
     .filter(event => !dismissed.includes(event.id))
