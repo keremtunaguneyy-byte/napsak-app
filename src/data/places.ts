@@ -4,7 +4,7 @@ import { Place } from '../types';
  * MVP catalog curated from venue/operator pages. `verifiedAt` makes freshness
  * explicit so this file can later be replaced by a remote repository.
  */
-export const places: Place[] = [
+const ankaraPlaces: Omit<Place, 'cityId'>[] = [
   { id: 'cer-modern', name: 'CerModern', district: 'Altındağ', address: 'Altınsoy Cd. No:3', category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 1, editorialScore: 4.6, note: 'Sergi gez, avluda soluklan.', latitude: 39.9313, longitude: 32.8500, sourceUrl: 'https://www.cermodern.org/', verifiedAt: '2026-08-03' },
   { id: 'segmenler-parki', name: 'Seğmenler Parkı', district: 'Çankaya', address: 'Çankaya Cd.', category: 'Doğa', moods: ['Sakin', 'Sosyal', 'Enerjik'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4.7, note: 'Şehir içinde yürüyüş ve yeşil mola.', latitude: 39.8985, longitude: 32.8633, sourceUrl: 'https://www.ankara.bel.tr/', verifiedAt: '2026-08-03' },
   { id: 'erimtan', name: 'Erimtan Arkeoloji ve Sanat Müzesi', district: 'Altındağ', address: 'Gözcü Sk. No:10', category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 1, editorialScore: 4.7, note: 'Ankara Kalesi rotasına kültür molası ekle.', latitude: 39.9382, longitude: 32.8624, sourceUrl: 'https://www.erimtanmuseum.org/', verifiedAt: '2026-08-03' },
@@ -154,3 +154,5 @@ export const places: Place[] = [
   { id: 'arabica-regnum-skytower', name: 'Arabica Coffee House Regnum Skytower', district: 'Çankaya', address: 'İşçi Blokları Mah. Muhsin Yazıcıoğlu Cd. 57/114', category: 'Kahve', moods: ['Sosyal', 'Meraklı'], interests: ['Kahve'], priceLevel: 2, editorialScore: 4.4, note: 'Çukurambar tarafında kahve ve sohbet molası ver.', latitude: 39.8911489, longitude: 32.8108643, sourceUrl: 'https://arabicacoffee.com.tr/sube/regnum-skytower', verifiedAt: '2026-08-06' },
   { id: 'federal-bilkent', name: 'Federal Coffee Bilkent', district: 'Çankaya', address: 'Bilkent, Ankuva AVM', category: 'Kahve', moods: ['Sosyal', 'Sakin', 'Meraklı'], interests: ['Kahve', 'Lezzet'], priceLevel: 2, editorialScore: 4.6, note: 'Bilkent tarafında nitelikli kahve, tatlı veya uzun sohbet için mola ver.', latitude: 39.8834792, longitude: 32.7558314, sourceUrl: 'https://federal.coffee/de/pages/federalbilkent', verifiedAt: '2026-08-06' },
 ];
+
+export const places: Place[] = ankaraPlaces.map(place => ({ ...place, cityId: 'ankara' }));

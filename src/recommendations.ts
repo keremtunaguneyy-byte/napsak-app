@@ -106,11 +106,13 @@ export function recommendExperiences(options: {
     .filter(item => !dismissed.includes(item.id))
     .filter(item => lifecycleEligible(item, now))
     .filter(item => durationEligible(item, duration))
-    .filter(item => !interests.length || interests.some(interest => item.category === interest || item.interests.includes(interest)))
+    .filter(item => !interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
     .map(item => {
       const distance = coordinates ? distanceInKm(coordinates, item) : undefined;
       const moodMatch = Boolean(mood && item.moods.includes(mood));
-      const matchedInterests = interests.filter(interest => item.category === interest || item.interests.includes(interest));
+      const primaryMatches = interests.filter(interest => item.primaryInterests.includes(interest));
+      const secondaryMatches = interests.filter(interest => item.secondaryInterests.includes(interest));
+      const interestTier = interests.length ? (primaryMatches.length ? 2 : 1) : 2;
       const budgetScore = priceSignal(item.priceLevel, budget);
       const groupMatch = !groupSize || item.groupSizes.includes(groupSize);
       const groupScore = !groupSize ? 0 : groupMatch ? 10 : -8;
@@ -120,18 +122,20 @@ export function recommendExperiences(options: {
       const freshnessScore = Math.max(-8, 8 - ageDays / 45);
       const reasons = [
         ...(moodMatch ? [`${mood} moduna uygun`] : []),
-        ...(matchedInterests.length ? [`${matchedInterests.join(', ')} seçiminle eşleşiyor`] : []),
+        ...(primaryMatches.length ? [`${primaryMatches.join(', ')} planın ana odağında`] : []),
+        ...(secondaryMatches.length ? [`${secondaryMatches.join(', ')} ikincil olarak eşleşiyor`] : []),
         ...(groupMatch && groupSize ? [`${groupSize} planına uygun`] : []),
         ...(duration && duration !== 'Fark etmez' ? [`${duration} sürene sığıyor`] : []),
         ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
         ...(distance !== undefined && distance < 5 ? ['başlangıç noktası sana yakın'] : []),
-        ...(!moodMatch && !matchedInterests.length ? ['editoryal olarak güçlü bir mikro plan'] : []),
+        ...(!moodMatch && !primaryMatches.length && !secondaryMatches.length ? ['editoryal olarak güçlü bir mikro plan'] : []),
       ];
       return {
         ...item,
         distance,
         reasons,
-        score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + item.editorialScore * 3
+        interestTier,
+        score: (moodMatch ? 48 : 0) + primaryMatches.length * 48 + secondaryMatches.length * 12 + item.editorialScore * 3
           + item.confidenceScore * 20 + budgetScore + groupScore + proximityScore + freshnessScore + random() * 8,
       };
     })
@@ -140,17 +144,17 @@ export function recommendExperiences(options: {
   const fresh = candidates.filter(item => !previous.has(item.id));
   const fallback = candidates.filter(item => previous.has(item.id));
   const pool = fresh.length >= limit ? fresh : [...fresh, ...fallback];
-  const selected: ExperienceRecommendation[] = [];
+  const selected: (ExperienceRecommendation & { interestTier: number })[] = [];
   while (pool.length && selected.length < limit) {
     pool.sort((a, b) => {
-      const adjusted = (item: ExperienceRecommendation) => item.score
+      const adjusted = (item: ExperienceRecommendation & { interestTier: number }) => item.score
         - selected.filter(chosen => chosen.category === item.category).length * 16
         - selected.filter(chosen => chosen.district === item.district).length * 7;
-      return adjusted(b) - adjusted(a) || a.title.localeCompare(b.title, 'tr');
+      return b.interestTier - a.interestTier || adjusted(b) - adjusted(a) || a.title.localeCompare(b.title, 'tr');
     });
     selected.push(pool.shift()!);
   }
-  return selected;
+  return selected.map(({ interestTier: _interestTier, ...item }) => item);
 }
 
 export function recommendPlaces(options: {
