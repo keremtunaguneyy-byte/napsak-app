@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
@@ -54,9 +54,9 @@ function AppContent() {
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
-  const [guideQuery, setGuideQuery] = useState('');
-  const [guideCategory, setGuideCategory] = useState('Tümü');
-  const [guideDistrict, setGuideDistrict] = useState('Tümü');
+  const [guideScrollProgress, setGuideScrollProgress] = useState(0);
+  const guidePaperY = useRef(0);
+  const guideAnchors = useRef<Record<string, number>>({});
   const results = useMemo(() => {
     return recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
   }, [mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
@@ -64,14 +64,7 @@ function AppContent() {
   const savedItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, saved), [catalogItems, saved]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
   const savedGuides = useMemo(() => resolveSavedPlaces<Guide>(guides, saved), [guides, saved]);
-  const guideCategories = useMemo(() => ['Tümü', ...Array.from(new Set(guides.map(guide => guide.category)))], [guides]);
-  const guideDistricts = useMemo(() => ['Tümü', ...Array.from(new Set(guides.map(guide => guide.district)))], [guides]);
-  const filteredGuides = useMemo(() => {
-    const query = guideQuery.trim().toLocaleLowerCase('tr-TR');
-    return guides.filter(guide => (guideCategory === 'Tümü' || guide.category === guideCategory)
-      && (guideDistrict === 'Tümü' || guide.district === guideDistrict)
-      && (!query || `${guide.title} ${guide.summary} ${guide.category} ${guide.district}`.toLocaleLowerCase('tr-TR').includes(query)));
-  }, [guides, guideCategory, guideDistrict, guideQuery]);
+  const totalGuideMinutes = useMemo(() => guides.reduce((total, guide) => total + guide.readMinutes, 0), [guides]);
 
   useEffect(() => {
     loadPreferences().then(preferences => {
@@ -192,6 +185,11 @@ function AppContent() {
       Alert.alert('Bağlantı açılamadı', 'Rehberin resmî kaynağı şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
+  const scrollToGuide = (guideId: string) => {
+    const anchor = guideAnchors.current[guideId];
+    if (anchor === undefined) return;
+    scrollRef.current?.scrollTo({ y: Math.max(0, guidePaperY.current + anchor - 20), animated: true });
+  };
 
 
   if (!hydrated) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading]}><StatusBar style="light" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={c.lime} size="large" /><Text accessibilityLiveRegion="polite" style={s.loadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
@@ -200,7 +198,13 @@ function AppContent() {
   return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
     <StatusBar style="light" /><View style={s.orb} />
     <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && s.pageWide]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
+    {step === 'guides' && <View accessibilityLabel={`Ankara 101 okuma ilerlemesi yüzde ${Math.round(guideScrollProgress)}`} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
+    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && s.pageWide, step === 'guides' && s.guidePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+      if (step !== 'guides') return;
+      const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+      const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
+      setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
+    }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
       <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => ['saved', 'hidden', 'guides'].includes(step) ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity><View style={s.headerActions}><Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text></View></View>
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
@@ -255,29 +259,28 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
       </View>}
-      {step === 'guides' && <View>
-        <Lead eyebrow="ŞEHRİN HAFIZASI" title="Ankara 101" subtitle="Bugünün önerilerinden ayrı, her zaman dönüp bakabileceğin kısa ve kaynaklı Ankara rehberi." />
-        <TextInput
-          accessibilityLabel="Ankara 101 rehberlerinde ara"
-          autoCorrect={false}
-          onChangeText={setGuideQuery}
-          placeholder="Kale, müze, Gölbaşı…"
-          placeholderTextColor="#777B70"
-          returnKeyType="search"
-          style={s.searchInput}
-          value={guideQuery}
-        />
-        <Text style={s.filterLabel}>KATEGORİ</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
-          {guideCategories.map(category => <TouchableOpacity key={category} accessibilityRole="radio" accessibilityState={{ selected: guideCategory === category }} onPress={() => setGuideCategory(category)} style={[s.filterChip, guideCategory === category && s.filterChipSelected]}><Text style={[s.filterText, guideCategory === category && s.filterTextSelected]}>{category}</Text></TouchableOpacity>)}
-        </ScrollView>
-        <Text style={s.filterLabel}>İLÇE / BÖLGE</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
-          {guideDistricts.map(district => <TouchableOpacity key={district} accessibilityRole="radio" accessibilityState={{ selected: guideDistrict === district }} onPress={() => setGuideDistrict(district)} style={[s.filterChip, guideDistrict === district && s.filterChipSelected]}><Text style={[s.filterText, guideDistrict === district && s.filterTextSelected]}>{district}</Text></TouchableOpacity>)}
-        </ScrollView>
-        <Text accessibilityLiveRegion="polite" style={s.guideCount}>{filteredGuides.length} rehber</Text>
-        {!filteredGuides.length && <View style={s.empty}><Text style={s.emptyIcon}>⌕</Text><Text style={s.emptyTitle}>Eşleşen rehber yok</Text><Text style={s.emptyText}>Aramayı kısalt veya filtreleri “Tümü”ne getir.</Text></View>}
-        {filteredGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved={saved.includes(guide.id)} onSave={() => setSaved(current => toggleId(current, guide.id))} onOpen={() => openGuideSource(guide)} />)}
+      {step === 'guides' && <View onLayout={event => { guidePaperY.current = event.nativeEvent.layout.y; }} style={s.guidePaper}>
+        <View style={s.guideHero}>
+          <Text style={s.guideKicker}>N’APSAK? ŞEHİR KİTAPLIĞI · 01</Text>
+          <Text style={s.guideTitle}>ANKARA{`\n`}101</Text>
+          <View style={s.guideRule} />
+          <Text style={s.guideDeck}>Bozkırın ortasında kurulmuş bir başkenti, acele etmeden okuma rehberi.</Text>
+          <View style={s.guideEditionRow}><Text style={s.guideEdition}>12 BÖLÜM</Text><Text style={s.guideEdition}>YAKLAŞIK {totalGuideMinutes} DK</Text><Text style={s.guideEdition}>2026</Text></View>
+        </View>
+        <View style={s.guideIntro}>
+          <Text style={s.guideOverline}>ÖNSÖZ</Text>
+          <Text style={s.guideIntroTitle}>Ankara ilk bakışta kendini ele vermez.</Text>
+          <Text style={s.guideParagraph}>Bu şehir, tek bir simgeyle özetlenmekten çok katman katman okunur. Kale yamaçlarında eski Ankara’yı, Ulus’ta Cumhuriyet’in kuruluş ritmini, Tunalı’da gündelik şehir hayatını, göl kıyılarında ise bozkırın nefesini bulursun.</Text>
+          <Text style={s.guideParagraph}>Ankara 101 bir “en iyi 12 yer” listesi değil. Aynı parşömen üzerinde ilerleyen, şehir parçalarını birbirine bağlayan başlangıç kitabıdır. İçindekilerden bir bölüme atlayabilir veya baştan sona okuyabilirsin.</Text>
+        </View>
+        <View style={s.contentsBox}>
+          <Text style={s.contentsLabel}>İÇİNDEKİLER</Text>
+          {guides.map((guide, index) => <TouchableOpacity key={guide.id} accessibilityRole="link" accessibilityLabel={`${index + 1}. bölüme git: ${guide.title}`} onPress={() => scrollToGuide(guide.id)} style={s.contentsRow}>
+            <Text style={s.contentsNumber}>{String(index + 1).padStart(2, '0')}</Text><Text style={s.contentsTitle}>{guide.title}</Text><Text style={s.contentsArrow}>↓</Text>
+          </TouchableOpacity>)}
+        </View>
+        {guides.map((guide, index) => <GuideChapter key={guide.id} index={index} guide={guide} saved={saved.includes(guide.id)} onLayout={y => { guideAnchors.current[guide.id] = y; }} onSave={() => setSaved(current => toggleId(current, guide.id))} onOpen={() => openGuideSource(guide)} />)}
+        <View style={s.guideColophon}><Text style={s.guideColophonMark}>✦</Text><Text style={s.guideColophonTitle}>Ankara, bakmasını bilene konuşur.</Text><Text style={s.guideColophonText}>Kaynaklar bölüm sonlarında verilmiştir. Ziyaret saatleri, ulaşım ve giriş koşulları değişebileceği için yola çıkmadan resmî bağlantıyı kontrol et.</Text></View>
       </View>}
       {step === 'hidden' && <View>
         <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
@@ -325,6 +328,27 @@ function GuideCard({ guide, saved, onSave, onOpen }: { guide: Guide; saved: bool
   </View>;
 }
 
+function GuideChapter({ guide, index, saved, onSave, onOpen, onLayout }: { guide: Guide; index: number; saved: boolean; onSave: () => void; onOpen: () => void; onLayout: (y: number) => void }) {
+  return <View onLayout={event => onLayout(event.nativeEvent.layout.y)} style={s.guideChapter}>
+    <View style={s.chapterHeader}>
+      <Text style={s.chapterNumber}>{String(index + 1).padStart(2, '0')}</Text>
+      <View style={s.chapterHeading}><Text style={s.chapterMeta}>{guide.category.toLocaleUpperCase('tr-TR')} · {guide.district.toLocaleUpperCase('tr-TR')} · {guide.readMinutes} DK</Text><Text style={s.chapterTitle}>{guide.title}</Text></View>
+    </View>
+    <Text style={s.chapterStandfirst}>{guide.summary}</Text>
+    {guide.paragraphs.map((paragraph, paragraphIndex) => <Text key={paragraphIndex} style={[s.guideParagraph, paragraphIndex === 0 && s.dropParagraph]}>{paragraph}</Text>)}
+    {!!guide.routeStops?.length && <View style={s.routeBox}>
+      <Text style={s.routeLabel}>BU BÖLÜMÜ YÜRÜ</Text>
+      <Text style={s.routePath}>{guide.routeStops.map((stop, stopIndex) => `${String(stopIndex + 1).padStart(2, '0')}  ${stop}`).join('\n')}</Text>
+    </View>}
+    {guide.practicalNote && <View style={s.guideNote}><Text style={s.guideNoteMark}>i</Text><Text style={s.guideNoteText}>{guide.practicalNote}</Text></View>}
+    <View style={s.chapterFooter}>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel={saved ? `${guide.title} bölümünü kayıttan çıkar` : `${guide.title} bölümünü kaydet`} onPress={onSave} style={s.chapterAction}><Text style={s.chapterActionText}>{saved ? '♥  KAYDEDİLDİ' : '♡  BÖLÜMÜ KAYDET'}</Text></TouchableOpacity>
+      <TouchableOpacity accessibilityRole="link" accessibilityLabel={`${guide.title} resmî kaynağını aç`} onPress={onOpen} style={s.chapterAction}><Text style={s.chapterSource}>KAYNAK ↗</Text></TouchableOpacity>
+    </View>
+    <Text style={s.sourceCredit}>{guide.sourceLabel} · doğrulama {new Date(guide.verifiedAt).toLocaleDateString('tr-TR')}</Text>
+  </View>;
+}
+
 function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceSource: (experience: Experience) => void }) {
   const title = item.kind === 'place' ? item.name : item.title;
   return <View style={s.result}>
@@ -339,6 +363,20 @@ function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceM
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.bg }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
+  readingProgressTrack: { height: 3, backgroundColor: '#302C25', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#9B2736' }, guidePage: { paddingHorizontal: 12, paddingBottom: 18 },
+  guidePaper: { backgroundColor: '#F1E8D4', borderRadius: 3, overflow: 'hidden', shadowColor: '#000', shadowOpacity: .24, shadowRadius: 18, shadowOffset: { width: 0, height: 8 }, elevation: 7 },
+  guideHero: { minHeight: 470, backgroundColor: '#E8D9BD', paddingHorizontal: 27, paddingTop: 32, paddingBottom: 28, justifyContent: 'flex-end', borderBottomWidth: 1, borderBottomColor: '#BDAF95' },
+  guideKicker: { position: 'absolute', top: 28, left: 27, color: '#792737', fontSize: 10, fontWeight: '900', letterSpacing: 1.7 },
+  guideTitle: { color: '#351F22', fontSize: 72, lineHeight: 66, fontWeight: '900', letterSpacing: -4.5 }, guideRule: { width: 68, height: 4, backgroundColor: '#9B2736', marginTop: 22, marginBottom: 18 },
+  guideDeck: { maxWidth: 420, color: '#513B38', fontSize: 20, lineHeight: 28, fontWeight: '600' }, guideEditionRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, borderTopWidth: 1, borderTopColor: '#BDAF95', marginTop: 32, paddingTop: 14 }, guideEdition: { color: '#795F55', fontSize: 9, fontWeight: '900', letterSpacing: 1.25 },
+  guideIntro: { paddingHorizontal: 27, paddingTop: 42 }, guideOverline: { color: '#9B2736', fontSize: 10, fontWeight: '900', letterSpacing: 2, marginBottom: 13 }, guideIntroTitle: { color: '#351F22', fontSize: 31, lineHeight: 36, fontWeight: '900', letterSpacing: -.8, marginBottom: 20 },
+  guideParagraph: { color: '#493B35', fontSize: 16, lineHeight: 27, marginBottom: 17 }, dropParagraph: { color: '#392D29' },
+  contentsBox: { marginHorizontal: 18, marginTop: 28, marginBottom: 18, borderTopWidth: 4, borderTopColor: '#792737', borderBottomWidth: 1, borderBottomColor: '#BDAF95', paddingHorizontal: 10, paddingBottom: 10 }, contentsLabel: { color: '#792737', fontSize: 11, fontWeight: '900', letterSpacing: 2, paddingVertical: 16 }, contentsRow: { minHeight: 47, flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: '#D3C5AA', paddingVertical: 9 }, contentsNumber: { width: 35, color: '#9B2736', fontSize: 11, fontWeight: '900' }, contentsTitle: { flex: 1, color: '#3F302C', fontSize: 14, lineHeight: 19, fontWeight: '800' }, contentsArrow: { color: '#9B2736', fontSize: 17, fontWeight: '900', marginLeft: 9 },
+  guideChapter: { paddingHorizontal: 27, paddingTop: 54, paddingBottom: 30, borderTopWidth: 1, borderTopColor: '#BDAF95' }, chapterHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 14 }, chapterNumber: { color: '#9B2736', fontSize: 38, lineHeight: 42, fontWeight: '300', letterSpacing: -1.5 }, chapterHeading: { flex: 1 }, chapterMeta: { color: '#8A665C', fontSize: 9, lineHeight: 13, fontWeight: '900', letterSpacing: 1.25, marginBottom: 7 }, chapterTitle: { color: '#351F22', fontSize: 29, lineHeight: 34, fontWeight: '900', letterSpacing: -.7 }, chapterStandfirst: { color: '#73564D', fontSize: 18, lineHeight: 27, fontWeight: '700', marginTop: 24, marginBottom: 22 },
+  routeBox: { backgroundColor: '#E4D4B7', borderLeftWidth: 4, borderLeftColor: '#9B2736', padding: 18, marginTop: 12, marginBottom: 20 }, routeLabel: { color: '#792737', fontSize: 10, fontWeight: '900', letterSpacing: 1.7, marginBottom: 12 }, routePath: { color: '#493B35', fontSize: 14, lineHeight: 25, fontWeight: '700' },
+  guideNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#BDAF95', paddingVertical: 15, marginBottom: 18 }, guideNoteMark: { width: 24, height: 24, borderRadius: 12, backgroundColor: '#792737', color: '#F1E8D4', fontSize: 14, lineHeight: 24, fontWeight: '900', textAlign: 'center' }, guideNoteText: { flex: 1, color: '#614B43', fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  chapterFooter: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 3 }, chapterAction: { minHeight: 44, justifyContent: 'center', paddingVertical: 8 }, chapterActionText: { color: '#792737', fontSize: 11, fontWeight: '900', letterSpacing: .7 }, chapterSource: { color: '#665048', fontSize: 11, fontWeight: '900', letterSpacing: .7 }, sourceCredit: { color: '#8E796D', fontSize: 9, lineHeight: 14, marginTop: 4 },
+  guideColophon: { alignItems: 'center', backgroundColor: '#352225', paddingHorizontal: 28, paddingVertical: 48 }, guideColophonMark: { color: '#D7B765', fontSize: 26, marginBottom: 18 }, guideColophonTitle: { color: '#F1E8D4', fontSize: 22, lineHeight: 28, fontWeight: '900', textAlign: 'center' }, guideColophonText: { color: '#C9BDA8', fontSize: 13, lineHeight: 20, textAlign: 'center', marginTop: 13 },
   loading: { alignItems: 'center', justifyContent: 'center', gap: 14 }, loadingText: { color: c.muted, fontSize: 14 },
   orb: { position: 'absolute', width: 280, height: 280, borderRadius: 140, backgroundColor: '#4A5E13', opacity: .22, top: -120, right: -90 },
   header: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'space-between', alignItems: 'center', marginBottom: 44 }, headerActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 14 }, logo: { color: c.ink, fontSize: 28, fontWeight: '900', letterSpacing: -1.2 }, savedLink: { color: c.lime, fontSize: 12, fontWeight: '800', paddingVertical: 10 }, counter: { color: '#C4C1B8', fontSize: 12, fontWeight: '700', letterSpacing: 1.5 },

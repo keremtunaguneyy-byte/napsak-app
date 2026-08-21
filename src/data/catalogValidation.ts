@@ -71,7 +71,11 @@ export function isExperience(value: unknown): value is Experience {
 export function isGuide(value: unknown): value is Guide {
   if (!isObject(value)) return false;
   return value.kind === 'guide' && isString(value.id) && isString(value.cityId) && isString(value.title)
-    && isString(value.summary) && ['Tarih', 'Müze', 'Doğa', 'Mahalle', 'Şehir Rotası'].includes(String(value.category))
+    && isString(value.summary) && Array.isArray(value.paragraphs) && value.paragraphs.length > 0 && value.paragraphs.every(isString)
+    && isNumber(value.readMinutes) && value.readMinutes > 0
+    && (value.routeStops === undefined || (Array.isArray(value.routeStops) && value.routeStops.every(isString)))
+    && (value.practicalNote === undefined || isString(value.practicalNote))
+    && ['Tarih', 'Müze', 'Doğa', 'Mahalle', 'Şehir Rotası'].includes(String(value.category))
     && isString(value.district) && isString(value.sourceLabel) && isHttps(value.sourceUrl) && isString(value.verifiedAt);
 }
 

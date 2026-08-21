@@ -120,6 +120,8 @@ test('Ankara 101 contains 12 sourced, unique and city-scoped evergreen guides', 
     assert.equal(guide.kind, 'guide');
     assert.equal(guide.cityId, 'ankara');
     assert.ok(guide.title && guide.summary && guide.category && guide.district && guide.sourceLabel);
+    assert.ok(Array.isArray(guide.paragraphs) && guide.paragraphs.length >= 2);
+    assert.ok(guide.readMinutes > 0);
     assert.equal(new URL(guide.sourceUrl).protocol, 'https:');
     assert.ok(Number.isFinite(Date.parse(guide.verifiedAt)));
   }
