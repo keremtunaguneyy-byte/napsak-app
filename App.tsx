@@ -3,7 +3,7 @@ import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Alert, BackHandler, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
@@ -123,6 +123,22 @@ function AppContent() {
     if (step !== 'guides') return;
     setGuideScrollProgress(0);
     requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
+  }, [guideView, step]);
+  useEffect(() => {
+    if (Platform.OS !== 'android') return;
+    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (step === 'guides' && guideView !== 'landing') {
+        setGuideView('landing');
+        return true;
+      }
+      if (step === 'guides' || step === 'saved' || step === 'hidden') {
+        setStep('results');
+        requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
+        return true;
+      }
+      return false;
+    });
+    return () => subscription.remove();
   }, [guideView, step]);
 
   const requestLocation = async () => {
