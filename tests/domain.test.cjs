@@ -101,6 +101,7 @@ const { KNOWN_DURATIONS, KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-buil
 const { events } = require('../.test-build/data/events.js');
 const { experiences } = require('../.test-build/data/experiences.js');
 const { guides } = require('../.test-build/data/guides.js');
+const { insiderRoutes } = require('../.test-build/data/insiderRoutes.js');
 const { cities } = require('../.test-build/data/cities.js');
 const { CATALOG_SCHEMA_VERSION, embeddedCatalog } = require('../.test-build/data/catalog.js');
 const { parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
@@ -120,8 +121,20 @@ test('Ankara 101 contains 12 sourced, unique and city-scoped evergreen guides', 
     assert.equal(guide.kind, 'guide');
     assert.equal(guide.cityId, 'ankara');
     assert.ok(guide.title && guide.summary && guide.category && guide.district && guide.sourceLabel);
+    assert.ok(Array.isArray(guide.paragraphs) && guide.paragraphs.length >= 2);
+    assert.ok(guide.readMinutes > 0);
     assert.equal(new URL(guide.sourceUrl).protocol, 'https:');
     assert.ok(Number.isFinite(Date.parse(guide.verifiedAt)));
+  }
+});
+
+test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
+  assert.ok(insiderRoutes.length >= 1);
+  for (const route of insiderRoutes) {
+    assert.ok(route.id && route.title && route.intro && route.friendNote);
+    assert.ok(route.stops.length >= 3);
+    assert.equal(new Set(route.stops.map(stop => stop.name)).size, route.stops.length);
+    assert.equal(new URL(route.mapUrl).hostname, 'www.google.com');
   }
 });
 

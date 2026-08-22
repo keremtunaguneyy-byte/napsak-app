@@ -20,6 +20,10 @@ export type Guide = {
   cityId: CityId;
   title: string;
   summary: string;
+  paragraphs: string[];
+  readMinutes: number;
+  routeStops?: string[];
+  practicalNote?: string;
   category: GuideCategory;
   district: string;
   sourceLabel: string;
