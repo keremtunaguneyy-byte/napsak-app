@@ -25,4 +25,6 @@ Stable ID ve cityId korunur. Experience.points[].placeId mekân-plan ilişkisidi
 
 ## Değişiklikte kabul kriterleri
 
+6 Eylül uygulama güncellemesi: #21, `recommendExperiencesForPlace(place, options)` ekler. Önce cityId ve points[].placeId ile adayları daraltır, sonra recommendExperiences çağırır. Gizleme/expiry/süre/ilgi kuralları aynı kalır; ana feed'in ilk beşinden sonradan seçim yapılmaz. Ayrıntı: #21 dalında docs/PLACE_RELATED_PLANS.md. Henüz main'e birleşmiş değildir.
+
 İlgi/süre/gizleme/son kullanma sınırları; aynı seed ile tekrar üretilebilirlik; küçük havuz fallback'i; tür başına gerekçe; Fikir kotası; ana/ikincil ilgi önceliği ve eski kayıtların korunması ilgili testlerde kontrol edilir. Test sonucu commit ve komutla STATUS'a kaydedilir. Tarihî stres sayıları yeni sürümün başarı kanıtı değildir.

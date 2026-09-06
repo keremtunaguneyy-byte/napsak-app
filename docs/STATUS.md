@@ -2,6 +2,19 @@
 
 Kontrol tarihi: 6 Eylül 2026. Bu bir yayına hazır raporu değildir.
 
+## Son güncelleme — mekân-plan uygulaması
+
+- #21 açıldı: https://github.com/keremtunaguneyy-byte/napsak-app/pull/21. Dal agent/place-related-plans, commit d5555307597a9286301bb390680e20017cbb32c3; main cb21941 tabanlı.
+- Sonuçlar ve kaydedilenlerden mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al ve modal geri akışı eklendi. Bu özellik artık yalnız plan değil, taslak PR'da kodlandı.
+- Bu dalda TypeScript kontrolü, 48/48 test, 2.560 mekân + 640 Experience stres senaryosu ve 641 modüllük Android export başarılı. Aşağıdaki önceki test engeli bu yeni dalın sonucu değildir; eski oturum kaydıdır.
+- Gerçek cihaz, büyük yazı ve ekran okuyucu kontrolü açık. APK üretilmedi; backend deploy veya merge yapılmadı. Kabul adımları #21 içindeki docs/PLACE_RELATED_PLANS.md'de.
+- Ankara 101 görsel çalışmasının GitHub'da ayrı #19 taslak PR'ı bulundu; uzak head bd59a3d20691d1af7f33473250b472aa172c7f7d. Yerel 6a453ab ile birebir aynı commit değildir. #19 ve #21'in App.tsx değişiklikleri birlikte kontrol edilmeli.
+- #20 ortak belge paketi taslak. Tasarım çalışması bunlarla paralel sürüyor. Sonraki iş: cihaz/entegrasyon kontrolü, güncel etkinlik paketi, sonra onaylanan ana sayfa ve bağlam eskimesi.
+
+## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
+
+Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince kaba aralıklar: işlevsel MVP kod kapsamı %60–75, tasarım/marka %25–35, yayına hazırlık %20–30; genel ürün hazırlığı yaklaşık %45–55. Bunlar süre/maliyet vaadi veya test başarı oranı değildir. Öneri ve kalıcılık kodları ileride; nihai ana sayfa, cihaz onayı, güncel içerik ve operasyon geride olduğu için genel oran daha düşüktür. Sabit kabul listesi oluşturulunca bu öznel aralıkların yerine tamamlanan kabul maddeleri sayılmalıdır.
+
 ## Sürüm ayrımı
 
 - GitHub main bu turda API üzerinden okundu: cb21941f644f51685f49b37246c983a4e20e8fad, Add Ankara 101 city guide (#18).
