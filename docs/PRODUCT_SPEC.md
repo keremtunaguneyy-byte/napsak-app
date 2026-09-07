@@ -178,6 +178,16 @@ Süre:
 - Veri şeması sürümlenmeli ve geriye uyumlu migration içermelidir.
 - Kullanıcı sonuç ekranından anlık tercihlerini kolayca değiştirebilmelidir.
 
+### 5.5 Geri dönen kullanıcı ve anlık bağlam — Kararlaştırıldı
+
+- İlgi alanları, kaydedilenler ve gizlenenler kalıcıdır.
+- Mod, bütçe, kişi sayısı ve süre son doğrulandıkları zamanla birlikte saklanır.
+- Aynı takvim günü içinde altı saat dolmadan kullanıcı doğrudan sonuçlara döner.
+- Altı saat geçtiğinde veya cihazın yerel takvim günü değiştiğinde sonuçlar engellenmez; “Tercihlerin hâlâ aynı mı?” kartı gösterilir.
+- “Aynı, devam et” doğrulama zamanını yeniler. “Güncelle” tam onboarding yerine kısa tercih akışını açar.
+- Eski kayıtta doğrulama zamanı yoksa ilk geri dönüşte kart gösterilir; mevcut tercihler silinmez.
+- Onboarding ancak tüm tercih adımları tamamlandığında tamamlanmış sayılır. Sonradan düzenleme yapan mevcut kullanıcı yeniden hoş geldin ekranına düşmez.
+
 ## 6. Öneri motoru ilkeleri
 
 ### 6.1 Uygunluk önce, sıralama sonra — Kararlaştırıldı

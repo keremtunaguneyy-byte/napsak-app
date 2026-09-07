@@ -7,7 +7,7 @@ import { ActivityIndicator, Alert, BackHandler, Image, ImageBackground, Keyboard
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
-import { loadPreferences, savePreferences } from './src/persistence';
+import { loadPreferences, savePreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
@@ -60,6 +60,9 @@ function AppContent() {
   const [budget, setBudget] = useState<BudgetPreference>('Fark etmez');
   const [groupSize, setGroupSize] = useState<GroupSizePreference>();
   const [duration, setDuration] = useState<DurationPreference>('Fark etmez');
+  const [contextConfirmedAt, setContextConfirmedAt] = useState<string>();
+  const [contextRefreshDue, setContextRefreshDue] = useState(false);
+  const [onboardingCompleted, setOnboardingCompleted] = useState(false);
   const [lastDismissed, setLastDismissed] = useState<string>();
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]);
@@ -98,7 +101,12 @@ function AppContent() {
       setBudget(preferences.budget ?? 'Fark etmez');
       setGroupSize(preferences.groupSize);
       setDuration(preferences.duration ?? 'Fark etmez');
-      if (preferences.onboardingCompleted && preferences.mood) setStep('results');
+      setContextConfirmedAt(preferences.contextConfirmedAt);
+      setOnboardingCompleted(preferences.onboardingCompleted);
+      if (preferences.onboardingCompleted && preferences.mood) {
+        setStep('results');
+        setContextRefreshDue(shouldRefreshContext(preferences.contextConfirmedAt));
+      }
       initializeDataBackbone(preferences).then(setCatalog).catch(() => {
         // The embedded catalogue is already usable; remote recovery retries later.
       });
@@ -106,12 +114,12 @@ function AppContent() {
   }, []);
   useEffect(() => {
     if (!hydrated) return;
-    const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, onboardingCompleted: step !== 'welcome' };
+    const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
     savePreferences(preferences).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
     queuePreferencesForRemoteSync(preferences).catch(() => {
       // Local persistence remains authoritative while offline.
     });
-  }, [saved, dismissed, mood, chosen, budget, groupSize, duration, step, hydrated]);
+  }, [saved, dismissed, mood, chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted, hydrated]);
   useEffect(() => {
     if (!scrollAfterRotation.current) return;
     // Effects run after commit; two frames also let native layout settle before
@@ -163,7 +171,16 @@ function AppContent() {
     }
   };
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
-  const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); };
+  const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); };
+  const confirmContext = () => {
+    setContextConfirmedAt(new Date().toISOString());
+    setContextRefreshDue(false);
+  };
+  const finishPreferences = () => {
+    setOnboardingCompleted(true);
+    confirmContext();
+    setStep('results');
+  };
   const rotateRecommendations = () => {
     setPreviousBatch(results.map(place => place.id));
     scrollAfterRotation.current = true;
@@ -293,12 +310,16 @@ function AppContent() {
       {step === 'duration' && <View>
         <Lead eyebrow="SÜRE" title="Kaç saatin var?" subtitle="N’apsak planlarında bu seçim gerçek bir uygunluk sınırıdır; sürene sığmayan uzun planları göstermeyiz." />
         <View style={s.chips}>{durations.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={x} accessibilityState={{ selected: duration === x }} key={x} style={[s.chip, duration === x && s.selected]} onPress={() => setDuration(x)}><Text style={s.chipText}>{x}</Text></TouchableOpacity>)}</View>
-        <Button label="Tercihlerimi kaydet ve 5 plan ver" onPress={() => setStep('results')} />
+        <Button label="Tercihlerimi kaydet ve 5 plan ver" onPress={finishPreferences} />
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kişi sayısı seçimine geri dön" hitSlop={10} onPress={() => setStep('group')}><Text style={s.back}>← Kişi sayısını değiştir</Text></TouchableOpacity>
       </View>}
       {step === 'results' && <View>
         <Lead eyebrow="SANA GÖRE" title="Bugün bunlar olur." subtitle={`${mood} moduna, ilgi, bütçe, kişi sayısı ve süre seçimlerine göre sıraladık.`} />
-        <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'} · {budget} · {groupSize ?? 'Kişi sayısı yok'} · {duration}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => setStep('mood')}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
+        <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'} · {budget} · {groupSize ?? 'Kişi sayısı yok'} · {duration}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => { setContextRefreshDue(false); setStep('mood'); }}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
+        {contextRefreshDue && <View accessibilityRole="summary" style={s.contextRefreshCard}>
+          <View style={s.contextRefreshCopy}><Text style={s.contextRefreshTitle}>Tercihlerin hâlâ aynı mı?</Text><Text style={s.contextRefreshText}>Mod, bütçe, kişi sayısı ve süre gün içinde değişebilir. Önerileri mevcut seçimlerinle göstermeye devam ediyoruz.</Text></View>
+          <View style={s.contextRefreshActions}><TouchableOpacity accessibilityRole="button" onPress={confirmContext} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Aynı, devam et</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" onPress={() => { setContextRefreshDue(false); setStep('mood'); }} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Güncelle</Text></TouchableOpacity></View>
+        </View>}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
           {RESULT_FILTERS.map(filter => <TouchableOpacity key={filter.value} accessibilityRole="tab" accessibilityState={{ selected: resultFilter === filter.value }} onPress={() => selectResultFilter(filter.value)} style={[s.filterChip, resultFilter === filter.value && s.filterChipSelected]}><Text style={[s.filterText, resultFilter === filter.value && s.filterTextSelected]}>{filter.label}</Text></TouchableOpacity>)}
         </ScrollView>
@@ -489,6 +510,7 @@ const s = StyleSheet.create({
   locationCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: '#56603A', backgroundColor: '#202518', borderRadius: 18, padding: 16, marginBottom: 18 }, locationIcon: { color: c.lime, fontSize: 24, fontWeight: '900', width: 28, textAlign: 'center' }, locationCopy: { flex: 1 }, locationTitle: { color: c.ink, fontSize: 14, fontWeight: '900' }, locationText: { color: c.muted, fontSize: 12, lineHeight: 17, marginTop: 3 },
   undoBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#202518', borderWidth: 1, borderColor: '#56603A', borderRadius: 16, padding: 14, marginBottom: 14 }, undoText: { color: c.ink, fontSize: 13, fontWeight: '800' },
   preferenceBar: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: c.line, paddingBottom: 16, marginBottom: 18 }, preferenceCopy: { flex: 1 }, preferenceLabel: { color: c.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.4 }, preferenceText: { color: c.ink, fontSize: 13, fontWeight: '700', marginTop: 5 }, edit: { color: c.lime, fontSize: 13, fontWeight: '900' },
+  contextRefreshCard: { backgroundColor: '#202518', borderWidth: 1, borderColor: '#56603A', borderRadius: 18, padding: 16, marginBottom: 18 }, contextRefreshCopy: { gap: 5 }, contextRefreshTitle: { color: c.ink, fontSize: 16, fontWeight: '900' }, contextRefreshText: { color: c.muted, fontSize: 13, lineHeight: 19 }, contextRefreshActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }, contextRefreshAction: { minHeight: 44, justifyContent: 'center', borderRadius: 12, borderWidth: 1, borderColor: c.lime, paddingHorizontal: 14 }, contextRefreshActionText: { color: c.lime, fontSize: 13, fontWeight: '900' },
   empty: { alignItems: 'center', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 28, marginBottom: 18 }, emptyIcon: { color: c.lime, fontSize: 38, fontWeight: '900' }, emptyTitle: { color: c.ink, fontSize: 19, fontWeight: '900', marginTop: 14, textAlign: 'center' }, emptyText: { color: c.muted, fontSize: 14, lineHeight: 20, marginTop: 8, textAlign: 'center' }, emptyAction: { borderWidth: 1, borderColor: c.lime, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12, marginTop: 20 }, emptyActionText: { color: c.lime, fontSize: 13, fontWeight: '900' }, removeAction: { color: '#FF9A8D', fontWeight: '800', fontSize: 13 },
   bottomNav: { minHeight: 64, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderTopColor: c.line, backgroundColor: '#171914', paddingHorizontal: 8 }, navTab: { flex: 1, minHeight: 56, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, navText: { color: c.muted, fontSize: 11, fontWeight: '800', textAlign: 'center' }, navTextSelected: { color: c.lime }, navTextEditorial: { fontFamily: 'SourceSans3_600SemiBold', color: '#9C9B94' }, navTextEditorialSelected: { color: '#F2E7CF' },
 });
