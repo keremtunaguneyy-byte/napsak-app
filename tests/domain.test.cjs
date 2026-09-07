@@ -489,6 +489,7 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
 
 
 const { deserializePreferences, migratePreferences, serializePreferences, shouldRefreshContext } = require('../.test-build/persistence.js');
+const { resolveFirebaseRuntimeSettings } = require('../.test-build/firebase/config.js');
 
 test('migration reads legacy preference data while adding new optional fields safely', () => {
   assert.deepEqual(migratePreferences({ saved: ['a', 'a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], onboardingCompleted: true }), {
@@ -515,4 +516,40 @@ test('context refresh is due after six hours, on a new day, or for legacy users'
   const previousLocalDay = new Date(2026, 8, 6, 23, 30);
   const nextLocalDay = new Date(2026, 8, 7, 0, 10);
   assert.equal(shouldRefreshContext(previousLocalDay.toISOString(), nextLocalDay), true);
+});
+
+const completeFirebaseEnv = {
+  EXPO_PUBLIC_FIREBASE_API_KEY: 'api-key-value',
+  EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: 'napsak-project.firebaseapp.com',
+  EXPO_PUBLIC_FIREBASE_PROJECT_ID: 'napsak-project',
+  EXPO_PUBLIC_FIREBASE_APP_ID: '1:123:web:abc',
+};
+
+test('firebase config permits intentional local development and parses a complete dev setup', () => {
+  assert.deepEqual(resolveFirebaseRuntimeSettings({}), { environment: 'development', mode: 'local' });
+  assert.deepEqual(resolveFirebaseRuntimeSettings({
+    ...completeFirebaseEnv,
+    EXPO_PUBLIC_FIREBASE_EMULATOR_HOST: '192.168.1.20:8080',
+  }), {
+    environment: 'development', mode: 'firebase',
+    config: { apiKey: 'api-key-value', authDomain: 'napsak-project.firebaseapp.com', projectId: 'napsak-project', appId: '1:123:web:abc', storageBucket: undefined, messagingSenderId: undefined },
+    emulator: { host: '192.168.1.20', port: 8080 },
+  });
+});
+
+test('firebase config rejects partial, placeholder and invalid environment values', () => {
+  assert.throws(() => resolveFirebaseRuntimeSettings({ EXPO_PUBLIC_FIREBASE_PROJECT_ID: 'napsak-dev' }), /partial/i);
+  assert.throws(() => resolveFirebaseRuntimeSettings({ EXPO_PUBLIC_FIREBASE_EMULATOR_HOST: '127.0.0.1:8080' }), /requires a complete/i);
+  assert.throws(() => resolveFirebaseRuntimeSettings({ ...completeFirebaseEnv, EXPO_PUBLIC_FIREBASE_API_KEY: 'replace-with-key' }), /placeholder/i);
+  assert.throws(() => resolveFirebaseRuntimeSettings({ EXPO_PUBLIC_APP_ENV: 'staging' }), /development or production/i);
+  assert.throws(() => resolveFirebaseRuntimeSettings({ ...completeFirebaseEnv, EXPO_PUBLIC_FIREBASE_EMULATOR_HOST: 'localhost' }), /reachable-host:port/i);
+});
+
+test('production preflight requires real production Firebase config and forbids emulator wiring', () => {
+  assert.throws(() => resolveFirebaseRuntimeSettings({ EXPO_PUBLIC_APP_ENV: 'production' }), /require a complete/i);
+  assert.throws(() => resolveFirebaseRuntimeSettings({ ...completeFirebaseEnv, EXPO_PUBLIC_APP_ENV: 'production', EXPO_PUBLIC_FIREBASE_PROJECT_ID: 'napsak-dev' }), /development\/test/i);
+  assert.throws(() => resolveFirebaseRuntimeSettings({ ...completeFirebaseEnv, EXPO_PUBLIC_APP_ENV: 'production', EXPO_PUBLIC_FIREBASE_EMULATOR_HOST: '127.0.0.1:8080' }), /cannot connect/i);
+  const production = resolveFirebaseRuntimeSettings({ ...completeFirebaseEnv, EXPO_PUBLIC_APP_ENV: 'production' });
+  assert.equal(production.mode, 'firebase');
+  assert.equal(production.environment, 'production');
 });
