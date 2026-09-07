@@ -15,6 +15,8 @@ import { Coordinates, dismissId, formatDurationRange, resolveSavedPlaces, restor
 import { insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { PlaceDetails } from './src/components/PlaceDetails';
+import { AppErrorBoundary } from './src/components/AppErrorBoundary';
+import { captureOperationalError, setObservabilityScreen } from './src/observability';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -39,7 +41,7 @@ const budgets: BudgetPreference[] = ['Ücretsiz', '₺', '₺₺', '₺₺₺', 
 const groupSizes: GroupSizePreference[] = ['Tek', '2 kişi', '3–4 kişi', '5+'];
 const durations: DurationPreference[] = ['30–60 dk', '1–2 saat', '3–4 saat', 'Yarım gün', 'Fark etmez'];
 export default function App() {
-  return <SafeAreaProvider><AppContent /></SafeAreaProvider>;
+  return <AppErrorBoundary><SafeAreaProvider><AppContent /></SafeAreaProvider></AppErrorBoundary>;
 }
 
 function AppContent() {
@@ -108,19 +110,29 @@ function AppContent() {
         setStep('results');
         setContextRefreshDue(shouldRefreshContext(preferences.contextConfirmedAt));
       }
-      initializeDataBackbone(preferences).then(setCatalog).catch(() => {
+      initializeDataBackbone(preferences).then(setCatalog).catch(error => {
         // The embedded catalogue is already usable; remote recovery retries later.
+        captureOperationalError(error, 'app_startup', 'data_backbone_initialization_failed');
       });
     }).finally(() => setHydrated(true));
   }, []);
   useEffect(() => {
     if (!hydrated) return;
     const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
-    savePreferences(preferences).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+    savePreferences(preferences).catch(error => {
+      captureOperationalError(error, 'local_persistence', 'preference_save_failed');
+      Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.');
+    });
     queuePreferencesForRemoteSync(preferences).catch(() => {
       // Local persistence remains authoritative while offline.
     });
   }, [saved, dismissed, mood, chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted, hydrated]);
+  useEffect(() => {
+    setObservabilityScreen(step === 'guides' ? `guides_${guideView}` : step);
+  }, [guideView, step]);
+  useEffect(() => {
+    if (fontError) captureOperationalError(fontError, 'app_startup', 'font_load_failed');
+  }, [fontError]);
   useEffect(() => {
     if (!scrollAfterRotation.current) return;
     // Effects run after commit; two frames also let native layout settle before
@@ -214,7 +226,8 @@ function AppContent() {
           Alert.alert('Verilerin silindi', result.anonymousAccountDeletionFailed
             ? 'Cihaz ve Firestore kullanıcı verilerin silindi. Anonim Authentication kaydı silinemedi; bu sonuç ayrı olarak kaydedildi.'
             : 'Cihazındaki ve bağlı anonim hesabındaki kullanıcı verileri temizlendi.');
-        } catch {
+        } catch (error) {
+          captureOperationalError(error, 'user_data_deletion', 'user_data_deletion_failed');
           Alert.alert('Silme tamamlanamadı', 'Uzak kullanıcı verisi silinemediği için cihazındaki tekrar denenebilir kayıtlar korundu. Bağlantını kontrol edip yeniden dene.');
         } finally {
           setDeletionBusy(false);

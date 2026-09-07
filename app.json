@@ -30,7 +30,8 @@
         {
           "locationWhenInUsePermission": "N'apsak, yakındaki önerileri sıralamak için konumunu kullanır."
         }
-      ]
+      ],
+      "@sentry/react-native/expo"
     ]
   }
 }

@@ -491,6 +491,7 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
 const { deserializePreferences, migratePreferences, serializePreferences, shouldRefreshContext } = require('../.test-build/persistence.js');
 const { resolveFirebaseRuntimeSettings } = require('../.test-build/firebase/config.js');
 const { runUserDataDeletion } = require('../.test-build/userDataDeletion.js');
+const { isSafeScreenName, normalizeOperationalError, resolveObservabilitySettings, sanitizeObservabilityEvent } = require('../.test-build/observabilityPolicy.js');
 
 test('migration reads legacy preference data while adding new optional fields safely', () => {
   assert.deepEqual(migratePreferences({ saved: ['a', 'a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], onboardingCompleted: true }), {
@@ -578,10 +579,62 @@ test('remote deletion failure preserves retryable local state and stops later st
 
 test('anonymous Auth deletion failure is reported after user state is cleared', async () => {
   const order = [];
+  let reported;
   const result = await runUserDataDeletion({
     clearLocalUserState: async () => { order.push('local'); },
     deleteAnonymousAccount: async () => { order.push('auth'); throw new Error('requires recent login'); },
+    onAnonymousAccountDeletionError: error => { reported = error; },
   });
   assert.deepEqual(order, ['local', 'auth']);
   assert.deepEqual(result, { remoteUserStateDeleted: false, anonymousAccountDeleted: false, anonymousAccountDeletionFailed: true });
+  assert.match(reported.message, /recent login/);
+});
+
+test('observability stays disabled without a DSN and validates Sentry destinations', () => {
+  assert.deepEqual(resolveObservabilitySettings({}), { environment: 'development', mode: 'disabled' });
+  const dsn = 'https://publickey@o123.ingest.sentry.io/456';
+  assert.deepEqual(resolveObservabilitySettings({ EXPO_PUBLIC_APP_ENV: 'production', EXPO_PUBLIC_SENTRY_DSN: dsn }), {
+    environment: 'production', mode: 'sentry', dsn,
+  });
+  assert.throws(() => resolveObservabilitySettings({ EXPO_PUBLIC_SENTRY_DSN: 'replace-with-sentry-dsn' }), /non-placeholder/i);
+  assert.throws(() => resolveObservabilitySettings({ EXPO_PUBLIC_SENTRY_DSN: 'https://key@tracking.example.com/123' }), /sentry.io/i);
+});
+
+test('observability strips personal and free-form fields before sending', () => {
+  const event = sanitizeObservabilityEvent({
+    user: { id: 'anonymous-uid' },
+    request: { url: 'https://example.com/?location=secret' },
+    breadcrumbs: [{ message: 'Kullanıcı tercihi' }],
+    extra: { mood: 'Sakin' },
+    message: 'raw message',
+    transaction: 'private/path',
+    fingerprint: ['private-value'],
+    tags: { app_area: 'render', failure_code: 'react_render_failed', private_tag: 'secret' },
+    exception: { values: [{ type: 'TypeError', value: 'user supplied text', stacktrace: { frames: [] } }] },
+  });
+  assert.equal(event.user, undefined);
+  assert.equal(event.request, undefined);
+  assert.equal(event.breadcrumbs, undefined);
+  assert.equal(event.extra, undefined);
+  assert.equal(event.message, undefined);
+  assert.equal(event.transaction, undefined);
+  assert.equal(event.fingerprint, undefined);
+  assert.deepEqual(event.tags, { app_area: 'render', failure_code: 'react_render_failed' });
+  assert.equal(event.exception.values[0].value, 'Application error');
+});
+
+test('operational errors keep useful stack frames without retaining raw messages', () => {
+  const raw = new TypeError('uid=secret location=39.9');
+  const normalized = normalizeOperationalError(raw, 'local_persistence', 'preference_save_failed');
+  assert.equal(normalized.name, 'TypeError');
+  assert.equal(normalized.message, 'local_persistence:preference_save_failed');
+  assert.ok(!normalized.stack.includes('uid=secret'));
+  assert.throws(() => normalizeOperationalError(raw, 'render', 'Not Safe'), /snake_case/i);
+});
+
+test('screen tags accept only stable non-personal identifiers', () => {
+  assert.equal(isSafeScreenName('guides_insider'), true);
+  assert.equal(isSafeScreenName('saved'), true);
+  assert.equal(isSafeScreenName('user@example.com'), false);
+  assert.equal(isSafeScreenName('39.9208,32.8541'), false);
 });

@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #25 main'de; kullanıcı verisi silme #26'da hazırlanıyor
+## Son güncelleme — #26 main'de; hata gözlemi #27'de hazırlanıyor
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -11,7 +11,8 @@ Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #23 telefon testini geçti ve squash merge ile main'e alındı: `8074432`. Altı saat/yeni gün bağlam yenilemesi ve v5 tercih migration'ı main'dedir.
 - #24 telefon testini geçti ve squash merge ile main'e alındı: `fc74b19`. Firebase ortam sözleşmesi ve release ön-kontrolü main'dedir.
 - #25 Java 21 CI'da gerçek Firestore emulator testini geçti ve squash merge ile main'e alındı: `8a0eff8`. Sertleştirilmiş Rules ve sürekli CI kanıtı main'dedir.
-- #26 dalında çift onaylı Ayarlar/veri silme ekranı, yerel v1–v5 temizliği, sync queue temizliği, sahibine ait Firestore belge silme ve ayrı Auth sonucu hazırlanıyor. İlk tur TypeScript ve 56/56 test geçti.
+- #26 telefon testini geçti ve squash merge ile main'e alındı: `4487034`. Çift onaylı Ayarlar/veri silme ekranı, yerel v1–v5 temizliği, sync queue temizliği, sahibine ait Firestore belge silme ve ayrı Auth sonucu main'dedir.
+- #27 dalında gizlilik güvenli Sentry temeli, render hata sınırı, kritik operasyon hata kodları ve release preflight hazırlanıyor. İlk tur TypeScript ve 60/60 test geçti.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -19,8 +20,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `8a0eff8`; #19–#25 dâhil.
-- Veri silme adayı: `agent/user-data-deletion-20260907`; main'den ayrılan #26 çalışma dalı.
+- GitHub main: `4487034`; #19–#26 dâhil.
+- Hata gözlemi adayı: `agent/error-observability-20260907`; main'den ayrılan #27 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -30,18 +31,19 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Ürün motoru | Experience, Mekân, Etkinlik, Fikir; beşli sonuç, gerekçe, çeşitlilik kodu var | İlgili testlerin güncel sonucu |
 | Kullanıcı | Onboarding, tercihler, kayıt/gizleme/geri alma, bağlam yenileme ve yerel kalıcılık main'de | Tasarım uyarlaması ve uçtan uca test |
 | Ankara 101 | Gelişmiş editoryal görünüm #19 ile main'de; birleşik telefon testi geçti | Tasarım sistemiyle görsel uyarlama |
-| Backend | Firebase Auth/Firestore, repository, cache, validation, sync, env kapısı ve Java 21 Rules CI main'de | #26 veri silme, gerçek dev/prod proje ve deploy kanıtı |
+| Backend | Firebase Auth/Firestore, repository, cache, validation, sync, env kapısı, Rules CI ve veri silme main'de | Gerçek dev/prod proje ve deploy kanıtı |
+| Hata gözlemi | #27'de env-gated Sentry, veri minimizasyonu ve render hata sınırı hazırlanıyor | Cihaz regresyonu; gerçek development DSN, source map ve dashboard olayı |
 | Ana sayfa/marka | Tasarım sohbetinde çalışılıyor; yeni görünüm uygulanmış değil | Onaylı ekran + tasarım şartnamesi |
 | Bağlam eskimesi | #23 main'de; altı saat/yeni gün kuralı, zaman damgası ve v5 migration telefon testli | Tasarım sistemiyle görsel uyarlama |
 | Etkinlik | #22 main'de; 10–20 Eylül tarihli 12 doğrulanmış kayıt ve dürüst boş durum mevcut | Düzenli içerik operasyonu |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama, erişilebilirlik turu |
 
-#26'nın otomatik ve cihaz kalite kapıları tamamlanmadan veri silme hazır sayılmaz. Env'siz telefon testinde yerel silme kanıtlanabilir; gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
+#26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
 ## Çalışma sırası
 
-1. #26 kullanıcı verisi silmeyi otomatik ve yerel cihaz testleriyle doğrula; gerçek Firebase testi açık kalsın.
-2. Hata gözlemi ile kişisel veri içermeyen analitik olay sözleşmesini kur.
+1. #27 hata gözlemini cihaz regresyonuyla doğrula; gerçek Sentry development projesi/source map kanıtı açık kalsın.
+2. Kişisel veri içermeyen analitik olay sözleşmesini kur.
 3. Düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
 4. Backup/export ve restore provasını kanıtla.
 5. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.

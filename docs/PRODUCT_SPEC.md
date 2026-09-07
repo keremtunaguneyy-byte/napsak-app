@@ -428,6 +428,16 @@ Firebase operasyon sözleşmesi, seed/migration güvenlikleri, local/Firestore p
 - Uzak silme başarılı olduktan sonra yerel kullanıcı durumu temizlenir. Anonim Authentication hesabı ayrıca silinmeye çalışılır ve başarısızlığı kullanıcı verisi silinmiş gibi gizlenmez.
 - Silme sonrasında uygulama ilk kullanım ekranına döner. Yeni boş varsayılan kayıt kişisel tercih içermediği için oluşturulabilir.
 
+### 10.10 Hata gözlemi ve veri minimizasyonu — Kararlaştırıldı
+
+- Üretim hata gözlemi Sentry üzerinden, DSN ile açıkça etkinleştirilen ayrı development ve production projeleriyle yürütülür.
+- Hata olayı kullanıcı UID'si, tercihleri, koordinatı, açılan URL, serbest metin, request verisi veya breadcrumb içermez.
+- Hatanın ayırt edilmesi için yalnız kararlı `app_area`, `failure_code`, `screen` ve `environment` etiketleri kullanılır.
+- Ham exception mesajı gönderilmez; stack frame'leri korunurken mesaj sabit ve kişisel veri içermeyen değere çevrilir.
+- Session Replay ve performans tracing bu aşamada kapalıdır. Bunların açılması ayrı veri/minimizasyon kararı gerektirir.
+- Render çökmesi kullanıcıya güvenli bir geri dönüş ekranı gösterir. Kritik başlangıç, yerel kayıt ve veri silme hataları aynı sözleşmeyle raporlanır.
+- Production release, DSN ve source map yükleme ayarları olmadan geçemez. Canlı dashboard olayı ve okunabilir source map kanıtlanmadan hata gözlemi tamamlandı sayılmaz.
+
 ## 11. MVP kapsam sınırları
 
 ### 11.1 Şimdiki odak — Kararlaştırıldı
