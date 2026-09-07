@@ -17,6 +17,8 @@ import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { PlaceDetails } from './src/components/PlaceDetails';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
+import { trackProductEvent } from './src/analytics';
+import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -76,6 +78,7 @@ function AppContent() {
   const scrollRef = useRef<ScrollView>(null);
   const recommendationsY = useRef(0);
   const scrollAfterRotation = useRef(false);
+  const batchTrigger = useRef<'initial' | 'filter' | 'rotate'>('initial');
   const [hydrated, setHydrated] = useState(false);
   const [deletionBusy, setDeletionBusy] = useState(false);
   const [observabilityTestRequested, setObservabilityTestRequested] = useState(false);
@@ -131,8 +134,18 @@ function AppContent() {
     });
   }, [saved, dismissed, mood, chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted, hydrated]);
   useEffect(() => {
-    setObservabilityScreen(step === 'guides' ? `guides_${guideView}` : step);
-  }, [guideView, step]);
+    const screen = (step === 'guides' ? `guides_${guideView}` : step) as AnalyticsScreen;
+    setObservabilityScreen(screen);
+    if (hydrated) trackProductEvent({ name: 'screen_viewed', properties: { screen } });
+  }, [guideView, hydrated, step]);
+  useEffect(() => {
+    if (!hydrated || step !== 'results') return;
+    trackProductEvent({
+      name: 'recommendation_batch_viewed',
+      properties: { filter: resultFilter, count: results.length, trigger: batchTrigger.current },
+    });
+    batchTrigger.current = 'initial';
+  }, [hydrated, recommendationRun, resultFilter, step]);
   useEffect(() => {
     if (fontError) captureOperationalError(fontError, 'app_startup', 'font_load_failed');
   }, [fontError]);
@@ -175,14 +188,17 @@ function AppContent() {
     try {
       const permission = await Location.requestForegroundPermissionsAsync();
       if (permission.status !== 'granted') {
+        trackProductEvent({ name: 'location_permission_result', properties: { result: 'denied' } });
         setLocationMessage('Konum izni kapalı. Ayarlardan dilediğin zaman açabilirsin.');
         if (!permission.canAskAgain) Alert.alert('Konum izni gerekli', 'Yakınındaki sonuçları görmek için uygulama ayarlarından konum iznini açabilirsin.', [{ text: 'Vazgeç', style: 'cancel' }, { text: 'Ayarları aç', onPress: () => Linking.openSettings() }]);
         return;
       }
       const current = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      trackProductEvent({ name: 'location_permission_result', properties: { result: 'granted' } });
       setCoordinates(current.coords);
       setLocationMessage('Canlı konumuna göre mesafeler güncellendi.');
     } catch {
+      trackProductEvent({ name: 'location_permission_result', properties: { result: 'error' } });
       setLocationMessage('Konum alınamadı. Bağlantını kontrol edip tekrar dene.');
     } finally {
       setLocating(false);
@@ -191,12 +207,15 @@ function AppContent() {
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
   const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); };
   const confirmContext = () => {
+    trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
     setContextRefreshDue(false);
   };
   const finishPreferences = () => {
+    trackProductEvent({ name: 'preference_flow_completed', properties: { mode: onboardingCompleted ? 'update' : 'onboarding' } });
     setOnboardingCompleted(true);
-    confirmContext();
+    setContextConfirmedAt(new Date().toISOString());
+    setContextRefreshDue(false);
     setStep('results');
   };
   const resetAfterDataDeletion = () => {
@@ -241,13 +260,33 @@ function AppContent() {
     ],
   );
   const rotateRecommendations = () => {
+    batchTrigger.current = 'rotate';
     setPreviousBatch(results.map(place => place.id));
     scrollAfterRotation.current = true;
     setRecommendationRun(run => run + 1);
   };
-  const dismissPlace = (id: string) => { setDismissed(c => dismissId(c, id)); setLastDismissed(id); };
-  const restorePlace = (id: string) => setDismissed(current => restoreId(current, id));
+  const analyticsKindForId = (id: string): AnalyticsItemKind | undefined => {
+    const item = catalogItems.find(candidate => candidate.id === id);
+    if (item) return itemAnalyticsKind(item);
+    if (guides.some(guide => guide.id === id) || id === CLASSICS_COLLECTION_ID) return 'guide';
+    if (insiderRoutes.some(route => route.id === id)) return 'route';
+    return undefined;
+  };
+  const toggleSaved = (id: string, kind = analyticsKindForId(id), rank?: number) => {
+    if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: saved.includes(id) ? 'unsave' : 'save', itemKind: kind, rank } });
+    setSaved(current => toggleId(current, id));
+  };
+  const dismissPlace = (id: string, kind = analyticsKindForId(id), rank?: number) => {
+    if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'dismiss', itemKind: kind, rank } });
+    setDismissed(c => dismissId(c, id));
+    setLastDismissed(id);
+  };
+  const restorePlace = (id: string, kind = analyticsKindForId(id)) => {
+    if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'restore', itemKind: kind } });
+    setDismissed(current => restoreId(current, id));
+  };
   const selectResultFilter = (filter: ResultFilter) => {
+    batchTrigger.current = 'filter';
     setResultFilter(filter);
     setPreviousBatch([]);
     setRecommendationRun(run => run + 1);
@@ -262,11 +301,13 @@ function AppContent() {
       Alert.alert('Harita açılamadı', 'Bu cihazda kullanılabilir bir harita uygulaması bulunamadı.');
       return;
     }
+    trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'place' } });
     await Linking.openURL(url);
   };
   const openSource = async (place: Place) => {
     try {
       if (!(await Linking.canOpenURL(place.sourceUrl))) throw new Error('unsupported URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'place' } });
       await Linking.openURL(place.sourceUrl);
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Resmî bilgi bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
@@ -275,6 +316,7 @@ function AppContent() {
   const openIdea = async (idea: Idea) => {
     try {
       if (!(await Linking.canOpenURL(idea.actionUrl))) throw new Error('unsupported URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'idea' } });
       await Linking.openURL(idea.actionUrl);
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Bu fikir için bağlantı şu anda açılamıyor. Lütfen tekrar dene.');
@@ -283,6 +325,7 @@ function AppContent() {
   const openEvent = async (event: Event) => {
     try {
       if (!(await Linking.canOpenURL(event.sourceUrl))) throw new Error('unsupported URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'event' } });
       await Linking.openURL(event.sourceUrl);
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Etkinlik detay bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
@@ -292,6 +335,7 @@ function AppContent() {
     try {
       const source = experience.sources[0];
       if (!source || !(await Linking.canOpenURL(source.url))) throw new Error('unsupported URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'experience' } });
       await Linking.openURL(source.url);
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Bu planın resmî bilgi bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
@@ -300,6 +344,7 @@ function AppContent() {
   const openGuideSource = async (guide: Guide) => {
     try {
       if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'guide' } });
       await Linking.openURL(guide.sourceUrl);
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Rehberin resmî kaynağı şu anda açılamıyor. Lütfen tekrar dene.');
@@ -314,6 +359,7 @@ function AppContent() {
     try {
       const route = insiderRoutes[0];
       if (!route || !(await Linking.canOpenURL(route.mapUrl))) throw new Error('unsupported URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'route' } });
       await Linking.openURL(route.mapUrl);
     } catch {
       Alert.alert('Harita açılamadı', 'Rota bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
@@ -328,7 +374,7 @@ function AppContent() {
   return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
     <StatusBar style="light" /><View style={s.orb} />
     <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-    {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : saved.includes(insiderRoutes[0].id)} onBack={() => setGuideView('landing')} onSave={() => setSaved(current => toggleId(current, guideView === 'classics' ? CLASSICS_COLLECTION_ID : insiderRoutes[0].id))} />}
+    {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : saved.includes(insiderRoutes[0].id)} onBack={() => setGuideView('landing')} onSave={() => toggleSaved(guideView === 'classics' ? CLASSICS_COLLECTION_ID : insiderRoutes[0].id, guideView === 'classics' ? 'guide' : 'route')} />}
     {isGuideArticle && <View accessibilityLabel={`Ankara 101 okuma ilerlemesi yüzde ${Math.round(guideScrollProgress)}`} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
     <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && s.pageWide, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       if (!isGuideArticle) return;
@@ -377,7 +423,7 @@ function AppContent() {
         <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'} · {budget} · {groupSize ?? 'Kişi sayısı yok'} · {duration}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => { setContextRefreshDue(false); setStep('mood'); }}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
         {contextRefreshDue && <View accessibilityRole="summary" style={s.contextRefreshCard}>
           <View style={s.contextRefreshCopy}><Text style={s.contextRefreshTitle}>Tercihlerin hâlâ aynı mı?</Text><Text style={s.contextRefreshText}>Mod, bütçe, kişi sayısı ve süre gün içinde değişebilir. Önerileri mevcut seçimlerinle göstermeye devam ediyoruz.</Text></View>
-          <View style={s.contextRefreshActions}><TouchableOpacity accessibilityRole="button" onPress={confirmContext} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Aynı, devam et</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" onPress={() => { setContextRefreshDue(false); setStep('mood'); }} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Güncelle</Text></TouchableOpacity></View>
+          <View style={s.contextRefreshActions}><TouchableOpacity accessibilityRole="button" onPress={confirmContext} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Aynı, devam et</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" onPress={() => { trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } }); setContextRefreshDue(false); setStep('mood'); }} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Güncelle</Text></TouchableOpacity></View>
         </View>}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
           {RESULT_FILTERS.map(filter => <TouchableOpacity key={filter.value} accessibilityRole="tab" accessibilityState={{ selected: resultFilter === filter.value }} onPress={() => selectResultFilter(filter.value)} style={[s.filterChip, resultFilter === filter.value && s.filterChipSelected]}><Text style={[s.filterText, resultFilter === filter.value && s.filterTextSelected]}>{filter.label}</Text></TouchableOpacity>)}
@@ -388,15 +434,15 @@ function AppContent() {
         </TouchableOpacity>
         {lastDismissed && <View style={s.undoBar}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" onPress={() => { restorePlace(lastDismissed); setLastDismissed(undefined); }}><Text style={s.edit}>Geri al</Text></TouchableOpacity></View>}
         <View onLayout={event => { recommendationsY.current = event.nativeEvent.layout.y; }} />
-        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => setSaved(current => toggleId(current, item.id))} onDismiss={() => dismissPlace(item.id)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceSource={openExperienceSource} />)}
+        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => toggleSaved(item.id, item.kind, i + 1)} onDismiss={() => dismissPlace(item.id, item.kind, i + 1)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceSource={openExperienceSource} />)}
         {!results.length && <View style={s.empty}><Text style={s.emptyIcon}>{resultFilter === 'event' ? '◷' : '↻'}</Text><Text style={s.emptyTitle}>{resultFilter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text><Text style={s.emptyText}>{resultFilter === 'event' ? 'Doğrulanmış katalogda henüz yaklaşan bir Ankara etkinliği yok. Yeni tarihler doğrulandıkça burada görünecek.' : '“Bana göre değil” dediklerini geri getirip yeniden başlayabilirsin.'}</Text>{resultFilter !== 'event' && <TouchableOpacity style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity>}</View>}
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={rotateRecommendations}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
         <Button label="Baştan farklı bir plan yap" onPress={reset} />
       </View>}
       {step === 'guides' && guideView === 'landing' && <Ankara101Landing onOpenClassics={() => setGuideView('classics')} onOpenInsider={() => setGuideView('insider')} />}
-      {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={totalGuideMinutes} saved={saved} onSaveGuide={guide => setSaved(current => toggleId(current, guide.id))} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y) => { guideAnchors.current[id] = y; }} onOpenContents={scrollToGuide} />}
-      {step === 'guides' && guideView === 'insider' && <InsiderGuide saved={saved.includes(insiderRoutes[0].id)} onBack={() => setGuideView('landing')} onSave={() => setSaved(current => toggleId(current, insiderRoutes[0].id))} onOpenMap={openInsiderMap} />}
+      {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={totalGuideMinutes} saved={saved} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y) => { guideAnchors.current[id] = y; }} onOpenContents={scrollToGuide} />}
+      {step === 'guides' && guideView === 'insider' && <InsiderGuide saved={saved.includes(insiderRoutes[0].id)} onBack={() => setGuideView('landing')} onSave={() => toggleSaved(insiderRoutes[0].id, 'route')} onOpenMap={openInsiderMap} />}
       {step === 'hidden' && <View>
         <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
         {!hiddenItems.length && <View style={s.empty}><Text style={s.emptyIcon}>✓</Text><Text style={s.emptyTitle}>Gizli önerin yok</Text><Text style={s.emptyText}>Bir öneriyi gizlediğinde burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
@@ -407,10 +453,10 @@ function AppContent() {
       {step === 'saved' && <View>
         <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="Sonra bakmak için ayırdığın planlar ve diğer öneriler burada." />
         {!savedItems.length && !savedGuides.length && !savedInsiderRoutes.length && !saved.includes(CLASSICS_COLLECTION_ID) && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir şey kaydetmedin</Text><Text style={s.emptyText}>Önerilerde veya Ankara 101’de “Kaydet”e dokunduğunda burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Ana sayfaya dön</Text></TouchableOpacity></View>}
-        {savedItems.map(item => <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => setSaved(current => current.filter(id => id !== item.id))} text="Kayıttan çıkar" /></View></View>)}
-        {savedGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved onSave={() => setSaved(current => current.filter(id => id !== guide.id))} onOpen={() => openGuideSource(guide)} />)}
-        {saved.includes(CLASSICS_COLLECTION_ID) && <SavedEditorialCard eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => setSaved(current => current.filter(id => id !== CLASSICS_COLLECTION_ID))} />}
-        {savedInsiderRoutes.map(route => <SavedEditorialCard key={route.id} eyebrow="BİR ANKARALI GİBİ" title={route.title} onOpen={() => { setGuideView('insider'); setStep('guides'); }} onRemove={() => setSaved(current => current.filter(id => id !== route.id))} />)}
+        {savedItems.map(item => <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>)}
+        {savedGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved onSave={() => toggleSaved(guide.id, 'guide')} onOpen={() => openGuideSource(guide)} />)}
+        {saved.includes(CLASSICS_COLLECTION_ID) && <SavedEditorialCard eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />}
+        {savedInsiderRoutes.map(route => <SavedEditorialCard key={route.id} eyebrow="BİR ANKARALI GİBİ" title={route.title} onOpen={() => { setGuideView('insider'); setStep('guides'); }} onRemove={() => toggleSaved(route.id, 'route')} />)}
       </View>}
       {step === 'settings' && <View>
         <Lead eyebrow="AYARLAR" title="Verilerin senin kontrolünde." subtitle="N’apsak tercihlerini, kaydettiklerini ve gizlediklerini cihazında; Firebase bağlıysa anonim kullanıcı belgesinde tutar." />
@@ -428,13 +474,14 @@ function AppContent() {
     {detailPlace && <PlaceDetails key={detailPlace.id} place={detailPlace}
       context={{ experiences, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
       saved={saved} onClose={() => setDetailPlaceId(undefined)}
-      onSave={id => setSaved(current => toggleId(current, id))} onDismiss={dismissPlace} onRestore={restorePlace}
+      onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanSource={openExperienceSource} />}
   </SafeAreaView>;
 }
 
 function Lead({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) { return <><Text style={s.eyebrow}>{eyebrow}</Text><Text style={s.title}>{title}</Text><Text style={s.subtitle}>{subtitle}</Text></>; }
 function itemTitle(item: Place | Idea | Event | Experience): string { return 'name' in item ? item.name : item.title; }
+function itemAnalyticsKind(item: Place | Idea | Event | Experience): AnalyticsItemKind { return 'name' in item ? 'place' : item.kind; }
 function itemMeta(item: Place | Idea | Event | Experience): string {
   if ('name' in item) return `${item.category} · ${item.district}`;
   if (item.kind === 'experience') return `N’apsak · ${item.district} · ${formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)}`;
