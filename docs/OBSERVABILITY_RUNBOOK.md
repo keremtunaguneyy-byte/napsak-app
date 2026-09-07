@@ -49,3 +49,13 @@ npm run check:observability:release
 7. Alarm eşiği, sorumlu kişi ve kapatma kaydını release runbook'una ekle.
 
 Bu canlı doğrulama tamamlanmadan “üretim hata izleme hazır” denmez.
+
+## Yerel hata sınırı testi
+
+DSN olmadan yalnız kullanıcıya gösterilen güvenli render-failure ekranını doğrulamak için development sunucusu şu şekilde başlatılır:
+
+```bash
+EXPO_PUBLIC_OBSERVABILITY_TEST_MODE=true npx expo start -c
+```
+
+Ayarlar içindeki `Hata ekranını dene` düğmesi yalnız bu koşulda ve production dışı ortamda görünür. Düğme kontrollü render hatası üretir; `Yeniden dene` uygulamayı yeniden kurar. Bu test Sentry dashboard teslimini veya source map'i kanıtlamaz.
