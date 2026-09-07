@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #29 main'de; N’apsak harita rotaları #30'da hazırlanıyor
+## Son güncelleme — #30 main'de; etkinlik operasyonu #31'de hazırlanıyor
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -15,7 +15,8 @@ Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #27 telefon testini geçti ve squash merge ile main'e alındı: `139c7cb`. Gizlilik güvenli Sentry temeli, render hata sınırı, kritik operasyon hata kodları ve release preflight main'dedir. Expo geliştirme LogBox'ının kontrollü test hatasını ayrıca göstermesi beklenen geliştirme davranışıdır; release arayüzünde test düğmesi yoktur.
 - #28 telefon regresyonunu geçti ve squash merge ile main'e alındı: `065a00f`. Sağlayıcıdan bağımsız, fail-closed analitik olay sözleşmesi main'dedir; transport varsayılan olarak bağlı olmadığı için cihazdan analitik verisi gönderilmez.
 - #29 telefon testini geçti ve squash merge ile main'e alındı: `711ead3`. Kaydedilenler bütün içerik türleri için tek zaman sırasındadır; son kaydedilen en üstte gösterilir.
-- #30 dalında N’apsak planları Google Maps yürüyüş rotasına bağlanıyor. Ana sonuç, Kaydedilenler ve plan detayı aynı eylemi sunuyor; tek duraklı planlar harita araması açıyor.
+- #30 telefon testini geçti ve squash merge ile main'e alındı: `a260bd0`. Ana sonuç, Kaydedilenler ve plan detayındaki N’apsak planları sıralı Google Maps yürüyüş rotası açar; tek duraklı planlar harita araması açar.
+- #31 dalında günlük etkinlik katalog sağlığı kontrolü hazırlanıyor. Yaklaşan envanter, ileri tarih ufku ve kaynak doğrulama yaşı ayrı operasyon sinyalleri olarak ölçülüyor.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -23,8 +24,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `711ead3`; #19–#29 dâhil.
-- N’apsak harita rotası adayı: `agent/experience-map-routes-20260907`; main'den ayrılan #30 çalışma dalı.
+- GitHub main: `a260bd0`; #19–#30 dâhil.
+- Etkinlik operasyonu adayı: `agent/event-operations-20260907`; main'den ayrılan #31 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -38,24 +39,23 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Hata gözlemi | #27 main'de; env-gated Sentry, veri minimizasyonu, render hata sınırı ve telefon testi var | Gerçek development DSN, source map ve dashboard olayı |
 | Ürün analitiği | #28 main'de; kişisel veri içermeyen izinli olay sözleşmesi ve uygulama bağlantıları var, veri gönderimi kapalı | Sağlayıcı, veri bölgesi/saklama, açıklama/izin ve canlı şema kanıtı |
 | Kaydedilenler | #29 main'de; türler arası tek akış, son kaydedilen önce sırası ve telefon kanıtı var | Tasarım sistemiyle görsel uyarlama |
-| N’apsak harita rotası | #30'da sıralı Google Maps yürüyüş rotası hazırlanıyor | Kart, Kaydedilenler ve detay telefon kanıtı |
+| N’apsak harita rotası | #30 main'de; kart, Kaydedilenler ve detay akışı telefonda doğrulandı | Tasarım sistemiyle görsel uyarlama |
 | Ana sayfa/marka | Tasarım sohbetinde çalışılıyor; yeni görünüm uygulanmış değil | Onaylı ekran + tasarım şartnamesi |
 | Bağlam eskimesi | #23 main'de; altı saat/yeni gün kuralı, zaman damgası ve v5 migration telefon testli | Tasarım sistemiyle görsel uyarlama |
-| Etkinlik | #22 main'de; 10–20 Eylül tarihli 12 doğrulanmış kayıt ve dürüst boş durum mevcut | Düzenli içerik operasyonu |
+| Etkinlik | #22 main'de; 10–20 Eylül tarihli 12 doğrulanmış kayıt ve dürüst boş durum mevcut | #31 günlük envanter/tazelik kontrolü ve runbook |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama, erişilebilirlik turu |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
 ## Çalışma sırası
 
-1. #30 N’apsak Google Maps rotalarını cihazda doğrula.
-2. Düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
+1. #31 düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
+2. Backup/export ve restore provasını kanıtla.
 3. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
-4. Backup/export ve restore provasını kanıtla.
-5. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
-6. Uçtan uca test, cihaz matrisi, performans, erişilebilirlik ve yayın/rollback kapılarını kapat.
+4. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
+5. Uçtan uca test, cihaz matrisi, performans, erişilebilirlik ve yayın/rollback kapılarını kapat.
 
-PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #30 N’apsak harita rotaları; #31 etkinlik operasyonu; #32 backup/restore; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından erişilebilirlik, performans, e2e/cihaz matrisi ve release/mağaza hazırlığı.
+PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #31 etkinlik operasyonu; #32 backup/restore; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından erişilebilirlik, performans, e2e/cihaz matrisi ve release/mağaza hazırlığı.
 
 ## İlk ürün işi: mekân detayından planlara geçiş
 
