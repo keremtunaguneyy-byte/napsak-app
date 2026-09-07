@@ -14,6 +14,27 @@ Development ve production iki ayrı Firebase projesidir. Aynı Firestore veritab
 
 Uygulama Firebase env’i yoksa paket içindeki katalog + AsyncStorage ile çalışmaya devam eder. Firebase env’i varsa anonim Auth açılır ve remote repository/cache katmanı devreye girer.
 
+### Yapılandırma ön-kontrolü
+
+Public Firebase yapılandırması ya tamamen boş ya da eksiksiz olmalıdır. Development'ta tamamen boş yapılandırma bilinçli yerel modu açar. Şunlar hata kabul edilir:
+
+- yalnız bazı zorunlu Firebase değerlerinin verilmesi,
+- example/placeholder değerlerinin bırakılması,
+- `EXPO_PUBLIC_APP_ENV` için development/production dışında değer,
+- geçersiz emulator `host:port` biçimi,
+- Firebase ana değerleri olmadan yalnız emulator adresi,
+- production'da eksik Firebase yapılandırması,
+- production'da emulator adresi veya development/test görünümlü proje ID'si.
+
+Aktif kabuk/env değerlerini secret yazdırmadan kontrol et:
+
+```bash
+npm run check:firebase
+npm run check:firebase -- --require-firebase
+```
+
+İkinci komut development'ta bile yerel modu kabul etmez. Production paketleme hattı `EXPO_PUBLIC_APP_ENV=production` ile bu kapıyı geçmeden çalıştırılmamalıdır. Çıktı yalnız ortam, çalışma modu, proje ID'si ve emulator hedefini gösterir; API key yazdırılmaz.
+
 ## Firestore veri sözleşmesi
 
 | Yol | Amaç | Mobil okuma | Mobil yazma |
@@ -63,6 +84,7 @@ npm test
 npm run test:stress
 npm run test:catalog
 npm run test:rules
+npm run check:firebase
 ```
 
 `test:rules`, Java ve Firebase Firestore emulator binary’si gerektirir. İlk çalıştırmada Firebase CLI emulator bileşenini indirebilir.
