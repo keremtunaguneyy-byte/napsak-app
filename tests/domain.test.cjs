@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { dismissId, distanceInKm, formatDurationRange, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
+const { dismissId, distanceInKm, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
 const { ANALYTICS_SCHEMA_VERSION, createProductAnalyticsEvent } = require('../.test-build/analyticsPolicy.js');
 
@@ -30,6 +30,11 @@ test('resolveSavedPlaces preserves save order and ignores stale or duplicate ids
   const catalogue = [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }];
   assert.deepEqual(resolveSavedPlaces(catalogue, ['b', 'missing', 'a', 'b']), [catalogue[1], catalogue[0]]);
   assert.deepEqual(resolveSavedPlaces(catalogue, []), []);
+});
+
+test('newestFirstIds presents the last saved item first without duplicates', () => {
+  assert.deepEqual(newestFirstIds(['first', 'second', 'second', 'latest']), ['latest', 'second', 'first']);
+  assert.deepEqual(newestFirstIds(undefined), []);
 });
 
 test('toggleId adds and removes saved ids without carrying duplicate state forward', () => {

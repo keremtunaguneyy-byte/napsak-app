@@ -2,6 +2,12 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
 
+## 2026-09-07 — Kaydedilenlerde son eklenen önce
+
+Durum: Kullanıcı tarafından onaylandı; #29'da uygulanıyor.
+
+Kaydedilen bütün içerik türleri tek zaman sırasındadır; son kaydedilen en üstte görünür. Bir içerik çıkarılıp yeniden kaydedilirse yeniden listenin başına gelir. Türlere göre ayrı render blokları ve ilk kaydedilenin önde kalması, listenin sırasını anlaşılmaz gösteriyordu. Saklanan kimlik dizisinin kronolojisi korunur; sunumda ters çevrilip katalog, Ankara 101 rehberi ve yerel rota tek akışta çözülür. Veri migration'ı gerekmez.
+
 ## 2026-09-06 — Sohbetten bağımsız ortak proje hafızası
 
 Durum: Kullanıcının açık isteği; bu belge PR'ında hazırlanıyor.
