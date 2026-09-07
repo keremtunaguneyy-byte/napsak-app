@@ -344,6 +344,10 @@ Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mek
 
 Kaydedilenler ekranı içerik türüne göre ayrı gruplara bölünmez. Mekân, plan, etkinlik, fikir ve Ankara 101 kayıtları tek akışta gösterilir; en son kaydedilen içerik en üsttedir. Kayıttan çıkarılıp yeniden eklenen içerik tekrar en üste gelir.
 
+### 9.6 N’apsak planını haritada açma — Kararlaştırıldı
+
+N’apsak planlarında katalogdaki koordinatlar kullanılarak Google Maps bağlantısı sunulur. İki veya daha fazla durakta sıralı başlangıç, ara duraklar ve bitiş yürüyüş rotası açılır. Tek duraklı planda yanıltıcı rota yerine o nokta haritada açılır. Boş veya geçersiz koordinatlı plan için bozuk bağlantı üretilmez; kullanıcıya güvenli hata mesajı gösterilir. Davranış ana sonuç kartı, Kaydedilenler ve plan detayında tutarlı olmalıdır.
+
 ## 10. Teknik ve veri ilkeleri
 
 ### 10.1 Mevcut platform — Kayıt

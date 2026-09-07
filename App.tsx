@@ -19,6 +19,7 @@ import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
+import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -357,6 +358,16 @@ function AppContent() {
       Alert.alert('Bağlantı açılamadı', 'Bu planın resmî bilgi bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
+  const openExperienceMap = async (experience: Experience) => {
+    try {
+      const url = googleMapsUrlForExperiencePoints(experience.points);
+      if (!url || !(await Linking.canOpenURL(url))) throw new Error('unsupported map URL');
+      trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'experience' } });
+      await Linking.openURL(url);
+    } catch {
+      Alert.alert('Rota açılamadı', 'Bu planın harita rotası şu anda açılamıyor. Lütfen tekrar dene.');
+    }
+  };
   const openGuideSource = async (guide: Guide) => {
     try {
       if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
@@ -450,7 +461,7 @@ function AppContent() {
         </TouchableOpacity>
         {lastDismissed && <View style={s.undoBar}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" onPress={() => { restorePlace(lastDismissed); setLastDismissed(undefined); }}><Text style={s.edit}>Geri al</Text></TouchableOpacity></View>}
         <View onLayout={event => { recommendationsY.current = event.nativeEvent.layout.y; }} />
-        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => toggleSaved(item.id, item.kind, i + 1)} onDismiss={() => dismissPlace(item.id, item.kind, i + 1)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceSource={openExperienceSource} />)}
+        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => toggleSaved(item.id, item.kind, i + 1)} onDismiss={() => dismissPlace(item.id, item.kind, i + 1)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceMap={openExperienceMap} onOpenExperienceSource={openExperienceSource} />)}
         {!results.length && <View style={s.empty}><Text style={s.emptyIcon}>{resultFilter === 'event' ? '◷' : '↻'}</Text><Text style={s.emptyTitle}>{resultFilter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text><Text style={s.emptyText}>{resultFilter === 'event' ? 'Doğrulanmış katalogda henüz yaklaşan bir Ankara etkinliği yok. Yeni tarihler doğrulandıkça burada görünecek.' : '“Bana göre değil” dediklerini geri getirip yeniden başlayabilirsin.'}</Text>{resultFilter !== 'event' && <TouchableOpacity style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity>}</View>}
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={rotateRecommendations}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
@@ -472,7 +483,7 @@ function AppContent() {
         {savedEntries.map(entry => {
           if (entry.type === 'catalog') {
             const item = entry.item;
-            return <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
+            return <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
           }
           if (entry.type === 'guide') return <GuideCard key={entry.guide.id} guide={entry.guide} saved onSave={() => toggleSaved(entry.guide.id, 'guide')} onOpen={() => openGuideSource(entry.guide)} />;
           if (entry.type === 'classics') return <SavedEditorialCard key={CLASSICS_COLLECTION_ID} eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />;
@@ -496,13 +507,14 @@ function AppContent() {
       context={{ experiences, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
       saved={saved} onClose={() => setDetailPlaceId(undefined)}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
-      onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanSource={openExperienceSource} />}
+      onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
   </SafeAreaView>;
 }
 
 function Lead({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) { return <><Text style={s.eyebrow}>{eyebrow}</Text><Text style={s.title}>{title}</Text><Text style={s.subtitle}>{subtitle}</Text></>; }
 function itemTitle(item: Place | Idea | Event | Experience): string { return 'name' in item ? item.name : item.title; }
 function itemAnalyticsKind(item: Place | Idea | Event | Experience): AnalyticsItemKind { return 'name' in item ? 'place' : item.kind; }
+function experienceMapAction(experience: Experience): string { return experience.points.length > 1 ? 'Rotayı haritada aç' : 'Haritada aç'; }
 function itemMeta(item: Place | Idea | Event | Experience): string {
   if ('name' in item) return `${item.category} · ${item.district}`;
   if (item.kind === 'experience') return `N’apsak · ${item.district} · ${formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)}`;
@@ -603,7 +615,7 @@ function GuideCard({ guide, saved, onSave, onOpen }: { guide: Guide; saved: bool
   </View>;
 }
 
-function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceDetails, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceDetails: (place: Place) => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceSource: (experience: Experience) => void }) {
+function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceDetails, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceMap, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceDetails: (place: Place) => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceMap: (experience: Experience) => void; onOpenExperienceSource: (experience: Experience) => void }) {
   const title = item.kind === 'place' ? item.name : item.title;
   return <View style={s.result}>
     <Text style={s.rank}>{rank}</Text><View style={s.kindBadge}><Text style={s.kindBadgeText}>{item.kind === 'experience' ? 'N’APSAK' : item.kind === 'place' ? 'MEKÂN' : item.kind === 'event' ? 'ETKİNLİK' : 'FİKİR'}</Text></View>
@@ -611,7 +623,7 @@ function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceD
     {item.kind === 'place' && <Action label={`${item.name} mekân detayını aç`} onPress={() => onOpenPlaceDetails(item)} text="Mekânı incele" />}
     {item.kind === 'experience' ? <><Text style={s.meta}>{formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'} · {item.distance === undefined ? item.district : `${item.distance.toFixed(1)} km · ${item.district}`}</Text><Text style={s.address}>{item.points.map(point => point.name).join(' → ')}</Text></> : item.kind === 'place' ? <><Text style={s.meta}>N’apsak {item.editorialScore}  ·  {item.distance === undefined ? 'Konum bekleniyor' : `${item.distance.toFixed(1)} km`}  ·  {item.district}</Text><Text style={s.address}>{item.address}</Text></> : item.kind === 'event' ? <Text style={s.meta}>{item.venue} · {item.city} · {new Date(item.startsAt).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul', dateStyle: 'long', timeStyle: 'short' })}{item.priceNote ? ` · ${item.priceNote}` : ''}</Text> : <Text style={s.meta}>Zamansız fikir · {item.category} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'}</Text>}
     {item.kind === 'experience' && <Text style={s.note}>{item.description}</Text>}<Text style={s.note}>{item.note}</Text><Text style={s.why}>Neden? {item.reasons.join(' · ')}</Text>
-    <View style={s.actions}><Action label={saved ? 'Kaydedildi, kayıttan çıkar' : 'Öneriyi kaydet'} onPress={onSave} text={saved ? '♥ Kaydedildi' : '♡ Kaydet'} />{item.kind === 'experience' ? <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => onOpenExperienceSource(item)} text="Resmî bilgi" /> : item.kind === 'place' ? <><Action label={`${item.name} mekânını haritada aç`} onPress={() => onOpenPlaceMaps(item)} text="Haritada aç" /><Action label={`${item.name} resmî bilgisini aç`} onPress={() => onOpenPlaceSource(item)} text="Resmî bilgi" /></> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => onOpenIdea(item)} text={item.actionLabel} /> : <Action label={`${item.title} etkinlik detayını aç`} onPress={() => onOpenEvent(item)} text="Bilet / Detay" />}<Action label={`${title} önerisini gizle`} muted onPress={onDismiss} text="Bana göre değil" /></View>
+    <View style={s.actions}><Action label={saved ? 'Kaydedildi, kayıttan çıkar' : 'Öneriyi kaydet'} onPress={onSave} text={saved ? '♥ Kaydedildi' : '♡ Kaydet'} />{item.kind === 'experience' ? <><Action label={`${item.title} planını haritada aç`} onPress={() => onOpenExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => onOpenExperienceSource(item)} text="Resmî bilgi" /></> : item.kind === 'place' ? <><Action label={`${item.name} mekânını haritada aç`} onPress={() => onOpenPlaceMaps(item)} text="Haritada aç" /><Action label={`${item.name} resmî bilgisini aç`} onPress={() => onOpenPlaceSource(item)} text="Resmî bilgi" /></> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => onOpenIdea(item)} text={item.actionLabel} /> : <Action label={`${item.title} etkinlik detayını aç`} onPress={() => onOpenEvent(item)} text="Bilet / Detay" />}<Action label={`${title} önerisini gizle`} muted onPress={onDismiss} text="Bana göre değil" /></View>
   </View>;
 }
 
