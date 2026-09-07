@@ -2,6 +2,12 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
 
+## 2026-09-07 — N’apsak planlarını Google Maps rotasına bağlama
+
+Durum: Kullanıcı tarafından onaylandı; #30'da uygulanıyor.
+
+Birden çok duraklı N’apsak planı, katalogdaki koordinat sırasını koruyan Google Maps yürüyüş rotası açar. Tek duraklı plan harita araması açar. Bağlantı gösterim adlarından veya kullanıcı konumundan üretilmez; planın doğrulanmış koordinatları kullanılır. Ana sonuç, Kaydedilenler ve plan detayı aynı davranışı sunar.
+
 ## 2026-09-07 — Kaydedilenlerde son eklenen önce
 
 Durum: Kullanıcı tarafından onaylandı; #29'da uygulanıyor.

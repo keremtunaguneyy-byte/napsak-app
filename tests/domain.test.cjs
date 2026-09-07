@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
 const { ANALYTICS_SCHEMA_VERSION, createProductAnalyticsEvent } = require('../.test-build/analyticsPolicy.js');
+const { googleMapsUrlForExperiencePoints } = require('../.test-build/mapLinks.js');
 
 test('distanceInKm returns zero for the same point', () => {
   assert.equal(distanceInKm({ latitude: 39.93, longitude: 32.85 }, { latitude: 39.93, longitude: 32.85 }), 0);
@@ -35,6 +36,29 @@ test('resolveSavedPlaces preserves save order and ignores stale or duplicate ids
 test('newestFirstIds presents the last saved item first without duplicates', () => {
   assert.deepEqual(newestFirstIds(['first', 'second', 'second', 'latest']), ['latest', 'second', 'first']);
   assert.deepEqual(newestFirstIds(undefined), []);
+});
+
+test('experience map links preserve ordered walking stops', () => {
+  const url = new URL(googleMapsUrlForExperiencePoints([
+    { placeId: 'start', name: 'Start', latitude: 39.91, longitude: 32.81 },
+    { placeId: 'middle', name: 'Middle', latitude: 39.92, longitude: 32.82 },
+    { placeId: 'finish', name: 'Finish', latitude: 39.93, longitude: 32.83 },
+  ]));
+  assert.equal(`${url.origin}${url.pathname}`, 'https://www.google.com/maps/dir/');
+  assert.equal(url.searchParams.get('origin'), '39.91,32.81');
+  assert.equal(url.searchParams.get('waypoints'), '39.92,32.82');
+  assert.equal(url.searchParams.get('destination'), '39.93,32.83');
+  assert.equal(url.searchParams.get('travelmode'), 'walking');
+});
+
+test('single-stop experience opens a map search and invalid coordinates fail closed', () => {
+  const single = new URL(googleMapsUrlForExperiencePoints([
+    { placeId: 'only', name: 'Only', latitude: 39.9, longitude: 32.8 },
+  ]));
+  assert.equal(`${single.origin}${single.pathname}`, 'https://www.google.com/maps/search/');
+  assert.equal(single.searchParams.get('query'), '39.9,32.8');
+  assert.equal(googleMapsUrlForExperiencePoints([]), undefined);
+  assert.equal(googleMapsUrlForExperiencePoints([{ placeId: 'bad', name: 'Bad', latitude: 200, longitude: 32.8 }]), undefined);
 });
 
 test('toggleId adds and removes saved ids without carrying duplicate state forward', () => {
@@ -220,6 +244,15 @@ test('experience catalogue contains 20 complete, sourced and honestly scoped mic
       assert.equal(new URL(source.url).protocol, 'https:', `${item.id}: source URL`);
       assert.ok(Number.isFinite(Date.parse(source.verifiedAt)), `${item.id}: source verification`);
     }
+  }
+});
+
+test('every experience produces a safe Google Maps action', () => {
+  for (const experience of experiences) {
+    const url = googleMapsUrlForExperiencePoints(experience.points);
+    assert.ok(url, `${experience.id}: missing map URL`);
+    assert.equal(new URL(url).origin, 'https://www.google.com', `${experience.id}: unexpected map host`);
+    assert.equal(new URL(url).pathname, experience.points.length > 1 ? '/maps/dir/' : '/maps/search/');
   }
 });
 

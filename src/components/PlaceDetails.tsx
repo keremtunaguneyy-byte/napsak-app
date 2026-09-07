@@ -15,11 +15,12 @@ type Props = {
   onRestore: (id: string) => void;
   onOpenMaps: (place: Place) => void;
   onOpenSource: (place: Place) => void;
+  onOpenPlanMap: (plan: Experience) => void;
   onOpenPlanSource: (plan: Experience) => void;
 };
 
 /** Keeps the underlying results/saved screen mounted, including its scroll position. */
-export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss, onRestore, onOpenMaps, onOpenSource, onOpenPlanSource }: Props) {
+export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss, onRestore, onOpenMaps, onOpenSource, onOpenPlanMap, onOpenPlanSource }: Props) {
   const [planId, setPlanId] = useState<string>();
   const [undoId, setUndoId] = useState<string>();
   const [now, setNow] = useState(() => new Date());
@@ -64,6 +65,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
           <Text style={styles.meta}>{plan.availabilityNote}</Text>
           <View style={styles.actions}>
             <DetailAction text={saved.includes(plan.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Planı kaydet'} onPress={() => onSave(plan.id)} />
+            <DetailAction text={plan.points.length > 1 ? 'Rotayı haritada aç' : 'Haritada aç'} onPress={() => onOpenPlanMap(plan)} />
             <DetailAction text="Resmî bilgi" onPress={() => onOpenPlanSource(plan)} />
             <DetailAction text="Bana göre değil" onPress={() => hide(plan.id)} />
           </View>

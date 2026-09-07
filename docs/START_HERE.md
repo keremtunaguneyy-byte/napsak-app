@@ -38,4 +38,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #27 hata gözlemi telefon testli olarak main'dedir; gerçek Sentry development projesi ve source map kanıtı açık kapıdır. #28 kişisel veri içermeyen, sağlayıcıdan bağımsız ürün analitiği sözleşmesidir. Herhangi bir transport bağlanmadığı için #28 aşamasında cihazdan analitik verisi çıkmaz. Kabul kriterleri STATUS.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #29 Kaydedilenler sırası telefon testli olarak main'dedir. #30 N’apsak planlarını sıralı Google Maps yürüyüş rotasına bağlar. Gerçek Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
