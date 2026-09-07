@@ -91,3 +91,7 @@ export async function loadPreferences(): Promise<PersistedPreferences> {
 export async function savePreferences(preferences: PersistedPreferences): Promise<void> {
   await AsyncStorage.setItem(STORAGE_KEY, serializePreferences(preferences));
 }
+
+export async function clearPreferences(): Promise<void> {
+  await Promise.all([STORAGE_KEY, ...LEGACY_STORAGE_KEYS].map(key => AsyncStorage.removeItem(key)));
+}

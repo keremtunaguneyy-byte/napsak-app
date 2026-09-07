@@ -1,11 +1,13 @@
 import { CatalogSnapshot, embeddedCatalog } from './data/catalog';
 import { loadBestCatalog } from './data/catalogService';
-import { PersistedPreferences } from './persistence';
+import { clearPreferences, PersistedPreferences } from './persistence';
+import { deleteUser } from '@firebase/auth';
 import { ensureAnonymousUser } from './firebase/auth';
 import { getFirebaseClient } from './firebase/client';
 import { FirestoreContentRepository } from './firebase/firestoreContentRepository';
 import { FirestoreUserRepository, UserRepository } from './firebase/userRepository';
-import { enqueueUserSync, flushUserSync, migrateLocalUserStateOnce } from './firebase/userSync';
+import { clearQueuedUserSync, enqueueUserSync, flushUserSync, migrateLocalUserStateOnce } from './firebase/userSync';
+import { runUserDataDeletion, UserDataDeletionResult } from './userDataDeletion';
 
 let activeUser: { uid: string; repository: UserRepository } | undefined;
 
@@ -41,4 +43,23 @@ export async function queuePreferencesForRemoteSync(preferences: PersistedPrefer
 
 export function initialCatalog(cityId = 'ankara'): CatalogSnapshot {
   return embeddedCatalog(cityId);
+}
+
+export async function deleteCurrentUserData(): Promise<UserDataDeletionResult> {
+  const client = getFirebaseClient();
+  const user = client?.auth.currentUser;
+  const repository = client && user
+    ? activeUser?.uid === user.uid ? activeUser.repository : new FirestoreUserRepository(client.db)
+    : undefined;
+
+  const result = await runUserDataDeletion({
+    deleteRemoteUserState: repository && user ? () => repository.delete(user.uid) : undefined,
+    clearLocalUserState: async () => {
+      await clearQueuedUserSync();
+      await clearPreferences();
+    },
+    deleteAnonymousAccount: user ? () => deleteUser(user) : undefined,
+  });
+  activeUser = undefined;
+  return result;
 }

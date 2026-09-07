@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #24 main'de; Security Rules CI #25'te hazırlanıyor
+## Son güncelleme — #25 main'de; kullanıcı verisi silme #26'da hazırlanıyor
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -10,7 +10,8 @@ Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #22 telefon testini geçti ve squash merge ile main'e alındı: `6f3f425`. 10–20 Eylül tarihli 12 doğrulanmış Ankara etkinliği main'dedir.
 - #23 telefon testini geçti ve squash merge ile main'e alındı: `8074432`. Altı saat/yeni gün bağlam yenilemesi ve v5 tercih migration'ı main'dedir.
 - #24 telefon testini geçti ve squash merge ile main'e alındı: `fc74b19`. Firebase ortam sözleşmesi ve release ön-kontrolü main'dedir.
-- #25 dalında Java 21 Firestore emulator CI, SHA-pinned resmî GitHub Actions ve genişletilmiş kötü niyetli kullanıcı belgesi testleri hazırlanıyor. TypeScript, 53/53 test, stres, katalog, workflow YAML ve 666 modüllük Android export geçti; Rules sonucu PR CI'ından beklenecek.
+- #25 Java 21 CI'da gerçek Firestore emulator testini geçti ve squash merge ile main'e alındı: `8a0eff8`. Sertleştirilmiş Rules ve sürekli CI kanıtı main'dedir.
+- #26 dalında çift onaylı Ayarlar/veri silme ekranı, yerel v1–v5 temizliği, sync queue temizliği, sahibine ait Firestore belge silme ve ayrı Auth sonucu hazırlanıyor. İlk tur TypeScript ve 56/56 test geçti.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -18,8 +19,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `fc74b19`; #19–#24 dâhil.
-- Security Rules CI adayı: `agent/security-rules-ci-20260907`; main'den ayrılan #25 çalışma dalı.
+- GitHub main: `8a0eff8`; #19–#25 dâhil.
+- Veri silme adayı: `agent/user-data-deletion-20260907`; main'den ayrılan #26 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -29,23 +30,22 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Ürün motoru | Experience, Mekân, Etkinlik, Fikir; beşli sonuç, gerekçe, çeşitlilik kodu var | İlgili testlerin güncel sonucu |
 | Kullanıcı | Onboarding, tercihler, kayıt/gizleme/geri alma, bağlam yenileme ve yerel kalıcılık main'de | Tasarım uyarlaması ve uçtan uca test |
 | Ankara 101 | Gelişmiş editoryal görünüm #19 ile main'de; birleşik telefon testi geçti | Tasarım sistemiyle görsel uyarlama |
-| Backend | Firebase Auth/Firestore, repository, cache, validation, sync ve #24 env kapısı main'de | #25 Rules CI, gerçek dev/prod proje ve deploy kanıtı |
+| Backend | Firebase Auth/Firestore, repository, cache, validation, sync, env kapısı ve Java 21 Rules CI main'de | #26 veri silme, gerçek dev/prod proje ve deploy kanıtı |
 | Ana sayfa/marka | Tasarım sohbetinde çalışılıyor; yeni görünüm uygulanmış değil | Onaylı ekran + tasarım şartnamesi |
 | Bağlam eskimesi | #23 main'de; altı saat/yeni gün kuralı, zaman damgası ve v5 migration telefon testli | Tasarım sistemiyle görsel uyarlama |
 | Etkinlik | #22 main'de; 10–20 Eylül tarihli 12 doğrulanmış kayıt ve dürüst boş durum mevcut | Düzenli içerik operasyonu |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama, erişilebilirlik turu |
 
-#25'in uygulama kalite kapıları geçti. Firestore Rules emulator sonucu Java 21 GitHub CI'dan alınmadan PR tamamlanmış sayılmaz. Bu PR da gerçek dev/prod Firebase projesi veya canlı rules deploy kanıtı değildir.
+#26'nın otomatik ve cihaz kalite kapıları tamamlanmadan veri silme hazır sayılmaz. Env'siz telefon testinde yerel silme kanıtlanabilir; gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
 ## Çalışma sırası
 
-1. #25 Security Rules sözleşmesini Java 21 CI ile kanıtla ve merge et.
-2. Kullanıcı verisini cihazdan ve remote anonim hesaptan silme akışını ekle.
-3. Hata gözlemi ile kişisel veri içermeyen analitik olay sözleşmesini kur.
-4. Düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
-5. Backup/export ve restore provasını kanıtla.
-6. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
-7. Uçtan uca test, cihaz matrisi, performans, erişilebilirlik ve yayın/rollback kapılarını kapat.
+1. #26 kullanıcı verisi silmeyi otomatik ve yerel cihaz testleriyle doğrula; gerçek Firebase testi açık kalsın.
+2. Hata gözlemi ile kişisel veri içermeyen analitik olay sözleşmesini kur.
+3. Düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
+4. Backup/export ve restore provasını kanıtla.
+5. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
+6. Uçtan uca test, cihaz matrisi, performans, erişilebilirlik ve yayın/rollback kapılarını kapat.
 
 PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Öngörülen dilimler: #24 env kapısı; #25 rules; #26 veri silme; #27 hata gözlemi; #28 analitik; #29 etkinlik operasyonu; #30 backup/restore; #31 tasarım tokenları; #32 ana sayfa; #33 kart/detay ekranları; #34 erişilebilirlik; #35 performans; #36 e2e/cihaz matrisi; #37 release ve mağaza hazırlığı.
 

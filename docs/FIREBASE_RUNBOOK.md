@@ -103,6 +103,17 @@ Checkout, Node ve Java action’ları hareketli major etiketlerine değil, doğr
 
 Rules kullanıcı belgesinde yalnız sözleşmedeki alanları kabul eder. İlgi alanları allowlist ile sınırlıdır; kayıt, gizleme ve ilgi listelerinde tekrar bulunamaz; aynı ID hem kayıtlı hem gizli olamaz. `updatedAt` istemcinin seçtiği tarih değil `request.time` olmalıdır. Kullanıcı yalnız kendi belgesini okuyabilir, yazabilir ve silebilir.
 
+## Kullanıcı verisini silme
+
+Uygulama içindeki Ayarlar ekranı silmeyi yalnız açık kullanıcı onayından sonra başlatır. Sıra bilinçlidir:
+
+1. Firebase bağlı ve anonim kullanıcı mevcutsa yalnız `users/{uid}` belgesi silinir.
+2. Uzak silme başarılıysa preference v1–v5 anahtarları ve bekleyen user-sync snapshot'ı cihazdan kaldırılır.
+3. Anonim Firebase Authentication hesabı best-effort silinir.
+4. Uygulama state'i ilk kullanım durumuna döner.
+
+Uzak belge silme başarısızsa yerel snapshot tekrar deneme için korunur. Auth hesabı silme ayrı sonuçtur; başarısızlığı Firestore ve cihaz verisinin silindiği gerçeğini değiştirmez fakat kullanıcıya açıkça bildirilir. Katalog cache'i ortak içeriktir, kullanıcı verisi silme kapsamına girmez.
+
 ## Seed
 
 Dry-run varsayılandır ve credential istemez:
