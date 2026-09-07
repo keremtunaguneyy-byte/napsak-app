@@ -3,7 +3,7 @@ const path = require('node:path');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { initializeTestEnvironment, assertFails, assertSucceeds } = require('@firebase/rules-unit-testing');
-const { doc, getDoc, serverTimestamp, setDoc } = require('firebase/firestore');
+const { deleteDoc, doc, getDoc, serverTimestamp, setDoc, Timestamp } = require('firebase/firestore');
 
 let environment;
 
@@ -62,6 +62,40 @@ test('user state rejects oversized arrays', async () => {
     updatedAt: serverTimestamp(),
   };
   await assertFails(setDoc(doc(alice, 'users', 'alice'), oversized));
+});
+
+test('user state rejects unknown interests, duplicates, overlap and forged timestamps', async () => {
+  const alice = environment.authenticatedContext('alice').firestore();
+  const valid = {
+    schemaVersion: 1,
+    saved: ['place-1'],
+    dismissed: ['place-2'],
+    interests: ['Kahve'],
+    deviceMigrationVersion: 1,
+    updatedAt: serverTimestamp(),
+  };
+  await assertFails(setDoc(doc(alice, 'users', 'alice'), { ...valid, interests: ['Kahve', 'Bilinmeyen'] }));
+  await assertFails(setDoc(doc(alice, 'users', 'alice'), { ...valid, interests: ['Kahve', 'Kahve'] }));
+  await assertFails(setDoc(doc(alice, 'users', 'alice'), { ...valid, saved: ['place-1', 'place-1'] }));
+  await assertFails(setDoc(doc(alice, 'users', 'alice'), { ...valid, dismissed: ['place-2', 'place-2'] }));
+  await assertFails(setDoc(doc(alice, 'users', 'alice'), { ...valid, dismissed: ['place-1'] }));
+  await assertFails(setDoc(doc(alice, 'users', 'alice'), { ...valid, updatedAt: Timestamp.fromMillis(0) }));
+});
+
+test('only the owner can delete an anonymous user state document', async () => {
+  const alice = environment.authenticatedContext('alice').firestore();
+  const bob = environment.authenticatedContext('bob').firestore();
+  const aliceRef = doc(alice, 'users', 'alice');
+  await assertSucceeds(setDoc(aliceRef, {
+    schemaVersion: 1,
+    saved: [],
+    dismissed: [],
+    interests: [],
+    deviceMigrationVersion: 1,
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(deleteDoc(doc(bob, 'users', 'alice')));
+  await assertSucceeds(deleteDoc(aliceRef));
 });
 
 test('unknown collections are denied by default', async () => {

@@ -21,7 +21,12 @@ service cloud.firestore {
         && data.saved is list && data.saved.size() <= 500
         && data.dismissed is list && data.dismissed.size() <= 500
         && data.interests is list && data.interests.size() <= 5
-        && data.updatedAt is timestamp;
+        && data.saved.toSet().size() == data.saved.size()
+        && data.dismissed.toSet().size() == data.dismissed.size()
+        && !data.saved.hasAny(data.dismissed)
+        && data.interests.hasOnly(['Kahve', 'Sanat', 'Doğa', 'Lezzet', 'Etkinlik'])
+        && data.interests.toSet().size() == data.interests.size()
+        && data.updatedAt == request.time;
     }
 
     match /cities/{documentId} {
