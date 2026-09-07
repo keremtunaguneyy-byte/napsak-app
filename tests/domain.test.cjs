@@ -4,6 +4,73 @@ const { dismissId, distanceInKm, formatDurationRange, newestFirstIds, resolveSav
 const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
 const { ANALYTICS_SCHEMA_VERSION, createProductAnalyticsEvent } = require('../.test-build/analyticsPolicy.js');
 const { googleMapsUrlForExperiencePoints } = require('../.test-build/mapLinks.js');
+const {
+  EVENT_MINIMUM_HORIZON_DAYS,
+  EVENT_MINIMUM_UPCOMING_COUNT,
+  EVENT_VERIFICATION_MAX_AGE_DAYS,
+  analyzeEventCatalog,
+} = require('../.test-build/eventOperations.js');
+const { events: catalogEvents } = require('../.test-build/data/events.js');
+
+const eventFixture = (overrides = {}) => ({
+  id: 'event', kind: 'event', title: 'Etkinlik', venue: 'Mekân', cityId: 'ankara', city: 'Ankara',
+  startsAt: '2026-09-15T20:00:00+03:00', category: 'Etkinlik', moods: ['Sosyal'], interests: ['Etkinlik'],
+  priceLevel: 1, editorialScore: 4, note: 'Not', sourceUrl: 'https://example.com/event', sourceLabel: 'Kaynak',
+  verifiedAt: '2026-09-07', groupSizes: ['2 kişi'], ...overrides,
+});
+
+test('current event catalog has a complete fresh batch and a safe horizon', () => {
+  const health = analyzeEventCatalog(catalogEvents, new Date('2026-09-07T07:15:00+03:00'));
+  assert.equal(health.healthy, true);
+  assert.equal(health.upcomingCount, 12);
+  assert.equal(health.expiredCount, 0);
+  assert.ok(health.horizonDays >= EVENT_MINIMUM_HORIZON_DAYS);
+  assert.deepEqual(health.issues, []);
+});
+
+test('event catalog health accepts exact count, horizon and verification boundaries', () => {
+  const now = new Date('2026-09-14T00:00:00+03:00');
+  const boundaryEvents = Array.from({ length: EVENT_MINIMUM_UPCOMING_COUNT }, (_, index) => eventFixture({
+    id: `boundary-${index}`,
+    startsAt: index === 0
+      ? '2026-09-14T01:00:00+03:00'
+      : `2026-09-${index === 4 ? '21' : '15'}T00:00:00+03:00`,
+  }));
+  const health = analyzeEventCatalog(boundaryEvents, now);
+  assert.equal(EVENT_VERIFICATION_MAX_AGE_DAYS, 7);
+  assert.equal(health.healthy, true);
+  assert.equal(health.horizonDays, 7);
+});
+
+test('event catalog health reports depleted inventory, short horizon and stale sources', () => {
+  const health = analyzeEventCatalog([
+    eventFixture({ id: 'expired', startsAt: '2026-09-10T20:00:00+03:00' }),
+    eventFixture({ id: 'last-one', startsAt: '2026-09-15T20:00:00+03:00' }),
+  ], new Date('2026-09-15T08:00:00+03:00'));
+  assert.equal(health.healthy, false);
+  assert.equal(health.expiredCount, 1);
+  assert.equal(health.upcomingCount, 1);
+  assert.deepEqual(health.issues.map((issue) => issue.code), [
+    'stale_verification',
+    'insufficient_upcoming_events',
+    'short_catalog_horizon',
+  ]);
+});
+
+test('event catalog health fails closed for invalid and future dates', () => {
+  const health = analyzeEventCatalog([
+    eventFixture({ id: 'invalid-start', startsAt: 'not-a-date' }),
+    eventFixture({ id: 'invalid-verification', verifiedAt: '2026-02-30' }),
+    eventFixture({ id: 'future-verification', verifiedAt: '2026-09-08' }),
+  ], new Date('2026-09-07T12:00:00+03:00'));
+  assert.equal(health.healthy, false);
+  assert.deepEqual(health.issues.map((issue) => issue.code), [
+    'invalid_start',
+    'invalid_verification',
+    'future_verification',
+    'insufficient_upcoming_events',
+  ]);
+});
 
 test('distanceInKm returns zero for the same point', () => {
   assert.equal(distanceInKm({ latitude: 39.93, longitude: 32.85 }, { latitude: 39.93, longitude: 32.85 }), 0);

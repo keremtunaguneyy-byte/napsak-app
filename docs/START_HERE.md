@@ -6,7 +6,7 @@ Güncelleme: 6 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından
 
 1. PRODUCT_SPEC.md: ürünün amacı, kapsamı, kalıcı kararlar ve gerekçeleri.
 2. STATUS.md: hangi sürümde ne var, ne doğrulandı, sıradaki iş.
-3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md veya ANALYTICS_SPEC.md.
+3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md veya EVENT_OPERATIONS_RUNBOOK.md.
 4. DECISIONS.md: son kararlar, öneriler ve açık konular.
 
 Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakları ve incelediği branch/commit'i belirtmeli. Kullanıcıya bütün ürünü yeniden anlattırmamalı. Belgeyle kod çelişiyorsa bunu açıklamalı; sessizce ürün kararı değiştirmemeli.
@@ -21,6 +21,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 | FIREBASE_RUNBOOK.md | Backend işletimi, veri yayını, migration, güvenlik ve yedek prosedürleri |
 | OBSERVABILITY_RUNBOOK.md | Hata gözlemi, veri minimizasyonu, Sentry ortamı ve canlı doğrulama |
 | ANALYTICS_SPEC.md | İzinli ürün olayları, yasak kişisel alanlar ve sağlayıcı/izin kapısı |
+| EVENT_OPERATIONS_RUNBOOK.md | Etkinlik envanteri, kaynak tazeliği, günlük kontrol ve yenileme prosedürü |
 | STATUS.md | Sürüme bağlı gerçekleşen işler, kanıt ve sonraki çalışma |
 | DECISIONS.md | Tarihli karar, gerekçe, durum ve etkilenen dosyalar |
 
@@ -38,4 +39,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #29 Kaydedilenler sırası telefon testli olarak main'dedir. #30 N’apsak planlarını sıralı Google Maps yürüyüş rotasına bağlar. Gerçek Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #30 N’apsak Google Maps rotaları telefon testli olarak main'dedir. #31 günlük etkinlik katalog sağlığı kontrolünü kurar. Gerçek Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.

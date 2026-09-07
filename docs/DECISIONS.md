@@ -2,9 +2,15 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
 
+## 2026-09-07 — Günlük etkinlik katalog sağlığı
+
+Durum: #31'de uygulanıyor.
+
+Etkinlik kataloğu her gün otomatik olarak en az 5 yaklaşan kayıt, en az 7 günlük ileri tarih ufku ve en fazla 7 günlük kaynak doğrulama yaşı için kontrol edilir. Otomasyon kaynaktan kendi başına etkinlik üretmez veya bir kaydı insan kontrolü olmadan yeniden doğrulanmış saymaz. Uygulamanın geçmiş etkinlikleri çalışma anında elemesi ayrı güvenlik katmanı olarak korunur. Kabul ölçütleri ve müdahale adımları `EVENT_OPERATIONS_RUNBOOK.md` içindedir.
+
 ## 2026-09-07 — N’apsak planlarını Google Maps rotasına bağlama
 
-Durum: Kullanıcı tarafından onaylandı; #30'da uygulanıyor.
+Durum: #30'da uygulandı ve telefonda doğrulandı.
 
 Birden çok duraklı N’apsak planı, katalogdaki koordinat sırasını koruyan Google Maps yürüyüş rotası açar. Tek duraklı plan harita araması açar. Bağlantı gösterim adlarından veya kullanıcı konumundan üretilmez; planın doğrulanmış koordinatları kullanılır. Ana sonuç, Kaydedilenler ve plan detayı aynı davranışı sunar.
 
@@ -40,9 +46,8 @@ Durum: uygulanmış ve temel telefon akışı doğrulanmış.
 
 ## Açık kararlar
 
-- Anlık bağlamın ne zaman eskidiği ve kullanıcıyı engellemeden nasıl güncelleneceği.
 - Ana sayfanın nihai paleti, logo çizimi ve tasarım tokenları.
-- Güncel etkinlik kaynağı ve düzenli doğrulama sıklığı.
+- Etkinlik sağlayıcısının uzun vadede elle editoryal katalog mu yoksa onaylı bir API mı olacağı.
 - Gerçek development/production servis durumu ve bağımsız yedekleme düzeni.
 
 Yeni kayıt şablonu: tarih / karar / durum / gerekçe / önceki kararın yerine geçiyor mu / etkilenen dosyalar / kabul kriteri / uygulama ve test kanıtı.
