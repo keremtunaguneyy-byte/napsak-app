@@ -1,4 +1,4 @@
-import { Firestore, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { Firestore, deleteDoc, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 import { PersistedPreferences } from '../persistence';
 import { uniqueIds } from '../domain';
@@ -16,6 +16,7 @@ export type RemoteUserState = {
 export interface UserRepository {
   load(uid: string): Promise<RemoteUserState | undefined>;
   save(uid: string, preferences: PersistedPreferences): Promise<void>;
+  delete(uid: string): Promise<void>;
 }
 
 function parseRemoteUserState(value: unknown): RemoteUserState | undefined {
@@ -49,5 +50,9 @@ export class FirestoreUserRepository implements UserRepository {
       deviceMigrationVersion: 1,
       updatedAt: serverTimestamp(),
     }, { merge: true });
+  }
+
+  async delete(uid: string): Promise<void> {
+    await deleteDoc(doc(this.db, 'users', uid));
   }
 }

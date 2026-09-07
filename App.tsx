@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, BackHandler, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
+import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
 import { loadPreferences, savePreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
@@ -16,7 +16,7 @@ import { insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { PlaceDetails } from './src/components/PlaceDetails';
 
-type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides';
+type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
 
 const ANKARA_CASTLE_HERO = require('./assets/ankara101/ankara-castle-hero.jpg');
@@ -73,6 +73,7 @@ function AppContent() {
   const recommendationsY = useRef(0);
   const scrollAfterRotation = useRef(false);
   const [hydrated, setHydrated] = useState(false);
+  const [deletionBusy, setDeletionBusy] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
@@ -142,7 +143,7 @@ function AppContent() {
         setGuideView('landing');
         return true;
       }
-      if (step === 'guides' || step === 'saved' || step === 'hidden') {
+      if (step === 'guides' || step === 'saved' || step === 'hidden' || step === 'settings') {
         setStep('results');
         requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
         return true;
@@ -181,6 +182,46 @@ function AppContent() {
     confirmContext();
     setStep('results');
   };
+  const resetAfterDataDeletion = () => {
+    setSaved([]);
+    setDismissed([]);
+    setLastDismissed(undefined);
+    setMood(undefined);
+    setChosen([]);
+    setBudget('Fark etmez');
+    setGroupSize(undefined);
+    setDuration('Fark etmez');
+    setContextConfirmedAt(undefined);
+    setContextRefreshDue(false);
+    setOnboardingCompleted(false);
+    setCoordinates(undefined);
+    setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
+    setRecommendationRun(0);
+    setPreviousBatch([]);
+    setResultFilter(DEFAULT_RESULT_FILTER);
+    setStep('welcome');
+  };
+  const deleteMyData = () => Alert.alert(
+    'Tüm verilerini sil?',
+    'Tercihlerin, kaydettiklerin ve gizlediklerin bu cihazdan; bağlıysa anonim hesabından silinir. Bu işlem geri alınamaz.',
+    [
+      { text: 'Vazgeç', style: 'cancel' },
+      { text: 'Verilerimi sil', style: 'destructive', onPress: async () => {
+        setDeletionBusy(true);
+        try {
+          const result = await deleteCurrentUserData();
+          resetAfterDataDeletion();
+          Alert.alert('Verilerin silindi', result.anonymousAccountDeletionFailed
+            ? 'Cihaz ve Firestore kullanıcı verilerin silindi. Anonim Authentication kaydı silinemedi; bu sonuç ayrı olarak kaydedildi.'
+            : 'Cihazındaki ve bağlı anonim hesabındaki kullanıcı verileri temizlendi.');
+        } catch {
+          Alert.alert('Silme tamamlanamadı', 'Uzak kullanıcı verisi silinemediği için cihazındaki tekrar denenebilir kayıtlar korundu. Bağlantını kontrol edip yeniden dene.');
+        } finally {
+          setDeletionBusy(false);
+        }
+      } },
+    ],
+  );
   const rotateRecommendations = () => {
     setPreviousBatch(results.map(place => place.id));
     scrollAfterRotation.current = true;
@@ -277,7 +318,7 @@ function AppContent() {
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => ['saved', 'hidden', 'guides'].includes(step) ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity>{step !== 'guides' && <View style={s.headerActions}><Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text></View>}</View>}
+      {!isGuideArticle && <View style={s.header}><TouchableOpacity accessibilityRole="button" accessibilityLabel="N’apsak ana başlığı" hitSlop={12} onPress={() => ['saved', 'hidden', 'guides', 'settings'].includes(step) ? setStep('results') : undefined}><Text style={s.logo}>N’apsak?</Text></TouchableOpacity>{step !== 'guides' && <View style={s.headerActions}>{['results', 'saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" hitSlop={10} onPress={() => setStep('settings')}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" hitSlop={10} onPress={() => setStep('results')}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
@@ -352,6 +393,11 @@ function AppContent() {
         {savedGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved onSave={() => setSaved(current => current.filter(id => id !== guide.id))} onOpen={() => openGuideSource(guide)} />)}
         {saved.includes(CLASSICS_COLLECTION_ID) && <SavedEditorialCard eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => setSaved(current => current.filter(id => id !== CLASSICS_COLLECTION_ID))} />}
         {savedInsiderRoutes.map(route => <SavedEditorialCard key={route.id} eyebrow="BİR ANKARALI GİBİ" title={route.title} onOpen={() => { setGuideView('insider'); setStep('guides'); }} onRemove={() => setSaved(current => current.filter(id => id !== route.id))} />)}
+      </View>}
+      {step === 'settings' && <View>
+        <Lead eyebrow="AYARLAR" title="Verilerin senin kontrolünde." subtitle="N’apsak tercihlerini, kaydettiklerini ve gizlediklerini cihazında; Firebase bağlıysa anonim kullanıcı belgesinde tutar." />
+        <View style={s.dataCard}><Text style={s.dataCardTitle}>Silinecek kullanıcı verileri</Text><Text style={s.dataCardText}>Mod, ilgi, bütçe, kişi sayısı, süre, kaydedilenler, gizlenenler ve bekleyen senkronizasyon kaydı. Uygulamanın herkese açık Ankara kataloğu kişisel veri değildir.</Text></View>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>
     {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <View accessibilityRole="tablist" style={s.bottomNav}>
@@ -511,6 +557,7 @@ const s = StyleSheet.create({
   undoBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#202518', borderWidth: 1, borderColor: '#56603A', borderRadius: 16, padding: 14, marginBottom: 14 }, undoText: { color: c.ink, fontSize: 13, fontWeight: '800' },
   preferenceBar: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: c.line, paddingBottom: 16, marginBottom: 18 }, preferenceCopy: { flex: 1 }, preferenceLabel: { color: c.muted, fontSize: 10, fontWeight: '800', letterSpacing: 1.4 }, preferenceText: { color: c.ink, fontSize: 13, fontWeight: '700', marginTop: 5 }, edit: { color: c.lime, fontSize: 13, fontWeight: '900' },
   contextRefreshCard: { backgroundColor: '#202518', borderWidth: 1, borderColor: '#56603A', borderRadius: 18, padding: 16, marginBottom: 18 }, contextRefreshCopy: { gap: 5 }, contextRefreshTitle: { color: c.ink, fontSize: 16, fontWeight: '900' }, contextRefreshText: { color: c.muted, fontSize: 13, lineHeight: 19 }, contextRefreshActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }, contextRefreshAction: { minHeight: 44, justifyContent: 'center', borderRadius: 12, borderWidth: 1, borderColor: c.lime, paddingHorizontal: 14 }, contextRefreshActionText: { color: c.lime, fontSize: 13, fontWeight: '900' },
+  dataCard: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 18 }, dataCardTitle: { color: c.ink, fontSize: 16, fontWeight: '900' }, dataCardText: { color: c.muted, fontSize: 13, lineHeight: 20, marginTop: 7 }, dangerButton: { minHeight: 56, borderRadius: 16, borderWidth: 1, borderColor: '#B95D54', alignItems: 'center', justifyContent: 'center', padding: 14, marginTop: 18 }, dangerButtonText: { color: '#FF9A8D', fontSize: 14, fontWeight: '900' },
   empty: { alignItems: 'center', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 22, padding: 28, marginBottom: 18 }, emptyIcon: { color: c.lime, fontSize: 38, fontWeight: '900' }, emptyTitle: { color: c.ink, fontSize: 19, fontWeight: '900', marginTop: 14, textAlign: 'center' }, emptyText: { color: c.muted, fontSize: 14, lineHeight: 20, marginTop: 8, textAlign: 'center' }, emptyAction: { borderWidth: 1, borderColor: c.lime, borderRadius: 14, paddingHorizontal: 18, paddingVertical: 12, marginTop: 20 }, emptyActionText: { color: c.lime, fontSize: 13, fontWeight: '900' }, removeAction: { color: '#FF9A8D', fontWeight: '800', fontSize: 13 },
   bottomNav: { minHeight: 64, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderTopColor: c.line, backgroundColor: '#171914', paddingHorizontal: 8 }, navTab: { flex: 1, minHeight: 56, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4 }, navText: { color: c.muted, fontSize: 11, fontWeight: '800', textAlign: 'center' }, navTextSelected: { color: c.lime }, navTextEditorial: { fontFamily: 'SourceSans3_600SemiBold', color: '#9C9B94' }, navTextEditorialSelected: { color: '#F2E7CF' },
 });

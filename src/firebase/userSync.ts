@@ -15,6 +15,10 @@ export async function enqueueUserSync(preferences: PersistedPreferences): Promis
   await storage.setItem(QUEUE_KEY, serializePreferences(preferences));
 }
 
+export async function clearQueuedUserSync(): Promise<void> {
+  await storage.removeItem(QUEUE_KEY);
+}
+
 export async function flushUserSync(uid: string, repository: UserRepository): Promise<boolean> {
   const pending = await storage.getItem(QUEUE_KEY);
   if (!pending) return true;

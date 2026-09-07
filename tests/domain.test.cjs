@@ -490,6 +490,7 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
 
 const { deserializePreferences, migratePreferences, serializePreferences, shouldRefreshContext } = require('../.test-build/persistence.js');
 const { resolveFirebaseRuntimeSettings } = require('../.test-build/firebase/config.js');
+const { runUserDataDeletion } = require('../.test-build/userDataDeletion.js');
 
 test('migration reads legacy preference data while adding new optional fields safely', () => {
   assert.deepEqual(migratePreferences({ saved: ['a', 'a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], onboardingCompleted: true }), {
@@ -552,4 +553,35 @@ test('production preflight requires real production Firebase config and forbids 
   const production = resolveFirebaseRuntimeSettings({ ...completeFirebaseEnv, EXPO_PUBLIC_APP_ENV: 'production' });
   assert.equal(production.mode, 'firebase');
   assert.equal(production.environment, 'production');
+});
+
+test('user data deletion runs remote, local and anonymous Auth steps in privacy-safe order', async () => {
+  const order = [];
+  const result = await runUserDataDeletion({
+    deleteRemoteUserState: async () => { order.push('remote'); },
+    clearLocalUserState: async () => { order.push('local'); },
+    deleteAnonymousAccount: async () => { order.push('auth'); },
+  });
+  assert.deepEqual(order, ['remote', 'local', 'auth']);
+  assert.deepEqual(result, { remoteUserStateDeleted: true, anonymousAccountDeleted: true, anonymousAccountDeletionFailed: false });
+});
+
+test('remote deletion failure preserves retryable local state and stops later steps', async () => {
+  const order = [];
+  await assert.rejects(runUserDataDeletion({
+    deleteRemoteUserState: async () => { order.push('remote'); throw new Error('offline'); },
+    clearLocalUserState: async () => { order.push('local'); },
+    deleteAnonymousAccount: async () => { order.push('auth'); },
+  }), /offline/);
+  assert.deepEqual(order, ['remote']);
+});
+
+test('anonymous Auth deletion failure is reported after user state is cleared', async () => {
+  const order = [];
+  const result = await runUserDataDeletion({
+    clearLocalUserState: async () => { order.push('local'); },
+    deleteAnonymousAccount: async () => { order.push('auth'); throw new Error('requires recent login'); },
+  });
+  assert.deepEqual(order, ['local', 'auth']);
+  assert.deepEqual(result, { remoteUserStateDeleted: false, anonymousAccountDeleted: false, anonymousAccountDeletionFailed: true });
 });

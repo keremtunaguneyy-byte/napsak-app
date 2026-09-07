@@ -418,6 +418,16 @@ Firebase omurgası ve sonraki altyapı PR'larında şu başlıklar izlenir: deve
 
 Firebase operasyon sözleşmesi, seed/migration güvenlikleri, local/Firestore parity ve backup prosedürü `docs/FIREBASE_RUNBOOK.md` içinde tutulur.
 
+### 10.9 Kullanıcı verisini silme — Kararlaştırıldı
+
+- Ayarlar ekranı kullanıcının kendi verisini uygulama içinden silebilmesini sağlar.
+- İşlem geri alınamaz olduğu için açık ve destructive ikinci onay gerekir.
+- Silme kapsamı: tercihler, kaydedilenler, gizlenenler, bağlam zamanı, legacy tercih anahtarları, bekleyen sync snapshot'ı ve bağlıysa `users/{uid}` Firestore belgesi.
+- Herkese açık Ankara katalog cache'i kullanıcı verisi değildir ve bu işlem kapsamında silinmek zorunda değildir.
+- Uzak kullanıcı belgesi silinemiyorsa retry için cihazdaki kaynak snapshot hemen yok edilmez; işlem tamamlanmadı olarak gösterilir.
+- Uzak silme başarılı olduktan sonra yerel kullanıcı durumu temizlenir. Anonim Authentication hesabı ayrıca silinmeye çalışılır ve başarısızlığı kullanıcı verisi silinmiş gibi gizlenmez.
+- Silme sonrasında uygulama ilk kullanım ekranına döner. Yeni boş varsayılan kayıt kişisel tercih içermediği için oluşturulabilir.
+
 ## 11. MVP kapsam sınırları
 
 ### 11.1 Şimdiki odak — Kararlaştırıldı
