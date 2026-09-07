@@ -488,11 +488,11 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
 });
 
 
-const { deserializePreferences, migratePreferences, serializePreferences } = require('../.test-build/persistence.js');
+const { deserializePreferences, migratePreferences, serializePreferences, shouldRefreshContext } = require('../.test-build/persistence.js');
 
 test('migration reads legacy preference data while adding new optional fields safely', () => {
   assert.deepEqual(migratePreferences({ saved: ['a', 'a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], onboardingCompleted: true }), {
-    saved: ['a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], budget: undefined, groupSize: undefined, duration: undefined, onboardingCompleted: true,
+    saved: ['a'], dismissed: ['b'], mood: 'Sakin', interests: ['Lezzet'], budget: undefined, groupSize: undefined, duration: undefined, contextConfirmedAt: undefined, onboardingCompleted: true,
   });
   assert.deepEqual(migratePreferences({ budget: '₺₺', groupSize: '3–4 kişi', interests: ['Invalid'] }).budget, '₺₺');
   assert.equal(migratePreferences({ duration: '1–2 saat' }).duration, '1–2 saat');
@@ -500,9 +500,19 @@ test('migration reads legacy preference data while adding new optional fields sa
 });
 
 test('duration survives the exact preference serialization round trip', () => {
-  const preferences = migratePreferences({ mood: 'Sosyal', interests: ['Sanat'], duration: '3–4 saat', onboardingCompleted: true });
+  const preferences = migratePreferences({ mood: 'Sosyal', interests: ['Sanat'], duration: '3–4 saat', contextConfirmedAt: '2026-09-07T09:00:00.000Z', onboardingCompleted: true });
   assert.equal(deserializePreferences(serializePreferences(preferences)).duration, '3–4 saat');
+  assert.equal(deserializePreferences(serializePreferences(preferences)).contextConfirmedAt, '2026-09-07T09:00:00.000Z');
   assert.deepEqual(deserializePreferences('{broken'), {
     saved: [], dismissed: [], interests: [], onboardingCompleted: false,
   });
+});
+
+test('context refresh is due after six hours, on a new day, or for legacy users', () => {
+  assert.equal(shouldRefreshContext(undefined, new Date('2026-09-07T12:00:00Z')), true);
+  assert.equal(shouldRefreshContext('2026-09-07T08:00:00Z', new Date('2026-09-07T13:59:59Z')), false);
+  assert.equal(shouldRefreshContext('2026-09-07T08:00:00Z', new Date('2026-09-07T14:00:00Z')), true);
+  const previousLocalDay = new Date(2026, 8, 6, 23, 30);
+  const nextLocalDay = new Date(2026, 8, 7, 0, 10);
+  assert.equal(shouldRefreshContext(previousLocalDay.toISOString(), nextLocalDay), true);
 });
