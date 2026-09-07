@@ -157,6 +157,18 @@ export function recommendExperiences(options: {
   return selected.map(({ interestTier: _interestTier, ...item }) => item);
 }
 
+/** Match stable stop IDs before ranking so unrelated top results cannot crowd out a linked plan. */
+export function recommendExperiencesForPlace(
+  place: Pick<Place, 'id' | 'cityId'>,
+  options: Parameters<typeof recommendExperiences>[0],
+): ExperienceRecommendation[] {
+  return recommendExperiences({
+    ...options,
+    experiences: options.experiences.filter(experience => experience.cityId === place.cityId
+      && experience.points.some(point => point.placeId === place.id)),
+  });
+}
+
 export function recommendPlaces(options: {
   places: Place[];
   mood?: Mood;
