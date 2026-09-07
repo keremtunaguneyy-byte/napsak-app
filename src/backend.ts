@@ -8,6 +8,7 @@ import { FirestoreContentRepository } from './firebase/firestoreContentRepositor
 import { FirestoreUserRepository, UserRepository } from './firebase/userRepository';
 import { clearQueuedUserSync, enqueueUserSync, flushUserSync, migrateLocalUserStateOnce } from './firebase/userSync';
 import { runUserDataDeletion, UserDataDeletionResult } from './userDataDeletion';
+import { captureOperationalError } from './observability';
 
 let activeUser: { uid: string; repository: UserRepository } | undefined;
 
@@ -26,7 +27,9 @@ export async function initializeDataBackbone(preferences: PersistedPreferences, 
   }
 
   const contentRepository = new FirestoreContentRepository(client.db);
-  return (await loadBestCatalog(cityId, contentRepository)).snapshot;
+  const result = await loadBestCatalog(cityId, contentRepository);
+  if (result.remoteError) captureOperationalError(result.remoteError, 'catalog_refresh', 'remote_catalog_refresh_failed');
+  return result.snapshot;
 }
 
 export async function queuePreferencesForRemoteSync(preferences: PersistedPreferences): Promise<void> {
@@ -59,6 +62,7 @@ export async function deleteCurrentUserData(): Promise<UserDataDeletionResult> {
       await clearPreferences();
     },
     deleteAnonymousAccount: user ? () => deleteUser(user) : undefined,
+    onAnonymousAccountDeletionError: error => captureOperationalError(error, 'user_data_deletion', 'anonymous_auth_deletion_failed'),
   });
   activeUser = undefined;
   return result;

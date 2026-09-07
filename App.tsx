@@ -15,6 +15,8 @@ import { Coordinates, dismissId, formatDurationRange, resolveSavedPlaces, restor
 import { insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { PlaceDetails } from './src/components/PlaceDetails';
+import { AppErrorBoundary } from './src/components/AppErrorBoundary';
+import { captureOperationalError, setObservabilityScreen } from './src/observability';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -38,8 +40,10 @@ const interests: { label: Interest; emoji: string }[] = [
 const budgets: BudgetPreference[] = ['Ücretsiz', '₺', '₺₺', '₺₺₺', 'Fark etmez'];
 const groupSizes: GroupSizePreference[] = ['Tek', '2 kişi', '3–4 kişi', '5+'];
 const durations: DurationPreference[] = ['30–60 dk', '1–2 saat', '3–4 saat', 'Yarım gün', 'Fark etmez'];
+const OBSERVABILITY_TEST_MODE = process.env.EXPO_PUBLIC_APP_ENV !== 'production'
+  && process.env.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE === 'true';
 export default function App() {
-  return <SafeAreaProvider><AppContent /></SafeAreaProvider>;
+  return <AppErrorBoundary><SafeAreaProvider><AppContent /></SafeAreaProvider></AppErrorBoundary>;
 }
 
 function AppContent() {
@@ -74,6 +78,7 @@ function AppContent() {
   const scrollAfterRotation = useRef(false);
   const [hydrated, setHydrated] = useState(false);
   const [deletionBusy, setDeletionBusy] = useState(false);
+  const [observabilityTestRequested, setObservabilityTestRequested] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
@@ -108,19 +113,29 @@ function AppContent() {
         setStep('results');
         setContextRefreshDue(shouldRefreshContext(preferences.contextConfirmedAt));
       }
-      initializeDataBackbone(preferences).then(setCatalog).catch(() => {
+      initializeDataBackbone(preferences).then(setCatalog).catch(error => {
         // The embedded catalogue is already usable; remote recovery retries later.
+        captureOperationalError(error, 'app_startup', 'data_backbone_initialization_failed');
       });
     }).finally(() => setHydrated(true));
   }, []);
   useEffect(() => {
     if (!hydrated) return;
     const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
-    savePreferences(preferences).catch(() => Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.'));
+    savePreferences(preferences).catch(error => {
+      captureOperationalError(error, 'local_persistence', 'preference_save_failed');
+      Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.');
+    });
     queuePreferencesForRemoteSync(preferences).catch(() => {
       // Local persistence remains authoritative while offline.
     });
   }, [saved, dismissed, mood, chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted, hydrated]);
+  useEffect(() => {
+    setObservabilityScreen(step === 'guides' ? `guides_${guideView}` : step);
+  }, [guideView, step]);
+  useEffect(() => {
+    if (fontError) captureOperationalError(fontError, 'app_startup', 'font_load_failed');
+  }, [fontError]);
   useEffect(() => {
     if (!scrollAfterRotation.current) return;
     // Effects run after commit; two frames also let native layout settle before
@@ -152,6 +167,8 @@ function AppContent() {
     });
     return () => subscription.remove();
   }, [guideView, step]);
+
+  if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
   const requestLocation = async () => {
     setLocating(true);
@@ -214,7 +231,8 @@ function AppContent() {
           Alert.alert('Verilerin silindi', result.anonymousAccountDeletionFailed
             ? 'Cihaz ve Firestore kullanıcı verilerin silindi. Anonim Authentication kaydı silinemedi; bu sonuç ayrı olarak kaydedildi.'
             : 'Cihazındaki ve bağlı anonim hesabındaki kullanıcı verileri temizlendi.');
-        } catch {
+        } catch (error) {
+          captureOperationalError(error, 'user_data_deletion', 'user_data_deletion_failed');
           Alert.alert('Silme tamamlanamadı', 'Uzak kullanıcı verisi silinemediği için cihazındaki tekrar denenebilir kayıtlar korundu. Bağlantını kontrol edip yeniden dene.');
         } finally {
           setDeletionBusy(false);
@@ -397,6 +415,7 @@ function AppContent() {
       {step === 'settings' && <View>
         <Lead eyebrow="AYARLAR" title="Verilerin senin kontrolünde." subtitle="N’apsak tercihlerini, kaydettiklerini ve gizlediklerini cihazında; Firebase bağlıysa anonim kullanıcı belgesinde tutar." />
         <View style={s.dataCard}><Text style={s.dataCardTitle}>Silinecek kullanıcı verileri</Text><Text style={s.dataCardText}>Mod, ilgi, bütçe, kişi sayısı, süre, kaydedilenler, gizlenenler ve bekleyen senkronizasyon kaydı. Uygulamanın herkese açık Ankara kataloğu kişisel veri değildir.</Text></View>
+        {OBSERVABILITY_TEST_MODE && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kontrollü hata ekranını dene" onPress={() => setObservabilityTestRequested(true)} style={s.secondaryButton}><Text style={s.secondaryButtonText}>Hata ekranını dene</Text></TouchableOpacity>}
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>

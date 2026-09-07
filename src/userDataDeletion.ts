@@ -8,6 +8,7 @@ type UserDataDeletionSteps = {
   deleteRemoteUserState?: () => Promise<void>;
   clearLocalUserState: () => Promise<void>;
   deleteAnonymousAccount?: () => Promise<void>;
+  onAnonymousAccountDeletionError?: (error: unknown) => void;
 };
 
 export async function runUserDataDeletion(steps: UserDataDeletionSteps): Promise<UserDataDeletionResult> {
@@ -26,10 +27,15 @@ export async function runUserDataDeletion(steps: UserDataDeletionSteps): Promise
     try {
       await steps.deleteAnonymousAccount();
       anonymousAccountDeleted = true;
-    } catch {
+    } catch (error) {
       // Local and Firestore user data are already gone. Report Auth separately;
       // never turn a best-effort anonymous-account failure into a false success.
       anonymousAccountDeletionFailed = true;
+      try {
+        steps.onAnonymousAccountDeletionError?.(error);
+      } catch {
+        // Observability must never change the deletion result.
+      }
     }
   }
 

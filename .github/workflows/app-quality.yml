@@ -1,0 +1,41 @@
+name: App Quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install exact dependencies
+        run: npm ci
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Regression tests
+        run: npm test
+      - name: Recommendation stress tests
+        run: npm run test:stress
+      - name: Catalog parity
+        run: npm run test:catalog
+      - name: Observability preflight
+        run: npm run check:observability
+      - name: Android production bundle
+        run: npx expo export --platform android --output-dir dist
