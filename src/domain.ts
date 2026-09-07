@@ -32,6 +32,11 @@ export function uniqueIds(value: unknown): string[] {
   return [...new Set(value.filter((item): item is string => typeof item === 'string'))];
 }
 
+/** Returns persisted save order as a newest-first presentation list. */
+export function newestFirstIds(value: unknown): string[] {
+  return uniqueIds(value).reverse();
+}
+
 /** Adds or removes an id while keeping persisted collections duplicate-free. */
 export function toggleId(ids: string[], id: string): string[] {
   const current = uniqueIds(ids);

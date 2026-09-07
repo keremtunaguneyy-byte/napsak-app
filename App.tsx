@@ -11,8 +11,8 @@ import { loadPreferences, savePreferences, shouldRefreshContext } from './src/pe
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
-import { Coordinates, dismissId, formatDurationRange, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
-import { insiderRoutes } from './src/data/insiderRoutes';
+import { Coordinates, dismissId, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
+import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { PlaceDetails } from './src/components/PlaceDetails';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
@@ -22,6 +22,11 @@ import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
+type SavedEntry =
+  | { type: 'catalog'; item: Place | Idea | Event | Experience }
+  | { type: 'guide'; guide: Guide }
+  | { type: 'classics' }
+  | { type: 'route'; route: InsiderRoute };
 
 const ANKARA_CASTLE_HERO = require('./assets/ankara101/ankara-castle-hero.jpg');
 const KUGULU_TUNALI_HERO = require('./assets/ankara101/kugulu-tunali-hero.jpg');
@@ -95,10 +100,21 @@ function AppContent() {
     return recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
   }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], [experiences, places, ideas, events]);
-  const savedItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, saved), [catalogItems, saved]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
-  const savedGuides = useMemo(() => resolveSavedPlaces<Guide>(guides, saved), [guides, saved]);
-  const savedInsiderRoutes = useMemo(() => insiderRoutes.filter(route => saved.includes(route.id)), [saved]);
+  const savedEntries = useMemo<SavedEntry[]>(() => {
+    const catalogById = new Map(catalogItems.map(item => [item.id, item]));
+    const guidesById = new Map(guides.map(guide => [guide.id, guide]));
+    const routesById = new Map(insiderRoutes.map(route => [route.id, route]));
+    return newestFirstIds(saved).reduce<SavedEntry[]>((entries, id) => {
+      const item = catalogById.get(id);
+      if (item) return [...entries, { type: 'catalog', item }];
+      const guide = guidesById.get(id);
+      if (guide) return [...entries, { type: 'guide', guide }];
+      if (id === CLASSICS_COLLECTION_ID) return [...entries, { type: 'classics' }];
+      const route = routesById.get(id);
+      return route ? [...entries, { type: 'route', route }] : entries;
+    }, []);
+  }, [catalogItems, guides, saved]);
   const totalGuideMinutes = useMemo(() => guides.reduce((total, guide) => total + guide.readMinutes, 0), [guides]);
 
   useEffect(() => {
@@ -451,12 +467,17 @@ function AppContent() {
         <Button label="Önerilere dön" onPress={() => setStep('results')} />
       </View>}
       {step === 'saved' && <View>
-        <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="Sonra bakmak için ayırdığın planlar ve diğer öneriler burada." />
-        {!savedItems.length && !savedGuides.length && !savedInsiderRoutes.length && !saved.includes(CLASSICS_COLLECTION_ID) && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir şey kaydetmedin</Text><Text style={s.emptyText}>Önerilerde veya Ankara 101’de “Kaydet”e dokunduğunda burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Ana sayfaya dön</Text></TouchableOpacity></View>}
-        {savedItems.map(item => <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>)}
-        {savedGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved onSave={() => toggleSaved(guide.id, 'guide')} onOpen={() => openGuideSource(guide)} />)}
-        {saved.includes(CLASSICS_COLLECTION_ID) && <SavedEditorialCard eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />}
-        {savedInsiderRoutes.map(route => <SavedEditorialCard key={route.id} eyebrow="BİR ANKARALI GİBİ" title={route.title} onOpen={() => { setGuideView('insider'); setStep('guides'); }} onRemove={() => toggleSaved(route.id, 'route')} />)}
+        <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="En son kaydettiğin en üstte; ayırdığın planlar ve diğer öneriler burada." />
+        {!savedEntries.length && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir şey kaydetmedin</Text><Text style={s.emptyText}>Önerilerde veya Ankara 101’de “Kaydet”e dokunduğunda burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Ana sayfaya dön</Text></TouchableOpacity></View>}
+        {savedEntries.map(entry => {
+          if (entry.type === 'catalog') {
+            const item = entry.item;
+            return <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
+          }
+          if (entry.type === 'guide') return <GuideCard key={entry.guide.id} guide={entry.guide} saved onSave={() => toggleSaved(entry.guide.id, 'guide')} onOpen={() => openGuideSource(entry.guide)} />;
+          if (entry.type === 'classics') return <SavedEditorialCard key={CLASSICS_COLLECTION_ID} eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />;
+          return <SavedEditorialCard key={entry.route.id} eyebrow="BİR ANKARALI GİBİ" title={entry.route.title} onOpen={() => { setGuideView('insider'); setStep('guides'); }} onRemove={() => toggleSaved(entry.route.id, 'route')} />;
+        })}
       </View>}
       {step === 'settings' && <View>
         <Lead eyebrow="AYARLAR" title="Verilerin senin kontrolünde." subtitle="N’apsak tercihlerini, kaydettiklerini ve gizlediklerini cihazında; Firebase bağlıysa anonim kullanıcı belgesinde tutar." />
