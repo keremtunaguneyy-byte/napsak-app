@@ -40,6 +40,8 @@ const interests: { label: Interest; emoji: string }[] = [
 const budgets: BudgetPreference[] = ['Ücretsiz', '₺', '₺₺', '₺₺₺', 'Fark etmez'];
 const groupSizes: GroupSizePreference[] = ['Tek', '2 kişi', '3–4 kişi', '5+'];
 const durations: DurationPreference[] = ['30–60 dk', '1–2 saat', '3–4 saat', 'Yarım gün', 'Fark etmez'];
+const OBSERVABILITY_TEST_MODE = process.env.EXPO_PUBLIC_APP_ENV !== 'production'
+  && process.env.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE === 'true';
 export default function App() {
   return <AppErrorBoundary><SafeAreaProvider><AppContent /></SafeAreaProvider></AppErrorBoundary>;
 }
@@ -76,6 +78,7 @@ function AppContent() {
   const scrollAfterRotation = useRef(false);
   const [hydrated, setHydrated] = useState(false);
   const [deletionBusy, setDeletionBusy] = useState(false);
+  const [observabilityTestRequested, setObservabilityTestRequested] = useState(false);
   const [coordinates, setCoordinates] = useState<Coordinates>();
   const [locating, setLocating] = useState(false);
   const [locationMessage, setLocationMessage] = useState('Mesafeleri görmek için konumunu paylaş.');
@@ -164,6 +167,8 @@ function AppContent() {
     });
     return () => subscription.remove();
   }, [guideView, step]);
+
+  if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
   const requestLocation = async () => {
     setLocating(true);
@@ -410,6 +415,7 @@ function AppContent() {
       {step === 'settings' && <View>
         <Lead eyebrow="AYARLAR" title="Verilerin senin kontrolünde." subtitle="N’apsak tercihlerini, kaydettiklerini ve gizlediklerini cihazında; Firebase bağlıysa anonim kullanıcı belgesinde tutar." />
         <View style={s.dataCard}><Text style={s.dataCardTitle}>Silinecek kullanıcı verileri</Text><Text style={s.dataCardText}>Mod, ilgi, bütçe, kişi sayısı, süre, kaydedilenler, gizlenenler ve bekleyen senkronizasyon kaydı. Uygulamanın herkese açık Ankara kataloğu kişisel veri değildir.</Text></View>
+        {OBSERVABILITY_TEST_MODE && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kontrollü hata ekranını dene" onPress={() => setObservabilityTestRequested(true)} style={s.secondaryButton}><Text style={s.secondaryButtonText}>Hata ekranını dene</Text></TouchableOpacity>}
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>
