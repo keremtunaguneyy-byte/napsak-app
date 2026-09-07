@@ -2,13 +2,12 @@
 
 Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #21 main'de, #19 entegre ve test edildi
+## Son güncelleme — #19 ve #21 main'de; etkinlik kataloğu yenileniyor
 
-- #21 telefonda temel akışla doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al artık main'dedir.
-- #19, güncel main ile `393d860` merge commit'inde birleştirildi. Ankara 101 gezinmesi ve #21 PlaceDetails birlikte korundu. Dal main'in 6 commit önünde, 0 gerisindedir; PR hâlâ taslak ve birleşik cihaz testi bekliyor.
-- Birleşik #19 dalında TypeScript, 49/49 test, katalog parity, 2.560 mekân + 640 Experience stres senaryosu ve font/fotoğraflarla 665 modüllük Android export başarılı.
-- #20 ortak belge paketi bu güncellemeyle merge'e hazırlanıyor. Tasarım ayrı sohbetle paralel sürüyor.
-- Sonraki kapı: #19 birleşik cihaz testi. Sonra güncel etkinlik paketi; ardından onaylanan ana sayfa ve anlık bağlam eskimesi.
+- #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
+- #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
+- #20 ortak proje hafızası paketi main'dedir: `fa0a0a6`.
+- #22 dalında 7 Eylül 2026 tarihinde doğrulanan 12 Ankara etkinliği hazırlandı. TypeScript, 49/49 regresyon testi, katalog parity, 2.560 + 640 stres senaryosu ve 665 modüllük Android export başarılı. Tasarım ayrı sohbetle paralel sürüyor.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -16,10 +15,9 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: dcde744, #21 mekân-plan bağlantısı dâhil.
-- Ankara 101 aday sürümü: #19 / agent/ankara-101-editorial / 393d860; main'in üstüne entegre, henüz merge edilmedi.
-- Bu belge işi ayrı agent/project-memory-20260906 dalında hazırlanıyor; uygulama commitlerini taşımaz.
-- Eski çalışma kopyasındaki PRODUCT_SPEC değişikliği korunuyor. İlişkili mekân-plan özelliğinin onaylı metni belge dalına da aktarılacak; özelliğin kodlandığı iddia edilmiyor.
+- GitHub main: `18f5172`; #19, #20 ve #21 dâhil.
+- Güncel etkinlik adayı: `agent/current-events-20260907`; main'den ayrılan #22 çalışma dalı.
+- Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
 
@@ -27,23 +25,22 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 |---|---|---|
 | Ürün motoru | Experience, Mekân, Etkinlik, Fikir; beşli sonuç, gerekçe, çeşitlilik kodu var | İlgili testlerin güncel sonucu |
 | Kullanıcı | Onboarding, tercihler, kayıt/gizleme/geri alma ve yerel kalıcılık var | Güncelleme/geri dönüş regresyonu |
-| Ankara 101 | İlk sürüm main'de; gelişmiş editoryal görünüm #19'da entegre ve otomatik testli | Birleşik telefon testi, sonra merge |
+| Ankara 101 | Gelişmiş editoryal görünüm #19 ile main'de; birleşik telefon testi geçti | Tasarım sistemiyle görsel uyarlama |
 | Backend | Firebase Auth/Firestore, repository, cache, validation, sync kodu var | Canlı ortam ve deploy edilmiş kural kanıtı |
 | Ana sayfa/marka | Tasarım sohbetinde çalışılıyor; yeni görünüm uygulanmış değil | Onaylı ekran + tasarım şartnamesi |
 | Bağlam eskimesi | Tercih kaydı var; seçim zaman damgası yok | Ürün kuralı, sonra migration |
-| Etkinlik | Yerel 12 kayıt 7–22 Ağustos tarihli; 6 Eylül için geçmiş | Kaynaklı güncel veri; remote ayrıca doğrulanmalı |
+| Etkinlik | #22 dalında 10–20 Eylül tarihli 12 doğrulanmış kayıt; dürüst boş durum mevcut | Otomatik test ve telefon doğrulaması |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama, erişilebilirlik turu |
 
-Bu tur `npm run typecheck` başladı fakat süreç sonucu ortamın ağ/onay iptali nedeniyle alınamadı. Başarılı test olarak sayılmaz. Belge değişiklikleri için diff ve dosya bağlantıları kontrol edilecek; uygulama testlerinin geçtiği iddia edilmeyecek.
+#22 otomatik kalite kapıları geçti; son kapı Etkinlik sekmesinin gerçek cihazda tarih, saat, fiyat ve kaynak bağlantısıyla doğrulanmasıdır.
 
 ## Çalışma sırası
 
-1. #19 birleşik sürümü telefonda doğrula; uygunsa merge et.
-2. Kaynaklı güncel etkinlik paketi ve dürüst boş durumu tamamla.
-3. Tasarım sohbetinden onaylı devir gelince tokenlar ve ana sayfa bileşenlerini uygula; beşli öneri davranışını koru.
-4. Anlık bağlamın eskime kuralını kullanıcıyla kararlaştır; timestamp + geriye uyumlu migration ile uygula.
-5. Backend dev/prod, kurallar, hata izleme, yedek/restore, veri silme ve gizlilik kontrollerini kanıtla.
-6. Gerçek cihaz matrisi, performans, erişilebilirlik ve yayın/rollback provasıyla MVP çıkış kapısını kapat.
+1. Kaynaklı güncel etkinlik paketini test et, telefonda doğrula ve merge et.
+2. Tasarım sohbetinden onaylı devir gelince tokenlar ve ana sayfa bileşenlerini uygula; beşli öneri davranışını koru.
+3. Anlık bağlamın eskime kuralını kullanıcıyla kararlaştır; timestamp + geriye uyumlu migration ile uygula.
+4. Backend dev/prod, kurallar, hata izleme, yedek/restore, veri silme ve gizlilik kontrollerini kanıtla.
+5. Gerçek cihaz matrisi, performans, erişilebilirlik ve yayın/rollback provasıyla MVP çıkış kapısını kapat.
 
 ## İlk ürün işi: mekân detayından planlara geçiş
 

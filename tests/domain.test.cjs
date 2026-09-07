@@ -272,20 +272,27 @@ test('each duration keeps at least one honest match for every explicit interest'
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
   assert.ok(events.length >= 10);
   assert.equal(new Set(events.map(event => event.id)).size, events.length);
+  const verifiedOn = new Date('2026-09-07T00:00:00+03:00');
   for (const event of events) {
     assert.equal(event.kind, 'event');
     assert.equal(event.cityId, 'ankara');
     assert.equal(event.city, 'Ankara');
     assert.match(event.startsAt, /[+-]\d\d:\d\d$/);
     assert.ok(Number.isFinite(Date.parse(event.startsAt)));
+    assert.ok(Date.parse(event.startsAt) > verifiedOn.getTime(), `${event.id}: already expired when verified`);
+    if (event.endsAt) {
+      assert.match(event.endsAt, /[+-]\d\d:\d\d$/);
+      assert.ok(Date.parse(event.endsAt) > Date.parse(event.startsAt), `${event.id}: invalid end time`);
+    }
     assert.equal(new URL(event.sourceUrl).protocol, 'https:');
-    assert.ok(event.sourceLabel && event.verifiedAt && event.note);
+    assert.equal(event.verifiedAt, '2026-09-07');
+    assert.ok(event.sourceLabel && event.note);
   }
 });
 
 test('event feed excludes expired events and admits future events regardless of general interests', () => {
-  const now = new Date('2026-08-06T12:00:00+03:00');
-  const expired = { ...events[0], id: 'expired', startsAt: '2026-08-05T22:00:00+03:00' };
+  const now = new Date('2026-09-07T12:00:00+03:00');
+  const expired = { ...events[0], id: 'expired', startsAt: '2026-09-06T22:00:00+03:00' };
   const result = recommendAll({ places: [], ideas: [], events: [expired, events[0]], filter: 'event', interests: ['Kahve'], dismissed: [], now });
   assert.deepEqual(result.map(item => item.id), [events[0].id]);
 });
@@ -299,7 +306,7 @@ test('empty and fully expired event catalogues are safe', () => {
 test('event rotation can produce two fresh five-item batches from the current catalogue', () => {
   const common = {
     places: [], ideas: [], events, filter: 'event', mood: 'Sosyal', interests: ['Kahve'],
-    dismissed: [], limit: 5, now: new Date('2026-08-06T12:00:00+03:00'), seed: 60,
+    dismissed: [], limit: 5, now: new Date('2026-09-07T12:00:00+03:00'), seed: 60,
   };
   const first = recommendAll(common);
   const second = recommendAll({ ...common, seed: 61, previousBatch: first.map(item => item.id) });
