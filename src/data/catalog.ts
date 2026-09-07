@@ -7,7 +7,7 @@ import { places } from './places';
 import { City, CityId, Event, Experience, Guide, Idea, Place } from '../types';
 
 export const CATALOG_SCHEMA_VERSION = 1 as const;
-export const EMBEDDED_CATALOG_VERSION = '2026-08-09.2';
+export const EMBEDDED_CATALOG_VERSION = '2026-09-07.1';
 
 export type CatalogMeta = {
   cityId: CityId;
@@ -34,7 +34,7 @@ export function embeddedCatalog(cityId: CityId = 'ankara'): CatalogSnapshot {
     cityId,
     schemaVersion: CATALOG_SCHEMA_VERSION,
     catalogVersion: EMBEDDED_CATALOG_VERSION,
-    fetchedAt: '2026-08-09T00:00:00.000Z',
+    fetchedAt: '2026-09-07T00:00:00.000Z',
     cities: cities.filter(city => city.id === cityId),
     places: places.filter(place => place.cityId === cityId),
     experiences: experiences.filter(experience => experience.cityId === cityId),
