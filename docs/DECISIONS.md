@@ -20,6 +20,12 @@ Durum: GitHub main ve yerel kodla doğrulandı.
 
 İlk Ankara 101 sürümü main cb21941 içinde; yerel 6a453ab üzerinde dört ek commit bulunuyor. PRODUCT_SPEC'in gelecekte yapılacak ifadesi eskimiş. Görsel ayrıntılar main'e geçmiş gibi raporlanmayacak. Dosyalar: PRODUCT_SPEC, DESIGN_SPEC, STATUS.
 
+## 2026-09-07 — Mekân-plan bağlantısı main'e alındı
+
+Durum: uygulanmış ve temel telefon akışı doğrulanmış.
+
+#21 `dcde744` ile main'e birleşti. Kullanıcı Göksu Parkı detayını, ilişkili planı, süre/bütçe/durak bilgisini ve gizle/geri al akışını telefonda doğruladı. Gönderilen görünüm nihai tasarım onayı değildir. #19 Ankara 101 dalı yeni main'le entegre edilip otomatik kontrollerden geçti; birleşik telefon testi bekliyor.
+
 ## Açık kararlar
 
 - Anlık bağlamın ne zaman eskidiği ve kullanıcıyı engellemeden nasıl güncelleneceği.
