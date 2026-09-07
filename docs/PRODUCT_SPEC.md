@@ -107,9 +107,9 @@ Belirli bir işletmeye veya canlı programa bağlı olmak zorunda olmayan yapıl
 
 Fikir sekmesi bir ilgi alanı aramasının tekrarı değil, kontrollü keşif alanıdır. Kullanıcının seçili ilgi alanı varsa beş sonuçluk standart grupta yalnızca bir fikir seçili ilgi alanlarından biriyle eşleşir; kalan dört fikir seçili ilgi alanlarının tamamından bağımsız seçilir. Bu dört keşif fikri yine ruh hâli, bütçe, kişi sayısı, editoryal kalite, yenilik ve seed'li sürpriz sinyallerinden yararlanır. Katalog bu kotayı dolduramıyorsa boş sonuç bırakmamak için kontrollü fallback uygulanabilir.
 
-### 4.6 Ankara 101 — Gelecek kapsam / Kararlaştırıldı
+### 4.6 Ankara 101 — Kararlaştırıldı / ilk sürüm uygulandı
 
-Şehrin zamansız ve temel deneyimlerini sunan ayrı bir editoryal sınıf olacaktır. Experience, etkinlik veya mekân akışını kalabalıklaştırmadan daha sonra geliştirilecektir.
+Şehrin zamansız ve temel deneyimlerini sunan ayrı bir editoryal sınıftır. İlk sürümü main dalına #18 ile eklenmiştir. Experience, etkinlik veya mekân akışını kalabalıklaştırmadan ayrı rehber olarak kalır. Sonraki yerel editoryal geliştirmelerin sürüm durumu STATUS.md, tasarım karakteri DESIGN_SPEC.md içinde tutulur.
 
 ## 5. Kullanıcı bağlamı ve tercihler
 
@@ -326,6 +326,10 @@ Kullanıcı öneriyi kaydedebilir, kaydedilenlerden çıkarabilir ve haritada a�
 - “Bana göre değil”,
 - haritada veya kaynakta açma.
 
+### 9.4 Mekândan N’apsak planına geçiş — Kararlaştırıldı
+
+Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mekânı kullanan N’apsak planları” başlığıyla gösterilecek. İlişki `Experience.points[].placeId` üzerinden kurulacak; başlık benzerliği kullanılmayacak. Gizlenen ve süresi dolmuş planlar gösterilmeyecek, eşleşme yoksa bölüm gizlenecek. Kullanıcı bu ek özelliği daha önce onayladı; bu belge kaydı uygulama tamamlandı anlamına gelmez. Kabul kriterleri STATUS.md'dedir.
+
 ## 10. Teknik ve veri ilkeleri
 
 ### 10.1 Mevcut platform — Kayıt
@@ -334,7 +338,7 @@ Kullanıcı öneriyi kaydedebilir, kaydedilenlerden çıkarabilir ve haritada a�
 - Expo SDK 57
 - TypeScript
 - AsyncStorage ile yerel kalıcılık
-- Planlanan backend: Firebase Authentication, Firestore ve Cloud Functions
+- Firebase Authentication ve Firestore bağlantı kodları mevcut; gerçek ortam/deploy durumu ayrıca doğrulanır. Cloud Functions'ın canlı çalıştığı bu kayıttan çıkarılamaz.
 
 ### 10.2 Geriye uyumluluk — Kararlaştırıldı
 
@@ -509,6 +513,8 @@ Bu ilk sürüm; onboarding, kalıcı/anlık tercih ayrımı, kaydetme, gizleme/g
 **Sonuç:** İstanbul veya daha büyük katalog Firestore'u tek başına geçersiz kılmaz. Migration kararı gerçek read maliyeti, sorgu şekli, geo gereksinimi ve operasyon ölçümlerine göre verilir.
 
 ## 16. Değişiklik yönetimi
+
+Proje belgelerinin giriş noktası START_HERE.md'dir. Yeni tarihli kararlar DECISIONS.md, sürüme bağlı uygulama/test kanıtı STATUS.md, tasarım DESIGN_SPEC.md, algoritma ALGORITHM_SPEC.md içinde tutulur. Bu dosyanın eski karar günlüğü korunur.
 
 - Küçük açıklık düzeltmeleri doğrudan yapılabilir.
 - Kullanıcı davranışını değiştiren kararlar tarihli karar günlüğüne eklenir.
