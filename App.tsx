@@ -10,6 +10,7 @@ import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
 import { Coordinates, dismissId, formatDurationRange, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
+import { PlaceDetails } from './src/components/PlaceDetails';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides';
 
@@ -57,9 +58,11 @@ function AppContent() {
   const [guideQuery, setGuideQuery] = useState('');
   const [guideCategory, setGuideCategory] = useState('Tümü');
   const [guideDistrict, setGuideDistrict] = useState('Tümü');
+  const [detailPlaceId, setDetailPlaceId] = useState<string>();
+  const detailPlace = places.find(place => place.id === detailPlaceId);
   const results = useMemo(() => {
     return recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
-  }, [mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
+  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], [experiences, places, ideas, events]);
   const savedItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, saved), [catalogItems, saved]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
@@ -249,7 +252,7 @@ function AppContent() {
         </TouchableOpacity>
         {lastDismissed && <View style={s.undoBar}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" onPress={() => { restorePlace(lastDismissed); setLastDismissed(undefined); }}><Text style={s.edit}>Geri al</Text></TouchableOpacity></View>}
         <View onLayout={event => { recommendationsY.current = event.nativeEvent.layout.y; }} />
-        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => setSaved(current => toggleId(current, item.id))} onDismiss={() => dismissPlace(item.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceSource={openExperienceSource} />)}
+        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => setSaved(current => toggleId(current, item.id))} onDismiss={() => dismissPlace(item.id)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceSource={openExperienceSource} />)}
         {!results.length && <View style={s.empty}><Text style={s.emptyIcon}>{resultFilter === 'event' ? '◷' : '↻'}</Text><Text style={s.emptyTitle}>{resultFilter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text><Text style={s.emptyText}>{resultFilter === 'event' ? 'Doğrulanmış katalogda henüz yaklaşan bir Ankara etkinliği yok. Yeni tarihler doğrulandıkça burada görünecek.' : '“Bana göre değil” dediklerini geri getirip yeniden başlayabilirsin.'}</Text>{resultFilter !== 'event' && <TouchableOpacity style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity>}</View>}
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={rotateRecommendations}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
@@ -289,7 +292,7 @@ function AppContent() {
       {step === 'saved' && <View>
         <Lead eyebrow="LİSTEN" title="Kaydedilenler" subtitle="Sonra bakmak için ayırdığın planlar ve diğer öneriler burada." />
         {!savedItems.length && !savedGuides.length && <View style={s.empty}><Text style={s.emptyIcon}>♡</Text><Text style={s.emptyTitle}>Henüz bir şey kaydetmedin</Text><Text style={s.emptyText}>Önerilerde veya Ankara 101’de “Kaydet”e dokunduğunda burada görünür.</Text><TouchableOpacity style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Ana sayfaya dön</Text></TouchableOpacity></View>}
-        {savedItems.map(item => <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text><Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => setSaved(current => current.filter(id => id !== item.id))} text="Kayıttan çıkar" /></View></View>)}
+        {savedItems.map(item => <View key={item.id} style={s.result}><Text style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" />}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => setSaved(current => current.filter(id => id !== item.id))} text="Kayıttan çıkar" /></View></View>)}
         {savedGuides.map(guide => <GuideCard key={guide.id} guide={guide} saved onSave={() => setSaved(current => current.filter(id => id !== guide.id))} onOpen={() => openGuideSource(guide)} />)}
       </View>}
     </ScrollView>
@@ -299,6 +302,11 @@ function AppContent() {
       <NavTab label="Ankara 101" selected={step === 'guides'} onPress={() => setStep('guides')} />
     </View>}
     </KeyboardAvoidingView>
+    {detailPlace && <PlaceDetails key={detailPlace.id} place={detailPlace}
+      context={{ experiences, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
+      saved={saved} onClose={() => setDetailPlaceId(undefined)}
+      onSave={id => setSaved(current => toggleId(current, id))} onDismiss={dismissPlace} onRestore={restorePlace}
+      onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanSource={openExperienceSource} />}
   </SafeAreaView>;
 }
 
@@ -325,11 +333,12 @@ function GuideCard({ guide, saved, onSave, onOpen }: { guide: Guide; saved: bool
   </View>;
 }
 
-function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceSource: (experience: Experience) => void }) {
+function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceDetails, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceDetails: (place: Place) => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceSource: (experience: Experience) => void }) {
   const title = item.kind === 'place' ? item.name : item.title;
   return <View style={s.result}>
     <Text style={s.rank}>{rank}</Text><View style={s.kindBadge}><Text style={s.kindBadgeText}>{item.kind === 'experience' ? 'N’APSAK' : item.kind === 'place' ? 'MEKÂN' : item.kind === 'event' ? 'ETKİNLİK' : 'FİKİR'}</Text></View>
     <Text style={s.resultName}>{title}</Text>
+    {item.kind === 'place' && <Action label={`${item.name} mekân detayını aç`} onPress={() => onOpenPlaceDetails(item)} text="Mekânı incele" />}
     {item.kind === 'experience' ? <><Text style={s.meta}>{formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'} · {item.distance === undefined ? item.district : `${item.distance.toFixed(1)} km · ${item.district}`}</Text><Text style={s.address}>{item.points.map(point => point.name).join(' → ')}</Text></> : item.kind === 'place' ? <><Text style={s.meta}>N’apsak {item.editorialScore}  ·  {item.distance === undefined ? 'Konum bekleniyor' : `${item.distance.toFixed(1)} km`}  ·  {item.district}</Text><Text style={s.address}>{item.address}</Text></> : item.kind === 'event' ? <Text style={s.meta}>{item.venue} · {item.city} · {new Date(item.startsAt).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul', dateStyle: 'long', timeStyle: 'short' })}{item.priceNote ? ` · ${item.priceNote}` : ''}</Text> : <Text style={s.meta}>Zamansız fikir · {item.category} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'}</Text>}
     {item.kind === 'experience' && <Text style={s.note}>{item.description}</Text>}<Text style={s.note}>{item.note}</Text><Text style={s.why}>Neden? {item.reasons.join(' · ')}</Text>
     <View style={s.actions}><Action label={saved ? 'Kaydedildi, kayıttan çıkar' : 'Öneriyi kaydet'} onPress={onSave} text={saved ? '♥ Kaydedildi' : '♡ Kaydet'} />{item.kind === 'experience' ? <Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => onOpenExperienceSource(item)} text="Resmî bilgi" /> : item.kind === 'place' ? <><Action label={`${item.name} mekânını haritada aç`} onPress={() => onOpenPlaceMaps(item)} text="Haritada aç" /><Action label={`${item.name} resmî bilgisini aç`} onPress={() => onOpenPlaceSource(item)} text="Resmî bilgi" /></> : item.kind === 'idea' ? <Action label={`${item.title} fikrini aç`} onPress={() => onOpenIdea(item)} text={item.actionLabel} /> : <Action label={`${item.title} etkinlik detayını aç`} onPress={() => onOpenEvent(item)} text="Bilet / Detay" />}<Action label={`${title} önerisini gizle`} muted onPress={onDismiss} text="Bana göre değil" /></View>

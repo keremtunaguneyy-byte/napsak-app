@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, formatDurationRange, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
-const { recommendAll, recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
+const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
 
 test('distanceInKm returns zero for the same point', () => {
   assert.equal(distanceInKm({ latitude: 39.93, longitude: 32.85 }, { latitude: 39.93, longitude: 32.85 }), 0);
@@ -100,6 +100,59 @@ const { ideas } = require('../.test-build/data/ideas.js');
 const { KNOWN_DURATIONS, KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
 const { events } = require('../.test-build/data/events.js');
 const { experiences } = require('../.test-build/data/experiences.js');
+
+test('related plans match stable stop and city IDs, never a matching display name', () => {
+  const base = experiences[0];
+  const place = { id: base.points[0].placeId, cityId: base.cityId };
+  const wrongId = { ...base, id: 'wrong-id', points: base.points.map(p => ({ ...p, placeId: 'different-id' })) };
+  const wrongCity = { ...base, id: 'wrong-city', cityId: 'other-city' };
+  const result = recommendExperiencesForPlace(place, { experiences: [base, wrongId, wrongCity], interests: [], dismissed: [] });
+  assert.deepEqual(result.map(x => x.id), [base.id]);
+  assert.deepEqual(recommendExperiencesForPlace({ ...place, id: 'unknown' }, { experiences: [base], interests: [], dismissed: [] }), []);
+});
+
+test('related plans filter before limit and match a later stop without duplicating a plan', () => {
+  const base = experiences[0];
+  const linked = { ...base, id: 'linked', editorialScore: 1, points: [base.points[0], { ...base.points[0], placeId: 'target' }, { ...base.points[0], placeId: 'target' }] };
+  const unrelated = Array.from({ length: 8 }, (_, i) => ({ ...base, id: `popular-${i}`, editorialScore: 5 }));
+  const result = recommendExperiencesForPlace({ id: 'target', cityId: base.cityId }, { experiences: [...unrelated, linked], interests: [], dismissed: [], limit: 1 });
+  assert.deepEqual(result.map(x => x.id), ['linked']);
+});
+
+test('related plans preserve hiding, expiry, duration and interest eligibility', () => {
+  const base = { ...experiences[0], primaryInterests: ['Doğa'], secondaryInterests: [], category: 'Doğa', minDurationMinutes: 30, maxDurationMinutes: 60 };
+  const variants = [
+    { ...base, id: 'eligible' },
+    { ...base, id: 'hidden' },
+    { ...base, id: 'expired', lifecycle: 'live', expiresAt: '2026-09-05T00:00:00Z' },
+    { ...base, id: 'malformed', lifecycle: 'seasonal', expiresAt: 'bad-date' },
+    { ...base, id: 'too-long', minDurationMinutes: 120, maxDurationMinutes: 180 },
+    { ...base, id: 'wrong-interest', primaryInterests: ['Kahve'], category: 'Kahve' },
+  ];
+  const result = recommendExperiencesForPlace({ id: base.points[0].placeId, cityId: base.cityId }, {
+    experiences: variants, interests: ['Doğa'], dismissed: ['hidden'], duration: '30–60 dk', now: new Date('2026-09-06T00:00:00Z'),
+  });
+  assert.deepEqual(result.map(x => x.id), ['eligible']);
+});
+
+test('related plans preserve personalized ranking and reasons without mutating the catalogue', () => {
+  const base = experiences[0];
+  const options = { experiences: [base, { ...base, id: 'secondary', primaryInterests: ['Kahve'], secondaryInterests: ['Doğa'], editorialScore: 5 }], interests: ['Doğa'], dismissed: [], mood: 'Sakin', budget: 'Ücretsiz', groupSize: '2 kişi', seed: 27, now: new Date('2026-09-06T00:00:00Z') };
+  const before = JSON.stringify(options);
+  const place = { id: base.points[0].placeId, cityId: base.cityId };
+  assert.deepEqual(recommendExperiencesForPlace(place, options), recommendExperiences(options));
+  assert.equal(JSON.stringify(options), before);
+});
+
+test('related plans refresh with replaced catalogue and expiry boundary', () => {
+  const base = experiences[0];
+  const live = { ...base, lifecycle: 'live', expiresAt: '2026-09-06T12:00:00Z' };
+  const place = { id: base.points[0].placeId, cityId: base.cityId };
+  const options = { experiences: [live], interests: [], dismissed: [] };
+  assert.equal(recommendExperiencesForPlace(place, { ...options, now: new Date('2026-09-06T11:59:59Z') }).length, 1);
+  assert.equal(recommendExperiencesForPlace(place, { ...options, now: new Date('2026-09-06T12:00:00Z') }).length, 0);
+  assert.equal(recommendExperiencesForPlace(place, { ...options, experiences: [] }).length, 0);
+});
 const { guides } = require('../.test-build/data/guides.js');
 const { cities } = require('../.test-build/data/cities.js');
 const { CATALOG_SCHEMA_VERSION, embeddedCatalog } = require('../.test-build/data/catalog.js');
