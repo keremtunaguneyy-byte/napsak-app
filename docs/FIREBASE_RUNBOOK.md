@@ -89,6 +89,20 @@ npm run check:firebase
 
 `test:rules`, Java ve Firebase Firestore emulator binary’si gerektirir. İlk çalıştırmada Firebase CLI emulator bileşenini indirebilir.
 
+### Security Rules CI
+
+`.github/workflows/security-rules.yml`, Rules veya ilgili test/bağımlılık dosyaları değiştiğinde Firestore emulator testini GitHub Actions üzerinde çalıştırır. İş akışı:
+
+- yalnız `contents: read` izni kullanır,
+- Node 24 ve Temurin Java 21 kurar,
+- `npm ci` ile kilit dosyasındaki bağımlılıkları yükler,
+- `npm run test:rules` çalıştırır,
+- aynı ref için eski çalışmayı iptal eder ve 10 dakikada zaman aşımına uğrar.
+
+Checkout, Node ve Java action’ları hareketli major etiketlerine değil, doğrulanan release commit SHA’larına sabitlenmiştir. Dependabot veya bilinçli bakım PR’ı olmadan bu SHA’lar değiştirilmemelidir.
+
+Rules kullanıcı belgesinde yalnız sözleşmedeki alanları kabul eder. İlgi alanları allowlist ile sınırlıdır; kayıt, gizleme ve ilgi listelerinde tekrar bulunamaz; aynı ID hem kayıtlı hem gizli olamaz. `updatedAt` istemcinin seçtiği tarih değil `request.time` olmalıdır. Kullanıcı yalnız kendi belgesini okuyabilir, yazabilir ve silebilir.
+
 ## Seed
 
 Dry-run varsayılandır ve credential istemez:
