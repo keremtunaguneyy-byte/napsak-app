@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, formatDurationRange, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
+const { ANALYTICS_SCHEMA_VERSION, createProductAnalyticsEvent } = require('../.test-build/analyticsPolicy.js');
 
 test('distanceInKm returns zero for the same point', () => {
   assert.equal(distanceInKm({ latitude: 39.93, longitude: 32.85 }, { latitude: 39.93, longitude: 32.85 }), 0);
@@ -637,4 +638,34 @@ test('screen tags accept only stable non-personal identifiers', () => {
   assert.equal(isSafeScreenName('saved'), true);
   assert.equal(isSafeScreenName('user@example.com'), false);
   assert.equal(isSafeScreenName('39.9208,32.8541'), false);
+});
+
+test('product analytics accepts only versioned aggregate events', () => {
+  assert.deepEqual(createProductAnalyticsEvent({
+    name: 'recommendation_action',
+    properties: { action: 'save', itemKind: 'place', rank: 2 },
+  }), {
+    name: 'recommendation_action',
+    properties: { action: 'save', itemKind: 'place', rank: 2 },
+    schemaVersion: ANALYTICS_SCHEMA_VERSION,
+  });
+  assert.deepEqual(createProductAnalyticsEvent({
+    name: 'location_permission_result', properties: { result: 'denied' },
+  }).properties, { result: 'denied' });
+});
+
+test('product analytics rejects personal, content-identifying and unknown fields', () => {
+  for (const forbidden of [
+    { name: 'screen_viewed', properties: { screen: 'results', userId: 'anonymous-uid' } },
+    { name: 'preference_flow_completed', properties: { mode: 'onboarding', mood: 'Sakin' } },
+    { name: 'recommendation_action', properties: { action: 'save', itemKind: 'place', itemId: 'secret-place' } },
+    { name: 'location_permission_result', properties: { result: 'granted', coordinates: '39.9,32.8' } },
+  ]) assert.throws(() => createProductAnalyticsEvent(forbidden), /forbidden property/i);
+});
+
+test('product analytics rejects invalid counts, ranks and enum values', () => {
+  assert.throws(() => createProductAnalyticsEvent({ name: 'recommendation_batch_viewed', properties: { filter: 'all', count: 6, trigger: 'initial' } }), /invalid/i);
+  assert.throws(() => createProductAnalyticsEvent({ name: 'recommendation_action', properties: { action: 'save', itemKind: 'place', rank: 0 } }), /invalid/i);
+  assert.throws(() => createProductAnalyticsEvent({ name: 'screen_viewed', properties: { screen: 'profile' } }), /allowlisted/i);
+  assert.throws(() => createProductAnalyticsEvent({ name: 'external_action', properties: { action: 'share', itemKind: 'place' } }), /invalid/i);
 });

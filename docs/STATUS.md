@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #26 main'de; hata gözlemi #27'de hazırlanıyor
+## Son güncelleme — #27 main'de; gizlilik güvenli analitik #28'de hazırlanıyor
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -12,7 +12,8 @@ Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #24 telefon testini geçti ve squash merge ile main'e alındı: `fc74b19`. Firebase ortam sözleşmesi ve release ön-kontrolü main'dedir.
 - #25 Java 21 CI'da gerçek Firestore emulator testini geçti ve squash merge ile main'e alındı: `8a0eff8`. Sertleştirilmiş Rules ve sürekli CI kanıtı main'dedir.
 - #26 telefon testini geçti ve squash merge ile main'e alındı: `4487034`. Çift onaylı Ayarlar/veri silme ekranı, yerel v1–v5 temizliği, sync queue temizliği, sahibine ait Firestore belge silme ve ayrı Auth sonucu main'dedir.
-- #27 dalında gizlilik güvenli Sentry temeli, render hata sınırı, kritik operasyon hata kodları ve release preflight hazırlanıyor. İlk tur TypeScript ve 60/60 test geçti.
+- #27 telefon testini geçti ve squash merge ile main'e alındı: `139c7cb`. Gizlilik güvenli Sentry temeli, render hata sınırı, kritik operasyon hata kodları ve release preflight main'dedir. Expo geliştirme LogBox'ının kontrollü test hatasını ayrıca göstermesi beklenen geliştirme davranışıdır; release arayüzünde test düğmesi yoktur.
+- #28 dalında sağlayıcıdan bağımsız, fail-closed analitik olay sözleşmesi ve temel ürün hareketleri hazırlanıyor. Transport varsayılan olarak bağlı değildir; bu aşamada cihazdan analitik verisi gönderilmez. İlk tur TypeScript ve 63/63 test geçti.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -20,8 +21,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `4487034`; #19–#26 dâhil.
-- Hata gözlemi adayı: `agent/error-observability-20260907`; main'den ayrılan #27 çalışma dalı.
+- GitHub main: `139c7cb`; #19–#27 dâhil.
+- Analitik sözleşmesi adayı: `agent/privacy-safe-analytics-20260907`; main'den ayrılan #28 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -32,7 +33,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Kullanıcı | Onboarding, tercihler, kayıt/gizleme/geri alma, bağlam yenileme ve yerel kalıcılık main'de | Tasarım uyarlaması ve uçtan uca test |
 | Ankara 101 | Gelişmiş editoryal görünüm #19 ile main'de; birleşik telefon testi geçti | Tasarım sistemiyle görsel uyarlama |
 | Backend | Firebase Auth/Firestore, repository, cache, validation, sync, env kapısı, Rules CI ve veri silme main'de | Gerçek dev/prod proje ve deploy kanıtı |
-| Hata gözlemi | #27'de env-gated Sentry, veri minimizasyonu ve render hata sınırı hazırlanıyor | Cihaz regresyonu; gerçek development DSN, source map ve dashboard olayı |
+| Hata gözlemi | #27 main'de; env-gated Sentry, veri minimizasyonu, render hata sınırı ve telefon testi var | Gerçek development DSN, source map ve dashboard olayı |
+| Ürün analitiği | #28'de kişisel veri içermeyen izinli olay sözleşmesi ve uygulama bağlantıları hazırlanıyor; veri gönderimi kapalı | Sağlayıcı, veri bölgesi/saklama, açıklama/izin ve canlı şema kanıtı |
 | Ana sayfa/marka | Tasarım sohbetinde çalışılıyor; yeni görünüm uygulanmış değil | Onaylı ekran + tasarım şartnamesi |
 | Bağlam eskimesi | #23 main'de; altı saat/yeni gün kuralı, zaman damgası ve v5 migration telefon testli | Tasarım sistemiyle görsel uyarlama |
 | Etkinlik | #22 main'de; 10–20 Eylül tarihli 12 doğrulanmış kayıt ve dürüst boş durum mevcut | Düzenli içerik operasyonu |
@@ -42,8 +44,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Çalışma sırası
 
-1. #27 hata gözlemini cihaz regresyonuyla doğrula; gerçek Sentry development projesi/source map kanıtı açık kalsın.
-2. Kişisel veri içermeyen analitik olay sözleşmesini kur.
+1. #28 kişisel veri içermeyen analitik olay sözleşmesini cihaz regresyonuyla doğrula; sağlayıcı ve kullanıcı açıklaması ayrı kapı kalsın.
+2. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
 3. Düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
 4. Backup/export ve restore provasını kanıtla.
 5. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.

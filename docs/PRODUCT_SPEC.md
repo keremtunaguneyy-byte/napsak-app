@@ -477,6 +477,12 @@ MVP analitiği eklendiğinde izlenmesi önerilen metrikler:
 
 Hedef sayılar gerçek kullanım tabanı oluşmadan uydurulmamalıdır.
 
+### 12.1 Gizlilik güvenli ölçüm sözleşmesi — #28 uygulama adayı
+
+MVP olayları yalnız sürümlü allowlist üzerinden üretilebilir. Ekran, tamamlanma, öneri grubu ve eylem türü ölçülebilir; kullanıcının seçtiği mod/ilgi/bütçe/kişi/süre değerleri, koordinatı, içerik adı veya kimliği ve serbest metin ölçüm olayına giremez. Bilinmeyen alanlar sessizce temizlenmek yerine reddedilir.
+
+#28 sağlayıcı seçmez ve varsayılan transport bağlamaz; dolayısıyla bu aşamada cihazdan analitik verisi çıkmaz. Canlı sağlayıcı ancak veri bölgesi/saklama, otomatik kimlik ve kayıt özelliklerinin kapatılması, kullanıcı açıklaması/izin davranışı ve silme/export yolu ayrıca onaylandıktan sonra bağlanabilir. Ayrıntılı sözleşme `ANALYTICS_SPEC.md` içindedir.
+
 ## 13. Açık ürün soruları
 
 Agent aşağıdaki konularda ürün sahibinin yerine karar veremez:
