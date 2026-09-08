@@ -39,4 +39,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #30 N’apsak Google Maps rotaları telefon testli olarak main'dedir. #31 günlük etkinlik katalog sağlığı kontrolünü kurar. Gerçek Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #31 günlük etkinlik katalog sağlığı kontrolü main'dedir. #32 Firestore export/restore güvenlik aracını kurar; gerçek bulut provası credential ve ayrı recovery projesi gerektirir. Gerçek Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
