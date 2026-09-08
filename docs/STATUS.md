@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 8 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #33 main'de; performans tabanı #34'te hazırlanıyor
+## Son güncelleme — #34 ve #35 main'de
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -19,17 +19,18 @@ Kontrol tarihi: 8 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #31 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `717d5da`. Günlük etkinlik envanteri, ileri tarih ufku ve kaynak doğrulama yaşı kontrolü main'dedir.
 - #32 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `a857e8f`. Production Firestore export ve ayrı recovery restore için fail-closed dry-run/apply aracı main'dedir. Bu çalışma ortamında `gcloud` bulunmadığı için gerçek bulut provası henüz yoktur.
 - #33 telefon/TalkBack testini geçti ve squash merge ile main'e alındı: `34ce6fb`. Ekran okuyucu rolleri/etiketleri, durum semantiği, görsel açıklamaları, 44 px dokunma hedefleri ve sürekli kaynak kontrolü main'dedir.
-- #34 dalında 5.000 çağrılık öneri p95 benchmarkı ve kişisel veri içermeyen kaba uygulama süreleri hazırlanıyor.
+- #34 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `839a17945b97372a599ffba3df34351f125c08b6`. PR doğrulamasında 77/77 test, 2.560 genel ve 640 Experience stres senaryosu geçti; 5.000 çağrılık öneri benchmarkında p95 yaklaşık 4,1–4,3 ms ölçüldü ve geçici CI bütçesi 25 ms olarak korundu. Bunlar #34'ün tarihsel birleşme kanıtıdır; güncel release cihaz performansı değildir.
+- #35 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `801dac528144ebf345d99daebd4d6e25871e6992`. Bilinen dokuz yayın engeli fail-closed strict production kapısına bağlandı; engellerin hiçbiri bu birleşmeyle kapanmış sayılmadı.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
 Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince kaba aralıklar: işlevsel MVP kod kapsamı %60–75, tasarım/marka %25–35, yayına hazırlık %20–30; genel ürün hazırlığı yaklaşık %45–55. Bunlar süre/maliyet vaadi veya test başarı oranı değildir. Öneri ve kalıcılık kodları ileride; nihai ana sayfa, cihaz onayı, güncel içerik ve operasyon geride olduğu için genel oran daha düşüktür. Sabit kabul listesi oluşturulunca bu öznel aralıkların yerine tamamlanan kabul maddeleri sayılmalıdır.
 
-## Sürüm ayrımı
+## Güncel kontrol noktası
 
-- GitHub main: `839a179`; #19–#34 dâhil.
-- Yayın kapısı adayı: `agent/release-readiness-20260908`; main ağacından ayrılan #35 çalışma dalı.
-- Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
+- GitHub main: `801dac528144ebf345d99daebd4d6e25871e6992`; #19–#35 dâhil.
+- Aktif uygulama/yayın adayı dalı veya açık PR yoktur. `agent/release-readiness-20260908`, merge edilmiş #35'in eski kaynak dalıdır; aktif çalışma olarak yorumlanmaz.
+- Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; repository'de güncel onaylı tasarım devri bulunmadığı için uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
 
@@ -50,29 +51,53 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama |
 | Erişilebilirlik | #33 semantik, hedef boyutu, CI ve TalkBack telefon kanıtıyla main'de | Büyük yazı ve kontrast ölçümü |
 | Performans | #34 main'de; 5.000 çağrılık öneri p95 bütçesi ve kaba runtime süreleri var | Release APK soğuk açılış, bellek ve jank cihaz ölçümü |
-| Yayın/rollback | #35 otomatik engel envanteri, strict production kapısı ve geri dönüş runbook'unu hazırlıyor | Paket/bundle kimliği kararı, EAS bağlantısı ve dış kanıtların kapatılması |
+| Yayın/rollback | #35 main'de; otomatik engel envanteri, strict production kapısı ve geri dönüş runbook'u var | Aşağıdaki dokuz açık engelin gerçek değer ve dış kanıtlarla kapatılması |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
-## Çalışma sırası
+## Açık dokuz yayın engeli
 
-1. #35 yayın engeli envanteri, production kapısı ve rollback prosedürünü kur.
-2. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
-3. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
-4. Uçtan uca test ve cihaz matrisini kapat; strict release kapısını sıfır engelle çalıştır.
+Bu liste `RELEASE_RUNBOOK.md`, `release-readiness.json` ve `scripts/checkReleaseReadiness.ts` ile karşılaştırılmıştır. #35 bu engelleri görünür ve denetlenebilir yaptı; hiçbirini kapatmadı.
 
-PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #34 performans tabanı; gerçek Firebase/Sentry ortam bağlantısı; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından e2e/cihaz matrisi ve release/mağaza hazırlığı.
+| Engel adı | Güncel durum |
+|---|---|
+| `android_package_unverified` | Açık |
+| `eas_project_id_unverified` | Açık |
+| `ios_bundle_identifier_unverified` | Açık |
+| `privacy_policy_url_unverified` | Açık |
+| `production_firebase_unverified` | Açık |
+| `production_sentry_unverified` | Açık |
+| `release_device_matrix_unverified` | Açık |
+| `restore_drill_unverified` | Açık |
+| `support_url_unverified` | Açık |
 
-## İlk ürün işi: mekân detayından planlara geçiş
+## Sıradaki işler — bağımlılığa göre
 
-Onay kaynağı: mevcut konuşma ve PRODUCT_SPEC §9.4.
+### Dış hesap veya erişim gerektirenler
 
-- Seçili mekânın ID'si Experience.points[].placeId içinde aranır.
-- Gizlenen, süresi dolmuş ve mevcut uygunluk kurallarına uymayan planlar gösterilmez.
-- Başlık: Bu mekânı kullanan N’apsak planları. Eşleşme yoksa bölüm gizli.
-- Kart mevcut plan detayını açar; kaydetme/gizleme davranışını bozmaz.
-- Test: eşleşen ID, benzer isimli farklı ID, gizlenen/expired plan, boş sonuç ve mevcut uygunluk filtresi.
-- Veri şeması değişikliği gerekmemesi beklenir; uygulama incelemesinde doğrulanır.
+- Kalıcı Android package, iOS bundle identifier ve gerçek EAS proje bağlantısını oluşturmak.
+- Ayrı production Firebase projesini gerçek değerlerle bağlamak; development ortamında gerçek Firestore/Auth silme kanıtını ayrıca almak.
+- Development/production Sentry projelerini bağlamak; source map ve güvenli dashboard olayını kanıtlamak.
+- HTTPS gizlilik politikası ve destek sayfalarını yayımlayıp doğrulamak.
+- Gerçek bucket/IAM ile production export ve ayrı boş recovery projesinde restore provası yapmak.
+- İmzalı release build üretip düşük/orta Android ve hedef iOS cihaz matrisini kaydetmek.
+- Canlı analitik istenirse ANALYTICS_SPEC'teki sağlayıcı, veri bölgesi/saklama, izin ve silme/export kapılarını ayrıca kapatmak; transport bu karara kadar kapalı kalır.
+
+### Tasarım devri gerektirenler
+
+- Onaylı logo, renk paleti ve tasarım tokenlarını uygulamak.
+- Ana sayfa, kart/detay ailesi, Kaydedilenler ve Ankara 101'i onaylı tasarım sistemiyle uyarlamak.
+- Tasarım uygulamasından sonra büyük yazı, kontrast ve birleşik cihaz kabulünü yeniden doğrulamak.
+
+### Hemen yapılabilecekler
+
+- Bu geçiş PR'ıyla proje hafızasını #35 sonrası main durumuna eşitlemek.
+- Mevcut App Quality, Security Rules ve Event Catalog Health kontrollerini korumak; etkinlik sağlığı başarısız olursa EVENT_OPERATIONS_RUNBOOK'a göre kaynakları insan doğrulamasıyla yenilemek.
+- Mevcut kritik kullanıcı akışlarını uçtan uca/cihaz matrisi kontrol listesine dönüştürmek; imzalı build gerektiren gerçek cihaz kanıtını dış erişim aşamasında tamamlamak.
+
+## Tamamlanan ürün işi: mekân detayından planlara geçiş
+
+PRODUCT_SPEC §9.4'teki davranış #21 ile main'e alındı: `dcde744961d914a7a4c1f555939fe55aad11f8cf`. Seçili mekân ilişkisi `Experience.points[].placeId` üzerinden kuruluyor; gizlenen, süresi dolmuş ve uygun olmayan planlar eleniyor. Eşleşme yoksa bölüm gizleniyor. Kullanıcı temel telefon akışını doğruladı.
 
 ## Teknik temeller — tamamlandı denmeyen kontrol listesi
 

@@ -4,16 +4,17 @@ Bu belge bir sürümün mağazaya gönderilmeye hazır olduğunu varsaymaz. `npm
 
 ## Şu an açık kapılar
 
-| Kapı | Kapanma kanıtı |
-|---|---|
-| Android paket kimliği | Onaylı ters alan adı biçiminde `expo.android.package` |
-| iOS bundle kimliği | Onaylı ters alan adı biçiminde `expo.ios.bundleIdentifier` |
-| EAS proje bağlantısı | Gerçek proje UUID’si `expo.extra.eas.projectId` |
-| Gizlilik ve destek | Yayında çalışan HTTPS politika ve destek adresleri |
-| Production Firebase | Ayrı production proje değerleri; emulator ve dev/test proje yok |
-| Production Sentry | DSN, org, proje, build tokenı, source map ve dashboard olayı |
-| Restore provası | Ayrı recovery projede başarılı operation + katalog/kullanıcı kontrol kaydı |
-| Cihaz matrisi | İmzalı release build ile düşük/orta Android ve hedef iOS test kaydı |
+| Engel adı | Kapı | Kapanma kanıtı |
+|---|---|---|
+| `android_package_unverified` | Android paket kimliği | Onaylı ters alan adı biçiminde `expo.android.package` |
+| `eas_project_id_unverified` | EAS proje bağlantısı | Gerçek proje UUID’si `expo.extra.eas.projectId` |
+| `ios_bundle_identifier_unverified` | iOS bundle kimliği | Onaylı ters alan adı biçiminde `expo.ios.bundleIdentifier` |
+| `privacy_policy_url_unverified` | Gizlilik politikası adresi | Yayında çalışan HTTPS gizlilik politikası adresi |
+| `production_firebase_unverified` | Production Firebase | Ayrı production proje değerleri; emulator ve dev/test proje yok |
+| `production_sentry_unverified` | Production Sentry | DSN, org, proje, build tokenı, source map ve dashboard olayı |
+| `release_device_matrix_unverified` | Cihaz matrisi | İmzalı release build ile düşük/orta Android ve hedef iOS test kaydı |
+| `restore_drill_unverified` | Restore provası | Ayrı recovery projede başarılı operation + katalog/kullanıcı kontrol kaydı |
+| `support_url_unverified` | Destek adresi | Yayında çalışan HTTPS destek adresi |
 
 `release-readiness.json` yalnız bilinen açık engelleri sabitler. Bir engelin bu dosyadan silinmesi onun kapandığını kanıtlamaz; denetim girdisi ve ilgili dış kanıt da bulunmalıdır.
 

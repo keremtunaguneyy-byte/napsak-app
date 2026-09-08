@@ -338,7 +338,7 @@ Kullanıcı öneriyi kaydedebilir, kaydedilenlerden çıkarabilir ve haritada a�
 
 ### 9.4 Mekândan N’apsak planına geçiş — Kararlaştırıldı
 
-Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mekânı kullanan N’apsak planları” başlığıyla gösterilecek. İlişki `Experience.points[].placeId` üzerinden kurulacak; başlık benzerliği kullanılmayacak. Gizlenen ve süresi dolmuş planlar gösterilmeyecek, eşleşme yoksa bölüm gizlenecek. Kullanıcı bu ek özelliği daha önce onayladı; bu belge kaydı uygulama tamamlandı anlamına gelmez. Kabul kriterleri STATUS.md'dedir.
+Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mekânı kullanan N’apsak planları” başlığıyla gösterilir. İlişki `Experience.points[].placeId` üzerinden kurulur; başlık benzerliği kullanılmaz. Gizlenen ve süresi dolmuş planlar gösterilmez, eşleşme yoksa bölüm gizlenir. Bu davranış #21 ile main'e alındı (`dcde744961d914a7a4c1f555939fe55aad11f8cf`) ve kullanıcı temel telefon akışını doğruladı.
 
 ### 9.5 Kaydedilenler sırası — Kararlaştırıldı
 
@@ -485,11 +485,11 @@ MVP analitiği eklendiğinde izlenmesi önerilen metrikler:
 
 Hedef sayılar gerçek kullanım tabanı oluşmadan uydurulmamalıdır.
 
-### 12.1 Gizlilik güvenli ölçüm sözleşmesi — #28 uygulama adayı
+### 12.1 Gizlilik güvenli ölçüm sözleşmesi — #28 ile uygulandı
 
 MVP olayları yalnız sürümlü allowlist üzerinden üretilebilir. Ekran, tamamlanma, öneri grubu ve eylem türü ölçülebilir; kullanıcının seçtiği mod/ilgi/bütçe/kişi/süre değerleri, koordinatı, içerik adı veya kimliği ve serbest metin ölçüm olayına giremez. Bilinmeyen alanlar sessizce temizlenmek yerine reddedilir.
 
-#28 sağlayıcı seçmez ve varsayılan transport bağlamaz; dolayısıyla bu aşamada cihazdan analitik verisi çıkmaz. Canlı sağlayıcı ancak veri bölgesi/saklama, otomatik kimlik ve kayıt özelliklerinin kapatılması, kullanıcı açıklaması/izin davranışı ve silme/export yolu ayrıca onaylandıktan sonra bağlanabilir. Ayrıntılı sözleşme `ANALYTICS_SPEC.md` içindedir.
+#28 main'e alındı (`065a00f00f0842bbcb30867276f909b408530358`); sağlayıcı seçmez ve varsayılan transport bağlamaz, dolayısıyla bu aşamada cihazdan analitik verisi çıkmaz. Canlı sağlayıcı ancak veri bölgesi/saklama, otomatik kimlik ve kayıt özelliklerinin kapatılması, kullanıcı açıklaması/izin davranışı ve silme/export yolu ayrıca onaylandıktan sonra bağlanabilir. Ayrıntılı sözleşme `ANALYTICS_SPEC.md` içindedir.
 
 ## 13. Açık ürün soruları
 
@@ -497,14 +497,13 @@ Agent aşağıdaki konularda ürün sahibinin yerine karar veremez:
 
 1. Ana sonuç ekranında aynı anda kaç öneri gösterilecek: 5 mi, 6 mı, kademeli “daha fazla” mı?
 2. Experience kartında rota adımları kart üzerinde mi, ayrıntı ekranında mı gösterilecek?
-3. Anlık plan bağlamı uygulama kapanınca ne kadar süre korunacak?
-4. Konum verilmezse varsayılan merkez/ilçe seçimi nasıl yapılacak?
-5. Bütçe filtre mi, sıralama sinyali mi, yoksa içerik türüne göre hibrit mi olacak?
-6. Canlı etkinliklerin veri kaynağı ve doğrulama sıklığı ne olacak?
-7. Kullanıcı katkıları yayınlanmadan önce hangi moderasyon sürecinden geçecek?
-8. Ankara 101 ile evergreen Experience arasındaki kesin sınır nedir?
-9. Alt navigasyonun nihai bölümleri nelerdir?
-10. Profil olmadan kişiselleştirme ne kadar ileri götürülecek?
+3. Konum verilmezse varsayılan merkez/ilçe seçimi nasıl yapılacak?
+4. Bütçe filtre mi, sıralama sinyali mi, yoksa içerik türüne göre hibrit mi olacak?
+5. Canlı etkinliklerin veri kaynağı ve doğrulama sıklığı ne olacak?
+6. Kullanıcı katkıları yayınlanmadan önce hangi moderasyon sürecinden geçecek?
+7. Ankara 101 ile evergreen Experience arasındaki kesin sınır nedir?
+8. Alt navigasyonun nihai bölümleri nelerdir?
+9. Profil olmadan kişiselleştirme ne kadar ileri götürülecek?
 
 ## 14. PR çalışma sözleşmesi
 

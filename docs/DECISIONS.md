@@ -4,7 +4,7 @@
 
 ## 2026-09-08 — Performans iddiası ölçüm katmanına göre yapılır
 
-Durum: #34'te uygulanıyor.
+Durum: #34 ile main'e alındı: `839a17945b97372a599ffba3df34351f125c08b6`.
 
 Saf öneri motoru 5.000 çağrılık p95 benchmarkıyla ve geçici 25 ms CI bütçesiyle korunur. Uygulama açılışı ve öneri hesaplama örnekleri yalnız kaba süre kovalarına dönüştürülür; ham süre, kullanıcı bağlamı, içerik veya cihaz kimliği analitik olaya girmez. Expo development açılışı release performansı sayılmaz. Gerçek release cihaz p50/p95'i ayrıca ölçülmeden uygulama açılışının hızlı olduğu ilan edilmez.
 
@@ -36,19 +36,19 @@ Birden çok duraklı N’apsak planı, katalogdaki koordinat sırasını koruyan
 
 ## 2026-09-07 — Kaydedilenlerde son eklenen önce
 
-Durum: Kullanıcı tarafından onaylandı; #29'da uygulanıyor.
+Durum: #29 ile main'e alındı: `711ead3f3a5d72acfaa2a99363d2cd235b2d79c9`; kullanıcı telefon testini doğruladı.
 
 Kaydedilen bütün içerik türleri tek zaman sırasındadır; son kaydedilen en üstte görünür. Bir içerik çıkarılıp yeniden kaydedilirse yeniden listenin başına gelir. Türlere göre ayrı render blokları ve ilk kaydedilenin önde kalması, listenin sırasını anlaşılmaz gösteriyordu. Saklanan kimlik dizisinin kronolojisi korunur; sunumda ters çevrilip katalog, Ankara 101 rehberi ve yerel rota tek akışta çözülür. Veri migration'ı gerekmez.
 
 ## 2026-09-06 — Sohbetten bağımsız ortak proje hafızası
 
-Durum: Kullanıcının açık isteği; bu belge PR'ında hazırlanıyor.
+Durum: #20 ile main'e alındı: `fa0a0a64825d05842fc5fa856c5ccb9dd0f69945`.
 
 Ürün, tasarım, algoritma, operasyon ve durum bilgisi aynı repo docs klasöründe birbirine bağlı tutulacak. Kullanıcı başka sohbete veya yapay zekâya geçtiğinde projeyi baştan anlatmak istemiyor. İlgili dosyalar START_HERE'de tanımlı. Tüm tarihî konuşmaların eksiksiz arşivlendiği iddia edilmeyecek.
 
 ## 2026-09-06 — Tasarım devri
 
-Durum: Tasarım ve Marka sohbeti kullanıcı tarafından açıldı. Son cevabı bu çalışma oturumunda doğrudan okunmuş değil.
+Durum: Tasarım çalışması ayrı hatta sürüyor; repository'de güncel onaylı devir doğrulanamadığı için güncel devir bekleniyor.
 
 Beğenilen ana sayfa yapısı ve N? logo geometrisi korunuyor; nihai palet açık. Mor/turuncu beğenisi renk kararı değildir. Kullanıcının karşılaştırmalı çok sayıda renk varyasyonu isteği DESIGN_SPEC'e işlendi. Önceki asistanın “yalnız iki varyasyon” önerisi bağlayıcı kullanıcı kararı değildir.
 
