@@ -1,0 +1,13 @@
+{
+  "knownBlockers": [
+    "android_package_unverified",
+    "eas_project_id_unverified",
+    "ios_bundle_identifier_unverified",
+    "privacy_policy_url_unverified",
+    "production_firebase_unverified",
+    "production_sentry_unverified",
+    "release_device_matrix_unverified",
+    "restore_drill_unverified",
+    "support_url_unverified"
+  ]
+}
