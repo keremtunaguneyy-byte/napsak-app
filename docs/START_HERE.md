@@ -6,7 +6,7 @@ Güncelleme: 6 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından
 
 1. PRODUCT_SPEC.md: ürünün amacı, kapsamı, kalıcı kararlar ve gerekçeleri.
 2. STATUS.md: hangi sürümde ne var, ne doğrulandı, sıradaki iş.
-3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md, EVENT_OPERATIONS_RUNBOOK.md, PERFORMANCE_RUNBOOK.md veya RELEASE_RUNBOOK.md.
+3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md, EVENT_OPERATIONS_RUNBOOK.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md veya RELEASE_RUNBOOK.md.
 4. DECISIONS.md: son kararlar, öneriler ve açık konular.
 
 Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakları ve incelediği branch/commit'i belirtmeli. Kullanıcıya bütün ürünü yeniden anlattırmamalı. Belgeyle kod çelişiyorsa bunu açıklamalı; sessizce ürün kararı değiştirmemeli.
@@ -23,6 +23,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 | ANALYTICS_SPEC.md | İzinli ürün olayları, yasak kişisel alanlar ve sağlayıcı/izin kapısı |
 | EVENT_OPERATIONS_RUNBOOK.md | Etkinlik envanteri, kaynak tazeliği, günlük kontrol ve yenileme prosedürü |
 | PERFORMANCE_RUNBOOK.md | Öneri benchmarkı, kaba cihaz süreleri, bütçeler ve regresyon prosedürü |
+| DEVICE_ACCEPTANCE_RUNBOOK.md | Kritik kullanıcı yolculukları, cihaz matrisi, release kabul ayrımı ve kanıt biçimi |
 | RELEASE_RUNBOOK.md | Yayın engelleri, production kapısı, staged dağıtım ve geri dönüş prosedürü |
 | STATUS.md | Sürüme bağlı gerçekleşen işler, kanıt ve sonraki çalışma |
 | DECISIONS.md | Tarihli karar, gerekçe, durum ve etkilenen dosyalar |
@@ -41,4 +42,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #34 öneri p95 benchmarkı ve kişisel veri içermeyen kaba çalışma zamanı süreleriyle main'dedir. #35 bilinen yayın engellerini otomatik denetlenen bir kapıya ve geri dönüş runbook'una bağlayan `801dac528144ebf345d99daebd4d6e25871e6992` commit'iyle main'dedir. Gerçek bulut restore provası, Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, RELEASE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #34 öneri p95 benchmarkı ve kişisel veri içermeyen kaba çalışma zamanı süreleriyle main'dedir. #35 bilinen yayın engellerini otomatik denetlenen bir kapıya ve geri dönüş runbook'una bağlayan `801dac528144ebf345d99daebd4d6e25871e6992` commit'iyle main'dedir. Gerçek bulut restore provası, Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Cihaz matrisi hazırlığı ile gerçek imzalı release kabulü DEVICE_ACCEPTANCE_RUNBOOK.md içinde ayrılır. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md, RELEASE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
