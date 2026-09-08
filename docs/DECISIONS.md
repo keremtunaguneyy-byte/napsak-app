@@ -2,6 +2,12 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
 
+## 2026-09-08 — Firestore restore yalnız ayrı recovery projesine
+
+Durum: #32'de güvenlik aracı ve dry-run olarak uygulanıyor; gerçek bulut provası bekliyor.
+
+Production managed export açık proje ve bucket onayı ister. Restore, aynı kimlikteki belgelerin üstüne yazabildiği için production hedefi kabul edilmez; yalnız kaynak projeden farklı, boş ve atılabilir bir recovery projesine yapılır. Restore tamamlanmış sayılmadan operation success, katalog parity ve kullanıcı verisi kapsam kontrolü gerekir. Bu çalışma gerçek bucket, billing, IAM veya canlı restore kanıtı değildir.
+
 ## 2026-09-07 — Günlük etkinlik katalog sağlığı
 
 Durum: #31'de uygulanıyor.

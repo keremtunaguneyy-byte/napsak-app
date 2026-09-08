@@ -171,15 +171,66 @@ npx firebase-tools deploy --only firestore:rules,firestore:indexes --project YOU
 
 Production deploy aynı dosyaları kullanır fakat hedef proje ID’si açık verilmelidir.
 
-## Backup / export hazırlığı
+## Backup / export ve restore provası
 
-Production katalog migration/seed operasyonundan önce Firestore managed export alınmalıdır. Bucket ve retention politikası production kurulurken belirlenir. Örnek operasyon:
+Firestore managed export/import için billing açık olmalı ve Firebase projesi Blaze planında bulunmalıdır. Bucket Firestore veritabanına yakın bir konumda olmalı; Requester Pays veya Rapid bucket kullanılamaz. Firestore service agent'ın bucket erişimi ayrıca doğrulanır. Export belge başına read, import belge başına write ve Cloud Storage saklama maliyeti doğurur.
+
+### Production export
+
+Komutlar varsayılan olarak dry-run'dır ve `gcloud` ya da credential istemez:
 
 ```bash
-gcloud firestore export gs://YOUR_BACKUP_BUCKET/firestore/YYYY-MM-DD --project=YOUR_PROD_PROJECT
+npm run backup:firestore -- \
+  --project=YOUR_PROD_PROJECT \
+  --bucket=gs://YOUR_BACKUP_BUCKET \
+  --timestamp=2026-09-08T01:02:03Z
 ```
 
-Export konumu, işlem zamanı ve ilgili katalog sürümü release kaydına yazılır. Restore işlemi otomatik script değildir; yanlış projeye geri yükleme riskini azaltmak için bilinçli operasyon olarak tutulur.
+Gerçek export iki hedefin de birebir onayını ister:
+
+```bash
+npm run backup:firestore -- \
+  --project=YOUR_PROD_PROJECT \
+  --bucket=gs://YOUR_BACKUP_BUCKET \
+  --confirm-production=YOUR_PROD_PROJECT \
+  --confirm-bucket=gs://YOUR_BACKUP_BUCKET \
+  --apply
+```
+
+Çıktı `gs://BUCKET/firestore/PROJECT/TIMESTAMP` biçiminde proje ve zamana göre ayrılır. `--async` kullanılmadığı için `gcloud` komutu operasyon tamamlanana kadar bekler. Terminal kapanırsa operasyon iptal olmaz; durum `gcloud firestore operations list --project=PROJECT` ve `gcloud firestore operations describe OPERATION --project=PROJECT` ile kontrol edilir.
+
+### Ayrı recovery projesine restore
+
+Import aynı kimlikteki belgelerin üstüne yazabilir ve exportta olmayan mevcut belgeleri silmez. Bu nedenle script production hedefini kabul etmez; restore yalnız boş, ayrı ve atılabilir bir recovery projesine yapılır.
+
+Dry-run:
+
+```bash
+npm run restore:firestore -- \
+  --source-project=YOUR_PROD_PROJECT \
+  --target-project=YOUR_RECOVERY_PROJECT \
+  --target-environment=recovery \
+  --source=gs://YOUR_BACKUP_BUCKET/firestore/YOUR_PROD_PROJECT/EXPORT_PREFIX
+```
+
+Gerçek import, hedef proje ID'si ve boş hedef ifadesini ayrı ayrı ister:
+
+```bash
+npm run restore:firestore -- \
+  --source-project=YOUR_PROD_PROJECT \
+  --target-project=YOUR_RECOVERY_PROJECT \
+  --target-environment=recovery \
+  --source=gs://YOUR_BACKUP_BUCKET/firestore/YOUR_PROD_PROJECT/EXPORT_PREFIX \
+  --confirm-target=YOUR_RECOVERY_PROJECT \
+  --confirm-empty-target=EMPTY_RECOVERY_TARGET_YOUR_RECOVERY_PROJECT \
+  --apply
+```
+
+Import tamamlandıktan sonra Rules/index tanımları ayrıca deploy edilir; export indeks tanımlarını taşımaz. Katalog `npm run test:catalog -- --project=YOUR_RECOVERY_PROJECT` ile karşılaştırılır. Kullanıcı belgesi sayısı ve örnek sahibine erişim, kişisel alanları loglamadan admin doğrulamasıyla kontrol edilir. Restore provası ancak operation success, katalog parity ve bu kullanıcı-verisi kontrolü birlikte release kaydına işlendiğinde tamamlanmış sayılır.
+
+### Kanıt kaydı
+
+Her export/restore kaydında tarih, kaynak proje, hedef recovery proje, GCS prefix, operation adı/sonucu, katalog sürümü ve doğrulayan kişi bulunur. Secret, service-account anahtarı veya kullanıcı belgesi içeriği repoya yazılmaz. En az bir farklı proje restore provası yapılmadan “yedek sistemi doğrulandı” denmez.
 
 ## Sonraki sertleştirme
 

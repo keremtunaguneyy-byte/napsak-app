@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #30 main'de; etkinlik operasyonu #31'de hazırlanıyor
+## Son güncelleme — #31 main'de; backup/restore güvenliği #32'de hazırlanıyor
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -16,7 +16,8 @@ Kontrol tarihi: 7 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #28 telefon regresyonunu geçti ve squash merge ile main'e alındı: `065a00f`. Sağlayıcıdan bağımsız, fail-closed analitik olay sözleşmesi main'dedir; transport varsayılan olarak bağlı olmadığı için cihazdan analitik verisi gönderilmez.
 - #29 telefon testini geçti ve squash merge ile main'e alındı: `711ead3`. Kaydedilenler bütün içerik türleri için tek zaman sırasındadır; son kaydedilen en üstte gösterilir.
 - #30 telefon testini geçti ve squash merge ile main'e alındı: `a260bd0`. Ana sonuç, Kaydedilenler ve plan detayındaki N’apsak planları sıralı Google Maps yürüyüş rotası açar; tek duraklı planlar harita araması açar.
-- #31 dalında günlük etkinlik katalog sağlığı kontrolü hazırlanıyor. Yaklaşan envanter, ileri tarih ufku ve kaynak doğrulama yaşı ayrı operasyon sinyalleri olarak ölçülüyor.
+- #31 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `717d5da`. Günlük etkinlik envanteri, ileri tarih ufku ve kaynak doğrulama yaşı kontrolü main'dedir.
+- #32 dalında production Firestore export ve ayrı recovery projesine restore için fail-closed dry-run/apply aracı hazırlanıyor. Bu çalışma ortamında `gcloud` bulunmadığı için gerçek bulut provası henüz yoktur.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -24,8 +25,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `a260bd0`; #19–#30 dâhil.
-- Etkinlik operasyonu adayı: `agent/event-operations-20260907`; main'den ayrılan #31 çalışma dalı.
+- GitHub main: `717d5da`; #19–#31 dâhil.
+- Backup/restore güvenliği adayı: `agent/backup-restore-20260908`; main ağacından ayrılan #32 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -42,20 +43,20 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | N’apsak harita rotası | #30 main'de; kart, Kaydedilenler ve detay akışı telefonda doğrulandı | Tasarım sistemiyle görsel uyarlama |
 | Ana sayfa/marka | Tasarım sohbetinde çalışılıyor; yeni görünüm uygulanmış değil | Onaylı ekran + tasarım şartnamesi |
 | Bağlam eskimesi | #23 main'de; altı saat/yeni gün kuralı, zaman damgası ve v5 migration telefon testli | Tasarım sistemiyle görsel uyarlama |
-| Etkinlik | #22 main'de; 10–20 Eylül tarihli 12 doğrulanmış kayıt ve dürüst boş durum mevcut | #31 günlük envanter/tazelik kontrolü ve runbook |
+| Etkinlik | #22 içeriği ve #31 günlük envanter/tazelik kontrolü main'de | Düzenli başarısızlık takibi ve kaynak yenilemesi |
+| Yedek/kurtarma | #32'de güvenli komut planı ve dry-run hazırlanıyor | Gerçek bucket/IAM, production export ve ayrı recovery restore kanıtı |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama, erişilebilirlik turu |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
 ## Çalışma sırası
 
-1. #31 düzenli etkinlik içerik doğrulama/sona erme operasyonunu otomatikleştir.
-2. Backup/export ve restore provasını kanıtla.
-3. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
-4. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
-5. Uçtan uca test, cihaz matrisi, performans, erişilebilirlik ve yayın/rollback kapılarını kapat.
+1. #32 backup/export ve ayrı recovery restore güvenliklerini kur; gerçek bulut provasının eksik kısmını kaydet.
+2. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
+3. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
+4. Uçtan uca test, cihaz matrisi, performans, erişilebilirlik ve yayın/rollback kapılarını kapat.
 
-PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #31 etkinlik operasyonu; #32 backup/restore; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından erişilebilirlik, performans, e2e/cihaz matrisi ve release/mağaza hazırlığı.
+PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #32 backup/restore güvenliği; gerçek Firebase/Sentry ortam bağlantısı; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından erişilebilirlik, performans, e2e/cihaz matrisi ve release/mağaza hazırlığı.
 
 ## İlk ürün işi: mekân detayından planlara geçiş
 

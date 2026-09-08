@@ -11,6 +11,75 @@ const {
   analyzeEventCatalog,
 } = require('../.test-build/eventOperations.js');
 const { events: catalogEvents } = require('../.test-build/data/events.js');
+const {
+  assertFirestoreExportApply,
+  assertFirestoreRestoreApply,
+  buildFirestoreExportPlan,
+  buildFirestoreRestorePlan,
+  commandForDisplay,
+} = require('../.test-build/backupOperations.js');
+
+test('Firestore export plans are deterministic and scope the backup by project', () => {
+  const plan = buildFirestoreExportPlan({
+    projectId: 'napsak-production',
+    bucketRoot: 'gs://napsak-backups',
+    timestamp: new Date('2026-09-08T01:02:03.456Z'),
+  });
+  assert.equal(plan.storageUri, 'gs://napsak-backups/firestore/napsak-production/2026-09-08T01-02-03-456Z');
+  assert.deepEqual(plan.args, [
+    'firestore', 'export', plan.storageUri, '--project=napsak-production', '--database=(default)',
+  ]);
+  assert.match(commandForDisplay(plan), /napsak-production/);
+});
+
+test('Firestore export apply requires exact project and bucket confirmations', () => {
+  const base = { projectId: 'napsak-production', bucketRoot: 'gs://napsak-backups' };
+  assert.throws(() => assertFirestoreExportApply(base), /project_confirmation/);
+  assert.throws(() => assertFirestoreExportApply({ ...base, confirmedProject: base.projectId }), /bucket_confirmation/);
+  assert.doesNotThrow(() => assertFirestoreExportApply({
+    ...base, confirmedProject: base.projectId, confirmedBucket: base.bucketRoot,
+  }));
+});
+
+test('Firestore restore only targets a distinct recovery project', () => {
+  const input = {
+    sourceProjectId: 'napsak-production',
+    targetProjectId: 'napsak-recovery',
+    sourceUri: 'gs://napsak-backups/firestore/napsak-production/export-1',
+    targetEnvironment: 'recovery',
+  };
+  const plan = buildFirestoreRestorePlan(input);
+  assert.equal(plan.projectId, 'napsak-recovery');
+  assert.equal(plan.args[1], 'import');
+  assert.throws(() => buildFirestoreRestorePlan({ ...input, targetEnvironment: 'production' }), /recovery_environment/);
+  assert.throws(() => buildFirestoreRestorePlan({ ...input, targetProjectId: input.sourceProjectId }), /must_differ/);
+});
+
+test('Firestore restore apply requires exact target and empty-target phrase', () => {
+  const targetProjectId = 'napsak-recovery';
+  assert.throws(() => assertFirestoreRestoreApply({ targetProjectId }), /target_confirmation/);
+  assert.throws(() => assertFirestoreRestoreApply({
+    targetProjectId, confirmedTarget: targetProjectId, confirmedEmptyTarget: 'yes',
+  }), /empty_target_confirmation/);
+  assert.doesNotThrow(() => assertFirestoreRestoreApply({
+    targetProjectId,
+    confirmedTarget: targetProjectId,
+    confirmedEmptyTarget: `EMPTY_RECOVERY_TARGET_${targetProjectId}`,
+  }));
+});
+
+test('Firestore backup plans reject unsafe identifiers and paths', () => {
+  assert.throws(() => buildFirestoreExportPlan({
+    projectId: 'BAD PROJECT', bucketRoot: 'gs://valid-backups', timestamp: new Date(),
+  }), /invalid_project/);
+  assert.throws(() => buildFirestoreExportPlan({
+    projectId: 'napsak-production', bucketRoot: 'gs://bucket/path', timestamp: new Date(),
+  }), /invalid_bucket/);
+  assert.throws(() => buildFirestoreRestorePlan({
+    sourceProjectId: 'napsak-production', targetProjectId: 'napsak-recovery',
+    sourceUri: 'gs://bucket/../other', targetEnvironment: 'recovery',
+  }), /invalid_export_source/);
+});
 
 const eventFixture = (overrides = {}) => ({
   id: 'event', kind: 'event', title: 'Etkinlik', venue: 'Mekân', cityId: 'ankara', city: 'Ankara',
