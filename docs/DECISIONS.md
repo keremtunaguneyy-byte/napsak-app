@@ -8,6 +8,8 @@ Durum: #34'te uygulanıyor.
 
 Saf öneri motoru 5.000 çağrılık p95 benchmarkıyla ve geçici 25 ms CI bütçesiyle korunur. Uygulama açılışı ve öneri hesaplama örnekleri yalnız kaba süre kovalarına dönüştürülür; ham süre, kullanıcı bağlamı, içerik veya cihaz kimliği analitik olaya girmez. Expo development açılışı release performansı sayılmaz. Gerçek release cihaz p50/p95'i ayrıca ölçülmeden uygulama açılışının hızlı olduğu ilan edilmez.
 
+Yayın hazırlığı iki ayrı denetimdir: normal CI bilinen engel listesinin sessizce değişmediğini kontrol eder; strict production kapısı tek bir engel varken bile başarısız olur. `release-readiness.json` onay değil, görünür teknik borç envanteridir. Paket/bundle kimlikleri, EAS projesi ve dış hizmet kanıtları gerçek değerler olmadan uydurulmaz. Rollback; içerik, kural, binary ve veri olayları için ayrı prosedür izler.
+
 ## 2026-09-08 — Erişilebilirlik davranışı sürekli kalite kapısıdır
 
 Durum: #33 ile main'e alındı; kullanıcı TalkBack telefon testini doğruladı.

@@ -27,8 +27,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `34ce6fb`; #19–#33 dâhil.
-- Performans tabanı adayı: `agent/performance-baseline-20260908`; main ağacından ayrılan #34 çalışma dalı.
+- GitHub main: `839a179`; #19–#34 dâhil.
+- Yayın kapısı adayı: `agent/release-readiness-20260908`; main ağacından ayrılan #35 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -49,16 +49,17 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Yedek/kurtarma | #32 güvenli komut planı ve dry-run aracı main'de | Gerçek bucket/IAM, production export ve ayrı recovery restore kanıtı |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama |
 | Erişilebilirlik | #33 semantik, hedef boyutu, CI ve TalkBack telefon kanıtıyla main'de | Büyük yazı ve kontrast ölçümü |
-| Performans | #34 öneri p95 benchmarkı ve kaba runtime sürelerini hazırlıyor | Release APK soğuk açılış, bellek ve jank cihaz ölçümü |
+| Performans | #34 main'de; 5.000 çağrılık öneri p95 bütçesi ve kaba runtime süreleri var | Release APK soğuk açılış, bellek ve jank cihaz ölçümü |
+| Yayın/rollback | #35 otomatik engel envanteri, strict production kapısı ve geri dönüş runbook'unu hazırlıyor | Paket/bundle kimliği kararı, EAS bağlantısı ve dış kanıtların kapatılması |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
 ## Çalışma sırası
 
-1. #34 performans benchmarkı ve güvenli çalışma zamanı ölçümünü kur.
+1. #35 yayın engeli envanteri, production kapısı ve rollback prosedürünü kur.
 2. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
 3. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
-4. Uçtan uca test, cihaz matrisi ve yayın/rollback kapılarını kapat.
+4. Uçtan uca test ve cihaz matrisini kapat; strict release kapısını sıfır engelle çalıştır.
 
 PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #34 performans tabanı; gerçek Firebase/Sentry ortam bağlantısı; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından e2e/cihaz matrisi ve release/mağaza hazırlığı.
 

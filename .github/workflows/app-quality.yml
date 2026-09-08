@@ -41,5 +41,7 @@ jobs:
         run: npm run check:accessibility
       - name: Recommendation performance budget
         run: npm run check:performance
+      - name: Release blocker baseline
+        run: npm run check:release
       - name: Android production bundle
         run: npx expo export --platform android --output-dir dist
