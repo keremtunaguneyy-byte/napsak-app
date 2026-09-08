@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 8 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #32 main'de; erişilebilirlik tabanı #33'te hazırlanıyor
+## Son güncelleme — #33 main'de; performans tabanı #34'te hazırlanıyor
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -18,7 +18,8 @@ Kontrol tarihi: 8 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #30 telefon testini geçti ve squash merge ile main'e alındı: `a260bd0`. Ana sonuç, Kaydedilenler ve plan detayındaki N’apsak planları sıralı Google Maps yürüyüş rotası açar; tek duraklı planlar harita araması açar.
 - #31 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `717d5da`. Günlük etkinlik envanteri, ileri tarih ufku ve kaynak doğrulama yaşı kontrolü main'dedir.
 - #32 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `a857e8f`. Production Firestore export ve ayrı recovery restore için fail-closed dry-run/apply aracı main'dedir. Bu çalışma ortamında `gcloud` bulunmadığı için gerçek bulut provası henüz yoktur.
-- #33 dalında ekran okuyucu rolleri/etiketleri, durum semantiği, görsel açıklamaları ve 44 px dokunma hedefleri için erişilebilirlik tabanı hazırlanıyor.
+- #33 telefon/TalkBack testini geçti ve squash merge ile main'e alındı: `34ce6fb`. Ekran okuyucu rolleri/etiketleri, durum semantiği, görsel açıklamaları, 44 px dokunma hedefleri ve sürekli kaynak kontrolü main'dedir.
+- #34 dalında 5.000 çağrılık öneri p95 benchmarkı ve kişisel veri içermeyen kaba uygulama süreleri hazırlanıyor.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -26,8 +27,8 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Sürüm ayrımı
 
-- GitHub main: `a857e8f`; #19–#32 dâhil.
-- Erişilebilirlik tabanı adayı: `agent/accessibility-baseline-20260908`; main ağacından ayrılan #33 çalışma dalı.
+- GitHub main: `34ce6fb`; #19–#33 dâhil.
+- Performans tabanı adayı: `agent/performance-baseline-20260908`; main ağacından ayrılan #34 çalışma dalı.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; henüz uygulama koduna aktarılmadı.
 
 ## Gerçekte nerede kaldık?
@@ -47,18 +48,19 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Etkinlik | #22 içeriği ve #31 günlük envanter/tazelik kontrolü main'de | Düzenli başarısızlık takibi ve kaynak yenilemesi |
 | Yedek/kurtarma | #32 güvenli komut planı ve dry-run aracı main'de | Gerçek bucket/IAM, production export ve ayrı recovery restore kanıtı |
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama |
-| Erişilebilirlik | Temel Safe Area/etiketler var; #33 kapsamlı semantik ve CI kapısı ekliyor | TalkBack telefon turu, büyük yazı ve kontrast ölçümü |
+| Erişilebilirlik | #33 semantik, hedef boyutu, CI ve TalkBack telefon kanıtıyla main'de | Büyük yazı ve kontrast ölçümü |
+| Performans | #34 öneri p95 benchmarkı ve kaba runtime sürelerini hazırlıyor | Release APK soğuk açılış, bellek ve jank cihaz ölçümü |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
 ## Çalışma sırası
 
-1. #33 erişilebilirlik tabanını otomatik kontrol ve TalkBack telefon turuyla doğrula.
+1. #34 performans benchmarkı ve güvenli çalışma zamanı ölçümünü kur.
 2. Development Sentry projesi, source map ve dashboard olayını canlı ortam hazırlığında kanıtla.
 3. Tasarım sohbetinden onaylı devir gelir gelmez tokenlar, ana sayfa ve kart/detay ailesini uygula.
-4. Uçtan uca test, cihaz matrisi, performans ve yayın/rollback kapılarını kapat.
+4. Uçtan uca test, cihaz matrisi ve yayın/rollback kapılarını kapat.
 
-PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #33 erişilebilirlik tabanı; gerçek Firebase/Sentry ortam bağlantısı; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından performans, e2e/cihaz matrisi ve release/mağaza hazırlığı.
+PR numaraları tasarım devrinin geliş zamanına göre yer değiştirebilir. Güncel öngörü: #34 performans tabanı; gerçek Firebase/Sentry ortam bağlantısı; tasarım devri geldiğinde tokenlar, ana sayfa ve kart/detay ailesi; ardından e2e/cihaz matrisi ve release/mağaza hazırlığı.
 
 ## İlk ürün işi: mekân detayından planlara geçiş
 
