@@ -20,6 +20,7 @@ import { captureOperationalError, setObservabilityScreen } from './src/observabi
 import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
+import { performanceDurationBucket } from './src/performancePolicy';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -50,6 +51,7 @@ const groupSizes: GroupSizePreference[] = ['Tek', '2 kişi', '3–4 kişi', '5+'
 const durations: DurationPreference[] = ['30–60 dk', '1–2 saat', '3–4 saat', 'Yarım gün', 'Fark etmez'];
 const OBSERVABILITY_TEST_MODE = process.env.EXPO_PUBLIC_APP_ENV !== 'production'
   && process.env.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE === 'true';
+const APP_STARTED_AT = Date.now();
 export default function App() {
   return <AppErrorBoundary><SafeAreaProvider><AppContent /></SafeAreaProvider></AppErrorBoundary>;
 }
@@ -85,6 +87,7 @@ function AppContent() {
   const recommendationsY = useRef(0);
   const scrollAfterRotation = useRef(false);
   const batchTrigger = useRef<'initial' | 'filter' | 'rotate'>('initial');
+  const appReadyTracked = useRef(false);
   const [hydrated, setHydrated] = useState(false);
   const [deletionBusy, setDeletionBusy] = useState(false);
   const [observabilityTestRequested, setObservabilityTestRequested] = useState(false);
@@ -97,9 +100,12 @@ function AppContent() {
   const guideAnchors = useRef<Record<string, number>>({});
   const [detailPlaceId, setDetailPlaceId] = useState<string>();
   const detailPlace = places.find(place => place.id === detailPlaceId);
-  const results = useMemo(() => {
-    return recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
+  const recommendationMeasurement = useMemo(() => {
+    const startedAt = Date.now();
+    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
+    return { items, durationBucket: performanceDurationBucket(Date.now() - startedAt) };
   }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
+  const results = recommendationMeasurement.items;
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], [experiences, places, ideas, events]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
   const savedEntries = useMemo<SavedEntry[]>(() => {
@@ -163,6 +169,21 @@ function AppContent() {
     });
     batchTrigger.current = 'initial';
   }, [hydrated, recommendationRun, resultFilter, step]);
+  useEffect(() => {
+    if (!hydrated || step !== 'results') return;
+    trackProductEvent({
+      name: 'performance_sampled',
+      properties: { metric: 'recommendation_compute', durationBucket: recommendationMeasurement.durationBucket },
+    });
+  }, [hydrated, recommendationMeasurement, step]);
+  useEffect(() => {
+    if (!hydrated || (!fontsLoaded && !fontError) || appReadyTracked.current) return;
+    appReadyTracked.current = true;
+    trackProductEvent({
+      name: 'performance_sampled',
+      properties: { metric: 'app_ready', durationBucket: performanceDurationBucket(Date.now() - APP_STARTED_AT) },
+    });
+  }, [fontError, fontsLoaded, hydrated]);
   useEffect(() => {
     if (fontError) captureOperationalError(fontError, 'app_startup', 'font_load_failed');
   }, [fontError]);

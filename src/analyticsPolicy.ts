@@ -1,4 +1,6 @@
-export const ANALYTICS_SCHEMA_VERSION = 1 as const;
+import type { PerformanceDurationBucket, PerformanceMetric } from './performancePolicy';
+
+export const ANALYTICS_SCHEMA_VERSION = 2 as const;
 
 export type AnalyticsScreen =
   | 'welcome'
@@ -25,7 +27,8 @@ export type ProductAnalyticsInput =
   | { name: 'recommendation_batch_viewed'; properties: { filter: AnalyticsFilter; count: number; trigger: 'initial' | 'filter' | 'rotate' } }
   | { name: 'recommendation_action'; properties: { action: 'save' | 'unsave' | 'dismiss' | 'restore'; itemKind: AnalyticsItemKind; rank?: number } }
   | { name: 'external_action'; properties: { action: 'map' | 'source'; itemKind: AnalyticsItemKind } }
-  | { name: 'location_permission_result'; properties: { result: 'granted' | 'denied' | 'error' } };
+  | { name: 'location_permission_result'; properties: { result: 'granted' | 'denied' | 'error' } }
+  | { name: 'performance_sampled'; properties: { metric: PerformanceMetric; durationBucket: PerformanceDurationBucket } };
 
 export type ProductAnalyticsEvent = ProductAnalyticsInput & {
   schemaVersion: typeof ANALYTICS_SCHEMA_VERSION;
@@ -39,6 +42,7 @@ const EXACT_KEYS: Record<ProductAnalyticsInput['name'], readonly string[]> = {
   recommendation_action: ['action', 'itemKind', 'rank'],
   external_action: ['action', 'itemKind'],
   location_permission_result: ['result'],
+  performance_sampled: ['metric', 'durationBucket'],
 };
 
 const SCREENS = new Set<AnalyticsScreen>(['welcome', 'mood', 'interest', 'budget', 'group', 'duration', 'results', 'saved', 'hidden', 'guides_landing', 'guides_classics', 'guides_insider', 'settings']);
@@ -82,6 +86,13 @@ export function createProductAnalyticsEvent(input: ProductAnalyticsInput): Produ
       break;
     case 'location_permission_result':
       if (Object.keys(properties).length !== 1 || !['granted', 'denied', 'error'].includes(input.properties.result)) throw new Error('Location permission result is invalid.');
+      break;
+    case 'performance_sampled':
+      if (
+        Object.keys(properties).length !== 2
+        || !['app_ready', 'recommendation_compute'].includes(input.properties.metric)
+        || !['lt_10_ms', '10_49_ms', '50_199_ms', '200_999_ms', 'gte_1000_ms'].includes(input.properties.durationBucket)
+      ) throw new Error('Performance sample properties are invalid.');
       break;
     default:
       throw new Error('Analytics event name is not allowlisted.');

@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
 const { ANALYTICS_SCHEMA_VERSION, createProductAnalyticsEvent } = require('../.test-build/analyticsPolicy.js');
+const { performanceDurationBucket, RECOMMENDATION_P95_BUDGET_MS } = require('../.test-build/performancePolicy.js');
 const { googleMapsUrlForExperiencePoints } = require('../.test-build/mapLinks.js');
 const {
   EVENT_MINIMUM_HORIZON_DAYS,
@@ -826,6 +827,9 @@ test('product analytics accepts only versioned aggregate events', () => {
   assert.deepEqual(createProductAnalyticsEvent({
     name: 'location_permission_result', properties: { result: 'denied' },
   }).properties, { result: 'denied' });
+  assert.deepEqual(createProductAnalyticsEvent({
+    name: 'performance_sampled', properties: { metric: 'recommendation_compute', durationBucket: 'lt_10_ms' },
+  }).properties, { metric: 'recommendation_compute', durationBucket: 'lt_10_ms' });
 });
 
 test('product analytics rejects personal, content-identifying and unknown fields', () => {
@@ -834,6 +838,7 @@ test('product analytics rejects personal, content-identifying and unknown fields
     { name: 'preference_flow_completed', properties: { mode: 'onboarding', mood: 'Sakin' } },
     { name: 'recommendation_action', properties: { action: 'save', itemKind: 'place', itemId: 'secret-place' } },
     { name: 'location_permission_result', properties: { result: 'granted', coordinates: '39.9,32.8' } },
+    { name: 'performance_sampled', properties: { metric: 'app_ready', durationBucket: '50_199_ms', durationMs: 75 } },
   ]) assert.throws(() => createProductAnalyticsEvent(forbidden), /forbidden property/i);
 });
 
@@ -842,4 +847,16 @@ test('product analytics rejects invalid counts, ranks and enum values', () => {
   assert.throws(() => createProductAnalyticsEvent({ name: 'recommendation_action', properties: { action: 'save', itemKind: 'place', rank: 0 } }), /invalid/i);
   assert.throws(() => createProductAnalyticsEvent({ name: 'screen_viewed', properties: { screen: 'profile' } }), /allowlisted/i);
   assert.throws(() => createProductAnalyticsEvent({ name: 'external_action', properties: { action: 'share', itemKind: 'place' } }), /invalid/i);
+  assert.throws(() => createProductAnalyticsEvent({ name: 'performance_sampled', properties: { metric: 'location_lookup', durationBucket: 'lt_10_ms' } }), /invalid/i);
+});
+
+test('performance durations use coarse privacy-safe buckets', () => {
+  assert.equal(performanceDurationBucket(0), 'lt_10_ms');
+  assert.equal(performanceDurationBucket(10), '10_49_ms');
+  assert.equal(performanceDurationBucket(50), '50_199_ms');
+  assert.equal(performanceDurationBucket(200), '200_999_ms');
+  assert.equal(performanceDurationBucket(1_000), 'gte_1000_ms');
+  assert.equal(RECOMMENDATION_P95_BUDGET_MS, 25);
+  assert.throws(() => performanceDurationBucket(-1), /invalid_duration/);
+  assert.throws(() => performanceDurationBucket(Number.NaN), /invalid_duration/);
 });

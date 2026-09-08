@@ -2,9 +2,15 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
 
+## 2026-09-08 — Performans iddiası ölçüm katmanına göre yapılır
+
+Durum: #34'te uygulanıyor.
+
+Saf öneri motoru 5.000 çağrılık p95 benchmarkıyla ve geçici 25 ms CI bütçesiyle korunur. Uygulama açılışı ve öneri hesaplama örnekleri yalnız kaba süre kovalarına dönüştürülür; ham süre, kullanıcı bağlamı, içerik veya cihaz kimliği analitik olaya girmez. Expo development açılışı release performansı sayılmaz. Gerçek release cihaz p50/p95'i ayrıca ölçülmeden uygulama açılışının hızlı olduğu ilan edilmez.
+
 ## 2026-09-08 — Erişilebilirlik davranışı sürekli kalite kapısıdır
 
-Durum: #33'te uygulanıyor; ekran okuyucu telefon testi bekliyor.
+Durum: #33 ile main'e alındı; kullanıcı TalkBack telefon testini doğruladı.
 
 Etkileşimli öğelerin rolü, görsellerin anlamlı etiket/dekoratif ayrımı, başlık semantiği ve temel 44 px dokunma hedefleri kaynak denetimiyle her PR'da korunur. Seçili, pasif, meşgul, genişletilmiş ve ilerleme durumları yalnız renk veya simgeyle aktarılmaz. Otomatik kaynak kontrolü gerçek TalkBack/VoiceOver testinin yerine geçmez.
 

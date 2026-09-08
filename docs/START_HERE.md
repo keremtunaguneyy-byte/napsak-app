@@ -6,7 +6,7 @@ Güncelleme: 6 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından
 
 1. PRODUCT_SPEC.md: ürünün amacı, kapsamı, kalıcı kararlar ve gerekçeleri.
 2. STATUS.md: hangi sürümde ne var, ne doğrulandı, sıradaki iş.
-3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md veya EVENT_OPERATIONS_RUNBOOK.md.
+3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md, EVENT_OPERATIONS_RUNBOOK.md veya PERFORMANCE_RUNBOOK.md.
 4. DECISIONS.md: son kararlar, öneriler ve açık konular.
 
 Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakları ve incelediği branch/commit'i belirtmeli. Kullanıcıya bütün ürünü yeniden anlattırmamalı. Belgeyle kod çelişiyorsa bunu açıklamalı; sessizce ürün kararı değiştirmemeli.
@@ -22,6 +22,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 | OBSERVABILITY_RUNBOOK.md | Hata gözlemi, veri minimizasyonu, Sentry ortamı ve canlı doğrulama |
 | ANALYTICS_SPEC.md | İzinli ürün olayları, yasak kişisel alanlar ve sağlayıcı/izin kapısı |
 | EVENT_OPERATIONS_RUNBOOK.md | Etkinlik envanteri, kaynak tazeliği, günlük kontrol ve yenileme prosedürü |
+| PERFORMANCE_RUNBOOK.md | Öneri benchmarkı, kaba cihaz süreleri, bütçeler ve regresyon prosedürü |
 | STATUS.md | Sürüme bağlı gerçekleşen işler, kanıt ve sonraki çalışma |
 | DECISIONS.md | Tarihli karar, gerekçe, durum ve etkilenen dosyalar |
 
@@ -39,4 +40,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #31 günlük etkinlik katalog sağlığı ve #32 Firestore export/restore güvenlik aracı main'dedir. #33 ekran okuyucu semantiği ve 44 px dokunma hedeflerini sürekli kalite kapısına bağlar. Gerçek bulut restore provası, Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #33 erişilebilirlik tabanı telefon/TalkBack testli olarak main'dedir. #34 öneri p95 benchmarkını ve kişisel veri içermeyen kaba çalışma zamanı sürelerini kurar. Gerçek bulut restore provası, Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.

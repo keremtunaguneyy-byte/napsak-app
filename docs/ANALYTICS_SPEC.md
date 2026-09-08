@@ -2,7 +2,7 @@
 
 ## Durum
 
-#28 sağlayıcıdan bağımsız olay sözleşmesini ve uygulama bağlantılarını kurar. Herhangi bir analytics transport'u varsayılan olarak bağlı değildir; bu nedenle bu aşama kullanıcı cihazından veri göndermez.
+#28 sağlayıcıdan bağımsız olay sözleşmesini ve uygulama bağlantılarını kurdu. #34 şema v2'de yalnız kaba süre kovalarını ekler. Herhangi bir analytics transport'u varsayılan olarak bağlı değildir; bu nedenle bu aşamalar kullanıcı cihazından veri göndermez.
 
 ## Veri minimizasyonu
 
@@ -28,6 +28,7 @@ Transport yalnız `createProductAnalyticsEvent` tarafından doğrulanan sürüml
 | `recommendation_action` | save/unsave/dismiss/restore, tür, 1–5 sıra | Öneri kalitesini içerik kimliği toplamadan karşılaştırmak |
 | `external_action` | map/source, tür | Önerinin eyleme dönüşüp dönüşmediğini görmek |
 | `location_permission_result` | granted/denied/error | Konum akışındaki teknik kaybı görmek; koordinat gönderilmez |
+| `performance_sampled` | app_ready/recommendation_compute, kaba süre kovası | Ham süre veya kullanıcı bağlamı olmadan performans dağılımını görmek |
 
 ## Sağlayıcı kapısı
 

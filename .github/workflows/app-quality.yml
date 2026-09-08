@@ -39,5 +39,7 @@ jobs:
         run: npm run check:observability
       - name: Accessibility source contract
         run: npm run check:accessibility
+      - name: Recommendation performance budget
+        run: npm run check:performance
       - name: Android production bundle
         run: npx expo export --platform android --output-dir dist
