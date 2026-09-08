@@ -37,5 +37,7 @@ jobs:
         run: npm run test:catalog
       - name: Observability preflight
         run: npm run check:observability
+      - name: Accessibility source contract
+        run: npm run check:accessibility
       - name: Android production bundle
         run: npx expo export --platform android --output-dir dist

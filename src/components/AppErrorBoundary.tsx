@@ -24,9 +24,9 @@ export class AppErrorBoundary extends Component<Props, State> {
     return (
       <View accessibilityRole="alert" style={styles.page}>
         <Text style={styles.mark}>N’apsak?</Text>
-        <Text style={styles.title}>Bir şey yolunda gitmedi.</Text>
+        <Text accessibilityRole="header" style={styles.title}>Bir şey yolunda gitmedi.</Text>
         <Text style={styles.copy}>Hata güvenli biçimde kaydedildi. Uygulamayı yeniden yüklemeyi deneyebilirsin.</Text>
-        <TouchableOpacity accessibilityRole="button" onPress={this.retry} style={styles.button}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Uygulamayı yeniden dene" onPress={this.retry} style={styles.button}>
           <Text style={styles.buttonText}>Yeniden dene</Text>
         </TouchableOpacity>
       </View>
