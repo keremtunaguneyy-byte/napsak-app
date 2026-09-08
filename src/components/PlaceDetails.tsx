@@ -41,7 +41,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
 
   const back = () => planId ? setPlanId(undefined) : onClose();
   const hide = (id: string) => { onDismiss(id); setUndoId(id); setPlanId(undefined); };
-  return <Modal visible animationType="slide" onRequestClose={back}>
+  return <Modal visible animationType="slide" onRequestClose={back} accessibilityViewIsModal>
     <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.safe}>
       <View style={styles.bar}>
         <DetailAction text={planId ? 'Mekâna dön' : 'Geri dön'} onPress={back} />
@@ -64,7 +64,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
           <Text style={styles.text}>{plan.note}</Text>
           <Text style={styles.meta}>{plan.availabilityNote}</Text>
           <View style={styles.actions}>
-            <DetailAction text={saved.includes(plan.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Planı kaydet'} onPress={() => onSave(plan.id)} />
+            <DetailAction text={saved.includes(plan.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Planı kaydet'} selected={saved.includes(plan.id)} onPress={() => onSave(plan.id)} />
             <DetailAction text={plan.points.length > 1 ? 'Rotayı haritada aç' : 'Haritada aç'} onPress={() => onOpenPlanMap(plan)} />
             <DetailAction text="Resmî bilgi" onPress={() => onOpenPlanSource(plan)} />
             <DetailAction text="Bana göre değil" onPress={() => hide(plan.id)} />
@@ -79,7 +79,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
           <Text style={styles.text}>{place.address}</Text>
           <Text style={styles.text}>{place.note}</Text>
           <View style={styles.actions}>
-            <DetailAction text={saved.includes(place.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Mekânı kaydet'} onPress={() => onSave(place.id)} />
+            <DetailAction text={saved.includes(place.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Mekânı kaydet'} selected={saved.includes(place.id)} onPress={() => onSave(place.id)} />
             <DetailAction text="Haritada aç" onPress={() => onOpenMaps(place)} />
             <DetailAction text="Resmî bilgi" onPress={() => onOpenSource(place)} />
           </View>
@@ -91,7 +91,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
               <Text style={styles.why}>{item.reasons.join(' · ')}</Text>
               <View style={styles.actions}>
                 <DetailAction text="Planı incele" label={`${item.title} planını incele`} onPress={() => setPlanId(item.id)} />
-                <DetailAction text={saved.includes(item.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Kaydet'} label={`${item.title}: ${saved.includes(item.id) ? 'kayıttan çıkar' : 'kaydet'}`} onPress={() => onSave(item.id)} />
+                <DetailAction text={saved.includes(item.id) ? 'Kaydedildi · Kayıttan çıkar' : 'Kaydet'} label={`${item.title}: ${saved.includes(item.id) ? 'kayıttan çıkar' : 'kaydet'}`} selected={saved.includes(item.id)} onPress={() => onSave(item.id)} />
               </View>
             </View>)}
           </View>}
@@ -102,8 +102,8 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
 }
 
 const price = (level: number) => '₺'.repeat(level) || 'Ücretsiz';
-function DetailAction({ text, label = text, onPress }: { text: string; label?: string; onPress: () => void }) {
-  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={styles.action}><Text style={styles.actionText}>{text}</Text></TouchableOpacity>;
+function DetailAction({ text, label = text, selected, onPress }: { text: string; label?: string; selected?: boolean; onPress: () => void }) {
+  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} accessibilityState={selected === undefined ? undefined : { selected }} onPress={onPress} style={styles.action}><Text style={styles.actionText}>{text}</Text></TouchableOpacity>;
 }
 
 // Matches the existing screen; final brand tokens will replace these with the design rollout.

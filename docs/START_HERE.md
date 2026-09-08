@@ -39,4 +39,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #31 günlük etkinlik katalog sağlığı kontrolü main'dedir. #32 Firestore export/restore güvenlik aracını kurar; gerçek bulut provası credential ve ayrı recovery projesi gerektirir. Gerçek Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #31 günlük etkinlik katalog sağlığı ve #32 Firestore export/restore güvenlik aracı main'dedir. #33 ekran okuyucu semantiği ve 44 px dokunma hedeflerini sürekli kalite kapısına bağlar. Gerçek bulut restore provası, Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Kabul kriterleri STATUS.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.

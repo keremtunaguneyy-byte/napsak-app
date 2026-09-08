@@ -2,15 +2,21 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
 
+## 2026-09-08 — Erişilebilirlik davranışı sürekli kalite kapısıdır
+
+Durum: #33'te uygulanıyor; ekran okuyucu telefon testi bekliyor.
+
+Etkileşimli öğelerin rolü, görsellerin anlamlı etiket/dekoratif ayrımı, başlık semantiği ve temel 44 px dokunma hedefleri kaynak denetimiyle her PR'da korunur. Seçili, pasif, meşgul, genişletilmiş ve ilerleme durumları yalnız renk veya simgeyle aktarılmaz. Otomatik kaynak kontrolü gerçek TalkBack/VoiceOver testinin yerine geçmez.
+
 ## 2026-09-08 — Firestore restore yalnız ayrı recovery projesine
 
-Durum: #32'de güvenlik aracı ve dry-run olarak uygulanıyor; gerçek bulut provası bekliyor.
+Durum: #32 ile main'e alındı; gerçek bulut provası bekliyor.
 
 Production managed export açık proje ve bucket onayı ister. Restore, aynı kimlikteki belgelerin üstüne yazabildiği için production hedefi kabul edilmez; yalnız kaynak projeden farklı, boş ve atılabilir bir recovery projesine yapılır. Restore tamamlanmış sayılmadan operation success, katalog parity ve kullanıcı verisi kapsam kontrolü gerekir. Bu çalışma gerçek bucket, billing, IAM veya canlı restore kanıtı değildir.
 
 ## 2026-09-07 — Günlük etkinlik katalog sağlığı
 
-Durum: #31'de uygulanıyor.
+Durum: #31 ile main'e alındı ve günlük workflow doğrulandı.
 
 Etkinlik kataloğu her gün otomatik olarak en az 5 yaklaşan kayıt, en az 7 günlük ileri tarih ufku ve en fazla 7 günlük kaynak doğrulama yaşı için kontrol edilir. Otomasyon kaynaktan kendi başına etkinlik üretmez veya bir kaydı insan kontrolü olmadan yeniden doğrulanmış saymaz. Uygulamanın geçmiş etkinlikleri çalışma anında elemesi ayrı güvenlik katmanı olarak korunur. Kabul ölçütleri ve müdahale adımları `EVENT_OPERATIONS_RUNBOOK.md` içindedir.
 
