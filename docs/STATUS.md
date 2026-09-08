@@ -2,7 +2,7 @@
 
 Kontrol tarihi: 8 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #34 ve #35 main'de
+## Son güncelleme — #34–#36 main'de; cihaz kabul hazırlığı tanımlandı
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -21,6 +21,7 @@ Kontrol tarihi: 8 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 - #33 telefon/TalkBack testini geçti ve squash merge ile main'e alındı: `34ce6fb`. Ekran okuyucu rolleri/etiketleri, durum semantiği, görsel açıklamaları, 44 px dokunma hedefleri ve sürekli kaynak kontrolü main'dedir.
 - #34 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `839a17945b97372a599ffba3df34351f125c08b6`. PR doğrulamasında 77/77 test, 2.560 genel ve 640 Experience stres senaryosu geçti; 5.000 çağrılık öneri benchmarkında p95 yaklaşık 4,1–4,3 ms ölçüldü ve geçici CI bütçesi 25 ms olarak korundu. Bunlar #34'ün tarihsel birleşme kanıtıdır; güncel release cihaz performansı değildir.
 - #35 otomatik kontrolleri geçti ve squash merge ile main'e alındı: `801dac528144ebf345d99daebd4d6e25871e6992`. Bilinen dokuz yayın engeli fail-closed strict production kapısına bağlandı; engellerin hiçbiri bu birleşmeyle kapanmış sayılmadı.
+- #36 proje hafızasını #35 sonrası duruma eşitledi ve main'e alındı: `99fa52e157d1c87b81fca3caa08e6004345bb425`. Uygulama davranışı ve dokuz açık yayın engeli değişmedi.
 
 ## Planlama tahmini — ölçülmüş tamamlanma oranı değildir
 
@@ -51,6 +52,7 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Mekân → plan | #21 main'de; kullanıcı temel telefon akışını doğruladı | Tasarım sistemiyle görsel uyarlama |
 | Erişilebilirlik | #33 semantik, hedef boyutu, CI ve TalkBack telefon kanıtıyla main'de | Büyük yazı ve kontrast ölçümü |
 | Performans | #34 main'de; 5.000 çağrılık öneri p95 bütçesi ve kaba runtime süreleri var | Release APK soğuk açılış, bellek ve jank cihaz ölçümü |
+| E2E/cihaz kabulü | Framework bağımsız kritik akış, cihaz matrisi, performans prosedürü ve kanıt biçimi DEVICE_ACCEPTANCE_RUNBOOK.md'de tanımlı | İmzalı release build ile gerçek düşük/orta Android ve hedef iOS kanıtı |
 | Yayın/rollback | #35 main'de; otomatik engel envanteri, strict production kapısı ve geri dönüş runbook'u var | Aşağıdaki dokuz açık engelin gerçek değer ve dış kanıtlarla kapatılması |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
@@ -91,9 +93,9 @@ Bu liste `RELEASE_RUNBOOK.md`, `release-readiness.json` ve `scripts/checkRelease
 
 ### Hemen yapılabilecekler
 
-- Bu geçiş PR'ıyla proje hafızasını #35 sonrası main durumuna eşitlemek.
 - Mevcut App Quality, Security Rules ve Event Catalog Health kontrollerini korumak; etkinlik sağlığı başarısız olursa EVENT_OPERATIONS_RUNBOOK'a göre kaynakları insan doğrulamasıyla yenilemek.
-- Mevcut kritik kullanıcı akışlarını uçtan uca/cihaz matrisi kontrol listesine dönüştürmek; imzalı build gerektiren gerçek cihaz kanıtını dış erişim aşamasında tamamlamak.
+- DEVICE_ACCEPTANCE_RUNBOOK.md'deki development hazırlığını yürütmek; doğrulanmamış cihaz/OS/framework seçimlerini açık bırakmak.
+- İmzalı build ve dış erişim hazır olduğunda aynı sözleşmeyle gerçek cihaz kabul kanıtını toplamak; hazırlığı `release_device_matrix_unverified` engelinin kapanmasıyla karıştırmamak.
 
 ## Tamamlanan ürün işi: mekân detayından planlara geçiş
 

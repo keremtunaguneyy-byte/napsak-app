@@ -46,4 +46,4 @@ Eski konuşmadaki tüm Ankara 101 nüansları bu turda bulunamadı. Eksik nüans
 
 ## Tamamlanacak tasarım sözleşmesi
 
-Seçilen renk/font/boşluk/köşe değerleri; logo tek renk/ters renk/ikon; küçük ekran ve büyük yazı; dokunma alanları; kartların yükleniyor/boş/hata/kaydedildi durumları; fotoğraf kaynakları. Bağlamın 6 saat/gün sonunda eskimesi henüz açık ürün kararıdır. Önce tasarım çıktısında neyin onaylı, neyin deneme olduğu belirtilmeli, sonra ilgili değerler buraya yazılmalıdır.
+Seçilen renk/font/boşluk/köşe değerleri; logo tek renk/ters renk/ikon; küçük ekran ve büyük yazı; dokunma alanları; kartların yükleniyor/boş/hata/kaydedildi durumları; fotoğraf kaynakları. Bağlam aynı yerel gün içinde altı saat korunur; altı saat sonunda veya gün değişiminde kullanıcıdan yeniden doğrulama istenir. Bu davranış #23 ile uygulanmıştır ve PRODUCT_SPEC §5.5 ile güncel uygulama davranışına bağlıdır; açık tasarım kararı değildir. Önce tasarım çıktısında neyin onaylı, neyin deneme olduğu belirtilmeli, sonra ilgili değerler buraya yazılmalıdır.
