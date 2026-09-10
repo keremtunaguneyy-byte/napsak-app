@@ -1,6 +1,6 @@
 # N’apsak — önce burayı oku
 
-Güncelleme: 6 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
+Güncelleme: 10 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
 
 ## Okuma sırası
 
@@ -30,7 +30,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 
 ## Bir kararın kayıt yolu
 
-Kullanıcı onayı → ilgili şartname güncellemesi → DECISIONS kaydı → uygulama ve ilgili doğrulama → STATUS güncellemesi → incelenebilir PR. Öneri, onay, uygulama ve doğrulama ayrı durumlardır. Önceki kararlar PRODUCT_SPEC §15'te korunur; yeni kayıtlar DECISIONS'ta tutulur.
+Kullanıcı onayı → ilgili şartname güncellemesi → DECISIONS kaydı → uygulama ve ilgili doğrulama → STATUS güncellemesi → incelenebilir PR. Karar durumu (öneri, onaylı, uygulanmış) ile kanıt seviyesi (repository/kodda mevcut, otomatik veya manuel test edilmiş, gerçek production ortamında doğrulanmış) ayrı kaydedilir; biri diğerini otomatik olarak gerektirmez. Önceki kararlar PRODUCT_SPEC §15'te korunur; yeni kayıtlar DECISIONS'ta tutulur.
 
 Tasarım sohbeti tasarım çıktısı ve karar özeti üretir. Kodlama hattı repo değişikliklerini birleştirir. Farklı sohbetlerin birbirinin son mesajını otomatik gördüğü varsayılmaz. Tasarım sohbetinin repo erişimi yoksa güncel dosyalar ona eklenir; ürettiği güncelleme tek uygulama hattından repoya alınır.
 
@@ -42,4 +42,4 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Tasarım sohbeti paralel ilerlerken kodlama hattı STATUS.md sırasını izler. #34 öneri p95 benchmarkı ve kişisel veri içermeyen kaba çalışma zamanı süreleriyle main'dedir. #35 bilinen yayın engellerini otomatik denetlenen bir kapıya ve geri dönüş runbook'una bağlayan `801dac528144ebf345d99daebd4d6e25871e6992` commit'iyle main'dedir. Gerçek bulut restore provası, Sentry development projesi/source map kanıtı ve canlı analitik sağlayıcısı ayrı açık kapılardır. Cihaz matrisi hazırlığı ile gerçek imzalı release kabulü DEVICE_ACCEPTANCE_RUNBOOK.md içinde ayrılır. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md, RELEASE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
+Güncel GitHub main kontrol noktası `72122d613bbca64601ed3a646ff3ff025015fe1c` ve #37'dir. #35 release gate/readiness/rollback yönetişimini kodda uygulayıp test etti; production onayı vermedi ve hiçbir yayın engelini kapatmadı. #36 yalnız proje hafızası/dokümantasyon senkronudur; yeni ürün davranışı veya ürün kararı değildir. #37 cihaz kabul sözleşmesini ve kanıt biçimini repository'de tanımladı; imzalı release cihaz kabulü yapılmadı ve `release_device_matrix_unverified` açık kaldı. Gerçek bulut restore provası ile production Sentry, source map ve dashboard kanıtı ayrı açık yayın kapılarıdır. Canlı analitik sağlayıcısı ayrıca açık bir karardır; dokuz yayın engelinden biri değildir. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md, RELEASE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.
