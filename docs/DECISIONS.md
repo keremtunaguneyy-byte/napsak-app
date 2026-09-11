@@ -1,6 +1,14 @@
 # N’apsak — Yeni karar kayıtları
 
-Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Durumlar: onaylı / öneri / açık / uygulanmış / doğrulanmış. Uygulanmış karar, test edilmiş anlamına gelmez.
+Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
+
+## 2026-09-10 — #37 sonrası release yönetişimi durum eşitlemesi
+
+Bu kayıt yeni ürün veya mimari kararı değildir; main'deki mevcut kanıt seviyelerini ayırır.
+
+- #35 release gate/readiness/rollback yönetişimini kodda uyguladı ve otomatik kontrollerle test etti. Production onayı değildir ve dokuz açık yayın engelinden hiçbirini kapatmadı.
+- #36 yalnız proje hafızası/dokümantasyon senkronudur; uygulama davranışı veya ürün kararı eklemedi.
+- #37 cihaz kabul sözleşmesini ve kanıt biçimini repository'de tanımladı. İmzalı release build ile gerçek cihaz kabulü yapılmadı; `release_device_matrix_unverified` açık kaldı.
 
 ## 2026-09-08 — Performans iddiası ölçüm katmanına göre yapılır
 
@@ -54,15 +62,15 @@ Beğenilen ana sayfa yapısı ve N? logo geometrisi korunuyor; nihai palet açı
 
 ## 2026-09-06 — Ankara 101 durum düzeltmesi
 
-Durum: GitHub main ve yerel kodla doğrulandı.
+Durum: #19 ile main'e alındı: `18f5172`; birleşik telefon testi doğrulandı.
 
-İlk Ankara 101 sürümü main cb21941 içinde; yerel 6a453ab üzerinde dört ek commit bulunuyor. PRODUCT_SPEC'in gelecekte yapılacak ifadesi eskimiş. Görsel ayrıntılar main'e geçmiş gibi raporlanmayacak. Dosyalar: PRODUCT_SPEC, DESIGN_SPEC, STATUS.
+Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir. Bu uygulama ve telefon kanıtı nihai görsel tasarım onayı anlamına gelmez. Dosyalar: PRODUCT_SPEC, DESIGN_SPEC, STATUS.
 
 ## 2026-09-07 — Mekân-plan bağlantısı main'e alındı
 
 Durum: uygulanmış ve temel telefon akışı doğrulanmış.
 
-#21 `dcde744` ile main'e birleşti. Kullanıcı Göksu Parkı detayını, ilişkili planı, süre/bütçe/durak bilgisini ve gizle/geri al akışını telefonda doğruladı. Gönderilen görünüm nihai tasarım onayı değildir. #19 Ankara 101 dalı yeni main'le entegre edilip otomatik kontrollerden geçti; birleşik telefon testi bekliyor.
+#21 `dcde744` ile main'e birleşti. Kullanıcı Göksu Parkı detayını, ilişkili planı, süre/bütçe/durak bilgisini ve gizle/geri al akışını telefonda doğruladı. Gönderilen görünüm nihai tasarım onayı değildir. #19 Ankara 101 akışları da main'e alınmış ve birleşik telefon testinde doğrulanmıştır.
 
 ## Açık kararlar
 
