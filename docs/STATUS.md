@@ -2,12 +2,14 @@
 
 Kontrol tarihi: 14 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — uygulama kimlikleri ve gerçek EAS bağlantısı doğrulandı
+## Son güncelleme — EAS build yapılandırması oluşturuldu
 
 - Kalıcı Android application ID ve iOS bundle identifier kullanıcı tarafından `com.getnapsak` olarak onaylandı ve Expo config'e işlendi.
 - Repository, authenticated `eas project:info` ile `@napsaks-team/napsak-app` projesine bağlandı; project ID `af043dd8-412f-403e-81c3-6e0af8e024d6` eşleşti. `eas_project_id_unverified` kapatıldı.
 - Android/iOS söz dizimi denetimi iki segmentli geçerli kimlikleri kabul eder; bu yalnız config söz dizimi kanıtıdır. İmzalı artifact ve mağaza kimliği kanıtları bulunmadığı için `android_package_unverified` ve `ios_bundle_identifier_unverified` açık kalır.
-- `eas build:configure` çalıştırılmadı; imzalama veya mağaza yapılandırması yapılmadı.
+- `eas.json` oluşturuldu. EAS CLI alt sınırı `>= 24.3.0`, app version kaynağı `remote`; `development`, `preview` ve `production` build profilleri mevcut, production profili `autoIncrement: true` kullanıyor.
+- `submit.production` yalnız boş bir yerel config placeholder'ıdır; store bağlantısı veya submission kanıtı değildir. `expo-dev-client` henüz kurulu değildir.
+- EAS build çalıştırılmadı. Android keystore, Apple certificate veya provisioning profile oluşturulmadı; signing ve store submission yapılandırması/kanıtı yoktur. Toplam sekiz yayın engeli, Android ve iOS kimlik engelleri dâhil, açık kalır.
 
 ## Önceki güncelleme — #34–#37 main'de; cihaz kabul hazırlığı tanımlandı
 
