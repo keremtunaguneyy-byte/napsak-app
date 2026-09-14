@@ -1,6 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { resolveFirebaseRuntimeSettings } from '../src/firebase/config';
 import { resolveObservabilitySettings } from '../src/observabilityPolicy';
+import {
+  androidApplicationIdSyntaxValid,
+  externalEvidenceBlockerOpen,
+  iosBundleIdentifierSyntaxValid,
+} from '../src/releaseIdentity';
 
 type ExpoConfig = {
   expo?: {
@@ -23,14 +28,6 @@ function verifiedUrl(value: string | undefined): boolean {
   } catch {
     return false;
   }
-}
-
-function androidPackageVerified(value: string | undefined): boolean {
-  return configured(value) && /^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*){2,}$/.test(value);
-}
-
-function iosBundleIdentifierVerified(value: string | undefined): boolean {
-  return configured(value) && /^[A-Za-z][A-Za-z0-9-]*(\.[A-Za-z][A-Za-z0-9-]*){2,}$/.test(value);
 }
 
 function easProjectVerified(value: string | undefined): boolean {
@@ -60,9 +57,17 @@ const app = JSON.parse(readFileSync('app.json', 'utf8')) as ExpoConfig;
 const baseline = JSON.parse(readFileSync('release-readiness.json', 'utf8')) as Baseline;
 const expo = app.expo ?? {};
 const blockers: string[] = [];
+const knownBlockers = [...(baseline.knownBlockers ?? [])].sort();
+const declaredOpenBlockers = new Set(knownBlockers);
 
-if (!androidPackageVerified(expo.android?.package)) blockers.push('android_package_unverified');
-if (!iosBundleIdentifierVerified(expo.ios?.bundleIdentifier)) blockers.push('ios_bundle_identifier_unverified');
+if (externalEvidenceBlockerOpen(
+  androidApplicationIdSyntaxValid(expo.android?.package),
+  declaredOpenBlockers.has('android_package_unverified'),
+)) blockers.push('android_package_unverified');
+if (externalEvidenceBlockerOpen(
+  iosBundleIdentifierSyntaxValid(expo.ios?.bundleIdentifier),
+  declaredOpenBlockers.has('ios_bundle_identifier_unverified'),
+)) blockers.push('ios_bundle_identifier_unverified');
 if (!easProjectVerified(expo.extra?.eas?.projectId)) blockers.push('eas_project_id_unverified');
 if (!verifiedUrl(process.env.NAPSAK_PRIVACY_POLICY_URL)) blockers.push('privacy_policy_url_unverified');
 if (!verifiedUrl(process.env.NAPSAK_SUPPORT_URL)) blockers.push('support_url_unverified');
@@ -72,7 +77,6 @@ if (!verifiedUrl(process.env.NAPSAK_RESTORE_DRILL_EVIDENCE)) blockers.push('rest
 if (!verifiedUrl(process.env.NAPSAK_DEVICE_MATRIX_EVIDENCE)) blockers.push('release_device_matrix_unverified');
 
 blockers.sort();
-const knownBlockers = [...(baseline.knownBlockers ?? [])].sort();
 console.table(blockers.map(blocker => ({ blocker })));
 
 if (process.argv.includes('--strict')) {

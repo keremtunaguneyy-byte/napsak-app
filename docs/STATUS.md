@@ -1,8 +1,15 @@
 # N’apsak — Durum ve sıradaki iş
 
-Kontrol tarihi: 10 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+Kontrol tarihi: 14 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Son güncelleme — #34–#37 main'de; cihaz kabul hazırlığı tanımlandı
+## Son güncelleme — uygulama kimlikleri ve gerçek EAS bağlantısı doğrulandı
+
+- Kalıcı Android application ID ve iOS bundle identifier kullanıcı tarafından `com.getnapsak` olarak onaylandı ve Expo config'e işlendi.
+- Repository, authenticated `eas project:info` ile `@napsaks-team/napsak-app` projesine bağlandı; project ID `af043dd8-412f-403e-81c3-6e0af8e024d6` eşleşti. `eas_project_id_unverified` kapatıldı.
+- Android/iOS söz dizimi denetimi iki segmentli geçerli kimlikleri kabul eder; bu yalnız config söz dizimi kanıtıdır. İmzalı artifact ve mağaza kimliği kanıtları bulunmadığı için `android_package_unverified` ve `ios_bundle_identifier_unverified` açık kalır.
+- `eas build:configure` çalıştırılmadı; imzalama veya mağaza yapılandırması yapılmadı.
+
+## Önceki güncelleme — #34–#37 main'de; cihaz kabul hazırlığı tanımlandı
 
 - #21 telefonda doğrulandı ve squash merge ile main'e alındı: `dcde744`. Mekân detayı, ilgili uygun planlar, plan detayı, kaydet/gizle/geri al main'dedir.
 - #19 birleşik telefon testini geçti ve squash merge ile main'e alındı: `18f5172`. Ankara 101 seçim ekranı, Ankara Klasikleri ve Bir Ankaralı Gibi akışları main'dedir.
@@ -54,19 +61,18 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 | Erişilebilirlik | #33 semantik, hedef boyutu, CI ve TalkBack telefon kanıtıyla main'de | Büyük yazı ve kontrast ölçümü |
 | Performans | #34 main'de; 5.000 çağrılık öneri p95 bütçesi ve kaba runtime süreleri var | Release APK soğuk açılış, bellek ve jank cihaz ölçümü |
 | E2E/cihaz kabulü | #37 ile framework bağımsız kritik akış, cihaz matrisi, performans prosedürü ve kanıt biçimi DEVICE_ACCEPTANCE_RUNBOOK.md'de tanımlı; imzalı release cihaz kabulü yapılmadı | İmzalı release build ile gerçek düşük/orta Android ve hedef iOS kanıtı |
-| Yayın/rollback | #35 main'de; otomatik engel envanteri, strict production kapısı ve geri dönüş runbook'u kodda uygulanmış ve test edilmiş; production onayı değildir | Aşağıdaki dokuz açık engelin gerçek değer ve dış kanıtlarla kapatılması |
+| Yayın/rollback | #35 main'de; otomatik engel envanteri, strict production kapısı ve geri dönüş runbook'u kodda uygulanmış ve test edilmiş; production onayı değildir | Aşağıdaki sekiz açık engelin gerçek değer ve dış kanıtlarla kapatılması |
 
 #26'nın env'siz telefon testinde yerel silme ve yeniden kalıcılık kanıtlandı. Gerçek Firestore/Auth silme kanıtı development Firebase projesi bağlandıktan sonra ayrıca alınmalıdır.
 
-## Açık dokuz yayın engeli
+## Açık sekiz yayın engeli
 
-Bu liste `RELEASE_RUNBOOK.md`, `release-readiness.json` ve `scripts/checkReleaseReadiness.ts` ile karşılaştırılmıştır. #35 bu engelleri görünür ve denetlenebilir yaptı; hiçbirini kapatmadı.
+Bu liste `RELEASE_RUNBOOK.md`, `release-readiness.json` ve `scripts/checkReleaseReadiness.ts` ile karşılaştırılmıştır. #35 bu engelleri görünür ve denetlenebilir yaptı. 14 Eylül'deki authenticated EAS kanıtıyla yalnız `eas_project_id_unverified` kapatıldı.
 
 | Engel adı | Güncel durum |
 |---|---|
-| `android_package_unverified` | Açık |
-| `eas_project_id_unverified` | Açık |
-| `ios_bundle_identifier_unverified` | Açık |
+| `android_package_unverified` | Açık — config onaylı ve söz dizimi geçerli; imzalı artifact ve Google Play kimliği kanıtı bekleniyor |
+| `ios_bundle_identifier_unverified` | Açık — config onaylı ve söz dizimi geçerli; Apple bundle/imzalı artifact ve App Store Connect kanıtı bekleniyor |
 | `privacy_policy_url_unverified` | Açık |
 | `production_firebase_unverified` | Açık |
 | `production_sentry_unverified` | Açık |
@@ -78,7 +84,7 @@ Bu liste `RELEASE_RUNBOOK.md`, `release-readiness.json` ve `scripts/checkRelease
 
 ### Dış hesap veya erişim gerektirenler
 
-- Kalıcı Android package, iOS bundle identifier ve gerçek EAS proje bağlantısını oluşturmak.
+- İmzalı artifact'lerde Android application ID ve iOS bundle identifier eşleşmesini kanıtlamak; erişilebilir olduğunda Google Play ve App Store Connect kimlik kanıtlarını kaydetmek.
 - Ayrı production Firebase projesini gerçek değerlerle bağlamak; development ortamında gerçek Firestore/Auth silme kanıtını ayrıca almak.
 - Development/production Sentry projelerini bağlamak; source map ve güvenli dashboard olayını kanıtlamak.
 - HTTPS gizlilik politikası ve destek sayfalarını yayımlayıp doğrulamak.

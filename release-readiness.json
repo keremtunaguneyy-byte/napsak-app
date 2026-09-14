@@ -1,7 +1,6 @@
 {
   "knownBlockers": [
     "android_package_unverified",
-    "eas_project_id_unverified",
     "ios_bundle_identifier_unverified",
     "privacy_policy_url_unverified",
     "production_firebase_unverified",
