@@ -2,6 +2,12 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-14 — EAS build yapılandırma varsayılanları
+
+Kullanıcı, EAS CLI `>= 24.3.0`, `appVersionSource: remote`, `development`, `preview` ve `production` build profilleri, production `autoIncrement: true` ve boş `submit.production` placeholder'ıyla üretilen `eas.json` dosyasını değişiklik yapmadan onayladı. `development` profili korunur; `expo-dev-client` henüz kurulu değildir.
+
+Bu yalnız repository build config kanıtıdır. EAS build çalıştırılmadı; Android keystore, Apple certificate veya provisioning profile oluşturulmadı; signing, Google Play, App Store Connect veya submission yapılandırması/kanıtı yoktur. `android_package_unverified` ve `ios_bundle_identifier_unverified` bu nedenle açık kalır; toplam açık yayın engeli sekizdir.
+
 ## 2026-09-14 — Kalıcı uygulama kimlikleri ve EAS proje bağlantısı
 
 Kullanıcı Android application ID ve iOS bundle identifier için kalıcı değer olarak `com.getnapsak` değerini onayladı. Her iki platformun repository söz dizimi denetimi artık zorunlu nokta, boş olmayan etiketler, geçerli segment başlangıçları, platforma özgü karakterler, Android küçük harf kuralı ve placeholder reddini koruyarak en az iki segmente izin verir.

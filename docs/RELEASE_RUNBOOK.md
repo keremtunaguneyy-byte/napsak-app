@@ -26,7 +26,13 @@ Bu belge bir sürümün mağazaya gönderilmeye hazır olduğunu varsaymaz. `npm
 - fullName: `@napsaks-team/napsak-app`
 - project ID: `af043dd8-412f-403e-81c3-6e0af8e024d6`
 
-Bu kanıt `eas_project_id_unverified` engelini kapatır. `eas build:configure` çalıştırılmadı; imzalama kimliği, mağaza kaydı veya imzalı artifact kanıtı oluşturulmadı.
+Bu kanıt `eas_project_id_unverified` engelini kapatır.
+
+## EAS build yapılandırma durumu
+
+Repository'de `eas.json` bulunur. EAS CLI alt sınırı `>= 24.3.0`, `appVersionSource` değeri `remote` olarak tanımlıdır. `development` ve `preview` profilleri internal distribution kullanır; `development` ayrıca development client ister. `production` profili `autoIncrement: true` kullanır. `submit.production` boş bir yerel config placeholder'ıdır ve store bağlantısı veya submission kanıtı değildir. `expo-dev-client` henüz kurulu değildir.
+
+Bu yapılandırma signed-build veya store kanıtı değildir. EAS build çalıştırılmadı; Android keystore, Apple certificate veya provisioning profile oluşturulmadı; Google Play ya da App Store Connect bağlantısı/submission yapılandırması yapılmadı. Bu nedenle `android_package_unverified` ve `ios_bundle_identifier_unverified` açık kalır; toplam sekiz yayın engeli değişmez.
 
 ## GitHub production ortamı
 
