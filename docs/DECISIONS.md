@@ -2,6 +2,14 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-14 — Kalıcı uygulama kimlikleri ve EAS proje bağlantısı
+
+Kullanıcı Android application ID ve iOS bundle identifier için kalıcı değer olarak `com.getnapsak` değerini onayladı. Her iki platformun repository söz dizimi denetimi artık zorunlu nokta, boş olmayan etiketler, geçerli segment başlangıçları, platforma özgü karakterler, Android küçük harf kuralı ve placeholder reddini koruyarak en az iki segmente izin verir.
+
+Söz dizimi geçerliliği dış kimlik kanıtından ayrıdır. Bu nedenle `android_package_unverified` ve `ios_bundle_identifier_unverified`, onaylı config değerlerine rağmen imzalı artifact ve ilgili mağaza kimliği kanıtları alınana kadar açık kalır.
+
+Repository, authenticated `eas project:info` ile owner `napsaks-team`, slug `napsak-app`, fullName `@napsaks-team/napsak-app` ve gerçek project ID `af043dd8-412f-403e-81c3-6e0af8e024d6` eşleşmesine bağlandı. Bu dış hesap kanıtıyla yalnız `eas_project_id_unverified` kapatıldı. `eas build:configure`, imzalama, App Store Connect ve Google Play yapılandırması yapılmadı.
+
 ## 2026-09-10 — #37 sonrası release yönetişimi durum eşitlemesi
 
 Bu kayıt yeni ürün veya mimari kararı değildir; main'deki mevcut kanıt seviyelerini ayırır.

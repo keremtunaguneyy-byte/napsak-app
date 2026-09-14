@@ -6,9 +6,8 @@ Bu belge bir sürümün mağazaya gönderilmeye hazır olduğunu varsaymaz. `npm
 
 | Engel adı | Kapı | Kapanma kanıtı |
 |---|---|---|
-| `android_package_unverified` | Android paket kimliği | Onaylı ters alan adı biçiminde `expo.android.package` |
-| `eas_project_id_unverified` | EAS proje bağlantısı | Gerçek proje UUID’si `expo.extra.eas.projectId` |
-| `ios_bundle_identifier_unverified` | iOS bundle kimliği | Onaylı ters alan adı biçiminde `expo.ios.bundleIdentifier` |
+| `android_package_unverified` | Android paket kimliği | Onaylı `expo.android.package=com.getnapsak`; imzalı artifact içindeki application ID’nin aynı olduğunu gösteren kanıt; erişilebilir olduğunda aynı kimliğe ait Google Play kanıtı |
+| `ios_bundle_identifier_unverified` | iOS bundle kimliği | Onaylı `expo.ios.bundleIdentifier=com.getnapsak`; Apple bundle kimliği veya imzalı artifact içinde aynı değeri gösteren kanıt; erişilebilir olduğunda aynı kimliğe ait App Store Connect kanıtı |
 | `privacy_policy_url_unverified` | Gizlilik politikası adresi | Yayında çalışan HTTPS gizlilik politikası adresi |
 | `production_firebase_unverified` | Production Firebase | Ayrı production proje değerleri; emulator ve dev/test proje yok |
 | `production_sentry_unverified` | Production Sentry | DSN, org, proje, build tokenı, source map ve dashboard olayı |
@@ -16,7 +15,18 @@ Bu belge bir sürümün mağazaya gönderilmeye hazır olduğunu varsaymaz. `npm
 | `restore_drill_unverified` | Restore provası | Ayrı recovery projede başarılı operation + katalog/kullanıcı kontrol kaydı |
 | `support_url_unverified` | Destek adresi | Yayında çalışan HTTPS destek adresi |
 
-`release-readiness.json` yalnız bilinen açık engelleri sabitler. Bir engelin bu dosyadan silinmesi onun kapandığını kanıtlamaz; denetim girdisi ve ilgili dış kanıt da bulunmalıdır.
+`release-readiness.json` yalnız bilinen açık engelleri sabitler. Android ve iOS kimliklerinin söz dizimi ayrı denetlenir; söz diziminin geçerli olması dış kimlik veya imzalı build kanıtı değildir ve bu iki engeli kendiliğinden kapatmaz. Bir engelin bu dosyadan silinmesi onun kapandığını kanıtlamaz; denetim girdisi ve ilgili dış kanıt da bulunmalıdır.
+
+## Doğrulanmış EAS proje kimliği
+
+14 Eylül 2026'da authenticated `eas project:info`, repository bağlantısıyla gerçek EAS projesinin eşleştiğini gösterdi:
+
+- owner: `napsaks-team`
+- slug: `napsak-app`
+- fullName: `@napsaks-team/napsak-app`
+- project ID: `af043dd8-412f-403e-81c3-6e0af8e024d6`
+
+Bu kanıt `eas_project_id_unverified` engelini kapatır. `eas build:configure` çalıştırılmadı; imzalama kimliği, mağaza kaydı veya imzalı artifact kanıtı oluşturulmadı.
 
 ## GitHub production ortamı
 

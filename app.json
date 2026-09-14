@@ -7,12 +7,14 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "ios": {
+      "bundleIdentifier": "com.getnapsak",
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "N'apsak, yakındaki önerileri sıralamak için konumunu kullanır."
       }
     },
     "android": {
+      "package": "com.getnapsak",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -32,6 +34,12 @@
         }
       ],
       "@sentry/react-native/expo"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "af043dd8-412f-403e-81c3-6e0af8e024d6"
+      }
+    },
+    "owner": "napsaks-team"
   }
 }
