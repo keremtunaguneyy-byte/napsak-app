@@ -6,7 +6,7 @@ Güncelleme: 10 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısında
 
 1. PRODUCT_SPEC.md: ürünün amacı, kapsamı, kalıcı kararlar ve gerekçeleri.
 2. STATUS.md: hangi sürümde ne var, ne doğrulandı, sıradaki iş.
-3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md, EVENT_OPERATIONS_RUNBOOK.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md veya RELEASE_RUNBOOK.md.
+3. İşine göre DESIGN_SPEC.md, ALGORITHM_SPEC.md, RECOMMENDATION_QUALITY_SPEC.md, FIREBASE_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md, ANALYTICS_SPEC.md, EVENT_OPERATIONS_RUNBOOK.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md veya RELEASE_RUNBOOK.md.
 4. DECISIONS.md: son kararlar, öneriler ve açık konular.
 
 Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakları ve incelediği branch/commit'i belirtmeli. Kullanıcıya bütün ürünü yeniden anlattırmamalı. Belgeyle kod çelişiyorsa bunu açıklamalı; sessizce ürün kararı değiştirmemeli.
@@ -18,6 +18,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 | PRODUCT_SPEC.md | Ne yapıyoruz ve neden? |
 | DESIGN_SPEC.md | Görünüm, bilgi hiyerarşisi, etkileşim, referanslar, Ankara 101 karakteri |
 | ALGORITHM_SPEC.md | Uygunluk, sıralama, çeşitlilik, içerik sözleşmesi |
+| RECOMMENDATION_QUALITY_SPEC.md | Deterministik kalite fixture'ları, ölçüm tanımları ve insan değerlendirme hazırlığı |
 | FIREBASE_RUNBOOK.md | Backend işletimi, veri yayını, migration, güvenlik ve yedek prosedürleri |
 | OBSERVABILITY_RUNBOOK.md | Hata gözlemi, veri minimizasyonu, Sentry ortamı ve canlı doğrulama |
 | ANALYTICS_SPEC.md | İzinli ürün olayları, yasak kişisel alanlar ve sağlayıcı/izin kapısı |

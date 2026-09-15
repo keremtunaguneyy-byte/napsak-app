@@ -24,7 +24,7 @@ export function seededRandom(seed: number): () => number {
   };
 }
 
-const budgetToPrice = (budget?: BudgetPreference): PriceLevel | undefined => {
+export const budgetPreferencePriceLevel = (budget?: BudgetPreference): PriceLevel | undefined => {
   if (budget === 'Ücretsiz') return 0;
   if (budget === '₺') return 1;
   if (budget === '₺₺') return 2;
@@ -33,20 +33,20 @@ const budgetToPrice = (budget?: BudgetPreference): PriceLevel | undefined => {
 };
 
 function budgetSignal(place: Place, budget?: BudgetPreference): number {
-  const preferred = budgetToPrice(budget);
+  const preferred = budgetPreferencePriceLevel(budget);
   if (preferred === undefined) return 0;
   const distance = Math.abs(place.priceLevel - preferred);
   return distance === 0 ? 16 : distance === 1 ? 3 : distance === 2 ? -8 : -14;
 }
 
 function priceSignal(priceLevel: PriceLevel, budget?: BudgetPreference): number {
-  const preferred = budgetToPrice(budget);
+  const preferred = budgetPreferencePriceLevel(budget);
   if (preferred === undefined) return 0;
   const distance = Math.abs(priceLevel - preferred);
   return distance === 0 ? 16 : distance === 1 ? 3 : distance === 2 ? -8 : -14;
 }
 
-function groupSignal(place: Place, groupSize?: GroupSizePreference): number {
+export function placeGroupSignal(place: Place, groupSize?: GroupSizePreference): number {
   if (!groupSize) return 0;
   const tags = new Set<Interest>([place.category, ...place.interests]);
   const outdoors = tags.has('Doğa');
@@ -58,7 +58,7 @@ function groupSignal(place: Place, groupSize?: GroupSizePreference): number {
   return outdoors || tags.has('Etkinlik') ? 10 : tags.has('Kahve') ? -6 : 2;
 }
 
-function interestEligible(place: Place, interests: Interest[]): boolean {
+export function placeInterestEligible(place: Place, interests: Interest[]): boolean {
   if (!interests.length) return true;
   return interests.some(interest => place.category === interest || place.interests.includes(interest));
 }
@@ -76,10 +76,15 @@ export function durationEligible(experience: Experience, duration?: DurationPref
   return experience.minDurationMinutes >= minimum && experience.maxDurationMinutes <= maximum;
 }
 
-function lifecycleEligible(experience: Experience, now: Date): boolean {
+export function experienceLifecycleEligible(experience: Experience, now: Date): boolean {
   if (experience.lifecycle === 'evergreen') return true;
   const expiresAt = Date.parse(experience.expiresAt);
   return Number.isFinite(expiresAt) && expiresAt > now.getTime();
+}
+
+export function eventStartEligible(event: Event, now: Date): boolean {
+  const startsAt = Date.parse(event.startsAt);
+  return Number.isFinite(startsAt) && startsAt > now.getTime();
 }
 
 export function recommendExperiences(options: {
@@ -104,7 +109,7 @@ export function recommendExperiences(options: {
   const previous = new Set(previousBatch);
   const candidates = experiences
     .filter(item => !dismissed.includes(item.id))
-    .filter(item => lifecycleEligible(item, now))
+    .filter(item => experienceLifecycleEligible(item, now))
     .filter(item => durationEligible(item, duration))
     .filter(item => !interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
     .map(item => {
@@ -186,7 +191,7 @@ export function recommendPlaces(options: {
   const { places, mood, interests, dismissed, budget, groupSize, coordinates, limit = 5, seed = 0, random = seededRandom(seed), previousBatch = [] } = options;
   const candidates = places
     .filter(place => !dismissed.includes(place.id))
-    .filter(place => interestEligible(place, interests))
+    .filter(place => placeInterestEligible(place, interests))
     .map(place => {
       const distance = coordinates ? distanceInKm(coordinates, place) : undefined;
       const moodMatch = Boolean(mood && place.moods.includes(mood));
@@ -194,7 +199,7 @@ export function recommendPlaces(options: {
       const interestMatch = matchedInterests.length > 0;
       const proximityScore = distance === undefined ? 0 : Math.max(0, 14 - distance * 1.75);
       const budgetScore = budgetSignal(place, budget);
-      const groupScore = groupSignal(place, groupSize);
+      const groupScore = placeGroupSignal(place, groupSize);
       const surprise = random() * 8;
       const reasons = [
         ...(moodMatch ? [`${mood} moduna uygun`] : []),
@@ -368,10 +373,7 @@ export function recommendAll(options: {
   }) : [];
   const eventItems: RecommendationItem[] = filter === 'event' || filter === 'all' ? events
     .filter(event => !dismissed.includes(event.id))
-    .filter(event => {
-      const startsAt = Date.parse(event.startsAt);
-      return Number.isFinite(startsAt) && startsAt > now.getTime();
-    })
+    .filter(event => eventStartEligible(event, now))
     // An explicit Event selection ranks by preferences without emptying the tab.
     .filter(event => filter === 'event' || !interests.length || interests.some(interest => event.category === interest || event.interests.includes(interest)))
     .map(event => {
