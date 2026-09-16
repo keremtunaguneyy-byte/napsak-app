@@ -157,8 +157,8 @@ export const GOLDEN_RECOMMENDATION_SCENARIOS: readonly RecommendationQualityScen
   },
   {
     id: 'stale-event-catalog',
-    label: 'Stale event catalog context',
-    purpose: 'A fully expired local event catalog returns zero rather than stale results.',
+    label: 'Later event catalog checkpoint',
+    purpose: 'The fixed later checkpoint characterizes how much refreshed Event supply remains one week on.',
     filter: 'event', mood: 'Sosyal', interests: ['Etkinlik'], groupSize: '2 kişi', seed: 231,
     now: new Date('2026-09-21T12:00:00+03:00'),
   },

@@ -32,6 +32,7 @@ test('expired and invalid-start events remain visible as supply loss but never l
     ...catalog,
     events: [
       ...catalog.events,
+      { ...catalog.events[0], id: 'quality-expired-event', startsAt: '2026-09-13T00:00:00Z' },
       { ...catalog.events[0], id: 'quality-invalid-event', startsAt: 'not-a-date' },
     ],
   });
