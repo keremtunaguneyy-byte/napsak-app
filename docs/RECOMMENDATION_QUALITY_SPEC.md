@@ -24,7 +24,7 @@ The harness exercises only the visible `experience`, `place`, `event`, and `idea
 
 ## 2. Baseline source and known documentation conflict
 
-The live code at the verified starting commit `a4d9b5e832b01fada066ff4dab0d275d6d857c65` is the behavioral baseline. The project-memory rules in `PRODUCT_SPEC.md` and `ALGORITHM_SPEC.md` remain the product contract.
+The eligibility infrastructure work starts from verified `main` commit `d32c9bfae8a02d0bd5819279a0c3767f7b7445fe`. The project-memory rules in `PRODUCT_SPEC.md` and `ALGORITHM_SPEC.md` remain the product contract.
 
 One stale documentation statement was found and is not resolved by this measurement change: `ALGORITHM_SPEC.md` says the place-related-plan work from #21 is not yet on `main`, while current code, `PRODUCT_SPEC.md`, and `STATUS.md` show that it is present. The quality harness does not change that behavior.
 
@@ -109,7 +109,7 @@ Missing explanations and non-deterministic replay are objective failures. Human 
 
 ### 4.6 Event freshness and lifecycle correctness
 
-For the fixed scenario instant the harness reports upcoming, expired, invalid-start, and stale-verification Event counts using the repository's Event operations contract. Returned expired/invalid Events, expired or invalid seasonal/live Experiences, and duration-ineligible Experiences are objective leakage failures.
+For the fixed scenario instant the harness reports upcoming, expired, invalid-start, and stale-verification Event counts using the repository's Event operations contract. Returned expired/invalid Events, Experience records with ineligible Place dependencies, unsupported conditional records, invalid event-linked records, and duration-ineligible Experiences are objective leakage failures.
 
 The recommendation engine currently treats an Event as expired at its scheduled start, as documented in the code and existing tests. This phase records that behavior and does not reinterpret `endsAt`.
 
@@ -141,12 +141,12 @@ These fixtures are deterministic quality probes, not statistically representativ
 
 ## 6. Initial production-catalog baseline
 
-Command: `npm run check:recommendations`. Catalog version: `2026-09-07.1`. Result limit: 5.
+Command: `npm run check:recommendations`. Catalog version: `2026-09-16.1`. Result limit: 5.
 
 | Measure | Baseline |
 |---|---:|
 | Scenarios | 15 |
-| Eligible candidates, summed across contexts | 438 |
+| Eligible candidates, summed across contexts | 432 |
 | First-batch results | 63 |
 | Zero-result scenarios | 1 / 15 (6.67%) |
 | 1–4-result scenarios | 3 / 15 (20.00%) |
@@ -161,8 +161,8 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-07.1`. Resul
 | Experience secondary-only matches | 3 / 19 interest-bearing Experience results |
 | Mean distinct categories per first batch | 2.467 |
 | Mean distinct applicable districts per first batch | 2.467 |
-| Distinct repeated IDs across three-batch fixture runs | 45 |
-| Repeated slots across three-batch fixture runs | 63 |
+| Distinct repeated IDs across three-batch fixture runs | 46 |
+| Repeated slots across three-batch fixture runs | 64 |
 | Location-paired scenarios | 9 |
 | Location-paired changed slots | 17 |
 | Location-paired symmetric membership difference, summed | 14 |
@@ -181,7 +181,7 @@ Supply-specific observations:
 - Cold start has 20 eligible Experiences and produces 15 unique items across three adjacent five-item batches.
 - Correct location-off replays change 17 of 43 compared result slots across the nine paired fixtures. Four fixtures change membership: Çukurambar friends has three shared IDs and a symmetric difference of four; tight budget and expensive budget each have four shared IDs and a symmetric difference of two; flexible budget has two shared IDs and a symmetric difference of six. Couple and large-group fixtures keep the same members but swap their first two ranks. Solo, short-duration, and long-duration keep the same order.
 
-A recorded local latency sample was mean 0.370 ms, p50 0.128 ms, p95 1.824 ms, and p99 2.068 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
+A recorded local latency sample was mean 1.313 ms, p50 0.634 ms, p95 3.512 ms, and p99 3.774 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
 
 ## 7. Interpretation cautions
 
@@ -201,7 +201,7 @@ A recorded local latency sample was mean 0.370 ms, p50 0.128 ms, p95 1.824 ms, a
 - non-deterministic replay;
 - dismissed leakage;
 - expired/invalid Event leakage;
-- expired/invalid Experience lifecycle leakage;
+- ineligible Place dependency or expired/invalid Experience lifecycle leakage;
 - duration leakage;
 - duplicates inside a batch;
 - more than five results;

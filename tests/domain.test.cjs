@@ -2,6 +2,14 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { dismissId, distanceInKm, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId, uniqueIds } = require('../.test-build/domain.js');
 const { recommendAll, recommendExperiences, recommendExperiencesForPlace, recommendPlaces } = require('../.test-build/recommendations.js');
+const {
+  isExperiencePubliclyResolvable,
+  isHardExcludedPlace,
+  isPlaceRecommendationEligible,
+  isPlacePubliclyResolvable,
+  nextContentEligibilityChange,
+  normalizeContentIdentity,
+} = require('../.test-build/contentPolicy.js');
 const { ANALYTICS_SCHEMA_VERSION, createProductAnalyticsEvent } = require('../.test-build/analyticsPolicy.js');
 const { performanceDurationBucket, RECOMMENDATION_P95_BUDGET_MS } = require('../.test-build/performancePolicy.js');
 const { googleMapsUrlForExperiencePoints } = require('../.test-build/mapLinks.js');
@@ -212,7 +220,54 @@ test('dismissId persists hidden places and restoreId supports undo', () => {
 const fixture = (overrides) => ({
   id: 'place', name: 'Place', district: 'Çankaya', address: 'Adres', category: 'Doğa',
   moods: ['Sakin'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4, note: 'Not', latitude: 39.9, longitude: 32.85,
-  sourceUrl: 'https://example.com', verifiedAt: '2026-08-03', ...overrides,
+  sourceUrl: 'https://example.com', verifiedAt: '2026-08-03', status: 'active', ...overrides,
+});
+
+test('Place eligibility status and hard exclusion are enforced before scoring', () => {
+  const active = fixture({ id: 'active' });
+  const deprecated = fixture({ id: 'deprecated', status: 'deprecated', editorialScore: 99 });
+  const verificationRequired = fixture({ id: 'verification', status: 'verification_required', editorialScore: 99 });
+  const forbidden = fixture({ id: 'yilmaz-guney-sahnesi', name: 'Unrelated display label', editorialScore: 99 });
+  assert.equal(isPlaceRecommendationEligible(active), true);
+  assert.equal(isPlaceRecommendationEligible(deprecated), false);
+  assert.equal(isPlaceRecommendationEligible(verificationRequired), false);
+  assert.equal(isPlaceRecommendationEligible(forbidden), false);
+  assert.deepEqual(
+    recommendPlaces({ places: [deprecated, verificationRequired, forbidden, active], interests: [], dismissed: [], limit: 10 }).map(item => item.id),
+    ['active'],
+  );
+});
+
+test('hard exclusion normalization matches canonical id and Turkish aliases', () => {
+  assert.equal(normalizeContentIdentity('  YILMAZ—GÜNEY  Sahnesi '), 'yilmaz guney sahnesi');
+  assert.equal(isHardExcludedPlace(fixture({ id: 'new-import-id', name: 'YILMAZ GÜNEY SAHNESİ' })), true);
+  assert.equal(isHardExcludedPlace(fixture({ id: 'new-import-id', name: 'Başka Yer', aliases: ['Yilmaz Guney Tiyatro Sahnesi'] })), true);
+});
+
+test('eligibility clock schedules the nearest future Event boundary and ignores stale dates', () => {
+  const now = new Date('2026-09-16T12:00:00.000Z');
+  const next = nextContentEligibilityChange([
+    eventFixture({ id: 'past', startsAt: '2026-09-16T11:59:59.000Z' }),
+    eventFixture({ id: 'later', startsAt: '2026-09-16T14:00:00.000Z' }),
+    eventFixture({ id: 'next', startsAt: '2026-09-16T13:00:00.000Z' }),
+    eventFixture({ id: 'invalid', startsAt: 'not-a-date' }),
+  ], now);
+  assert.equal(next, Date.parse('2026-09-16T13:00:00.000Z'));
+  assert.equal(nextContentEligibilityChange([], now), undefined);
+});
+
+test('unified feed inherits Place hard exclusion without changing direct ranking', () => {
+  const forbidden = fixture({ id: 'imported-yilmaz', name: 'Yilmaz Guney Sahnesi', editorialScore: 99 });
+  const active = fixture({ id: 'active', editorialScore: 1 });
+  const result = recommendAll({ places: [forbidden, active], ideas: [], experiences: [], events: [], filter: 'place', interests: [], dismissed: [], limit: 10 });
+  assert.deepEqual(result.map(item => item.id), ['active']);
+});
+
+test('deprecated Places remain saved-resolvable while hard-excluded Places do not publicly resolve', () => {
+  const deprecated = fixture({ id: 'deprecated', status: 'deprecated' });
+  const forbidden = fixture({ id: 'yilmaz-guney-sahnesi', name: 'Yılmaz Güney Sahnesi' });
+  const publicPlaces = [deprecated, forbidden].filter(isPlacePubliclyResolvable);
+  assert.deepEqual(resolveSavedPlaces(publicPlaces, [deprecated.id, forbidden.id]).map(item => item.id), ['deprecated']);
 });
 
 test('recommendPlaces prioritizes preference matches and explains the score', () => {
@@ -273,49 +328,51 @@ test('related plans match stable stop and city IDs, never a matching display nam
   const place = { id: base.points[0].placeId, cityId: base.cityId };
   const wrongId = { ...base, id: 'wrong-id', points: base.points.map(p => ({ ...p, placeId: 'different-id' })) };
   const wrongCity = { ...base, id: 'wrong-city', cityId: 'other-city' };
-  const result = recommendExperiencesForPlace(place, { experiences: [base, wrongId, wrongCity], interests: [], dismissed: [] });
+  const result = recommendExperiencesForPlace(place, { experiences: [base, wrongId, wrongCity], places, events, interests: [], dismissed: [] });
   assert.deepEqual(result.map(x => x.id), [base.id]);
-  assert.deepEqual(recommendExperiencesForPlace({ ...place, id: 'unknown' }, { experiences: [base], interests: [], dismissed: [] }), []);
+  assert.deepEqual(recommendExperiencesForPlace({ ...place, id: 'unknown' }, { experiences: [base], places, events, interests: [], dismissed: [] }), []);
 });
 
 test('related plans filter before limit and match a later stop without duplicating a plan', () => {
   const base = experiences[0];
+  const targetPlace = { ...places[0], id: 'target' };
   const linked = { ...base, id: 'linked', editorialScore: 1, points: [base.points[0], { ...base.points[0], placeId: 'target' }, { ...base.points[0], placeId: 'target' }] };
   const unrelated = Array.from({ length: 8 }, (_, i) => ({ ...base, id: `popular-${i}`, editorialScore: 5 }));
-  const result = recommendExperiencesForPlace({ id: 'target', cityId: base.cityId }, { experiences: [...unrelated, linked], interests: [], dismissed: [], limit: 1 });
+  const result = recommendExperiencesForPlace(targetPlace, { experiences: [...unrelated, linked], places: [...places, targetPlace], events, interests: [], dismissed: [], limit: 1 });
   assert.deepEqual(result.map(x => x.id), ['linked']);
 });
 
-test('related plans preserve hiding, expiry, duration and interest eligibility', () => {
+test('related plans preserve hiding, lifecycle, duration and interest eligibility', () => {
   const base = { ...experiences[0], primaryInterests: ['Doğa'], secondaryInterests: [], category: 'Doğa', minDurationMinutes: 30, maxDurationMinutes: 60 };
   const variants = [
     { ...base, id: 'eligible' },
     { ...base, id: 'hidden' },
-    { ...base, id: 'expired', lifecycle: 'live', expiresAt: '2026-09-05T00:00:00Z' },
-    { ...base, id: 'malformed', lifecycle: 'seasonal', expiresAt: 'bad-date' },
+    { ...base, id: 'conditional', lifecycle: 'conditional', activation: { kind: 'unsupported' } },
+    { ...base, id: 'missing-event', lifecycle: 'event_linked', eventId: 'missing-event' },
     { ...base, id: 'too-long', minDurationMinutes: 120, maxDurationMinutes: 180 },
     { ...base, id: 'wrong-interest', primaryInterests: ['Kahve'], category: 'Kahve' },
   ];
   const result = recommendExperiencesForPlace({ id: base.points[0].placeId, cityId: base.cityId }, {
-    experiences: variants, interests: ['Doğa'], dismissed: ['hidden'], duration: '30–60 dk', now: new Date('2026-09-06T00:00:00Z'),
+    experiences: variants, places, events, interests: ['Doğa'], dismissed: ['hidden'], duration: '30–60 dk', now: new Date('2026-09-06T00:00:00Z'),
   });
   assert.deepEqual(result.map(x => x.id), ['eligible']);
 });
 
 test('related plans preserve personalized ranking and reasons without mutating the catalogue', () => {
   const base = experiences[0];
-  const options = { experiences: [base, { ...base, id: 'secondary', primaryInterests: ['Kahve'], secondaryInterests: ['Doğa'], editorialScore: 5 }], interests: ['Doğa'], dismissed: [], mood: 'Sakin', budget: 'Ücretsiz', groupSize: '2 kişi', seed: 27, now: new Date('2026-09-06T00:00:00Z') };
+  const options = { experiences: [base, { ...base, id: 'secondary', primaryInterests: ['Kahve'], secondaryInterests: ['Doğa'], editorialScore: 5 }], places, events, interests: ['Doğa'], dismissed: [], mood: 'Sakin', budget: 'Ücretsiz', groupSize: '2 kişi', seed: 27, now: new Date('2026-09-06T00:00:00Z') };
   const before = JSON.stringify(options);
   const place = { id: base.points[0].placeId, cityId: base.cityId };
   assert.deepEqual(recommendExperiencesForPlace(place, options), recommendExperiences(options));
   assert.equal(JSON.stringify(options), before);
 });
 
-test('related plans refresh with replaced catalogue and expiry boundary', () => {
+test('related event-linked plans refresh at the linked Event boundary', () => {
   const base = experiences[0];
-  const live = { ...base, lifecycle: 'live', expiresAt: '2026-09-06T12:00:00Z' };
+  const linkedEvent = { ...events[0], id: 'linked-event', startsAt: '2026-09-06T12:00:00Z' };
+  const live = { ...base, lifecycle: 'event_linked', eventId: linkedEvent.id };
   const place = { id: base.points[0].placeId, cityId: base.cityId };
-  const options = { experiences: [live], interests: [], dismissed: [] };
+  const options = { experiences: [live], places, events: [linkedEvent], interests: [], dismissed: [] };
   assert.equal(recommendExperiencesForPlace(place, { ...options, now: new Date('2026-09-06T11:59:59Z') }).length, 1);
   assert.equal(recommendExperiencesForPlace(place, { ...options, now: new Date('2026-09-06T12:00:00Z') }).length, 0);
   assert.equal(recommendExperiencesForPlace(place, { ...options, experiences: [] }).length, 0);
@@ -323,7 +380,7 @@ test('related plans refresh with replaced catalogue and expiry boundary', () => 
 const { guides } = require('../.test-build/data/guides.js');
 const { insiderRoutes } = require('../.test-build/data/insiderRoutes.js');
 const { cities } = require('../.test-build/data/cities.js');
-const { CATALOG_SCHEMA_VERSION, embeddedCatalog } = require('../.test-build/data/catalog.js');
+const { CATALOG_CACHE_NAMESPACE_VERSION, CATALOG_SCHEMA_VERSION, catalogCacheKey, embeddedCatalog } = require('../.test-build/data/catalog.js');
 const { parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
 const { EmbeddedContentRepository } = require('../.test-build/data/contentRepository.js');
 const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
@@ -394,7 +451,7 @@ test('every experience produces a safe Google Maps action', () => {
 });
 
 test('duration is a hard eligibility gate and Fark etmez leaves the catalogue open', () => {
-  const common = { experiences, interests: [], dismissed: [], limit: 30, now: new Date('2026-08-08T00:00:00Z') };
+  const common = { experiences, places, events, interests: [], dismissed: [], limit: 30, now: new Date('2026-08-08T00:00:00Z') };
   const short = recommendExperiences({ ...common, duration: '30–60 dk' });
   const oneToTwo = recommendExperiences({ ...common, duration: '1–2 saat' });
   const threeToFour = recommendExperiences({ ...common, duration: '3–4 saat' });
@@ -407,18 +464,40 @@ test('duration is a hard eligibility gate and Fark etmez leaves the catalogue op
   assert.equal(any.length, experiences.length);
 });
 
-test('expired or malformed seasonal/live experiences never reach results', () => {
+test('unsupported conditional and invalid event-linked Experiences fail closed', () => {
   const base = experiences[0];
-  const active = { ...base, id: 'active-live', lifecycle: 'live', expiresAt: '2026-08-09T00:00:00Z' };
-  const expired = { ...base, id: 'expired-live', lifecycle: 'live', expiresAt: '2026-08-07T00:00:00Z' };
-  const malformed = { ...base, id: 'malformed-seasonal', lifecycle: 'seasonal', expiresAt: 'not-a-date' };
-  const missing = { ...base, id: 'missing-expiry', lifecycle: 'live', expiresAt: undefined };
-  const result = recommendExperiences({ experiences: [expired, malformed, missing, active], interests: [], dismissed: [], now: new Date('2026-08-08T00:00:00Z') });
-  assert.deepEqual(result.map(item => item.id), ['active-live']);
+  const activeEvent = { ...events[0], id: 'active-event', startsAt: '2026-08-09T00:00:00Z' };
+  const expiredEvent = { ...events[0], id: 'expired-event', startsAt: '2026-08-07T00:00:00Z' };
+  const conditional = { ...base, id: 'conditional', lifecycle: 'conditional', activation: { kind: 'unsupported' } };
+  const activeLinked = { ...base, id: 'active-linked', lifecycle: 'event_linked', eventId: activeEvent.id };
+  const expiredLinked = { ...base, id: 'expired-linked', lifecycle: 'event_linked', eventId: expiredEvent.id };
+  const missingLinked = { ...base, id: 'missing-linked', lifecycle: 'event_linked', eventId: 'missing' };
+  const result = recommendExperiences({
+    experiences: [conditional, expiredLinked, missingLinked, activeLinked], places, events: [activeEvent, expiredEvent],
+    interests: [], dismissed: [], now: new Date('2026-08-08T00:00:00Z'),
+  });
+  assert.deepEqual(result.map(item => item.id), ['active-linked']);
+});
+
+test('Experience recommendations fail closed for missing, ineligible, or hard-excluded stops', () => {
+  const base = experiences[0];
+  const pointId = base.points[0].placeId;
+  const activePoint = places.find(place => place.id === pointId);
+  assert.ok(activePoint);
+  const withoutPoint = places.filter(place => place.id !== pointId);
+  const deprecatedPoint = { ...activePoint, status: 'deprecated' };
+  const excludedPoint = { ...activePoint, name: 'Yılmaz Güney Sahnesi' };
+  const common = { experiences: [base], events, interests: [], dismissed: [], limit: 10 };
+  assert.deepEqual(recommendExperiences({ ...common, places: withoutPoint }), []);
+  assert.deepEqual(recommendExperiences({ ...common, places: [...withoutPoint, deprecatedPoint] }), []);
+  assert.deepEqual(recommendExperiences({ ...common, places: [...withoutPoint, excludedPoint] }), []);
+  assert.deepEqual(recommendAll({ ...common, places: [...withoutPoint, deprecatedPoint], ideas: [], filter: 'experience' }), []);
+  assert.deepEqual(recommendExperiencesForPlace(deprecatedPoint, { ...common, places: [...withoutPoint, deprecatedPoint] }), []);
+  assert.equal(isExperiencePubliclyResolvable(base, new Map([...withoutPoint, excludedPoint].map(place => [place.id, place]))), false);
 });
 
 test('experience interest, dismissal and rotation gates stay intact', () => {
-  const common = { experiences, mood: 'Meraklı', interests: [], dismissed: [], limit: 5, seed: 101, now: new Date('2026-08-08T00:00:00Z') };
+  const common = { experiences, places, events, mood: 'Meraklı', interests: [], dismissed: [], limit: 5, seed: 101, now: new Date('2026-08-08T00:00:00Z') };
   const first = recommendExperiences(common);
   const second = recommendExperiences({ ...common, seed: 102, previousBatch: first.map(item => item.id) });
   assert.equal(first.length, 5);
@@ -438,7 +517,7 @@ test('experience interest, dismissal and rotation gates stay intact', () => {
 test('each duration keeps at least one honest match for every explicit interest', () => {
   for (const duration of KNOWN_DURATIONS.filter(value => value !== 'Fark etmez')) {
     for (const interest of KNOWN_INTERESTS) {
-      const result = recommendExperiences({ experiences, duration, interests: [interest], dismissed: [], limit: 20, now: new Date('2026-08-08T00:00:00Z') });
+      const result = recommendExperiences({ experiences, places, events, duration, interests: [interest], dismissed: [], limit: 20, now: new Date('2026-08-08T00:00:00Z') });
       assert.ok(result.length, `${duration} + ${interest} has no Experience`);
       assert.ok(result.every(item => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)), `${duration} + ${interest} leaked an unrelated Experience`);
     }
@@ -502,7 +581,11 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
     }
     assert.ok(place.editorialScore >= 0 && place.editorialScore <= 5, `${place.id}: editorialScore`);
     assert.ok([0, 1, 2, 3].includes(place.priceLevel), `${place.id}: priceLevel`);
+    assert.ok(['active', 'deprecated', 'verification_required'].includes(place.status), `${place.id}: status`);
   }
+  assert.equal(places.find(place => place.id === 'kronotrop-tunali').status, 'deprecated');
+  assert.equal(places.find(place => place.id === 'ankara-sanat-tiyatrosu').status, 'deprecated');
+  assert.equal(places.find(place => place.id === 'coffee-lab-bilkent').status, 'verification_required');
 });
 
 test('every explicit interest has enough places for two fresh five-item batches', () => {
@@ -565,11 +648,33 @@ test('embedded content repository preserves exact local catalogue parity', async
 test('runtime catalogue validation rejects malformed remote data', () => {
   const valid = embeddedCatalog('ankara');
   assert.ok(parseCatalogSnapshot(valid));
+  assert.equal(CATALOG_SCHEMA_VERSION, 2);
+  assert.equal(CATALOG_CACHE_NAMESPACE_VERSION, 2);
+  assert.equal(catalogCacheKey('ankara'), '@napsak/catalog/v2/ankara');
+  assert.notEqual(catalogCacheKey('ankara'), '@napsak/catalog/v1/ankara');
+  assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 1 }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 999 }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, places: [{ ...valid.places[0], sourceUrl: 'javascript:bad' }] }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, places: valid.places.map((place, index) => index ? place : { ...place, status: undefined }) }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], cityId: 'istanbul' }] }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, places: [] }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], points: [{ ...valid.experiences[0].points[0], placeId: 'missing-place' }] }] }), undefined);
+  const aliasImport = { ...valid.places[0], id: 'new-import', name: 'YILMAZ GÜNEY SAHNESİ' };
+  assert.equal(parseCatalogSnapshot({ ...valid, places: [...valid.places, aliasImport] }), undefined);
+  const hardExcludedExperience = {
+    ...valid.experiences[0],
+    points: [{ ...valid.experiences[0].points[0], placeId: 'yilmaz-guney-sahnesi' }],
+  };
+  assert.equal(parseCatalogSnapshot({ ...valid, experiences: [hardExcludedExperience] }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], lifecycle: 'event_linked', eventId: 'missing-event' }] }), undefined);
+  const publicIdCollision = { ...valid.places[0], id: valid.ideas[0].id };
+  assert.equal(parseCatalogSnapshot({ ...valid, places: [...valid.places, publicIdCollision] }), undefined);
+  const referencedId = valid.experiences[0].points[0].placeId;
+  const deprecatedHistorical = {
+    ...valid,
+    places: valid.places.map(place => place.id === referencedId ? { ...place, status: 'deprecated' } : place),
+  };
+  assert.ok(parseCatalogSnapshot(deprecatedHistorical));
 });
 
 test('unified feed mixes places and ideas while preserving hard interest eligibility', () => {
@@ -659,7 +764,7 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
   const first = recommendPlaces(options);
   const second = recommendPlaces({ ...options, seed: 8, previousBatch: first.map(place => place.id) });
   assert.equal(second.filter(place => first.some(previous => previous.id === place.id)).length, 0);
-  const small = places.filter(place => place.interests.includes('Kahve')).slice(0, 3);
+  const small = places.filter(place => isPlaceRecommendationEligible(place) && place.interests.includes('Kahve')).slice(0, 3);
   assert.equal(recommendPlaces({ places: small, interests: ['Kahve'], dismissed: [], limit: 5, previousBatch: small.map(place => place.id) }).length, 3);
 });
 

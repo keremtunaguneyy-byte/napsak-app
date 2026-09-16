@@ -48,11 +48,12 @@ Token, servis hesabı JSON’u, imzalama anahtarı veya kullanıcı verisi repoy
 ## Yayın sırası
 
 1. Sürüm commit’ini ve mağaza sürüm numarasını sabitle.
-2. App Quality, Security Rules, Event Operations ve Release Gate sonuçlarını kaydet.
-3. İmzalı internal build’i cihaz matrisinde test et; soğuk açılış, bellek, jank ve kritik kullanıcı akışlarını ölç.
-4. Production yedeğini ve son başarılı restore prova kaydını doğrula.
-5. Önce küçük/staged dağıtım yap; hata oranı ve kritik akışları izle.
-6. Sağlıklıysa kademeyi artır; değilse dağıtımı durdur ve aşağıdaki geri dönüşü uygula.
+2. Katalog schema/cache namespace değiştiyse FIREBASE_RUNBOOK'taki remote dry-run preflight çıktısını incele; hard-excluded, deprecated, verification-required ve eksik/geçersiz status envanterini otomatik silme/yazma yapmadan doğrula.
+3. App Quality, Security Rules, Event Operations ve Release Gate sonuçlarını kaydet.
+4. İmzalı internal build’i cihaz matrisinde test et; soğuk açılış, bellek, jank ve kritik kullanıcı akışlarını ölç.
+5. Production yedeğini ve son başarılı restore prova kaydını doğrula.
+6. Önce küçük/staged dağıtım yap; hata oranı ve kritik akışları izle.
+7. Sağlıklıysa kademeyi artır; değilse dağıtımı durdur ve aşağıdaki geri dönüşü uygula.
 
 ## Geri dönüş
 

@@ -57,6 +57,10 @@ export type ExperienceSource = {
   verifiedAt: string;
 };
 
+export type UnsupportedConditionalActivation = {
+  kind: 'unsupported';
+};
+
 type ExperienceBase = {
   id: string;
   kind: 'experience';
@@ -88,8 +92,11 @@ type ExperienceBase = {
 
 export type Experience = ExperienceBase & (
   | { lifecycle: 'evergreen'; expiresAt?: never }
-  | { lifecycle: 'seasonal' | 'live'; expiresAt: string }
+  | { lifecycle: 'conditional'; activation: UnsupportedConditionalActivation }
+  | { lifecycle: 'event_linked'; eventId: string }
 );
+
+export type PlaceStatus = 'active' | 'deprecated' | 'verification_required';
 
 export type Place = {
   id: string;
@@ -107,6 +114,8 @@ export type Place = {
   longitude: number;
   sourceUrl: string;
   verifiedAt: string;
+  status: PlaceStatus;
+  aliases?: string[];
 };
 
 export type Idea = {

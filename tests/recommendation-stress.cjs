@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const { places } = require('../.test-build/data/places.js');
 const { experiences } = require('../.test-build/data/experiences.js');
 const { durationEligible, recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
+const { createExperienceEligibilityContext, isExperienceRecommendationEligible, isPlaceRecommendationEligible } = require('../.test-build/contentPolicy.js');
 const { KNOWN_MOODS, KNOWN_INTERESTS, KNOWN_BUDGETS, KNOWN_DURATIONS, KNOWN_GROUP_SIZES } = require('../.test-build/types.js');
 
 const interestSets = [[]];
@@ -12,7 +13,7 @@ const report = { scenarios: 0, empty: 0, interestMismatch: 0, duplicates: 0, div
 let budgetChanges = 0;
 let groupChanges = 0;
 const ids = values => values.map(value => value.id);
-const eligible = interests => places.filter(place => !interests.length || interests.some(interest => place.category === interest || place.interests.includes(interest)));
+const eligible = interests => places.filter(isPlaceRecommendationEligible).filter(place => !interests.length || interests.some(interest => place.category === interest || place.interests.includes(interest)));
 
 for (const mood of KNOWN_MOODS) for (const interests of interestSets) for (const budget of KNOWN_BUDGETS) for (const groupSize of KNOWN_GROUP_SIZES) {
   report.scenarios++;
@@ -55,10 +56,11 @@ assert.ok(budgetChanges > 10, 'budget does not materially affect enough profiles
 assert.ok(groupChanges > 10, 'group size does not materially affect enough profiles');
 
 const experienceReport = { scenarios: 0, empty: 0, interestMismatch: 0, durationMismatch: 0, duplicates: 0, rotationChecks: 0, overlapTotal: 0 };
+const experienceEligibilityContext = createExperienceEligibilityContext(places);
 for (const mood of KNOWN_MOODS) for (const interests of interestSets) for (const duration of KNOWN_DURATIONS) {
   experienceReport.scenarios++;
-  const options = { experiences, mood, interests, duration, dismissed: [], limit: 5, seed: 91, now: new Date('2026-08-08T00:00:00Z') };
-  const eligibleExperiences = experiences.filter(item => durationEligible(item, duration) && (!interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest))));
+  const options = { experiences, places, mood, interests, duration, dismissed: [], limit: 5, seed: 91, now: new Date('2026-08-08T00:00:00Z') };
+  const eligibleExperiences = experiences.filter(item => isExperienceRecommendationEligible(item, experienceEligibilityContext, options.now) && durationEligible(item, duration) && (!interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest))));
   const first = recommendExperiences(options);
   if (eligibleExperiences.length && !first.length) experienceReport.empty++;
   if (first.some(item => interests.length && !interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))) experienceReport.interestMismatch++;

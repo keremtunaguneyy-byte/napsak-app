@@ -269,17 +269,17 @@ Bir Experience mümkün olduğunca şunları taşımalıdır:
 - rezervasyon gereksinimi,
 - kaynak URL’si,
 - son doğrulama tarihi,
-- gerekiyorsa bitiş tarihi,
+- yaşam döngüsü ve gerekiyorsa bağlı Event kimliği,
 - güven skoru,
 - editoryal skor.
 
 ### 7.2 Yaşam döngüsü — Kararlaştırıldı
 
-- `evergreen`: kalıcı/zamansız.
-- `seasonal`: dönemsel; geçerlilik kontrolü gerekir.
-- `live`: kısa süreli ve güncel; bitiş zamanı zorunlu olmalıdır.
+- `evergreen`: kalıcı/zamansız; tüm bağlı Place kayıtları uygun olduğu sürece önerilebilir.
+- `conditional`: dış bir koşula bağlı; koşul sözleşmesi ayrıca onaylanana kadar fail-closed davranır ve önerilemez.
+- `event_linked`: doğrulanmış bir Event kaydına bağlıdır; Event eksik, geçersiz veya başlamışsa önerilemez.
 
-Süresi dolmuş `seasonal` veya `live` içerik sonuçlara giremez.
+Bir Experience, bağlı noktalarından biri öneri için uygun değilse kendi yaşam döngüsünden bağımsız olarak önerilemez. Place durumu `active`, `deprecated` veya `verification_required` değerlerinden biridir. Yalnız `active` Place önerilebilir; diğer durumlar tarihsel/kayıtlı çözümleme için katalogda kalabilir. Kod tarafından yönetilen hard-exclusion politikası hem Place'i hem ona bağlı Experience'ları bütün public yüzeylerden kaldırır.
 
 ### 7.3 Kaynak politikası — Kararlaştırıldı
 
@@ -537,7 +537,7 @@ Bu ilk sürüm; onboarding, kalıcı/anlık tercih ayrımı, kaydetme, gizleme/g
 **Karar:** Başlangıç Experience kataloğu 20 evergreen mikro plandan oluşacak. Planlar mevcut, kaynaklı mekân kayıtlarına bağlanacak; her bağlı noktanın kaynak ve doğrulama tarihi korunacak. Rota süresi editoryal tahmin olarak sunulacak, doğrulanmamış haftanın günleri veya çalışma saatleri üretilmeyecek.
 
 **Neden:** Bir mekânın varlığını doğrulayan kaynak, rota içindeki her operasyonel ayrıntıyı otomatik olarak doğrulamaz. Veri modelinin dürüst belirsizlik taşıması, sahte kesinlikten daha değerlidir.
-**Sonuç:** Kartlar güncel koşulları kontrol etme notu taşır. `seasonal` ve `live` kayıtlar tip seviyesinde `expiresAt` gerektirir; eksik veya geçersiz bitiş tarihi olan kayıtlar çalışma zamanında da elenir.
+**Sonuç:** Kartlar güncel koşulları kontrol etme notu taşır. Bu kayıttaki `seasonal` / `live` + `expiresAt` modeli, 16 Eylül 2026 tarihli içerik yaşam döngüsü kararıyla `evergreen` / fail-closed `conditional` / `event_linked` sözleşmesine çevrilmiştir; ilk 20 kayıt evergreen kalır.
 
 ### 2026-08-09 — Experience ilgi niyeti ve çok şehir temeli
 

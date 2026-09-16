@@ -1,4 +1,10 @@
 import { Coordinates, distanceInKm } from './domain';
+import {
+  createExperienceEligibilityContext,
+  isEventRecommendationEligible,
+  isExperienceRecommendationEligible,
+  isPlaceRecommendationEligible,
+} from './contentPolicy';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Idea, Interest, Mood, Place, PriceLevel, RecommendationKind } from './types';
 
 export type Recommendation = Place & { distance?: number; score: number; reasons: string[] };
@@ -76,19 +82,21 @@ export function durationEligible(experience: Experience, duration?: DurationPref
   return experience.minDurationMinutes >= minimum && experience.maxDurationMinutes <= maximum;
 }
 
-export function experienceLifecycleEligible(experience: Experience, now: Date): boolean {
+export function experienceLifecycleEligible(experience: Experience, now: Date, events: readonly Event[] = []): boolean {
   if (experience.lifecycle === 'evergreen') return true;
-  const expiresAt = Date.parse(experience.expiresAt);
-  return Number.isFinite(expiresAt) && expiresAt > now.getTime();
+  if (experience.lifecycle === 'conditional') return false;
+  const event = events.find(item => item.id === experience.eventId && item.cityId === experience.cityId);
+  return Boolean(event && isEventRecommendationEligible(event, now));
 }
 
 export function eventStartEligible(event: Event, now: Date): boolean {
-  const startsAt = Date.parse(event.startsAt);
-  return Number.isFinite(startsAt) && startsAt > now.getTime();
+  return isEventRecommendationEligible(event, now);
 }
 
 export function recommendExperiences(options: {
   experiences: Experience[];
+  places: Place[];
+  events?: Event[];
   mood?: Mood;
   interests: Interest[];
   dismissed: string[];
@@ -102,14 +110,15 @@ export function recommendExperiences(options: {
   now?: Date;
 }): ExperienceRecommendation[] {
   const {
-    experiences, mood, interests, dismissed, budget, groupSize, duration,
+    experiences, places, events = [], mood, interests, dismissed, budget, groupSize, duration,
     coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
   } = options;
   const random = seededRandom(seed ^ 0xE7E11E);
   const previous = new Set(previousBatch);
+  const eligibilityContext = createExperienceEligibilityContext(places, events);
   const candidates = experiences
     .filter(item => !dismissed.includes(item.id))
-    .filter(item => experienceLifecycleEligible(item, now))
+    .filter(item => isExperienceRecommendationEligible(item, eligibilityContext, now))
     .filter(item => durationEligible(item, duration))
     .filter(item => !interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
     .map(item => {
@@ -167,6 +176,8 @@ export function recommendExperiencesForPlace(
   place: Pick<Place, 'id' | 'cityId'>,
   options: Parameters<typeof recommendExperiences>[0],
 ): ExperienceRecommendation[] {
+  const catalogPlace = options.places.find(item => item.id === place.id && item.cityId === place.cityId);
+  if (!catalogPlace || !isPlaceRecommendationEligible(catalogPlace)) return [];
   return recommendExperiences({
     ...options,
     experiences: options.experiences.filter(experience => experience.cityId === place.cityId
@@ -191,6 +202,7 @@ export function recommendPlaces(options: {
   const { places, mood, interests, dismissed, budget, groupSize, coordinates, limit = 5, seed = 0, random = seededRandom(seed), previousBatch = [] } = options;
   const candidates = places
     .filter(place => !dismissed.includes(place.id))
+    .filter(isPlaceRecommendationEligible)
     .filter(place => placeInterestEligible(place, interests))
     .map(place => {
       const distance = coordinates ? distanceInKm(coordinates, place) : undefined;
@@ -359,7 +371,7 @@ export function recommendAll(options: {
   } = options;
   const candidateLimit = Math.max(limit * 3, 15);
   const experienceItems: RecommendationItem[] = filter === 'experience' || filter === 'all' ? recommendExperiences({
-    experiences, mood, interests, dismissed, budget, groupSize, duration, coordinates,
+    experiences, places, events, mood, interests, dismissed, budget, groupSize, duration, coordinates,
     limit: candidateLimit, seed, previousBatch, now,
   }) : [];
   const placeItems: RecommendationItem[] = filter === 'place' || filter === 'all' ? recommendPlaces({
