@@ -135,53 +135,53 @@ These fixtures are deterministic quality probes, not statistically representativ
 | Short duration | N’apsak/Experience | Sakin, Sanat + Doğa, 30–60 dk | Short-duration hard eligibility |
 | Long duration | N’apsak/Experience | Enerjik, Doğa + Sanat, Yarım gün, 5+ | Long-duration supply without short-plan filling |
 | Sparse-interest context | N’apsak/Experience | Meraklı, Kahve, 3–4 saat, Tek | Honest partial result from a narrow intersection |
-| Active Event catalog | Etkinlik | 14 Sep 2026 12:00 TRT, Sosyal, Etkinlik, ₺₺₺, 3–4 kişi | Upcoming/expired split and four-result supply |
-| Stale Event catalog | Etkinlik | 21 Sep 2026 12:00 TRT | Fully expired local catalog must return zero |
+| Active Event catalog | Etkinlik | 14 Sep 2026 12:00 TRT, Sosyal, Etkinlik, ₺₺₺, 3–4 kişi | Refreshed supply and a full five-result group |
+| Later Event catalog checkpoint | Etkinlik | 21 Sep 2026 12:00 TRT | Remaining refreshed Event supply one week on |
 | Controlled 1+4 discovery | Fikir | Meraklı, Kahve + Sanat, Fark etmez, 2 kişi | One selected-interest result plus four independent discoveries |
 
-## 6. Evergreen content batch 1 baseline
+## 6. Event Freshness Refresh #1 baseline
 
-Command: `npm run check:recommendations`. Catalog version: `2026-09-16.2`. Result limit: 5.
+Command: `npm run check:recommendations`. Catalog version: `2026-09-16.3`. Result limit: 5.
 
-| Measure | Baseline |
-|---|---:|
-| Scenarios | 15 |
-| Eligible candidates, summed across contexts | 448 |
-| First-batch results | 63 |
-| Zero-result scenarios | 1 / 15 (6.67%) |
-| 1–4-result scenarios | 3 / 15 (20.00%) |
-| Full-five scenarios | 11 / 15 (73.33%) |
-| Results with explanations | 63 / 63 |
-| Reason strings | 255 |
-| Mood matches | 55 / 58 results with an explicit mood |
-| Interest matches | 54 / 58 results with explicit interests; four Fikir discoveries are intentionally independent |
-| Exact budget fits | 35 / 48 results with an explicit non-flexible budget |
-| Group fits | 58 / 58 results with an explicit group size |
-| Experience primary matches | 16 / 19 interest-bearing Experience results |
-| Experience secondary-only matches | 3 / 19 interest-bearing Experience results |
-| Mean distinct categories per first batch | 2.533 |
-| Mean distinct applicable districts per first batch | 2.600 |
-| Distinct repeated IDs across three-batch fixture runs | 45 |
-| Repeated slots across three-batch fixture runs | 63 |
-| Location-paired scenarios | 9 |
-| Location-paired changed slots | 18 |
-| Location-paired symmetric membership difference, summed | 16 |
-| Deterministic replay failures | 0 |
-| Stale/expired/invalid lifecycle leakage | 0 |
-| Objective invariant failures | 0 |
+| Measure | Before (`2026-09-16.2`) | After (`2026-09-16.3`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 448 | 467 |
+| First-batch results | 63 | 69 |
+| Zero-result scenarios | 1 / 15 (6.67%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 3 / 15 (20.00%) | 2 / 15 (13.33%) |
+| Full-five scenarios | 11 / 15 (73.33%) | 13 / 15 (86.67%) |
+| Results with explanations | 63 / 63 | 69 / 69 |
+| Reason strings | 255 | 274 |
+| Mood matches | 55 | 62 |
+| Interest matches | 54 | 60 |
+| Exact budget fits | 35 | 37 |
+| Group fits | 58 | 64 |
+| Experience primary matches | 16 / 19 interest-bearing Experience results | 16 / 19 interest-bearing Experience results |
+| Experience secondary-only matches | 3 / 19 interest-bearing Experience results | 3 / 19 interest-bearing Experience results |
+| Mean distinct categories per first batch | 2.533 | 2.600 |
+| Mean distinct applicable districts per first batch | 2.600 | 2.600 |
+| Distinct repeated IDs across three-batch fixture runs | 45 | 51 |
+| Repeated slots across three-batch fixture runs | 63 | 65 |
+| Location-paired scenarios | 9 | 9 |
+| Location-paired changed slots | 18 | 18 |
+| Location-paired symmetric membership difference, summed | 16 | 16 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
 
 Supply-specific observations:
 
 - The Ulus couple fixture has three eligible 1–2-hour Sanat Experiences and returns all three.
 - The sparse Kahve + 3–4-hour fixture has one eligible secondary-interest Experience and returns one.
-- At 14 September 12:00 TRT, four Events are upcoming and eight are expired; all 12 source verifications are older than the seven-day freshness boundary at that instant. The Event surface returns the four upcoming items and does not fill the fifth slot.
-- At 21 September 12:00 TRT, all 12 embedded Events are expired and the Event surface returns zero.
+- At the fixed 14 September 12:00 TRT supply checkpoint, all 12 refreshed Events have future start times. The Event surface returns a full five-item group instead of the previous four. Because the refreshed records were verified on 16 September, this historical checkpoint is used for supply/ranking comparison rather than operational verification-age health.
+- At the fixed 21 September 12:00 TRT checkpoint, the first Event has started and 11 remain upcoming. The Event surface returns five instead of the previous zero.
 - The Fikir fixture returns one selected-interest idea plus four independent discoveries and produces 14 unique items across three batches.
 - The short and half-day fixtures each have exactly five eligible Experiences. Their three refreshes necessarily repeat the entire supply.
 - Cold start has 29 eligible Experiences and produces 15 unique items across three adjacent five-item batches.
 - Correct location-off replays change 18 of 43 compared result slots across the nine paired fixtures. Five fixtures change membership: solo has four shared IDs and a symmetric difference of two; Çukurambar friends has three shared IDs and a symmetric difference of four; tight budget and expensive budget each have four shared IDs and a symmetric difference of two; flexible budget has two shared IDs and a symmetric difference of six. Couple and large-group fixtures keep the same members but swap ranks. Short-duration and long-duration keep the same order.
 
-A recorded local latency sample was mean 1.435 ms, p50 0.811 ms, p95 3.569 ms, and p99 3.912 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
+A recorded post-refresh local latency sample was mean 1.446 ms, p50 0.850 ms, p95 3.698 ms, and p99 3.975 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
 
 ## 7. Interpretation cautions
 
@@ -192,7 +192,7 @@ A recorded local latency sample was mean 1.435 ms, p50 0.811 ms, p95 3.569 ms, a
 - Location changes membership or ordering in seven of the nine paired fixtures at these seeds. Short-duration keeps the same order despite positive proximity contributions; long-duration keeps the same order because all five eligible plans are beyond the Experience proximity-score radius. These findings characterize the current catalog and score balance; they are neither a defect assertion nor permission to change weights.
 - `interestTier` is applied before adjusted score inside direct `recommendExperiences` candidate selection. `recommendAll` requests a wider Experience candidate set and may subsequently re-sort it by raw score, so primary-before-secondary is not an unconditional visible-feed ordering guarantee.
 - The current rotation remembers only the immediately previous batch. Large pools often avoid adjacent overlap while allowing batch-1 items to return in batch 3.
-- The fixed Event dates intentionally make depletion visible. The matrix must not be moved forward automatically, because doing so would hide a reproducible catalog-quality finding.
+- The fixed Event checkpoints remain at 14 and 21 September so pre/post refresh supply is comparable. They must not be moved forward automatically. Operational verification age is measured separately by `check:events` against the real run time.
 
 ## 8. CI policy
 

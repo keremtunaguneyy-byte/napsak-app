@@ -98,7 +98,7 @@ const eventFixture = (overrides = {}) => ({
 });
 
 test('current event catalog has a complete fresh batch and a safe horizon', () => {
-  const health = analyzeEventCatalog(catalogEvents, new Date('2026-09-07T07:15:00+03:00'));
+  const health = analyzeEventCatalog(catalogEvents, new Date('2026-09-16T17:30:00+03:00'));
   assert.equal(health.healthy, true);
   assert.equal(health.upcomingCount, 12);
   assert.equal(health.expiredCount, 0);
@@ -552,7 +552,7 @@ test('each duration keeps at least one honest match for every explicit interest'
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
   assert.ok(events.length >= 10);
   assert.equal(new Set(events.map(event => event.id)).size, events.length);
-  const verifiedOn = new Date('2026-09-07T00:00:00+03:00');
+  const verifiedOn = new Date('2026-09-16T00:00:00+03:00');
   for (const event of events) {
     assert.equal(event.kind, 'event');
     assert.equal(event.cityId, 'ankara');
@@ -565,7 +565,7 @@ test('verified event catalogue has explicit Ankara time zones and trustworthy me
       assert.ok(Date.parse(event.endsAt) > Date.parse(event.startsAt), `${event.id}: invalid end time`);
     }
     assert.equal(new URL(event.sourceUrl).protocol, 'https:');
-    assert.equal(event.verifiedAt, '2026-09-07');
+    assert.equal(event.verifiedAt, '2026-09-16');
     assert.ok(event.sourceLabel && event.note);
   }
 });

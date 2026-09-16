@@ -2,6 +2,17 @@
 
 Kontrol tarihi: 16 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Event Freshness Refresh #1
+
+- `codex/event-freshness-refresh-1` dalı, doğrulanmış GitHub/local/origin `main` commit'i `144993d19c19c87b5f89e98cfa89860337897c5c` üzerinden açıldı.
+- 10–20 Eylül tarihli 12 eski Event kaydı kaldırıldı; farklı gerçek etkinlik kimlikleri için eski ID yeniden kullanılmadan 21 Eylül–16 Ekim tarihli 12 yeni Ankara Event kaydı eklendi. Embedded katalog sürümü `2026-09-16.3` oldu; schema/cache sürümü v2 olarak kaldı.
+- 16 Eylül 2026 yerel kontrolünde yaklaşan Event sayısı 4'ten 12'ye, süresi geçmiş kayıt sayısı 8'den 0'a, eski doğrulama sayısı 12'den 0'a çıktı. Bütün yeni kayıtlar 16 Eylül'de canlı Bubilet etkinlik/seans sayfalarından doğrulandı; ileri tarih ufku kontrol anında yaklaşık 30 gündür.
+- Son Event başlangıcı `16 Ekim 2026 20:30 TRT` olduğundan, yeni bir yenileme yapılmazsa mevcut başlangıç-zamanı yaşam döngüsüne göre Event yüzeyi tam o anda sıfıra iner.
+- Kategori karışımı 5 Sanat, 4 Etkinlik ve 3 Lezzet; fiyat seviyesi karışımı 1×₺, 6×₺₺ ve 5×₺₺₺'tür. Katalog; spor, tiyatro/komedi, konser, mutfak atölyesi, bilgi yarışması, aile gösterisi ve festival içerir.
+- Sabit recommendation-quality matrisinde yaklaşan Event havuzu 14 Eylül kontrolünde 4'ten 12'ye, 21 Eylül kontrolünde 0'dan 11'e çıktı. Toplam uygun aday 448'den 467'ye, ilk grup sonucu 63'ten 69'a, tam beşli senaryo 11'den 13'e çıktı; sıfır sonuç 1'den 0'a indi. Objektif invariant hatası ve yaşam döngüsü sızıntısı 0 kaldı.
+- Güncel doğrulamada diff kontrolü, typecheck, 89 ana test, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, Event Catalog Health ve recommendation-quality objektif invariantları geçti. 5.000 çağrılık performans p95'i 5,164 ms ile 25 ms bütçesinin altında kaldı; UI değişmediği için cihaz testi gerekmedi.
+- Öneri ağırlıkları, filtreler, uygunluk/yaşam döngüsü semantiği, çeşitlilik, rotasyon, UI, Firebase, Experience ve Place verisi değiştirilmedi. `EVENT_OPERATIONS_RUNBOOK.md` sözleşmesi değişmedi.
+
 ## Devam eden çalışma — Evergreen Content Batch #1
 
 - `codex/evergreen-content-batch-1` dalı, #43 sonrası doğrulanmış `main` commit'i `8be4afb06209d4aa2959a387a8e47054319610b1` üzerinden açıldı.
