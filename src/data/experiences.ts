@@ -252,7 +252,7 @@ export const experiences: Experience[] = [
     note: 'İyi kahve, tatlı ve sıcak iç mekânı için Çayyolu’nda küçük bir sapmaya değen bağımsız bir durak.',
     pointIds: ['no29-dukkan-coffee'], experienceType: 'food-and-walk', category: 'Kahve',
     moods: ['Sakin', 'Sosyal'], primaryInterests: ['Kahve'], secondaryInterests: ['Lezzet'], groupSizes: [...smallGroups],
-    minDurationMinutes: 60, maxDurationMinutes: 120, priceLevel: 3,
+    minDurationMinutes: 60, maxDurationMinutes: 120, priceLevel: 2,
     availabilityNote: 'Güncel çalışma saatini ve oturma durumunu gitmeden önce kontrol et.',
     weather: 'indoor', reservation: 'not-required', confidenceScore: .98, editorialScore: 9.7,
   }),

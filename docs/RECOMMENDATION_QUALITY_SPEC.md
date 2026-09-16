@@ -152,7 +152,7 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-16.2`. Resul
 | 1–4-result scenarios | 3 / 15 (20.00%) |
 | Full-five scenarios | 11 / 15 (73.33%) |
 | Results with explanations | 63 / 63 |
-| Reason strings | 254 |
+| Reason strings | 255 |
 | Mood matches | 55 / 58 results with an explicit mood |
 | Interest matches | 54 / 58 results with explicit interests; four Fikir discoveries are intentionally independent |
 | Exact budget fits | 35 / 48 results with an explicit non-flexible budget |
@@ -161,11 +161,11 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-16.2`. Resul
 | Experience secondary-only matches | 3 / 19 interest-bearing Experience results |
 | Mean distinct categories per first batch | 2.533 |
 | Mean distinct applicable districts per first batch | 2.600 |
-| Distinct repeated IDs across three-batch fixture runs | 46 |
-| Repeated slots across three-batch fixture runs | 64 |
+| Distinct repeated IDs across three-batch fixture runs | 45 |
+| Repeated slots across three-batch fixture runs | 63 |
 | Location-paired scenarios | 9 |
-| Location-paired changed slots | 19 |
-| Location-paired symmetric membership difference, summed | 18 |
+| Location-paired changed slots | 18 |
+| Location-paired symmetric membership difference, summed | 16 |
 | Deterministic replay failures | 0 |
 | Stale/expired/invalid lifecycle leakage | 0 |
 | Objective invariant failures | 0 |
@@ -179,9 +179,9 @@ Supply-specific observations:
 - The Fikir fixture returns one selected-interest idea plus four independent discoveries and produces 14 unique items across three batches.
 - The short and half-day fixtures each have exactly five eligible Experiences. Their three refreshes necessarily repeat the entire supply.
 - Cold start has 29 eligible Experiences and produces 15 unique items across three adjacent five-item batches.
-- Correct location-off replays change 19 of 43 compared result slots across the nine paired fixtures. Five fixtures change membership: solo has four shared IDs and a symmetric difference of two; Çukurambar friends has three shared IDs and a symmetric difference of four; tight budget has four shared IDs and a symmetric difference of two; expensive budget has three shared IDs and a symmetric difference of four; flexible budget has two shared IDs and a symmetric difference of six. Couple and large-group fixtures keep the same members but swap ranks. Short-duration and long-duration keep the same order.
+- Correct location-off replays change 18 of 43 compared result slots across the nine paired fixtures. Five fixtures change membership: solo has four shared IDs and a symmetric difference of two; Çukurambar friends has three shared IDs and a symmetric difference of four; tight budget and expensive budget each have four shared IDs and a symmetric difference of two; flexible budget has two shared IDs and a symmetric difference of six. Couple and large-group fixtures keep the same members but swap ranks. Short-duration and long-duration keep the same order.
 
-A recorded local latency sample was mean 1.447 ms, p50 0.864 ms, p95 3.642 ms, and p99 3.957 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
+A recorded local latency sample was mean 1.435 ms, p50 0.811 ms, p95 3.569 ms, and p99 3.912 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
 
 ## 7. Interpretation cautions
 

@@ -6,10 +6,10 @@ Kontrol tarihi: 16 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
 - `codex/evergreen-content-batch-1` dalı, #43 sonrası doğrulanmış `main` commit'i `8be4afb06209d4aa2959a387a8e47054319610b1` üzerinden açıldı.
 - Onaylı dokuz evergreen Experience tek duraklı/destinasyon kapsamıyla eklendi; yapay ek durak, conditional veya event-linked kayıt eklenmedi.
-- NO29 Dükkan Coffee, proje sahibi tarafından doğrulanan tek Çayyolu konumuyla `active` Place olarak eklendi. Fiyat seviyesi güncel 0–3 katalog ölçeğinde `3`; kart metni yaklaşık menü fiyatı, sınırsız çalışma, sessizlik veya masa garantisi iddia etmiyor.
+- NO29 Dükkan Coffee, proje sahibi tarafından doğrulanan tek Çayyolu konumuyla `active` Place olarak eklendi. Fiyat seviyesi, en yüksek restoran katmanından ayrılarak güncel 0–3 katalog ölçeğinde `2`; kart metni yaklaşık menü fiyatı, sınırsız çalışma, sessizlik veya masa garantisi iddia etmiyor.
 - Place sayısı 141'den 142'ye, Experience sayısı 20'den 29'a çıktı; embedded katalog sürümü `2026-09-16.2` oldu. Schema/cache sürümü v2 olarak kaldı.
 - Öneri ağırlıkları, filtreler, çeşitlilik, rotasyon, UI, Firebase, conditional aktivasyon ve event-linked davranış değiştirilmedi.
-- Güncel doğrulamada typecheck, 89 ana test, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu ve recommendation-quality objektif invariantları geçti. 5.000 çağrılık performans p95'i 5,174 ms ile 25 ms bütçesinin altında kaldı; cihaz doğrulaması gerektiren bir UI davranışı değişmedi.
+- Güncel doğrulamada typecheck, 89 ana test, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu ve recommendation-quality objektif invariantları geçti. 5.000 çağrılık performans p95'i 5,191 ms ile 25 ms bütçesinin altında kaldı; cihaz doğrulaması gerektiren bir UI davranışı değişmedi.
 
 ## Son güncelleme — içerik uygunluğu / yaşam döngüsü altyapısı #43 ile main'de
 

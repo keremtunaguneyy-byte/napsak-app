@@ -613,7 +613,7 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
   assert.equal(places.find(place => place.id === 'coffee-lab-bilkent').status, 'verification_required');
   const no29 = places.find(place => place.id === 'no29-dukkan-coffee');
   assert.equal(no29.status, 'active');
-  assert.equal(no29.priceLevel, 3);
+  assert.equal(no29.priceLevel, 2);
   assert.deepEqual(no29.interests, ['Kahve', 'Lezzet']);
   assert.equal(no29.verifiedAt, '2026-09-16');
 });
