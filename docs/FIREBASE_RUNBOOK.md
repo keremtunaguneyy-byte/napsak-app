@@ -59,6 +59,8 @@ Her açılışta tüm katalog indirilmez. Akış:
 4. `catalogVersion` değişmediyse koleksiyonlar tekrar okunmaz.
 5. Değiştiyse yalnız aktif şehir dilimi yenilenir ve runtime validation’dan geçen snapshot cache’e alınır.
 
+İçerik yaşam döngüsü sözleşmesi katalog schema v2'dir; AsyncStorage katalog namespace'i de v2'dir. Böylece v1 cache yeni Place `status` ve Experience yaşam döngüsü alanları varmış gibi okunmaz. Firestore koleksiyonları ayrı ayrı geçerli görünse bile istemci bunları birleştirdikten sonra tam snapshot doğrulamasını geçmeyen remote katalog cache'e alınmaz veya kullanılmaz.
+
 Tek refresh için istemci güvenlik sınırları:
 
 - places: en fazla 1.500 + taşma kontrol belgesi,
@@ -139,6 +141,8 @@ Seed mevcut ID’leri upsert eder; katalogdan kaldırılmış uzak belgeleri oto
 ## Migration
 
 Migration önce plan üretir. `--apply` verilmedikçe veri değiştirmez. İlk migration eski Ankara katalog belgelerinde eksik `cityId` alanını yalnız mevcut editoryal katalogda tanınan ID’ler için tamamlayabilir.
+
+Dry-run ayrıca remote schema sürümünü ve Place envanterini raporlar: hard-excluded kimlikler, `deprecated`, `verification_required` ve eksik/geçersiz status kayıtları. Bu preflight hiçbir Place'i silmez, status'u yeniden yazmaz veya hard-excluded kaydı otomatik dönüştürmez. Schema v2 yayını öncesinde rapor insan tarafından incelenmeli; production apply için mevcut çift proje onayı korunmalıdır.
 
 ```bash
 npm run migrate:catalog -- --project=YOUR_DEV_PROJECT

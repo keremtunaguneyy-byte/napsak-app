@@ -1,7 +1,8 @@
 import {
   City, Event, Experience, GroupSizePreference, Guide, Idea, Interest, KNOWN_GROUP_SIZES,
-  KNOWN_INTERESTS, KNOWN_MOODS, Mood, Place, PriceLevel,
+  KNOWN_INTERESTS, KNOWN_MOODS, Mood, Place, PlaceStatus, PriceLevel,
 } from '../types';
+import { isCanonicalHardExcludedPlace, isHardExcludedPlace } from '../contentPolicy';
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from './catalog';
 
 type ObjectValue = Record<string, unknown>;
@@ -26,7 +27,9 @@ export function isPlace(value: unknown): value is Place {
     && isString(value.address) && KNOWN_INTERESTS.includes(value.category as Interest)
     && stringsIn<Mood>(value.moods, KNOWN_MOODS) && stringsIn<Interest>(value.interests, KNOWN_INTERESTS)
     && isPrice(value.priceLevel) && isNumber(value.editorialScore) && isString(value.note)
-    && isNumber(value.latitude) && isNumber(value.longitude) && isHttps(value.sourceUrl) && isString(value.verifiedAt);
+    && isNumber(value.latitude) && isNumber(value.longitude) && isHttps(value.sourceUrl) && isString(value.verifiedAt)
+    && ['active', 'deprecated', 'verification_required'].includes(String(value.status as PlaceStatus))
+    && (value.aliases === undefined || (Array.isArray(value.aliases) && value.aliases.every(isString)));
 }
 
 export function isIdea(value: unknown): value is Idea {
@@ -52,8 +55,10 @@ export function isEvent(value: unknown): value is Event {
 export function isExperience(value: unknown): value is Experience {
   if (!isObject(value)) return false;
   const lifecycleValid = value.lifecycle === 'evergreen'
-    ? value.expiresAt === undefined
-    : (value.lifecycle === 'seasonal' || value.lifecycle === 'live') && isString(value.expiresAt);
+    ? value.expiresAt === undefined && value.activation === undefined && value.eventId === undefined
+    : value.lifecycle === 'conditional'
+      ? isObject(value.activation) && value.activation.kind === 'unsupported' && value.eventId === undefined
+      : value.lifecycle === 'event_linked' && isString(value.eventId) && value.activation === undefined;
   return lifecycleValid && value.kind === 'experience' && isString(value.id) && isString(value.title)
     && isString(value.description) && isString(value.note) && isString(value.cityId) && isString(value.district)
     && KNOWN_INTERESTS.includes(value.category as Interest) && stringsIn<Mood>(value.moods, KNOWN_MOODS)
@@ -105,5 +110,21 @@ export function parseCatalogSnapshot(value: unknown): CatalogSnapshot | undefine
     || !hasUniqueIds(snapshot.events) || !hasUniqueIds(snapshot.ideas) || !hasUniqueIds(snapshot.guides)) return undefined;
   const placeIds = new Set(snapshot.places.map(item => item.id));
   if (snapshot.experiences.some(item => item.points.some(point => !placeIds.has(point.placeId)))) return undefined;
+  const placesById = new Map(snapshot.places.map(item => [item.id, item]));
+  if (snapshot.places.some(item => isHardExcludedPlace(item) && !isCanonicalHardExcludedPlace(item))) return undefined;
+  if (snapshot.experiences.some(item => item.points.some(point => {
+    const place = placesById.get(point.placeId);
+    return Boolean(place && isHardExcludedPlace(place));
+  }))) return undefined;
+  const eventIds = new Set(snapshot.events.map(item => item.id));
+  if (snapshot.experiences.some(item => item.lifecycle === 'event_linked' && !eventIds.has(item.eventId))) return undefined;
+  const publicIds = [
+    ...snapshot.places.filter(item => !isHardExcludedPlace(item)),
+    ...snapshot.experiences,
+    ...snapshot.events,
+    ...snapshot.ideas,
+    ...snapshot.guides,
+  ].map(item => item.id);
+  if (new Set(publicIds).size !== publicIds.length) return undefined;
   return snapshot;
 }

@@ -1,17 +1,23 @@
 # N’apsak — Öneri ve İçerik Sözleşmesi
 
-6 Eylül 2026. Kod dayanağı: src/recommendations.ts, src/domain.ts, src/resultFilters.ts, src/data/* ve tests/domain.test.cjs. Ürün ilkeleri PRODUCT_SPEC §4–8. Bu belge yeni algoritma uygulamaz.
+16 Eylül 2026. Kod dayanağı: src/contentPolicy.ts, src/recommendations.ts, src/recommendationQuality.ts, src/domain.ts, src/resultFilters.ts, src/data/* ve tests/domain.test.cjs. Ürün ilkeleri PRODUCT_SPEC §4–8. Bu belge yeni algoritma uygulamaz.
 
 ## Katmanlar
 
 | Katman | Uygunluk ve sıralama |
 |---|---|
-| Experience | Gizlenen, süresi dolan, süreye sığmayan ve açık ilgiyle eşleşmeyen adaylar elenir. Ana/ikincil ilgi ayrımı, mod, bütçe, grup, başlangıç mesafesi, editoryal kalite, güven, güncellik ve seed sinyalleri kullanılır. |
-| Mekân | Gizlenen ve açık ilgiyle eşleşmeyen adaylar elenir. Mod, bütçe, grup ve mesafe sıralama sinyalidir; mesafe kesin yarıçap filtresi değildir. |
+| Experience | Önce merkezi içerik politikası uygulanır: bütün bağlı Place kayıtları uygun olmalı; `conditional` fail-closed, `event_linked` ise bağlı Event yaklaşan ve geçerli olmalıdır. Sonra gizlenen, süreye sığmayan ve açık ilgiyle eşleşmeyen adaylar elenir. Ana/ikincil ilgi ayrımı, mod, bütçe, grup, başlangıç mesafesi, editoryal kalite, güven, güncellik ve seed sinyalleri kullanılır. |
+| Mekân | Yalnız `active` ve hard-exclusion politikasına takılmayan kayıtlar sıralamaya girer. Sonra gizlenen ve açık ilgiyle eşleşmeyen adaylar elenir. Mod, bütçe, grup ve mesafe sıralama sinyalidir; mesafe kesin yarıçap filtresi değildir. |
 | Fikir | Açık Fikir sekmesinde standart beşli için bir ilgili + dört seçili ilgilerden bağımsız keşif hedeflenir. Yetersiz havuzda kontrollü fallback vardır. Karma akış ile açık Fikir sekmesi aynı davranış değildir. |
 | Etkinlik | Geçersiz/geçmiş başlangıç zamanı ve gizlenenler elenir. Açık Etkinlik sekmesinde ilgi sıralama sinyalidir; karma akışta ayrıca ilgi uygunluğu uygulanır. |
 
 Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Kategori/ilçe yığılması azaltılır; önceki gruptan kaçınma ve deterministik seed vardır. Küçük havuzda tekrar mümkün olduğundan “daima beş tamamen yeni sonuç” vaat edilmez. Gerekçe gerçek eşleşmeyi anlatmalıdır.
+
+## Merkezi içerik uygunluğu
+
+`src/contentPolicy.ts` öneri, public çözümleme ve kalite ölçümü için tek politika sınırıdır. Uygunluk skordan önce uygulanır; kayıtlı olma durumu sıralamayı etkilemez. `deprecated` ve `verification_required` Place önerilmez, fakat hard-exclusion dışında kalan deprecated kayıtlar eski kaydetmeleri çözümlemek için ham katalogda kalır. Yılmaz Güney Sahnesi kimlik/ad/alias normalizasyonuyla kodda hard-excluded'dır; kendisi ve ona bağlanan Experience'lar öneri, birleşik akış, ilişkili plan ve public detay/listelerde görünmez. Yeni bir ID altında bilinen alias ile tekrar içe aktarma katalog doğrulamasında reddedilir.
+
+Event başlangıcı zaman tabanlı uygunluğun sınırıdır. Uygulama en yakın gelecek Event sınırında ve foreground'a döndüğünde saati yeniler; `event_linked` kayıtlar eksik/geçersiz/başlamış Event için fail-closed davranır. `conditional` semantiği ayrıca onaylanana kadar hiçbir conditional kayıt önerilemez; bu PR conditional veya event-linked katalog kaydı eklemez.
 
 ## Çağrı ve sunum sınırı
 
@@ -25,6 +31,6 @@ Stable ID ve cityId korunur. Experience.points[].placeId mekân-plan ilişkisidi
 
 ## Değişiklikte kabul kriterleri
 
-6 Eylül uygulama güncellemesi: #21, `recommendExperiencesForPlace(place, options)` ekler. Önce cityId ve points[].placeId ile adayları daraltır, sonra recommendExperiences çağırır. Gizleme/expiry/süre/ilgi kuralları aynı kalır; ana feed'in ilk beşinden sonradan seçim yapılmaz. Ayrıntı: #21 dalında docs/PLACE_RELATED_PLANS.md. Henüz main'e birleşmiş değildir.
+#21, `recommendExperiencesForPlace(place, options)` ekledi. Önce seçili Place'in merkezi politikaya göre uygunluğunu doğrular, cityId ve points[].placeId ile adayları daraltır, sonra aynı Experience uygunluk ve sıralama yolunu kullanır. Ana feed'in ilk beşinden sonradan seçim yapılmaz. Ayrıntı: docs/PLACE_RELATED_PLANS.md.
 
 İlgi/süre/gizleme/son kullanma sınırları; aynı seed ile tekrar üretilebilirlik; küçük havuz fallback'i; tür başına gerekçe; Fikir kotası; ana/ikincil ilgi önceliği ve eski kayıtların korunması ilgili testlerde kontrol edilir. Test sonucu commit ve komutla STATUS'a kaydedilir. Tarihî stres sayıları yeni sürümün başarı kanıtı değildir.

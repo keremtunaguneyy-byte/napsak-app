@@ -2,6 +2,14 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-16 — İçerik yaşam döngüsü ve dependency uygunluğu
+
+Durum: Kullanıcı tarafından onaylandı; `codex/content-eligibility-infrastructure` dalında uygulanıyor, production'da doğrulanmadı.
+
+Place yaşam döngüsü `active`, `deprecated`, `verification_required` durumlarıyla tutulur; genel bir `eligible` boolean'ı kullanılmaz. Öneri uygunluğu skordan önce merkezi kod politikasıyla hesaplanır. Deprecated ve verification-required Place önerilmez; hard-exclusion dışındaki deprecated kayıtlar tarihsel ve kayıtlı çözümleme için katalogda kalır. Yılmaz Güney Sahnesi normalize edilmiş ID/ad/alias eşleşmesiyle code-owned hard exclusion'dır; public yüzeylerde ve bağlı Experience'larda fail-closed uygulanır. Kronotrop Tunalı ve eski Ankara Sanat Tiyatrosu deprecated, Coffee Lab Bilkent verification-required olarak işaretlenir.
+
+Experience yaşam döngüsü `evergreen`, `conditional`, `event_linked` sözleşmesine geçer. Conditional semantiği ayrıca onaylanana kadar fail-closed'dur; event-linked kayıt bağlı yaklaşan Event olmadan önerilemez. İlk altyapı PR'ı yeni Experience veya conditional/event-linked katalog kaydı eklemez, öneri ağırlıklarını/değerlerini, çeşitlilik, rotasyon, gerekçe veya kaydetmenin sıralamaya etkisizliği kararını değiştirmez. Schema ve cache namespace v2'ye yükselir; remote apply'dan önce read-only envanter preflight'ı gerekir.
+
 ## 2026-09-14 — EAS build yapılandırma varsayılanları
 
 Kullanıcı, EAS CLI `>= 24.3.0`, `appVersionSource: remote`, `development`, `preview` ve `production` build profilleri, production `autoIncrement: true` ve boş `submit.production` placeholder'ıyla üretilen `eas.json` dosyasını değişiklik yapmadan onayladı. `development` profili korunur; `expo-dev-client` henüz kurulu değildir.

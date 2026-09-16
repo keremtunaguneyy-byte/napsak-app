@@ -1,7 +1,7 @@
 import { Firestore, collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
 
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from '../data/catalog';
-import { isCity, isEvent, isExperience, isGuide, isIdea, isPlace, parseCatalogMeta } from '../data/catalogValidation';
+import { isCity, isEvent, isExperience, isGuide, isIdea, isPlace, parseCatalogMeta, parseCatalogSnapshot } from '../data/catalogValidation';
 import { ContentRepository } from '../data/contentRepository';
 import { CityId } from '../types';
 
@@ -14,6 +14,12 @@ export const FIRESTORE_READ_LIMITS = {
 } as const;
 
 type Validator<T> = (value: unknown) => value is T;
+
+export function validateFirestoreCatalogSnapshot(value: unknown): CatalogSnapshot {
+  const parsed = parseCatalogSnapshot(value);
+  if (!parsed) throw new Error('Firestore catalog failed assembled snapshot validation.');
+  return parsed;
+}
 
 export class FirestoreContentRepository implements ContentRepository {
   constructor(private readonly db: Firestore) {}
@@ -57,7 +63,7 @@ export class FirestoreContentRepository implements ContentRepository {
     if (!citySnapshot.exists() || !isCity(city) || city.id !== cityId) {
       throw new Error(`Invalid city document: ${cityId}`);
     }
-    return {
+    return validateFirestoreCatalogSnapshot({
       cityId,
       schemaVersion: CATALOG_SCHEMA_VERSION,
       catalogVersion: meta.catalogVersion,
@@ -68,6 +74,6 @@ export class FirestoreContentRepository implements ContentRepository {
       events,
       ideas,
       guides,
-    };
+    });
   }
 }

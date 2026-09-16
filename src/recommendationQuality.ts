@@ -2,10 +2,14 @@ import type { Coordinates } from './domain';
 import { embeddedCatalog, type CatalogSnapshot } from './data/catalog';
 import { analyzeEventCatalog } from './eventOperations';
 import {
+  createExperienceEligibilityContext,
+  isExperienceRecommendationEligible,
+  isPlaceRecommendationEligible,
+} from './contentPolicy';
+import {
   budgetPreferencePriceLevel,
   durationEligible,
   eventStartEligible,
-  experienceLifecycleEligible,
   placeGroupSignal,
   placeInterestEligible,
   recommendAll,
@@ -283,16 +287,18 @@ function eligibleCandidates(
   catalog: RecommendationQualityCatalog,
 ): QualityCandidate[] {
   const dismissed = scenario.dismissed ?? [];
+  const eligibilityContext = createExperienceEligibilityContext(catalog.places, catalog.events);
   if (scenario.filter === 'experience') {
     return catalog.experiences
       .filter(item => !dismissed.includes(item.id))
-      .filter(item => experienceLifecycleEligible(item, scenario.now))
+      .filter(item => isExperienceRecommendationEligible(item, eligibilityContext, scenario.now))
       .filter(item => durationEligible(item, scenario.duration))
       .filter(item => !scenario.interests.length || scenario.interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)));
   }
   if (scenario.filter === 'place') {
     return catalog.places
       .filter(item => !dismissed.includes(item.id))
+      .filter(isPlaceRecommendationEligible)
       .filter(item => placeInterestEligible(item, scenario.interests))
       .map(item => ({ ...item, kind: 'place' as const }));
   }
@@ -374,12 +380,13 @@ function eventCatalogMetrics(events: Event[], now: Date): QualityScenarioMetrics
   };
 }
 
-function countDurationExclusions(scenario: RecommendationQualityScenario, experiences: Experience[]): number {
+function countDurationExclusions(scenario: RecommendationQualityScenario, catalog: RecommendationQualityCatalog): number {
   if (scenario.filter !== 'experience' || !scenario.duration || scenario.duration === 'Fark etmez') return 0;
   const dismissed = scenario.dismissed ?? [];
-  return experiences
+  const eligibilityContext = createExperienceEligibilityContext(catalog.places, catalog.events);
+  return catalog.experiences
     .filter(item => !dismissed.includes(item.id))
-    .filter(item => experienceLifecycleEligible(item, scenario.now))
+    .filter(item => isExperienceRecommendationEligible(item, eligibilityContext, scenario.now))
     .filter(item => !scenario.interests.length || scenario.interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
     .filter(item => !durationEligible(item, scenario.duration)).length;
 }
@@ -412,9 +419,11 @@ export function analyzeRecommendationScenario(
   const repeated = [...occurrences.values()].filter(count => count > 1);
   const dismissed = new Set(scenario.dismissed ?? []);
   const allResults = [...first, ...second, ...third];
+  const eligibilityContext = createExperienceEligibilityContext(catalog.places, catalog.events);
   const dismissedLeakageCount = allResults.filter(item => dismissed.has(item.id)).length;
   const expiredOrInvalidEventLeakageCount = allResults.filter(item => item.kind === 'event' && !eventStartEligible(item, scenario.now)).length;
-  const invalidLifecycleLeakageCount = allResults.filter(item => item.kind === 'experience' && !experienceLifecycleEligible(item, scenario.now)).length;
+  const invalidLifecycleLeakageCount = allResults.filter(item => item.kind === 'experience'
+    && !isExperienceRecommendationEligible(item, eligibilityContext, scenario.now)).length;
   const durationLeakageCount = allResults.filter(item => item.kind === 'experience' && !durationEligible(item, scenario.duration)).length;
   const duplicateResultCount = batches.reduce((sum, batch) => sum + batch.resultCount - new Set(batch.ids).size, 0);
   const deterministicReplay = JSON.stringify(first) === JSON.stringify(replay);
@@ -457,7 +466,7 @@ export function analyzeRecommendationScenario(
     filter: scenario.filter,
     eligibleCandidateCount: candidates.length,
     eligibleCandidatesByKind: candidatesByKind,
-    durationExcludedCount: countDurationExclusions(scenario, catalog.experiences),
+    durationExcludedCount: countDurationExclusions(scenario, catalog),
     eventCatalog: eventCatalogMetrics(catalog.events, scenario.now),
     batches,
     repetition: {

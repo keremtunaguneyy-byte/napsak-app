@@ -9,6 +9,7 @@ import {
   type RecommendationQualityScenario,
 } from '../src/recommendationQuality';
 import type { Experience } from '../src/types';
+import { validateFirestoreCatalogSnapshot } from '../src/firebase/firestoreContentRepository';
 
 const catalog = embeddedCatalog('ankara');
 
@@ -39,19 +40,47 @@ test('expired and invalid-start events remain visible as supply loss but never l
   assert.equal(measured.expiredOrInvalidEventLeakageCount, 0);
 });
 
-test('invalid or expired Experience lifecycle entries never leak', () => {
+test('unsupported conditional and invalid Event-linked lifecycle entries never leak', () => {
   const base = catalog.experiences[0];
-  const invalid = { ...base, id: 'quality-invalid-lifecycle', lifecycle: 'live', expiresAt: 'not-a-date' } as Experience;
-  const expired = { ...base, id: 'quality-expired-lifecycle', lifecycle: 'seasonal', expiresAt: '2026-09-13T00:00:00Z' } as Experience;
-  const active = { ...base, id: 'quality-active-lifecycle', lifecycle: 'live', expiresAt: '2026-09-15T00:00:00Z' } as Experience;
+  const conditional = { ...base, id: 'quality-conditional', lifecycle: 'conditional', activation: { kind: 'unsupported' } } as Experience;
+  const expiredEvent = { ...catalog.events[0], id: 'quality-expired-event', startsAt: '2026-09-13T00:00:00Z' };
+  const activeEvent = { ...catalog.events[0], id: 'quality-active-event', startsAt: '2026-09-15T00:00:00Z' };
+  const expired = { ...base, id: 'quality-expired-lifecycle', lifecycle: 'event_linked', eventId: expiredEvent.id } as Experience;
+  const active = { ...base, id: 'quality-active-lifecycle', lifecycle: 'event_linked', eventId: activeEvent.id } as Experience;
+  const missing = { ...base, id: 'quality-missing-event', lifecycle: 'event_linked', eventId: 'missing' } as Experience;
   const scenario: RecommendationQualityScenario = {
     id: 'lifecycle-fixture', label: 'Lifecycle fixture', purpose: 'Objective lifecycle characterization.',
     filter: 'experience', interests: [], seed: 1, now: new Date('2026-09-14T00:00:00Z'),
   };
-  const fixtureCatalog: RecommendationQualityCatalog = { places: [], ideas: [], events: [], experiences: [invalid, expired, active] };
+  const fixtureCatalog: RecommendationQualityCatalog = { places: catalog.places, ideas: [], events: [expiredEvent, activeEvent], experiences: [conditional, expired, missing, active] };
   const measured = analyzeRecommendationScenario(scenario, fixtureCatalog);
   assert.deepEqual(measured.batches[0].ids, ['quality-active-lifecycle']);
   assert.equal(measured.invalidLifecycleLeakageCount, 0);
+});
+
+test('quality harness candidate counts reuse production Place dependency eligibility', () => {
+  const base = catalog.experiences[0];
+  const pointId = base.points[0].placeId;
+  const fixtureCatalog: RecommendationQualityCatalog = {
+    ...catalog,
+    experiences: [base],
+    places: catalog.places.map(place => place.id === pointId ? { ...place, status: 'deprecated' } : place),
+  };
+  const scenario: RecommendationQualityScenario = {
+    id: 'ineligible-stop', label: 'Ineligible stop', purpose: 'Production predicate parity.',
+    filter: 'experience', interests: [], seed: 1, now: new Date('2026-09-14T00:00:00Z'),
+  };
+  const measured = analyzeRecommendationScenario(scenario, fixtureCatalog);
+  assert.equal(measured.eligibleCandidateCount, 0);
+  assert.deepEqual(measured.batches[0].ids, []);
+});
+
+test('Firestore assembled snapshots use full catalog validation', () => {
+  assert.deepEqual(validateFirestoreCatalogSnapshot(catalog), catalog);
+  assert.throws(
+    () => validateFirestoreCatalogSnapshot({ ...catalog, experiences: [{ ...catalog.experiences[0], points: [{ ...catalog.experiences[0].points[0], placeId: 'missing' }] }] }),
+    /assembled snapshot validation/,
+  );
 });
 
 test('every measured recommendation has an explanation', () => {

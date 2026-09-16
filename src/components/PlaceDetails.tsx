@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AppState, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatDurationRange } from '../domain';
+import { nextContentEligibilityChange } from '../contentPolicy';
 import { recommendExperiencesForPlace } from '../recommendations';
 import { Experience, Place } from '../types';
 
@@ -28,16 +29,11 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
   const plan = plans.find(item => item.id === planId);
 
   useEffect(() => {
-    // Expire a live plan while the detail stays open, and refresh after backgrounding.
-    const nextExpiry = context.experiences
-      .filter(item => item.lifecycle !== 'evergreen')
-      .map(item => Date.parse(item.expiresAt!))
-      .filter(time => Number.isFinite(time) && time > now.getTime())
-      .sort((a, b) => a - b)[0];
-    const timer = nextExpiry === undefined ? undefined : setTimeout(() => setNow(new Date()), Math.min(2_147_483_647, Math.max(1, nextExpiry - Date.now())));
+    const nextChange = nextContentEligibilityChange(context.events ?? [], now);
+    const timer = nextChange === undefined ? undefined : setTimeout(() => setNow(new Date()), Math.min(2_147_483_647, Math.max(1, nextChange - Date.now())));
     const subscription = AppState.addEventListener('change', state => { if (state === 'active') setNow(new Date()); });
     return () => { clearTimeout(timer); subscription.remove(); };
-  }, [context.experiences, now]);
+  }, [context.events, now]);
 
   const back = () => planId ? setPlanId(undefined) : onClose();
   const hide = (id: string) => { onDismiss(id); setUndoId(id); setPlanId(undefined); };

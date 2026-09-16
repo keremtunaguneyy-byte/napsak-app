@@ -3,7 +3,7 @@ import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, BackHandler, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Alert, AppState, BackHandler, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
@@ -21,6 +21,7 @@ import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
 import { performanceDurationBucket } from './src/performancePolicy';
+import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -83,6 +84,7 @@ function AppContent() {
   const [recommendationRun, setRecommendationRun] = useState(0);
   const [previousBatch, setPreviousBatch] = useState<string[]>([]);
   const [resultFilter, setResultFilter] = useState<ResultFilter>(DEFAULT_RESULT_FILTER);
+  const [eligibilityNow, setEligibilityNow] = useState(() => new Date());
   const scrollRef = useRef<ScrollView>(null);
   const recommendationsY = useRef(0);
   const scrollAfterRotation = useRef(false);
@@ -99,14 +101,22 @@ function AppContent() {
   const guidePaperY = useRef(0);
   const guideAnchors = useRef<Record<string, number>>({});
   const [detailPlaceId, setDetailPlaceId] = useState<string>();
-  const detailPlace = places.find(place => place.id === detailPlaceId);
+  const detailPlace = places.find(place => place.id === detailPlaceId && isPlacePubliclyResolvable(place));
   const recommendationMeasurement = useMemo(() => {
     const startedAt = Date.now();
-    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch });
+    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
     return { items, durationBucket: performanceDurationBucket(Date.now() - startedAt) };
-  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter]);
+  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter, eligibilityNow]);
   const results = recommendationMeasurement.items;
-  const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => [...experiences, ...places, ...ideas, ...events], [experiences, places, ideas, events]);
+  const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
+    const placesById = new Map(places.map(place => [place.id, place]));
+    return [
+      ...experiences.filter(experience => isExperiencePubliclyResolvable(experience, placesById)),
+      ...places.filter(isPlacePubliclyResolvable),
+      ...ideas,
+      ...events,
+    ];
+  }, [experiences, places, ideas, events]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
   const savedEntries = useMemo<SavedEntry[]>(() => {
     const catalogById = new Map(catalogItems.map(item => [item.id, item]));
@@ -124,6 +134,20 @@ function AppContent() {
   }, [catalogItems, guides, saved]);
   const totalGuideMinutes = useMemo(() => guides.reduce((total, guide) => total + guide.readMinutes, 0), [guides]);
 
+  useEffect(() => {
+    const nextChange = nextContentEligibilityChange(events, eligibilityNow);
+    const timer = nextChange === undefined ? undefined : setTimeout(
+      () => setEligibilityNow(new Date()),
+      Math.min(2_147_483_647, Math.max(1, nextChange - Date.now())),
+    );
+    const subscription = AppState.addEventListener('change', state => {
+      if (state === 'active') setEligibilityNow(new Date());
+    });
+    return () => {
+      if (timer !== undefined) clearTimeout(timer);
+      subscription.remove();
+    };
+  }, [events, eligibilityNow]);
   useEffect(() => {
     loadPreferences().then(preferences => {
       setSaved(preferences.saved);
@@ -526,7 +550,7 @@ function AppContent() {
     </View>}
     </KeyboardAvoidingView>
     {detailPlace && <PlaceDetails key={detailPlace.id} place={detailPlace}
-      context={{ experiences, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
+      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
       saved={saved} onClose={() => setDetailPlaceId(undefined)}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}

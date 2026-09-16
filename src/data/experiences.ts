@@ -3,7 +3,7 @@ import { places } from './places';
 
 type ExperienceDraft = Omit<
   Experience,
-  'kind' | 'lifecycle' | 'expiresAt' | 'points' | 'sources' | 'cityId' | 'district' | 'latitude' | 'longitude' | 'lastVerifiedAt'
+  'kind' | 'lifecycle' | 'points' | 'sources' | 'cityId' | 'district' | 'latitude' | 'longitude' | 'lastVerifiedAt'
 > & { pointIds: string[] };
 
 const placeById = new Map(places.map(place => [place.id, place]));
