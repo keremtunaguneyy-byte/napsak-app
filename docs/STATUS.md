@@ -2,13 +2,22 @@
 
 Kontrol tarihi: 16 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
-## Devam eden çalışma — içerik uygunluğu / yaşam döngüsü altyapısı
+## Devam eden çalışma — Evergreen Content Batch #1
 
-- `codex/content-eligibility-infrastructure` dalı 16 Eylül'de doğrulanmış `main` commit'i `d32c9bfae8a02d0bd5819279a0c3767f7b7445fe` üzerinden açıldı; henüz main'e birleşmiş değildir.
-- Place için `active | deprecated | verification_required`, Experience için `evergreen | conditional | event_linked` sözleşmesi ve merkezi dependency-aware uygunluk politikası uygulanıyor. Conditional davranış fail-closed; bu çalışma yeni Experience kaydı eklemiyor.
+- `codex/evergreen-content-batch-1` dalı, #43 sonrası doğrulanmış `main` commit'i `8be4afb06209d4aa2959a387a8e47054319610b1` üzerinden açıldı.
+- Onaylı dokuz evergreen Experience tek duraklı/destinasyon kapsamıyla eklendi; yapay ek durak, conditional veya event-linked kayıt eklenmedi.
+- NO29 Dükkan Coffee, proje sahibi tarafından doğrulanan tek Çayyolu konumuyla `active` Place olarak eklendi. Fiyat seviyesi, en yüksek restoran katmanından ayrılarak güncel 0–3 katalog ölçeğinde `2`; kart metni yaklaşık menü fiyatı, sınırsız çalışma, sessizlik veya masa garantisi iddia etmiyor.
+- Place sayısı 141'den 142'ye, Experience sayısı 20'den 29'a çıktı; embedded katalog sürümü `2026-09-16.2` oldu. Schema/cache sürümü v2 olarak kaldı.
+- Öneri ağırlıkları, filtreler, çeşitlilik, rotasyon, UI, Firebase, conditional aktivasyon ve event-linked davranış değiştirilmedi.
+- Güncel doğrulamada typecheck, 89 ana test, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu ve recommendation-quality objektif invariantları geçti. 5.000 çağrılık performans p95'i 5,191 ms ile 25 ms bütçesinin altında kaldı; cihaz doğrulaması gerektiren bir UI davranışı değişmedi.
+
+## Son güncelleme — içerik uygunluğu / yaşam döngüsü altyapısı #43 ile main'de
+
+- #43, `8be4afb06209d4aa2959a387a8e47054319610b1` ile main'e alındı.
+- Place için `active | deprecated | verification_required`, Experience için `evergreen | conditional | event_linked` sözleşmesi ve merkezi dependency-aware uygunluk politikası uygulandı. Conditional davranış fail-closed; #43 yeni Experience kaydı eklemedi.
 - Kronotrop Tunalı ve eski Ankara Sanat Tiyatrosu deprecated, Coffee Lab Bilkent verification-required olarak işaretlendi. Yılmaz Güney Sahnesi kod politikasıyla hard-excluded; ham katalog tombstone'u remote envanter/migration güvenliği için korunuyor fakat public çözümleme ve bağlı planlardan çıkarılıyor.
 - Katalog schema ve cache namespace v2'ye yükseltildi. Firestore'dan birleştirilen snapshot tam katalog doğrulamasından geçmeden kabul edilmiyor; migration dry-run remote status/hard-exclusion envanterini yalnız raporluyor.
-- Dal üzerindeki geçici doğrulama: typecheck, ana testler, catalog doğrulaması, 2.560 Place + 640 Experience stres senaryosu, recommendation-quality ve 5.000 çağrılık performans bütçesi geçti. Bunlar PR öncesi yerel kanıttır; CI, cihaz veya production kanıtı değildir.
+- #43 doğrulamasında typecheck, ana testler, catalog doğrulaması, 2.560 Place + 640 Experience stres senaryosu, recommendation-quality ve 5.000 çağrılık performans bütçesi geçti. Bunlar birleşen PR'ın repository kanıtıdır; cihaz veya production kanıtı değildir.
 
 ## Son güncelleme — EAS build yapılandırması oluşturuldu
 
@@ -47,7 +56,7 @@ Mevcut kod, taslak PR'lar ve açık yayın işleri birlikte değerlendirilince k
 
 ## Güncel kontrol noktası
 
-- Çalışma başlangıcında doğrulanan GitHub main: `d32c9bfae8a02d0bd5819279a0c3767f7b7445fe` (`Add recommendation quality baseline`, #42). Aşağıdaki #19–#37 listesi tarihsel özet olup sonraki workflow/EAS/quality PR'larının eksiksiz dökümü değildir.
+- Çalışma başlangıcında doğrulanan GitHub main: `8be4afb06209d4aa2959a387a8e47054319610b1` (`Add content eligibility and lifecycle infrastructure`, #43). Aşağıdaki #19–#37 listesi tarihsel özet olup sonraki workflow/EAS/quality PR'larının eksiksiz dökümü değildir.
 - Açık PR veya PR'a bağlı aktif uygulama/yayın adayı dalı yoktur. Repository'de kalan eski `agent/*` dalları merge edilmiş PR'ların kaynak dallarıdır; aktif çalışma olarak yorumlanmaz.
 - Tasarım/marka ayrı sohbet ve şartname üzerinden ilerliyor; repository'de güncel onaylı tasarım devri bulunmadığı için uygulama koduna aktarılmadı.
 

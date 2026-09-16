@@ -1,6 +1,6 @@
 # N’apsak — Recommendation Quality Baseline
 
-Baseline date: 14 September 2026. This document defines measurement and characterization only. It does not approve a ranking change.
+Baseline date: 16 September 2026. This document defines measurement and characterization only. It does not approve a ranking change.
 
 ## 1. Purpose and scope
 
@@ -139,14 +139,14 @@ These fixtures are deterministic quality probes, not statistically representativ
 | Stale Event catalog | Etkinlik | 21 Sep 2026 12:00 TRT | Fully expired local catalog must return zero |
 | Controlled 1+4 discovery | Fikir | Meraklı, Kahve + Sanat, Fark etmez, 2 kişi | One selected-interest result plus four independent discoveries |
 
-## 6. Initial production-catalog baseline
+## 6. Evergreen content batch 1 baseline
 
-Command: `npm run check:recommendations`. Catalog version: `2026-09-16.1`. Result limit: 5.
+Command: `npm run check:recommendations`. Catalog version: `2026-09-16.2`. Result limit: 5.
 
 | Measure | Baseline |
 |---|---:|
 | Scenarios | 15 |
-| Eligible candidates, summed across contexts | 432 |
+| Eligible candidates, summed across contexts | 448 |
 | First-batch results | 63 |
 | Zero-result scenarios | 1 / 15 (6.67%) |
 | 1–4-result scenarios | 3 / 15 (20.00%) |
@@ -155,17 +155,17 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-16.1`. Resul
 | Reason strings | 255 |
 | Mood matches | 55 / 58 results with an explicit mood |
 | Interest matches | 54 / 58 results with explicit interests; four Fikir discoveries are intentionally independent |
-| Exact budget fits | 34 / 48 results with an explicit non-flexible budget |
+| Exact budget fits | 35 / 48 results with an explicit non-flexible budget |
 | Group fits | 58 / 58 results with an explicit group size |
 | Experience primary matches | 16 / 19 interest-bearing Experience results |
 | Experience secondary-only matches | 3 / 19 interest-bearing Experience results |
-| Mean distinct categories per first batch | 2.467 |
-| Mean distinct applicable districts per first batch | 2.467 |
-| Distinct repeated IDs across three-batch fixture runs | 46 |
-| Repeated slots across three-batch fixture runs | 64 |
+| Mean distinct categories per first batch | 2.533 |
+| Mean distinct applicable districts per first batch | 2.600 |
+| Distinct repeated IDs across three-batch fixture runs | 45 |
+| Repeated slots across three-batch fixture runs | 63 |
 | Location-paired scenarios | 9 |
-| Location-paired changed slots | 17 |
-| Location-paired symmetric membership difference, summed | 14 |
+| Location-paired changed slots | 18 |
+| Location-paired symmetric membership difference, summed | 16 |
 | Deterministic replay failures | 0 |
 | Stale/expired/invalid lifecycle leakage | 0 |
 | Objective invariant failures | 0 |
@@ -178,10 +178,10 @@ Supply-specific observations:
 - At 21 September 12:00 TRT, all 12 embedded Events are expired and the Event surface returns zero.
 - The Fikir fixture returns one selected-interest idea plus four independent discoveries and produces 14 unique items across three batches.
 - The short and half-day fixtures each have exactly five eligible Experiences. Their three refreshes necessarily repeat the entire supply.
-- Cold start has 20 eligible Experiences and produces 15 unique items across three adjacent five-item batches.
-- Correct location-off replays change 17 of 43 compared result slots across the nine paired fixtures. Four fixtures change membership: Çukurambar friends has three shared IDs and a symmetric difference of four; tight budget and expensive budget each have four shared IDs and a symmetric difference of two; flexible budget has two shared IDs and a symmetric difference of six. Couple and large-group fixtures keep the same members but swap their first two ranks. Solo, short-duration, and long-duration keep the same order.
+- Cold start has 29 eligible Experiences and produces 15 unique items across three adjacent five-item batches.
+- Correct location-off replays change 18 of 43 compared result slots across the nine paired fixtures. Five fixtures change membership: solo has four shared IDs and a symmetric difference of two; Çukurambar friends has three shared IDs and a symmetric difference of four; tight budget and expensive budget each have four shared IDs and a symmetric difference of two; flexible budget has two shared IDs and a symmetric difference of six. Couple and large-group fixtures keep the same members but swap ranks. Short-duration and long-duration keep the same order.
 
-A recorded local latency sample was mean 1.313 ms, p50 0.634 ms, p95 3.512 ms, and p99 3.774 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
+A recorded local latency sample was mean 1.435 ms, p50 0.811 ms, p95 3.569 ms, and p99 3.912 ms over 300 calls. This is a host-specific observation, not a fixed golden assertion.
 
 ## 7. Interpretation cautions
 
@@ -189,7 +189,7 @@ A recorded local latency sample was mean 1.313 ms, p50 0.634 ms, p95 3.512 ms, a
 - Exact budget fit does not describe affordability within a price band or value for money.
 - Place group fit reflects the existing heuristic, not explicit venue capacity or accessibility evidence.
 - District diversity does not apply to current Event and Idea types.
-- Location changes membership or ordering in six of the nine paired fixtures at these seeds. Solo and short-duration keep the same order despite positive proximity contributions; long-duration keeps the same order because all five eligible plans are beyond the Experience proximity-score radius. These findings characterize the current catalog and score balance; they are neither a defect assertion nor permission to change weights.
+- Location changes membership or ordering in seven of the nine paired fixtures at these seeds. Short-duration keeps the same order despite positive proximity contributions; long-duration keeps the same order because all five eligible plans are beyond the Experience proximity-score radius. These findings characterize the current catalog and score balance; they are neither a defect assertion nor permission to change weights.
 - `interestTier` is applied before adjusted score inside direct `recommendExperiences` candidate selection. `recommendAll` requests a wider Experience candidate set and may subsequently re-sort it by raw score, so primary-before-secondary is not an unconditional visible-feed ordering guarantee.
 - The current rotation remembers only the immediately previous batch. Large pools often avoid adjacent overlap while allowing batch-1 items to return in batch 3.
 - The fixed Event dates intentionally make depletion visible. The matrix must not be moved forward automatically, because doing so would hide a reproducible catalog-quality finding.
