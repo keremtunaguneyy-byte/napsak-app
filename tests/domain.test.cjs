@@ -415,8 +415,8 @@ test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
   }
 });
 
-test('experience catalogue contains 20 complete, sourced and honestly scoped micro-plans', () => {
-  assert.equal(experiences.length, 20);
+test('experience catalogue contains 29 complete, sourced and honestly scoped plans', () => {
+  assert.equal(experiences.length, 29);
   assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
@@ -438,6 +438,30 @@ test('experience catalogue contains 20 complete, sourced and honestly scoped mic
       assert.equal(new URL(source.url).protocol, 'https:', `${item.id}: source URL`);
       assert.ok(Number.isFinite(Date.parse(source.verifiedAt)), `${item.id}: source verification`);
     }
+  }
+});
+
+test('evergreen content batch 1 preserves its approved single-anchor scope', () => {
+  const approved = [
+    ['xp-no29-kahve-tatli', 'no29-dukkan-coffee', 'Kahve', ['Lezzet'], 60, 120],
+    ['xp-federal-bilkent-demleme', 'federal-bilkent', 'Kahve', ['Lezzet'], 45, 90],
+    ['xp-duveroglu-lahmacun', 'duveroğlu', 'Lezzet', [], 60, 90],
+    ['xp-trilye-balik', 'trilye', 'Lezzet', [], 120, 180],
+    ['xp-anadolu-kronolojik', 'anadolu-medeniyetleri', 'Sanat', [], 120, 180],
+    ['xp-hava-kuvvetleri-iki-saat', 'hava-kuvvetleri-muzesi', 'Sanat', ['Etkinlik'], 120, 180],
+    ['xp-mavi-gol-sehirden-uzak', 'mavi-gol', 'Doğa', [], 150, 240],
+    ['xp-altinpark-uzun-ogleden-sonra', 'altinpark', 'Doğa', [], 150, 240],
+    ['xp-dikmen-vadisi-kot-yuruyusu', 'dikmen-vadisi', 'Doğa', [], 90, 150],
+  ];
+  for (const [id, placeId, primary, secondary, min, max] of approved) {
+    const experience = experiences.find(item => item.id === id);
+    assert.ok(experience, `${id}: missing`);
+    assert.equal(experience.lifecycle, 'evergreen', `${id}: lifecycle`);
+    assert.deepEqual(experience.points.map(point => point.placeId), [placeId], `${id}: single anchor`);
+    assert.deepEqual(experience.primaryInterests, [primary], `${id}: primary interest`);
+    assert.deepEqual(experience.secondaryInterests, secondary, `${id}: secondary interests`);
+    assert.equal(experience.minDurationMinutes, min, `${id}: minimum duration`);
+    assert.equal(experience.maxDurationMinutes, max, `${id}: maximum duration`);
   }
 });
 
@@ -508,10 +532,11 @@ test('experience interest, dismissal and rotation gates stay intact', () => {
   const coffee = recommendExperiences({ ...common, interests: ['Kahve'], limit: 20 });
   assert.ok(coffee.length);
   assert.ok(coffee.every(item => item.primaryInterests.includes('Kahve') || item.secondaryInterests.includes('Kahve')));
-  assert.equal(coffee[0].id, 'xp-tunali-kugulu-short');
-  assert.ok(coffee[0].reasons.includes('Kahve planın ana odağında'));
-  assert.ok(coffee.slice(1).every(item => !item.primaryInterests.includes('Kahve')));
-  assert.ok(coffee.slice(1).every(item => item.reasons.includes('Kahve ikincil olarak eşleşiyor')));
+  const firstSecondaryIndex = coffee.findIndex(item => !item.primaryInterests.includes('Kahve'));
+  assert.ok(firstSecondaryIndex > 0);
+  assert.ok(coffee.slice(0, firstSecondaryIndex).every(item => item.primaryInterests.includes('Kahve')));
+  assert.ok(coffee.slice(0, firstSecondaryIndex).every(item => item.reasons.includes('Kahve planın ana odağında')));
+  assert.ok(coffee.slice(firstSecondaryIndex).every(item => item.reasons.includes('Kahve ikincil olarak eşleşiyor')));
 });
 
 test('each duration keeps at least one honest match for every explicit interest', () => {
@@ -586,6 +611,11 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
   assert.equal(places.find(place => place.id === 'kronotrop-tunali').status, 'deprecated');
   assert.equal(places.find(place => place.id === 'ankara-sanat-tiyatrosu').status, 'deprecated');
   assert.equal(places.find(place => place.id === 'coffee-lab-bilkent').status, 'verification_required');
+  const no29 = places.find(place => place.id === 'no29-dukkan-coffee');
+  assert.equal(no29.status, 'active');
+  assert.equal(no29.priceLevel, 3);
+  assert.deepEqual(no29.interests, ['Kahve', 'Lezzet']);
+  assert.equal(no29.verifiedAt, '2026-09-16');
 });
 
 test('every explicit interest has enough places for two fresh five-item batches', () => {
