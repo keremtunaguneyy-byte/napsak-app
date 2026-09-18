@@ -219,6 +219,110 @@ const ankaraPlaces: Omit<Place, 'cityId' | 'status'>[] = [
       { kind: 'map_pin', label: 'Golden Chef resmî yol tarifi pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Golden+Chef+Mutfak+Akademisi/@39.871402,32.6895363,17z', note: 'Kurumun resmî yol tarifi bağlantısındaki güncel pin.' },
     ],
   },
+
+  // Ankara Content Batch #3. Publication uses the smallest trustworthy set of
+  // operational facts; unknown optional enrichment is intentionally omitted.
+  {
+    id: 'ankara-palas-muzesi', name: 'Ankara Palas Müzesi', district: 'Altındağ',
+    address: 'Hacı Bayram Mah., Cumhuriyet Cd. No:3, Altındağ, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 1, editorialScore: 4.9,
+    note: 'Erken Cumhuriyet’in diplomatik ve sosyal temsilini doğrudan yapının mekânları, eşyaları ve tören dili üzerinden oku.',
+    latitude: 39.9405547, longitude: 32.8523618, sourceUrl: 'https://www.millisaraylar.gov.tr/Lokasyon/17/Ankara-Palas', verifiedAt: '2026-09-18',
+    aliases: ['Ankara Palas'],
+    provenance: [
+      { kind: 'official', label: 'Millî Saraylar — Ankara Palas', verifiedAt: '2026-09-18', url: 'https://www.millisaraylar.gov.tr/Lokasyon/17/Ankara-Palas', note: 'Müze faaliyeti, adres, pazartesi kapalı / diğer günler 09:00–17:00 gişe saatleri ve yerli ziyaretçi için 75 TL tam bilet. Güncel sergi veya imtiyaz ayrıntısı varsayılmadı.' },
+      { kind: 'map_pin', label: 'OpenStreetMap Ankara Palas kaydı', verifiedAt: '2026-09-18', url: 'https://www.openstreetmap.org/way/783229342', note: 'Resmî adresle eşleşen müze yapısı merkez koordinatı.' },
+    ],
+  },
+  {
+    id: 'gokyay-vakfi-satranc-muzesi', name: 'Gökyay Vakfı Satranç Müzesi', district: 'Altındağ',
+    address: 'Hacettepe Mah., Ulucanlar Cd., Basamaklı Sk. No:3, Altındağ, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin', 'Sosyal'], interests: ['Sanat'], priceLevel: 1, editorialScore: 4.8,
+    note: 'Farklı kültür ve dönemlerin aynı oyunu malzeme, figür ve temsil diliyle nasıl yeniden kurduğunu karşılaştır.',
+    latitude: 39.9346959, longitude: 32.8633082, sourceUrl: 'https://www.gokyaysatrancvakfi.org.tr/', verifiedAt: '2026-09-18',
+    aliases: ['Gökyay Satranç Müzesi'],
+    provenance: [
+      { kind: 'official', label: 'Gökyay Vakfı Satranç Müzesi', verifiedAt: '2026-09-18', url: 'https://www.gokyaysatrancvakfi.org.tr/', note: 'Salı–pazar 10:00–18:00; pazartesi ve belirtilen özel günlerde kapalı. Adres ve aktif müze programı doğrulandı; oynanabilir tahta veya kafe erişimi vaat edilmedi.' },
+      { kind: 'official', label: 'Turkish Museums kaydı', verifiedAt: '2026-09-18', url: 'https://turkishmuseums.kprod.kultur.gov.tr/museum/detail/12300-ankara-gokyay-satranc-spor-ve-kultur-vakfi-muzesi/12300/1', note: '10:00–18:00 ziyaret penceresi ve 40 TL yetişkin bilet bilgisini destekleyen kamu müze kaydı; fiyat değişebileceği için katalogda yalnız düşük fiyat bandı kullanıldı.' },
+      { kind: 'map_pin', label: 'OpenStreetMap müze pini', verifiedAt: '2026-09-18', url: 'https://www.openstreetmap.org/node/10303297758', note: 'Resmî Basamaklı Sokak adresiyle eşleşen müze pini.' },
+    ],
+  },
+  {
+    id: 'old-school-roastery-bahcelievler', name: 'Old School Roastery — Bahçelievler', district: 'Çankaya',
+    address: 'Bahçelievler Mah., 50. Sk. No:7/A, Çankaya, Ankara',
+    category: 'Kahve', moods: ['Meraklı', 'Sakin', 'Sosyal'], interests: ['Kahve'], priceLevel: 2, editorialScore: 4.8,
+    note: 'Genel kafe oturması yerine günlük kavrum, sezonluk çekirdek ve manuel demleme farklarını kahvenin kendisine odaklanarak keşfet.',
+    latitude: 39.925252, longitude: 32.825384, sourceUrl: 'https://www.oldschooltr.com/', verifiedAt: '2026-09-18',
+    aliases: ['Old School Roastery Bahçelievler'],
+    provenance: [
+      { kind: 'official', label: 'Old School Roastery', verifiedAt: '2026-09-18', url: 'https://www.oldschooltr.com/', note: 'Bahçelievler adresi, aktif işletme, günlük kavrum ve sezonluk çekirdek odağı; iç cupping kalite kontrolü halka açık atölye olarak yorumlanmadı.' },
+      { kind: 'official', label: 'Old School demleme rehberi', verifiedAt: '2026-09-18', url: 'https://www.oldschooltr.com/demleme-tavsiyeleri', note: 'V60, Aeropress, Chemex, French Press ve diğer yöntemler için marka tarafından yayımlanan demleme bilgisi; mekânda her yöntemin her zaman servis edildiği varsayılmadı.' },
+      { kind: 'official', label: 'Old School iletişim ve saatler', verifiedAt: '2026-09-18', url: 'https://www.oldschooltr.com/blank-1', note: 'Pazartesi–cumartesi 10:30–00:00, pazar 11:00–00:00 ve 50. Sokak No:7/A adresi.' },
+      { kind: 'map_pin', label: 'Yandex Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://yandex.com.tr/maps/org/old_school_roastery/153416517076/', note: 'Resmî adres ve telefonla eşleşen işletme pini.' },
+    ],
+  },
+  {
+    id: 'hanem-firin-eryaman', name: 'Hanem Fırın — Eryaman', district: 'Etimesgut',
+    address: 'Altay Mah., 33. Cad. No:2, Eryaman, Etimesgut, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet'], priceLevel: 2, editorialScore: 4.8,
+    note: 'Yağ somunu, tirit ve fırın yemekleri gibi ürünler üzerinden Konya mutfağının belirgin bölgesel kimliğine odaklan.',
+    latitude: 39.972409, longitude: 32.647366, sourceUrl: 'https://www.hanemfirin.com/', verifiedAt: '2026-09-18',
+    aliases: ['Hanem Fırın Konya Lezzetleri'],
+    provenance: [
+      { kind: 'official', label: 'Hanem Fırın', verifiedAt: '2026-09-18', url: 'https://www.hanemfirin.com/', note: 'Eryaman merkez şube, Altay Mahallesi adresi, her gün 10:00–23:00 yayımlanan saatler ve yağ somunu, tirit ile Konya fırın yemeklerini içeren menü. Belirli ürünün her serviste bulunması garanti edilmedi.' },
+      { kind: 'map_pin', label: 'Yandex Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://yandex.com.tr/maps/org/hanem_firin_konya_lezzetleri/123444345730/', note: 'Resmî adres ve telefonla eşleşen Eryaman işletme pini.' },
+    ],
+  },
+  {
+    id: 'bolu-akin-lokantasi-etlik', name: 'Bolu Akın Lokantası — Etlik Eski Garajlar', district: 'Keçiören',
+    address: 'Emrah Mah., Etlik Eski Garajları No:85, Keçiören, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet'], priceLevel: 2, editorialScore: 4.9,
+    note: '1958’den beri aynı yerde süren ilk şubenin değişen tencere yemekleriyle Eski Garajlar’daki öğle ritüelini ve Ankara hafızasını deneyimle.',
+    latitude: 39.9622294, longitude: 32.8473192, sourceUrl: 'https://www.boluakinlokantasi.com.tr/', verifiedAt: '2026-09-18',
+    aliases: ['Bolu Akın Lokantası Etlik'],
+    provenance: [
+      { kind: 'official', label: 'Bolu Akın Lokantası tarihçesi', verifiedAt: '2026-09-18', url: 'https://www.boluakinlokantasi.com.tr/', note: 'Etlik Eski Garajlar’da 1958’de açılan ve hâlâ faal ilk şube, kuzineli tencere yemeği geleneği ve kuşaklar arası devam eden işletme hafızası.' },
+      { kind: 'official', label: 'Bolu Akın şubeler ve saatler', verifiedAt: '2026-09-18', url: 'https://www.boluakinlokantasi.com.tr/subelerimiz/', note: 'Etlik Eski Garajları No:85; pazartesi–cumartesi 06:00–21:00, pazar kapalı. Günlük belirli bir yemek garanti edilmedi.' },
+      { kind: 'map_pin', label: 'Bolu Akın resmî yol tarifi pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Bolu+Ak%C4%B1n+Lokantas%C4%B1/@39.9622294,32.8473192,17z', note: 'İşletmenin resmî şube sayfasındaki yol tarifi bağlantısının Etlik pini.' },
+    ],
+  },
+  {
+    id: 'urumci-uygur-restaurant-on-cebeci', name: 'Urumçi Uygur Restaurant — Ön Cebeci', district: 'Çankaya',
+    address: 'Ön Cebeci Mah., Ziya Gökalp Cd. No:76, Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet'], priceLevel: 2, editorialScore: 4.8,
+    note: 'Genel restoran keşfi yerine farklı tabaklar seçerek Uygur mutfağının kendine özgü bölgesel sofrasına odaklan.',
+    latitude: 39.925758, longitude: 32.864856, sourceUrl: 'https://urumciuygurrestltdsti.eatbu.com/?lang=tr', verifiedAt: '2026-09-18',
+    aliases: ['Urumchi Uyghur Restaurant'],
+    provenance: [
+      { kind: 'official', label: 'Urumçi Uygur Restaurant işletme sayfası', verifiedAt: '2026-09-18', url: 'https://urumciuygurrestltdsti.eatbu.com/?lang=tr', note: 'İşletme unvanı, Ön Cebeci / Ziya Gökalp Caddesi No:76 adresi, iletişim ve aktif restoran hizmeti. Elde açılan erişte veya başka hazırlama tekniği iddia edilmedi.' },
+      { kind: 'map_pin', label: 'Yandex Maps adres pini', verifiedAt: '2026-09-18', url: 'https://yandex.com.tr/maps/11503/ankara/house/ziya_gokalp_cad_no_76b/Z0sYfgFkQUABQF1jfXVzdHtmYw%3D%3D/', note: 'İşletmenin bulunduğu Ziya Gökalp Caddesi 76B bina pini ve koordinatı.' },
+    ],
+  },
+  {
+    id: 'cin-ali-muzesi', name: 'Cin Ali Müzesi', district: 'Çankaya',
+    address: 'Kavaklıdere, Bülten Sk. No:32, Çankaya, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin', 'Sosyal'], interests: ['Sanat', 'Etkinlik'], priceLevel: 2, editorialScore: 4.9,
+    note: 'Türkiye’de çocuklukla özdeşleşen Cin Ali’nin okuma, çizgi ve oyun hafızasını iki kuşa birlikte konuştur.',
+    latitude: 39.9056802, longitude: 32.8626439, sourceUrl: 'https://www.cinali.com.tr/sayfa/muze-ziyareti', verifiedAt: '2026-09-18',
+    provenance: [
+      { kind: 'official', label: 'Cin Ali Müzesi ziyaret bilgisi', verifiedAt: '2026-09-18', url: 'https://www.cinali.com.tr/sayfa/muze-ziyareti', note: 'Pazartesi hariç 10:00–18:00, son kabul 17:30; Bülten Sokak No:32. Canlı sayfa kontrolde tam bileti 250 TL gösteriyor; okul grupları için randevu gerekiyor.' },
+      { kind: 'first_hand', label: 'Batch #3 editoryal fiyat notu', verifiedAt: '2026-09-18', note: 'Kaynak görünümlerinde 250/300 TL tam bilet farkı bulundu. Bu nedenle kesin tarife kart metnine taşınmadı; orta fiyat bandı ve gitmeden önce güncel ücreti kontrol etme notu kullanıldı.' },
+      { kind: 'map_pin', label: 'OpenStreetMap müze yapısı', verifiedAt: '2026-09-18', url: 'https://www.openstreetmap.org/way/225920084', note: 'Resmî Bülten Sokak adresiyle eşleşen müze yapısı koordinatı.' },
+    ],
+  },
+  {
+    id: 'ka-cinnah', name: 'Ka — Cinnah', district: 'Çankaya',
+    address: 'Cinnah Cd. No:1/B, Çankaya, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 1, editorialScore: 4.8,
+    note: 'Fotoğraf ve görsel kültür programında tek bir iş ya da seriyi yavaşça okuyup ilk bakışta kaçan ayrıntılara zaman ayır.',
+    latitude: 39.900254, longitude: 32.859444, sourceUrl: 'https://www.thisiska.com/', verifiedAt: '2026-09-18',
+    aliases: ['Ka Atölye', 'Ka Görsel Kültür ve Sanatsal Düşünce İçin Mekan'],
+    provenance: [
+      { kind: 'official', label: 'Ka resmî program ve ziyaret bilgisi', verifiedAt: '2026-09-18', url: 'https://www.thisiska.com/', note: 'Cinnah Caddesi 1/B, aktif sergi/etkinlik programı ve salı–cumartesi 10:00–19:00; pazar ve pazartesi kapalı. Belirli bir sergi kalıcıymış gibi sunulmadı.' },
+      { kind: 'first_hand', label: 'Batch #3 editoryal saat notu', verifiedAt: '2026-09-18', note: 'Batch brief salı–cumartesi 11:00–19:00 bildirdi; canlı resmî site 10:00–19:00 gösteriyor. Ziyaretçi güncel program ve açılış saatini gitmeden önce yeniden kontrol etmeli.' },
+      { kind: 'map_pin', label: 'Yandex Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://yandex.com.tr/maps/org/ka_gorsel_kultur_ve_sanatsal_dusunce_icin_mekan/1326361409/', note: 'Resmî Cinnah Caddesi 1/B adresi ve iletişim bilgisiyle eşleşen işletme pini.' },
+    ],
+  },
 ];
 
 const placeStatusOverrides: Readonly<Record<string, PlaceStatus>> = {

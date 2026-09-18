@@ -2,6 +2,18 @@
 
 Kontrol tarihi: 18 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Ankara Content Batch #3
+
+- `codex/ankara-content-batch-3` dalı, fetch sonrası doğrulanan `origin/main` commit'i `0aa2ba8e302106ef44aff7af93589fd5bbec4986` üzerinden ayrı bir worktree'de açıldı.
+- Ankara Palas Müzesi, Gökyay Vakfı Satranç Müzesi, Old School Roastery Bahçelievler, Hanem Fırın Eryaman, Bolu Akın Lokantası Etlik Eski Garajlar, Urumçi Uygur Restaurant Ön Cebeci, Cin Ali Müzesi ve Ka Cinnah sekiz yeni `active` Place olarak eklendi. Adres, temel saat/fiyat, şube kimliği ve koordinat kanıtı resmî/operatör ve harita kaynaklarıyla ayrı provenance girdilerinde tutuldu; doğrulanmayan opsiyonel zenginleştirmeler eklenmedi.
+- Sekiz lifecycle-safe evergreen Experience eklendi: Hanem — Konya Sofrası; Bolu Akın — Eski Garajlar’da Tencere Yemeği; Urumçi — Ön Cebeci’de Uygur Sofrası; Old School — İki Demleme Karşılaştır; Cin Ali — Aynı Çizgide İki Kuşak; Gökyay — Satranç Taşlarının Dünyasını Oku; Ankara Palas + II. TBMM — Cumhuriyetin İki Sahnesi; Ka — Bir Fotoğraf Sergisini Yavaş Oku.
+- Old School planı resmî tadım/atölye ürünü değil, güncel menüde iki uygun demleme varsa ziyaretçinin ayrı siparişlerle yapacağı editoryal eylemdir. Ka planı belirli veya kalıcı bir sergi vaat etmez ve kitaplık üyeliği içermez. Ankara Palas + II. TBMM eşleştirmesi iki faal kurumun salı–pazar 09:00–17:00 ortak ziyaret penceresine bağlıdır.
+- Cin Ali canlı ziyaret sayfasındaki 250 TL ile indekslenmiş 300 TL tam bilet farkı kesin tarife yerine orta fiyat bandı ve kontrol notuyla korundu. Ka için batch brief'teki 11:00 açılış ile canlı resmî sitedeki 10:00 açılış farkı provenance ve ziyaret notunda açıkça tutuldu.
+- Müze Evliyagil, Golden Chef/No24 Experience'ları ve diğer HOLD/VERIFY adayları eklenmedi. Mevcut Golden Chef ve No24 Place kayıtlarına dokunulmadı.
+- Place sayısı 146'dan 154'e, Experience sayısı 32'den 40'a çıktı; embedded katalog sürümü `2026-09-18.2` oldu. Schema/cache sürümü v2 olarak kaldı.
+- Sabit recommendation-quality matrisinde toplam uygun aday 481'den 511'e, ilk grup sonucu 69'dan 71'e ve tam beşli senaryo 13'ten 14'e çıktı; sıfır sonuç 0 kaldı, kısmi sonuç 2'den 1'e indi. Ortalama kategori çeşitliliği 2,600'den 2,533'e, uygulanabilir ilçe çeşitliliği 2,533'ten 2,400'e indi. Yaşam döngüsü sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kaldı.
+- Öneri ağırlıkları, hard filtreler, sıralama, çeşitlilik, rotasyon, kayıtlı durum davranışı, içerik yüzeyi ayrımı, UI, Firebase ve Event verisi değiştirilmedi. Bu veri-only çalışma production veya yayın onayı değildir.
+
 ## Devam eden çalışma — Ankara Content Batch #2
 
 - `codex/ankara-content-batch-2` dalı, fetch sonrası doğrulanan `origin/main` commit'i `3f5237c24e25cf806d58ebc54823ec2e4309f357` üzerinden ayrı bir worktree'de açıldı.

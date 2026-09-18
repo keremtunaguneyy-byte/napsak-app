@@ -139,23 +139,23 @@ test('location-off replay uses no coordinates and reports changed slots without 
   assert.ok(measured.locationOnOff);
   assert.deepEqual(measured.locationOnOff.locationOnIds, measured.batches[0].ids);
   assert.deepEqual(measured.locationOnOff.locationOffIds, [
-    'bogazici-lokantasi',
+    'urumci-uygur-restaurant-on-cebeci',
     'mogan-parki',
-    'no29-dukkan-coffee',
+    'hamamonu',
     'sulu-han',
     'beypazari-tarihi-carsi',
   ]);
   assert.notDeepEqual(measured.locationOnOff.locationOnIds, measured.locationOnOff.locationOffIds);
   assert.equal(measured.locationOnOff.changedSlotCount, 4);
-  assert.equal(measured.locationOnOff.symmetricDifferenceCount, 6);
+  assert.equal(measured.locationOnOff.symmetricDifferenceCount, 2);
   assert.equal(measured.locationOnOff.eligibleCandidateCountDelta, 0);
   assert.equal(measured.invariantFailures.includes('location_changed_eligibility'), false);
 });
 
 test('location aggregate uses changed-slot and membership-difference terminology', () => {
   const report = runRecommendationQualityBaseline(catalog);
-  assert.equal(report.summary.locationChangedSlotCount, 20);
-  assert.equal(report.summary.locationSymmetricDifferenceCount, 18);
+  assert.equal(report.summary.locationChangedSlotCount, 23);
+  assert.equal(report.summary.locationSymmetricDifferenceCount, 16);
   assert.equal('locationChangedRankCount' in report.summary, false);
 });
 

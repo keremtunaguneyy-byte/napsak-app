@@ -265,3 +265,37 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18
 Changed coverage intersections account for the full candidate-total increase of 14: the Çukurambar friends Place fixture gains four candidates, the Eryaman large-group Place fixture gains four, cold-start Experience gains three, tight-budget Place gains one, expensive-budget Place gains one, and flexible-budget Place gains one. The remaining nine fixture candidate counts do not change. The short- and long-duration fixtures each gain one otherwise matching Experience that is correctly excluded by duration, so their returned supply remains five.
 
 The unchanged result and explanation totals show that this batch expands eligible supply without manufacturing extra slots in already-full first batches. The district-diversity and repetition movements are characterization, not regressions against an approved threshold: no such threshold exists, and the ranking, diversity, and rotation logic was not changed. A recorded post-batch local latency sample was mean 1.616 ms, p50 0.928 ms, p95 4.092 ms, and p99 4.350 ms over 300 calls; this is host-specific and not a golden assertion.
+
+## 12. Ankara Content Batch #3 delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18.2`. Result limit: 5.
+
+| Measure | Before (`2026-09-18.1`) | After (`2026-09-18.2`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 481 | 511 |
+| First-batch results | 69 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 2 / 15 (13.33%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 13 / 15 (86.67%) | 14 / 15 (93.33%) |
+| Results with explanations | 69 / 69 | 71 / 71 |
+| Reason strings | 274 | 287 |
+| Mood matches | 62 | 64 |
+| Interest matches | 60 | 62 |
+| Exact budget fits | 37 | 39 |
+| Group fits | 64 | 66 |
+| Experience primary matches | 16 / 19 | 18 / 21 |
+| Experience secondary-only matches | 3 / 19 | 3 / 21 |
+| Mean distinct categories per first batch | 2.600 | 2.533 |
+| Mean distinct applicable districts per first batch | 2.533 | 2.400 |
+| Distinct repeated IDs across three-batch fixture runs | 56 | 58 |
+| Repeated slots across three-batch fixture runs | 70 | 74 |
+| Location-paired changed slots | 20 | 23 |
+| Location-paired symmetric membership difference, summed | 18 | 16 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+Changed coverage intersections account for the candidate-total increase of 30: solo Tunalı Kahve + Sanat gains five eligible Experiences; Ulus couple Sanat gains two; Çukurambar friends Place gains four; Eryaman large-group Place gains one; cold start gains eight Experiences; tight-budget Place gains four; premium-budget Place gains three; and flexible-budget Place gains three. The remaining seven fixture candidate counts do not change. Short- and long-duration fixtures each gain four otherwise matching Experiences that are correctly excluded by duration, while the sparse fixture gains one duration-excluded Experience.
+
+The Ulus couple fixture moves from three to five eligible results, which accounts for the partial-to-full-five improvement. The category-diversity, district-diversity, repetition, and location movements are characterization, not regressions against an approved threshold; no such threshold exists, and ranking, diversity, rotation, filters, or weights were not changed. A recorded post-batch local latency sample was mean 1.742 ms, p50 1.085 ms, p95 4.078 ms, and p99 5.070 ms over 300 calls; this is host-specific and not a golden assertion.
