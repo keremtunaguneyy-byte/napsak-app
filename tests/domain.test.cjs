@@ -415,8 +415,8 @@ test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
   }
 });
 
-test('experience catalogue contains 40 complete, sourced and honestly scoped plans', () => {
-  assert.equal(experiences.length, 40);
+test('experience catalogue contains 50 complete, sourced and honestly scoped plans', () => {
+  assert.equal(experiences.length, 50);
   assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
@@ -529,6 +529,43 @@ test('Ankara content batch 3 keeps the approved Places and lifecycle-safe Experi
   assert.match(experiences.find(item => item.id === 'xp-old-school-iki-demleme').note, /resmî tadım ya da atölye ürünü değildir/);
   assert.match(experiences.find(item => item.id === 'xp-ka-fotograf-sergisini-yavas-oku').availabilityNote, /belirli sergi garanti edilmez/);
   assert.match(experiences.find(item => item.id === 'xp-cin-ali-iki-kusak').availabilityNote, /250\/300 TL/);
+});
+
+test('Ankara Experience batch 4 adds only supported plans and removes the Yılmaz Güney raw record', () => {
+  const expectedExperiences = [
+    ['xp-eymir-bisikletle-dolas', ['eymir-golu'], ['Doğa'], ['Etkinlik'], 120, 180],
+    ['xp-aoc-kurulus-hikayesi', ['aoç-hayvanat-bahcesi-alani', 'ataturk-orman-ciftligi'], ['Sanat'], ['Doğa', 'Lezzet'], 120, 180],
+    ['xp-nallihan-goc-yolunu-gozle', ['kus-cenneti'], ['Doğa'], ['Etkinlik'], 90, 180],
+    ['xp-sakarya-muharebesini-araziden-oku', ['sakarya-zaferi-muzesi', 'duatepe-aniti'], ['Sanat'], ['Doğa'], 180, 300],
+    ['xp-bogazici-ulus-ogle-ritueli', ['bogazici-lokantasi'], ['Lezzet'], [], 45, 90],
+    ['xp-aspava-ikram-ritueli', ['aspava-yildizevler'], ['Lezzet'], [], 60, 90],
+    ['xp-ptt-pullardan-donem-oku', ['ptt-pul-muzesi'], ['Sanat'], [], 60, 90],
+    ['xp-cengelhan-teknolojinin-izini-sur', ['cengelhan-rahmi-koc'], ['Sanat'], ['Etkinlik'], 90, 150],
+    ['xp-arslanhane-alaaddin-selcuklu', ['aslanhane-camii', 'alaaddin-camii'], ['Sanat'], [], 75, 120],
+    ['xp-belpa-ilk-acik-buz-seansi', ['belpa-buz-pateni'], ['Etkinlik'], [], 60, 120],
+  ];
+  for (const [id, pointIds, primary, secondary, min, max] of expectedExperiences) {
+    const experience = experiences.find(item => item.id === id);
+    assert.ok(experience, `${id}: missing`);
+    assert.equal(experience.lifecycle, 'evergreen', `${id}: lifecycle`);
+    assert.deepEqual(experience.points.map(point => point.placeId), pointIds, `${id}: points`);
+    assert.deepEqual(experience.primaryInterests, primary, `${id}: primary interests`);
+    assert.deepEqual(experience.secondaryInterests, secondary, `${id}: secondary interests`);
+    assert.equal(experience.minDurationMinutes, min, `${id}: minimum duration`);
+    assert.equal(experience.maxDurationMinutes, max, `${id}: maximum duration`);
+  }
+
+  const deferredPlaceIds = ['is-bankasi-iktisadi-muze', 'ziraat-bankasi-muzesi', 'mta-tabiat-tarihi', 'feza-gursey'];
+  assert.equal(experiences.some(item => item.points.some(point => deferredPlaceIds.includes(point.placeId))), false);
+  assert.equal(places.some(place => place.id === 'yilmaz-guney-sahnesi'), false);
+  assert.deepEqual(resolveSavedPlaces(places, ['yilmaz-guney-sahnesi']), []);
+  assert.equal(isHardExcludedPlace(fixture({ id: 'yilmaz-guney-sahnesi', name: 'Unrelated display label' })), true);
+
+  const belpa = places.find(place => place.id === 'belpa-buz-pateni');
+  assert.equal(belpa.verifiedAt, '2026-09-18');
+  assert.ok(belpa.provenance.some(item => item.kind === 'official'));
+  assert.match(experiences.find(item => item.id === 'xp-eymir-bisikletle-dolas').availabilityNote, /kiralama garanti değildir/);
+  assert.match(experiences.find(item => item.id === 'xp-belpa-ilk-acik-buz-seansi').availabilityNote, /Paten kiralama, eğitim, yaş kuralı veya rezervasyon/);
 });
 
 test('every experience produces a safe Google Maps action', () => {
@@ -780,6 +817,8 @@ test('runtime catalogue validation rejects malformed remote data', () => {
   assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], points: [{ ...valid.experiences[0].points[0], placeId: 'missing-place' }] }] }), undefined);
   const aliasImport = { ...valid.places[0], id: 'new-import', name: 'YILMAZ GÜNEY SAHNESİ' };
   assert.equal(parseCatalogSnapshot({ ...valid, places: [...valid.places, aliasImport] }), undefined);
+  const canonicalImport = { ...valid.places[0], id: 'yilmaz-guney-sahnesi', name: 'Unrelated display label' };
+  assert.equal(parseCatalogSnapshot({ ...valid, places: [...valid.places, canonicalImport] }), undefined);
   const hardExcludedExperience = {
     ...valid.experiences[0],
     points: [{ ...valid.experiences[0].points[0], placeId: 'yilmaz-guney-sahnesi' }],

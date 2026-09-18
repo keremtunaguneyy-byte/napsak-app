@@ -299,3 +299,35 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18
 Changed coverage intersections account for the candidate-total increase of 30: solo Tunalı Kahve + Sanat gains five eligible Experiences; Ulus couple Sanat gains two; Çukurambar friends Place gains four; Eryaman large-group Place gains one; cold start gains eight Experiences; tight-budget Place gains four; premium-budget Place gains three; and flexible-budget Place gains three. The remaining seven fixture candidate counts do not change. Short- and long-duration fixtures each gain four otherwise matching Experiences that are correctly excluded by duration, while the sparse fixture gains one duration-excluded Experience.
 
 The Ulus couple fixture moves from three to five eligible results, which accounts for the partial-to-full-five improvement. The category-diversity, district-diversity, repetition, and location movements are characterization, not regressions against an approved threshold; no such threshold exists, and ranking, diversity, rotation, filters, or weights were not changed. A recorded post-batch local latency sample was mean 1.742 ms, p50 1.085 ms, p95 4.078 ms, and p99 5.070 ms over 300 calls; this is host-specific and not a golden assertion.
+
+## 13. Ankara Experience Batch #4 delta
+
+Command: `npm run check:recommendations`. Catalog version: `2026-09-18.3`. Result limit: 5.
+
+| Measure | Before (`2026-09-18.2`) | After (`2026-09-18.3`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 511 | 528 |
+| First-batch results | 71 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 14 / 15 (93.33%) |
+| Results with explanations | 71 / 71 | 71 / 71 |
+| Reason strings | 287 | 287 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 62 |
+| Exact budget fits | 39 | 40 |
+| Group fits | 66 | 66 |
+| Experience primary matches | 18 / 21 | 18 / 21 |
+| Experience secondary-only matches | 3 / 21 | 3 / 21 |
+| Mean distinct categories per first batch | 2.533 | 2.533 |
+| Mean distinct applicable districts per first batch | 2.400 | 2.333 |
+| Distinct repeated IDs across three-batch fixture runs | 58 | 57 |
+| Repeated slots across three-batch fixture runs | 74 | 71 |
+| Location-paired changed slots | 23 | 23 |
+| Location-paired symmetric membership difference, summed | 16 | 18 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The 10 added Experiences increase eligible supply by 17 across the fixed matrix without changing the already-full first-batch result count. The catalog now has 50 Experiences: primary/category distribution is 23 Sanat, 12 Doğa, 8 Lezzet, 4 Kahve and 3 Etkinlik; maximum-duration distribution is 6×30–60, 21×61–120, 17×121–240 and 6×241+ minutes. District mean and location-membership movement are characterization, not an approved-threshold regression; ranking, diversity, rotation, filters and weights did not change. A post-batch local recommendation-quality sample was mean 1.725 ms, p50 1.356 ms, p95 4.000 ms and p99 4.237 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.177 ms, p50 1.024 ms, p95 6.223 ms and p99 6.594 ms against the 25 ms p95 budget; both are host-specific samples.

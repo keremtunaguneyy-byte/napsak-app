@@ -15,7 +15,7 @@ Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Kategor
 
 ## Merkezi içerik uygunluğu
 
-`src/contentPolicy.ts` öneri, public çözümleme ve kalite ölçümü için tek politika sınırıdır. Uygunluk skordan önce uygulanır; kayıtlı olma durumu sıralamayı etkilemez. `deprecated` ve `verification_required` Place önerilmez, fakat hard-exclusion dışında kalan deprecated kayıtlar eski kaydetmeleri çözümlemek için ham katalogda kalır. Yılmaz Güney Sahnesi kimlik/ad/alias normalizasyonuyla kodda hard-excluded'dır; kendisi ve ona bağlanan Experience'lar öneri, birleşik akış, ilişkili plan ve public detay/listelerde görünmez. Yeni bir ID altında bilinen alias ile tekrar içe aktarma katalog doğrulamasında reddedilir.
+`src/contentPolicy.ts` öneri, public çözümleme ve kalite ölçümü için tek politika sınırıdır. Uygunluk skordan önce uygulanır; kayıtlı olma durumu sıralamayı etkilemez. `deprecated` ve `verification_required` Place önerilmez, fakat hard-exclusion dışında kalan deprecated kayıtlar eski kaydetmeleri çözümlemek için ham katalogda kalır. Yılmaz Güney Sahnesi ham embedded katalogdan kaldırılmıştır ve kimlik/ad/alias normalizasyonuyla kodda hard-excluded kalır; eski kaydedilmiş kimlik çözülmez. Canonical ID veya bilinen alias ile remote katalogdan yeniden içe aktarma runtime doğrulamasında reddedilir; ona bağlanan Experience da kabul edilmez.
 
 Event başlangıcı zaman tabanlı uygunluğun sınırıdır. Uygulama en yakın gelecek Event sınırında ve foreground'a döndüğünde saati yeniler; `event_linked` kayıtlar eksik/geçersiz/başlamış Event için fail-closed davranır. `conditional` semantiği ayrıca onaylanana kadar hiçbir conditional kayıt önerilemez; bu PR conditional veya event-linked katalog kaydı eklemez.
 

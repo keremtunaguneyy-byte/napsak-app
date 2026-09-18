@@ -2,6 +2,18 @@
 
 Kontrol tarihi: 18 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Ankara Experience Batch #4
+
+- `codex/ankara-experience-batch-4` dalı, fetch sonrası doğrulanan `origin/main` commit'i `74b2de3f430147bf33babf2d165ce11fa5dcdbac` üzerinden ayrı bir worktree'de açıldı.
+- Mevcut Place kayıtlarına bağlı 10 lifecycle-safe evergreen Experience eklendi: Eymir’i Bisikletle Dolaş; AOÇ’nin Kuruluş Hikâyesini Arazide İzle; Nallıhan’da Göç Yolunu Gözle; Sakarya Muharebesi’ni Araziden Oku; Boğaziçi’nde Ulus Öğle Ritüeli; Aspava’nın İkram Ritüelini Yaşa; PTT Pul Müzesi’nde Bir Dönemi Pullardan Oku; Çengelhan’da Bir Teknolojinin İzini Sür; Arslanhane’den Alaaddin’e Selçuklu Ankara’sı; BELPA’da İlk Açık Buz Seansına Gir.
+- BELPA, 2026 tarihli resmî ABB duyurularının halka açık 40 dakikalık seansları doğrulaması nedeniyle verify kapısını geçti. Experience güncel seans kontrolü ister; paten kiralama, eğitim, yaş sınırı veya rezervasyon vaat etmez.
+- Üç verify-gated aday ertelendi: İş Bankası + Ziraat eşleştirmesinde Ziraat'ın güncel Türkçe ve İngilizce resmî sayfaları açık/kapalı durumu konusunda çelişiyor; MTA için güncel halka açık giriş ve saat semantiği yeterli değil; Feza Gürsey için bulunan operasyonel kanıt eski ve sıradan bireysel ziyaret ile programlı etkinlik ayrımını güvenle kurmuyor.
+- Ham `yilmaz-guney-sahnesi` Place kaydı kaldırıldı. Repository genelinde bağlı Experience, Guide, Idea, cache veya migration bağımlılığı bulunmadı; kalan test referansları yalnız hard-exclusion regresyonunu doğruluyor ve eski kaydedilmiş ID mevcut fail-closed çözümlemeyle sonuç üretmiyor. Kod tabanlı ID/ad/alias hard-exclusion guard'ı korundu ve runtime katalog doğrulaması artık canonical ID dahil bütün yeniden içe aktarma biçimlerini reddediyor; compatibility tombstone tutulmadı.
+- Place sayısı 154'ten 153'e, Experience sayısı 40'tan 50'ye çıktı; embedded katalog sürümü `2026-09-18.3` oldu. Schema/cache sürümü v2 olarak kaldı.
+- Experience ana kategori dağılımı 23 Sanat, 12 Doğa, 8 Lezzet, 4 Kahve ve 3 Etkinliktir. Maksimum süreye göre dağılım 6×30–60, 21×61–120, 17×121–240 ve 6×241+ dakikadır. Ankara–Nallıhan ve Ankara–Polatlı ulaşımı ilgili Experience sürelerine dahil edilmedi.
+- Sabit recommendation-quality matrisinde toplam uygun aday 511'den 528'e çıktı; sıfır/kısmi/tam beşli sayıları 0/1/14 ve ilk grup sonucu 71 olarak kaldı. Ortalama kategori çeşitliliği 2,533'te kaldı, uygulanabilir ilçe çeşitliliği 2,400'den 2,333'e indi; tekrarlanan ID 58'den 57'ye ve tekrarlanan slot 74'ten 71'e indi. Yaşam döngüsü sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kaldı.
+- Öneri ağırlıkları, hard filtreler, sıralama, çeşitlilik, rotasyon, kayıtlı durum davranışı, içerik yüzeyi ayrımı, UI, Firebase ve Event verisi değiştirilmedi. Bu veri/politika-sertleştirme çalışması production veya yayın onayı değildir.
+
 ## Devam eden çalışma — Ankara Content Batch #3
 
 - `codex/ankara-content-batch-3` dalı, fetch sonrası doğrulanan `origin/main` commit'i `0aa2ba8e302106ef44aff7af93589fd5bbec4986` üzerinden ayrı bir worktree'de açıldı.
