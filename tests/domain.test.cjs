@@ -319,7 +319,16 @@ test('recommendPlaces excludes dismissed places and uses live proximity', () => 
 
 const { places } = require('../.test-build/data/places.js');
 const { ideas } = require('../.test-build/data/ideas.js');
-const { KNOWN_DURATIONS, KNOWN_INTERESTS, KNOWN_MOODS } = require('../.test-build/types.js');
+const {
+  KNOWN_DURATIONS,
+  KNOWN_IDEA_CONTEXT_TAGS,
+  KNOWN_IDEA_FAMILIES,
+  KNOWN_IDEA_PLANNING_MODES,
+  KNOWN_IDEA_REQUIREMENTS,
+  KNOWN_IDEA_SETTINGS,
+  KNOWN_INTERESTS,
+  KNOWN_MOODS,
+} = require('../.test-build/types.js');
 const { events } = require('../.test-build/data/events.js');
 const { experiences } = require('../.test-build/data/experiences.js');
 
@@ -381,7 +390,7 @@ const { guides } = require('../.test-build/data/guides.js');
 const { insiderRoutes } = require('../.test-build/data/insiderRoutes.js');
 const { cities } = require('../.test-build/data/cities.js');
 const { CATALOG_CACHE_NAMESPACE_VERSION, CATALOG_SCHEMA_VERSION, catalogCacheKey, embeddedCatalog } = require('../.test-build/data/catalog.js');
-const { parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
+const { isIdea, parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
 const { EmbeddedContentRepository } = require('../.test-build/data/contentRepository.js');
 const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
 
@@ -772,20 +781,57 @@ test('catalog coordinates, official URL shapes, categories and tags are valid', 
 });
 
 test('timeless idea catalog is curated, complete and uniquely identified', () => {
-  assert.ok(ideas.length >= 40 && ideas.length <= 60);
+  assert.equal(ideas.length, 86);
   assert.equal(new Set(ideas.map(idea => idea.id)).size, ideas.length);
   for (const idea of ideas) {
     assert.equal(idea.kind, 'idea');
     assert.ok(idea.title.trim(), `${idea.id}: title`);
     assert.ok(idea.note.trim().length >= 40, `${idea.id}: note should explain the actual activity`);
-    assert.ok(idea.actionLabel.trim(), `${idea.id}: action label`);
-    assert.equal(new URL(idea.actionUrl).protocol, 'https:', `${idea.id}: action URL`);
+    assert.equal(Boolean(idea.actionLabel), Boolean(idea.actionUrl), `${idea.id}: action label/url pair`);
+    if (idea.actionUrl) assert.equal(new URL(idea.actionUrl).protocol, 'https:', `${idea.id}: action URL`);
     assert.ok(idea.editorialScore >= 0 && idea.editorialScore <= 10, `${idea.id}: editorialScore`);
     assert.ok(idea.groupSizes.length, `${idea.id}: group sizes`);
     assert.ok(KNOWN_INTERESTS.includes(idea.category), `${idea.id}: category`);
     assert.ok(idea.interests.length && idea.interests.every(value => KNOWN_INTERESTS.includes(value)), `${idea.id}: interests`);
     assert.ok(idea.moods.length && idea.moods.every(value => KNOWN_MOODS.includes(value)), `${idea.id}: moods`);
   }
+});
+
+test('Idea Batch A adds 34 fully structured records and preserves 52 legacy records', () => {
+  const structured = ideas.filter(idea => idea.ideaFamily !== undefined);
+  const legacy = ideas.filter(idea => idea.ideaFamily === undefined);
+  assert.equal(structured.length, 34);
+  assert.equal(legacy.length, 52);
+  assert.ok(legacy.every(idea => idea.actionUrl && idea.actionLabel));
+  assert.ok(structured.every(idea => idea.actionUrl === undefined && idea.actionLabel === undefined));
+
+  for (const idea of structured) {
+    assert.ok(KNOWN_IDEA_FAMILIES.includes(idea.ideaFamily), `${idea.id}: family`);
+    assert.ok(idea.typicalDurationMinutes.min > 0, `${idea.id}: minimum duration`);
+    assert.ok(idea.typicalDurationMinutes.max >= idea.typicalDurationMinutes.min, `${idea.id}: duration range`);
+    assert.ok(KNOWN_IDEA_SETTINGS.includes(idea.setting), `${idea.id}: setting`);
+    assert.ok(KNOWN_IDEA_PLANNING_MODES.includes(idea.planningMode), `${idea.id}: planning mode`);
+    assert.equal(idea.primaryInterest, idea.category, `${idea.id}: primary/category compatibility`);
+    assert.deepEqual(idea.interests, [idea.primaryInterest, ...idea.secondaryInterests], `${idea.id}: legacy interest compatibility`);
+    assert.ok(idea.contextTags.every(tag => KNOWN_IDEA_CONTEXT_TAGS.includes(tag)), `${idea.id}: context tags`);
+    assert.ok(idea.requirements.every(requirement => KNOWN_IDEA_REQUIREMENTS.includes(requirement)), `${idea.id}: requirements`);
+    assert.ok(isIdea(idea), `${idea.id}: runtime validation`);
+  }
+});
+
+test('Idea validation accepts legacy and URL-free records but rejects malformed structured metadata', () => {
+  const legacy = ideas.find(idea => idea.ideaFamily === undefined);
+  const structured = ideas.find(idea => idea.ideaFamily !== undefined);
+  assert.ok(isIdea(legacy));
+  assert.ok(isIdea(structured));
+  assert.ok(isIdea({ ...structured, actionLabel: undefined, actionUrl: undefined }));
+  assert.equal(isIdea({ ...structured, actionLabel: 'Aç', actionUrl: undefined }), false);
+  assert.equal(isIdea({ ...structured, ideaFamily: 'not-a-family' }), false);
+  assert.equal(isIdea({ ...structured, typicalDurationMinutes: { min: 60, max: 30 } }), false);
+  assert.equal(isIdea({ ...structured, typicalDurationMinutes: { min: 15.5, max: 30 } }), false);
+  assert.equal(isIdea({ ...structured, planningMode: undefined }), false);
+  assert.equal(isIdea({ ...structured, secondaryInterests: [structured.primaryInterest] }), false);
+  assert.equal(isIdea({ ...structured, contextTags: ['bad-weather', 'bad-weather'] }), false);
 });
 
 test('embedded content repository preserves exact local catalogue parity', async () => {
@@ -803,10 +849,10 @@ test('embedded content repository preserves exact local catalogue parity', async
 test('runtime catalogue validation rejects malformed remote data', () => {
   const valid = embeddedCatalog('ankara');
   assert.ok(parseCatalogSnapshot(valid));
-  assert.equal(CATALOG_SCHEMA_VERSION, 2);
-  assert.equal(CATALOG_CACHE_NAMESPACE_VERSION, 2);
-  assert.equal(catalogCacheKey('ankara'), '@napsak/catalog/v2/ankara');
-  assert.notEqual(catalogCacheKey('ankara'), '@napsak/catalog/v1/ankara');
+  assert.equal(CATALOG_SCHEMA_VERSION, 3);
+  assert.equal(CATALOG_CACHE_NAMESPACE_VERSION, 3);
+  assert.equal(catalogCacheKey('ankara'), '@napsak/catalog/v3/ankara');
+  assert.notEqual(catalogCacheKey('ankara'), '@napsak/catalog/v2/ankara');
   assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 1 }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 999 }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, places: [{ ...valid.places[0], sourceUrl: 'javascript:bad' }] }), undefined);

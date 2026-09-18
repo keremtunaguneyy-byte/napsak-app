@@ -6,9 +6,9 @@ import { guides } from './guides';
 import { places } from './places';
 import { City, CityId, Event, Experience, Guide, Idea, Place } from '../types';
 
-export const CATALOG_SCHEMA_VERSION = 2 as const;
-export const CATALOG_CACHE_NAMESPACE_VERSION = 2 as const;
-export const EMBEDDED_CATALOG_VERSION = '2026-09-18.3';
+export const CATALOG_SCHEMA_VERSION = 3 as const;
+export const CATALOG_CACHE_NAMESPACE_VERSION = 3 as const;
+export const EMBEDDED_CATALOG_VERSION = '2026-09-18.4';
 export const CATALOG_CACHE_PREFIX = `@napsak/catalog/v${CATALOG_CACHE_NAMESPACE_VERSION}/`;
 export const catalogCacheKey = (cityId: CityId): string => `${CATALOG_CACHE_PREFIX}${cityId}`;
 

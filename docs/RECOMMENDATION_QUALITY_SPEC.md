@@ -331,3 +331,30 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-18.3`. Resul
 | Objective invariant failures | 0 | 0 |
 
 The 10 added Experiences increase eligible supply by 17 across the fixed matrix without changing the already-full first-batch result count. The catalog now has 50 Experiences: primary/category distribution is 23 Sanat, 12 Doğa, 8 Lezzet, 4 Kahve and 3 Etkinlik; maximum-duration distribution is 6×30–60, 21×61–120, 17×121–240 and 6×241+ minutes. District mean and location-membership movement are characterization, not an approved-threshold regression; ranking, diversity, rotation, filters and weights did not change. A post-batch local recommendation-quality sample was mean 1.725 ms, p50 1.356 ms, p95 4.000 ms and p99 4.237 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.177 ms, p50 1.024 ms, p95 6.223 ms and p99 6.594 ms against the 25 ms p95 budget; both are host-specific samples.
+
+## 14. Idea Architecture + Batch A delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18.4`. Result limit: 5.
+
+| Measure | Before (`2026-09-18.3`) | After (`2026-09-18.4`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 528 | 562 |
+| First-batch results | 71 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 14 / 15 (93.33%) |
+| Results with explanations | 71 / 71 | 71 / 71 |
+| Reason strings | 287 | 287 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 62 |
+| Exact budget fits | 40 | 40 |
+| Group fits | 66 | 66 |
+| Mean distinct categories per first batch | 2.533 | 2.533 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.333 |
+| Distinct repeated IDs across three-batch fixture runs | 57 | 57 |
+| Repeated slots across three-batch fixture runs | 71 | 71 |
+| Deterministic replay failures | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The candidate-total increase is exactly the 34 new Ideas in the controlled-discovery fixture; the other 14 scenarios and the first-batch result total are unchanged. The Fikir fixture still returns one selected-interest result and four independent discoveries, with 14 unique Ideas across three batches. The new structured fields are intentionally not consumed by ranking yet, so this delta is catalog coverage rather than a hidden scoring change. A post-batch local sample measured mean 1.795 ms, p50 1.380 ms, p95 4.104 ms and p99 4.525 ms over 300 calls; this is host-specific and not a golden assertion.

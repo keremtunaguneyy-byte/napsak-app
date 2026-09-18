@@ -1,6 +1,8 @@
 import {
-  City, Event, Experience, GroupSizePreference, Guide, Idea, Interest, KNOWN_GROUP_SIZES,
-  KNOWN_INTERESTS, KNOWN_MOODS, Mood, Place, PlaceStatus, PriceLevel,
+  City, Event, Experience, GroupSizePreference, Guide, Idea, IdeaContextTag, IdeaFamily, IdeaPlanningMode,
+  IdeaRequirement, IdeaSetting, Interest, KNOWN_GROUP_SIZES, KNOWN_IDEA_CONTEXT_TAGS, KNOWN_IDEA_FAMILIES,
+  KNOWN_IDEA_PLANNING_MODES, KNOWN_IDEA_REQUIREMENTS, KNOWN_IDEA_SETTINGS, KNOWN_INTERESTS, KNOWN_MOODS,
+  Mood, Place, PlaceStatus, PriceLevel,
 } from '../types';
 import { isHardExcludedPlace } from '../contentPolicy';
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from './catalog';
@@ -10,10 +12,13 @@ type ObjectValue = Record<string, unknown>;
 const isObject = (value: unknown): value is ObjectValue => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 const isString = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
 const isNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
+const isPositiveInteger = (value: unknown): value is number => Number.isInteger(value) && Number(value) > 0;
 const stringsIn = <T extends string>(value: unknown, allowed: readonly T[]): value is T[] =>
   Array.isArray(value) && value.every(item => typeof item === 'string' && allowed.includes(item as T));
 const isPrice = (value: unknown): value is PriceLevel => Number.isInteger(value) && [0, 1, 2, 3].includes(value as number);
 const isHttps = (value: unknown): value is string => isString(value) && value.startsWith('https://');
+const uniqueStringsIn = <T extends string>(value: unknown, allowed: readonly T[]): value is T[] =>
+  stringsIn(value, allowed) && new Set(value).size === value.length;
 
 export function isCity(value: unknown): value is City {
   if (!isObject(value) || !isString(value.id) || !isString(value.name) || !isString(value.countryCode) || !isString(value.timezone)) return false;
@@ -41,11 +46,41 @@ export function isPlace(value: unknown): value is Place {
 
 export function isIdea(value: unknown): value is Idea {
   if (!isObject(value)) return false;
-  return value.kind === 'idea' && isString(value.id) && isString(value.title)
+  const actionValid = value.actionUrl === undefined && value.actionLabel === undefined
+    || isString(value.actionLabel) && isHttps(value.actionUrl);
+  const metadataKeys = [
+    'ideaFamily', 'typicalDurationMinutes', 'setting', 'planningMode', 'primaryInterest',
+    'secondaryInterests', 'contextTags', 'requirements',
+  ];
+  const hasAnyStructuredMetadata = metadataKeys.some(key => value[key] !== undefined);
+  let metadataValid = !hasAnyStructuredMetadata;
+  if (hasAnyStructuredMetadata && isObject(value.typicalDurationMinutes)) {
+    const secondaryInterests = value.secondaryInterests;
+    const legacyInterests = value.interests;
+    const secondaryInterestsValid = uniqueStringsIn<Interest>(secondaryInterests, KNOWN_INTERESTS)
+      && !secondaryInterests.includes(value.primaryInterest as Interest);
+    const legacyInterestsMatch = secondaryInterestsValid
+      && uniqueStringsIn<Interest>(legacyInterests, KNOWN_INTERESTS)
+      && legacyInterests.length === 1 + secondaryInterests.length
+      && legacyInterests[0] === value.primaryInterest
+      && secondaryInterests.every(interest => legacyInterests.includes(interest));
+    metadataValid = KNOWN_IDEA_FAMILIES.includes(value.ideaFamily as IdeaFamily)
+      && isPositiveInteger(value.typicalDurationMinutes.min)
+      && isPositiveInteger(value.typicalDurationMinutes.max)
+      && value.typicalDurationMinutes.max >= value.typicalDurationMinutes.min
+      && KNOWN_IDEA_SETTINGS.includes(value.setting as IdeaSetting)
+      && KNOWN_IDEA_PLANNING_MODES.includes(value.planningMode as IdeaPlanningMode)
+      && KNOWN_INTERESTS.includes(value.primaryInterest as Interest)
+      && value.category === value.primaryInterest
+      && legacyInterestsMatch
+      && uniqueStringsIn<IdeaContextTag>(value.contextTags, KNOWN_IDEA_CONTEXT_TAGS)
+      && uniqueStringsIn<IdeaRequirement>(value.requirements, KNOWN_IDEA_REQUIREMENTS);
+  }
+  return actionValid && metadataValid && value.kind === 'idea' && isString(value.id) && isString(value.title)
     && KNOWN_INTERESTS.includes(value.category as Interest) && stringsIn<Mood>(value.moods, KNOWN_MOODS)
     && stringsIn<Interest>(value.interests, KNOWN_INTERESTS) && isPrice(value.priceLevel)
-    && isNumber(value.editorialScore) && isString(value.note) && isString(value.actionLabel)
-    && isHttps(value.actionUrl) && stringsIn<GroupSizePreference>(value.groupSizes, KNOWN_GROUP_SIZES);
+    && isNumber(value.editorialScore) && isString(value.note)
+    && stringsIn<GroupSizePreference>(value.groupSizes, KNOWN_GROUP_SIZES);
 }
 
 export function isEvent(value: unknown): value is Event {

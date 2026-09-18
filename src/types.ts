@@ -12,6 +12,54 @@ export type PriceLevel = 0 | 1 | 2 | 3;
 export type RecommendationKind = 'experience' | 'place' | 'event' | 'idea';
 export type CityId = string;
 
+export const KNOWN_IDEA_FAMILIES = [
+  'solo-reset',
+  'pair-date',
+  'friend-group',
+  'home-bad-weather',
+  'outdoor-neighborhood',
+  'food-cooking',
+  'coffee-drink-ritual',
+  'creative-art',
+  'curiosity-learning',
+  'active-movement',
+  'social-ritual-hosting',
+  'micro-adventure',
+] as const;
+export type IdeaFamily = typeof KNOWN_IDEA_FAMILIES[number];
+
+export const KNOWN_IDEA_SETTINGS = ['home', 'indoor', 'outdoor', 'neighborhood', 'any'] as const;
+export type IdeaSetting = typeof KNOWN_IDEA_SETTINGS[number];
+
+export const KNOWN_IDEA_PLANNING_MODES = ['spontaneous', 'light-planning', 'planned'] as const;
+export type IdeaPlanningMode = typeof KNOWN_IDEA_PLANNING_MODES[number];
+
+export const KNOWN_IDEA_CONTEXT_TAGS = [
+  'bad-weather',
+  'evening',
+  'low-energy',
+  'no-spend',
+  'family',
+  'limited-time',
+] as const;
+export type IdeaContextTag = typeof KNOWN_IDEA_CONTEXT_TAGS[number];
+
+export const KNOWN_IDEA_REQUIREMENTS = [
+  'paper-and-pen',
+  'phone-or-camera',
+  'audio-device',
+  'reading-material',
+  'kitchen-access',
+  'basic-ingredients',
+  'basic-tools',
+  'plant-supplies',
+  'personal-photo-archive',
+  'comfortable-walking-route',
+  'craft-materials',
+  'clothing-items',
+] as const;
+export type IdeaRequirement = typeof KNOWN_IDEA_REQUIREMENTS[number];
+
 export type GuideCategory = 'Tarih' | 'Müze' | 'Doğa' | 'Mahalle' | 'Şehir Rotası';
 
 export type Guide = {
@@ -127,7 +175,7 @@ export type Place = {
   provenance?: PlaceProvenance[];
 };
 
-export type Idea = {
+type IdeaBase = {
   id: string;
   kind: 'idea';
   title: string;
@@ -137,10 +185,34 @@ export type Idea = {
   priceLevel: PriceLevel;
   editorialScore: number;
   note: string;
-  actionLabel: string;
-  actionUrl: string;
   groupSizes: GroupSizePreference[];
 };
+
+type IdeaExternalAction =
+  | { actionLabel: string; actionUrl: string }
+  | { actionLabel?: never; actionUrl?: never };
+
+export type StructuredIdeaMetadata = {
+  ideaFamily: IdeaFamily;
+  typicalDurationMinutes: { min: number; max: number };
+  setting: IdeaSetting;
+  planningMode: IdeaPlanningMode;
+  primaryInterest: Interest;
+  secondaryInterests: Interest[];
+  contextTags: IdeaContextTag[];
+  requirements: IdeaRequirement[];
+};
+
+type LegacyIdeaMetadata = {
+  [Key in keyof StructuredIdeaMetadata]?: never;
+};
+
+/**
+ * Structured metadata is atomic while the legacy shape remains readable.
+ * Batch A records provide every metadata field; the original 52 Ideas omit all
+ * of them until they receive an explicit editorial migration.
+ */
+export type Idea = IdeaBase & IdeaExternalAction & (StructuredIdeaMetadata | LegacyIdeaMetadata);
 
 export type Event = {
   id: string;
