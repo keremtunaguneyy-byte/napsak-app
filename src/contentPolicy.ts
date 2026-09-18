@@ -40,12 +40,6 @@ export function isHardExcludedPlace(place: Pick<Place, 'id' | 'name' | 'aliases'
   return hardExclusionFor(place) !== undefined;
 }
 
-/** The canonical tombstone may remain in the raw catalog; aliases under new IDs may not. */
-export function isCanonicalHardExcludedPlace(place: Pick<Place, 'id' | 'name' | 'aliases'>): boolean {
-  const exclusion = hardExclusionFor(place);
-  return Boolean(exclusion && normalizeContentIdentity(place.id) === normalizeContentIdentity(exclusion.canonicalId));
-}
-
 export function isPlaceRecommendationEligible(place: Place): boolean {
   return place.status === 'active' && !isHardExcludedPlace(place);
 }

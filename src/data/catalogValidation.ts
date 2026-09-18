@@ -2,7 +2,7 @@ import {
   City, Event, Experience, GroupSizePreference, Guide, Idea, Interest, KNOWN_GROUP_SIZES,
   KNOWN_INTERESTS, KNOWN_MOODS, Mood, Place, PlaceStatus, PriceLevel,
 } from '../types';
-import { isCanonicalHardExcludedPlace, isHardExcludedPlace } from '../contentPolicy';
+import { isHardExcludedPlace } from '../contentPolicy';
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from './catalog';
 
 type ObjectValue = Record<string, unknown>;
@@ -118,7 +118,7 @@ export function parseCatalogSnapshot(value: unknown): CatalogSnapshot | undefine
   const placeIds = new Set(snapshot.places.map(item => item.id));
   if (snapshot.experiences.some(item => item.points.some(point => !placeIds.has(point.placeId)))) return undefined;
   const placesById = new Map(snapshot.places.map(item => [item.id, item]));
-  if (snapshot.places.some(item => isHardExcludedPlace(item) && !isCanonicalHardExcludedPlace(item))) return undefined;
+  if (snapshot.places.some(isHardExcludedPlace)) return undefined;
   if (snapshot.experiences.some(item => item.points.some(point => {
     const place = placesById.get(point.placeId);
     return Boolean(place && isHardExcludedPlace(place));
