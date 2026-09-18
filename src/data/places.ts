@@ -78,7 +78,6 @@ const ankaraPlaces: Omit<Place, 'cityId' | 'status'>[] = [
   { id: 'ahmet-taner-kislali-parki', name: 'Ahmet Taner Kışlalı Parkı', district: 'Çankaya', address: 'Çayyolu', category: 'Doğa', moods: ['Sakin', 'Sosyal'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4.4, note: 'Gölet çevresinde yürüyüp açık havada soluklan.', latitude: 39.882, longitude: 32.682, sourceUrl: 'https://www.cankaya.bel.tr/', verifiedAt: '2026-08-06' },
   { id: 'umitkoy-gokkusagi', name: 'Gökkuşağı Parkı', district: 'Çankaya', address: 'Ümitköy', category: 'Doğa', moods: ['Enerjik', 'Sosyal'], interests: ['Doğa', 'Etkinlik'], priceLevel: 0, editorialScore: 4.3, note: 'Geniş park alanında arkadaşlarınla yürüyüş yap.', latitude: 39.896, longitude: 32.686, sourceUrl: 'https://www.cankaya.bel.tr/', verifiedAt: '2026-08-06' },
   { id: 'yakacik-mesire', name: 'Yakacık Mesire Alanı', district: 'Yenimahalle', address: 'Yakacık', category: 'Doğa', moods: ['Sakin', 'Sosyal'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4.3, note: 'Şehir kenarında piknik ve açık hava molası planla.', latitude: 40.037, longitude: 32.747, sourceUrl: 'https://www.yenimahalle.bel.tr/', verifiedAt: '2026-08-06' },
-  { id: 'macera-parki', name: 'Keçiören Kartaltepe Kent Ormanı', district: 'Keçiören', address: 'Kartaltepe', category: 'Doğa', moods: ['Enerjik', 'Sosyal'], interests: ['Doğa', 'Etkinlik'], priceLevel: 0, editorialScore: 4.4, note: 'Kent ormanında yürüyüş ve manzara rotası yap.', latitude: 40.001, longitude: 32.844, sourceUrl: 'https://www.kecioren.bel.tr/', verifiedAt: '2026-08-06' },
   { id: 'lavanta-bahcesi', name: 'Lavanta Bahçesi', district: 'Keçiören', address: 'Gümüşdere Ihlamur Vadisi', category: 'Doğa', moods: ['Sakin', 'Meraklı'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4.3, note: 'Mevsiminde lavantalar arasında fotoğraf ve yürüyüş molası ver.', latitude: 39.989, longitude: 32.854, sourceUrl: 'https://www.kecioren.bel.tr/', verifiedAt: '2026-08-06' },
   { id: 'nursultan-nazarbayev-parki', name: 'Nursultan Nazarbayev Parkı', district: 'Keçiören', address: 'Bağlum', category: 'Doğa', moods: ['Enerjik', 'Sosyal'], interests: ['Doğa'], priceLevel: 0, editorialScore: 4.2, note: 'Geniş yeşil alanda yürüyüş yap.', latitude: 40.044, longitude: 32.855, sourceUrl: 'https://www.kecioren.bel.tr/', verifiedAt: '2026-08-06' },
   { id: 'mavi-gol', name: 'Mavi Göl Rekreasyon Alanı', district: 'Mamak', address: 'Bayındır Barajı', category: 'Doğa', moods: ['Sakin', 'Enerjik', 'Sosyal'], interests: ['Doğa', 'Etkinlik'], priceLevel: 0, editorialScore: 4.5, note: 'Göl çevresinde uzun yürüyüş veya bisiklet turu yap.', latitude: 39.925, longitude: 33.032, sourceUrl: 'https://www.ankara.bel.tr/', verifiedAt: '2026-08-06' },
@@ -154,6 +153,72 @@ const ankaraPlaces: Omit<Place, 'cityId' | 'status'>[] = [
   { id: 'arabica-regnum-skytower', name: 'Arabica Coffee House Regnum Skytower', district: 'Çankaya', address: 'İşçi Blokları Mah. Muhsin Yazıcıoğlu Cd. 57/114', category: 'Kahve', moods: ['Sosyal', 'Meraklı'], interests: ['Kahve'], priceLevel: 2, editorialScore: 4.4, note: 'Çukurambar tarafında kahve ve sohbet molası ver.', latitude: 39.8911489, longitude: 32.8108643, sourceUrl: 'https://arabicacoffee.com.tr/sube/regnum-skytower', verifiedAt: '2026-08-06' },
   { id: 'federal-bilkent', name: 'Federal Coffee Bilkent', district: 'Çankaya', address: 'Bilkent, Ankuva AVM', category: 'Kahve', moods: ['Sosyal', 'Sakin', 'Meraklı'], interests: ['Kahve', 'Lezzet'], priceLevel: 2, editorialScore: 4.6, note: 'Bilkent tarafında nitelikli kahve, tatlı veya uzun sohbet için mola ver.', latitude: 39.8834792, longitude: 32.7558314, sourceUrl: 'https://federal.coffee/de/pages/federalbilkent', verifiedAt: '2026-08-06' },
   { id: 'no29-dukkan-coffee', name: 'NO29 Dükkan Coffee', district: 'Çankaya', address: 'Prof. Dr. Ahmet Taner Kışlalı Mah., 2866. Cadde No:29/D, Çankaya, Ankara', category: 'Kahve', moods: ['Sakin', 'Sosyal'], interests: ['Kahve', 'Lezzet'], priceLevel: 2, editorialScore: 4.8, note: 'Güçlü kahve, tatlı ve sıcak iç mekân için Çayyolu’nda küçük bir sapma yap.', latitude: 39.8713136, longitude: 32.6805836, sourceUrl: 'https://www.instagram.com/dukkan.no29/', verifiedAt: '2026-09-16' },
+
+  // Ankara Content Batch #2. Official/operator facts and project-owner first-hand
+  // evidence remain distinct; unknown enrichment is intentionally omitted.
+  {
+    id: 'da-vinci-board-game-neorama', name: 'Da Vinci Board Game Cafe — Neorama', district: 'Yenimahalle',
+    address: 'Neorama İş Merkezi, Beştepe Mah., Yaşam Cd., Adalet Sok. No:4/B, Yenimahalle, Ankara',
+    category: 'Etkinlik', moods: ['Sosyal', 'Meraklı'], interests: ['Etkinlik'], priceLevel: 2, editorialScore: 4.9,
+    note: 'Ekibin oyun seçimi ve anlatımıyla bir kutu oyununu birlikte öğrenip uzun bir sosyal buluşmaya dönüştür.',
+    latitude: 39.9127235, longitude: 32.7509768, sourceUrl: 'https://www.davinciboardgame.com/', verifiedAt: '2026-09-18',
+    aliases: ['Da Vinci Board Game Cafe Neorama'],
+    provenance: [
+      { kind: 'official', label: 'Da Vinci Board Game Cafe', verifiedAt: '2026-09-18', url: 'https://www.davinciboardgame.com/', note: 'Neorama şubesi, adresi ve hafta içi 12:00–00:00 / hafta sonu 10:00–00:00 saatleri.' },
+      { kind: 'first_hand', label: 'Proje sahibi ilk el doğrulaması', verifiedAt: '2026-09-18', note: 'Kişi başı hafta içi 300 TL, hafta sonu/resmî tatil 380 TL; zorunlu yiyecek-içecek harcaması ve normal rezervasyon yok. Telefonla kısa masa tutma istenebilir. Pin doğru girişe yönlendiriyor; ekip yeni başlayanlara oyun seçip öğretiyor; giriş sonrası kapanışa kadar kalınabiliyor ve 2–3 saat gerçekçi.' },
+      { kind: 'map_pin', label: 'Google Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Da+Vinci+Board+Game+Cafe+(Neorama)/@39.9127235,32.7509768,17z', note: 'Kullanılabilir işletme pininden koordinat.' },
+    ],
+  },
+  {
+    id: 'kecioren-deniz-dunyasi', name: 'Keçiören Deniz Dünyası', district: 'Keçiören',
+    address: 'Şevkat Mah., Gaziler Cad. No:1, Keçiören, Ankara',
+    category: 'Doğa', moods: ['Meraklı', 'Sakin', 'Sosyal'], interests: ['Doğa', 'Etkinlik'], priceLevel: 1, editorialScore: 4.8,
+    note: 'Aile veya merak odaklı bir günde, ne yapılacağı belli ve bütçesi sınırlı bir akvaryum ziyareti yap.',
+    latitude: 39.9756084, longitude: 32.8738243, sourceUrl: 'https://denizdunyasi.kecioren.bel.tr/kurumsal.php', verifiedAt: '2026-09-18',
+    aliases: ['Keçiören Belediyesi Deniz Dünyası'],
+    provenance: [
+      { kind: 'official', label: 'Keçiören Belediyesi Deniz Dünyası', verifiedAt: '2026-09-18', url: 'https://denizdunyasi.kecioren.bel.tr/kurumsal.php', note: '15 Eylül 2026–15 Haziran 2027 döneminde pazartesi kapalı; bireysel ziyaret salı–cuma 14:00–18:00, hafta sonu 09:00–18:00. Tam 50 TL, 25 yaş altı öğrenci 20 TL, 0–6 ücretsiz; yalnız kredi/banka kartı. Bireysel rezervasyon gerekmiyor; tipik ziyaret 60–90 dakika.' },
+      { kind: 'first_hand', label: 'Proje sahibi ilk el doğrulaması', verifiedAt: '2026-09-18', note: 'Güncel pin kullanılabilir ziyaretçi girişine doğru yönlendiriyor; aile varışı, erişim ve park etme pratik.' },
+      { kind: 'map_pin', label: 'Belediyenin Google Maps yol tarifi', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Ke%C3%A7i%C3%B6ren+Belediyesi+Deniz+D%C3%BCnyas%C4%B1/@39.9756084,32.8738243,17z', note: 'Belediyenin resmî yol tarifi bağlantısındaki ziyaretçi pini.' },
+    ],
+  },
+  {
+    id: 'tragos-boulder-outdoor', name: 'Tragos Boulder & Outdoor', district: 'Çankaya',
+    address: 'Ata Mah., Lizbon Cd. No:93/A, Çankaya, Ankara',
+    category: 'Etkinlik', moods: ['Enerjik', 'Meraklı'], interests: ['Etkinlik'], priceLevel: 3, editorialScore: 4.8,
+    note: 'İlk tırmanışını tek başına duvara girmek yerine eğitmenli ve başlangıcı tanımlı bir dersle yap.',
+    latitude: 39.8802602, longitude: 32.8234277, sourceUrl: 'https://tragosboulder.com/pages/tanitim-dersi', verifiedAt: '2026-09-18',
+    provenance: [
+      { kind: 'official', label: 'Tragos Tanıtım Dersi', verifiedAt: '2026-09-18', url: 'https://tragosboulder.com/pages/tanitim-dersi', note: 'Bir saatlik eğitmenli tanıtım dersi; bireysel veya küçük grup, tırmanış ayakkabısı ve toz kullanımı dahil. Listelenen ürün fiyatı 1.750 TL; kişi başı olduğu varsayılmadı. Satın alma sonrası operatör iletişim bilgileri üzerinden ders zamanını planlıyor.' },
+      { kind: 'official', label: 'Tragos ürün listesi', verifiedAt: '2026-09-18', url: 'https://tragosboulder.com/', note: 'Duvar tek girişi 550 TL; başlangıç dersiyle eşdeğer değildir.' },
+      { kind: 'map_pin', label: 'Google Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Tragos+Boulder+%26+Outdoor/@39.8802602,32.8234277,17z', note: 'Adresle eşleşen işletme pininden koordinat.' },
+    ],
+  },
+  {
+    id: 'no24-studio-umitkoy', name: 'No24 Studio — Ümitköy', district: 'Çankaya',
+    address: 'Galleria AVM 3. kat, Mutlukent, Doğan Taşdelen Cd. No:97-A/53, Çankaya, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin', 'Sosyal'], interests: ['Sanat', 'Etkinlik'], priceLevel: 2, editorialScore: 4.8,
+    note: 'Dated atölyelerden birini seçip pasif tüketim yerine kişisel bir seramik parça üret.',
+    latitude: 39.8953486, longitude: 32.7041772, sourceUrl: 'https://www.no24studio.com/sube', verifiedAt: '2026-09-18',
+    aliases: ['Studio no.24 Ümitköy'],
+    provenance: [
+      { kind: 'official', label: 'No24 Studio şubeler ve atölyeler', verifiedAt: '2026-09-18', url: 'https://www.no24studio.com/sube', note: 'Ümitköy/Galleria AVM şubesi ve düzenli fakat tarihli seramik, mum, boyama ve heykel atölyeleri.' },
+      { kind: 'first_hand', label: 'Proje sahibi gözlemlenen seans kanıtı', verifiedAt: '2026-09-18', note: '18 Eylül tarihli başlangıç düzeyi ham kil şekillendirme ve boyama seansı yaklaşık 2 saat; önceki deneyim gerekmiyor, pişen iş yaklaşık bir ay sonra alınıyor, gözlenen iki kişilik bilet toplamı 750 TL. Bu tek seans evergreen içerik değildir; yaş alt sınırı, kişi başı ayrı eser ve ayrıntılı teslim/kırılma koşulları bilinmiyor.' },
+      { kind: 'map_pin', label: 'Google Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Studio+no.24/@39.8953486,32.7041772,17z', note: 'Galleria AVM üçüncü kat adresiyle eşleşen işletme pininden koordinat.' },
+    ],
+  },
+  {
+    id: 'golden-chef-mutfak-akademisi-cayyolu', name: 'Golden Chef Mutfak Akademisi — Çayyolu', district: 'Çankaya',
+    address: 'Prof. Dr. Ahmet Taner Kışlalı Mah., 2815 Sok. No:7, Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet', 'Etkinlik'], priceLevel: 3, editorialScore: 4.8,
+    note: 'Tarihinden uygun bir uygulamalı atölye seçip yalnız yemek sipariş etmek yerine öğünü kendin hazırla.',
+    latitude: 39.871402, longitude: 32.6895363, sourceUrl: 'https://goldenchef.com.tr/iletisim/', verifiedAt: '2026-09-18',
+    provenance: [
+      { kind: 'official', label: 'Golden Chef iletişim', verifiedAt: '2026-09-18', url: 'https://goldenchef.com.tr/iletisim/', note: 'Çayyolu kurum kimliği ve Prof. Dr. Ahmet Taner Kışlalı Mah. 2815 Sok. No:7 adresi.' },
+      { kind: 'official', label: 'Golden Chef workshop takvimi', verifiedAt: '2026-09-18', url: 'https://goldenchef.com.tr/workshoplar/', note: 'Kurum tarihli uygulamalı yemek atölyeleri yürütüyor. Temsilî El Yapımı Makarnalar seansı 29 Eylül 2026 11:00–14:00, 3 saat, 14+, gözlenen toplam 1.799 TL ve malzemeler dahil; hazırlanan ürünler yenebiliyor veya götürülebiliyor. Bu seans evergreen içerik değildir.' },
+      { kind: 'map_pin', label: 'Golden Chef resmî yol tarifi pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Golden+Chef+Mutfak+Akademisi/@39.871402,32.6895363,17z', note: 'Kurumun resmî yol tarifi bağlantısındaki güncel pin.' },
+    ],
+  },
 ];
 
 const placeStatusOverrides: Readonly<Record<string, PlaceStatus>> = {

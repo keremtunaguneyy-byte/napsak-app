@@ -1,6 +1,17 @@
 # N’apsak — Durum ve sıradaki iş
 
-Kontrol tarihi: 16 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+Kontrol tarihi: 18 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+
+## Devam eden çalışma — Ankara Content Batch #2
+
+- `codex/ankara-content-batch-2` dalı, fetch sonrası doğrulanan `origin/main` commit'i `3f5237c24e25cf806d58ebc54823ec2e4309f357` üzerinden ayrı bir worktree'de açıldı.
+- Faaliyeti sona eren Kartaltepe Macera Parkı (`macera-parki`) katalogdan kaldırıldı; repository genelinde kalan bağlı Experience, Guide, Idea, test, fixture veya migration referansı bulunmuyor. Eski kaydedilmiş kimlikler mevcut fail-closed çözümleme davranışıyla sonuç üretmiyor.
+- Da Vinci Board Game Cafe Neorama, Keçiören Deniz Dünyası, Tragos Boulder & Outdoor, No24 Studio Ümitköy ve Golden Chef Mutfak Akademisi Çayyolu doğrulanmış beş yeni `active` Place olarak eklendi. Resmî kaynak, proje sahibinin birinci elden sağladığı operasyonel bilgi ve harita pini kaynağı yapılandırılmış provenance alanında birbirinden ayrıldı; doğrulanmayan zenginleştirmeler eklenmedi.
+- Yalnız gerçeğe uygun yaşam döngüsü kurulabilen Da Vinci, Deniz Dünyası ve Tragos için üç evergreen, tek duraklı Experience eklendi. Tragos satın alma sonrası planlanan tanıtım dersi olarak `reservation: required`; satın alma garantili seans gibi sunulmuyor. No24 ve Golden Chef için doğrulanmış tarihe/seansa bağlı kayıt olmadan Experience üretilmedi.
+- Place sayısı 142'den 146'ya, Experience sayısı 29'dan 32'ye çıktı; embedded katalog sürümü `2026-09-18.1` oldu. Eklemeli/opsiyonel provenance alanı nedeniyle schema/cache sürümü v2 olarak kaldı.
+- Sabit recommendation-quality matrisinde toplam uygun aday 467'den 481'e çıktı; sıfır sonuç 0, kısmi sonuç 2 ve tam beşli senaryo 13 olarak kaldı. Kategori çeşitliliği değişmedi; ortalama uygulanabilir ilçe çeşitliliği 2,600'den 2,533'e indi. Objektif invariant, yaşam döngüsü sızıntısı ve deterministik tekrar hatası 0 kaldı.
+- Güncel doğrulamada diff kontrolü, typecheck, 91 ana test, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality ve release kontrolleri geçti. 5.000 çağrılık performans p95'i 5,430 ms ile 25 ms bütçesinin altında kaldı; veri-only değişiklik için cihaz testi yapılmadı.
+- Öneri ağırlıkları, hard filtreler, sıralama, çeşitlilik, rotasyon, kayıtlı durum davranışı, içerik yüzeyi ayrımı, UI, Firebase ve Event verisi değiştirilmedi. Sekiz bilinen yayın engeli açık kalır; bu çalışma production veya yayın onayı değildir.
 
 ## Devam eden çalışma — Event Freshness Refresh #1
 

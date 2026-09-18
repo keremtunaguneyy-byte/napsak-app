@@ -98,6 +98,14 @@ export type Experience = ExperienceBase & (
 
 export type PlaceStatus = 'active' | 'deprecated' | 'verification_required';
 
+export type PlaceProvenance = {
+  kind: 'official' | 'first_hand' | 'map_pin';
+  label: string;
+  note: string;
+  verifiedAt: string;
+  url?: string;
+};
+
 export type Place = {
   id: string;
   cityId: CityId;
@@ -116,6 +124,7 @@ export type Place = {
   verifiedAt: string;
   status: PlaceStatus;
   aliases?: string[];
+  provenance?: PlaceProvenance[];
 };
 
 export type Idea = {

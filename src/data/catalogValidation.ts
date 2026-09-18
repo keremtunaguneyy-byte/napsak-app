@@ -23,13 +23,20 @@ export function isCity(value: unknown): value is City {
 
 export function isPlace(value: unknown): value is Place {
   if (!isObject(value)) return false;
+  const provenanceValid = value.provenance === undefined || (Array.isArray(value.provenance)
+    && value.provenance.length > 0
+    && value.provenance.every(item => isObject(item)
+      && ['official', 'first_hand', 'map_pin'].includes(String(item.kind))
+      && isString(item.label) && isString(item.note) && isString(item.verifiedAt)
+      && (item.url === undefined || isHttps(item.url))));
   return isString(value.id) && isString(value.cityId) && isString(value.name) && isString(value.district)
     && isString(value.address) && KNOWN_INTERESTS.includes(value.category as Interest)
     && stringsIn<Mood>(value.moods, KNOWN_MOODS) && stringsIn<Interest>(value.interests, KNOWN_INTERESTS)
     && isPrice(value.priceLevel) && isNumber(value.editorialScore) && isString(value.note)
     && isNumber(value.latitude) && isNumber(value.longitude) && isHttps(value.sourceUrl) && isString(value.verifiedAt)
     && ['active', 'deprecated', 'verification_required'].includes(String(value.status as PlaceStatus))
-    && (value.aliases === undefined || (Array.isArray(value.aliases) && value.aliases.every(isString)));
+    && (value.aliases === undefined || (Array.isArray(value.aliases) && value.aliases.every(isString)))
+    && provenanceValid;
 }
 
 export function isIdea(value: unknown): value is Idea {

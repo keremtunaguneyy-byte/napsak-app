@@ -231,3 +231,37 @@ Human review should record reviewer count, rubric version, catalog version, fixt
 - Machine-readable line only: `npm run check:recommendations -- --json`
 
 The machine record is the JSON payload following `RECOMMENDATION_QUALITY_JSON=`. Schema version 2 adds the ordered location-on/off IDs, uses `changedSlotCount`, and includes the aggregate symmetric membership difference. The payload also contains the catalog version, scenario definitions by stable ID, three batch summaries, aggregate metrics, objective failure list, and latency sample. The harness requires no Firebase project, credentials, network, device, or content write.
+
+## 11. Ankara Content Batch #2 delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18.1`. Result limit: 5.
+
+| Measure | Before (`2026-09-16.3`) | After (`2026-09-18.1`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 467 | 481 |
+| First-batch results | 69 | 69 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 2 / 15 (13.33%) | 2 / 15 (13.33%) |
+| Full-five scenarios | 13 / 15 (86.67%) | 13 / 15 (86.67%) |
+| Results with explanations | 69 / 69 | 69 / 69 |
+| Reason strings | 274 | 274 |
+| Mood matches | 62 | 62 |
+| Interest matches | 60 | 60 |
+| Exact budget fits | 37 | 37 |
+| Group fits | 64 | 64 |
+| Experience primary matches | 16 / 19 | 16 / 19 |
+| Experience secondary-only matches | 3 / 19 | 3 / 19 |
+| Mean distinct categories per first batch | 2.600 | 2.600 |
+| Mean distinct applicable districts per first batch | 2.600 | 2.533 |
+| Distinct repeated IDs across three-batch fixture runs | 51 | 56 |
+| Repeated slots across three-batch fixture runs | 65 | 70 |
+| Location-paired changed slots | 18 | 20 |
+| Location-paired symmetric membership difference, summed | 16 | 18 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+Changed coverage intersections account for the full candidate-total increase of 14: the Çukurambar friends Place fixture gains four candidates, the Eryaman large-group Place fixture gains four, cold-start Experience gains three, tight-budget Place gains one, expensive-budget Place gains one, and flexible-budget Place gains one. The remaining nine fixture candidate counts do not change. The short- and long-duration fixtures each gain one otherwise matching Experience that is correctly excluded by duration, so their returned supply remains five.
+
+The unchanged result and explanation totals show that this batch expands eligible supply without manufacturing extra slots in already-full first batches. The district-diversity and repetition movements are characterization, not regressions against an approved threshold: no such threshold exists, and the ranking, diversity, and rotation logic was not changed. A recorded post-batch local latency sample was mean 1.616 ms, p50 0.928 ms, p95 4.092 ms, and p99 4.350 ms over 300 calls; this is host-specific and not a golden assertion.
