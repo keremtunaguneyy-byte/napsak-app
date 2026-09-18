@@ -2,6 +2,18 @@
 
 Kontrol tarihi: 18 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Fikir Mimarisi + Batch A
+
+- `codex/idea-architecture-batch-a` dalı, fetch sonrası doğrulanan `origin/main` commit'i `8f15ad34552a7b92c14853fb3ea394814797c7e0` üzerinden ayrı bir worktree'de açıldı.
+- Fikir modeli; family, yapılandırılmış süre, setting, planning mode, ana/ikincil ilgi, context tag ve kontrollü requirement alanlarını atomik ve legacy-uyumlu biçimde destekliyor. `contextTags: family` ayrı bir kanıtsız suitability alanı eklemeden aile bağlamını taşır.
+- Mevcut 52 Fikir değiştirilmeden yüklenmeye devam eder. Batch A kısa süre, solo, ev, çift/date, harcamasız, kötü hava ve düşük sürtünme önceliğiyle 34 tam yapılandırılmış Fikir ekler; toplam 86 Fikir olur. Kalan araştırma havuzu Batch B/C için editoryal incelemeye bırakılır.
+- Yeni 34 kaydın family dağılımı: 8 pair-date, 7 home-bad-weather, 4 creative-art, 4 solo-reset, 2 active-movement, 2 food-cooking, 2 outdoor-neighborhood ve kalan beş family'de birer kayıt. Kategori/ana ilgi dağılımı 19 Sanat, 5 Doğa, 5 Lezzet, 4 Etkinlik ve 1 Kahve'dir.
+- Yeni kayıtlarda maksimum süre dağılımı 4×30 dakika veya altı, 21×31–60, 7×61–120 ve 2×121+ dakikadır. 25 kayıt no-spend, 20 bad-weather, 16 limited-time ve 15 low-energy bağlamını taşır; 22 kayıt spontaneous'dır.
+- `actionUrl`/`actionLabel` çifti opsiyonel oldu. Yeni 34 Fikir dış platforma bağımlı değildir; mevcut 52 yararlı URL korunur. URL'siz Fikirlerde arayüz dış eylem butonu göstermez.
+- Yeni kayıtlar mevcut 52 kaydın başlıklarından bağımsız olarak kullanıcı eylemi üzerinden editoryal karşılaştırıldı. Yürüyüş, fotoğraf, müzik, pişirme karşılaştırması ve platform keşfi yakınlıkları özellikle incelendi; güvenilmez bir otomatik semantik-benzerlik kapısı eklenmedi. Deduplikasyon yine insan editoryal değerlendirmesi içerdiği için sonraki batch'lerde aynı kontrol tekrarlanmalıdır.
+- Katalog/schema/cache sürümleri sırasıyla `2026-09-18.4`, v3 ve v3 olur. Yeni metadata şimdilik editoryal-only'dir; öneri ağırlıkları, hard filtreler, sıralama, 1+4 keşif kotası, çeşitlilik, rotasyon ve gerekçe davranışı değişmez.
+- Güncel doğrulamada diff kontrolü, typecheck, 95 ana/release testi, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, Event Catalog Health ve release baseline kontrolleri geçti. Son 5.000 çağrılık performans p95'i 6,341 ms ile 25 ms bütçesinin altında kaldı. URL'siz Fikir kartının gerçek cihaz/manual doğrulaması yapılmadı.
+
 ## Devam eden çalışma — Ankara Experience Batch #4
 
 - `codex/ankara-experience-batch-4` dalı, fetch sonrası doğrulanan `origin/main` commit'i `74b2de3f430147bf33babf2d165ce11fa5dcdbac` üzerinden ayrı bir worktree'de açıldı.

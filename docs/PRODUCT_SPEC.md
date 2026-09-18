@@ -107,6 +107,14 @@ Belirli bir işletmeye veya canlı programa bağlı olmak zorunda olmayan yapıl
 
 Fikir sekmesi bir ilgi alanı aramasının tekrarı değil, kontrollü keşif alanıdır. Kullanıcının seçili ilgi alanı varsa beş sonuçluk standart grupta yalnızca bir fikir seçili ilgi alanlarından biriyle eşleşir; kalan dört fikir seçili ilgi alanlarının tamamından bağımsız seçilir. Bu dört keşif fikri yine ruh hâli, bütçe, kişi sayısı, editoryal kalite, yenilik ve seed'li sürpriz sinyallerinden yararlanır. Katalog bu kotayı dolduramıyorsa boş sonuç bırakmamak için kontrollü fallback uygulanabilir.
 
+#### 4.5.1 Yapılandırılmış Fikir metadatası — Batch A ile uygulandı
+
+Yeni editoryal Fikir kayıtları bağlamsal farklarını `ideaFamily`, `typicalDurationMinutes`, `setting`, `planningMode`, `primaryInterest`, `secondaryInterests`, `contextTags` ve `requirements` alanlarıyla taşır. Bu alanlar tek bir atomik bloktur: yeni kayıt ya bloğun tamamını geçerli değerlerle sağlar ya da legacy kayıt gibi tamamını atlar. `contextTags: family`, mevcut kişi sayısı modelinin anlatamadığı aile/çocuk uygunluğu için yeterli ilk sinyaldir; ayrı ve kanıtsız bir family-suitability modeli eklenmez.
+
+`actionUrl` ve ona bağlı `actionLabel` opsiyoneldir. Bir Fikir kendi başlığı ve eylem odaklı açıklamasıyla tamamlanabilmeli; YouTube, Letterboxd, Earthcam, Google Arts veya başka bir dış platform açılmadan işe yarar kalmalıdır. Var olan yararlı bağlantılar otomatik kaldırılmaz. Dış eylemi olmayan kayıtta arayüz boş veya çalışmayan bir bağlantı göstermez.
+
+İlk 52 Fikir legacy biçimde ve aynı stable ID'lerle korunur. Batch A, tam yapılandırılmış 34 yeni Fikir ekler. Legacy kayıtların metadatası yalnız ayrı bir editoryal incelemeyle taşınacaktır; sırf alan doldurmak için bağlam uydurulmaz. Batch B/C, kalan araştırma havuzunun normalized kullanıcı eylemine göre yeniden deduplikasyonu ve editoryal onayından sonra ayrı değişiklikler olarak planlanır; bu sürüm tüm aday havuzunu uygulamaz.
+
 ### 4.6 Ankara 101 — Kararlaştırıldı / ilk sürüm uygulandı
 
 Şehrin zamansız ve temel deneyimlerini sunan ayrı bir editoryal sınıftır. İlk sürümü main dalına #18 ile eklenmiştir. Experience, etkinlik veya mekân akışını kalabalıklaştırmadan ayrı rehber olarak kalır. Sonraki yerel editoryal geliştirmelerin sürüm durumu STATUS.md, tasarım karakteri DESIGN_SPEC.md içinde tutulur.

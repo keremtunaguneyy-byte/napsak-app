@@ -2,6 +2,16 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-18 — Fikir metadata mimarisi ve platformdan bağımsız eylem
+
+Durum: Kullanıcı tarafından onaylandı; `codex/idea-architecture-batch-a` dalında uygulanıyor, production'da doğrulanmadı.
+
+Yeni Fikirler; aile, süre aralığı, ortam, planlama modu, ana/ikincil ilgi, bağlam etiketleri ve kontrollü gereksinimleri atomik bir metadata bloğunda taşır. Aile uygunluğu ilk aşamada `contextTags: family` ile ifade edilir; ayrı bir alan eklenmez. Eski 52 kaydın stable ID'si, metni, legacy ilgi alanları ve yararlı dış bağlantıları korunur; kanıtsız toplu metadata migration'ı yapılmaz.
+
+`actionUrl`/`actionLabel` çifti opsiyoneldir. Dış eylem taşımayan Fikir arayüzde bağlantı butonu göstermez ve açıklaması tek başına uygulanabilir olmalıdır. Şema/cache namespace v3'e yükseltilir; v2 remote snapshot yeni istemcide embedded v3'e güvenli fallback yapar, eski istemci de URL'siz v3 snapshot'ı kabul etmeyip kendi embedded kataloğuna düşer.
+
+Batch A 34 tam yapılandırılmış Fikir ekler. Yeni metadata şimdilik editoryal-only kalır; öneri ağırlıkları, hard filtreler, 1+4 Fikir keşif kotası, çeşitlilik, rotasyon ve gerekçe üretimi değiştirilmez. Batch B/C ancak kalan araştırma havuzunun eylem-temelli deduplikasyonu ve editoryal incelemesinden sonra ayrı kapsam olarak ele alınır.
+
 ## 2026-09-16 — İçerik yaşam döngüsü ve dependency uygunluğu
 
 Durum: Kullanıcı tarafından onaylandı; `codex/content-eligibility-infrastructure` dalında uygulanıyor, production'da doğrulanmadı.
