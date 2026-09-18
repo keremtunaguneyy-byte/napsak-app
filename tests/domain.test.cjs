@@ -415,8 +415,8 @@ test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
   }
 });
 
-test('experience catalogue contains 29 complete, sourced and honestly scoped plans', () => {
-  assert.equal(experiences.length, 29);
+test('experience catalogue contains 32 complete, sourced and honestly scoped plans', () => {
+  assert.equal(experiences.length, 32);
   assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
@@ -465,6 +465,25 @@ test('evergreen content batch 1 preserves its approved single-anchor scope', () 
   }
 });
 
+test('Ankara content batch 2 keeps only lifecycle-safe Experiences', () => {
+  const approved = [
+    ['xp-da-vinci-yeni-oyun', 'da-vinci-board-game-neorama', 120, 180, 'not-required'],
+    ['xp-deniz-dunyasi-akvaryum', 'kecioren-deniz-dunyasi', 60, 90, 'not-required'],
+    ['xp-tragos-tanitim-dersi', 'tragos-boulder-outdoor', 60, 60, 'required'],
+  ];
+  for (const [id, placeId, min, max, reservation] of approved) {
+    const experience = experiences.find(item => item.id === id);
+    assert.ok(experience, `${id}: missing`);
+    assert.equal(experience.lifecycle, 'evergreen', `${id}: lifecycle`);
+    assert.deepEqual(experience.points.map(point => point.placeId), [placeId], `${id}: single anchor`);
+    assert.equal(experience.minDurationMinutes, min, `${id}: minimum duration`);
+    assert.equal(experience.maxDurationMinutes, max, `${id}: maximum duration`);
+    assert.equal(experience.reservation, reservation, `${id}: reservation`);
+  }
+  assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'no24-studio-umitkoy')), false);
+  assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'golden-chef-mutfak-akademisi-cayyolu')), false);
+});
+
 test('every experience produces a safe Google Maps action', () => {
   for (const experience of experiences) {
     const url = googleMapsUrlForExperiencePoints(experience.points);
@@ -475,7 +494,7 @@ test('every experience produces a safe Google Maps action', () => {
 });
 
 test('duration is a hard eligibility gate and Fark etmez leaves the catalogue open', () => {
-  const common = { experiences, places, events, interests: [], dismissed: [], limit: 30, now: new Date('2026-08-08T00:00:00Z') };
+  const common = { experiences, places, events, interests: [], dismissed: [], limit: 100, now: new Date('2026-08-08T00:00:00Z') };
   const short = recommendExperiences({ ...common, duration: '30–60 dk' });
   const oneToTwo = recommendExperiences({ ...common, duration: '1–2 saat' });
   const threeToFour = recommendExperiences({ ...common, duration: '3–4 saat' });
@@ -618,6 +637,29 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
   assert.equal(no29.verifiedAt, '2026-09-16');
 });
 
+test('Ankara content batch 2 removes Kartaltepe and preserves evidence boundaries', () => {
+  assert.equal(places.length, 146);
+  assert.equal(places.some(place => place.id === 'macera-parki'), false);
+  assert.deepEqual(resolveSavedPlaces(places, ['macera-parki']), []);
+  const expected = [
+    'da-vinci-board-game-neorama',
+    'kecioren-deniz-dunyasi',
+    'tragos-boulder-outdoor',
+    'no24-studio-umitkoy',
+    'golden-chef-mutfak-akademisi-cayyolu',
+  ];
+  for (const id of expected) {
+    const place = places.find(item => item.id === id);
+    assert.ok(place, `${id}: missing`);
+    assert.equal(place.status, 'active', `${id}: status`);
+    assert.equal(place.verifiedAt, '2026-09-18', `${id}: verifiedAt`);
+    assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
+    assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
+  }
+  assert.ok(places.find(item => item.id === 'da-vinci-board-game-neorama').provenance.some(item => item.kind === 'first_hand'));
+  assert.ok(places.find(item => item.id === 'kecioren-deniz-dunyasi').provenance.some(item => item.kind === 'first_hand'));
+});
+
 test('every explicit interest has enough places for two fresh five-item batches', () => {
   for (const interest of KNOWN_INTERESTS) {
     const eligible = places.filter(place => place.category === interest || place.interests.includes(interest));
@@ -685,6 +727,7 @@ test('runtime catalogue validation rejects malformed remote data', () => {
   assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 1 }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, schemaVersion: 999 }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, places: [{ ...valid.places[0], sourceUrl: 'javascript:bad' }] }), undefined);
+  assert.equal(parseCatalogSnapshot({ ...valid, places: [{ ...valid.places[0], provenance: [{ kind: 'official', label: 'Kaynak', note: 'Not', verifiedAt: '2026-09-18', url: 'javascript:bad' }] }] }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, places: valid.places.map((place, index) => index ? place : { ...place, status: undefined }) }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, experiences: [{ ...valid.experiences[0], cityId: 'istanbul' }] }), undefined);
   assert.equal(parseCatalogSnapshot({ ...valid, places: [] }), undefined);
