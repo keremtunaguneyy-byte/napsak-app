@@ -415,8 +415,8 @@ test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
   }
 });
 
-test('experience catalogue contains 32 complete, sourced and honestly scoped plans', () => {
-  assert.equal(experiences.length, 32);
+test('experience catalogue contains 40 complete, sourced and honestly scoped plans', () => {
+  assert.equal(experiences.length, 40);
   assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
@@ -482,6 +482,53 @@ test('Ankara content batch 2 keeps only lifecycle-safe Experiences', () => {
   }
   assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'no24-studio-umitkoy')), false);
   assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'golden-chef-mutfak-akademisi-cayyolu')), false);
+});
+
+test('Ankara content batch 3 keeps the approved Places and lifecycle-safe Experiences', () => {
+  const expectedPlaces = [
+    'ankara-palas-muzesi',
+    'gokyay-vakfi-satranc-muzesi',
+    'old-school-roastery-bahcelievler',
+    'hanem-firin-eryaman',
+    'bolu-akin-lokantasi-etlik',
+    'urumci-uygur-restaurant-on-cebeci',
+    'cin-ali-muzesi',
+    'ka-cinnah',
+  ];
+  for (const id of expectedPlaces) {
+    const place = places.find(item => item.id === id);
+    assert.ok(place, `${id}: missing`);
+    assert.equal(place.status, 'active', `${id}: status`);
+    assert.equal(place.verifiedAt, '2026-09-18', `${id}: verifiedAt`);
+    assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
+    assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
+  }
+
+  const expectedExperiences = [
+    ['xp-hanem-konya-sofrasi', ['hanem-firin-eryaman'], 45, 90],
+    ['xp-bolu-akin-eski-garajlar-tencere', ['bolu-akin-lokantasi-etlik'], 45, 90],
+    ['xp-urumci-on-cebeci-uygur-sofrasi', ['urumci-uygur-restaurant-on-cebeci'], 60, 100],
+    ['xp-old-school-iki-demleme', ['old-school-roastery-bahcelievler'], 45, 100],
+    ['xp-cin-ali-iki-kusak', ['cin-ali-muzesi'], 60, 120],
+    ['xp-gokyay-satranc-taslari', ['gokyay-vakfi-satranc-muzesi'], 60, 120],
+    ['xp-ankara-palas-ikinci-tbmm', ['cumhuriyet-muzesi', 'ankara-palas-muzesi'], 120, 180],
+    ['xp-ka-fotograf-sergisini-yavas-oku', ['ka-cinnah'], 45, 90],
+  ];
+  for (const [id, pointIds, min, max] of expectedExperiences) {
+    const experience = experiences.find(item => item.id === id);
+    assert.ok(experience, `${id}: missing`);
+    assert.equal(experience.lifecycle, 'evergreen', `${id}: lifecycle`);
+    assert.deepEqual(experience.points.map(point => point.placeId), pointIds, `${id}: points`);
+    assert.equal(experience.minDurationMinutes, min, `${id}: minimum duration`);
+    assert.equal(experience.maxDurationMinutes, max, `${id}: maximum duration`);
+  }
+
+  const forbiddenFragments = ['evliyagil', 'runik', 'tulumtas', 'endemik-vadi'];
+  assert.equal(places.some(place => forbiddenFragments.some(fragment => place.id.includes(fragment))), false);
+  assert.equal(experiences.some(item => item.points.some(point => ['golden-chef-mutfak-akademisi-cayyolu', 'no24-studio-umitkoy'].includes(point.placeId))), false);
+  assert.match(experiences.find(item => item.id === 'xp-old-school-iki-demleme').note, /resmî tadım ya da atölye ürünü değildir/);
+  assert.match(experiences.find(item => item.id === 'xp-ka-fotograf-sergisini-yavas-oku').availabilityNote, /belirli sergi garanti edilmez/);
+  assert.match(experiences.find(item => item.id === 'xp-cin-ali-iki-kusak').availabilityNote, /250\/300 TL/);
 });
 
 test('every experience produces a safe Google Maps action', () => {
@@ -614,8 +661,8 @@ test('event rotation can produce two fresh five-item batches from the current ca
   assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
 });
 
-test('catalog has 120–150 complete, uniquely identified Ankara entries', () => {
-  assert.ok(places.length >= 120 && places.length <= 150);
+test('catalog has 120–170 complete, uniquely identified Ankara entries', () => {
+  assert.ok(places.length >= 120 && places.length <= 170);
   assert.equal(new Set(places.map(place => place.id)).size, places.length);
   for (const place of places) {
     assert.equal(place.cityId, 'ankara', `${place.id}: city`);
@@ -638,7 +685,6 @@ test('catalog has 120–150 complete, uniquely identified Ankara entries', () =>
 });
 
 test('Ankara content batch 2 removes Kartaltepe and preserves evidence boundaries', () => {
-  assert.equal(places.length, 146);
   assert.equal(places.some(place => place.id === 'macera-parki'), false);
   assert.deepEqual(resolveSavedPlaces(places, ['macera-parki']), []);
   const expected = [
