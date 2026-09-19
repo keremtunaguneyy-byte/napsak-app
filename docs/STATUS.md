@@ -2,6 +2,14 @@
 
 Kontrol tarihi: 19 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Ankara Place Completeness Batch #3
+
+- `codex/ankara-place-batch-3` dalı, fetch sonrası doğrulanan `origin/main` commit'i `a82c7e785b78e8c2f970cdccfafa20a0f8508a02` üzerinden ayrı bir worktree'de açıldı.
+- Yayın kapısını geçen dört Food + West Ankara Place eklendi: Kebap 49 — Tunalı, Quick China — Çayyolu, Niki Restaurant & Bar ve Louise Cafe Brasserie & Loft. Kebap 49 yalnız Tunalı/Kavaklıdere ana kimliğini ve kent hafızası değerini; Quick China yalnız Çayyolu şubesini ve batı Ankara kapsamasını taşır. Niki ile Louise özel akşam değerini yaklaşık premium fiyat bandı ve değişken saat/rezervasyon teyidiyle sunar; kesin dinamik menü fiyatı, giriş garantisi veya kanıtlanmayan operasyon ayrıntısı vaat etmez.
+- Hacı Arif Bey eklenmedi: canlı Google Maps ve güncel işletme indeksi Güniz Sokak kimliğini kalıcı kapalı gösterirken briefteki Ayrancı kimliğini doğrulayacak güvenilir güncel şube/adres/operasyon kanıtı bulunamadı. Ayıntap İnci, Mutlu Lokantası, Tarihî Mutfak Lokantası, Zeynel, Ceviz Pastanesi, F451 Brew, No4 Restaurant Bar Lounge, TEKNOMER, Mamak Müzik Müzesi, Türk Hava Kurumu Müzesi ve 2. Yüzyıl Parkı HOLD listesinde kaldı; yerlerine başka Place konmadı.
+- Place sayısı kalite kuralı gereği hedeflenen 179 yerine 174'ten 178'e çıktı; Experience 50, Idea 86, Event 12 ve Guide 12 olarak kaldı. Embedded katalog sürümü `2026-09-19.3`, `fetchedAt` değeri `2026-09-19T15:12:00.000Z` oldu; schema/cache sürümü v3 olarak kaldı. Yeni Experience eklenmedi.
+- Öneri ağırlıkları, hard filtreler, uygunluk, sıralama, çeşitlilik, rotasyon, Fikir davranışı, Event verisi, UI ve Firebase değiştirilmedi. Güncel doğrulamada diff kontrolü, typecheck, 98 ana/release testi, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, Event Catalog Health, performans ve release baseline kontrolleri geçti. Sabit kalite matrisinde uygun aday toplamı 624'ten 636'ya çıktı; sıfır/kısmi/tam beşli sayıları 0/1/14 ve ilk grup sonucu 71 olarak kaldı. Ortalama kategori çeşitliliği 2,600 ve uygulanabilir ilçe çeşitliliği 2,333 olarak değişmedi; tekrarlanan ID 56'dan 55'e, tekrarlanan slot 70'ten 69'a indi. Yaşam döngüsü sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kaldı. Son 5.000 çağrılık performans p95'i 7,411 ms ile 25 ms bütçesinin altında kaldı.
+
 ## Devam eden çalışma — Ankara Place Completeness Batch #2
 
 - `codex/ankara-place-batch-2` dalı, fetch sonrası doğrulanan `origin/main` commit'i `53186fad649773ce0fab715f7a628f37c9cf7194` üzerinden ayrı bir worktree'de açıldı.
