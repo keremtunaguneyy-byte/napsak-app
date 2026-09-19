@@ -422,3 +422,33 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19
 | Objective invariant failures | 0 | 0 |
 
 The eligible-candidate increase is exactly the 32 Batch B Ideas in the controlled-discovery fixture; the other 14 scenario supplies and the first-batch result total are unchanged. Across the three seeded Fikir batches, all 15 returned Ideas are unique while the one-selected-interest plus four-independent-discoveries contract remains intact. The structured fields remain editorial-only, so the change expands catalog coverage without modifying ranking, filters, diversity, rotation, or explanations. A post-batch local sample measured mean 2.059 ms, p50 1.402 ms, p95 4.859 ms and p99 5.153 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.602 ms, p50 1.037 ms, p95 7.229 ms and p99 7.580 ms against the 25 ms p95 budget; both are host-specific samples.
+
+## 17. Idea Expansion Batch C delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19.5`. Result limit: 5.
+
+| Measure | Before (`2026-09-19.4`) | After (`2026-09-19.5`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 668 | 690 |
+| First-batch results | 71 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 14 / 15 (93.33%) |
+| Results with explanations | 71 / 71 | 71 / 71 |
+| Reason strings | 288 | 288 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 62 |
+| Exact budget fits | 39 | 39 |
+| Group fits | 66 | 66 |
+| Mean distinct categories per first batch | 2.600 | 2.600 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.333 |
+| Distinct repeated IDs across three-batch fixture runs | 54 | 54 |
+| Repeated slots across three-batch fixture runs | 68 | 68 |
+| Location-paired changed slots | 20 | 20 |
+| Location-paired symmetric membership difference, summed | 16 | 16 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The eligible-candidate increase is exactly the 22 Batch C Ideas in the controlled-discovery fixture; every other scenario supply and the result total remain unchanged. The three seeded Fikir batches return 15 unique IDs and preserve one selected-interest plus four independent discoveries. No ranking, filtering, diversity, rotation, explanation or saved-state code changed. A post-batch local sample measured mean 1.972 ms, p50 1.348 ms, p95 4.687 ms and p99 4.869 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.621 ms, p50 1.045 ms, p95 7.272 ms and p99 7.607 ms against the 25 ms p95 budget; both are host-specific samples.

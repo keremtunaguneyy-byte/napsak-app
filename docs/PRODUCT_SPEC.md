@@ -107,13 +107,13 @@ Belirli bir işletmeye veya canlı programa bağlı olmak zorunda olmayan yapıl
 
 Fikir sekmesi bir ilgi alanı aramasının tekrarı değil, kontrollü keşif alanıdır. Kullanıcının seçili ilgi alanı varsa beş sonuçluk standart grupta yalnızca bir fikir seçili ilgi alanlarından biriyle eşleşir; kalan dört fikir seçili ilgi alanlarının tamamından bağımsız seçilir. Bu dört keşif fikri yine ruh hâli, bütçe, kişi sayısı, editoryal kalite, yenilik ve seed'li sürpriz sinyallerinden yararlanır. Katalog bu kotayı dolduramıyorsa boş sonuç bırakmamak için kontrollü fallback uygulanabilir.
 
-#### 4.5.1 Yapılandırılmış Fikir metadatası — Batch A ve B ile uygulandı
+#### 4.5.1 Yapılandırılmış Fikir metadatası — Batch A, B ve C ile uygulandı
 
 Yeni editoryal Fikir kayıtları bağlamsal farklarını `ideaFamily`, `typicalDurationMinutes`, `setting`, `planningMode`, `primaryInterest`, `secondaryInterests`, `contextTags` ve `requirements` alanlarıyla taşır. Bu alanlar tek bir atomik bloktur: yeni kayıt ya bloğun tamamını geçerli değerlerle sağlar ya da legacy kayıt gibi tamamını atlar. `contextTags: family`, mevcut kişi sayısı modelinin anlatamadığı aile/çocuk uygunluğu için yeterli ilk sinyaldir; ayrı ve kanıtsız bir family-suitability modeli eklenmez.
 
 `actionUrl` ve ona bağlı `actionLabel` opsiyoneldir. Bir Fikir kendi başlığı ve eylem odaklı açıklamasıyla tamamlanabilmeli; YouTube, Letterboxd, Earthcam, Google Arts veya başka bir dış platform açılmadan işe yarar kalmalıdır. Var olan yararlı bağlantılar otomatik kaldırılmaz. Dış eylemi olmayan kayıtta arayüz boş veya çalışmayan bir bağlantı göstermez.
 
-İlk 52 Fikir legacy biçimde ve aynı stable ID'lerle korunur. Batch A 34, Batch B ise normalize kullanıcı eylemine göre yeniden deduplike edilen 32 tam yapılandırılmış Fikir ekler; toplam 118 kayıt içinde 66 yapılandırılmış Fikir vardır. Legacy kayıtların metadatası yalnız ayrı bir editoryal incelemeyle taşınacaktır; sırf alan doldurmak için bağlam uydurulmaz. Kalan araştırma havuzu ancak aynı kalite ve editoryal onay kapılarından geçen ayrı bir değişiklik olarak ele alınır; mevcut batch tüm aday havuzunu uygulamaz.
+İlk 52 Fikir legacy biçimde ve aynı stable ID'lerle korunur. Batch A 34, Batch B 32 ve final planlı Batch C 22 tam yapılandırılmış Fikir ekler; toplam 140 kayıt içinde 88 yapılandırılmış Fikir vardır. Her batch normalize kullanıcı eylemi üzerinden yeniden deduplike edilmiştir. Batch C sonrasında onaylı araştırma havuzunda yeni genel ekleme bekleyen aday kalmaz; reddedilen yakın tekrarlar yeni ID almaz. Legacy kayıtların metadatası veya cleanup'ı yalnız ayrı bir editoryal inceleme ve açık onayla yapılacaktır; sırf alan doldurmak için bağlam uydurulmaz.
 
 ### 4.6 Ankara 101 — Kararlaştırıldı / ilk sürüm uygulandı
 

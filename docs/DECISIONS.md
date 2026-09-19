@@ -112,6 +112,12 @@ Durum: uygulanmış ve temel telefon akışı doğrulanmış.
 
 #21 `dcde744` ile main'e birleşti. Kullanıcı Göksu Parkı detayını, ilişkili planı, süre/bütçe/durak bilgisini ve gizle/geri al akışını telefonda doğruladı. Gönderilen görünüm nihai tasarım onayı değildir. #19 Ankara 101 akışları da main'e alınmış ve birleşik telefon testinde doğrulanmıştır.
 
+## 2026-09-19 — Fikir Expansion Batch C Ankara v1 genel havuzunu kapatır
+
+Durum: `codex/idea-expansion-batch-c` dalında uygulandı; PR/CI bekliyor.
+
+Önceden onaylanan Fikir Mimarisi havuzu, Batch A/B ve 52 legacy kayıtla normalize eylem düzeyinde son kez karşılaştırıldı. Kalite kapısını geçen 22 kayıt platformdan bağımsız, atomik yapılandırılmış metadata ile eklendi; 20 kalan aday yakın tekrar, genel telefon-detoks çerçevesi veya zayıf bağımsız eylem nedeniyle reddedildi. Bu Ankara v1 için son planlı genel Fikir genişletmesidir; sıradaki içerik işi final Experience Mining / Coverage Audit'tir. Yeni bir Fikir genişletmesi, legacy cleanup veya metadata migration ancak ayrı kapsam ve açık onayla yapılır. Bu karar öneri ağırlıklarını, filtreleri, 1+4 keşif kotasını, çeşitliliği, rotasyonu veya kayıtlı durum davranışını değiştirmez.
+
 ## Açık kararlar
 
 - Ana sayfanın nihai paleti, logo çizimi ve tasarım tokenları.

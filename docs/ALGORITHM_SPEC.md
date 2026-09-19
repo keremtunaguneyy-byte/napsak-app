@@ -8,7 +8,7 @@
 |---|---|
 | Experience | Önce merkezi içerik politikası uygulanır: bütün bağlı Place kayıtları uygun olmalı; `conditional` fail-closed, `event_linked` ise bağlı Event yaklaşan ve geçerli olmalıdır. Sonra gizlenen, süreye sığmayan ve açık ilgiyle eşleşmeyen adaylar elenir. Ana/ikincil ilgi ayrımı, mod, bütçe, grup, başlangıç mesafesi, editoryal kalite, güven, güncellik ve seed sinyalleri kullanılır. |
 | Mekân | Yalnız `active` ve hard-exclusion politikasına takılmayan kayıtlar sıralamaya girer. Sonra gizlenen ve açık ilgiyle eşleşmeyen adaylar elenir. Mod, bütçe, grup ve mesafe sıralama sinyalidir; mesafe kesin yarıçap filtresi değildir. |
-| Fikir | Açık Fikir sekmesinde standart beşli için bir ilgili + dört seçili ilgilerden bağımsız keşif hedeflenir. Yetersiz havuzda kontrollü fallback vardır. Karma akış ile açık Fikir sekmesi aynı davranış değildir. Batch A ve B'nin `ideaFamily`, yapılandırılmış süre, setting, planning mode, ana/ikincil ilgi, context tag ve requirement alanları bu aşamada editoryal metadatadır; sıralama hâlâ legacy kategori/mod/ilgi/bütçe/grup sinyallerini kullanır. |
+| Fikir | Açık Fikir sekmesinde standart beşli için bir ilgili + dört seçili ilgilerden bağımsız keşif hedeflenir. Yetersiz havuzda kontrollü fallback vardır. Karma akış ile açık Fikir sekmesi aynı davranış değildir. Batch A, B ve C'nin `ideaFamily`, yapılandırılmış süre, setting, planning mode, ana/ikincil ilgi, context tag ve requirement alanları bu aşamada editoryal metadatadır; sıralama hâlâ legacy kategori/mod/ilgi/bütçe/grup sinyallerini kullanır. |
 | Etkinlik | Geçersiz/geçmiş başlangıç zamanı ve gizlenenler elenir. Açık Etkinlik sekmesinde ilgi sıralama sinyalidir; karma akışta ayrıca ilgi uygunluğu uygulanır. |
 
 Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Kategori/ilçe yığılması azaltılır; önceki gruptan kaçınma ve deterministik seed vardır. Küçük havuzda tekrar mümkün olduğundan “daima beş tamamen yeni sonuç” vaat edilmez. Gerekçe gerçek eşleşmeyi anlatmalıdır.
@@ -29,7 +29,7 @@ Yeni ana sayfanın bir ana plan + dört alternatif sunumu aynı Experience beşl
 
 Stable ID ve cityId korunur. Experience.points[].placeId mekân-plan ilişkisidir. Başlık eşleştirmesi kullanılmaz. Koordinatı olmayan etkinliğe mesafe, saat verisi olmayan mekâna Şimdi açık etiketi üretilmez. Kaynak, doğrulama tarihi ve yaşam döngüsü gerçek veri olmalıdır. Yerel/kayıtlı/remote katalog ayrımı ve runtime validation FIREBASE_RUNBOOK ile birlikte değerlendirilir.
 
-Fikir metadatası filtre veya skor davranışını henüz değiştirmez. Yeni alanlar gelecekteki uygunluk/editorial seçim için saklanır; ranking bunları tüketmeye başladığında ağırlık, hard-filter, açıklama ve fallback etkisi ayrı ürün kararı ve regresyon testi gerektirir. Batch A ve B bu nedenle mevcut 1+4 keşif kotasını, skor ağırlıklarını, çeşitlilik cezasını ve rotasyonu değiştirmez.
+Fikir metadatası filtre veya skor davranışını henüz değiştirmez. Yeni alanlar gelecekteki uygunluk/editorial seçim için saklanır; ranking bunları tüketmeye başladığında ağırlık, hard-filter, açıklama ve fallback etkisi ayrı ürün kararı ve regresyon testi gerektirir. Batch A, B ve final planlı Batch C bu nedenle mevcut 1+4 keşif kotasını, skor ağırlıklarını, çeşitlilik cezasını ve rotasyonu değiştirmez.
 
 ## Değişiklikte kabul kriterleri
 
