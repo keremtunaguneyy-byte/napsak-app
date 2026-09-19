@@ -2,6 +2,17 @@
 
 Kontrol tarihi: 19 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Final Ankara Experience Batch
+
+- `codex/final-ankara-experience-batch` dalı, fetch sonrası doğrulanan `origin/main` commit'i `6490edc36cee44b282d7f022d4404f9930276b8e` üzerinden ayrı bir worktree'de açıldı.
+- Mevcut Place kayıtları ve provenance ile desteklenen sekiz evergreen Experience eklendi: Altınköy’de Köy Yaşamını Üç İzden Oku; Millet Kütüphanesi’nde Derin Çalışma Bloğu; Çubuk-1’de Barajı Mühendislik Gözüyle Oku; Peçenek’te İskitler Döner Ritüeli; Kıtır’da Tunalı’nın Buluşma Hafızasına Otur; Keçiören Çocuk Sanat Müzesi’nde Çocuğun Rehber Olsun; Aqua Vega’da Üç Yaşam Alanını Karşılaştır; Dost’ta Bir Konunun Raf Haritasını Çıkar.
+- Mamak Füzyon Experience'ı ertelendi. Mevcut `conditional` activation yalnız `unsupported` değerini taşır ve merkezi uygunlukta fail-closed'dur; rezervasyon zorunluluğu, 6–13 yaş odağı ve hafta içi/program bağımlı atölyeyi kullanılabilir biçimde aktive edemez. Kaydı evergreen yapmak unrestricted walk-in izlenimi yaratacağı için lifecycle mimarisi değiştirilmeden eklenmedi.
+- Golden Chef, Goethe, MTA, İş Bankası, Quick China, No24, L’avare, Büyülü Fener, Institut français, Galeri Siyah Beyaz, Mülkiyeliler ve Tuz Gölü Experience'ları eklenmedi. Place, Idea ve Event kayıtları değiştirilmedi; mevcut 50 Experience'ın lifecycle sınıfları korunur.
+- Place/Experience/Idea/Event/Guide sayıları sırasıyla 178/58/140/12/12 oldu. Embedded katalog sürümü `2026-09-19.6`, `fetchedAt` değeri `2026-09-19T20:16:37.000Z` oldu; schema/cache sürümü v3 kaldı.
+- Sabit recommendation-quality matrisinde uygun aday toplamı 690'dan 704'e çıktı; ilk grup sonucu 71, sıfır/kısmi/tam beşli 0/1/14, kategori/ilçe çeşitliliği 2,600/2,333 ve tekrarlanan ID 54 olarak kaldı. Tekrarlanan slot 68'den 67'ye indi; konuma bağlı değişen slot 20'den 23'e, üyelik farkı 16'dan 18'e çıktı. Yaşam döngüsü sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kaldı.
+- Güncel doğrulamada diff kontrolü, typecheck, 99 ana/release + 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, performans, Event Catalog Health ve release baseline kontrolleri geçti. 5.000 çağrılık performans p95'i 9,644 ms ile 25 ms bütçesinin altında kaldı. Release baseline beklenen sekiz açık engeli korudu; bu yayın onayı değildir. Veri-only değişiklik için cihaz/manual test yapılmadı.
+- Öneri ağırlıkları, hard filtreler, uygunluk, sıralama, çeşitlilik, rotasyon, kaydetme/gizleme davranışı, UI, Firebase ve lifecycle engine değiştirilmedi. Bu katalog-only çalışma production veya cihaz doğrulaması değildir.
+
 ## Devam eden çalışma — Fikir Expansion Batch C (final planlı kürasyon)
 
 - `codex/idea-expansion-batch-c` dalı, fetch ve uzak ref doğrulamasından sonra güncel `origin/main` commit'i `15ffef273294cd322c708c42498d68f428617841` üzerinden ayrı bir worktree'de açıldı.

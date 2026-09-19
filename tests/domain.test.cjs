@@ -424,8 +424,8 @@ test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
   }
 });
 
-test('experience catalogue contains 50 complete, sourced and honestly scoped plans', () => {
-  assert.equal(experiences.length, 50);
+test('experience catalogue contains 58 complete, sourced and honestly scoped plans', () => {
+  assert.equal(experiences.length, 58);
   assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
@@ -577,6 +577,38 @@ test('Ankara Experience batch 4 adds only supported plans and removes the Yılma
   assert.match(experiences.find(item => item.id === 'xp-belpa-ilk-acik-buz-seansi').availabilityNote, /Paten kiralama, eğitim, yaş kuralı veya rezervasyon/);
 });
 
+test('final Ankara Experience batch adds the eight approved evergreen plans and defers unsupported lifecycle candidates', () => {
+  const expectedExperiences = [
+    ['xp-altinkoy-koy-yasamini-uc-izden-oku', 'altinkoy-acik-hava-muzesi', ['Sanat'], ['Doğa'], 180, 240, 'not-required'],
+    ['xp-millet-kutuphanesi-derin-calisma', 'cumhurbaskanligi-millet-kutuphanesi', ['Sanat'], [], 120, 240, 'not-required'],
+    ['xp-cubuk-1-baraji-muhendislik-gozu', 'cubuk-1-baraji-rekreasyon-alani', ['Doğa'], ['Sanat'], 120, 240, 'not-required'],
+    ['xp-pecenek-iskitler-doner-ritueli', 'pecenek-doner-iskitler', ['Lezzet'], [], 45, 90, 'not-required'],
+    ['xp-kitir-tunali-bulusma-hafizasi', 'kitir-tunali', ['Lezzet'], [], 60, 120, 'not-required'],
+    ['xp-kecioren-cocuk-sanat-muzesi-rehber', 'kecioren-cocuk-sanat-muzesi', ['Sanat'], ['Etkinlik'], 60, 90, 'not-required'],
+    ['xp-aqua-vega-uc-yasam-alani', 'aqua-vega-akvaryum', ['Doğa'], ['Etkinlik'], 90, 150, 'not-required'],
+    ['xp-dost-konu-raf-haritasi', 'dost-kitabevi-karanfil', ['Sanat'], [], 45, 90, 'not-required'],
+  ];
+  for (const [id, placeId, primary, secondary, min, max, reservation] of expectedExperiences) {
+    const experience = experiences.find(item => item.id === id);
+    assert.ok(experience, `${id}: missing`);
+    assert.equal(experience.lifecycle, 'evergreen', `${id}: lifecycle`);
+    assert.deepEqual(experience.points.map(point => point.placeId), [placeId], `${id}: anchor`);
+    assert.deepEqual(experience.primaryInterests, primary, `${id}: primary interests`);
+    assert.deepEqual(experience.secondaryInterests, secondary, `${id}: secondary interests`);
+    assert.equal(experience.minDurationMinutes, min, `${id}: minimum duration`);
+    assert.equal(experience.maxDurationMinutes, max, `${id}: maximum duration`);
+    assert.equal(experience.reservation, reservation, `${id}: reservation`);
+  }
+
+  assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'mamak-fuzyon-bilim-merkezi')), false);
+  assert.match(experiences.find(item => item.id === 'xp-altinkoy-koy-yasamini-uc-izden-oku').availabilityNote, /her gün çalıştığı garanti edilmez/);
+  assert.match(experiences.find(item => item.id === 'xp-millet-kutuphanesi-derin-calisma').availabilityNote, /her salonun veya serginin 24 saat açık olduğu anlamına gelmez/);
+  assert.match(experiences.find(item => item.id === 'xp-kitir-tunali-bulusma-hafizasi').availabilityNote, /alkol tüketmek gerekmez/);
+  assert.match(experiences.find(item => item.id === 'xp-kecioren-cocuk-sanat-muzesi-rehber').note, /5–14 yaş/);
+  assert.match(experiences.find(item => item.id === 'xp-aqua-vega-uc-yasam-alani').availabilityNote, /Giriş bileti gerekir/);
+  assert.match(experiences.find(item => item.id === 'xp-dost-konu-raf-haritasi').availabilityNote, /satın almak zorunlu değildir/);
+});
+
 test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors', () => {
   const expectedPlaceIds = [
     'cumhurbaskanligi-millet-kutuphanesi',
@@ -594,7 +626,16 @@ test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors'
     'pecenek-doner-iskitler',
   ];
 
-  assert.equal(experiences.length, 50);
+  assert.equal(experiences.length, 58);
+  const experienceIdsAddedLater = new Set([
+    'cumhurbaskanligi-millet-kutuphanesi',
+    'altinkoy-acik-hava-muzesi',
+    'aqua-vega-akvaryum',
+    'dost-kitabevi-karanfil',
+    'kitir-tunali',
+    'kecioren-cocuk-sanat-muzesi',
+    'pecenek-doner-iskitler',
+  ]);
   for (const id of expectedPlaceIds) {
     const place = places.find(item => item.id === id);
     assert.ok(place, `${id}: missing`);
@@ -602,7 +643,9 @@ test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors'
     assert.equal(place.verifiedAt, '2026-09-19', `${id}: verifiedAt`);
     assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
     assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
-    assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: Experience added`);
+    if (!experienceIdsAddedLater.has(id)) {
+      assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: unexpected Experience`);
+    }
   }
 
   assert.match(places.find(item => item.id === 'cumhurbaskanligi-millet-kutuphanesi').provenance.map(item => item.note).join(' '), /kimlik|e-Devlet/);
@@ -642,7 +685,7 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
   ];
 
   assert.equal(places.length, 178);
-  assert.equal(experiences.length, 50);
+  assert.equal(experiences.length, 58);
   assert.equal(ideas.length, 140);
   assert.equal(catalogEvents.length, 12);
   assert.equal(guides.length, 12);
@@ -653,7 +696,9 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
     assert.equal(place.verifiedAt, '2026-09-19', `${id}: verifiedAt`);
     assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
     assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
-    assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: Experience added`);
+    if (id !== 'cubuk-1-baraji-rekreasyon-alani') {
+      assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: unexpected Experience`);
+    }
   }
 
   assert.equal(places.find(item => item.id === 'goethe-institut-ankara').priceLevel, 0);
@@ -690,7 +735,7 @@ test('Ankara Place completeness batch 3 publishes only candidates that clear cur
   ];
 
   assert.equal(places.length, 178);
-  assert.equal(experiences.length, 50);
+  assert.equal(experiences.length, 58);
   assert.equal(ideas.length, 140);
   assert.equal(catalogEvents.length, 12);
   assert.equal(guides.length, 12);
