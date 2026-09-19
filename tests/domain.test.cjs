@@ -577,6 +577,46 @@ test('Ankara Experience batch 4 adds only supported plans and removes the Yılma
   assert.match(experiences.find(item => item.id === 'xp-belpa-ilk-acik-buz-seansi').availabilityNote, /Paten kiralama, eğitim, yaş kuralı veya rezervasyon/);
 });
 
+test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors', () => {
+  const expectedPlaceIds = [
+    'cumhurbaskanligi-millet-kutuphanesi',
+    'altinkoy-acik-hava-muzesi',
+    'aqua-vega-akvaryum',
+    'dost-kitabevi-karanfil',
+    'kitir-tunali',
+    'lavare-sokak',
+    'galeri-siyah-beyaz',
+    'buyulu-fener-kizilay',
+    'mamak-fuzyon-bilim-merkezi',
+    'kecioren-cocuk-sanat-muzesi',
+    'guvenpark-kizilay',
+    'ahlatlibel-ataturk-parki',
+    'pecenek-doner-iskitler',
+  ];
+
+  assert.equal(places.length, 166);
+  assert.equal(experiences.length, 50);
+  for (const id of expectedPlaceIds) {
+    const place = places.find(item => item.id === id);
+    assert.ok(place, `${id}: missing`);
+    assert.equal(place.status, 'active', `${id}: status`);
+    assert.equal(place.verifiedAt, '2026-09-19', `${id}: verifiedAt`);
+    assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
+    assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
+    assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: Experience added`);
+  }
+
+  assert.match(places.find(item => item.id === 'cumhurbaskanligi-millet-kutuphanesi').provenance.map(item => item.note).join(' '), /kimlik|e-Devlet/);
+  assert.match(places.find(item => item.id === 'kitir-tunali').provenance.map(item => item.note).join(' '), /aile\/çocuk varsayılanı değildir/);
+  assert.match(places.find(item => item.id === 'lavare-sokak').note, /biletli/);
+  assert.match(places.find(item => item.id === 'mamak-fuzyon-bilim-merkezi').note, /randevuyla/);
+  assert.match(places.find(item => item.id === 'kecioren-cocuk-sanat-muzesi').note, /5–14 yaş/);
+  assert.match(places.find(item => item.id === 'guvenpark-kizilay').provenance.map(item => item.note).join(' '), /geç saat güvenliği vaat edilmez/);
+  assert.match(places.find(item => item.id === 'ahlatlibel-ataturk-parki').provenance.map(item => item.note).join(' '), /hava koşuluna bağlıdır/);
+  assert.equal(places.some(place => place.id.includes('evliyagil')), false);
+  assert.equal(places.some(place => place.id === 'yilmaz-guney-sahnesi'), false);
+});
+
 test('every experience produces a safe Google Maps action', () => {
   for (const experience of experiences) {
     const url = googleMapsUrlForExperiencePoints(experience.points);
@@ -707,8 +747,8 @@ test('event rotation can produce two fresh five-item batches from the current ca
   assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
 });
 
-test('catalog has 120–170 complete, uniquely identified Ankara entries', () => {
-  assert.ok(places.length >= 120 && places.length <= 170);
+test('catalog has 120–180 complete, uniquely identified Ankara entries', () => {
+  assert.ok(places.length >= 120 && places.length <= 180);
   assert.equal(new Set(places.map(place => place.id)).size, places.length);
   for (const place of places) {
     assert.equal(place.cityId, 'ankara', `${place.id}: city`);

@@ -1,6 +1,16 @@
 # N’apsak — Durum ve sıradaki iş
 
-Kontrol tarihi: 18 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+Kontrol tarihi: 19 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+
+## Devam eden çalışma — Ankara Place Completeness Batch #1
+
+- `codex/ankara-place-completeness-batch-1` dalı, fetch sonrası doğrulanan `origin/main` commit'i `77f712d780818e8aa8cc206a2d7fe5aa7a5b8761` üzerinden ayrı bir worktree'de açıldı.
+- Onaylı 13 completeness-core Place eklendi: Cumhurbaşkanlığı Millet Kütüphanesi, Altınköy Açık Hava Müzesi, Aqua Vega Akvaryum Nata Vega, Dost Kitabevi Karanfil, Kıtır Tunalı ana şube, L’avare Sokak, Galeri Siyah Beyaz, Büyülü Fener Kızılay, Mamak Füzyon Bilim Merkezi, Keçiören Çocuk Sanat Müzesi, Güvenpark Kızılay, Ahlatlıbel Atatürk Parkı ve Peçenek Döner İskitler Merkez Şube.
+- Her kayıt faal kimlik, doğru şube/adres veya pin, temel operasyon bilgisi, yaklaşık fiyat bandı, gerçekçi ziyaret süresi, rezervasyon/seans koşulu, tek bir editoryal neden, kritik kısıtlar ve 19 Eylül 2026 tarihli yapılandırılmış provenance taşır. Doğrulanmayan park, erişilebilirlik, kalabalık, laptop, teras/manzara ve dinamik menü/program ayrıntıları eklenmedi.
+- Mamak kaydı, belediyenin canlı yüzeylerinde yayımlanan `Mamak Bilim Merkezi` kimliği ve `MamakFüzyon` marka kullanımını alias olarak birleştirir; General Zeki Doğan Mahallesi Mutlu Caddesi No:59 adresindeki randevulu çocuk bilim merkezi, Mamak Caddesi’ndeki ayrı teknoloji/girişimcilik projesiyle karıştırılmadı.
+- Place sayısı 153'ten 166'ya çıktı; Experience 50, Idea 86, Event 12 ve Guide 12 olarak kaldı. Embedded katalog sürümü `2026-09-19.1` oldu; schema/cache sürümü v3 olarak kaldı.
+- Güncel doğrulamada diff kontrolü, typecheck, 96 ana/release testi, 14 quality testi, catalog parity, genel + Experience stres senaryoları, recommendation-quality, Event Catalog Health, performans ve release baseline kontrolleri geçti. Sabit kalite matrisinde uygun aday toplamı 562'den 598'e çıktı; ilk grup sonucu 71, sıfır/kısmi/tam beşli sayıları 0/1/14 ve objektif invariant hatası 0 kaldı. Son 5.000 çağrılık performans p95'i 7,031 ms ile 25 ms bütçesinin altında kaldı.
+- Yeni Experience eklenmedi. Öneri ağırlıkları, hard filtreler, sıralama, çeşitlilik, rotasyon, Fikir davranışı ve Event verisi değiştirilmedi. Yılmaz Güney Sahnesi hard-exclusion guard'ı ve Müze Evliyagil reddi korundu.
 
 ## Devam eden çalışma — Fikir Mimarisi + Batch A
 
