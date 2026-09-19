@@ -358,3 +358,37 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18
 | Objective invariant failures | 0 | 0 |
 
 The candidate-total increase is exactly the 34 new Ideas in the controlled-discovery fixture; the other 14 scenarios and the first-batch result total are unchanged. The Fikir fixture still returns one selected-interest result and four independent discoveries, with 14 unique Ideas across three batches. The new structured fields are intentionally not consumed by ranking yet, so this delta is catalog coverage rather than a hidden scoring change. A post-batch local sample measured mean 1.795 ms, p50 1.380 ms, p95 4.104 ms and p99 4.525 ms over 300 calls; this is host-specific and not a golden assertion.
+
+## 15. Ankara Place Completeness Batch #1 delta
+
+Command: `npm run check:recommendations`. Catalog version: `2026-09-19.1`. Result limit: 5.
+
+| Measure | Before (`2026-09-18.4`) | After (`2026-09-19.1`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 562 | 598 |
+| First-batch results | 71 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 14 / 15 (93.33%) |
+| Results with explanations | 71 / 71 | 71 / 71 |
+| Reason strings | 287 | 287 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 62 |
+| Exact budget fits | 40 | 39 |
+| Group fits | 66 | 66 |
+| Experience primary matches | 18 / 21 | 18 / 21 |
+| Experience secondary-only matches | 3 / 21 | 3 / 21 |
+| Mean distinct categories per first batch | 2.533 | 2.667 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.400 |
+| Distinct repeated IDs across three-batch fixture runs | 57 | 58 |
+| Repeated slots across three-batch fixture runs | 71 | 72 |
+| Location-paired changed slots | 23 | 19 |
+| Location-paired symmetric membership difference, summed | 18 | 14 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The 13 approved Places increase summed eligible supply by 36 across six Place fixtures: Çukurambar friends gains eight, Eryaman large-group gains eight, no-location nature gains four, tight-budget Sanat + Doğa gains ten, and the premium- and flexible-budget Lezzet fixtures gain three each. Experience, Event and Idea fixture supply is unchanged because this batch adds no records to those surfaces.
+
+The stable result total and explanation count show that the batch expands an already-full Place supply rather than manufacturing new recommendation slots. Exact-budget, diversity, repetition and location movements are characterization, not approved-threshold regressions; ranking, diversity, rotation, filters and weights did not change. A recorded post-batch local quality sample measured mean 1.998 ms, p50 1.485 ms, p95 4.715 ms and p99 4.955 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.512 ms, p50 1.084 ms, p95 7.031 ms and p99 7.449 ms against the 25 ms p95 budget; both are host-specific samples.

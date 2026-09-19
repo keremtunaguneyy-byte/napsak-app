@@ -330,6 +330,171 @@ const ankaraPlaces: Omit<Place, 'cityId' | 'status'>[] = [
       { kind: 'map_pin', label: 'Yandex Maps işletme pini', verifiedAt: '2026-09-18', url: 'https://yandex.com.tr/maps/org/ka_gorsel_kultur_ve_sanatsal_dusunce_icin_mekan/1326361409/', note: 'Resmî Cinnah Caddesi 1/B adresi ve iletişim bilgisiyle eşleşen işletme pini.' },
     ],
   },
+
+  // Ankara Place Completeness Batch #1. These records add only approved Place
+  // anchors; operational caveats stay in provenance instead of becoming
+  // permanent Experiences or promises about changing programmes.
+  {
+    id: 'cumhurbaskanligi-millet-kutuphanesi', name: 'Cumhurbaşkanlığı Millet Kütüphanesi', district: 'Yenimahalle',
+    address: 'Cumhurbaşkanlığı Külliyesi, Beştepe, Yenimahalle, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 0, editorialScore: 4.9,
+    note: 'Ankara’nın en büyük kamusal çalışma ve araştırma mekânlarından birinde okumaya ya da odaklı çalışmaya zaman ayır.',
+    latitude: 39.9246376, longitude: 32.8007085, sourceUrl: 'https://mk.gov.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Millet Kütüphanesi', 'Presidential Nation’s Library'],
+    provenance: [
+      { kind: 'official', label: 'Cumhurbaşkanlığı Millet Kütüphanesi', verifiedAt: '2026-09-19', url: 'https://mk.gov.tr/', note: 'Beştepe’deki faal kütüphane ve okuyucu hizmetleri. Ana çalışma alanları için 24 saat erişim esas alınabilir; her salon, sergi veya özel bölümün 24 saat açık olduğu varsayılmadı. Odaklı ziyaret için 1–4 saat gerçekçi bir planlama aralığıdır.' },
+      { kind: 'official', label: 'e-Devlet hızlı giriş kartı', verifiedAt: '2026-09-19', url: 'https://www.turkiye.gov.tr/cumhurbaskanligi-kutuphanesi-hizli-giris-karti', note: 'Girişte kimlik/üyelik kontrolü vardır; e-Devlet üzerinden kimlik doğrulamayla 24 saat geçerli barkodlu hızlı giriş belgesi üretilebilir. Çalışma alanı rezervasyonu veya özel bölüm kuralları ayrıca değişebilir.' },
+      { kind: 'map_pin', label: 'OpenStreetMap kütüphane yapısı', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/way/912553846', note: 'Beştepe yerleşkesindeki kütüphane yapısının kullanılabilir pini; uydurma sokak numarası eklenmedi.' },
+    ],
+  },
+  {
+    id: 'altinkoy-acik-hava-muzesi', name: 'Altınköy Açık Hava Müzesi', district: 'Altındağ',
+    address: 'Beşikkaya Mah., Altınköy Açık Hava Müzesi, Altındağ, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin', 'Enerjik'], interests: ['Sanat', 'Doğa'], priceLevel: 1, editorialScore: 4.9,
+    note: 'Anadolu köy yaşamını evler, bostanlar ve geniş açık alanda yürüyerek ölçekli bir bütün olarak gör.',
+    latitude: 39.9775492, longitude: 32.9569546, sourceUrl: 'https://www.altindag.bel.tr/tr/haber/altink%C3%B6y-artik-resmen-m%C3%BCze', verifiedAt: '2026-09-19',
+    provenance: [
+      { kind: 'official', label: 'Altındağ Belediyesi — Altınköy Açık Hava Müzesi', verifiedAt: '2026-09-19', url: 'https://www.altindag.bel.tr/tr/haber/altink%C3%B6y-artik-resmen-m%C3%BCze', note: 'Açık hava köy müzesinin faal olduğu ve 2025’te resmî müze statüsü aldığı doğrulandı. Atölyelerin veya dönemsel etkinliklerin her ziyarette çalıştığı varsayılmadı.' },
+      { kind: 'official', label: 'MEB okul dışı öğrenme kaydı', verifiedAt: '2026-09-19', url: 'https://okuldisiogrenme-cdn-large.eba.gov.tr/mekan-detay/altinkoy-acik-hava-muzesi-6427', note: 'Beşikkaya konumu ve 10:00–18:00 ziyaret penceresi yayımlanıyor. Geçmiş belediye takvimlerinde pazartesi kapalılığı bulunduğundan güncel gün/saat ve mevsim koşulu ziyaret öncesi kontrol edilmeli; 2–4 saat ve yürüyüşe uygun hava gerçekçi planlamadır.' },
+      { kind: 'map_pin', label: 'OpenStreetMap müze alanı', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/way/413152314', note: 'Beşikkaya’daki geniş açık hava müzesi alanının kullanılabilir merkez pini.' },
+    ],
+  },
+  {
+    id: 'aqua-vega-akvaryum', name: 'Aqua Vega Akvaryum — Nata Vega', district: 'Mamak',
+    address: 'Nata Vega Outlet -2. kat, Akşemsettin Mah., 2308. Sk. No:1/A, Mamak, Ankara',
+    category: 'Doğa', moods: ['Meraklı', 'Sakin', 'Sosyal'], interests: ['Doğa', 'Etkinlik'], priceLevel: 3, editorialScore: 4.8,
+    note: 'Tünel akvaryum ve farklı yaşam alanlarında su altı canlılarını tek bir kapalı rota boyunca yakından gözlemle.',
+    latitude: 39.8876851, longitude: 32.9349322, sourceUrl: 'https://www.aquavega.com.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Aqua Vega', 'Aqua Vega Akvaryum'],
+    provenance: [
+      { kind: 'official', label: 'Aqua Vega', verifiedAt: '2026-09-19', url: 'https://www.aquavega.com.tr/', note: 'Nata Vega Outlet -2. kattaki faal ücretli akvaryum, resmî adres ve çevrim içi bilet satışı doğrulandı. Fiyatlar dinamiktir; katalog yalnız yüksek fiyat bandını korur. Tipik ziyaret 90–150 dakika planlanabilir.' },
+      { kind: 'official', label: 'Aqua Vega iletişim', verifiedAt: '2026-09-19', url: 'https://www.aquavega.com.tr/sayfa/iletisim', note: 'Resmî sayfa hafta içi 10:00–20:00, hafta sonu 11:00–21:00 yayımlıyor; özel gün ve son giriş koşulları değişebileceğinden gitmeden önce yeniden kontrol edilmeli.' },
+      { kind: 'map_pin', label: 'OpenStreetMap akvaryum pini', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/node/11209121537', note: 'Resmî Nata Vega adresiyle eşleşen akvaryum pini.' },
+    ],
+  },
+  {
+    id: 'dost-kitabevi-karanfil', name: 'Dost Kitabevi — Karanfil', district: 'Çankaya',
+    address: 'Meşrutiyet Mah., Karanfil Sk. No:11/A, Kızılay, Çankaya, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 0, editorialScore: 4.8,
+    note: 'Ankara’nın kitapçı hafızasını taşıyan Karanfil şubesinde raflar arasında amaçsızca dolaşıp yeni bir başlık keşfet.',
+    latitude: 39.919713, longitude: 32.8552891, sourceUrl: 'https://dostkitabevi.com/', verifiedAt: '2026-09-19',
+    aliases: ['Dost Kitabevi Karanfil Sokak'],
+    provenance: [
+      { kind: 'official', label: 'Dost Kitabevi', verifiedAt: '2026-09-19', url: 'https://dostkitabevi.com/genel-88', note: 'Karanfil Sokak No:11/A adresi ve faal kitabevi iletişimi doğrulandı. Giriş ücretsiz, satın alma isteğe bağlıdır; resmî sitede güvenilir mağaza saati yayımlanmadığı için saat uydurulmadı. Raf gezisi için 30–90 dakika gerçekçidir.' },
+      { kind: 'map_pin', label: 'OpenStreetMap kitabevi pini', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/node/2404028879', note: 'Karanfil Sokak şube kimliğiyle eşleşen kitabevi pini.' },
+    ],
+  },
+  {
+    id: 'kitir-tunali', name: 'Kıtır — Tunalı', district: 'Çankaya',
+    address: 'Tunalı Hilmi Cd. No:114/K, Remzi Oğuz Arık Mah., Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Sosyal'], interests: ['Lezzet'], priceLevel: 2, editorialScore: 4.8,
+    note: 'Tunalı’nın kuşaklar boyu süren pub ve buluşma ritüelini ana şubenin gündelik şehir hafızası içinde yaşa.',
+    latitude: 39.9026268, longitude: 32.8600757, sourceUrl: 'https://kitirpilic.com/', verifiedAt: '2026-09-19',
+    aliases: ['Kıtır Piliç Tunalı', 'Kıtır Tunalı'],
+    provenance: [
+      { kind: 'official', label: 'Kıtır Piliç', verifiedAt: '2026-09-19', url: 'https://kitirpilic.com/', note: 'Tunalı Hilmi Caddesi No:114/K ana şube kimliği doğrulandı; Arcadium kaydıyla birleştirilmedi. Yaklaşık orta fiyat bandı ve 60–120 dakikalık sosyal oturma planı kullanıldı; belirli ürün veya servis saati vaat edilmedi.' },
+      { kind: 'map_pin', label: 'OpenStreetMap Kıtır pini', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/node/1706279072', note: 'Tunalı ana şubeyi pub olarak işaretleyen kullanılabilir pin. Alkol bağlamı açıkça korunur; mekân aile/çocuk varsayılanı değildir.' },
+    ],
+  },
+  {
+    id: 'lavare-sokak', name: 'L’avare Sokak', district: 'Çankaya',
+    address: 'Çankaya Mah., Üsküp Cd. No:16/1, Çankaya, Ankara',
+    category: 'Etkinlik', moods: ['Sosyal', 'Meraklı'], interests: ['Etkinlik', 'Lezzet'], priceLevel: 3, editorialScore: 4.8,
+    note: 'Gastronomiyle sahne sanatlarını birleştiren güncel programdan biletli bir gece seç; belirli gösteri kalıcı değildir.',
+    latitude: 39.8947094, longitude: 32.8580663, sourceUrl: 'https://lavare.com.tr/etkinlikler', verifiedAt: '2026-09-19',
+    aliases: ["L'avare Sokak", 'Lavare Sokak'],
+    provenance: [
+      { kind: 'official', label: 'L’avare etkinlik programı', verifiedAt: '2026-09-19', url: 'https://lavare.com.tr/etkinlikler', note: 'Üsküp Caddesi’ndeki Sokak sahnesinin faal, tarihli ve biletli programı doğrulandı. Gösteri, menü ve fiyatlar evergreen değildir; uygun seans seçip bilet/rezervasyon almak gerekir. Etkinliğe göre 2–4 saat ayırmak gerçekçidir.' },
+      { kind: 'official', label: 'L’avare şirket iletişimi', verifiedAt: '2026-09-19', url: 'https://lavare.com.tr/gizlilik-politikasi', note: 'Üsküp Caddesi No:16/1 adresi ve işletme iletişimi doğrulandı.' },
+      { kind: 'map_pin', label: 'Google Maps işletme pini', verifiedAt: '2026-09-19', url: "https://www.google.com/maps/place/L'avare+Sokak/@39.8947094,32.8580663,17z", note: 'Resmî adres ve telefonla eşleşen L’avare Sokak pini.' },
+    ],
+  },
+  {
+    id: 'galeri-siyah-beyaz', name: 'Galeri Siyah Beyaz', district: 'Çankaya',
+    address: 'Kavaklıdere Sk. No:3/1-2, Kavaklıdere, Çankaya, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sakin'], interests: ['Sanat'], priceLevel: 0, editorialScore: 4.9,
+    note: 'Ankara çağdaş sanat hafızasının uzun soluklu adresinde o gün açık olan sergiyi acele etmeden oku.',
+    latitude: 39.9005894, longitude: 32.8587602, sourceUrl: 'https://galerisiyahbeyaz.com/', verifiedAt: '2026-09-19',
+    aliases: ['Siyah Beyaz Sanat Galerisi'],
+    provenance: [
+      { kind: 'official', label: 'Galeri Siyah Beyaz', verifiedAt: '2026-09-19', url: 'https://galerisiyahbeyaz.com/', note: 'Kavaklıdere Sokak No:3/1-2 galeri kimliği ve pazar hariç 11:00–19:00 ziyaret saatleri doğrulandı. Belirli veya kalıcı bir sergi vaat edilmedi; güncel program kontrolüyle 30–90 dakika planlanabilir.' },
+      { kind: 'map_pin', label: 'Google Maps galeri pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/Siyah+Beyaz/@39.9005894,32.8587602,17z', note: 'Galeri adresiyle eşleşen pin; aynı adı kullanan bar veya başka işletme kaydı değildir.' },
+    ],
+  },
+  {
+    id: 'buyulu-fener-kizilay', name: 'Büyülü Fener Sinemaları — Kızılay', district: 'Çankaya',
+    address: 'Kocatepe Mah., Meşrutiyet Cd., Hatay Sk. No:18, Kızılay, Çankaya, Ankara',
+    category: 'Etkinlik', moods: ['Meraklı', 'Sosyal', 'Sakin'], interests: ['Etkinlik', 'Sanat'], priceLevel: 2, editorialScore: 4.8,
+    note: 'Kızılay’ın bağımsız sinema hafızasında güncel programdan bir film seçip şehir merkezinde salon ritüeline dön.',
+    latitude: 39.9177463, longitude: 32.8583946, sourceUrl: 'https://www.buyulufener.com.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Büyülü Fener Kızılay'],
+    provenance: [
+      { kind: 'official', label: 'Büyülü Fener Sinemaları', verifiedAt: '2026-09-19', url: 'https://www.buyulufener.com.tr/iletisim', note: 'Hatay Sokak No:18 Kızılay şubesi doğrulandı ve Bahçelievler şubesinden ayrı tutuldu. Film, seans ve ücretler dinamiktir; programdan bilet seçmek gerekir. Film süresine giriş/çıkış payı ekleyerek yaklaşık 2–3 saat planlanabilir.' },
+      { kind: 'map_pin', label: 'Google Maps Kızılay sineması pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/B%C3%BCy%C3%BCl%C3%BC+Fener+Sinemalar%C4%B1+K%C4%B1z%C4%B1lay/@39.9177463,32.8583946,17z', note: 'Resmî Kızılay adresiyle eşleşen sinema pini.' },
+    ],
+  },
+  {
+    id: 'mamak-fuzyon-bilim-merkezi', name: 'Mamak Füzyon Bilim Merkezi', district: 'Mamak',
+    address: 'General Zeki Doğan Mah., Mutlu Cd. No:59 Kat:1, Mamak, Ankara',
+    category: 'Etkinlik', moods: ['Meraklı', 'Enerjik'], interests: ['Etkinlik', 'Sanat'], priceLevel: 0, editorialScore: 4.8,
+    note: 'Serbest müze gezisi yerine yaşa ve kontenjana göre açılan bilim atölyelerinden birine randevuyla katıl.',
+    latitude: 39.9112842, longitude: 32.9074474, sourceUrl: 'https://www.mamak.bel.tr/proje/mamak-bilim-merkezi/?filter=tamamlanan-projeler+mamak-bilim-merkezi', verifiedAt: '2026-09-19',
+    aliases: ['Mamak Bilim Merkezi', 'MamakFüzyon'],
+    provenance: [
+      { kind: 'official', label: 'Mamak Belediyesi — Mamak Bilim Merkezi', verifiedAt: '2026-09-19', url: 'https://www.mamak.bel.tr/proje/mamak-bilim-merkezi/?filter=tamamlanan-projeler+mamak-bilim-merkezi', note: 'Faal merkez 6–13 yaş atölyeleri için hafta içi 08:00–17:00 randevulu ve ücretsiz çalışıyor; atölyeler 40–60 dakika, kontenjan en çok 24 kişi ve aynı gün en çok iki atölye. Program/yaş kuralları değişebilir; unrestricted walk-in müze değildir.' },
+      { kind: 'official', label: 'Mamak Bilim Merkezi iletişim', verifiedAt: '2026-09-19', url: 'https://bilim.mamak.bel.tr/iletisim', note: 'General Zeki Doğan Mahallesi, Mutlu Caddesi No:59 Kat:1 adresi ve MamakFüzyon marka kullanımı doğrulandı; ayrı Mamak teknoloji merkeziyle karıştırılmadı.' },
+      { kind: 'map_pin', label: 'Google Maps bilim merkezi pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/Mamak+Bilim+Merkezi/@39.9112842,32.9074474,17z', note: 'Resmî adres ve randevu sitesiyle eşleşen bilim merkezi pini.' },
+    ],
+  },
+  {
+    id: 'kecioren-cocuk-sanat-muzesi', name: 'Keçiören Çocuk Sanat Müzesi', district: 'Keçiören',
+    address: 'Kanuni Mah., 897. Sk., Şehit Piy. Ast. Tğm. Ömer Zeki Varan Parkı içi, Keçiören, Ankara',
+    category: 'Sanat', moods: ['Meraklı', 'Sosyal'], interests: ['Sanat', 'Etkinlik'], priceLevel: 0, editorialScore: 4.8,
+    note: '5–14 yaş çocukla sanat, mitoloji ve kültürel mirası bir saatlik aile ziyaretinde keşfet; sıradan yetişkin müzesi değildir.',
+    latitude: 40.0242624, longitude: 32.8588498, sourceUrl: 'https://cocuksanatmuzesi.kecioren.bel.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Kültür Elçileri Çocuk Sanat Müzesi'],
+    provenance: [
+      { kind: 'official', label: 'Keçiören Belediyesi Çocuk Sanat Müzesi', verifiedAt: '2026-09-19', url: 'https://cocuksanatmuzesi.kecioren.bel.tr/', note: '5–14 yaş odağı, yaklaşık bir saatlik müze gezisi, ücretsiz giriş ve pazartesi hariç 09:00–18:00 bilgisi yayımlanıyor. Genel müze gezisi için randevu gerekmiyor; grup ve etkinlikler için çevrim içi randevu gerekiyor. Program ve yaş kuralları gitmeden önce kontrol edilmeli.' },
+      { kind: 'official', label: 'Keçiören Belediyesi tesis kaydı', verifiedAt: '2026-09-19', url: 'https://www.kecioren.bel.tr/kultur_elcileri_cocuk_sanat_muzesi-105-sosyal-tesis.html', note: 'Kanuni Mahallesi 897. Sokak, Ömer Zeki Varan Parkı içindeki çocuk sanat müzesi kimliği ve adresi doğrulandı.' },
+      { kind: 'map_pin', label: 'Google Maps çocuk sanat müzesi pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/K%C3%BClt%C3%BCr+El%C3%A7ileri+%C3%87ocuk+Sanat+M%C3%BCzesi/@40.0242624,32.8588498,17z', note: 'Resmî park içi adresle eşleşen müze pini.' },
+    ],
+  },
+  {
+    id: 'guvenpark-kizilay', name: 'Güvenpark — Kızılay', district: 'Çankaya',
+    address: 'Kızılay, Atatürk Bulvarı ile Gazi Mustafa Kemal Bulvarı arası, Çankaya, Ankara',
+    category: 'Doğa', moods: ['Sakin', 'Sosyal', 'Meraklı'], interests: ['Doğa', 'Sanat'], priceLevel: 0, editorialScore: 4.8,
+    note: 'Gündüz Kızılay’ın simge buluşma noktasında Güven Anıtı ve Cumhuriyet dönemi kent hafızasına kısa bir mola ver.',
+    latitude: 39.9194288, longitude: 32.8529756, sourceUrl: 'https://www.ankara.bel.tr/haberler/guvenpark-modern-yuzuyle-ankaralilarla-yeniden-bulustu-17509', verifiedAt: '2026-09-19',
+    aliases: ['Güven Park'],
+    provenance: [
+      { kind: 'official', label: 'Ankara Büyükşehir Belediyesi — Güvenpark', verifiedAt: '2026-09-19', url: 'https://www.ankara.bel.tr/haberler/guvenpark-modern-yuzuyle-ankaralilarla-yeniden-bulustu-17509', note: 'Parkın ve Güven Anıtı’nın 2024 yenilemesi sonrası faal olduğu, Cumhuriyet dönemi şehir hafızası ve buluşma noktası kimliği doğrulandı. Yapay aktivite eklenmedi; 20–60 dakikalık gündüz molası önerilir ve geç saat güvenliği vaat edilmez.' },
+      { kind: 'map_pin', label: 'OpenStreetMap Güvenpark alanı', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/relation/11927069', note: 'Kızılay merkezindeki park alanının kullanılabilir pini.' },
+    ],
+  },
+  {
+    id: 'ahlatlibel-ataturk-parki', name: 'Ahlatlıbel Atatürk Parkı', district: 'Çankaya',
+    address: 'İncek Bulvarı üzeri, Ahlatlıbel, Çankaya, Ankara',
+    category: 'Doğa', moods: ['Enerjik', 'Sakin', 'Sosyal'], interests: ['Doğa', 'Etkinlik'], priceLevel: 0, editorialScore: 4.8,
+    note: 'Şehirden uzaklaşmadan geniş çim ve orman alanında yürüyüş, açık hava sporu ya da hava uygunsa uzun bir mola yap.',
+    latitude: 39.8431495, longitude: 32.7923966, sourceUrl: 'https://www.cankaya.bel.tr/rehber/parklarimiz/ahlatlibel-ataturk-parki', verifiedAt: '2026-09-19',
+    provenance: [
+      { kind: 'official', label: 'Çankaya Belediyesi — Ahlatlıbel Atatürk Parkı', verifiedAt: '2026-09-19', url: 'https://www.cankaya.bel.tr/rehber/parklarimiz/ahlatlibel-ataturk-parki', note: 'Geniş çim/orman alanı, yürüyüş ve spor olanakları, piknik alanı ve İncek Bulvarı konumu doğrulandı. Ziyaret hava koşuluna bağlıdır; park erişimiyle belediye tesisi/kafe saatleri aynı kabul edilmedi. 1–4 saat planlanabilir; güncel mangal veya kullanım kuralı uydurulmadı.' },
+      { kind: 'map_pin', label: 'OpenStreetMap park alanı', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/relation/15643944', note: 'Ahlatlıbel park ve sosyal tesis alanının kullanılabilir merkez pini.' },
+    ],
+  },
+  {
+    id: 'pecenek-doner-iskitler', name: 'Peçenek Döner — İskitler Merkez', district: 'Altındağ',
+    address: 'Zübeyde Hanım Mah., Seçim Sk. No:69, İskitler, Altındağ, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet'], priceLevel: 3, editorialScore: 4.9,
+    note: '1977’den beri süren ana şubede Ankara’nın kuşaklar arası döner ve esnaf lokantası hafızasına doğrudan otur.',
+    latitude: 39.949774, longitude: 32.8447823, sourceUrl: 'https://www.pecenekdoner.com.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Peçenek Döner İskitler', 'Peçenek Döner Merkez Şube'],
+    provenance: [
+      { kind: 'official', label: 'Peçenek Döner şubeleri ve tarihçesi', verifiedAt: '2026-09-19', url: 'https://www.pecenekdoner.com.tr/', note: '1977’den beri süren işletme kimliği ile Zübeyde Hanım Mahallesi Seçim Sokak No:69 İskitler Merkez Şube doğrulandı; diğer şubelerle birleştirilmedi. Yaklaşık yüksek fiyat bandı ve 45–90 dakikalık öğün planı kullanıldı.' },
+      { kind: 'official', label: 'Peçenek Döner İskitler menüsü', verifiedAt: '2026-09-19', url: 'https://www.pecenekdoner.com.tr/iskitler-sube/', note: 'İskitler şubesinin faal menüsü güncel operasyon kanıtıdır; listelenen ürünlerin veya fiyatların her ziyarette aynen bulunacağı vaat edilmedi.' },
+      { kind: 'map_pin', label: 'OpenStreetMap merkez şube pini', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/way/1267247153', note: 'İskitler Seçim Caddesi merkez şube adresiyle eşleşen restoran pini.' },
+    ],
+  },
 ];
 
 const placeStatusOverrides: Readonly<Record<string, PlaceStatus>> = {
