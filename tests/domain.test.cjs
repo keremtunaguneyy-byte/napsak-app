@@ -641,7 +641,7 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
     'no4-restaurant-bar-lounge',
   ];
 
-  assert.equal(places.length, 174);
+  assert.equal(places.length, 178);
   assert.equal(experiences.length, 50);
   assert.equal(ideas.length, 86);
   assert.equal(catalogEvents.length, 12);
@@ -665,6 +665,50 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
   assert.match(places.find(item => item.id === 'cubuk-1-baraji-rekreasyon-alani').provenance.map(item => item.note).join(' '), /tek ve kesintisiz yürünebilir rota gibi sunulmadı/);
   assert.match(places.find(item => item.id === 'ataturk-kultur-merkezi-millet-bahcesi').provenance.map(item => item.note).join(' '), /her ziyarette açık olduğu varsayılmadı|geçici olarak kısıtlanabilir/);
   assert.equal(heldPlaceIds.some(id => places.some(place => place.id === id)), false);
+});
+
+test('Ankara Place completeness batch 3 publishes only candidates that clear current operation evidence', () => {
+  const expectedPlaceIds = [
+    'kebap-49-tunali',
+    'quick-china-cayyolu',
+    'niki-restaurant-ankara',
+    'louise-brasserie-lounge',
+  ];
+  const deferredPlaceIds = [
+    'haci-arif-bey-ayranci',
+    'ayintap-inci',
+    'mutlu-lokantasi',
+    'tarihi-mutfak-lokantasi',
+    'zeynel',
+    'ceviz-pastanesi',
+    'f451-brew',
+    'no4-restaurant-bar-lounge',
+    'teknomer',
+    'mamak-muzik-muzesi',
+    'turk-hava-kurumu-muzesi',
+    'ikinci-yuzyil-parki',
+  ];
+
+  assert.equal(places.length, 178);
+  assert.equal(experiences.length, 50);
+  assert.equal(ideas.length, 86);
+  assert.equal(catalogEvents.length, 12);
+  assert.equal(guides.length, 12);
+  for (const id of expectedPlaceIds) {
+    const place = places.find(item => item.id === id);
+    assert.ok(place, `${id}: missing`);
+    assert.equal(place.status, 'active', `${id}: status`);
+    assert.equal(place.verifiedAt, '2026-09-19', `${id}: verifiedAt`);
+    assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
+    assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
+    assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: Experience added`);
+  }
+
+  assert.match(places.find(item => item.id === 'kebap-49-tunali').provenance.map(item => item.note).join(' '), /başka Kebap 49 şubesi|Çayyolu veya başka şube değildir/);
+  assert.match(places.find(item => item.id === 'quick-china-cayyolu').provenance.map(item => item.note).join(' '), /Uygur\/Orta Asya mutfağı olarak sunulmadı/);
+  assert.match(places.find(item => item.id === 'niki-restaurant-ankara').provenance.map(item => item.note).join(' '), /saatlerinde çeliştiğinden|rezervasyon önerilir ama zorunlu olduğu iddia edilmez/);
+  assert.match(places.find(item => item.id === 'louise-brasserie-lounge').provenance.map(item => item.note).join(' '), /dinamiktir|rezervasyonsuz giriş garantisi verilmedi/);
+  assert.equal(deferredPlaceIds.some(id => places.some(place => place.id === id)), false);
 });
 
 test('every experience produces a safe Google Maps action', () => {

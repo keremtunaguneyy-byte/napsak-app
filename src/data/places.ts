@@ -597,6 +597,59 @@ const ankaraPlaces: Omit<Place, 'cityId' | 'status'>[] = [
       { kind: 'map_pin', label: 'OpenStreetMap Başkent Millet Bahçesi alanı', verifiedAt: '2026-09-19', url: 'https://www.openstreetmap.org/way/1038047711', note: 'Zübeyde Hanım Mahallesi’ndeki yaklaşık park alanının merkez pini; belirli bir kapı veya tüm etaplar için erişim garantisi değildir.' },
     ],
   },
+
+  // Ankara Place Completeness Batch #3. Restaurant records keep dynamic menus,
+  // exact prices and changing reservation conditions outside evergreen claims.
+  {
+    id: 'kebap-49-tunali', name: 'Kebap 49 — Tunalı', district: 'Çankaya',
+    address: 'Kavaklıdere Mah., Tunalı Hilmi Cd. ve Bülten Sk. No:5, Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet'], priceLevel: 2, editorialScore: 4.9,
+    note: 'Bülten Sokak’taki uzun soluklu Ankara sofrasında öğünü yalnız kebap seçimi değil, Tunalı’nın kent hafızasıyla birlikte yaşa.',
+    latitude: 39.907325, longitude: 32.859881, sourceUrl: 'https://www.kebap49.com.tr/Kebap49-Tunali', verifiedAt: '2026-09-19',
+    aliases: ['Kebap 49 Tunalı', 'Kebap49 Tunalı'],
+    provenance: [
+      { kind: 'official', label: 'Kebap 49 — Tunalı iletişim', verifiedAt: '2026-09-19', url: 'https://www.kebap49.com.tr/Kebap49-Tunali', note: 'Tunalı Hilmi Caddesi ile Bülten Sokak No:5’teki Kavaklıdere şubesi ve iletişim bilgileri doğrulandı; başka Kebap 49 şubesi bu kayda alınmadı. Harita yüzeyi her gün 10:00–22:00 gösteriyor; 60–120 dakika ayırıp özellikle kalabalık öğünlerde masayı önceden sormak güvenlidir.' },
+      { kind: 'official', label: 'Kebap 49 tarihçesi', verifiedAt: '2026-09-19', url: 'https://www.kebap49.com.tr/Hakkimizda', note: '1949’dan gelen Ankara markası ve kuşaklar boyunca sürdürülen sofra kimliği doğrulandı. Dinamik menü, belirli ürün bulunurluğu ve kesin fiyatlar kalıcı katalog iddiasına dönüştürülmedi; yaklaşık orta fiyat bandı kullanıldı.' },
+      { kind: 'map_pin', label: 'Google Maps Tunalı işletme pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/search/?api=1&query=Kebap+49+Tunal%C4%B1+Hilmi+B%C3%BClten+Sokak+No%3A5+Ankara', note: 'Resmî adres ve telefonla eşleşen faal Tunalı/Kavaklıdere işletme pini; Çayyolu veya başka şube değildir.' },
+    ],
+  },
+  {
+    id: 'quick-china-cayyolu', name: 'Quick China — Çayyolu', district: 'Çankaya',
+    address: 'Prof. Dr. Ahmet Taner Kışlalı Mah., 2864. Cd. No:15 C, Çayyolu, Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Meraklı', 'Sosyal'], interests: ['Lezzet'], priceLevel: 3, editorialScore: 4.8,
+    note: 'Batı Ankara’da tek bir mutfağa sıkışmadan Çin, Japon ve Güneydoğu Asya çizgisinden paylaşmalı bir masa kur.',
+    latitude: 39.8713553, longitude: 32.6819132, sourceUrl: 'https://www.quickchina.com.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Quick China Çayyolu'],
+    provenance: [
+      { kind: 'official', label: 'Quick China resmî sitesi', verifiedAt: '2026-09-19', url: 'https://www.quickchina.com.tr/', note: 'Quick China’nın güncel restoran kimliği, menü ve iletişim yüzeyi doğrulandı. Katalog yalnız Çayyolu şubesini batı Ankara kapsaması için taşır; GOP veya paket-servis noktası eklenmedi ve Uygur/Orta Asya mutfağı olarak sunulmadı.' },
+      { kind: 'map_pin', label: 'Google Maps Çayyolu işletme pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/Quick+China+%C3%87ayyolu/@39.8713553,32.6819132,17z', note: '2864. Cadde No:15 C adresi, 0312 241 14 14 telefonu, faal işletme ve 11:00–21:45 temel ziyaret penceresi doğrulandı. Yaklaşık yüksek fiyat bandında 60–150 dakika ayır; akşam ve grup masası için güncel saat ile rezervasyonu önceden kontrol et.' },
+    ],
+  },
+  {
+    id: 'niki-restaurant-ankara', name: 'Niki Restaurant & Bar', district: 'Çankaya',
+    address: 'Kazım Özalp Mah., Hafta Sk. No:16, Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Sosyal', 'Sakin'], interests: ['Lezzet'], priceLevel: 3, editorialScore: 4.8,
+    note: 'Gündelik bir öğün yerine baş başa ya da kutlama akşamını uzun sofraya dönüştürmek istediğin özel bir gece için seç.',
+    latitude: 39.8962508, longitude: 32.8719618, sourceUrl: 'https://www.instagram.com/nikirestaurant/', verifiedAt: '2026-09-19',
+    aliases: ['Niki Restaurant', 'Niki Ankara'],
+    provenance: [
+      { kind: 'official', label: 'Niki Restaurant resmî sosyal hesabı', verifiedAt: '2026-09-19', url: 'https://www.instagram.com/nikirestaurant/', note: 'Hafta Sokak’taki güncel Ankara işletme kimliği ve iletişim kanalı doğrulandı. Kaynaklar çalışma saatlerinde çeliştiğinden kesin haftalık çizelge sabitlenmedi; pazar erişimi dahil güncel saat ve masa durumu telefonla sorulmalıdır.' },
+      { kind: 'map_pin', label: 'Google Maps Niki işletme pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/Niki+Restaurant/@39.8962508,32.8719618,17z', note: 'Kazım Özalp Mahallesi Hafta Sokak No:16 adresindeki faal restoran ve güncel 0537 766 20 48 telefonu doğrulandı. Yaklaşık premium fiyat bandında 90–180 dakika planla; özel gün ve yoğun akşam için rezervasyon önerilir ama zorunlu olduğu iddia edilmez.' },
+    ],
+  },
+  {
+    id: 'louise-brasserie-lounge', name: 'Louise Cafe Brasserie & Loft', district: 'Çankaya',
+    address: '100. Yıl Mah., Filistin Cd. No:37, Gaziosmanpaşa, Çankaya, Ankara',
+    category: 'Lezzet', moods: ['Sosyal', 'Sakin'], interests: ['Lezzet'], priceLevel: 3, editorialScore: 4.8,
+    note: 'New Orleans esintili katları ve lounge ritmiyle sıradan buluşmayı yemeğin uzadığı özel bir akşama çevir.',
+    latitude: 39.897412, longitude: 32.8717225, sourceUrl: 'https://www.louise.com.tr/', verifiedAt: '2026-09-19',
+    aliases: ['Louise Brasserie & Lounge', 'Louise Ankara', 'Louise Cafe Brasserie & Lounge'],
+    provenance: [
+      { kind: 'official', label: 'Louise resmî restoran sayfası', verifiedAt: '2026-09-19', url: 'https://www.louise.com.tr/', note: 'Filistin Caddesi No:37’deki tek güncel Louise kimliği, cafe-brasserie, patisserie ve lounge bileşimi doğrulandı. Branch geçmişi, belirli menü ürünü veya her bölümün her saatte aynı şekilde çalıştığı iddia edilmedi.' },
+      { kind: 'official', label: 'Louise iletişim ve rezervasyon', verifiedAt: '2026-09-19', url: 'https://www.louise.com.tr/iletisim.html', note: 'Resmî sayfa hafta içi 12:00–00:00, hafta sonu 10:00–00:00 yayımlıyor ve restoran rezervasyonunu 0545 447 51 00 üzerinden yönlendiriyor. Saatler ve masa koşulları dinamiktir; özel akşam için önceden teyit et ve 90–180 dakika ayır.' },
+      { kind: 'map_pin', label: 'Google Maps Louise işletme pini', verifiedAt: '2026-09-19', url: 'https://www.google.com/maps/place/Louise+Cafe+Brasserie+%26+Loft/@39.897412,32.8717225,17z', note: 'Resmî adres, telefon ve web sitesiyle eşleşen faal işletme pini. Yaklaşık premium fiyat bandı kullanıldı; dinamik menü fiyatı veya rezervasyonsuz giriş garantisi verilmedi.' },
+    ],
+  },
 ];
 
 const placeStatusOverrides: Readonly<Record<string, PlaceStatus>> = {
