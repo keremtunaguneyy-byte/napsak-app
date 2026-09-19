@@ -2,6 +2,16 @@
 
 Kontrol tarihi: 19 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Ankara Place Completeness Batch #2
+
+- `codex/ankara-place-batch-2` dalı, fetch sonrası doğrulanan `origin/main` commit'i `53186fad649773ce0fab715f7a628f37c9cf7194` üzerinden ayrı bir worktree'de açıldı.
+- Onaylı sekiz functional-expansion Place eklendi: Goethe-Institut Ankara, Institut français Ankara, Mülkiyeliler Birliği Kafe-Restoran, AST Bilkent Sahne, Akün Sahnesi, Şinasi Sahnesi, Çubuk-1 Barajı Rekreasyon Alanı ve Atatürk Kültür Merkezi (Başkent) Millet Bahçesi.
+- Goethe ve Institut français dil kursu kimliğine indirgenmedi; halka açık kültür/kütüphane değeri öne çıkarıldı ve programlı sergi, gösterim ile Micro-Folie oturumları tarih/seans koşuluna bağlandı. AST yalnız güncel Bilkent kimliğiyle modellendi; deprecated eski AST konumu canlandırılmadı. Akün ve Şinasi ayrı adres/pin ve sahne kimlikleri olarak tutuldu; hiçbir güncel oyun evergreen Place metnine gömülmedi.
+- Mülkiyeliler Birliği kaydı, Konur Sokak'taki Kazan A.Ş. restoranını kurumun sosyal ve kent hafızası karakteriyle birlikte taşır; kanıtlanmayan üyelik kısıtı eklenmedi. Çubuk-1 bütün alanı tek yürüyüş rotası gibi sunmaz; hava/gün ışığı ve bölüm erişimi caveat'larını taşır. AKM Millet Bahçesi bütün etap ve tesisleri sürekli açık saymaz; büyük etkinliklerde geçici alan kısıtını açık bırakır.
+- Mamak Müzik Müzesi, Türk Hava Kurumu Müzesi, TEKNOMER, 2. Yüzyıl Parkı, Ayıntap İnci, Mutlu Lokantası, Tarihî Mutfak Lokantası, Zeynel, Ceviz Pastanesi, F451 Brew ve No4 Restaurant Bar Lounge eklenmedi; HOLD/kimlik/operasyon kapıları korunur.
+- Place sayısı 166'dan 174'e çıktı; Experience 50, Idea 86, Event 12 ve Guide 12 olarak kaldı. Embedded katalog sürümü `2026-09-19.2` oldu; schema/cache sürümü v3 olarak kaldı. Yeni Experience eklenmedi.
+- Öneri ağırlıkları, hard filtreler, uygunluk, sıralama, çeşitlilik, rotasyon, Fikir davranışı, Event verisi, UI ve Firebase değiştirilmedi. Güncel doğrulamada diff kontrolü, typecheck, 97 ana/release testi, 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, Event Catalog Health, performans ve release baseline kontrolleri geçti. Sabit kalite matrisinde uygun aday toplamı 598'den 624'e çıktı; sıfır/kısmi/tam beşli sayıları 0/1/14 ve ilk grup sonucu 71 olarak kaldı. Ortalama kategori çeşitliliği 2,667'den 2,600'e, uygulanabilir ilçe çeşitliliği 2,400'den 2,333'e indi; tekrarlanan ID 58'den 56'ya ve tekrarlanan slot 72'den 70'e indi. Yaşam döngüsü sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kaldı. Son 5.000 çağrılık performans p95'i 7,199 ms ile 25 ms bütçesinin altında kaldı.
+
 ## Devam eden çalışma — Ankara Place Completeness Batch #1
 
 - `codex/ankara-place-completeness-batch-1` dalı, fetch sonrası doğrulanan `origin/main` commit'i `77f712d780818e8aa8cc206a2d7fe5aa7a5b8761` üzerinden ayrı bir worktree'de açıldı.

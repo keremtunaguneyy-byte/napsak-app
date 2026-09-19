@@ -594,7 +594,6 @@ test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors'
     'pecenek-doner-iskitler',
   ];
 
-  assert.equal(places.length, 166);
   assert.equal(experiences.length, 50);
   for (const id of expectedPlaceIds) {
     const place = places.find(item => item.id === id);
@@ -615,6 +614,57 @@ test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors'
   assert.match(places.find(item => item.id === 'ahlatlibel-ataturk-parki').provenance.map(item => item.note).join(' '), /hava koşuluna bağlıdır/);
   assert.equal(places.some(place => place.id.includes('evliyagil')), false);
   assert.equal(places.some(place => place.id === 'yilmaz-guney-sahnesi'), false);
+});
+
+test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place anchors', () => {
+  const expectedPlaceIds = [
+    'goethe-institut-ankara',
+    'institut-francais-ankara',
+    'mulkiyeliler-birligi-kafe-restoran',
+    'ast-bilkent-sahne',
+    'akun-sahnesi',
+    'sinasi-sahnesi',
+    'cubuk-1-baraji-rekreasyon-alani',
+    'ataturk-kultur-merkezi-millet-bahcesi',
+  ];
+  const heldPlaceIds = [
+    'mamak-muzik-muzesi',
+    'turk-hava-kurumu-muzesi',
+    'teknomer',
+    'ikinci-yuzyil-parki',
+    'ayintap-inci',
+    'mutlu-lokantasi',
+    'tarihi-mutfak-lokantasi',
+    'zeynel',
+    'ceviz-pastanesi',
+    'f451-brew',
+    'no4-restaurant-bar-lounge',
+  ];
+
+  assert.equal(places.length, 174);
+  assert.equal(experiences.length, 50);
+  assert.equal(ideas.length, 86);
+  assert.equal(catalogEvents.length, 12);
+  assert.equal(guides.length, 12);
+  for (const id of expectedPlaceIds) {
+    const place = places.find(item => item.id === id);
+    assert.ok(place, `${id}: missing`);
+    assert.equal(place.status, 'active', `${id}: status`);
+    assert.equal(place.verifiedAt, '2026-09-19', `${id}: verifiedAt`);
+    assert.ok(place.provenance?.some(item => item.kind === 'official'), `${id}: official provenance`);
+    assert.ok(place.provenance?.some(item => item.kind === 'map_pin'), `${id}: map-pin provenance`);
+    assert.equal(experiences.some(item => item.points.some(point => point.placeId === id)), false, `${id}: Experience added`);
+  }
+
+  assert.equal(places.find(item => item.id === 'goethe-institut-ankara').priceLevel, 0);
+  assert.match(places.find(item => item.id === 'goethe-institut-ankara').provenance.map(item => item.note).join(' '), /herkese açık|üyelik/);
+  assert.match(places.find(item => item.id === 'institut-francais-ankara').provenance.map(item => item.note).join(' '), /program\/seans koşuluna bağlıdır/);
+  assert.match(places.find(item => item.id === 'mulkiyeliler-birligi-kafe-restoran').provenance.map(item => item.note).join(' '), /üyelik zorunluluğu bulunmadığından/);
+  assert.match(places.find(item => item.id === 'ast-bilkent-sahne').note, /eski Kızılay adresini/);
+  assert.notEqual(places.find(item => item.id === 'akun-sahnesi').latitude, places.find(item => item.id === 'sinasi-sahnesi').latitude);
+  assert.match(places.find(item => item.id === 'cubuk-1-baraji-rekreasyon-alani').provenance.map(item => item.note).join(' '), /tek ve kesintisiz yürünebilir rota gibi sunulmadı/);
+  assert.match(places.find(item => item.id === 'ataturk-kultur-merkezi-millet-bahcesi').provenance.map(item => item.note).join(' '), /her ziyarette açık olduğu varsayılmadı|geçici olarak kısıtlanabilir/);
+  assert.equal(heldPlaceIds.some(id => places.some(place => place.id === id)), false);
 });
 
 test('every experience produces a safe Google Maps action', () => {
