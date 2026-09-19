@@ -37,7 +37,7 @@ export function embeddedCatalog(cityId: CityId = 'ankara'): CatalogSnapshot {
     cityId,
     schemaVersion: CATALOG_SCHEMA_VERSION,
     catalogVersion: EMBEDDED_CATALOG_VERSION,
-    fetchedAt: '2026-09-19T18:00:00.000Z',
+    fetchedAt: '2026-09-19T14:10:12.000Z',
     cities: cities.filter(city => city.id === cityId),
     places: places.filter(place => place.cityId === cityId),
     experiences: experiences.filter(experience => experience.cityId === cityId),
