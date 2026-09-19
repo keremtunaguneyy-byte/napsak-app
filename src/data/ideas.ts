@@ -234,4 +234,164 @@ export const ideas: Idea[] = [
     note: 'Güvenli ve bildiğin bir yerde otur; geçen insanları tarif etmek yerine ışık, hareket, ses ve mevsim ayrıntılarını kısa kısa not et.', groupSizes: soloPair,
     ideaFamily: 'outdoor-neighborhood', typicalDurationMinutes: { min: 20, max: 30 }, setting: 'neighborhood', planningMode: 'spontaneous', primaryInterest: 'Doğa', secondaryInterests: ['Sanat'], contextTags: ['low-energy', 'no-spend', 'limited-time'], requirements: ['paper-and-pen'],
   },
+  {
+    id: 'idea-story-food-potluck', kind: 'idea', title: 'Herkes bir hikâyeli yemek getirsin', category: 'Lezzet', moods: ['Sosyal', 'Meraklı'], interests: ['Lezzet', 'Etkinlik'], priceLevel: 1, editorialScore: 9.4,
+    note: 'Herkes ailesine, memleketine veya geçmişindeki bir ana bağlı küçük bir yemek getirsin; sofrada önce yemeğin hikâyesini anlatsın.', groupSizes: ['3–4 kişi', '5+'],
+    ideaFamily: 'social-ritual-hosting', typicalDurationMinutes: { min: 120, max: 240 }, setting: 'home', planningMode: 'planned', primaryInterest: 'Lezzet', secondaryInterests: ['Etkinlik'], contextTags: ['evening', 'family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-song-chain', kind: 'idea', title: 'Şarkı zinciri kurun', category: 'Sanat', moods: ['Sosyal', 'Meraklı'], interests: ['Sanat', 'Etkinlik'], priceLevel: 0, editorialScore: 9.2,
+    note: 'İlk şarkıyı biri seçsin; sıradaki kişi önceki parçanın sözüne, ritmine veya anısına anlamlı biçimde karşılık veren bir şarkı eklesin.', groupSizes: pairGroup,
+    ideaFamily: 'friend-group', typicalDurationMinutes: { min: 60, max: 120 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Sanat', secondaryInterests: ['Etkinlik'], contextTags: ['evening', 'no-spend'], requirements: ['audio-device'],
+  },
+  {
+    id: 'idea-skill-swap', kind: 'idea', title: 'On beşer dakikalık beceri takası yapın', category: 'Etkinlik', moods: ['Sosyal', 'Meraklı'], interests: ['Etkinlik', 'Sanat'], priceLevel: 0, editorialScore: 9.3,
+    note: 'Herkes iyi bildiği küçük ve somut bir beceriyi seçsin; on beş dakikalık kısa turlarla diğerlerine öğretip hemen denetsin.', groupSizes: pairGroup,
+    ideaFamily: 'friend-group', typicalDurationMinutes: { min: 60, max: 120 }, setting: 'any', planningMode: 'light-planning', primaryInterest: 'Etkinlik', secondaryInterests: ['Sanat'], contextTags: ['no-spend'], requirements: [],
+  },
+  {
+    id: 'idea-soup-bread-table', kind: 'idea', title: 'Çorba ve ekmek masası kurun', category: 'Lezzet', moods: ['Sakin', 'Sosyal'], interests: ['Lezzet', 'Etkinlik'], priceLevel: 1, editorialScore: 9.2,
+    note: 'Tek bir tencere çorba, iyi bir ekmek ve evdeki küçük eşlikçilerle sade bir masa kurun; odağı gösterişten uzun sohbete taşıyın.', groupSizes: ['3–4 kişi', '5+'],
+    ideaFamily: 'social-ritual-hosting', typicalDurationMinutes: { min: 120, max: 240 }, setting: 'home', planningMode: 'planned', primaryInterest: 'Lezzet', secondaryInterests: ['Etkinlik'], contextTags: ['evening', 'family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-group-clothing-mend', kind: 'idea', title: 'Tamir edilecek kıyafetleri birlikte çıkarın', category: 'Sanat', moods: ['Sakin', 'Sosyal'], interests: ['Sanat', 'Etkinlik'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Düğmesi kopmuş veya küçük söküğü olan kıyafetleri bir araya getirin; temel tamirleri paylaşarak aynı masada kullanılabilir hâle getirin.', groupSizes: pairGroup,
+    ideaFamily: 'social-ritual-hosting', typicalDurationMinutes: { min: 60, max: 120 }, setting: 'home', planningMode: 'light-planning', primaryInterest: 'Sanat', secondaryInterests: ['Etkinlik'], contextTags: ['bad-weather', 'no-spend'], requirements: ['basic-tools', 'clothing-items'],
+  },
+  {
+    id: 'idea-decade-karaoke', kind: 'idea', title: 'Tek bir dönemden ev karaokesi yapın', category: 'Sanat', moods: ['Enerjik', 'Sosyal'], interests: ['Sanat', 'Etkinlik'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Bir on yıl seçip yalnızca o dönemin şarkılarından kısa bir liste kurun; performans puanı vermeden sırayla eşlik edin.', groupSizes: pairGroup,
+    ideaFamily: 'friend-group', typicalDurationMinutes: { min: 60, max: 120 }, setting: 'home', planningMode: 'light-planning', primaryInterest: 'Sanat', secondaryInterests: ['Etkinlik'], contextTags: ['evening', 'no-spend'], requirements: ['audio-device'],
+  },
+  {
+    id: 'idea-one-ingredient-small-plates', kind: 'idea', title: 'Bir malzemeden üç küçük tabak çıkarın', category: 'Lezzet', moods: ['Sosyal', 'Meraklı'], interests: ['Lezzet', 'Etkinlik'], priceLevel: 1, editorialScore: 9.2,
+    note: 'Tek bir ana malzeme seçin; küçük ekiplere ayrılıp birbirinden farklı üç küçük tabak hazırlayın ve sonuçları aynı sofrada tadın.', groupSizes: ['3–4 kişi', '5+'],
+    ideaFamily: 'friend-group', typicalDurationMinutes: { min: 120, max: 240 }, setting: 'home', planningMode: 'planned', primaryInterest: 'Lezzet', secondaryInterests: ['Etkinlik'], contextTags: ['evening'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-thermos-outdoor-reading', kind: 'idea', title: 'Termosa içecek koyup açık havada oku', category: 'Sanat', moods: ['Sakin'], interests: ['Sanat', 'Doğa'], priceLevel: 0, editorialScore: 9.2,
+    note: 'Evden sıcak bir içecek çıkar, güvenli ve sakin bir açık hava noktası seç; tek bir metni bildirimlere dönmeden orada oku.', groupSizes: soloPair,
+    ideaFamily: 'outdoor-neighborhood', typicalDurationMinutes: { min: 45, max: 90 }, setting: 'outdoor', planningMode: 'spontaneous', primaryInterest: 'Sanat', secondaryInterests: ['Doğa'], contextTags: ['low-energy'], requirements: ['reading-material'],
+  },
+  {
+    id: 'idea-dawn-neighborhood-walk', kind: 'idea', title: 'Şehir uyanmadan kısa yürüyüşe çık', category: 'Doğa', moods: ['Sakin', 'Enerjik'], interests: ['Doğa', 'Etkinlik'], priceLevel: 0, editorialScore: 9.3,
+    note: 'Güvenli ve bildiğin kısa bir rotayı günün erken saatine taşı; kepenk, kuş ve ilk servis sesleriyle mahallenin uyanışını izle.', groupSizes: soloPair,
+    ideaFamily: 'outdoor-neighborhood', typicalDurationMinutes: { min: 30, max: 45 }, setting: 'neighborhood', planningMode: 'light-planning', primaryInterest: 'Doğa', secondaryInterests: ['Etkinlik'], contextTags: ['no-spend', 'limited-time'], requirements: ['comfortable-walking-route'],
+  },
+  {
+    id: 'idea-street-name-trail', kind: 'idea', title: 'Bir sokak adının peşine düş', category: 'Sanat', moods: ['Sakin', 'Meraklı'], interests: ['Sanat', 'Doğa'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Dikkatini çeken bir sokak adı seç; adın kaynağını araştırıp sokağı baştan sona yürüyerek isimle bugünkü yer arasındaki bağı ara.', groupSizes: soloPair,
+    ideaFamily: 'curiosity-learning', typicalDurationMinutes: { min: 60, max: 90 }, setting: 'neighborhood', planningMode: 'light-planning', primaryInterest: 'Sanat', secondaryInterests: ['Doğa'], contextTags: ['no-spend'], requirements: ['phone-or-camera', 'comfortable-walking-route'],
+  },
+  {
+    id: 'idea-timed-bike-route', kind: 'idea', title: 'Süreye göre bisiklet rotası kur', category: 'Etkinlik', moods: ['Enerjik', 'Meraklı'], interests: ['Etkinlik', 'Doğa'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Mesafe hedefi yerine toplam süre belirle; güvenli yollardan dönüş payını koruyan bir rota çizip süre dolmadan başlangıca geri dön.', groupSizes: soloPair,
+    ideaFamily: 'active-movement', typicalDurationMinutes: { min: 45, max: 90 }, setting: 'outdoor', planningMode: 'spontaneous', primaryInterest: 'Etkinlik', secondaryInterests: ['Doğa'], contextTags: ['no-spend'], requirements: [],
+  },
+  {
+    id: 'idea-memory-map-walk', kind: 'idea', title: 'Mahalleni önce hafızadan çiz, sonra kontrol et', category: 'Doğa', moods: ['Sakin', 'Meraklı'], interests: ['Doğa', 'Sanat'], priceLevel: 0, editorialScore: 9.3,
+    note: 'Mahallendeki yolları ve belirgin noktaları bakmadan çiz; ardından haritanı eline alıp yürüyerek unuttuğun veya yanlış yerleştirdiğin ayrıntıları bul.', groupSizes: allGroups,
+    ideaFamily: 'curiosity-learning', typicalDurationMinutes: { min: 60, max: 90 }, setting: 'neighborhood', planningMode: 'spontaneous', primaryInterest: 'Doğa', secondaryInterests: ['Sanat'], contextTags: ['family', 'no-spend'], requirements: ['paper-and-pen', 'comfortable-walking-route'],
+  },
+  {
+    id: 'idea-seasonal-market-ingredient', kind: 'idea', title: 'Mevsimlik tek malzeme seçip eve dön', category: 'Lezzet', moods: ['Sakin', 'Meraklı'], interests: ['Lezzet', 'Doğa'], priceLevel: 1, editorialScore: 9.1,
+    note: 'Pazar veya manavda mevsimin en iyi görünen tek malzemesini seç; eve dönünce onu merkez alan sade bir tabak hazırla.', groupSizes: allGroups,
+    ideaFamily: 'micro-adventure', typicalDurationMinutes: { min: 120, max: 240 }, setting: 'neighborhood', planningMode: 'planned', primaryInterest: 'Lezzet', secondaryInterests: ['Doğa'], contextTags: ['family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-pasta-two-sauces', kind: 'idea', title: 'Aynı makarnaya iki küçük sos yap', category: 'Lezzet', moods: ['Sakin', 'Meraklı'], interests: ['Lezzet'], priceLevel: 1, editorialScore: 9.1,
+    note: 'Tek tencere makarnayı ikiye böl; evdeki malzemelerle birbirinden farklı iki küçük sos hazırlayıp hangisinin neden daha iyi çalıştığını tadın.', groupSizes: allGroups,
+    ideaFamily: 'food-cooking', typicalDurationMinutes: { min: 60, max: 90 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Lezzet', secondaryInterests: [], contextTags: ['bad-weather', 'evening'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-breakfast-for-dinner', kind: 'idea', title: 'Akşam yemeğine kahvaltı kur', category: 'Lezzet', moods: ['Sakin', 'Sosyal'], interests: ['Lezzet'], priceLevel: 1, editorialScore: 9.0,
+    note: 'Akşam sofrasını evdeki kahvaltılıklarla yeniden kur; sıcak tek bir parça ekleyip acele etmeyen, paylaşmalı bir öğüne dönüştür.', groupSizes: allGroups,
+    ideaFamily: 'food-cooking', typicalDurationMinutes: { min: 60, max: 90 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Lezzet', secondaryInterests: [], contextTags: ['evening', 'family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-leftovers-small-plates', kind: 'idea', title: 'Artanları küçük tabaklara dönüştür', category: 'Lezzet', moods: ['Sakin', 'Meraklı'], interests: ['Lezzet'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Dolaptaki artanları tek bir karışıma çevirmek yerine üç küçük tabağa ayır; her birine doku veya asit katan basit bir dokunuş yap.', groupSizes: allGroups,
+    ideaFamily: 'food-cooking', typicalDurationMinutes: { min: 45, max: 90 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Lezzet', secondaryInterests: [], contextTags: ['no-spend', 'limited-time'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-quick-flatbread', kind: 'idea', title: 'Tavada veya fırında kendi yassı ekmeğini yap', category: 'Lezzet', moods: ['Sakin', 'Meraklı'], interests: ['Lezzet'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Evdeki temel malzemelerle küçük bir hamur yoğur; tava veya fırında pişirip henüz sıcakken sade bir eşlikçiyle paylaş.', groupSizes: allGroups,
+    ideaFamily: 'food-cooking', typicalDurationMinutes: { min: 60, max: 90 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Lezzet', secondaryInterests: [], contextTags: ['bad-weather', 'family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-two-spice-comparison', kind: 'idea', title: 'Aynı sade yemekte iki baharat dene', category: 'Lezzet', moods: ['Sakin', 'Meraklı'], interests: ['Lezzet'], priceLevel: 0, editorialScore: 8.9,
+    note: 'Sade bir yiyeceği iki küçük porsiyona ayır; her birinde farklı tek baharat kullanıp aroma, acılık ve bitiş farkını karşılaştır.', groupSizes: allGroups,
+    ideaFamily: 'food-cooking', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Lezzet', secondaryInterests: [], contextTags: ['limited-time'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-three-vegetable-soup', kind: 'idea', title: 'Üç sebzeden çorba kur', category: 'Lezzet', moods: ['Sakin', 'Meraklı'], interests: ['Lezzet'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Evde bulunan üç sebzeyi seç; lezzeti kalabalıklaştırmadan tek tencerede dengeli bir çorbaya dönüştürüp son dokunuşu tadına göre belirle.', groupSizes: allGroups,
+    ideaFamily: 'food-cooking', typicalDurationMinutes: { min: 60, max: 90 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Lezzet', secondaryInterests: [], contextTags: ['bad-weather', 'family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-turkish-coffee-variable', kind: 'idea', title: 'Türk kahvesinde tek değişken dene', category: 'Kahve', moods: ['Sakin', 'Meraklı'], interests: ['Kahve', 'Lezzet'], priceLevel: 0, editorialScore: 9.2,
+    note: 'Aynı kahveyi iki küçük cezvede hazırla; yalnızca su sıcaklığı veya karıştırma gibi tek değişkeni farklı tutup fincanları yan yana tat.', groupSizes: soloPair,
+    ideaFamily: 'coffee-drink-ritual', typicalDurationMinutes: { min: 30, max: 45 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Kahve', secondaryInterests: ['Lezzet'], contextTags: ['bad-weather', 'limited-time'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-coffee-temperature-tasting', kind: 'idea', title: 'Kahveyi sıcak ve soğurken ayrı ayrı tat', category: 'Kahve', moods: ['Sakin', 'Meraklı'], interests: ['Kahve'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Tek fincan kahveyi ilk yudumda ve soğumaya başladıktan sonra yeniden tat; belirginleşen aroma ve tatlılık farklarını kısa notlarla karşılaştır.', groupSizes: soloPair,
+    ideaFamily: 'coffee-drink-ritual', typicalDurationMinutes: { min: 15, max: 30 }, setting: 'any', planningMode: 'spontaneous', primaryInterest: 'Kahve', secondaryInterests: [], contextTags: ['low-energy', 'limited-time'], requirements: [],
+  },
+  {
+    id: 'idea-overnight-cold-brew', kind: 'idea', title: 'Akşamdan soğuk demleme hazırla', category: 'Kahve', moods: ['Sakin', 'Meraklı'], interests: ['Kahve'], priceLevel: 1, editorialScore: 9.0,
+    note: 'Kahveyi akşam suyla buluşturup oranı not et; gece boyunca beklettikten sonra sabah süzerek bir sonraki deneme için sonucu değerlendir.', groupSizes: soloPair,
+    ideaFamily: 'coffee-drink-ritual', typicalDurationMinutes: { min: 15, max: 30 }, setting: 'home', planningMode: 'planned', primaryInterest: 'Kahve', secondaryInterests: [], contextTags: ['bad-weather'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-thermos-coffee-walk', kind: 'idea', title: 'Termos kahvesiyle kısa mola yürüyüşü yap', category: 'Kahve', moods: ['Sakin', 'Enerjik'], interests: ['Kahve', 'Doğa'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Kahveni evde hazırlayıp kısa ve güvenli bir rotaya çık; yolun ortasında oturabileceğin bir noktada içerek yürüyüşü iki sakin bölüme ayır.', groupSizes: soloPair,
+    ideaFamily: 'coffee-drink-ritual', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'neighborhood', planningMode: 'spontaneous', primaryInterest: 'Kahve', secondaryInterests: ['Doğa'], contextTags: ['limited-time'], requirements: ['kitchen-access', 'comfortable-walking-route'],
+  },
+  {
+    id: 'idea-spiced-hot-chocolate', kind: 'idea', title: 'Sıcak çikolatada baharat dengesini bul', category: 'Kahve', moods: ['Sakin', 'Sosyal', 'Meraklı'], interests: ['Kahve', 'Lezzet'], priceLevel: 1, editorialScore: 9.0,
+    note: 'Sıcak çikolatayı küçük porsiyonlara ayır; tarçın, kakule veya acı biberden birini azar azar ekleyip çikolatayı bastırmayan oranı bul.', groupSizes: allGroups,
+    ideaFamily: 'coffee-drink-ritual', typicalDurationMinutes: { min: 30, max: 45 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Kahve', secondaryInterests: ['Lezzet'], contextTags: ['bad-weather', 'evening', 'family'], requirements: ['kitchen-access', 'basic-ingredients'],
+  },
+  {
+    id: 'idea-six-panel-day-comic', kind: 'idea', title: 'Gününden altı karelik çizgi hikâye çıkar', category: 'Sanat', moods: ['Sakin', 'Meraklı'], interests: ['Sanat'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Günün tek bir küçük anını başlangıçtan sona altı kareye böl; güzel çizmek yerine hareketi ve değişen ayrıntıyı anlaşılır kıl.', groupSizes: soloPair,
+    ideaFamily: 'creative-art', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Sanat', secondaryInterests: [], contextTags: ['bad-weather', 'no-spend'], requirements: ['paper-and-pen'],
+  },
+  {
+    id: 'idea-found-object-still-life', kind: 'idea', title: 'Evde bulduğun nesnelerle natürmort kur', category: 'Sanat', moods: ['Sakin', 'Meraklı'], interests: ['Sanat'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Renk, biçim veya hikâye bakımından birbirine cevap veren üç gündelik nesne seç; ışığı düzenleyip tek bir kompozisyonda çiz veya fotoğrafla.', groupSizes: soloPair,
+    ideaFamily: 'creative-art', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Sanat', secondaryInterests: [], contextTags: ['bad-weather', 'no-spend'], requirements: ['phone-or-camera'],
+  },
+  {
+    id: 'idea-one-minute-sound-collage', kind: 'idea', title: 'Bir dakikalık seslerden küçük kolaj yap', category: 'Sanat', moods: ['Sakin', 'Meraklı'], interests: ['Sanat', 'Doğa'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Çevrenden birkaç kısa ses kaydı topla; konuşma eklemeden bir dakikalık sıraya dizip başlangıcı, ortası ve sonu olan küçük bir dinleme parçası kur.', groupSizes: soloPair,
+    ideaFamily: 'creative-art', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'any', planningMode: 'spontaneous', primaryInterest: 'Sanat', secondaryInterests: ['Doğa'], contextTags: ['no-spend', 'limited-time'], requirements: ['phone-or-camera', 'audio-device'],
+  },
+  {
+    id: 'idea-packaging-postcard', kind: 'idea', title: 'Ambalajlardan gönderilebilir kartpostal yap', category: 'Sanat', moods: ['Sakin', 'Meraklı'], interests: ['Sanat', 'Etkinlik'], priceLevel: 0, editorialScore: 8.9,
+    note: 'Temiz karton ambalajları kesip tek bir sağlam yüzey oluştur; önünü kolajla tamamlayıp arkasına gerçekten göndereceğin kısa bir not yaz.', groupSizes: soloPair,
+    ideaFamily: 'creative-art', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Sanat', secondaryInterests: ['Etkinlik'], contextTags: ['bad-weather', 'no-spend'], requirements: ['craft-materials', 'paper-and-pen'],
+  },
+  {
+    id: 'idea-everyday-object-origin', kind: 'idea', title: 'Gündelik bir nesnenin kökenini araştır', category: 'Etkinlik', moods: ['Sakin', 'Meraklı'], interests: ['Etkinlik', 'Sanat'], priceLevel: 0, editorialScore: 9.1,
+    note: 'Her gün kullandığın sıradan bir nesne seç; kim tarafından, hangi ihtiyaçla ve nasıl bugünkü biçimine geldiğini güvenilir kaynaklardan araştır.', groupSizes: soloPair,
+    ideaFamily: 'curiosity-learning', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'home', planningMode: 'spontaneous', primaryInterest: 'Etkinlik', secondaryInterests: ['Sanat'], contextTags: ['bad-weather', 'no-spend'], requirements: ['phone-or-camera'],
+  },
+  {
+    id: 'idea-hourly-weather-observation', kind: 'idea', title: 'Hava tahminini bir saat gözlemle sınayın', category: 'Doğa', moods: ['Sakin', 'Meraklı'], interests: ['Doğa', 'Etkinlik'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Bir saatlik tahmini önceden yazın; belirli aralıklarla bulut, rüzgâr ve sıcaklık hissini gözleyip tahminle nerede ayrıştığını işaretleyin.', groupSizes: allGroups,
+    ideaFamily: 'curiosity-learning', typicalDurationMinutes: { min: 30, max: 60 }, setting: 'any', planningMode: 'spontaneous', primaryInterest: 'Doğa', secondaryInterests: ['Etkinlik'], contextTags: ['family', 'no-spend', 'limited-time'], requirements: ['paper-and-pen'],
+  },
+  {
+    id: 'idea-three-pace-walk', kind: 'idea', title: 'Yürüyüşü üç tempoya böl', category: 'Etkinlik', moods: ['Enerjik', 'Meraklı'], interests: ['Etkinlik', 'Doğa'], priceLevel: 0, editorialScore: 9.0,
+    note: 'Otuz dakikalık güvenli bir yürüyüşü rahat, canlı ve yeniden rahat olmak üzere üç eşit bölüme ayır; bedenindeki ritim değişimini izle.', groupSizes: soloPair,
+    ideaFamily: 'active-movement', typicalDurationMinutes: { min: 30, max: 30 }, setting: 'neighborhood', planningMode: 'spontaneous', primaryInterest: 'Etkinlik', secondaryInterests: ['Doğa'], contextTags: ['no-spend', 'limited-time'], requirements: ['comfortable-walking-route'],
+  },
+  {
+    id: 'idea-jump-rope-rounds', kind: 'idea', title: 'İp atlamayı kısa turlarla yeniden öğren', category: 'Etkinlik', moods: ['Enerjik', 'Meraklı'], interests: ['Etkinlik'], priceLevel: 0, editorialScore: 8.9,
+    note: 'Kesintisiz uzun seri hedeflemek yerine kısa çalışma ve dinlenme turları kur; her turda rahat ritmi birkaç sıçrama daha korumaya çalış.', groupSizes: soloPair,
+    ideaFamily: 'active-movement', typicalDurationMinutes: { min: 15, max: 30 }, setting: 'any', planningMode: 'spontaneous', primaryInterest: 'Etkinlik', secondaryInterests: [], contextTags: ['no-spend', 'limited-time'], requirements: [],
+  },
 ];

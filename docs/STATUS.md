@@ -2,6 +2,16 @@
 
 Kontrol tarihi: 19 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Fikir Expansion Batch B
+
+- `codex/idea-expansion-batch-b` dalı, fetch sonrası doğrulanan `origin/main` commit'i `d64836bb72a86142e2ae07a66630a1364cdac994` üzerinden ayrı bir worktree'de açıldı.
+- Daha önce onaylanan Fikir Mimarisi araştırma havuzu mevcut 86 kayıtla normalize kullanıcı eylemi düzeyinde yeniden karşılaştırıldı. Kalite eşiğini geçen 32 platformdan bağımsız Fikir eklendi; toplam 118 Fikir, 66 tam yapılandırılmış ve değişmeden korunan 52 legacy kayda çıktı.
+- Yeni batch; 7 arkadaş grubu/sosyal ritüel, 6 açık hava/mahalle, 6 yemek, 5 kahve-içecek ritüeli, 6 yaratıcı-merak ve 2 ek hareket adayını kapsar. Metadata family dağılımı 5 coffee-drink-ritual, 6 food-cooking, 4 friend-group, 3 social-ritual-hosting, 4 creative-art, 4 curiosity-learning, 3 active-movement, 2 outdoor-neighborhood ve 1 micro-adventure'dır. Ana ilgi dağılımı 10 Lezzet, 9 Sanat, 5 Kahve, 5 Etkinlik ve 3 Doğa; fiyat dağılımı 24 ücretsiz ve 8 düşük maliyetlidir.
+- Yeni kayıtlarda maksimum süre dağılımı 4×30 dakika veya altı, 11×31–60, 13×61–120 ve 4×121+ dakikadır. 22 kayıt spontaneous, 5 light-planning ve 5 planned; 17 kayıt no-spend, 11 bad-weather, 10 limited-time, 9 family, 8 evening ve 2 low-energy bağlamı taşır.
+- Altı aday yakın tekrar veya zayıf bağımsız eylem nedeniyle eklenmedi: son fotoğraf hikâyesi mevcut çocukluk fotoğrafı anlatısına; paralel sokak yürüyüşü mevcut rota yürüyüşlerine; gölge çizimi mevcut gölge izine; aynı malzemeyi iki yöntemle pişirme ve telefonla aile tarifi mevcut pişirme kayıtlarına; mahallede renk toplama mevcut tek renk fotoğraf yürüyüşüne fazla yakındı.
+- Embedded katalog sürümü `2026-09-19.4`, `fetchedAt` değeri `2026-09-19T19:08:20.000Z` oldu; schema/cache sürümü v3 kaldı. Öneri ağırlıkları, hard filtreler, uygunluk, sıralama, 1+4 keşif kotası, çeşitlilik, rotasyon, açıklamalar, diğer içerik türleri, UI ve Firebase değiştirilmedi.
+- Güncel doğrulamada diff kontrolü, typecheck, 98 ana/release + 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality ve performans kontrolü geçti. Recommendation-quality matrisinde uygun aday toplamı 636'dan 668'e çıktı; artış yalnız Fikir senaryosundaki 32 yeni kayıttır. Sıfır/kısmi/tam beşli sayıları 0/1/14, ilk grup sonucu 71, kategori ve ilçe çeşitliliği 2,600/2,333 kaldı; tekrarlanan ID 55'ten 54'e ve tekrarlanan slot 69'dan 68'e indi. Yaşam döngüsü sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kaldı. Son 5.000 çağrılık performans p95'i 7,229 ms ile 25 ms bütçesinin altında kaldı.
+
 ## Devam eden çalışma — Ankara Place Completeness Batch #3
 
 - `codex/ankara-place-batch-3` dalı, fetch sonrası doğrulanan `origin/main` commit'i `a82c7e785b78e8c2f970cdccfafa20a0f8508a02` üzerinden ayrı bir worktree'de açıldı.
