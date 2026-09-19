@@ -209,7 +209,7 @@ type LegacyIdeaMetadata = {
 
 /**
  * Structured metadata is atomic while the legacy shape remains readable.
- * Batch A/B records provide every metadata field; the original 52 Ideas omit all
+ * Batch A/B/C records provide every metadata field; the original 52 Ideas omit all
  * of them until they receive an explicit editorial migration.
  */
 export type Idea = IdeaBase & IdeaExternalAction & (StructuredIdeaMetadata | LegacyIdeaMetadata);
