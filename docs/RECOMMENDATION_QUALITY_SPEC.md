@@ -452,3 +452,33 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19
 | Objective invariant failures | 0 | 0 |
 
 The eligible-candidate increase is exactly the 22 Batch C Ideas in the controlled-discovery fixture; every other scenario supply and the result total remain unchanged. The three seeded Fikir batches return 15 unique IDs and preserve one selected-interest plus four independent discoveries. No ranking, filtering, diversity, rotation, explanation or saved-state code changed. A post-batch local sample measured mean 1.972 ms, p50 1.348 ms, p95 4.687 ms and p99 4.869 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.621 ms, p50 1.045 ms, p95 7.272 ms and p99 7.607 ms against the 25 ms p95 budget; both are host-specific samples.
+
+## 18. Final Ankara Experience batch delta
+
+Command: `npm run check:recommendations`. Catalog version: `2026-09-19.6`. Result limit: 5.
+
+| Measure | Before (`2026-09-19.5`) | After (`2026-09-19.6`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 690 | 704 |
+| First-batch results | 71 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 14 / 15 (93.33%) |
+| Results with explanations | 71 / 71 | 71 / 71 |
+| Reason strings | 288 | 288 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 62 |
+| Exact budget fits | 39 | 39 |
+| Group fits | 66 | 66 |
+| Mean distinct categories per first batch | 2.600 | 2.600 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.333 |
+| Distinct repeated IDs across three-batch fixture runs | 54 | 54 |
+| Repeated slots across three-batch fixture runs | 68 | 67 |
+| Location-paired changed slots | 20 | 23 |
+| Location-paired symmetric membership difference, summed | 16 | 18 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+Eight approved evergreen Experiences increase supply in three Experience fixtures: the solo Sanat context gains five candidates, the couple Ulus Sanat context gains one, and the cold-start context gains all eight. The result count, explanation coverage, match counts, category/district diversity and invariant results remain unchanged; repeated slots improve by one. Location on/off replays change three more ranked slots and two more membership positions because the expanded catalog gives the unchanged proximity signal additional legitimate choices. Mamak Füzyon is excluded because the current `conditional` activation is intentionally unsupported and fail-closed; representing its reservation-, age- and programme-dependent workshops as evergreen would be incorrect. No ranking, filtering, diversity, rotation, explanation, lifecycle or saved-state code changed. The post-batch 300-call report-only sample measured mean 2.619 ms, p50 1.996 ms, p95 6.041 ms and p99 6.258 ms. The separate 5,000-call benchmark measured mean 10.394 ms, p50 1.503 ms, p95 9.644 ms and p99 11.648 ms against the 25 ms p95 budget; both are host-specific samples, not device evidence.
