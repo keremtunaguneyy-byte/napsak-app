@@ -2,6 +2,14 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-19 — Fikir Expansion Batch B
+
+Durum: Kullanıcı tarafından onaylandı; `codex/idea-expansion-batch-b` dalında uygulanıyor, production'da doğrulanmadı.
+
+Onaylı Fikir Mimarisi araştırma havuzu mevcut katalogla eylem düzeyinde yeniden deduplike edilir ve kalite eşiğini geçen 32 kayıt eklenir. Arkadaş grubu ve sosyal ritüel/hosting, yemek, kahve-içecek ritüeli, aktif hareket, merak-öğrenme, açık hava-mahalle ve ayrı çift/date değeri dengelenir; yakın tekrar veya yalnız zayıf bir varyasyon olan adaylar sayı hedefini doldurmak için eklenmez.
+
+Batch B mevcut atomik metadata sözleşmesini kullanır ve dış platforma bağlı değildir. İlk 52 legacy kayıt, stable ID'ler ve mevcut dış bağlantılar korunur. Yeni metadata editoryal-only kalır; öneri ağırlıkları, hard filtreler, uygunluk, 1+4 Fikir keşif kotası, çeşitlilik, rotasyon, açıklamalar ve diğer içerik sınıfları değiştirilmez.
+
 ## 2026-09-18 — Fikir metadata mimarisi ve platformdan bağımsız eylem
 
 Durum: Kullanıcı tarafından onaylandı; `codex/idea-architecture-batch-a` dalında uygulanıyor, production'da doğrulanmadı.

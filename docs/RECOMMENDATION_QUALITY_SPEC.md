@@ -392,3 +392,33 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-19.1`. Resul
 The 13 approved Places increase summed eligible supply by 36 across six Place fixtures: Çukurambar friends gains eight, Eryaman large-group gains eight, no-location nature gains four, tight-budget Sanat + Doğa gains ten, and the premium- and flexible-budget Lezzet fixtures gain three each. Experience, Event and Idea fixture supply is unchanged because this batch adds no records to those surfaces.
 
 The stable result total and explanation count show that the batch expands an already-full Place supply rather than manufacturing new recommendation slots. Exact-budget, diversity, repetition and location movements are characterization, not approved-threshold regressions; ranking, diversity, rotation, filters and weights did not change. A recorded post-batch local quality sample measured mean 1.998 ms, p50 1.485 ms, p95 4.715 ms and p99 4.955 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.512 ms, p50 1.084 ms, p95 7.031 ms and p99 7.449 ms against the 25 ms p95 budget; both are host-specific samples.
+
+## 16. Idea Expansion Batch B delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19.4`. Result limit: 5.
+
+| Measure | Before (`2026-09-19.3`) | After (`2026-09-19.4`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 636 | 668 |
+| First-batch results | 71 | 71 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 1 / 15 (6.67%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 14 / 15 (93.33%) |
+| Results with explanations | 71 / 71 | 71 / 71 |
+| Reason strings | 288 | 288 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 62 |
+| Exact budget fits | 39 | 39 |
+| Group fits | 66 | 66 |
+| Mean distinct categories per first batch | 2.600 | 2.600 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.333 |
+| Distinct repeated IDs across three-batch fixture runs | 55 | 54 |
+| Repeated slots across three-batch fixture runs | 69 | 68 |
+| Location-paired changed slots | 20 | 20 |
+| Location-paired symmetric membership difference, summed | 16 | 16 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The eligible-candidate increase is exactly the 32 Batch B Ideas in the controlled-discovery fixture; the other 14 scenario supplies and the first-batch result total are unchanged. Across the three seeded Fikir batches, all 15 returned Ideas are unique while the one-selected-interest plus four-independent-discoveries contract remains intact. The structured fields remain editorial-only, so the change expands catalog coverage without modifying ranking, filters, diversity, rotation, or explanations. A post-batch local sample measured mean 2.059 ms, p50 1.402 ms, p95 4.859 ms and p99 5.153 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.602 ms, p50 1.037 ms, p95 7.229 ms and p99 7.580 ms against the 25 ms p95 budget; both are host-specific samples.

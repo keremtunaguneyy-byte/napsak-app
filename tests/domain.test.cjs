@@ -643,7 +643,7 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
 
   assert.equal(places.length, 178);
   assert.equal(experiences.length, 50);
-  assert.equal(ideas.length, 86);
+  assert.equal(ideas.length, 118);
   assert.equal(catalogEvents.length, 12);
   assert.equal(guides.length, 12);
   for (const id of expectedPlaceIds) {
@@ -691,7 +691,7 @@ test('Ankara Place completeness batch 3 publishes only candidates that clear cur
 
   assert.equal(places.length, 178);
   assert.equal(experiences.length, 50);
-  assert.equal(ideas.length, 86);
+  assert.equal(ideas.length, 118);
   assert.equal(catalogEvents.length, 12);
   assert.equal(guides.length, 12);
   for (const id of expectedPlaceIds) {
@@ -915,7 +915,7 @@ test('catalog coordinates, official URL shapes, categories and tags are valid', 
 });
 
 test('timeless idea catalog is curated, complete and uniquely identified', () => {
-  assert.equal(ideas.length, 86);
+  assert.equal(ideas.length, 118);
   assert.equal(new Set(ideas.map(idea => idea.id)).size, ideas.length);
   for (const idea of ideas) {
     assert.equal(idea.kind, 'idea');
@@ -931,10 +931,10 @@ test('timeless idea catalog is curated, complete and uniquely identified', () =>
   }
 });
 
-test('Idea Batch A adds 34 fully structured records and preserves 52 legacy records', () => {
+test('Idea Batches A and B add 66 fully structured records and preserve 52 legacy records', () => {
   const structured = ideas.filter(idea => idea.ideaFamily !== undefined);
   const legacy = ideas.filter(idea => idea.ideaFamily === undefined);
-  assert.equal(structured.length, 34);
+  assert.equal(structured.length, 66);
   assert.equal(legacy.length, 52);
   assert.ok(legacy.every(idea => idea.actionUrl && idea.actionLabel));
   assert.ok(structured.every(idea => idea.actionUrl === undefined && idea.actionLabel === undefined));
