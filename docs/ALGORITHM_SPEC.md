@@ -11,7 +11,7 @@
 | Fikir | Açık Fikir sekmesinde standart beşli için bir ilgili + dört seçili ilgilerden bağımsız keşif hedeflenir. Yetersiz havuzda kontrollü fallback vardır. Karma akış ile açık Fikir sekmesi aynı davranış değildir. Batch A, B ve C'nin `ideaFamily`, yapılandırılmış süre, setting, planning mode, ana/ikincil ilgi, context tag ve requirement alanları bu aşamada editoryal metadatadır; sıralama hâlâ legacy kategori/mod/ilgi/bütçe/grup sinyallerini kullanır. |
 | Etkinlik | Geçersiz/geçmiş başlangıç zamanı ve gizlenenler elenir. Açık Etkinlik sekmesinde ilgi sıralama sinyalidir; karma akışta ayrıca ilgi uygunluğu uygulanır. |
 
-Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Kategori/ilçe yığılması azaltılır; önceki gruptan kaçınma ve deterministik seed vardır. Küçük havuzda tekrar mümkün olduğundan “daima beş tamamen yeni sonuç” vaat edilmez. Gerekçe gerçek eşleşmeyi anlatmalıdır.
+Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Bu katman sırası yalnız doğrudan `recommendExperiences` çağrısında değil, uygulamanın kullandığı `recommendAll(filter: 'experience')` sonucunun tamamında korunur: istenen grup için yeterli ana eşleşme varsa ikincil-eşleşmeli aday ilk gruba giremez; ana arz yetersizse ikincil eşleşme kalan yerleri dolduran fallback'tir. Kategori/ilçe yığılması azaltılır; önceki gruptan kaçınma ve deterministik seed vardır. Küçük havuzda tekrar mümkün olduğundan “daima beş tamamen yeni sonuç” vaat edilmez. Gerekçe gerçek eşleşmeyi anlatmalıdır.
 
 ## Merkezi içerik uygunluğu
 

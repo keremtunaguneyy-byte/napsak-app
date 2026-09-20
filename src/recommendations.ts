@@ -372,7 +372,7 @@ export function recommendAll(options: {
   const candidateLimit = Math.max(limit * 3, 15);
   const experienceItems: RecommendationItem[] = filter === 'experience' || filter === 'all' ? recommendExperiences({
     experiences, places, events, mood, interests, dismissed, budget, groupSize, duration, coordinates,
-    limit: candidateLimit, seed, previousBatch, now,
+    limit: filter === 'experience' ? limit : candidateLimit, seed, previousBatch, now,
   }) : [];
   const placeItems: RecommendationItem[] = filter === 'place' || filter === 'all' ? recommendPlaces({
     places, mood, interests, dismissed, budget, groupSize, coordinates,
@@ -407,6 +407,11 @@ export function recommendAll(options: {
   // Preserve the exact PR #8 place ordering (including its category/district
   // diversity penalties) when the user explicitly asks for places only.
   if (filter === 'place') return placeItems.slice(0, limit);
+
+  // The Experience selector applies primary-before-secondary interest tiers,
+  // diversity and rotation as one ordered operation. Preserve that order on the
+  // explicit Experience surface instead of flattening it into a raw-score sort.
+  if (filter === 'experience') return experienceItems;
 
   const pool = [...experienceItems, ...placeItems, ...ideaItems, ...eventItems]
     .filter(item => !previousBatch.includes(item.id))

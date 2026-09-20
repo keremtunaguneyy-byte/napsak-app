@@ -190,7 +190,7 @@ A recorded post-refresh local latency sample was mean 1.446 ms, p50 0.850 ms, p9
 - Place group fit reflects the existing heuristic, not explicit venue capacity or accessibility evidence.
 - District diversity does not apply to current Event and Idea types.
 - Location changes membership or ordering in seven of the nine paired fixtures at these seeds. Short-duration keeps the same order despite positive proximity contributions; long-duration keeps the same order because all five eligible plans are beyond the Experience proximity-score radius. These findings characterize the current catalog and score balance; they are neither a defect assertion nor permission to change weights.
-- `interestTier` is applied before adjusted score inside direct `recommendExperiences` candidate selection. `recommendAll` requests a wider Experience candidate set and may subsequently re-sort it by raw score, so primary-before-secondary is not an unconditional visible-feed ordering guarantee.
+- `interestTier` is applied before adjusted score inside `recommendExperiences`. The explicit public Experience path delegates its requested limit to that selector and preserves the resulting order, so primary-before-secondary remains a visible-feed guarantee while secondary-only matches still fill insufficient primary supply.
 - The current rotation remembers only the immediately previous batch. Large pools often avoid adjacent overlap while allowing batch-1 items to return in batch 3.
 - The fixed Event checkpoints remain at 14 and 21 September so pre/post refresh supply is comparable. They must not be moved forward automatically. Operational verification age is measured separately by `check:events` against the real run time.
 
@@ -512,3 +512,29 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-20
 | Objective invariant failures | 0 | 0 |
 
 Six lifecycle-unsafe Experiences are intentionally removed from active supply, reducing eligible supply by 11 scenario intersections. The short-duration fixture now returns four honest results instead of being filled by the public-program-dependent CerModern–Gençlik plan; this accounts for the one-result and full-five changes. No zero-result scenario or objective correctness regression is introduced. Repetition improves by one distinct ID and one slot, category diversity rises slightly, and lifecycle leakage remains zero. Ranking, weights, filters, diversity, rotation, explanations and saved-state behavior are unchanged; the delta is the expected result of truthful catalog omission. The post-change 300-call report-only sample measured mean 2.113 ms, p50 1.411 ms, p95 4.937 ms and p99 5.305 ms. The separate 5,000-call benchmark measured mean 2.759 ms, p50 1.118 ms, p95 7.678 ms and p99 8.112 ms against the 25 ms p95 budget; both are host-specific samples, not device evidence.
+
+## 20. Public Experience primary-interest precedence delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-20.1`. Result limit: 5.
+
+| Measure | Before | After |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 693 | 693 |
+| First-batch results | 70 | 70 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 2 / 15 (13.33%) | 2 / 15 (13.33%) |
+| Full-five scenarios | 13 / 15 (86.67%) | 13 / 15 (86.67%) |
+| Primary-interest matches | 17 | 17 |
+| Secondary-only interest matches | 3 | 3 |
+| Mean distinct categories per first batch | 2.667 | 2.800 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.600 |
+| Distinct repeated IDs across three-batch fixture runs | 53 | 53 |
+| Repeated slots across three-batch fixture runs | 66 | 67 |
+| Location-paired changed slots | 19 | 17 |
+| Location-paired symmetric membership difference, summed | 16 | 18 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The fixed Lezzet reproduction (`mood: Sakin`, `seed: 0`, five-item limit) previously returned five primary matches through direct `recommendExperiences` but only one primary plus four secondary-only matches through `recommendAll(filter: 'experience')`. After the fix both paths return the same five primary matches. The long-duration Doğa + Sanat fixture continues to return four primary matches followed by one secondary-only fallback, proving that fallback supply remains available. Place, Idea, Event and mixed-feed branches are unchanged. The quality-matrix category, district, repetition and location movements reflect the corrected explicit Experience ordering; all deterministic, lifecycle and objective invariants remain clean. The recorded post-fix 300-call latency sample was mean 2.094 ms, p50 1.350 ms, p95 4.987 ms and p99 5.449 ms. The separate 5,000-call benchmark measured mean 2.788 ms, p50 1.127 ms, p95 7.691 ms and p99 8.181 ms against the 25 ms p95 budget; both are host-specific samples, not device evidence.
