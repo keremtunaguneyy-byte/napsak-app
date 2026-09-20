@@ -289,6 +289,8 @@ Bir Experience mümkün olduğunca şunları taşımalıdır:
 
 Bir Experience, bağlı noktalarından biri öneri için uygun değilse kendi yaşam döngüsünden bağımsız olarak önerilemez. Place durumu `active`, `deprecated` veya `verification_required` değerlerinden biridir. Yalnız `active` Place önerilebilir; diğer durumlar tarihsel/kayıtlı çözümleme için katalogda kalabilir. Kod tarafından yönetilen hard-exclusion politikası hem Place'i hem ona bağlı Experience'ları bütün public yüzeylerden kaldırır.
 
+`reservation`, `weather` ve `availabilityNote` betimleyicidir; runtime uygunluk kapısı değildir. Mevcut runtime yaş, mevsim, hafta içi/hafta sonu, canlı program veya envanter/müsaitlik koşulu uygulamaz. `conditional` bu nedenle bilinçli olarak fail-closed kalır. `event_linked` kayıt, bağlı Event'in `startsAt` anına kadar uygundur ve o anda sona erer. Genelleştirilmiş zamanlama motoru katalog ihtiyaçları ayrıca haklı çıkarmadıkça beta sonrasına ertelenir; bu sınır içinde temsil edilemeyen vaat için yanlış koşul üretmek yerine Experience aktif arzdan çıkarılır.
+
 ### 7.3 Kaynak politikası — Kararlaştırıldı
 
 - Öncelik kurumların resmî siteleri, belediye ve güvenilir birincil kaynaklardır.

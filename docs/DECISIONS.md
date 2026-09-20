@@ -2,6 +2,14 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-20 — Katalog yaşam döngüsü doğruluk sınırı
+
+Durum: Kullanıcı tarafından onaylandı; `codex/catalog-lifecycle-correctness` dalında uygulanıyor, production'da doğrulanmadı.
+
+Runtime yaş, mevsim, haftanın günü, canlı program veya envanter/müsaitlik koşullarını uygulamaz. `reservation`, `weather` ve `availabilityNote` betimleyici kalır; `conditional` bilinçli olarak fail-closed'dur ve `event_linked` uygunluğu Event `startsAt` anında sona erer. Genelleştirilmiş zamanlama motoru katalog ihtiyacı ayrıca haklı çıkarmadıkça beta sonrasına ertelenir.
+
+Bu sınırla güvenli temsil edilemeyen altı Experience aktif arzdan çıkarılır: CerModern–Gençlik, CerModern–CSO, Ka fotoğraf sergisi, Nallıhan göç gözlemi, BELPA halka açık seans ve Deniz Dünyası'nın sonlu işletim dönemi. Place kayıtları korunur. ODTÜ çift müze ve Tragos tanıtım dersi objektif regresyon bulunmadığı için değiştirilmez. Öneri algoritması, mevcut `event_linked` anlamı ve kaydetme/gizleme davranışı değişmez.
+
 ## 2026-09-19 — Fikir Expansion Batch B
 
 Durum: Kullanıcı tarafından onaylandı; `codex/idea-expansion-batch-b` dalında uygulanıyor, production'da doğrulanmadı.

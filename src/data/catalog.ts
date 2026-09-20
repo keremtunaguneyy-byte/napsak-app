@@ -8,7 +8,7 @@ import { City, CityId, Event, Experience, Guide, Idea, Place } from '../types';
 
 export const CATALOG_SCHEMA_VERSION = 3 as const;
 export const CATALOG_CACHE_NAMESPACE_VERSION = 3 as const;
-export const EMBEDDED_CATALOG_VERSION = '2026-09-19.6';
+export const EMBEDDED_CATALOG_VERSION = '2026-09-20.1';
 export const CATALOG_CACHE_PREFIX = `@napsak/catalog/v${CATALOG_CACHE_NAMESPACE_VERSION}/`;
 export const catalogCacheKey = (cityId: CityId): string => `${CATALOG_CACHE_PREFIX}${cityId}`;
 
@@ -37,7 +37,7 @@ export function embeddedCatalog(cityId: CityId = 'ankara'): CatalogSnapshot {
     cityId,
     schemaVersion: CATALOG_SCHEMA_VERSION,
     catalogVersion: EMBEDDED_CATALOG_VERSION,
-    fetchedAt: '2026-09-19T20:16:37.000Z',
+    fetchedAt: '2026-09-20T04:42:47.000Z',
     cities: cities.filter(city => city.id === cityId),
     places: places.filter(place => place.cityId === cityId),
     experiences: experiences.filter(experience => experience.cityId === cityId),
