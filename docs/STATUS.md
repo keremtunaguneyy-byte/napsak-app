@@ -2,6 +2,14 @@
 
 Kontrol tarihi: 20 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Ankara 101 editoryal derinlik düzenlemesi
+
+- `codex/ankara101-editorial-depth` dalı, fetch sonrası doğrulanan `origin/main` commit'i `8447e95d85ed6de1790ab55862699646f5f324d9` üzerinden ayrı bir worktree'de açıldı.
+- Ankara 101'in iki ana kartlı mimarisi korunarak Ankara Klasikleri kartına katalogdan türetilen bölüm/okuma süresi, Bir Ankaralı Gibi kartına mevcut rota kimliği/süresi ve altına dört sabit editoryal bölüm önizlemesi eklendi. Yeni Guide veya rota içeriği eklenmedi.
+- Guide ID'siyle Ankara Klasikleri içindeki bölüme gitme akışı; seçmeler, içindekiler ve Kaydedilenler tarafından ortak kullanılır. Kaydedilen Guide kartı artık iç bölümü açma, resmî kaynağı açma ve kayıttan çıkarma eylemlerini ayrı sunar.
+- Uzun makalenin sabit üst çubuğuna içindekiler erişimi eklendi; bölüm geçişinden sonra ekran okuyucu odağı bölüm başlığına taşınır. Koleksiyon kaydı ile tekil bölüm kaydı etiket ve eylem hiyerarşisinde ayrıştırıldı.
+- Boş `insiderRoutes` listesi güvenli bir kullanılamıyor durumuna düşer; rota kaydetme/harita eylemleri olmayan kayda erişmez. Öneri sistemi, Ankara 101 içeriği, katalog semantiği ve analitik sözleşmesi değiştirilmedi.
+
 ## Devam eden çalışma — Experience ana-ilgi sırası doğruluğu
 
 - `codex/experience-primary-tier-order` dalı, fetch sonrası doğrulanan `origin/main` commit'i `15f93c6a2d790fe39ba3d44ed7b9f6bae8a8bd8a` üzerinden açıldı.
