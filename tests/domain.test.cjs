@@ -417,6 +417,13 @@ test('expired event-linked Experiences remain saved and hidden resolvable but no
 });
 const { guides } = require('../.test-build/data/guides.js');
 const { insiderRoutes } = require('../.test-build/data/insiderRoutes.js');
+const {
+  FEATURED_GUIDE_IDS,
+  guideCollectionMetadata,
+  resolveFeaturedGuides,
+  resolveGuideById,
+  resolvePrimaryInsiderRoute,
+} = require('../.test-build/ankara101.js');
 const { cities } = require('../.test-build/data/cities.js');
 const { CATALOG_CACHE_NAMESPACE_VERSION, CATALOG_SCHEMA_VERSION, catalogCacheKey, embeddedCatalog } = require('../.test-build/data/catalog.js');
 const { isExperience, isIdea, parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
@@ -441,6 +448,27 @@ test('Ankara 101 contains 12 sourced, unique and city-scoped evergreen guides', 
     assert.equal(new URL(guide.sourceUrl).protocol, 'https:');
     assert.ok(Number.isFinite(Date.parse(guide.verifiedAt)));
   }
+});
+
+test('Ankara 101 editorial metadata and featured Guides derive from the current catalogue', () => {
+  assert.deepEqual(guideCollectionMetadata(guides), {
+    chapterCount: 12,
+    totalReadMinutes: 29,
+  });
+  assert.deepEqual(resolveFeaturedGuides(guides).map(guide => guide.id), FEATURED_GUIDE_IDS);
+  assert.ok(FEATURED_GUIDE_IDS.every(id => guides.some(guide => guide.id === id)));
+});
+
+test('Ankara 101 Guide deep links and saved Guide targets resolve safely by stable ID', () => {
+  const target = guides[5];
+  assert.equal(resolveGuideById(guides, target.id), target);
+  assert.equal(resolveGuideById(guides, 'missing-guide'), undefined);
+  assert.equal(resolveGuideById(guides, undefined), undefined);
+});
+
+test('Bir Ankaralı Gibi safely handles an empty route catalogue', () => {
+  assert.equal(resolvePrimaryInsiderRoute([]), undefined);
+  assert.equal(resolvePrimaryInsiderRoute(insiderRoutes), insiderRoutes[0]);
 });
 
 test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
