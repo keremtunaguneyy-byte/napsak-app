@@ -2,6 +2,15 @@
 
 Kontrol tarihi: 20 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Experience ana ilgi önceliğinin public yolda korunması
+
+- `codex/experience-primary-precedence` dalı, fetch sonrası doğrulanan `origin/main` commit'i `15f93c6a2d790fe39ba3d44ed7b9f6bae8a8bd8a` üzerinden ayrı worktree'de açıldı.
+- Kök neden, `recommendExperiences` tarafından ana/ikincil ilgi katmanına göre seçilmiş 15 adayın `recommendAll(filter: 'experience')` içinde tekrar yalnız ham skora göre sıralanmasıydı. Sakin + Lezzet + seed 0 örneğinde doğrudan yol 5 ana eşleşme verirken public yol 1 ana + 4 yalnız ikincil eşleşme veriyordu.
+- Açık Experience filtresi artık tam istenen limiti doğrudan `recommendExperiences`'a geçirir ve onun katman, çeşitlilik ve rotasyon sırasını değiştirmeden döndürür. Karma akışın daha geniş aday havuzu korunur; Place, Idea ve Event dalları, skor ağırlıkları, çeşitlilik cezaları, rotasyon, lifecycle ve katalog kayıtları değiştirilmez.
+- Üç odaklı regresyon testi public/doğrudan sıra eşliğini, beş ana Lezzet eşleşmesini, dört ana + bir ikincil fallback'i, deterministik tekrarı, kategori/ilçe çeşitliliğini ve taze ikinci grubu doğrular. Mevcut Place, Idea ve Event regresyonları da değişmeden geçer.
+- Recommendation-quality matrisi 693 uygun aday, 70 ilk-grup sonucu ve 0/2/13 sıfır/kısmi/tam-beş senaryoyu korur. Ana/yalnız-ikincil eşleşme toplamları 17/3, tekrarlanan ID 53 ve objektif hata 0 kalır; kategori/ilçe çeşitliliği 2,667/2,333'ten 2,800/2,600'e, tekrarlanan slot 66'dan 67'ye, konuma bağlı değişen slot 19'dan 17'ye ve üyelik farkı 16'dan 18'e gider. Deterministik tekrar ve lifecycle sızıntısı 0 kalır.
+- Diff kontrolü, typecheck, 107 ana/release + 14 quality testi, katalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, performans, Event Catalog Health ve release baseline kontrolleri geçer. 5.000 çağrılık performans p95'i 7,691 ms ile 25 ms bütçesinin altındadır. Release baseline beklenen sekiz açık engeli korur; bu yayın onayı değildir. Algoritma/test/dokümantasyon kapsamı için cihaz/manual test yapılmadı.
+
 ## Devam eden çalışma — Katalog yaşam döngüsü doğruluğu
 
 - `codex/catalog-lifecycle-correctness` dalı, fetch sonrası doğrulanan `origin/main` commit'i `02a76d52df7c5e6ac4687fe968c104c23e62fe4b` üzerinden ayrı worktree'de açıldı.

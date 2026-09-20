@@ -874,6 +874,55 @@ test('experience interest, dismissal and rotation gates stay intact', () => {
   assert.ok(coffee.slice(firstSecondaryIndex).every(item => item.reasons.includes('Kahve ikincil olarak eşleşiyor')));
 });
 
+test('public Experience recommendations preserve primary-interest precedence and direct ordering', () => {
+  const common = {
+    experiences, places, events, ideas, filter: 'experience', mood: 'Sakin', interests: ['Lezzet'],
+    dismissed: [], limit: 5, seed: 0, now: new Date('2026-09-14T12:00:00+03:00'),
+  };
+  const direct = recommendExperiences(common);
+  const publicPath = recommendAll(common);
+
+  assert.equal(direct.length, 5);
+  assert.ok(direct.every(item => item.primaryInterests.includes('Lezzet')));
+  assert.deepEqual(publicPath.map(item => item.id), direct.map(item => item.id));
+  assert.ok(publicPath.every(item => item.kind === 'experience' && item.primaryInterests.includes('Lezzet')));
+});
+
+test('public Experience recommendations use secondary-only matches only to fill insufficient primary supply', () => {
+  const common = {
+    experiences, places, events, ideas, filter: 'experience', mood: 'Enerjik', interests: ['Doğa', 'Sanat'],
+    dismissed: [], duration: 'Yarım gün', limit: 5, seed: 201, now: new Date('2026-09-14T12:00:00+03:00'),
+  };
+  const direct = recommendExperiences(common);
+  const publicPath = recommendAll(common);
+  const isPrimary = item => common.interests.some(interest => item.primaryInterests.includes(interest));
+
+  assert.deepEqual(publicPath.map(item => item.id), direct.map(item => item.id));
+  assert.equal(publicPath.filter(isPrimary).length, 4);
+  assert.equal(publicPath.filter(item => !isPrimary(item)).length, 1);
+  assert.ok(publicPath.slice(0, 4).every(isPrimary));
+  assert.ok(!isPrimary(publicPath[4]));
+});
+
+test('public Experience recommendations retain deterministic diversity and rotation', () => {
+  const common = {
+    experiences, places, events, ideas, filter: 'experience', interests: [], dismissed: [],
+    limit: 5, seed: 151, now: new Date('2026-09-14T12:00:00+03:00'),
+  };
+  const first = recommendAll(common);
+  const replay = recommendAll(common);
+  const direct = recommendExperiences(common);
+  const secondOptions = { ...common, seed: 152, previousBatch: first.map(item => item.id) };
+  const second = recommendAll(secondOptions);
+
+  assert.deepEqual(first.map(item => item.id), replay.map(item => item.id));
+  assert.deepEqual(first.map(item => item.id), direct.map(item => item.id));
+  assert.deepEqual(second.map(item => item.id), recommendExperiences(secondOptions).map(item => item.id));
+  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
+  assert.ok(new Set(first.map(item => item.category)).size >= 3);
+  assert.ok(new Set(first.map(item => item.district)).size >= 3);
+});
+
 test('each duration keeps at least one honest match for every explicit interest', () => {
   for (const duration of KNOWN_DURATIONS.filter(value => value !== 'Fark etmez')) {
     for (const interest of KNOWN_INTERESTS) {
