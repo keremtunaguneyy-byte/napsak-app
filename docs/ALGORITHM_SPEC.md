@@ -19,6 +19,8 @@ Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Kategor
 
 Event başlangıcı zaman tabanlı uygunluğun sınırıdır. Uygulama en yakın gelecek Event sınırında ve foreground'a döndüğünde saati yeniler; `event_linked` kayıtlar eksik/geçersiz/başlamış Event için fail-closed davranır. `conditional` semantiği ayrıca onaylanana kadar hiçbir conditional kayıt önerilemez; bu PR conditional veya event-linked katalog kaydı eklemez.
 
+`reservation`, `weather` ve `availabilityNote` kullanıcıya açıklama sağlayan alanlardır; runtime uygunluk kontrolü değildir. Yaş, mevsim, haftanın günü, program ve envanter/müsaitlik de runtime tarafından uygulanmaz. Bu nedenle bu koşullardan birine bağlı Experience, uygun bir gelecek Event'e bağlanamıyorsa `evergreen` olarak yayımlanmaz. `event_linked` uygunluğu Event'in `startsAt` anında sona erer; `endsAt` bu yaşam döngüsü sınırını uzatmaz. Genelleştirilmiş bir zamanlama/koşul motoru, katalog ihtiyacı ayrıca haklı çıkarmadıkça beta sonrasına ertelenmiştir.
+
 ## Çağrı ve sunum sınırı
 
 App.tsx mevcut sonuç çağrısı `recommendAll(... limit: 5)` kullanır. `recommendExperiences` ve `recommendPlaces` ayrı export edilir. Fikir yardımcı fonksiyonu dosya içindedir; etkinlik sıralaması recommendAll içindedir. Eski sohbetlerde geçen bağımsız `recommendEvents()` çağrısı mevcut public API değildir.

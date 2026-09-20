@@ -154,8 +154,8 @@ test('location-off replay uses no coordinates and reports changed slots without 
 
 test('location aggregate uses changed-slot and membership-difference terminology', () => {
   const report = runRecommendationQualityBaseline(catalog);
-  assert.equal(report.summary.locationChangedSlotCount, 23);
-  assert.equal(report.summary.locationSymmetricDifferenceCount, 18);
+  assert.equal(report.summary.locationChangedSlotCount, 19);
+  assert.equal(report.summary.locationSymmetricDifferenceCount, 16);
   assert.equal('locationChangedRankCount' in report.summary, false);
 });
 

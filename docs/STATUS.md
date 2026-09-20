@@ -1,6 +1,15 @@
 # N’apsak — Durum ve sıradaki iş
 
-Kontrol tarihi: 19 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+Kontrol tarihi: 20 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+
+## Devam eden çalışma — Katalog yaşam döngüsü doğruluğu
+
+- `codex/catalog-lifecycle-correctness` dalı, fetch sonrası doğrulanan `origin/main` commit'i `02a76d52df7c5e6ac4687fe968c104c23e62fe4b` üzerinden ayrı worktree'de açıldı.
+- Mevcut runtime yaş, mevsim, hafta günü, program veya envanter/müsaitlik uygulamadığı için güvenli temsil edilemeyen altı Experience aktif arzdan çıkarıldı: `xp-cer-genclik-short`, `xp-cer-cso`, `xp-ka-fotograf-sergisini-yavas-oku`, `xp-nallihan-goc-yolunu-gozle`, `xp-belpa-ilk-acik-buz-seansi` ve `xp-deniz-dunyasi-akvaryum`. İlgili Place kayıtları korunur; yeni Event veya sahte koşul eklenmez.
+- `xp-odtu-double-museum` ve `xp-tragos-tanitim-dersi` objektif regresyon bulunmadığı için değiştirilmedi. Öneri algoritması, `conditional` fail-closed davranışı, `event_linked` için Event `startsAt` sınırı ve kaydetme/gizleme çözümleme davranışı korunur.
+- Place/Experience/Idea/Event/Guide sayıları 178/52/140/12/12 olur. Embedded katalog sürümü `2026-09-20.1`, `fetchedAt` değeri `2026-09-20T04:42:47.000Z` olur; schema/cache sürümü v3 kalır.
+- Lifecycle validator artık bütün yasadışı karma `expiresAt`/`activation`/`eventId` durumlarını reddeder ve event-linked bağın aynı şehirdeki Event'e gitmesini doğrular. Gerçek katalog fixture'larıyla Event başlangıç sınırı, yanlış şehir/eksik bağ, kayıtlı/gizli çözümleme ve düzeltilen kayıt regresyonları test edilir.
+- Güncel doğrulamada diff kontrolü, typecheck, 104 ana/release + 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, performans, Event Catalog Health ve release baseline kontrolleri geçti. Kalite matrisinde uygun aday 704'ten 693'e, ilk grup sonucu 71'den 70'e ve tam beşli senaryo 14'ten 13'e iner; kısa süre fixture'ı CerModern–Gençlik ile doldurulmak yerine dört doğru sonuç döndürür. Sıfır sonuç, lifecycle sızıntısı, deterministik tekrar ve objektif invariant hatası 0 kalır. 5.000 çağrılık performans p95'i 7,678 ms ile 25 ms bütçesinin altındadır; release baseline beklenen sekiz açık engeli korur ve yayın onayı değildir. Veri/validator/test/dokümantasyon kapsamı için cihaz/manual test yapılmadı.
 
 ## Devam eden çalışma — Final Ankara Experience Batch
 

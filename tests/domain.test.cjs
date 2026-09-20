@@ -386,11 +386,40 @@ test('related event-linked plans refresh at the linked Event boundary', () => {
   assert.equal(recommendExperiencesForPlace(place, { ...options, now: new Date('2026-09-06T12:00:00Z') }).length, 0);
   assert.equal(recommendExperiencesForPlace(place, { ...options, experiences: [] }).length, 0);
 });
+
+test('real catalog fixtures validate and recommend an event-linked Experience only before Event start', () => {
+  const valid = embeddedCatalog('ankara');
+  const event = valid.events[0];
+  const linked = { ...valid.experiences[0], lifecycle: 'event_linked', eventId: event.id };
+  const snapshot = { ...valid, experiences: [linked] };
+  assert.ok(parseCatalogSnapshot(snapshot));
+  const before = new Date(Date.parse(event.startsAt) - 1);
+  const atStart = new Date(event.startsAt);
+  const options = { experiences: [linked], places: valid.places, events: valid.events, interests: [], dismissed: [] };
+  assert.deepEqual(recommendExperiences({ ...options, now: before }).map(item => item.id), [linked.id]);
+  assert.deepEqual(recommendExperiences({ ...options, now: atStart }), []);
+});
+
+test('expired event-linked Experiences remain saved and hidden resolvable but not recommendable', () => {
+  const base = experiences[0];
+  const linkedEvent = { ...events[0], id: 'saved-expired-event', startsAt: '2026-09-06T12:00:00Z' };
+  const expired = { ...base, id: 'saved-expired-plan', lifecycle: 'event_linked', eventId: linkedEvent.id };
+  const placesById = new Map(places.map(place => [place.id, place]));
+  const saved = [expired.id];
+  const dismissed = [expired.id];
+  assert.equal(isExperiencePubliclyResolvable(expired, placesById), true);
+  assert.deepEqual(resolveSavedPlaces([expired], saved).map(item => item.id), [expired.id]);
+  assert.deepEqual(resolveSavedPlaces([expired], dismissed).map(item => item.id), [expired.id]);
+  assert.deepEqual(recommendExperiences({
+    experiences: [expired], places, events: [linkedEvent], interests: [], dismissed,
+    now: new Date('2026-09-06T12:00:00Z'),
+  }), []);
+});
 const { guides } = require('../.test-build/data/guides.js');
 const { insiderRoutes } = require('../.test-build/data/insiderRoutes.js');
 const { cities } = require('../.test-build/data/cities.js');
 const { CATALOG_CACHE_NAMESPACE_VERSION, CATALOG_SCHEMA_VERSION, catalogCacheKey, embeddedCatalog } = require('../.test-build/data/catalog.js');
-const { isIdea, parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
+const { isExperience, isIdea, parseCatalogSnapshot } = require('../.test-build/data/catalogValidation.js');
 const { EmbeddedContentRepository } = require('../.test-build/data/contentRepository.js');
 const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
 
@@ -424,8 +453,8 @@ test('Bir Ankaralı Gibi routes are complete, ordered and map-ready', () => {
   }
 });
 
-test('experience catalogue contains 58 complete, sourced and honestly scoped plans', () => {
-  assert.equal(experiences.length, 58);
+test('experience catalogue contains 52 complete, sourced and honestly scoped plans', () => {
+  assert.equal(experiences.length, 52);
   assert.equal(new Set(experiences.map(item => item.id)).size, experiences.length);
   for (const item of experiences) {
     assert.equal(item.kind, 'experience');
@@ -477,7 +506,6 @@ test('evergreen content batch 1 preserves its approved single-anchor scope', () 
 test('Ankara content batch 2 keeps only lifecycle-safe Experiences', () => {
   const approved = [
     ['xp-da-vinci-yeni-oyun', 'da-vinci-board-game-neorama', 120, 180, 'not-required'],
-    ['xp-deniz-dunyasi-akvaryum', 'kecioren-deniz-dunyasi', 60, 90, 'not-required'],
     ['xp-tragos-tanitim-dersi', 'tragos-boulder-outdoor', 60, 60, 'required'],
   ];
   for (const [id, placeId, min, max, reservation] of approved) {
@@ -491,6 +519,7 @@ test('Ankara content batch 2 keeps only lifecycle-safe Experiences', () => {
   }
   assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'no24-studio-umitkoy')), false);
   assert.equal(experiences.some(item => item.points.some(point => point.placeId === 'golden-chef-mutfak-akademisi-cayyolu')), false);
+  assert.equal(experiences.some(item => item.id === 'xp-deniz-dunyasi-akvaryum'), false);
 });
 
 test('Ankara content batch 3 keeps the approved Places and lifecycle-safe Experiences', () => {
@@ -521,7 +550,6 @@ test('Ankara content batch 3 keeps the approved Places and lifecycle-safe Experi
     ['xp-cin-ali-iki-kusak', ['cin-ali-muzesi'], 60, 120],
     ['xp-gokyay-satranc-taslari', ['gokyay-vakfi-satranc-muzesi'], 60, 120],
     ['xp-ankara-palas-ikinci-tbmm', ['cumhuriyet-muzesi', 'ankara-palas-muzesi'], 120, 180],
-    ['xp-ka-fotograf-sergisini-yavas-oku', ['ka-cinnah'], 45, 90],
   ];
   for (const [id, pointIds, min, max] of expectedExperiences) {
     const experience = experiences.find(item => item.id === id);
@@ -536,7 +564,7 @@ test('Ankara content batch 3 keeps the approved Places and lifecycle-safe Experi
   assert.equal(places.some(place => forbiddenFragments.some(fragment => place.id.includes(fragment))), false);
   assert.equal(experiences.some(item => item.points.some(point => ['golden-chef-mutfak-akademisi-cayyolu', 'no24-studio-umitkoy'].includes(point.placeId))), false);
   assert.match(experiences.find(item => item.id === 'xp-old-school-iki-demleme').note, /resmî tadım ya da atölye ürünü değildir/);
-  assert.match(experiences.find(item => item.id === 'xp-ka-fotograf-sergisini-yavas-oku').availabilityNote, /belirli sergi garanti edilmez/);
+  assert.equal(experiences.some(item => item.id === 'xp-ka-fotograf-sergisini-yavas-oku'), false);
   assert.match(experiences.find(item => item.id === 'xp-cin-ali-iki-kusak').availabilityNote, /250\/300 TL/);
 });
 
@@ -544,14 +572,12 @@ test('Ankara Experience batch 4 adds only supported plans and removes the Yılma
   const expectedExperiences = [
     ['xp-eymir-bisikletle-dolas', ['eymir-golu'], ['Doğa'], ['Etkinlik'], 120, 180],
     ['xp-aoc-kurulus-hikayesi', ['aoç-hayvanat-bahcesi-alani', 'ataturk-orman-ciftligi'], ['Sanat'], ['Doğa', 'Lezzet'], 120, 180],
-    ['xp-nallihan-goc-yolunu-gozle', ['kus-cenneti'], ['Doğa'], ['Etkinlik'], 90, 180],
     ['xp-sakarya-muharebesini-araziden-oku', ['sakarya-zaferi-muzesi', 'duatepe-aniti'], ['Sanat'], ['Doğa'], 180, 300],
     ['xp-bogazici-ulus-ogle-ritueli', ['bogazici-lokantasi'], ['Lezzet'], [], 45, 90],
     ['xp-aspava-ikram-ritueli', ['aspava-yildizevler'], ['Lezzet'], [], 60, 90],
     ['xp-ptt-pullardan-donem-oku', ['ptt-pul-muzesi'], ['Sanat'], [], 60, 90],
     ['xp-cengelhan-teknolojinin-izini-sur', ['cengelhan-rahmi-koc'], ['Sanat'], ['Etkinlik'], 90, 150],
     ['xp-arslanhane-alaaddin-selcuklu', ['aslanhane-camii', 'alaaddin-camii'], ['Sanat'], [], 75, 120],
-    ['xp-belpa-ilk-acik-buz-seansi', ['belpa-buz-pateni'], ['Etkinlik'], [], 60, 120],
   ];
   for (const [id, pointIds, primary, secondary, min, max] of expectedExperiences) {
     const experience = experiences.find(item => item.id === id);
@@ -574,7 +600,22 @@ test('Ankara Experience batch 4 adds only supported plans and removes the Yılma
   assert.equal(belpa.verifiedAt, '2026-09-18');
   assert.ok(belpa.provenance.some(item => item.kind === 'official'));
   assert.match(experiences.find(item => item.id === 'xp-eymir-bisikletle-dolas').availabilityNote, /kiralama garanti değildir/);
-  assert.match(experiences.find(item => item.id === 'xp-belpa-ilk-acik-buz-seansi').availabilityNote, /Paten kiralama, eğitim, yaş kuralı veya rezervasyon/);
+  assert.equal(experiences.some(item => item.id === 'xp-nallihan-goc-yolunu-gozle'), false);
+  assert.equal(experiences.some(item => item.id === 'xp-belpa-ilk-acik-buz-seansi'), false);
+});
+
+test('catalog correctness defers lifecycle-unsafe records and preserves audited controls', () => {
+  const deferredIds = [
+    'xp-cer-genclik-short',
+    'xp-cer-cso',
+    'xp-ka-fotograf-sergisini-yavas-oku',
+    'xp-nallihan-goc-yolunu-gozle',
+    'xp-belpa-ilk-acik-buz-seansi',
+    'xp-deniz-dunyasi-akvaryum',
+  ];
+  assert.deepEqual(deferredIds.filter(id => experiences.some(item => item.id === id)), []);
+  assert.ok(experiences.some(item => item.id === 'xp-odtu-double-museum'));
+  assert.ok(experiences.some(item => item.id === 'xp-tragos-tanitim-dersi'));
 });
 
 test('final Ankara Experience batch adds the eight approved evergreen plans and defers unsupported lifecycle candidates', () => {
@@ -626,7 +667,7 @@ test('Ankara Place completeness batch 1 adds only the 13 approved Place anchors'
     'pecenek-doner-iskitler',
   ];
 
-  assert.equal(experiences.length, 58);
+  assert.equal(experiences.length, 52);
   const experienceIdsAddedLater = new Set([
     'cumhurbaskanligi-millet-kutuphanesi',
     'altinkoy-acik-hava-muzesi',
@@ -685,7 +726,7 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
   ];
 
   assert.equal(places.length, 178);
-  assert.equal(experiences.length, 58);
+  assert.equal(experiences.length, 52);
   assert.equal(ideas.length, 140);
   assert.equal(catalogEvents.length, 12);
   assert.equal(guides.length, 12);
@@ -735,7 +776,7 @@ test('Ankara Place completeness batch 3 publishes only candidates that clear cur
   ];
 
   assert.equal(places.length, 178);
-  assert.equal(experiences.length, 58);
+  assert.equal(experiences.length, 52);
   assert.equal(ideas.length, 140);
   assert.equal(catalogEvents.length, 12);
   assert.equal(guides.length, 12);
@@ -787,8 +828,11 @@ test('unsupported conditional and invalid event-linked Experiences fail closed',
   const activeLinked = { ...base, id: 'active-linked', lifecycle: 'event_linked', eventId: activeEvent.id };
   const expiredLinked = { ...base, id: 'expired-linked', lifecycle: 'event_linked', eventId: expiredEvent.id };
   const missingLinked = { ...base, id: 'missing-linked', lifecycle: 'event_linked', eventId: 'missing' };
+  const wrongCityEvent = { ...activeEvent, id: 'wrong-city-event', cityId: 'istanbul' };
+  const wrongCityLinked = { ...base, id: 'wrong-city-linked', lifecycle: 'event_linked', eventId: wrongCityEvent.id };
   const result = recommendExperiences({
-    experiences: [conditional, expiredLinked, missingLinked, activeLinked], places, events: [activeEvent, expiredEvent],
+    experiences: [conditional, expiredLinked, missingLinked, wrongCityLinked, activeLinked], places,
+    events: [activeEvent, expiredEvent, wrongCityEvent],
     interests: [], dismissed: [], now: new Date('2026-08-08T00:00:00Z'),
   });
   assert.deepEqual(result.map(item => item.id), ['active-linked']);
@@ -1058,6 +1102,28 @@ test('runtime catalogue validation rejects malformed remote data', () => {
     places: valid.places.map(place => place.id === referencedId ? { ...place, status: 'deprecated' } : place),
   };
   assert.ok(parseCatalogSnapshot(deprecatedHistorical));
+});
+
+test('Experience lifecycle validation rejects malformed and illegally mixed states', () => {
+  const base = experiences[0];
+  const eventId = catalogEvents[0].id;
+  assert.equal(isExperience({ ...base, lifecycle: 'evergreen', eventId }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'evergreen', activation: { kind: 'unsupported' } }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'evergreen', expiresAt: '2026-10-01T00:00:00Z' }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'conditional', activation: { kind: 'unsupported' }, expiresAt: '2026-10-01T00:00:00Z' }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'conditional', activation: { kind: 'unsupported' }, eventId }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'event_linked', eventId, activation: { kind: 'unsupported' } }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'event_linked', eventId, expiresAt: '2026-10-01T00:00:00Z' }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'event_linked', eventId: '' }), false);
+  assert.equal(isExperience({ ...base, lifecycle: 'conditional', activation: { kind: 'unsupported' } }), true);
+  assert.equal(isExperience({ ...base, lifecycle: 'event_linked', eventId }), true);
+});
+
+test('catalog snapshots reject wrong-city event linkage', () => {
+  const valid = embeddedCatalog('ankara');
+  const wrongCityEvent = { ...valid.events[0], cityId: 'istanbul' };
+  const linked = { ...valid.experiences[0], lifecycle: 'event_linked', eventId: wrongCityEvent.id };
+  assert.equal(parseCatalogSnapshot({ ...valid, experiences: [linked], events: [wrongCityEvent] }), undefined);
 });
 
 test('unified feed mixes places and ideas while preserving hard interest eligibility', () => {

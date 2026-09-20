@@ -99,8 +99,10 @@ export function isExperience(value: unknown): value is Experience {
   const lifecycleValid = value.lifecycle === 'evergreen'
     ? value.expiresAt === undefined && value.activation === undefined && value.eventId === undefined
     : value.lifecycle === 'conditional'
-      ? isObject(value.activation) && value.activation.kind === 'unsupported' && value.eventId === undefined
-      : value.lifecycle === 'event_linked' && isString(value.eventId) && value.activation === undefined;
+      ? isObject(value.activation) && value.activation.kind === 'unsupported'
+        && value.eventId === undefined && value.expiresAt === undefined
+      : value.lifecycle === 'event_linked' && isString(value.eventId)
+        && value.activation === undefined && value.expiresAt === undefined;
   return lifecycleValid && value.kind === 'experience' && isString(value.id) && isString(value.title)
     && isString(value.description) && isString(value.note) && isString(value.cityId) && isString(value.district)
     && KNOWN_INTERESTS.includes(value.category as Interest) && stringsIn<Mood>(value.moods, KNOWN_MOODS)
@@ -158,8 +160,12 @@ export function parseCatalogSnapshot(value: unknown): CatalogSnapshot | undefine
     const place = placesById.get(point.placeId);
     return Boolean(place && isHardExcludedPlace(place));
   }))) return undefined;
-  const eventIds = new Set(snapshot.events.map(item => item.id));
-  if (snapshot.experiences.some(item => item.lifecycle === 'event_linked' && !eventIds.has(item.eventId))) return undefined;
+  const eventsById = new Map(snapshot.events.map(item => [item.id, item]));
+  if (snapshot.experiences.some(item => {
+    if (item.lifecycle !== 'event_linked') return false;
+    const event = eventsById.get(item.eventId);
+    return !event || event.cityId !== item.cityId;
+  })) return undefined;
   const publicIds = [
     ...snapshot.places.filter(item => !isHardExcludedPlace(item)),
     ...snapshot.experiences,

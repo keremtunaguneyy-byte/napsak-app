@@ -482,3 +482,33 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-19.6`. Resul
 | Objective invariant failures | 0 | 0 |
 
 Eight approved evergreen Experiences increase supply in three Experience fixtures: the solo Sanat context gains five candidates, the couple Ulus Sanat context gains one, and the cold-start context gains all eight. The result count, explanation coverage, match counts, category/district diversity and invariant results remain unchanged; repeated slots improve by one. Location on/off replays change three more ranked slots and two more membership positions because the expanded catalog gives the unchanged proximity signal additional legitimate choices. Mamak Füzyon is excluded because the current `conditional` activation is intentionally unsupported and fail-closed; representing its reservation-, age- and programme-dependent workshops as evergreen would be incorrect. No ranking, filtering, diversity, rotation, explanation, lifecycle or saved-state code changed. The post-batch 300-call report-only sample measured mean 2.619 ms, p50 1.996 ms, p95 6.041 ms and p99 6.258 ms. The separate 5,000-call benchmark measured mean 10.394 ms, p50 1.503 ms, p95 9.644 ms and p99 11.648 ms against the 25 ms p95 budget; both are host-specific samples, not device evidence.
+
+## 19. Catalog lifecycle correctness delta
+
+Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-20.1`. Result limit: 5.
+
+| Measure | Before (`2026-09-19.6`) | After (`2026-09-20.1`) |
+|---|---:|---:|
+| Scenarios | 15 | 15 |
+| Eligible candidates, summed across contexts | 704 | 693 |
+| First-batch results | 71 | 70 |
+| Zero-result scenarios | 0 / 15 (0.00%) | 0 / 15 (0.00%) |
+| 1–4-result scenarios | 1 / 15 (6.67%) | 2 / 15 (13.33%) |
+| Full-five scenarios | 14 / 15 (93.33%) | 13 / 15 (86.67%) |
+| Results with explanations | 71 / 71 | 70 / 70 |
+| Reason strings | 288 | 282 |
+| Mood matches | 64 | 64 |
+| Interest matches | 62 | 61 |
+| Exact budget fits | 39 | 39 |
+| Group fits | 66 | 65 |
+| Mean distinct categories per first batch | 2.600 | 2.667 |
+| Mean distinct applicable districts per first batch | 2.333 | 2.333 |
+| Distinct repeated IDs across three-batch fixture runs | 54 | 53 |
+| Repeated slots across three-batch fixture runs | 67 | 66 |
+| Location-paired changed slots | 23 | 19 |
+| Location-paired symmetric membership difference, summed | 18 | 16 |
+| Deterministic replay failures | 0 | 0 |
+| Stale/expired/invalid lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+Six lifecycle-unsafe Experiences are intentionally removed from active supply, reducing eligible supply by 11 scenario intersections. The short-duration fixture now returns four honest results instead of being filled by the public-program-dependent CerModern–Gençlik plan; this accounts for the one-result and full-five changes. No zero-result scenario or objective correctness regression is introduced. Repetition improves by one distinct ID and one slot, category diversity rises slightly, and lifecycle leakage remains zero. Ranking, weights, filters, diversity, rotation, explanations and saved-state behavior are unchanged; the delta is the expected result of truthful catalog omission. The post-change 300-call report-only sample measured mean 2.113 ms, p50 1.411 ms, p95 4.937 ms and p99 5.305 ms. The separate 5,000-call benchmark measured mean 2.759 ms, p50 1.118 ms, p95 7.678 ms and p99 8.112 ms against the 25 ms p95 budget; both are host-specific samples, not device evidence.
