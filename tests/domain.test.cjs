@@ -874,6 +874,63 @@ test('experience interest, dismissal and rotation gates stay intact', () => {
   assert.ok(coffee.slice(firstSecondaryIndex).every(item => item.reasons.includes('Kahve ikincil olarak eşleşiyor')));
 });
 
+test('public Experience feed preserves primary tiers, helper parity, diversity and rotation', () => {
+  const common = {
+    experiences, places, events, ideas, filter: 'experience', mood: 'Sakin', interests: ['Lezzet'],
+    dismissed: [], limit: 5, seed: 0, now: new Date('2026-09-20T12:00:00+03:00'),
+  };
+  const directOptions = (({ ideas: _ideas, filter: _filter, ...options }) => options)(common);
+  const direct = recommendExperiences(directOptions);
+  const publicResults = recommendAll(common);
+  const replay = recommendAll(common);
+
+  assert.deepEqual(publicResults.map(item => item.id), direct.map(item => item.id));
+  assert.ok(publicResults.every(item => item.primaryInterests.includes('Lezzet')));
+  assert.deepEqual(replay, publicResults);
+
+  const previousBatch = publicResults.map(item => item.id);
+  const nextDirect = recommendExperiences({ ...directOptions, seed: 1, previousBatch });
+  const nextPublic = recommendAll({ ...common, seed: 1, previousBatch });
+  assert.deepEqual(nextPublic.map(item => item.id), nextDirect.map(item => item.id));
+  assert.equal(nextPublic.filter(item => previousBatch.includes(item.id)).length, 0);
+
+  const diverseOptions = { ...directOptions, mood: undefined, interests: [], seed: 151 };
+  const diverseDirect = recommendExperiences(diverseOptions);
+  const diversePublic = recommendAll({ ...diverseOptions, ideas, filter: 'experience' });
+  assert.deepEqual(diversePublic.map(item => item.id), diverseDirect.map(item => item.id));
+  assert.ok(new Set(diversePublic.map(item => item.category)).size >= 3);
+  assert.ok(new Set(diversePublic.map(item => item.district)).size >= 3);
+});
+
+test('public Experience feed uses secondary-only matches only after primary supply is exhausted', () => {
+  const selection = { experiences, places, events, interests: ['Lezzet'], dismissed: [], limit: 100, seed: 0, now: new Date('2026-09-20T12:00:00+03:00') };
+  const eligibleIds = recommendExperiences(selection).map(item => item.id);
+  const eligible = eligibleIds.map(id => experiences.find(item => item.id === id));
+  const primary = eligible.filter(item => item.primaryInterests.includes('Lezzet')).slice(0, 3);
+  const secondary = eligible.filter(item => !item.primaryInterests.includes('Lezzet')).slice(0, 4);
+  assert.equal(primary.length, 3);
+  assert.equal(secondary.length, 4);
+
+  const directOptions = { ...selection, experiences: [...primary, ...secondary], limit: 5 };
+  const direct = recommendExperiences(directOptions);
+  const publicResults = recommendAll({ ...directOptions, ideas, filter: 'experience' });
+  assert.deepEqual(publicResults.map(item => item.id), direct.map(item => item.id));
+  assert.ok(publicResults.slice(0, 3).every(item => item.primaryInterests.includes('Lezzet')));
+  assert.ok(publicResults.slice(3).every(item => !item.primaryInterests.includes('Lezzet') && item.secondaryInterests.includes('Lezzet')));
+});
+
+test('filtered Place, Idea and Event feeds are isolated from Experience candidates', () => {
+  const common = {
+    places, ideas, events, mood: 'Sosyal', interests: ['Lezzet'], dismissed: [], budget: '₺₺',
+    groupSize: '2 kişi', limit: 5, seed: 27, now: new Date('2026-09-20T12:00:00+03:00'),
+  };
+  for (const filter of ['place', 'idea', 'event']) {
+    const withoutExperiences = recommendAll({ ...common, filter, experiences: [] });
+    const withExperiences = recommendAll({ ...common, filter, experiences });
+    assert.deepEqual(withExperiences, withoutExperiences, `${filter} behavior changed with Experience candidates`);
+  }
+});
+
 test('each duration keeps at least one honest match for every explicit interest', () => {
   for (const duration of KNOWN_DURATIONS.filter(value => value !== 'Fark etmez')) {
     for (const interest of KNOWN_INTERESTS) {

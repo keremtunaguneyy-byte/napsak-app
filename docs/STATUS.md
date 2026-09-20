@@ -2,6 +2,15 @@
 
 Kontrol tarihi: 20 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
+## Devam eden çalışma — Experience ana-ilgi sırası doğruluğu
+
+- `codex/experience-primary-tier-order` dalı, fetch sonrası doğrulanan `origin/main` commit'i `15f93c6a2d790fe39ba3d44ed7b9f6bae8a8bd8a` üzerinden açıldı.
+- Public Experience çağrısının geniş aday havuzunu ham skorla yeniden sıralayıp `interestTier` önceliğini kaybetmesi düzeltildi. Açık Experience filtresi artık doğrudan Experience motorunun istenen limit için ürettiği sıralı sonucu kullanır; beş ana-ilgi adayı varken ikincil-only aday ilk beşe giremez, yetersiz ana arzda ikincil eşleşme fallback'i korunur.
+- Sakin + Lezzet audit fixture'ı düzeltme öncesi direct yolda 5 ana eşleşmeye karşı public yolda 1 ana + 4 ikincil-only sonuç üretiyordu; düzeltme sonrası iki yol aynı 5 ana eşleşmeyi aynı sırada döndürür.
+- Odaklı regresyonlar direct/public parity, ana arz yeterliyken ilk beş, ana arz yetersizken ikincil fallback, deterministik tekrar, çeşitlilik, rotasyon ve Place/Idea/Event izolasyonunu kapsar. Katalog, ağırlıklar, uygunluk, yaşam döngüsü, çeşitlilik cezaları ve rotasyon algoritması değiştirilmedi.
+- Sabit kalite matrisinde uygun aday 693, ilk grup sonucu 70, sıfır/kısmi/tam beşli 0/2/13 ve Experience ana/ikincil sayıları 17/3 olarak kaldı. Kategori/ilçe çeşitliliği 2,667/2,333'ten 2,800/2,600'e; tekrar eden slot 66'dan 67'ye; konuma bağlı değişen slot 19'dan 17'ye ve üyelik farkı 16'dan 18'e değişti. Deterministik tekrar, yaşam döngüsü sızıntısı ve objektif invariant hatası 0 kaldı.
+- Güncel doğrulamada diff kontrolü, typecheck, 107 ana/release + 14 quality testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, Event Catalog Health ve sekiz açık engeli koruyan release baseline geçti. 5.000 çağrılık performans p95'i 7,808 ms ile 25 ms bütçesinin altında kaldı; 300 çağrılık kalite örneği p95 4,870 ms ölçtü. UI değişmediği için cihaz/manual doğrulama yapılmadı; bu sonuçlar production veya imzalı release cihaz kanıtı değildir.
+
 ## Devam eden çalışma — Katalog yaşam döngüsü doğruluğu
 
 - `codex/catalog-lifecycle-correctness` dalı, fetch sonrası doğrulanan `origin/main` commit'i `02a76d52df7c5e6ac4687fe968c104c23e62fe4b` üzerinden ayrı worktree'de açıldı.

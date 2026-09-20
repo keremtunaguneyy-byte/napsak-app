@@ -190,7 +190,7 @@ A recorded post-refresh local latency sample was mean 1.446 ms, p50 0.850 ms, p9
 - Place group fit reflects the existing heuristic, not explicit venue capacity or accessibility evidence.
 - District diversity does not apply to current Event and Idea types.
 - Location changes membership or ordering in seven of the nine paired fixtures at these seeds. Short-duration keeps the same order despite positive proximity contributions; long-duration keeps the same order because all five eligible plans are beyond the Experience proximity-score radius. These findings characterize the current catalog and score balance; they are neither a defect assertion nor permission to change weights.
-- `interestTier` is applied before adjusted score inside direct `recommendExperiences` candidate selection. `recommendAll` requests a wider Experience candidate set and may subsequently re-sort it by raw score, so primary-before-secondary is not an unconditional visible-feed ordering guarantee.
+- `interestTier` is applied before adjusted score inside `recommendExperiences`. The explicit public Experience path returns that tiered, diversified and rotated order directly, so secondary-only candidates cannot displace available primary matches in the requested first batch.
 - The current rotation remembers only the immediately previous batch. Large pools often avoid adjacent overlap while allowing batch-1 items to return in batch 3.
 - The fixed Event checkpoints remain at 14 and 21 September so pre/post refresh supply is comparable. They must not be moved forward automatically. Operational verification age is measured separately by `check:events` against the real run time.
 
@@ -225,14 +225,42 @@ A later review can score the saved machine-readable batches without changing the
 
 Human review should record reviewer count, rubric version, catalog version, fixture ID, seed, disagreements, and written failure examples. No target score or automatic promotion threshold is approved in Phase 1.
 
-## 10. Running and consuming the harness
+## 10. Experience primary-tier public-path correction
+
+Baseline commit: `15f93c6a2d790fe39ba3d44ed7b9f6bae8a8bd8a`. Catalog version: `2026-09-20.1`. The deterministic audit fixture uses `interests: ['Lezzet']`, `mood: 'Sakin'`, `seed: 0`, no location, and limit 5.
+
+Before the correction, direct `recommendExperiences` returned five primary Lezzet matches, while `recommendAll(filter: 'experience')` requested 15 candidates and re-sorted them by raw score, returning one primary plus four secondary-only matches. After the correction, both public and direct paths return the same five primary matches in the same order: `xp-trilye-balik`, `xp-pecenek-iskitler-doner-ritueli`, `xp-hanem-konya-sofrasi`, `xp-bolu-akin-eski-garajlar-tencere`, and `xp-beypazari-halfday`.
+
+The fixed 15-scenario matrix changed as follows; supply, eligibility and catalog data are unchanged.
+
+| Measure | Before | After |
+|---|---:|---:|
+| Eligible candidates | 693 | 693 |
+| First-batch results | 70 | 70 |
+| Zero / partial / full-five scenarios | 0 / 2 / 13 | 0 / 2 / 13 |
+| Experience primary matches | 17 | 17 |
+| Experience secondary-only matches | 3 | 3 |
+| Mean category diversity | 2.667 | 2.800 |
+| Mean applicable district diversity | 2.333 | 2.600 |
+| Repeated IDs / repeated slots | 53 / 66 | 53 / 67 |
+| Location-paired changed slots | 19 | 17 |
+| Location-paired symmetric membership difference | 16 | 18 |
+| Deterministic replay failures | 0 | 0 |
+| Lifecycle leakage | 0 | 0 |
+| Objective invariant failures | 0 | 0 |
+
+The aggregate primary/secondary counts stay constant because the original 15 fixtures did not contain the failing Sakin + Lezzet intersection; the focused regression fixture now enforces it. Cold-start diversity improves from four to five categories and from four to five districts. Immediate rotation remains fresh where supply permits, small-pool fallback remains intact, and Place, Idea and Event filtered behavior is isolated by regression tests.
+
+The post-fix 300-call quality sample measured mean 2.015 ms, p50 1.299 ms, p95 4.870 ms and p99 5.082 ms. The separate 5,000-call benchmark measured mean 2.842 ms, p50 1.115 ms, p95 7.808 ms and p99 9.171 ms against the unchanged 25 ms p95 budget. These are host-specific samples, not signed-release device evidence.
+
+## 11. Running and consuming the harness
 
 - Human plus machine-readable output: `npm run check:recommendations`
 - Machine-readable line only: `npm run check:recommendations -- --json`
 
 The machine record is the JSON payload following `RECOMMENDATION_QUALITY_JSON=`. Schema version 2 adds the ordered location-on/off IDs, uses `changedSlotCount`, and includes the aggregate symmetric membership difference. The payload also contains the catalog version, scenario definitions by stable ID, three batch summaries, aggregate metrics, objective failure list, and latency sample. The harness requires no Firebase project, credentials, network, device, or content write.
 
-## 11. Ankara Content Batch #2 delta
+## 12. Ankara Content Batch #2 delta
 
 Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18.1`. Result limit: 5.
 
@@ -266,7 +294,7 @@ Changed coverage intersections account for the full candidate-total increase of 
 
 The unchanged result and explanation totals show that this batch expands eligible supply without manufacturing extra slots in already-full first batches. The district-diversity and repetition movements are characterization, not regressions against an approved threshold: no such threshold exists, and the ranking, diversity, and rotation logic was not changed. A recorded post-batch local latency sample was mean 1.616 ms, p50 0.928 ms, p95 4.092 ms, and p99 4.350 ms over 300 calls; this is host-specific and not a golden assertion.
 
-## 12. Ankara Content Batch #3 delta
+## 13. Ankara Content Batch #3 delta
 
 Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18.2`. Result limit: 5.
 
@@ -300,7 +328,7 @@ Changed coverage intersections account for the candidate-total increase of 30: s
 
 The Ulus couple fixture moves from three to five eligible results, which accounts for the partial-to-full-five improvement. The category-diversity, district-diversity, repetition, and location movements are characterization, not regressions against an approved threshold; no such threshold exists, and ranking, diversity, rotation, filters, or weights were not changed. A recorded post-batch local latency sample was mean 1.742 ms, p50 1.085 ms, p95 4.078 ms, and p99 5.070 ms over 300 calls; this is host-specific and not a golden assertion.
 
-## 13. Ankara Experience Batch #4 delta
+## 14. Ankara Experience Batch #4 delta
 
 Command: `npm run check:recommendations`. Catalog version: `2026-09-18.3`. Result limit: 5.
 
@@ -332,7 +360,7 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-18.3`. Resul
 
 The 10 added Experiences increase eligible supply by 17 across the fixed matrix without changing the already-full first-batch result count. The catalog now has 50 Experiences: primary/category distribution is 23 Sanat, 12 Doğa, 8 Lezzet, 4 Kahve and 3 Etkinlik; maximum-duration distribution is 6×30–60, 21×61–120, 17×121–240 and 6×241+ minutes. District mean and location-membership movement are characterization, not an approved-threshold regression; ranking, diversity, rotation, filters and weights did not change. A post-batch local recommendation-quality sample was mean 1.725 ms, p50 1.356 ms, p95 4.000 ms and p99 4.237 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.177 ms, p50 1.024 ms, p95 6.223 ms and p99 6.594 ms against the 25 ms p95 budget; both are host-specific samples.
 
-## 14. Idea Architecture + Batch A delta
+## 15. Idea Architecture + Batch A delta
 
 Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18.4`. Result limit: 5.
 
@@ -359,7 +387,7 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-18
 
 The candidate-total increase is exactly the 34 new Ideas in the controlled-discovery fixture; the other 14 scenarios and the first-batch result total are unchanged. The Fikir fixture still returns one selected-interest result and four independent discoveries, with 14 unique Ideas across three batches. The new structured fields are intentionally not consumed by ranking yet, so this delta is catalog coverage rather than a hidden scoring change. A post-batch local sample measured mean 1.795 ms, p50 1.380 ms, p95 4.104 ms and p99 4.525 ms over 300 calls; this is host-specific and not a golden assertion.
 
-## 15. Ankara Place Completeness Batch #1 delta
+## 16. Ankara Place Completeness Batch #1 delta
 
 Command: `npm run check:recommendations`. Catalog version: `2026-09-19.1`. Result limit: 5.
 
@@ -393,7 +421,7 @@ The 13 approved Places increase summed eligible supply by 36 across six Place fi
 
 The stable result total and explanation count show that the batch expands an already-full Place supply rather than manufacturing new recommendation slots. Exact-budget, diversity, repetition and location movements are characterization, not approved-threshold regressions; ranking, diversity, rotation, filters and weights did not change. A recorded post-batch local quality sample measured mean 1.998 ms, p50 1.485 ms, p95 4.715 ms and p99 4.955 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.512 ms, p50 1.084 ms, p95 7.031 ms and p99 7.449 ms against the 25 ms p95 budget; both are host-specific samples.
 
-## 16. Idea Expansion Batch B delta
+## 17. Idea Expansion Batch B delta
 
 Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19.4`. Result limit: 5.
 
@@ -423,7 +451,7 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19
 
 The eligible-candidate increase is exactly the 32 Batch B Ideas in the controlled-discovery fixture; the other 14 scenario supplies and the first-batch result total are unchanged. Across the three seeded Fikir batches, all 15 returned Ideas are unique while the one-selected-interest plus four-independent-discoveries contract remains intact. The structured fields remain editorial-only, so the change expands catalog coverage without modifying ranking, filters, diversity, rotation, or explanations. A post-batch local sample measured mean 2.059 ms, p50 1.402 ms, p95 4.859 ms and p99 5.153 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.602 ms, p50 1.037 ms, p95 7.229 ms and p99 7.580 ms against the 25 ms p95 budget; both are host-specific samples.
 
-## 17. Idea Expansion Batch C delta
+## 18. Idea Expansion Batch C delta
 
 Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19.5`. Result limit: 5.
 
@@ -453,7 +481,7 @@ Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-19
 
 The eligible-candidate increase is exactly the 22 Batch C Ideas in the controlled-discovery fixture; every other scenario supply and the result total remain unchanged. The three seeded Fikir batches return 15 unique IDs and preserve one selected-interest plus four independent discoveries. No ranking, filtering, diversity, rotation, explanation or saved-state code changed. A post-batch local sample measured mean 1.972 ms, p50 1.348 ms, p95 4.687 ms and p99 4.869 ms over 300 calls. The separate 5,000-call benchmark measured mean 2.621 ms, p50 1.045 ms, p95 7.272 ms and p99 7.607 ms against the 25 ms p95 budget; both are host-specific samples.
 
-## 18. Final Ankara Experience batch delta
+## 19. Final Ankara Experience batch delta
 
 Command: `npm run check:recommendations`. Catalog version: `2026-09-19.6`. Result limit: 5.
 
@@ -483,7 +511,7 @@ Command: `npm run check:recommendations`. Catalog version: `2026-09-19.6`. Resul
 
 Eight approved evergreen Experiences increase supply in three Experience fixtures: the solo Sanat context gains five candidates, the couple Ulus Sanat context gains one, and the cold-start context gains all eight. The result count, explanation coverage, match counts, category/district diversity and invariant results remain unchanged; repeated slots improve by one. Location on/off replays change three more ranked slots and two more membership positions because the expanded catalog gives the unchanged proximity signal additional legitimate choices. Mamak Füzyon is excluded because the current `conditional` activation is intentionally unsupported and fail-closed; representing its reservation-, age- and programme-dependent workshops as evergreen would be incorrect. No ranking, filtering, diversity, rotation, explanation, lifecycle or saved-state code changed. The post-batch 300-call report-only sample measured mean 2.619 ms, p50 1.996 ms, p95 6.041 ms and p99 6.258 ms. The separate 5,000-call benchmark measured mean 10.394 ms, p50 1.503 ms, p95 9.644 ms and p99 11.648 ms against the 25 ms p95 budget; both are host-specific samples, not device evidence.
 
-## 19. Catalog lifecycle correctness delta
+## 20. Catalog lifecycle correctness delta
 
 Command: `npm run check:recommendations -- --json`. Catalog version: `2026-09-20.1`. Result limit: 5.
 
