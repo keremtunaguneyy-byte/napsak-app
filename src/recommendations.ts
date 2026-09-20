@@ -372,7 +372,7 @@ export function recommendAll(options: {
   const candidateLimit = Math.max(limit * 3, 15);
   const experienceItems: RecommendationItem[] = filter === 'experience' || filter === 'all' ? recommendExperiences({
     experiences, places, events, mood, interests, dismissed, budget, groupSize, duration, coordinates,
-    limit: candidateLimit, seed, previousBatch, now,
+    limit: filter === 'experience' ? limit : candidateLimit, seed, previousBatch, now,
   }) : [];
   const placeItems: RecommendationItem[] = filter === 'place' || filter === 'all' ? recommendPlaces({
     places, mood, interests, dismissed, budget, groupSize, coordinates,
@@ -403,6 +403,10 @@ export function recommendAll(options: {
         score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + event.editorialScore * 3 + budgetScore + (groupMatch && groupSize ? 10 : 0),
       };
     }) : [];
+
+  // Explicit single-kind feeds already apply their own ranking, diversity and
+  // rotation contracts. Do not flatten Experience interest tiers back to score.
+  if (filter === 'experience') return experienceItems.slice(0, limit);
 
   // Preserve the exact PR #8 place ordering (including its category/district
   // diversity penalties) when the user explicitly asks for places only.
