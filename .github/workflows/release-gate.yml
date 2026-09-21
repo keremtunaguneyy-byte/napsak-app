@@ -35,5 +35,7 @@ jobs:
           cache: npm
       - name: Install exact dependencies
         run: npm ci
+      - name: Production build configuration
+        run: npm run check:build -- --profile=production
       - name: Strict release readiness
         run: npm run check:release:strict

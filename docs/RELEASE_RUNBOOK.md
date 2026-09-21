@@ -30,7 +30,26 @@ Bu kanıt `eas_project_id_unverified` engelini kapatır.
 
 ## EAS build yapılandırma durumu
 
-Repository'de `eas.json` bulunur. EAS CLI alt sınırı `>= 24.3.0`, `appVersionSource` değeri `remote` olarak tanımlıdır. `development` ve `preview` profilleri internal distribution kullanır; `development` ayrıca development client ister. `production` profili `autoIncrement: true` kullanır. `submit.production` boş bir yerel config placeholder'ıdır ve store bağlantısı veya submission kanıtı değildir. `expo-dev-client` henüz kurulu değildir.
+Repository'de `eas.json` bulunur. EAS CLI alt sınırı `>= 24.3.0`, `appVersionSource` değeri `remote` olarak tanımlıdır. Her build profili adlandırılmış EAS ortamını ve `EXPO_PUBLIC_APP_ENV` değerini açıkça bağlar:
+
+| EAS profili | EAS ortamı | Uygulama ortamı | Build modu | Gerekli değişkenler |
+|---|---|---|---|---|
+| `development` | `development` | `development` | `local` | Profildeki `EXPO_PUBLIC_APP_ENV`, `NAPSAK_BUILD_MODE`; Firebase/Sentry değerleri yok |
+| `preview` | `preview` | `development` | `local` | Profildeki `EXPO_PUBLIC_APP_ENV`, `NAPSAK_BUILD_MODE`; Firebase/Sentry değerleri yok |
+| `production` | `production` | `production` | `connected` | Profildeki iki kimlik değeri; eksiksiz public Firebase config; `EXPO_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` |
+
+`development` ve `preview` internal dağıtımlı standart build'lerdir. Eski `developmentClient: true` kaldırıldı: paket `expo-dev-client` içermiyor ve runbook'ta development-client build gerektiren bir kabul akışı yok. Bu profiller gömülü katalog ve yerel depolamayla çalışır. `preview` ortamına Firebase/Sentry değeri eklenirse build ön-kontrolü başarısız olur; bağlı preview için ayrı bir onaylı ortam tasarımı gerekir. Yerel Expo geliştirmesinde `.env.development` ile bağlanan development Firebase akışı bu EAS profillerinden ayrıdır. `production` profili `autoIncrement: true` kullanır. `submit.production` boş bir yerel config placeholder'ıdır ve store bağlantısı veya submission kanıtı değildir.
+
+EAS build işçisi bağımlılıklar kurulduktan sonra `eas-build-post-install` ile `npm run check:build` çalıştırır. Kontrol `EAS_BUILD_PROFILE` ile etkin profili ve işçinin gerçek ortam değerlerini doğrular; değer bulunmaz veya profil ile çelişirse build durur. Yerel ön-kontrol için:
+
+```bash
+npm run check:build -- --profile=preview
+npm run check:build -- --profile=production
+```
+
+İkinci komut yalnız yetkili production build ortamında gerekli değişkenler yüklüyken geçer. Gerçek EAS build komutları `eas build --profile preview --platform <android|ios>` ve `eas build --profile production --platform <android|ios>` biçimindedir; ilgili adlandırılmış EAS ortamının değişkenleri önceden ayrı ayrı tanımlanmalıdır. Kontrol uygulama adı, slug, owner, Android/iOS kimliği, aktif EAS proje ID'si, profil/ortam eşleşmesi, local/connected modu ve mevcut Firebase/Sentry yapılandırma doğrulamasını kapsar. Secret değerlerini yazdırmaz ve hiçbir servise bağlanmaz.
+
+Başarılı ön-kontrol yalnız yapılandırmanın biçimini ve build niyetini kanıtlar. EAS hesabını, Firebase/Sentry servislerini, source map yüklemesini, imzalı artifact kimliğini, cihaz matrisini veya store bağlantısını canlı doğrulamaz. GitHub `Release Gate` aynı production ön-kontrolünü strict release kapısından önce çalıştırır; bu iki ayrı sonuçtan hiçbiri tek başına sekiz açık engeli kapatmaz.
 
 Bu yapılandırma signed-build veya store kanıtı değildir. EAS build çalıştırılmadı; Android keystore, Apple certificate veya provisioning profile oluşturulmadı; Google Play ya da App Store Connect bağlantısı/submission yapılandırması yapılmadı. Bu nedenle `android_package_unverified` ve `ios_bundle_identifier_unverified` açık kalır; toplam sekiz yayın engeli değişmez.
 
@@ -43,7 +62,7 @@ Bu yapılandırma signed-build veya store kanıtı değildir. EAS build çalış
 - `NAPSAK_PRIVACY_POLICY_URL`, `NAPSAK_SUPPORT_URL`
 - `NAPSAK_RESTORE_DRILL_EVIDENCE`, `NAPSAK_DEVICE_MATRIX_EVIDENCE`
 
-Token, servis hesabı JSON’u, imzalama anahtarı veya kullanıcı verisi repoya yazılmaz.
+GitHub production ortamındaki değerler ile EAS `production` ortamındaki değerler ayrı ayrı yönetilir; GitHub kapısının geçmesi bir EAS artifact'ına aynı değerlerin gömüldüğünü kanıtlamaz. Token, servis hesabı JSON’u, imzalama anahtarı veya kullanıcı verisi repoya yazılmaz.
 
 ## Yayın sırası
 

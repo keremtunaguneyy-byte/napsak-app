@@ -284,6 +284,6 @@ npm test
 npm run check:release
 ```
 
-`npm run check:release`, bilinen dokuz açık engelin değişmediğini doğrulamalıdır. Production girdileri ve dış kanıtlar bulunmadığı sürece `npm run check:release:strict` başarısız kalmalıdır; bu sözleşme strict kapıyı geçirmeye çalışmaz.
+`npm run check:release`, bilinen sekiz açık engelin değişmediğini doğrulamalıdır. Production girdileri ve dış kanıtlar bulunmadığı sürece `npm run check:release:strict` başarısız kalmalıdır; bu sözleşme strict kapıyı geçirmeye çalışmaz.
 
 App Quality sonucu PR üzerinde kaydedilir. Yalnız doküman değişiklikleri Security Rules path filtresini tetiklemeyebilir; bu durum Rules kanıtını değiştirmez.
