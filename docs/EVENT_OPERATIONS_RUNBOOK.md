@@ -33,6 +33,8 @@ npm run check:events
 6. `npm run check:events`, `npm test`, `npm run test:catalog` ve `npm run typecheck` çalıştır.
 7. Değişikliği normal PR ve inceleme süreciyle yayınla.
 
+Event şemasında satıldı/tükendi durumu bulunmaz. Bileti tükenen tekil bir seansı aktif katalogdan çıkar; başka tarihteki seansı yeni tarihli ID ile ayrı kayıt olarak ekle. Geçmiş seansı yeni saate taşıma veya geçersiz fiyatı koruma. `startsAt` geçmişte kalan kayıtlar öneri katmanında otomatik elenir; bu kontrol çok günlük etkinlikleri `endsAt` anına kadar önermeyi sağlamaz.
+
 Otomasyon internetten etkinlik kazıyıp kendi başına “doğru” ilan etmez. Kaynak sayfasının içeriği insan tarafından doğrulanır; otomasyon envanter, tarih ve doğrulama yaşını denetler.
 
 ## Sorun kodları

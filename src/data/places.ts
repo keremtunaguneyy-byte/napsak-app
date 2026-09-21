@@ -222,7 +222,7 @@ const ankaraPlaces: Omit<Place, 'cityId' | 'status'>[] = [
     latitude: 39.871402, longitude: 32.6895363, sourceUrl: 'https://goldenchef.com.tr/iletisim/', verifiedAt: '2026-09-18',
     provenance: [
       { kind: 'official', label: 'Golden Chef iletişim', verifiedAt: '2026-09-18', url: 'https://goldenchef.com.tr/iletisim/', note: 'Çayyolu kurum kimliği ve Prof. Dr. Ahmet Taner Kışlalı Mah. 2815 Sok. No:7 adresi.' },
-      { kind: 'official', label: 'Golden Chef workshop takvimi', verifiedAt: '2026-09-18', url: 'https://goldenchef.com.tr/workshoplar/', note: 'Kurum tarihli uygulamalı yemek atölyeleri yürütüyor. Temsilî El Yapımı Makarnalar seansı 29 Eylül 2026 11:00–14:00, 3 saat, 14+, gözlenen toplam 1.799 TL ve malzemeler dahil; hazırlanan ürünler yenebiliyor veya götürülebiliyor. Bu seans evergreen içerik değildir.' },
+      { kind: 'official', label: 'Golden Chef workshop takvimi', verifiedAt: '2026-09-18', url: 'https://goldenchef.com.tr/workshoplar/', note: 'Kurum tarihli uygulamalı yemek atölyeleri yürütüyor. Temsilî El Yapımı Makarnalar seansı 29 Eylül 2026 11:00–14:00, 3 saat ve gözlenen toplam 1.799 TL. Yaş alt sınırı doğrulanmadı; bu seans evergreen içerik değildir.' },
       { kind: 'map_pin', label: 'Golden Chef resmî yol tarifi pini', verifiedAt: '2026-09-18', url: 'https://www.google.com/maps/place/Golden+Chef+Mutfak+Akademisi/@39.871402,32.6895363,17z', note: 'Kurumun resmî yol tarifi bağlantısındaki güncel pin.' },
     ],
   },

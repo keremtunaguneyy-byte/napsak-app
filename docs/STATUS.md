@@ -1,6 +1,16 @@
 # N’apsak — Durum ve sıradaki iş
 
-Kontrol tarihi: 20 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
+## Devam eden çalışma — Event Freshness Refresh #2 (21 Eylül 2026)
+
+- `codex/event-freshness-refresh-2` dalı, doğrulanmış `origin/main` `c0fb15252a05c86d406e766accbd127d40aa5546` üzerinden açıldı. Onaylı 21 Eylül denetimi kullanıldı; dış kaynak araştırması yapılmadı.
+- 21 Eylül Ankara Open seansı `startsAt` sınırında sona erdiği, 23 Eylül ONE MORE seansı biletleri tükendiği için aktif katalogdan çıkarıldı. Tarihsel ID'ler yeniden kullanılmadı; 22 Eylül Ankara Open ve 24 Eylül ONE MORE ayrı ID'lerle eklendi. Eski 5.000 ₺ ONE MORE fiyatı artık aktif arzda yok.
+- Sami Yusuf, Trivia Night, Candles and Echoes ve Ankara Cocktail Festival onaylı fiyat/katılım bilgileriyle güncellendi. TCA, Happy Pig’s, Ajda Pekkan, Bubble Show, TastyDays ve AMADEUS için yalnız `verifiedAt` 2026-09-21 oldu. TastyDays belirli şef veya atölye vaadi taşımıyor.
+- Golden Chef 29 Eylül üç saatlik Event olarak eklendi; yaş alt sınırı bilinmediği için Event'te belirtilmedi ve eski Place provenance metnindeki kanıtsız `14+` kaldırıldı. Ayrı Experience eklenmedi.
+- Masumiyet film gösterimi ve yönetmen söyleşisi, proje sahibinin sağladığı Bubilet kaynak bağlantısıyla 23 Eylül tarihli ayrı Event olarak eklendi. Açık hava/hava koşulu ve numarasız genel giriş bilgisi betimleyici notta tutuldu. Event kataloğu 12'den 14 kayda çıktı.
+- Place 178, Experience 52, Idea 140 ve Guide 12 sayıları korundu. Öneri sıralaması veya Event yaşam döngüsü değiştirilmedi.
+- Yerel doğrulama: diff kontrolü, typecheck, 111 ana/release + 14 kalite testi, catalog parity, 2.560 genel + 640 Experience stres senaryosu, recommendation-quality, 5.000 çağrılık performans, Event Catalog Health ve release baseline kontrolleri geçti. Sabit kalite matrisinde uygun aday 693'ten 698'e çıktı; 70 ilk grup sonucu, 0/2/13 sıfır/kısmi/tam beşli dağılımı ve 0 objektif invariant/sızıntı hatası değişmedi. Performans p95 7,795 ms ile 25 ms bütçesinin altında kaldı. Release baseline beklenen sekiz açık engeli korur; cihaz veya production doğrulaması yapılmadı.
+
+Kontrol tarihi: 21 Eylül 2026. Bu bir yayına hazır olma raporu değildir.
 
 ## Devam eden çalışma — Ankara 101 editoryal derinlik düzenlemesi
 
