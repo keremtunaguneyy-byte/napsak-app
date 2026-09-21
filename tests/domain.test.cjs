@@ -98,9 +98,9 @@ const eventFixture = (overrides = {}) => ({
 });
 
 test('current event catalog has a complete fresh batch and a safe horizon', () => {
-  const health = analyzeEventCatalog(catalogEvents, new Date('2026-09-16T17:30:00+03:00'));
+  const health = analyzeEventCatalog(catalogEvents, new Date('2026-09-21T09:00:00+03:00'));
   assert.equal(health.healthy, true);
-  assert.equal(health.upcomingCount, 12);
+  assert.equal(health.upcomingCount, 14);
   assert.equal(health.expiredCount, 0);
   assert.ok(health.horizonDays >= EVENT_MINIMUM_HORIZON_DAYS);
   assert.deepEqual(health.issues, []);
@@ -756,7 +756,7 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
   assert.equal(places.length, 178);
   assert.equal(experiences.length, 52);
   assert.equal(ideas.length, 140);
-  assert.equal(catalogEvents.length, 12);
+  assert.equal(catalogEvents.length, 14);
   assert.equal(guides.length, 12);
   for (const id of expectedPlaceIds) {
     const place = places.find(item => item.id === id);
@@ -806,7 +806,7 @@ test('Ankara Place completeness batch 3 publishes only candidates that clear cur
   assert.equal(places.length, 178);
   assert.equal(experiences.length, 52);
   assert.equal(ideas.length, 140);
-  assert.equal(catalogEvents.length, 12);
+  assert.equal(catalogEvents.length, 14);
   assert.equal(guides.length, 12);
   for (const id of expectedPlaceIds) {
     const place = places.find(item => item.id === id);
@@ -970,9 +970,9 @@ test('each duration keeps at least one honest match for every explicit interest'
 });
 
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
-  assert.ok(events.length >= 10);
+  assert.equal(events.length, 14);
   assert.equal(new Set(events.map(event => event.id)).size, events.length);
-  const verifiedOn = new Date('2026-09-16T00:00:00+03:00');
+  const verifiedOn = new Date('2026-09-21T00:00:00+03:00');
   for (const event of events) {
     assert.equal(event.kind, 'event');
     assert.equal(event.cityId, 'ankara');
@@ -985,9 +985,29 @@ test('verified event catalogue has explicit Ankara time zones and trustworthy me
       assert.ok(Date.parse(event.endsAt) > Date.parse(event.startsAt), `${event.id}: invalid end time`);
     }
     assert.equal(new URL(event.sourceUrl).protocol, 'https:');
-    assert.equal(event.verifiedAt, '2026-09-16');
+    assert.equal(event.verifiedAt, '2026-09-21');
     assert.ok(event.sourceLabel && event.note);
   }
+});
+
+test('refreshed event supply excludes expired and sold-out sessions and admits replacements until start', () => {
+  const ids = new Set(events.map(event => event.id));
+  assert.ok(!ids.has('event-ankara-open-wta-125-2026-09-21'));
+  assert.ok(!ids.has('event-one-more-atilim-2026-09-23'));
+  const eventFeedAt = now => recommendAll({
+    places: [], ideas: [], events, filter: 'event', interests: [], dismissed: [],
+    limit: 100, now: new Date(now),
+  }).map(event => event.id);
+  const beforeStart = eventFeedAt('2026-09-21T09:59:59+03:00');
+  for (const id of [
+    'event-ankara-open-wta-125-2026-09-22',
+    'event-masumiyet-demirkubuz-visnelik-2026-09-23',
+    'event-one-more-atilim-2026-09-24',
+    'event-golden-chef-el-yapimi-makarnalar-2026-09-29',
+  ]) assert.ok(beforeStart.includes(id), `${id}: missing before start`);
+  assert.ok(!beforeStart.includes('event-one-more-atilim-2026-09-23'));
+  const afterStart = eventFeedAt('2026-09-22T10:00:00+03:00');
+  assert.ok(!afterStart.includes('event-ankara-open-wta-125-2026-09-22'));
 });
 
 test('event feed excludes expired events and admits future events regardless of general interests', () => {
