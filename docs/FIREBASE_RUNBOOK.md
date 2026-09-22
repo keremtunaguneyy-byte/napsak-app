@@ -14,6 +14,8 @@ Development ve production iki ayrı Firebase projesidir. Aynı Firestore veritab
 
 Uygulama Firebase env’i yoksa paket içindeki katalog + AsyncStorage ile çalışmaya devam eder. Firebase env’i varsa anonim Auth açılır ve remote repository/cache katmanı devreye girer.
 
+EAS `development` ve `preview` profilleri açıkça local modda build edilir; bu profillerin EAS ortamında hiçbir `EXPO_PUBLIC_FIREBASE_*` değeri bulunmamalıdır. Bağlı development servisiyle yerel Expo geliştirmesi ayrı akıştır. EAS `production` profili eksiksiz public Firebase değerlerini EAS `production` ortamından alır ve `npm run check:build` bunlar yoksa build'i durdurur. Bu kontrol Firebase'e bağlanıp proje erişimini doğrulamaz.
+
 ### Yapılandırma ön-kontrolü
 
 Public Firebase yapılandırması ya tamamen boş ya da eksiksiz olmalıdır. Development'ta tamamen boş yapılandırma bilinçli yerel modu açar. Şunlar hata kabul edilir:

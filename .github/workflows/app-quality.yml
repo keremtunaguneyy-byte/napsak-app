@@ -31,6 +31,8 @@ jobs:
         run: npm run typecheck
       - name: Regression tests
         run: npm test
+      - name: Internal preview build configuration
+        run: npm run check:build -- --profile=preview
       - name: Recommendation stress tests
         run: npm run test:stress
       - name: Catalog parity

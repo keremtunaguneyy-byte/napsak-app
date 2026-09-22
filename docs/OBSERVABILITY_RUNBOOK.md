@@ -33,6 +33,8 @@ SENTRY_AUTH_TOKEN=secret-build-token
 
 `SENTRY_AUTH_TOKEN` repoya veya `EXPO_PUBLIC_*` değişkenine yazılmaz. Sentry DSN yoksa development uygulaması hata raporlamayı kapalı tutarak çalışır. Production release kapısı DSN, organizasyon, proje ve build tokenını zorunlu tutar:
 
+EAS `development` ve `preview` profilleri local modda Sentry yapılandırması olmadan build edilir. EAS `production` ortamı DSN, org, proje ve build tokenını sağlamalıdır; `eas-build-post-install` ön-kontrolü eksik veya çelişen değerlerde build'i durdurur. Ön-kontrol source map yükleme başarısını veya dashboard olayını doğrulamaz.
+
 ```bash
 npm run check:observability
 npm run check:observability:release

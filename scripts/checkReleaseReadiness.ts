@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { resolveFirebaseRuntimeSettings } from '../src/firebase/config';
-import { resolveObservabilitySettings } from '../src/observabilityPolicy';
+import { requireSentryBuildSettings } from './observabilityBuildConfig';
 import {
   androidApplicationIdSyntaxValid,
   externalEvidenceBlockerOpen,
@@ -45,9 +45,8 @@ function productionFirebaseVerified(): boolean {
 
 function productionSentryVerified(): boolean {
   try {
-    const settings = resolveObservabilitySettings({ ...process.env, EXPO_PUBLIC_APP_ENV: 'production' });
-    return settings.mode === 'sentry'
-      && ['SENTRY_ORG', 'SENTRY_PROJECT', 'SENTRY_AUTH_TOKEN'].every(key => configured(process.env[key]));
+    requireSentryBuildSettings({ ...process.env, EXPO_PUBLIC_APP_ENV: 'production' });
+    return true;
   } catch {
     return false;
   }
@@ -71,8 +70,14 @@ if (externalEvidenceBlockerOpen(
 if (!easProjectVerified(expo.extra?.eas?.projectId)) blockers.push('eas_project_id_unverified');
 if (!verifiedUrl(process.env.NAPSAK_PRIVACY_POLICY_URL)) blockers.push('privacy_policy_url_unverified');
 if (!verifiedUrl(process.env.NAPSAK_SUPPORT_URL)) blockers.push('support_url_unverified');
-if (!productionFirebaseVerified()) blockers.push('production_firebase_unverified');
-if (!productionSentryVerified()) blockers.push('production_sentry_unverified');
+if (externalEvidenceBlockerOpen(
+  productionFirebaseVerified(),
+  declaredOpenBlockers.has('production_firebase_unverified'),
+)) blockers.push('production_firebase_unverified');
+if (externalEvidenceBlockerOpen(
+  productionSentryVerified(),
+  declaredOpenBlockers.has('production_sentry_unverified'),
+)) blockers.push('production_sentry_unverified');
 if (!verifiedUrl(process.env.NAPSAK_RESTORE_DRILL_EVIDENCE)) blockers.push('restore_drill_unverified');
 if (!verifiedUrl(process.env.NAPSAK_DEVICE_MATRIX_EVIDENCE)) blockers.push('release_device_matrix_unverified');
 
