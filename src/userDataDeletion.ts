@@ -5,6 +5,7 @@ export type UserDataDeletionResult = {
 };
 
 type UserDataDeletionSteps = {
+  blockRemoteUserSync?: () => Promise<void>;
   deleteRemoteUserState?: () => Promise<void>;
   clearLocalUserState: () => Promise<void>;
   deleteAnonymousAccount?: () => Promise<void>;
@@ -14,6 +15,7 @@ type UserDataDeletionSteps = {
 export async function runUserDataDeletion(steps: UserDataDeletionSteps): Promise<UserDataDeletionResult> {
   let remoteUserStateDeleted = false;
   if (steps.deleteRemoteUserState) {
+    await steps.blockRemoteUserSync?.();
     await steps.deleteRemoteUserState();
     remoteUserStateDeleted = true;
   }

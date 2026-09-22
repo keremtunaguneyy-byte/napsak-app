@@ -54,16 +54,28 @@ function looksLikePlaceholder(value: string): boolean {
 }
 
 function looksLikeDevelopmentProject(projectId: string): boolean {
-  return projectId.startsWith('demo-') || /(^|[-_])(dev|development|test)([-_]|$)/i.test(projectId);
+  return projectId.startsWith('demo-') || /(^|[-_])(dev|development|beta|test)([-_]|$)/i.test(projectId);
+}
+
+export function looksLikeBetaProject(projectId: string): boolean {
+  return /(^|[-_])(dev|development|beta)([-_]|$)/i.test(projectId)
+    && !/(^|[-_])(prod|production|live|test)([-_]|$)/i.test(projectId)
+    && !projectId.startsWith('demo-');
 }
 
 export function resolveFirebaseRuntimeSettings(env: PublicEnvironment): FirebaseRuntimeSettings {
   const environment = parseEnvironment(env.EXPO_PUBLIC_APP_ENV);
+  const tier = env.EXPO_PUBLIC_SERVICE_TIER;
+  if (tier && !['local', 'beta', 'production'].includes(tier)) throw new Error('Unknown service tier.');
+  if (tier === 'beta' && environment !== 'development') throw new Error('Beta requires development runtime.');
+  if (tier === 'production' && environment !== 'production') throw new Error('Production tier requires production runtime.');
+  if (tier === 'local' && environment === 'production') throw new Error('Local tier cannot use production runtime.');
   const supplied = REQUIRED_CONFIG.filter(([key]) => configured(env[key]));
   const emulator = parseEmulator(env.EXPO_PUBLIC_FIREBASE_EMULATOR_HOST);
 
   if (!supplied.length) {
     if (emulator) throw new Error('Firestore emulator config requires a complete public Firebase config.');
+    if (tier === 'beta') throw new Error('Connected beta requires a complete public Firebase config.');
     if (environment === 'production') throw new Error('Production builds require a complete public Firebase config.');
     return { environment, mode: 'local' };
   }
@@ -75,6 +87,10 @@ export function resolveFirebaseRuntimeSettings(env: PublicEnvironment): Firebase
 
   const values = Object.fromEntries(REQUIRED_CONFIG.map(([key, name]) => [name, env[key]!.trim()])) as Pick<PublicFirebaseConfig, 'apiKey' | 'authDomain' | 'projectId' | 'appId'>;
   if (Object.values(values).some(looksLikePlaceholder)) throw new Error('Firebase config still contains example placeholder values.');
+  if (tier === 'local') throw new Error('Local tier cannot connect to Firebase.');
+  if (tier === 'beta' && (!looksLikeBetaProject(values.projectId) || emulator)) {
+    throw new Error('Connected beta requires a non-production Firebase project and no emulator.');
+  }
   if (environment === 'production' && emulator) throw new Error('Production builds cannot connect to the Firestore emulator.');
   if (environment === 'production' && looksLikeDevelopmentProject(values.projectId)) {
     throw new Error('Production build points to a development/test Firebase project ID.');

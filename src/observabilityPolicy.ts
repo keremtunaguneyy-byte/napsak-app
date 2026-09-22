@@ -7,8 +7,8 @@ export type AppErrorArea =
   | 'render';
 
 export type ObservabilitySettings =
-  | { environment: 'development' | 'production'; mode: 'disabled' }
-  | { environment: 'development' | 'production'; mode: 'sentry'; dsn: string };
+  | { environment: 'development' | 'beta' | 'production'; mode: 'disabled' }
+  | { environment: 'development' | 'beta' | 'production'; mode: 'sentry'; dsn: string };
 
 type PublicEnvironment = Record<string, string | undefined>;
 type MutableEvent = Record<string, unknown> & {
@@ -47,8 +47,18 @@ function validSentryDsn(value: string): boolean {
   }
 }
 
+function safeStackPath(value: unknown): string | undefined {
+  return typeof value === 'string' && /^[A-Za-z0-9_./:-]{1,256}$/.test(value) ? value : undefined;
+}
+
 export function resolveObservabilitySettings(env: PublicEnvironment): ObservabilitySettings {
-  const environment = environmentOf(env.EXPO_PUBLIC_APP_ENV);
+  const runtime = environmentOf(env.EXPO_PUBLIC_APP_ENV);
+  const tier = env.EXPO_PUBLIC_SERVICE_TIER;
+  if (tier && !['local', 'beta', 'production'].includes(tier)) throw new Error('Unknown service tier.');
+  if (tier === 'beta' && runtime !== 'development') throw new Error('Beta observability requires development runtime.');
+  if (tier === 'production' && runtime !== 'production') throw new Error('Production observability requires production runtime.');
+  if (tier === 'local' && runtime === 'production') throw new Error('Local observability cannot use production runtime.');
+  const environment = tier === 'beta' ? 'beta' : runtime;
   const dsn = env.EXPO_PUBLIC_SENTRY_DSN?.trim();
   if (!configured(dsn)) return { environment, mode: 'disabled' };
   if (isPlaceholder(dsn) || !validSentryDsn(dsn)) {
@@ -72,15 +82,11 @@ export function normalizeOperationalError(error: unknown, area: AppErrorArea, fa
 
 export function sanitizeObservabilityEvent<T>(event: T): T {
   const source = event as MutableEvent;
-  const safe = { ...source } as MutableEvent;
-  delete safe.user;
-  delete safe.request;
-  delete safe.breadcrumbs;
-  delete safe.extra;
-  delete safe.message;
-  delete safe.logentry;
-  delete safe.transaction;
-  delete safe.fingerprint;
+  const safe = Object.fromEntries(
+    ['event_id', 'timestamp', 'platform', 'level', 'environment', 'release', 'dist']
+      .filter(key => source[key] !== undefined)
+      .map(key => [key, source[key]]),
+  ) as MutableEvent;
 
   if (source.tags) {
     safe.tags = Object.fromEntries(Object.entries(source.tags).filter(([key]) => SAFE_TAGS.has(key)));
@@ -88,8 +94,22 @@ export function sanitizeObservabilityEvent<T>(event: T): T {
   const values = source.exception?.values;
   if (values) {
     safe.exception = {
-      ...source.exception,
-      values: values.map(value => ({ ...value, value: 'Application error' })),
+      values: values.map(value => {
+        const stacktrace = value.stacktrace as { frames?: Array<Record<string, unknown>> } | undefined;
+        return {
+          type: typeof value.type === 'string' && /^[A-Za-z][A-Za-z0-9_.-]{0,63}$/.test(value.type) ? value.type : 'OperationalError',
+          value: 'Application error',
+          stacktrace: stacktrace?.frames ? { frames: stacktrace.frames.map(frame => ({
+            filename: safeStackPath(frame.filename),
+            abs_path: safeStackPath(frame.abs_path),
+            module: safeStackPath(frame.module),
+            function: typeof frame.function === 'string' && /^[A-Za-z0-9_.$<>-]{1,128}$/.test(frame.function) ? frame.function : undefined,
+            lineno: Number.isInteger(frame.lineno) ? frame.lineno : undefined,
+            colno: Number.isInteger(frame.colno) ? frame.colno : undefined,
+            in_app: frame.in_app === true,
+          })) } : undefined,
+        };
+      }),
     };
   }
   return safe as T;

@@ -13,8 +13,14 @@ const productionValues = {
   EXPO_PUBLIC_FIREBASE_APP_ID: '1:123:web:abc',
   EXPO_PUBLIC_SENTRY_DSN: 'https://private-test-key@o123.ingest.sentry.io/456',
   SENTRY_ORG: 'test-org',
-  SENTRY_PROJECT: 'test-project',
+  SENTRY_PROJECT: 'napsak-production',
   SENTRY_AUTH_TOKEN: 'private-test-build-token',
+};
+const betaValues = {
+  ...productionValues,
+  EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: 'napsak-beta.firebaseapp.com',
+  EXPO_PUBLIC_FIREBASE_PROJECT_ID: 'napsak-beta',
+  SENTRY_PROJECT: 'napsak-beta',
 };
 
 test('development and preview are explicitly bound to local development runtime', () => {
@@ -24,8 +30,28 @@ test('development and preview are explicitly bound to local development runtime'
   assert.deepEqual(validateBuildConfiguration(app, eas, 'preview', {}), {
     profile: 'preview', runtime: 'development', mode: 'local',
   });
-  assert.throws(() => validateBuildConfiguration(app, eas, 'preview', productionValues), /local-only/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'preview', productionValues), /Local tier cannot connect/);
   assert.throws(() => validateBuildConfiguration(app, eas, 'development', { EXPO_PUBLIC_FIREBASE_PROJECT_ID: 'napsak-production' }), /partial/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'preview', {
+    EXPO_PUBLIC_SERVICE_TIER: 'beta', ...betaValues,
+  }), /conflicts/);
+});
+
+test('connected beta requires its explicit profile and non-production services', () => {
+  assert.deepEqual(validateBuildConfiguration(app, eas, 'connected-beta', betaValues), {
+    profile: 'connected-beta', runtime: 'development', mode: 'connected',
+  });
+  assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {}), /Firebase config/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', productionValues), /non-production Firebase/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {
+    ...betaValues, SENTRY_PROJECT: 'napsak-production',
+  }), /beta\/development Sentry/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {
+    ...betaValues, EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: 'napsak-production.firebaseapp.com',
+  }), /key shape/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {
+    ...betaValues, EXPO_PUBLIC_FIREBASE_EMULATOR_HOST: '127.0.0.1:8080',
+  }), /no emulator/);
 });
 
 test('production requires complete Firebase and Sentry build settings', () => {
@@ -42,6 +68,9 @@ test('production requires complete Firebase and Sentry build settings', () => {
   assert.throws(() => validateBuildConfiguration(app, eas, 'production', {
     ...productionValues, EXPO_PUBLIC_FIREBASE_APP_ID: 'invalid-app-id',
   }), /key shape/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'production', {
+    ...productionValues, SENTRY_PROJECT: 'napsak-beta',
+  }), /non-production Sentry/);
 });
 
 test('missing, unsupported and mismatched runtime identity fail closed', () => {
@@ -80,6 +109,9 @@ test('profile bindings and the standard internal build expectation are checked',
   assert.throws(() => validateBuildConfiguration(app, { ...eas, build: {
     ...eas.build, development: { ...eas.build.development, developmentClient: true },
   } }, 'development', {}), /standard build/);
+  assert.throws(() => validateBuildConfiguration(app, { ...eas, build: {
+    ...eas.build, 'connected-beta': { ...eas.build['connected-beta'], environment: 'production' },
+  } }, 'connected-beta', betaValues), /ambiguous/);
 });
 
 test('preflight output never includes supplied public keys or build tokens', () => {

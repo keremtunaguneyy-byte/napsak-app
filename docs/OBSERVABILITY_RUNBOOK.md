@@ -31,26 +31,29 @@ SENTRY_PROJECT=project-slug
 SENTRY_AUTH_TOKEN=secret-build-token
 ```
 
-`SENTRY_AUTH_TOKEN` repoya veya `EXPO_PUBLIC_*` değişkenine yazılmaz. Sentry DSN yoksa development uygulaması hata raporlamayı kapalı tutarak çalışır. Production release kapısı DSN, organizasyon, proje ve build tokenını zorunlu tutar:
+`SENTRY_AUTH_TOKEN` repoya veya `EXPO_PUBLIC_*` değişkenine yazılmaz. Sentry DSN yoksa development uygulaması hata raporlamayı kapalı tutarak çalışır. Production release kapısı DSN, organizasyon, proje ve build tokenını zorunlu tutar.
 
-EAS `development` ve `preview` profilleri local modda Sentry yapılandırması olmadan build edilir. EAS `production` ortamı DSN, org, proje ve build tokenını sağlamalıdır; `eas-build-post-install` ön-kontrolü eksik veya çelişen değerlerde build'i durdurur. Ön-kontrol source map yükleme başarısını veya dashboard olayını doğrulamaz.
+EAS `development` ve `preview` profilleri local modda Sentry yapılandırması olmadan build edilir. Ayrı `connected-beta` profili `beta` EAS ortamı, beta/development adlı Sentry projesi ve `environment=beta` olay etiketi gerektirir. Production profili `environment=production` kullanır ve beta/development adlı Sentry projesini reddeder. DSN public config olsa da hedef projeye ait olduğu yalnız canlı dashboard kanıtıyla doğrulanabilir; build preflight DSN ile proje slug'ının aynı hesaba ait olduğunu ispatlamaz. Beta ve production için ayrı Sentry projeleri kullanılmalıdır.
+
+`app.json` içindeki `@sentry/react-native/expo` eklentisi kaynak haritası yükleme yoludur. EAS build ortamında `SENTRY_ORG`, `SENTRY_PROJECT` ve gizli `SENTRY_AUTH_TOKEN` bulunmalıdır. Expo/Sentry tarafından üretilen release ve dağıtım kimliği dashboard olayında build artifact'iyle karşılaştırılır; başarılı preflight veya eklentinin varlığı okunabilir stack ya da başarılı upload kanıtı değildir. Normal repository testleri token istemez, canlı olay göndermez.
 
 ```bash
 npm run check:observability
 npm run check:observability:release
+npm run check:build -- --profile=connected-beta
 ```
 
 ## Canlı doğrulama
 
-1. Ayrı development Sentry projesi oluştur.
-2. Development DSN ve build sırlarını EAS ortamına ekle.
-3. Yeni development build üret; source map yükleme adımının başarılı olduğunu kaydet.
+1. Ayrı beta ve production Sentry projeleri oluştur.
+2. Beta DSN ve build sırlarını yalnız beta EAS ortamına ekle; production değerlerini ayrı tut.
+3. Yeni connected-beta build üret; source map yükleme adımının başarılı olduğunu kaydet.
 4. Kontrollü test hatası gönder.
 5. Olayda okunabilir stack trace, doğru release/environment ve güvenli etiketleri doğrula.
 6. `user`, `request`, breadcrumb, tercih, konum ve UID bulunmadığını doğrula.
 7. Alarm eşiği, sorumlu kişi ve kapatma kaydını release runbook'una ekle.
 
-Bu canlı doğrulama tamamlanmadan “üretim hata izleme hazır” denmez.
+Beta doğrulaması production Sentry kanıtı değildir. Production için ayrı DSN, release/source map ve dashboard olayı doğrulanmadan “üretim hata izleme hazır” denmez.
 
 ## Yerel hata sınırı testi
 

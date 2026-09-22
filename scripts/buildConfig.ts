@@ -3,7 +3,7 @@ import { resolveObservabilitySettings } from '../src/observabilityPolicy';
 import { requireSentryBuildSettings } from './observabilityBuildConfig';
 
 type Environment = Record<string, string | undefined>;
-type ProfileName = 'development' | 'preview' | 'production';
+type ProfileName = 'development' | 'preview' | 'connected-beta' | 'production';
 type BuildProfile = {
   autoIncrement?: boolean;
   developmentClient?: boolean;
@@ -24,10 +24,11 @@ type AppConfig = {
 };
 
 const PROJECT_ID = 'af043dd8-412f-403e-81c3-6e0af8e024d6';
-const PROFILE_INTENT: Record<ProfileName, { easEnvironment: string; runtime: string; mode: string }> = {
-  development: { easEnvironment: 'development', runtime: 'development', mode: 'local' },
-  preview: { easEnvironment: 'preview', runtime: 'development', mode: 'local' },
-  production: { easEnvironment: 'production', runtime: 'production', mode: 'connected' },
+const PROFILE_INTENT: Record<ProfileName, { easEnvironment: string; runtime: string; tier: string; mode: string }> = {
+  development: { easEnvironment: 'development', runtime: 'development', tier: 'local', mode: 'local' },
+  preview: { easEnvironment: 'preview', runtime: 'development', tier: 'local', mode: 'local' },
+  'connected-beta': { easEnvironment: 'beta', runtime: 'development', tier: 'beta', mode: 'connected' },
+  production: { easEnvironment: 'production', runtime: 'production', tier: 'production', mode: 'connected' },
 };
 
 function hasValue(value: string | undefined): boolean {
@@ -37,7 +38,7 @@ function hasValue(value: string | undefined): boolean {
 function validFirebaseWebConfig(config: { apiKey: string; authDomain: string; projectId: string; appId: string }): boolean {
   return /^[A-Za-z0-9_-]{8,}$/.test(config.apiKey)
     && /^[a-z][a-z0-9-]{4,28}[a-z0-9]$/.test(config.projectId)
-    && /^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/.test(config.authDomain)
+    && config.authDomain === `${config.projectId}.firebaseapp.com`
     && /^1:\d+:web:[A-Za-z0-9]+$/.test(config.appId);
 }
 
@@ -61,6 +62,7 @@ export function validateBuildConfiguration(
     const profile = eas.build?.[name];
     if (profile?.environment !== intent.easEnvironment
       || profile.env?.EXPO_PUBLIC_APP_ENV !== intent.runtime
+      || profile.env?.EXPO_PUBLIC_SERVICE_TIER !== intent.tier
       || profile.env?.NAPSAK_BUILD_MODE !== intent.mode) {
       throw new Error(`EAS ${name} profile has an ambiguous environment binding.`);
     }
@@ -77,18 +79,30 @@ export function validateBuildConfiguration(
   const profile = profileName as ProfileName;
   const intent = PROFILE_INTENT[profile];
   const effective = { ...eas.build![profile].env, ...environment };
-  if (effective.EXPO_PUBLIC_APP_ENV !== intent.runtime || effective.NAPSAK_BUILD_MODE !== intent.mode) {
+  if (effective.EXPO_PUBLIC_APP_ENV !== intent.runtime || effective.EXPO_PUBLIC_SERVICE_TIER !== intent.tier
+    || effective.NAPSAK_BUILD_MODE !== intent.mode) {
     throw new Error(`EAS ${profile} profile conflicts with the effective runtime environment or build mode.`);
   }
 
   const firebase = resolveFirebaseRuntimeSettings(effective);
   const sentry = resolveObservabilitySettings(effective);
-  if (profile === 'production') {
-    if (firebase.mode !== 'firebase') throw new Error('Production build requires Firebase configuration.');
-    if (!validFirebaseWebConfig(firebase.config)) throw new Error('Production Firebase public config has invalid key shape.');
+  if (profile === 'production' || profile === 'connected-beta') {
+    if (firebase.mode !== 'firebase') throw new Error(`${profile} build requires Firebase configuration.`);
+    if (!validFirebaseWebConfig(firebase.config)) throw new Error(`${profile} Firebase public config has invalid key shape.`);
     requireSentryBuildSettings(effective);
+    const sentryProject = effective.SENTRY_PROJECT ?? '';
+    if (profile === 'connected-beta' && (!/(^|[-_])(dev|development|beta)([-_]|$)/i.test(sentryProject)
+      || /(^|[-_])(prod|production|live)([-_]|$)/i.test(sentryProject))) {
+      throw new Error('Connected beta requires a beta/development Sentry project identity.');
+    }
+    if (profile === 'production' && /(^|[-_])(dev|development|beta|test)([-_]|$)/i.test(sentryProject)) {
+      throw new Error('Production build points to a non-production Sentry project identity.');
+    }
+    if (profile === 'connected-beta' && sentry.environment !== 'beta') {
+      throw new Error('Connected beta requires beta observability environment.');
+    }
     if (hasValue(effective.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE)) {
-      throw new Error('Production build cannot enable observability test mode.');
+      throw new Error(`${profile} build cannot enable observability test mode.`);
     }
   } else {
     const connectedKeys = Object.keys(effective).filter(key =>

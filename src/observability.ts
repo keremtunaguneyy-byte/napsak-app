@@ -12,17 +12,23 @@ let initialized = false;
 
 export function initializeObservability(env: Record<string, string | undefined>): void {
   if (initialized) return;
-  const settings = resolveObservabilitySettings(env);
-  Sentry.init({
-    dsn: settings.mode === 'sentry' ? settings.dsn : undefined,
-    enabled: settings.mode === 'sentry',
-    environment: settings.environment,
-    sendDefaultPii: false,
-    attachStacktrace: true,
-    tracesSampleRate: 0,
-    beforeBreadcrumb: () => null,
-    beforeSend: event => sanitizeObservabilityEvent(event),
-  });
+  try {
+    const settings = resolveObservabilitySettings(env);
+    Sentry.init({
+      dsn: settings.mode === 'sentry' ? settings.dsn : undefined,
+      enabled: settings.mode === 'sentry',
+      environment: settings.environment,
+      sendDefaultPii: false,
+      attachStacktrace: true,
+      tracesSampleRate: 0,
+      beforeBreadcrumb: () => null,
+      beforeSend: event => sanitizeObservabilityEvent(event),
+    });
+  } catch {
+    // A broken telemetry configuration cannot prevent use of the embedded catalog.
+    // Avoid printing the DSN or SDK error, which may contain configuration values.
+    console.error('observability_initialization_failed');
+  }
   initialized = true;
 }
 

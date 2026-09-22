@@ -101,5 +101,7 @@ test('only the owner can delete an anonymous user state document', async () => {
 test('unknown collections are denied by default', async () => {
   const alice = environment.authenticatedContext('alice').firestore();
   await assertFails(getDoc(doc(alice, 'privateAdmin', 'anything')));
-  assert.ok(true);
+  await assertFails(setDoc(doc(alice, 'privateAdmin', 'anything'), { role: 'admin' }));
+  await assertFails(getDoc(doc(alice, 'users', 'alice', 'private', 'anything')));
+  await assertFails(setDoc(doc(alice, 'users', 'alice', 'private', 'anything'), { role: 'admin' }));
 });
