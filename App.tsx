@@ -324,7 +324,7 @@ function AppContent() {
             : 'Cihazındaki ve bağlı anonim hesabındaki kullanıcı verileri temizlendi.');
         } catch (error) {
           captureOperationalError(error, 'user_data_deletion', 'user_data_deletion_failed');
-          Alert.alert('Silme tamamlanamadı', 'Uzak kullanıcı verisi silinemediği için cihazındaki tekrar denenebilir kayıtlar korundu. Bağlantını kontrol edip yeniden dene.');
+          Alert.alert('Silme tamamlanamadı', 'Silmenin tüm adımları doğrulanamadı. Bağlantını kontrol edip işlemi yeniden dene; bağlı hesap ve cihaz verilerini kontrol et.');
         } finally {
           setDeletionBusy(false);
         }

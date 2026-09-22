@@ -9,6 +9,7 @@
       "environment": "development",
       "env": {
         "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_SERVICE_TIER": "local",
         "NAPSAK_BUILD_MODE": "local"
       }
     },
@@ -17,7 +18,17 @@
       "environment": "preview",
       "env": {
         "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_SERVICE_TIER": "local",
         "NAPSAK_BUILD_MODE": "local"
+      }
+    },
+    "connected-beta": {
+      "distribution": "internal",
+      "environment": "beta",
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_SERVICE_TIER": "beta",
+        "NAPSAK_BUILD_MODE": "connected"
       }
     },
     "production": {
@@ -25,6 +36,7 @@
       "environment": "production",
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
+        "EXPO_PUBLIC_SERVICE_TIER": "production",
         "NAPSAK_BUILD_MODE": "connected"
       }
     }

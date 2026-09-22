@@ -1444,8 +1444,9 @@ test('observability strips personal and free-form fields before sending', () => 
     message: 'raw message',
     transaction: 'private/path',
     fingerprint: ['private-value'],
+    contexts: { location: { latitude: 39.9208, longitude: 32.8541 } },
     tags: { app_area: 'render', failure_code: 'react_render_failed', private_tag: 'secret' },
-    exception: { values: [{ type: 'TypeError', value: 'user supplied text', stacktrace: { frames: [] } }] },
+    exception: { values: [{ type: 'TypeError', value: 'user supplied text', stacktrace: { frames: [{ filename: 'app:///index.bundle', lineno: 12, vars: { latitude: 39.9208 } }] } }] },
   });
   assert.equal(event.user, undefined);
   assert.equal(event.request, undefined);
@@ -1454,8 +1455,11 @@ test('observability strips personal and free-form fields before sending', () => 
   assert.equal(event.message, undefined);
   assert.equal(event.transaction, undefined);
   assert.equal(event.fingerprint, undefined);
+  assert.equal(event.contexts, undefined);
   assert.deepEqual(event.tags, { app_area: 'render', failure_code: 'react_render_failed' });
   assert.equal(event.exception.values[0].value, 'Application error');
+  assert.equal(event.exception.values[0].stacktrace.frames[0].vars, undefined);
+  assert.equal(event.exception.values[0].stacktrace.frames[0].filename, 'app:///index.bundle');
 });
 
 test('operational errors keep useful stack frames without retaining raw messages', () => {

@@ -4,17 +4,17 @@ Bu belge Firebase veri omurgasının geliştirme, production, seed, migration, m
 
 ## Ortamlar
 
-Development ve production iki ayrı Firebase projesidir. Aynı Firestore veritabanını iki ortam için kullanmayız.
+Development, connected beta ve production için ayrı Firebase projeleri kullanılır. Aynı Firestore veritabanını iki ortam için kullanmayız. Beta proje kimliği `dev` veya `beta` segmenti taşımalı; production kimliği `dev`, `beta` veya `test` segmenti taşımamalıdır. Bu adlandırma kontrolü yanlış bağlantıları azaltır, Firebase yetkisi veya canlı proje sahipliği kanıtı değildir.
 
-1. Firebase Console’da iki proje oluştur: `napsak-dev` ve `napsak-production` benzeri iki ayrı proje.
+1. Firebase Console’da ayrı development, beta ve production projeleri oluştur; bu repository hiçbirini oluşturmaz.
 2. İkisinde de Authentication > Sign-in method altında **Anonymous** sağlayıcısını aç.
 3. Cloud Firestore veritabanını oluştur.
-4. Her projede bir Web app kaydı oluştur ve public config değerlerini ilgili `.env.*.example` dosyasından oluşturacağın yerel env dosyasına koy.
+4. Her projede bir Web app kaydı oluştur ve public config değerlerini ilgili `.env.*.example` şablonuna göre ilgili ortamda sakla. Public API key, Auth domain, project ID ve app ID birbiriyle eşleşmelidir; public config güvenlik kuralı değildir.
 5. Service account/private key hiçbir zaman `EXPO_PUBLIC_*` değişkenine veya mobil bundle’a konmaz.
 
 Uygulama Firebase env’i yoksa paket içindeki katalog + AsyncStorage ile çalışmaya devam eder. Firebase env’i varsa anonim Auth açılır ve remote repository/cache katmanı devreye girer.
 
-EAS `development` ve `preview` profilleri açıkça local modda build edilir; bu profillerin EAS ortamında hiçbir `EXPO_PUBLIC_FIREBASE_*` değeri bulunmamalıdır. Bağlı development servisiyle yerel Expo geliştirmesi ayrı akıştır. EAS `production` profili eksiksiz public Firebase değerlerini EAS `production` ortamından alır ve `npm run check:build` bunlar yoksa build'i durdurur. Bu kontrol Firebase'e bağlanıp proje erişimini doğrulamaz.
+EAS `development` ve `preview` profilleri açıkça local modda build edilir; ilgili EAS ortamlarında hiçbir `EXPO_PUBLIC_FIREBASE_*` değeri bulunmamalıdır. Ayrı `connected-beta` profili yalnız adlandırılmış `beta` EAS ortamından non-production Firebase değerlerini alır; `preview` profili bağlı hâle getirilmez. EAS hesabında ayrı `beta` ortamı desteği ve bağlanması gerçek build öncesi doğrulanmalıdır. Yerel Expo geliştirmesinde `.env.development` ile bağlanan development Firebase akışı EAS profillerinden ayrıdır. EAS `production` profili production değerlerini yalnız EAS `production` ortamından alır. Ön-kontrol hiçbir Firebase servisine bağlanmaz.
 
 ### Yapılandırma ön-kontrolü
 
@@ -27,12 +27,14 @@ Public Firebase yapılandırması ya tamamen boş ya da eksiksiz olmalıdır. De
 - Firebase ana değerleri olmadan yalnız emulator adresi,
 - production'da eksik Firebase yapılandırması,
 - production'da emulator adresi veya development/test görünümlü proje ID'si.
+- beta'da eksik config, emulator, production görünümlü proje ID'si veya project ID ile eşleşmeyen Auth domain.
 
 Aktif kabuk/env değerlerini secret yazdırmadan kontrol et:
 
 ```bash
 npm run check:firebase
 npm run check:firebase -- --require-firebase
+npm run check:build -- --profile=connected-beta
 ```
 
 İkinci komut development'ta bile yerel modu kabul etmez. Production paketleme hattı `EXPO_PUBLIC_APP_ENV=production` ile bu kapıyı geçmeden çalıştırılmamalıdır. Çıktı yalnız ortam, çalışma modu, proje ID'si ve emulator hedefini gösterir; API key yazdırılmaz.
@@ -61,7 +63,7 @@ Her açılışta tüm katalog indirilmez. Akış:
 4. `catalogVersion` değişmediyse koleksiyonlar tekrar okunmaz.
 5. Değiştiyse yalnız aktif şehir dilimi yenilenir ve runtime validation’dan geçen snapshot cache’e alınır.
 
-İçerik yaşam döngüsü sözleşmesi katalog schema v2'dir; AsyncStorage katalog namespace'i de v2'dir. Böylece v1 cache yeni Place `status` ve Experience yaşam döngüsü alanları varmış gibi okunmaz. Firestore koleksiyonları ayrı ayrı geçerli görünse bile istemci bunları birleştirdikten sonra tam snapshot doğrulamasını geçmeyen remote katalog cache'e alınmaz veya kullanılmaz.
+Güncel kodda katalog schema ve AsyncStorage namespace sürümü v3'tür (`src/data/catalog.ts`). Eski v2 cache v3 olarak okunmaz. Firestore koleksiyonları ayrı ayrı geçerli görünse bile istemci bunları birleştirdikten sonra tam snapshot doğrulamasını geçmeyen remote katalog cache'e alınmaz veya kullanılmaz.
 
 Tek refresh için istemci güvenlik sınırları:
 
@@ -78,7 +80,7 @@ Firestore JS SDK’nın React Native’de kalıcı Firestore persistence’ına 
 
 Kaydet/gizle/ilgi değişikliği önce cihazda yazılır. Remote sync için tam ve idempotent kullanıcı snapshot’ı tek AsyncStorage queue kaydına coalesce edilir. Ağ hatasında queue silinmez; sonraki değişiklik/launch tekrar dener.
 
-Eski cihaz ilk kez anonim Firebase kimliği aldığında remote kullanıcı belgesi yoksa mevcut `saved`, `dismissed` ve kalıcı `interests` bir kere remote’a taşınır. Cihaz verisi bu işlem başarısız olduğunda kaybolmaz.
+Eski cihaz ilk kez anonim Firebase kimliği aldığında remote kullanıcı belgesi yoksa mevcut `saved`, `dismissed` ve kalıcı `interests` bir kere remote’a taşınır. Cihaz verisi bu işlem başarısız olduğunda kaybolmaz. Anonymous Auth başlangıcı beş saniyede sonuçlanmazsa uygulama gömülü/cache katalogla devam eder; otomatik hızlı tekrar döngüsü başlamaz. Katalog metadata ve tam refresh okumalarının her biri de beş saniye ile sınırlıdır. Yeniden açılış veya sonraki tercih değişikliği senkronizasyonu tekrar deneyebilir.
 
 ## Lokal doğrulama
 
@@ -111,12 +113,13 @@ Rules kullanıcı belgesinde yalnız sözleşmedeki alanları kabul eder. İlgi 
 
 Uygulama içindeki Ayarlar ekranı silmeyi yalnız açık kullanıcı onayından sonra başlatır. Sıra bilinçlidir:
 
-1. Firebase bağlı ve anonim kullanıcı mevcutsa yalnız `users/{uid}` belgesi silinir.
-2. Uzak silme başarılıysa preference v1–v5 anahtarları ve bekleyen user-sync snapshot'ı cihazdan kaldırılır.
-3. Anonim Firebase Authentication hesabı best-effort silinir.
-4. Uygulama state'i ilk kullanım durumuna döner.
+1. Firebase bağlıysa anonim kimliğin çözülmesi zorunludur. Kimlik çözülemezse yerel veriler silinmiş gibi gösterilmez.
+2. Sahip UID yerel senkronizasyon için kalıcı olarak bloke edilir; bekleyen yazma işlemleri bitmeden silme başlamaz. Sonra yalnız `users/{uid}` belgesi silinir.
+3. Uzak silme başarılıysa preference v1–v5 anahtarları ve bekleyen user-sync snapshot'ı cihazdan kaldırılır.
+4. Anonim Firebase Authentication hesabı best-effort silinir.
+5. Uygulama state'i ilk kullanım durumuna döner.
 
-Uzak belge silme başarısızsa yerel snapshot tekrar deneme için korunur. Auth hesabı silme ayrı sonuçtur; başarısızlığı Firestore ve cihaz verisinin silindiği gerçeğini değiştirmez fakat kullanıcıya açıkça bildirilir. Katalog cache'i ortak içeriktir, kullanıcı verisi silme kapsamına girmez.
+Uzak belge silme başarısızsa yerel snapshot tekrar deneme için korunur; bloke UID eski veriyi sessizce yeniden yükleyemez. Auth hesabı silme ayrı sonuçtur; başarısızlığı Firestore ve cihaz verisinin silindiği gerçeğini değiştirmez fakat kullanıcıya açıkça bildirilir. Bloke UID ile sonraki açılışta uzaktan senkronizasyon yapılmaz. Katalog cache'i ortak içeriktir, kullanıcı verisi silme kapsamına girmez.
 
 ## Seed
 
@@ -240,6 +243,6 @@ Her export/restore kaydında tarih, kaynak proje, hedef recovery proje, GCS pref
 
 ## Sonraki sertleştirme
 
-- App Check önce development/monitoring modunda doğrulanacak, sonra enforcement açılacak.
+- App Check **yapılandırılmadı**. Beta için önce desteklenen platform sağlayıcısı, debug/test cihazı yöntemi ve Firebase Console metriği dış ortamda hazırlanır. Sonra SDK kaydı ve token edinimi ayrı testli değişiklikle eklenip **monitor/observe** aşamasında meşru istekler ile hata oranı gerçek cihazda izlenir. Yalnız ölçüm ve geri dönüş prosedürü doğrulandıktan sonra ayrı onayla **enforce** değerlendirilebilir. Bu PR hiçbir App Check koruması veya enforcement iddia etmez.
 - Hata/okuma telemetrisi eklendiğinde `catalogMeta` check sayısı, tam refresh sayısı, fallback oranı ve kullanıcı başına belge okuması izlenecek.
 - İstanbul veya daha büyük katalogda geohash/bölgesel aday daraltma eklenmeden istemci read limitleri körlemesine yükseltilmeyecek.

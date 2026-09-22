@@ -192,6 +192,8 @@ notes: <kişisel-veri-ve-secret-içermeyen-not>
 - **Cihaz/hizmet:** Ağ kontrolü olan cihaz; production Firebase bu hazırlık PR'ında zorunlu değildir ve bağlıymış gibi gösterilmez.
 - **Başarısızlık kanıtı:** Ağ profili, işlem, kullanıcı mesajı, temizlenmiş hata kodu ve tekrar çevrimiçi olma sonucu.
 
+Connected beta provasında build profilini `connected-beta`, EAS ortamını `beta`, Firebase project ID'sini ve Sentry environment etiketini kişisel/secret değer yazmadan kaydet. Auth başarısızlığı, Firestore unavailable, katalog bozulması ve ağın geri gelmesi ayrı ayrı denenir. Standart `preview` build'in yerel kaldığı ayrıca doğrulanır. Bu beta provası imzalı production release cihaz kabulü yerine geçmez.
+
 ### J15 — Tüm kullanıcı verilerini silme
 
 - **Ön koşul:** Tercih, kayıt ve gizlenen öğe bulunan kullanıcı; yerel-only prova ile Firebase bağlantılı prova birbirinden ayrılmalı.
@@ -201,6 +203,8 @@ notes: <kişisel-veri-ve-secret-içermeyen-not>
 - **Kanıt seviyesi:** Yerel-only development provası hazırlanabilir; gerçek Firestore/Auth kanıtı ayrıca yapılandırılmış servis ve imzalı release cihazı gerektirir.
 - **Cihaz/hizmet:** Yerel prova için dış servis yok; bağlı prova için yetkili Firebase ortamı ve test kullanıcısı gerekir.
 - **Başarısızlık kanıtı:** Hangi silme aşamasının başarısız olduğu, izinli hata kodu, yeniden açılıştaki durum ve kişisel veri içermeyen ekran kaydı.
+
+Bağlı beta provasında Auth silme başarısızlığından sonra uygulamayı yeniden aç; silinen UID için eski saved/dismissed durumunun Firestore'a yeniden yüklenmediğini, bekleyen queue'nun temizlendiğini ve tamamlanmamış Auth sonucunun açık bildirildiğini doğrula. Auth kimliği çözülemezken silme isteğinde cihaz verisinin başarıyla silinmiş gibi gösterilmediğini doğrula.
 
 ## İmzalı build öncesi hazırlık
 

@@ -34,22 +34,24 @@ Repository'de `eas.json` bulunur. EAS CLI alt sınırı `>= 24.3.0`, `appVersion
 
 | EAS profili | EAS ortamı | Uygulama ortamı | Build modu | Gerekli değişkenler |
 |---|---|---|---|---|
-| `development` | `development` | `development` | `local` | Profildeki `EXPO_PUBLIC_APP_ENV`, `NAPSAK_BUILD_MODE`; Firebase/Sentry değerleri yok |
-| `preview` | `preview` | `development` | `local` | Profildeki `EXPO_PUBLIC_APP_ENV`, `NAPSAK_BUILD_MODE`; Firebase/Sentry değerleri yok |
-| `production` | `production` | `production` | `connected` | Profildeki iki kimlik değeri; eksiksiz public Firebase config; `EXPO_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` |
+| `development` | `development` | `development` | `local` | `EXPO_PUBLIC_SERVICE_TIER=local`; Firebase/Sentry değerleri yok |
+| `preview` | `preview` | `development` | `local` | `EXPO_PUBLIC_SERVICE_TIER=local`; Firebase/Sentry değerleri yok |
+| `connected-beta` | `beta` | `development` | `connected` | Açık beta tier; ayrı non-production Firebase ve beta Sentry/build değerleri zorunlu |
+| `production` | `production` | `production` | `connected` | `EXPO_PUBLIC_SERVICE_TIER=production`; eksiksiz public Firebase config; `EXPO_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` |
 
-`development` ve `preview` internal dağıtımlı standart build'lerdir. Eski `developmentClient: true` kaldırıldı: paket `expo-dev-client` içermiyor ve runbook'ta development-client build gerektiren bir kabul akışı yok. Bu profiller gömülü katalog ve yerel depolamayla çalışır. `preview` ortamına Firebase/Sentry değeri eklenirse build ön-kontrolü başarısız olur; bağlı preview için ayrı bir onaylı ortam tasarımı gerekir. Yerel Expo geliştirmesinde `.env.development` ile bağlanan development Firebase akışı bu EAS profillerinden ayrıdır. `production` profili `autoIncrement: true` kullanır. `submit.production` boş bir yerel config placeholder'ıdır ve store bağlantısı veya submission kanıtı değildir.
+`development` ve `preview` internal dağıtımlı standart build'lerdir. Eski `developmentClient: true` kaldırıldı: paket `expo-dev-client` içermiyor ve runbook'ta development-client build gerektiren bir kabul akışı yok. Bu profiller gömülü katalog ve yerel depolamayla çalışır. `preview` ortamına Firebase/Sentry değeri eklenirse build ön-kontrolü başarısız olur. `connected-beta` ayrı internal profil ve EAS `beta` ortamı gerektirir; bu ortamın EAS hesabında desteklenmesi/oluşturulması build öncesi dış adımdır. Yerel Expo geliştirmesinde `.env.development` ile bağlanan development Firebase akışı EAS profillerinden ayrıdır. `production` profili `autoIncrement: true` kullanır. `submit.production` boş bir yerel config placeholder'ıdır ve store bağlantısı veya submission kanıtı değildir.
 
 EAS build işçisi bağımlılıklar kurulduktan sonra `eas-build-post-install` ile `npm run check:build` çalıştırır. Kontrol `EAS_BUILD_PROFILE` ile etkin profili ve işçinin gerçek ortam değerlerini doğrular; değer bulunmaz veya profil ile çelişirse build durur. Yerel ön-kontrol için:
 
 ```bash
 npm run check:build -- --profile=preview
+npm run check:build -- --profile=connected-beta
 npm run check:build -- --profile=production
 ```
 
 İkinci komut yalnız yetkili production build ortamında gerekli değişkenler yüklüyken geçer. Gerçek EAS build komutları `eas build --profile preview --platform <android|ios>` ve `eas build --profile production --platform <android|ios>` biçimindedir; ilgili adlandırılmış EAS ortamının değişkenleri önceden ayrı ayrı tanımlanmalıdır. Kontrol uygulama adı, slug, owner, Android/iOS kimliği, aktif EAS proje ID'si, profil/ortam eşleşmesi, local/connected modu ve mevcut Firebase/Sentry yapılandırma doğrulamasını kapsar. Secret değerlerini yazdırmaz ve hiçbir servise bağlanmaz.
 
-Başarılı ön-kontrol yalnız yapılandırmanın biçimini ve build niyetini kanıtlar. EAS hesabını, Firebase/Sentry servislerini, source map yüklemesini, imzalı artifact kimliğini, cihaz matrisini veya store bağlantısını canlı doğrulamaz. GitHub `Release Gate` aynı production ön-kontrolünü strict release kapısından önce çalıştırır; bu iki ayrı sonuçtan hiçbiri tek başına sekiz açık engeli kapatmaz.
+Başarılı ön-kontrol yalnız yapılandırmanın biçimini ve build niyetini kanıtlar. EAS hesabını, özel `beta` ortamının kullanılabilirliğini, Firebase/Sentry servislerini, source map yüklemesini, imzalı artifact kimliğini, cihaz matrisini veya store bağlantısını canlı doğrulamaz. Beta artifact'inde embedded katalog ve yerel tercihler servis hatasında kullanılabilir kalmalıdır; bağlı senkronizasyon için gerçek cihaz, ağ kesme/geri gelme ve veri silme provası gerekir. Hatalı beta build dağıtımı durdurulur; Firebase/Sentry environment değerleri düzeltilip yeni artifact üretilir. Production rollback ve sekiz açık engel ayrı kalır. GitHub `Release Gate` production ön-kontrolünü strict release kapısından önce çalıştırır; bu iki ayrı sonuçtan hiçbiri tek başına engelleri kapatmaz.
 
 Bu yapılandırma signed-build veya store kanıtı değildir. EAS build çalıştırılmadı; Android keystore, Apple certificate veya provisioning profile oluşturulmadı; Google Play ya da App Store Connect bağlantısı/submission yapılandırması yapılmadı. Bu nedenle `android_package_unverified` ve `ios_bundle_identifier_unverified` açık kalır; toplam sekiz yayın engeli değişmez.
 
