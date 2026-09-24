@@ -2,6 +2,14 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-24 — Pending kullanıcı senkronizasyonu UID sahibine bağlıdır
+
+Durum: Kullanıcı tarafından onaylandı; `codex/owner-bound-pending-sync` dalında uygulanıyor, production'da doğrulanmadı.
+
+Kalıcı pending user-sync kaydı v2 envelope içinde gerçek Firebase `ownerUid` ve yalnız Firestore allowlist'ine hazır minimize payload taşır. Kayıt sadece aynı authenticated UID için replay edilir; eksik, bozuk veya eşleşmeyen sahiplik fail-closed biçimde upload edilmeden atılır. Sahipsiz v1 queue hiçbir mevcut kullanıcıya bağlanmaz. Yerel preference kaydı korunur ve normal ilk senkronizasyon ancak güncel UID bilindikten sonra yeni sahipli v2 kayıt üretebilir.
+
+Ayrı generation/epoch eklenmez; anonim hesap incarnation sınırı Firebase UID'dir. Mevcut kalıcı deleted-UID tombstone'u, Auth silme başarısızlığı ve aynı UID ile yeniden yazma riskini engellemeye devam ettiği için değiştirilmeden korunur. Remote Firestore alanları genişletilmez; mood, budget, groupSize, duration, onboarding/context ve konum remote queue veya kullanıcı belgesine eklenmez.
+
 ## 2026-09-20 — Katalog yaşam döngüsü doğruluk sınırı
 
 Durum: Kullanıcı tarafından onaylandı; `codex/catalog-lifecycle-correctness` dalında uygulanıyor, production'da doğrulanmadı.

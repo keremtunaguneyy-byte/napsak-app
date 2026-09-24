@@ -15,8 +15,22 @@ export type RemoteUserState = {
 
 export interface UserRepository {
   load(uid: string): Promise<RemoteUserState | undefined>;
-  save(uid: string, preferences: PersistedPreferences): Promise<void>;
+  save(uid: string, state: RemoteUserState): Promise<void>;
   delete(uid: string): Promise<void>;
+}
+
+export function createRemoteUserState(
+  preferences: Pick<PersistedPreferences, 'saved' | 'dismissed' | 'interests'>,
+): RemoteUserState {
+  return {
+    schemaVersion: USER_STATE_SCHEMA_VERSION,
+    saved: uniqueIds(preferences.saved).slice(0, 500),
+    dismissed: uniqueIds(preferences.dismissed).slice(0, 500),
+    interests: uniqueIds(preferences.interests)
+      .filter((interest): interest is Interest => KNOWN_INTERESTS.includes(interest as Interest))
+      .slice(0, KNOWN_INTERESTS.length),
+    deviceMigrationVersion: 1,
+  };
 }
 
 function parseRemoteUserState(value: unknown): RemoteUserState | undefined {
@@ -41,13 +55,13 @@ export class FirestoreUserRepository implements UserRepository {
     return snapshot.exists() ? parseRemoteUserState(snapshot.data()) : undefined;
   }
 
-  async save(uid: string, preferences: PersistedPreferences): Promise<void> {
+  async save(uid: string, state: RemoteUserState): Promise<void> {
     await setDoc(doc(this.db, 'users', uid), {
-      schemaVersion: USER_STATE_SCHEMA_VERSION,
-      saved: uniqueIds(preferences.saved).slice(0, 500),
-      dismissed: uniqueIds(preferences.dismissed).slice(0, 500),
-      interests: preferences.interests.filter(interest => KNOWN_INTERESTS.includes(interest)).slice(0, KNOWN_INTERESTS.length),
-      deviceMigrationVersion: 1,
+      schemaVersion: state.schemaVersion,
+      saved: state.saved,
+      dismissed: state.dismissed,
+      interests: state.interests,
+      deviceMigrationVersion: state.deviceMigrationVersion,
       updatedAt: serverTimestamp(),
     }, { merge: true });
   }
