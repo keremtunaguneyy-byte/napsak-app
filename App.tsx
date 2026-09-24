@@ -6,8 +6,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, findNodeHandle, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, queuePreferencesForRemoteSync } from './src/backend';
-import { loadPreferences, savePreferences, shouldRefreshContext } from './src/persistence';
+import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync } from './src/backend';
+import { loadPreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
@@ -177,7 +177,7 @@ function AppContent() {
   useEffect(() => {
     if (!hydrated) return;
     const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
-    savePreferences(preferences).catch(error => {
+    persistPreferences(preferences).catch(error => {
       captureOperationalError(error, 'local_persistence', 'preference_save_failed');
       Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.');
     });

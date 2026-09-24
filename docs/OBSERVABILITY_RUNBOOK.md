@@ -6,14 +6,14 @@
 
 ## Veri sınırı
 
-Sentry olaylarında `user`, `request`, breadcrumb, extra, serbest mesaj, transaction ve fingerprint gönderilmez. Exception mesajı sabit `Application error` değerine çevrilir. Yalnız şu uygulama etiketleri kabul edilir:
+Repository'de doğrulanan JavaScript event scrubber, uygulamanın yakaladığı Sentry olaylarından `user`, `request`, breadcrumb, extra, serbest mesaj, transaction ve fingerprint alanlarını kaldırır. Exception mesajı sabit `Application error` değerine çevrilir. Yalnız şu uygulama etiketleri kabul edilir:
 
 - `app_area`
 - `failure_code`
 - `screen`
 - `environment`
 
-SDK `sendDefaultPii: false` ile başlar. Session Replay ve performans tracing bu aşamada kapalıdır. Ekran görüntüsü eklenmez. Kullanıcı UID'si Sentry'ye hiçbir zaman verilmez.
+SDK `sendDefaultPii: false` ile başlar. Session Replay ve performans tracing bu aşamada kapalıdır. Ekran görüntüsü uygulama koduyla eklenmez ve kullanıcı UID'si uygulamanın Sentry user/context alanına verilmez. Bu repository kanıtı native SDK/envelope alanlarını, session veya installation tanımlayıcılarını, cihaz/OS metadata'sını, transport başlıklarını ya da Sentry'nin görebileceği ağ/IP bilgisini tek başına doğrulamaz. Bunlar connected-beta build ve gerçek dashboard envelope incelemesiyle ayrıca kanıtlanmalıdır.
 
 ## Ortam değişkenleri
 
@@ -50,7 +50,7 @@ npm run check:build -- --profile=connected-beta
 3. Yeni connected-beta build üret; source map yükleme adımının başarılı olduğunu kaydet.
 4. Kontrollü test hatası gönder.
 5. Olayda okunabilir stack trace, doğru release/environment ve güvenli etiketleri doğrula.
-6. `user`, `request`, breadcrumb, tercih, konum ve UID bulunmadığını doğrula.
+6. Scrub edilen `user`, `request`, breadcrumb, tercih, konum ve UID alanlarının bulunmadığını; ayrıca native/session/device/transport/IP metadata sınırını gerçek event/envelope üzerinde kaydet.
 7. Alarm eşiği, sorumlu kişi ve kapatma kaydını release runbook'una ekle.
 
 Beta doğrulaması production Sentry kanıtı değildir. Production için ayrı DSN, release/source map ve dashboard olayı doğrulanmadan “üretim hata izleme hazır” denmez.

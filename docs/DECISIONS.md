@@ -8,7 +8,7 @@ Durum: Kullanıcı tarafından onaylandı; `codex/legacy-preference-cleanup` dal
 
 `@napsak/preferences/v5` tek canonical yerel tercih anahtarıdır. v5 yoksa fallback sırası v4, v3, v2, v1 olarak korunur; ilk bulunan kayıt okunabilir JSON ise mevcut alan migration/sanitization davranışıyla güncel biçime çevrilir. Legacy kaynaklar ancak bu güncel değer v5'e başarıyla yazıldıktan sonra temizlenir. Canonical yazma başarısızsa güvenli in-memory sonuç kullanılabilir, bütün legacy kopyalar sonraki deneme için korunur.
 
-Geçerli v5 varken legacy temizliği best-effort yapılır; tekil silme hatası geçerli tercihi boş duruma düşürmez ve kalan anahtar sonraki açılışta tekrar denenir. Malformed v5'in fallback'i engelleyip boş tercih döndürmesi ve malformed ilk legacy kaydın daha eski anahtarlara geçişi engellemesi mevcut precedence davranışı olarak korunur; bu okunamayan kayıtlar otomatik canonicalize edilmez veya silinmez. Kullanıcı verisi silme akışı preference v1–v5 anahtarlarının tamamını temizlemeye devam eder.
+Geçerli v5 varken legacy temizliği best-effort yapılır; tekil silme hatası geçerli tercihi boş duruma düşürmez ve kalan anahtar sonraki açılışta tekrar denenir. Malformed v5'in fallback'i engelleyip boş tercih döndürmesi ve malformed ilk legacy kaydın daha eski anahtarlara geçişi engellemesi mevcut precedence davranışı olarak korunur; bu okunamayan kayıtlar otomatik canonicalize edilmez veya silinmez. Kullanıcı verisi silme akışı preference v1–v5 anahtarlarının tamamını temizlemeye devam eder. v5 cihaz kapsamlıdır ve UID sahibi taşımaz; açıkça tamamlanamayan yerel cleanup sonrası kimlik değişirse kalan tercih normal migration ile yeni UID'ye yazılabilir. Queue sahipliği bu cihaz-kapsamlı migration'ı yasakladığı anlamına gelmez.
 
 ## 2026-09-24 — Pending kullanıcı senkronizasyonu UID sahibine bağlıdır
 
@@ -16,7 +16,7 @@ Durum: Kullanıcı tarafından onaylandı; `codex/owner-bound-pending-sync` dal�
 
 Kalıcı pending user-sync kaydı v2 envelope içinde gerçek Firebase `ownerUid` ve yalnız Firestore allowlist'ine hazır minimize payload taşır. Kayıt sadece aynı authenticated UID için replay edilir; eksik, bozuk veya eşleşmeyen sahiplik fail-closed biçimde upload edilmeden atılır. Sahipsiz v1 queue hiçbir mevcut kullanıcıya bağlanmaz. Yerel preference kaydı korunur ve normal ilk senkronizasyon ancak güncel UID bilindikten sonra yeni sahipli v2 kayıt üretebilir.
 
-Ayrı generation/epoch eklenmez; anonim hesap incarnation sınırı Firebase UID'dir. Mevcut kalıcı deleted-UID tombstone'u, Auth silme başarısızlığı ve aynı UID ile yeniden yazma riskini engellemeye devam ettiği için değiştirilmeden korunur. Remote Firestore alanları genişletilmez; mood, budget, groupSize, duration, onboarding/context ve konum remote queue veya kullanıcı belgesine eklenmez.
+Ayrı generation/epoch eklenmez; anonim hesap incarnation sınırı Firebase UID'dir. Mevcut kalıcı deleted-UID tombstone'u, Auth silme başarısızlığı ve aynı UID ile yeniden yazma riskini engellemeye devam ettiği için değiştirilmeden korunur. Anahtar adındaki `v1` bir legacy işareti değildir; tombstone güncel ve aktif güvenlik sınırıdır. Remote Firestore alanları genişletilmez; mood, budget, groupSize, duration, onboarding/context ve konum remote queue veya kullanıcı belgesine eklenmez.
 
 ## 2026-09-20 — Katalog yaşam döngüsü doğruluk sınırı
 

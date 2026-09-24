@@ -1,23 +1,35 @@
 import { CatalogSnapshot, embeddedCatalog } from './data/catalog';
 import { loadBestCatalog } from './data/catalogService';
-import { clearPreferences, PersistedPreferences } from './persistence';
+import { clearPreferences, PersistedPreferences, savePreferences } from './persistence';
 import { deleteUser } from '@firebase/auth';
 import type { Auth, User } from '@firebase/auth';
 import { ensureAnonymousUser } from './firebase/auth';
 import { getFirebaseClient } from './firebase/client';
 import { FirestoreContentRepository } from './firebase/firestoreContentRepository';
-import { FirestoreUserRepository, UserRepository } from './firebase/userRepository';
+import { FirestoreUserRepository } from './firebase/userRepository';
 import { blockDeletedUserSync, clearQueuedUserSync, enqueueUserSync, flushUserSync, isDeletedUserSyncBlocked, migrateLocalUserStateOnce } from './firebase/userSync';
-import { runUserDataDeletion, UserDataDeletionResult } from './userDataDeletion';
+import { UserDataDeletionResult } from './userDataDeletion';
 import { captureOperationalError } from './observability';
 import { withBoundedWait } from './timeout';
+import { UserDataBoundary } from './userDataBoundary';
 
-let activeUser: { uid: string; repository: UserRepository } | undefined;
-let remoteWork: Promise<void> = Promise.resolve();
-let deletionGeneration = 0;
-let deletionInProgress = false;
 let authTimedOut = false;
 let pendingAnonymousUser: Promise<User> | undefined;
+
+const userDataBoundary = new UserDataBoundary({
+  blockDeletedUserSync,
+  clearPreferences,
+  clearQueuedUserSync,
+  enqueueUserSync,
+  flushUserSync,
+  isDeletedUserSyncBlocked,
+  migrateLocalUserStateOnce,
+  savePreferences,
+  withBoundedWait,
+  onAnonymousAccountDeletionError: error => captureOperationalError(error, 'user_data_deletion', 'anonymous_auth_deletion_failed'),
+  onUserStateMigrationError: error => captureOperationalError(error, 'remote_sync', 'user_state_migration_failed'),
+  onUserStateSyncError: error => captureOperationalError(error, 'remote_sync', 'user_state_sync_failed'),
+});
 
 function getAnonymousUser(auth: Auth): Promise<User> {
   if (!pendingAnonymousUser) {
@@ -31,14 +43,7 @@ function getAnonymousUser(auth: Auth): Promise<User> {
   return pendingAnonymousUser;
 }
 
-function serializeRemoteWork<T>(work: () => Promise<T>): Promise<T> {
-  const result = remoteWork.then(work);
-  remoteWork = result.then(() => undefined, () => undefined);
-  return result;
-}
-
 export async function initializeDataBackbone(preferences: PersistedPreferences, cityId = 'ankara'): Promise<CatalogSnapshot> {
-  const generation = deletionGeneration;
   let client;
   try {
     client = getFirebaseClient();
@@ -56,20 +61,9 @@ export async function initializeDataBackbone(preferences: PersistedPreferences, 
     captureOperationalError(error, 'app_startup', 'anonymous_auth_initialization_failed');
     return (await loadBestCatalog(cityId)).snapshot;
   }
-  if (generation !== deletionGeneration || deletionInProgress) return (await loadBestCatalog(cityId)).snapshot;
   const userRepository = new FirestoreUserRepository(client.db);
-  await serializeRemoteWork(async () => {
-    if (generation !== deletionGeneration || deletionInProgress || await isDeletedUserSyncBlocked(user.uid)) return;
-    activeUser = { uid: user.uid, repository: userRepository };
-    try {
-      await migrateLocalUserStateOnce(user.uid, userRepository, preferences);
-    } catch (error) {
-      captureOperationalError(error, 'remote_sync', 'user_state_migration_failed');
-      // Local state remains authoritative until a later flush succeeds.
-      await enqueueUserSync(user.uid, preferences);
-    }
-  });
-  if (generation !== deletionGeneration || deletionInProgress) return (await loadBestCatalog(cityId)).snapshot;
+  const userStateInitialized = await userDataBoundary.initializeUserState(user.uid, userRepository, preferences);
+  if (!userStateInitialized) return (await loadBestCatalog(cityId)).snapshot;
 
   const contentRepository = new FirestoreContentRepository(client.db);
   const result = await loadBestCatalog(cityId, contentRepository);
@@ -78,25 +72,13 @@ export async function initializeDataBackbone(preferences: PersistedPreferences, 
 }
 
 export async function queuePreferencesForRemoteSync(preferences: PersistedPreferences): Promise<void> {
-  const generation = deletionGeneration;
   const client = getFirebaseClient();
   if (!client) return;
-  await serializeRemoteWork(async () => {
-    if (deletionInProgress || generation !== deletionGeneration) return;
-    const uid = client.auth.currentUser?.uid;
-    const current = activeUser?.uid === uid ? activeUser : undefined;
-    if (uid && await isDeletedUserSyncBlocked(uid)) return;
-    if (!current && !preferences.saved.length && !preferences.dismissed.length && !preferences.interests.length) return;
-    if (!uid) return;
-    await enqueueUserSync(uid, preferences);
-    if (!current) return;
-    try {
-      await flushUserSync(current.uid, current.repository);
-    } catch (error) {
-      captureOperationalError(error, 'remote_sync', 'user_state_sync_failed');
-      // The queued snapshot remains in AsyncStorage and is retried next launch/change.
-    }
-  });
+  await userDataBoundary.queuePreferencesForRemoteSync(preferences, client.auth.currentUser?.uid);
+}
+
+export async function persistPreferences(preferences: PersistedPreferences): Promise<void> {
+  await userDataBoundary.persistPreferences(preferences);
 }
 
 export function initialCatalog(cityId = 'ankara'): CatalogSnapshot {
@@ -105,37 +87,16 @@ export function initialCatalog(cityId = 'ankara'): CatalogSnapshot {
 
 export async function deleteCurrentUserData(): Promise<UserDataDeletionResult> {
   const client = getFirebaseClient();
-  if (deletionInProgress) throw new Error('User data deletion is already in progress.');
-  deletionInProgress = true;
-  deletionGeneration += 1;
-  try {
-    // Never report local-only deletion while a configured Auth identity is unresolved.
+  // Never report local-only deletion while a configured Auth identity is unresolved.
+  if (authTimedOut) throw new Error('Anonymous Auth identity is unresolved; retry after relaunch.');
+  return userDataBoundary.deleteCurrentUserData(async () => {
     if (authTimedOut) throw new Error('Anonymous Auth identity is unresolved; retry after relaunch.');
-    await withBoundedWait(remoteWork, 5_000, 'Pending remote user sync did not finish.');
-    return await serializeRemoteWork(async () => {
-      if (authTimedOut) throw new Error('Anonymous Auth identity is unresolved; retry after relaunch.');
-      const user = client ? await getAnonymousUser(client.auth) : undefined;
-      const repository = client && user
-        ? activeUser?.uid === user.uid ? activeUser.repository : new FirestoreUserRepository(client.db)
-        : undefined;
-      const result = await runUserDataDeletion({
-        blockRemoteUserSync: user ? () => blockDeletedUserSync(user.uid) : undefined,
-        deleteRemoteUserState: repository && user
-          ? () => withBoundedWait(repository.delete(user.uid), 10_000, 'Remote user deletion timed out.')
-          : undefined,
-        clearLocalUserState: async () => {
-          await clearQueuedUserSync();
-          await clearPreferences();
-        },
-        deleteAnonymousAccount: user
-          ? () => withBoundedWait(deleteUser(user), 10_000, 'Anonymous Auth deletion timed out.')
-          : undefined,
-        onAnonymousAccountDeletionError: error => captureOperationalError(error, 'user_data_deletion', 'anonymous_auth_deletion_failed'),
-      });
-      activeUser = undefined;
-      return result;
-    });
-  } finally {
-    deletionInProgress = false;
-  }
+    if (!client) return undefined;
+    const user = await getAnonymousUser(client.auth);
+    return {
+      uid: user.uid,
+      repository: new FirestoreUserRepository(client.db),
+      deleteAnonymousAccount: () => deleteUser(user),
+    };
+  });
 }
