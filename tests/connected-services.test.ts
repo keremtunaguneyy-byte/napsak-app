@@ -118,6 +118,24 @@ test('owned queue uploads only for its authenticated owner', async () => {
   }]);
 });
 
+test('overlapping local state keeps dismissal precedence in a flushable owned queue', async () => {
+  const { data, store } = memoryStore();
+  const writes: Array<{ uid: string; state: ReturnType<typeof createRemoteUserState> }> = [];
+  await enqueueUserSync('owner-uid', {
+    ...emptyPreferences,
+    saved: ['saved-place', 'overlap-place'],
+    dismissed: ['overlap-place', 'hidden-place'],
+  }, store);
+
+  const queued = JSON.parse(data.get(USER_SYNC_QUEUE_KEY) ?? '{}');
+  assert.deepEqual(queued.payload.saved, ['saved-place']);
+  assert.deepEqual(queued.payload.dismissed, ['overlap-place', 'hidden-place']);
+  assert.equal(await flushUserSync('owner-uid', recordingRepository(writes), store), true);
+  assert.deepEqual(writes[0].state.saved, ['saved-place']);
+  assert.deepEqual(writes[0].state.dismissed, ['overlap-place', 'hidden-place']);
+  assert.equal(data.has(USER_SYNC_QUEUE_KEY), false);
+});
+
 test('queue owned by a different UID is discarded without upload', async () => {
   const { data, store } = memoryStore();
   const writes: Array<{ uid: string; state: ReturnType<typeof createRemoteUserState> }> = [];

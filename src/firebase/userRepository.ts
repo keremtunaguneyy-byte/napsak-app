@@ -22,10 +22,13 @@ export interface UserRepository {
 export function createRemoteUserState(
   preferences: Pick<PersistedPreferences, 'saved' | 'dismissed' | 'interests'>,
 ): RemoteUserState {
+  const dismissed = uniqueIds(preferences.dismissed).slice(0, 500);
+  const dismissedIds = new Set(dismissed);
   return {
     schemaVersion: USER_STATE_SCHEMA_VERSION,
-    saved: uniqueIds(preferences.saved).slice(0, 500),
-    dismissed: uniqueIds(preferences.dismissed).slice(0, 500),
+    // Dismissal controls eligibility; saved status is intentionally ranking-neutral.
+    saved: uniqueIds(preferences.saved).filter(id => !dismissedIds.has(id)).slice(0, 500),
+    dismissed,
     interests: uniqueIds(preferences.interests)
       .filter((interest): interest is Interest => KNOWN_INTERESTS.includes(interest as Interest))
       .slice(0, KNOWN_INTERESTS.length),
