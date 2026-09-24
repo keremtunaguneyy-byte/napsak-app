@@ -1,5 +1,12 @@
 # N’apsak — Durum ve sıradaki iş
 
+## Devam eden çalışma — Legacy preference storage cleanup (24 Eylül 2026)
+
+- `codex/legacy-preference-cleanup` dalı, fetch sonrası doğrulanan `origin/main` `4631cda4422b16ff455bd20d0c8e74b38f53e33d` üzerinden ayrı ve temiz worktree'de açıldı.
+- `@napsak/preferences/v5` canonical anahtar olarak korunur. v5 yoksa mevcut v4 → v3 → v2 → v1 precedence'iyle seçilen okunabilir kayıt sanitize edilip önce v5'e yazılır; legacy kopyalar ancak başarılı yazımdan sonra best-effort temizlenir.
+- Canonical yazma hatası migrated in-memory tercihi kullanılabilir bırakır ve bütün legacy kopyaları retry için korur. Legacy silme hatası geçerli v5'i veya dönen tercihleri boşaltmaz; kalan anahtar sonraki yüklemede tekrar denenir. Malformed v5/legacy no-fallback davranışı ve tercih alanı semantiği değiştirilmedi.
+- Odaklı otomatik testler canonical precedence, v4/older migration, birden fazla legacy kopya, write-before-delete sırası, yazma ve silme hataları, tekrar/idempotency, malformed kayıtlar, mevcut alan sanitization'ı ve v1–v5 temizliğini kapsar. Kanıt repository düzeyindedir; cihaz/production doğrulaması veya hukuki retention uyumu iddiası değildir.
+
 ## Devam eden çalışma — Owner-bound pending sync queue hardening (24 Eylül 2026)
 
 - `codex/owner-bound-pending-sync` dalı, fetch sonrası doğrulanan `origin/main` `1421749b250b1ff5727e53392fb7a99c9c43280e` üzerinden ayrı ve temiz worktree'de açıldı.

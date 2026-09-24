@@ -2,6 +2,14 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-09-24 — Yerel tercihler v5 anahtarında yakınsar
+
+Durum: Kullanıcı tarafından onaylandı; `codex/legacy-preference-cleanup` dalında uygulanıyor, production veya cihazda doğrulanmadı.
+
+`@napsak/preferences/v5` tek canonical yerel tercih anahtarıdır. v5 yoksa fallback sırası v4, v3, v2, v1 olarak korunur; ilk bulunan kayıt okunabilir JSON ise mevcut alan migration/sanitization davranışıyla güncel biçime çevrilir. Legacy kaynaklar ancak bu güncel değer v5'e başarıyla yazıldıktan sonra temizlenir. Canonical yazma başarısızsa güvenli in-memory sonuç kullanılabilir, bütün legacy kopyalar sonraki deneme için korunur.
+
+Geçerli v5 varken legacy temizliği best-effort yapılır; tekil silme hatası geçerli tercihi boş duruma düşürmez ve kalan anahtar sonraki açılışta tekrar denenir. Malformed v5'in fallback'i engelleyip boş tercih döndürmesi ve malformed ilk legacy kaydın daha eski anahtarlara geçişi engellemesi mevcut precedence davranışı olarak korunur; bu okunamayan kayıtlar otomatik canonicalize edilmez veya silinmez. Kullanıcı verisi silme akışı preference v1–v5 anahtarlarının tamamını temizlemeye devam eder.
+
 ## 2026-09-24 — Pending kullanıcı senkronizasyonu UID sahibine bağlıdır
 
 Durum: Kullanıcı tarafından onaylandı; `codex/owner-bound-pending-sync` dalında uygulanıyor, production'da doğrulanmadı.
