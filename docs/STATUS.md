@@ -1,5 +1,16 @@
 # N’apsak — Durum ve sıradaki iş
 
+## Devam eden çalışma — Deletion boundary evidence hardening (24 Eylül 2026)
+
+- `codex/deletion-boundary-evidence` dalı, fetch sonrası doğrulanan `origin/main` `9a76530802957ca732b006716eed9c0667e3116c` üzerinden ayrı ve temiz worktree'de açıldı.
+- Gerçek backend akışının kullandığı `UserDataBoundary`, remote work, normal yerel preference persistence ve silme cleanup'ını tek test edilebilir orkestrasyon sınırında topluyor. Silme sırası, anonim Auth, owner-bound queue v2, tek deleted-UID tombstone, remote allowlist ve preference migration precedence değiştirilmedi.
+- Deterministik testler tombstone yazma, Firestore silme, queue temizleme, preference temizleme ve Auth silme başarı/hata sınırlarını; Auth timeout'un iptal kanıtı olmadığını; aynı-UID restart, retry, A→B kimlik değişimi, tek tombstone replacement ve geç çözülen eski remote work sırasını kapsıyor.
+- Somut bir runtime hatası yeniden üretildi: App'in doğrudan başlattığı gecikmiş v5 preference yazımı, local cleanup bittikten sonra tamamlanıp silinen tercihi yeniden oluşturabiliyordu. Normal persistence artık deletion cleanup ile serialize edilir; eski-generation yazı cleanup sonrasında çalışamaz. Bu düzeltme remote veya ürün semantiğini değiştirmez.
+- İkinci Astra riski mevcut sözleşmenin gerçek sınırı olarak doğrulandı: silme preference cleanup'ta açıkça başarısız olur ve cihaz-kapsamlı v5 kayıt kalırsa, kontrollü A→B kimlik değişiminde kalan tercih B için normal ilk migration'a girebilir. Eski A queue'su B olarak replay edilemez. Mevcut anonim-cihaz modelinde bu güvenli fakat dikkat edilmesi gereken davranıştır; başarıyla tamamlanmış silmede gözlenmez.
+- Pending konum callback'i geç çözülürse App belleğindeki koordinatı yeniden doldurabilir; koordinat preference şemasına, queue'ya veya Firestore allowlist'ine girmez. Repository testi location-benzeri fazla alanın owned queue payload'ına taşınmadığını doğrular. Component-lifecycle ve signed-device kanıtı connected-beta aşamasına kalır.
+- Diff kontrolü, typecheck, 13 deletion-boundary testi, 10 persistence testi, 16 connected-service/sync testi, toplam 173 ana test ve 6 Firestore Rules emulator testi geçti. Release baseline beklenen sekiz açık engeli korudu.
+- Bu kanıt repository düzeyindedir. Gerçek Firebase/Auth sonucu, OS/native persistence, process kill sınırı ve signed connected-beta cihaz davranışı ayrıca doğrulanmalıdır.
+
 ## Devam eden çalışma — Legacy preference storage cleanup (24 Eylül 2026)
 
 - `codex/legacy-preference-cleanup` dalı, fetch sonrası doğrulanan `origin/main` `4631cda4422b16ff455bd20d0c8e74b38f53e33d` üzerinden ayrı ve temiz worktree'de açıldı.
