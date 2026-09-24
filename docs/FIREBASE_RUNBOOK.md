@@ -80,6 +80,8 @@ Firestore JS SDK’nın React Native’de kalıcı Firestore persistence’ına 
 
 Kaydet/gizle/ilgi değişikliği önce cihazda yazılır. Remote sync için idempotent kullanıcı snapshot’ı tek AsyncStorage queue kaydına coalesce edilir. Ağ hatasında queue silinmez; sonraki değişiklik/launch tekrar dener.
 
+Yerel tercihlerin canonical anahtarı `@napsak/preferences/v5`'tir. v5 yoksa okuma sırası v4 → v3 → v2 → v1'dir; ilk bulunan kayıt okunabilir ise mevcut migration ve sanitization kurallarıyla v5'e yazılır. Legacy v1–v4 anahtarları yalnız v5 yazımı başarıyla tamamlandıktan sonra best-effort temizlenir. v5 yazımı başarısızsa migrated in-memory tercihler kullanılabilir ve bütün legacy kopyalar sonraki açılışta yeniden denemek için korunur. v5 geçerliyken legacy silme hatası tercih yüklemesini başarısız kılmaz; silinemeyen kopya sonraki yüklemede tekrar temizlenir. Malformed v5 ve ilk bulunan malformed legacy kaydı mevcut no-fallback davranışını korur ve otomatik silinmez. Bu sözleşme repository test kanıtıdır; production cihaz saklama/retention veya hukuki uyum kanıtı değildir.
+
 Güncel queue anahtarı `@napsak/user-sync/v2/pending` ve kalıcı şeması şöyledir:
 
 ```json
