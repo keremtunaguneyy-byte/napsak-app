@@ -66,7 +66,7 @@ export async function initializeDataBackbone(preferences: PersistedPreferences, 
     } catch (error) {
       captureOperationalError(error, 'remote_sync', 'user_state_migration_failed');
       // Local state remains authoritative until a later flush succeeds.
-      await enqueueUserSync(preferences);
+      await enqueueUserSync(user.uid, preferences);
     }
   });
   if (generation !== deletionGeneration || deletionInProgress) return (await loadBestCatalog(cityId)).snapshot;
@@ -83,11 +83,12 @@ export async function queuePreferencesForRemoteSync(preferences: PersistedPrefer
   if (!client) return;
   await serializeRemoteWork(async () => {
     if (deletionInProgress || generation !== deletionGeneration) return;
-    const current = activeUser;
-    const uid = current?.uid ?? client.auth.currentUser?.uid;
+    const uid = client.auth.currentUser?.uid;
+    const current = activeUser?.uid === uid ? activeUser : undefined;
     if (uid && await isDeletedUserSyncBlocked(uid)) return;
     if (!current && !preferences.saved.length && !preferences.dismissed.length && !preferences.interests.length) return;
-    await enqueueUserSync(preferences);
+    if (!uid) return;
+    await enqueueUserSync(uid, preferences);
     if (!current) return;
     try {
       await flushUserSync(current.uid, current.repository);

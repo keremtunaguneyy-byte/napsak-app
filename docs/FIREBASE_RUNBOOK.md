@@ -78,7 +78,31 @@ Sınır aşılırsa pahalı/kontrolsüz indirme yapmak yerine refresh hata verir
 
 Firestore JS SDK’nın React Native’de kalıcı Firestore persistence’ına güvenilmez. Katalog cache’i uygulamaya aittir.
 
-Kaydet/gizle/ilgi değişikliği önce cihazda yazılır. Remote sync için tam ve idempotent kullanıcı snapshot’ı tek AsyncStorage queue kaydına coalesce edilir. Ağ hatasında queue silinmez; sonraki değişiklik/launch tekrar dener.
+Kaydet/gizle/ilgi değişikliği önce cihazda yazılır. Remote sync için idempotent kullanıcı snapshot’ı tek AsyncStorage queue kaydına coalesce edilir. Ağ hatasında queue silinmez; sonraki değişiklik/launch tekrar dener.
+
+Güncel queue anahtarı `@napsak/user-sync/v2/pending` ve kalıcı şeması şöyledir:
+
+```json
+{
+  "queueSchemaVersion": 2,
+  "ownerUid": "firebase-uid",
+  "payload": {
+    "schemaVersion": 1,
+    "saved": [],
+    "dismissed": [],
+    "interests": [],
+    "deviceMigrationVersion": 1
+  }
+}
+```
+
+Queue yalnız Firebase UID çözüldükten sonra oluşturulur ve yalnız aynı UID ile oturum açıkken yazılabilir. Envelope ve payload tam anahtar listesi, sürüm, UID, sınır, tekrar, saved/dismissed çakışması ve interest allowlist kontrollerini geçmelidir. Eksik/bozuk sahiplik, bilinmeyen alan veya aktif UID ile eşleşmeyen kayıt upload edilmeden compare-before-remove ile atılır. Başarılı upload sonrasında da yalnız okunan ham kayıt hâlâ aynıysa silinir; arada yazılan daha yeni snapshot korunur.
+
+Eski `@napsak/user-sync/v1/pending` kaydı sahip UID taşımadığı ve mood, budget, groupSize, duration, onboarding/context alanları gibi yerel alanları içerebildiği için hiçbir mevcut UID'ye bağlanmaz ve upload edilmeden atılır. Ayrı preference v1–v5 kaydı korunur. Remote belge yoksa, ancak mevcut Firebase UID çözüldükten sonra o anki yerel tercihlerden yeni sahipli ve minimize v2 kayıt üretilebilir.
+
+Queue payload'ı Firestore allowlist'ine hazır yalnız `schemaVersion`, `saved`, `dismissed`, `interests` ve `deviceMigrationVersion` alanlarını taşır; `updatedAt` Firestore yazım anında server timestamp olarak eklenir. Mood, budget, groupSize, duration, onboarding, context time veya konum queue'ya ya da Firestore kullanıcı belgesine girmez.
+
+Ayrı kalıcı generation/epoch tutulmaz: Firebase UID bu anonim hesap incarnation'ının sahiplik sınırıdır. Silinen UID tombstone'u ayrıca korunur; aynı Auth silme başarısız olsa bile eski UID'nin yeniden senkronize edilmesini engeller. Yeni anonim hesabın farklı UID'si eski queue sahibiyle eşleşmeyeceği için eski yazıyı devralamaz.
 
 Eski cihaz ilk kez anonim Firebase kimliği aldığında remote kullanıcı belgesi yoksa mevcut `saved`, `dismissed` ve kalıcı `interests` bir kere remote’a taşınır. Cihaz verisi bu işlem başarısız olduğunda kaybolmaz. Anonymous Auth başlangıcı beş saniyede sonuçlanmazsa uygulama gömülü/cache katalogla devam eder; otomatik hızlı tekrar döngüsü başlamaz. Katalog metadata ve tam refresh okumalarının her biri de beş saniye ile sınırlıdır. Yeniden açılış veya sonraki tercih değişikliği senkronizasyonu tekrar deneyebilir.
 
@@ -115,11 +139,11 @@ Uygulama içindeki Ayarlar ekranı silmeyi yalnız açık kullanıcı onayından
 
 1. Firebase bağlıysa anonim kimliğin çözülmesi zorunludur. Kimlik çözülemezse yerel veriler silinmiş gibi gösterilmez.
 2. Sahip UID yerel senkronizasyon için kalıcı olarak bloke edilir; bekleyen yazma işlemleri bitmeden silme başlamaz. Sonra yalnız `users/{uid}` belgesi silinir.
-3. Uzak silme başarılıysa preference v1–v5 anahtarları ve bekleyen user-sync snapshot'ı cihazdan kaldırılır.
+3. Uzak silme başarılıysa preference v1–v5 anahtarları ile v1 ve v2 bekleyen user-sync kayıtları cihazdan kaldırılır.
 4. Anonim Firebase Authentication hesabı best-effort silinir.
 5. Uygulama state'i ilk kullanım durumuna döner.
 
-Uzak belge silme başarısızsa yerel snapshot tekrar deneme için korunur; bloke UID eski veriyi sessizce yeniden yükleyemez. Auth hesabı silme ayrı sonuçtur; başarısızlığı Firestore ve cihaz verisinin silindiği gerçeğini değiştirmez fakat kullanıcıya açıkça bildirilir. Bloke UID ile sonraki açılışta uzaktan senkronizasyon yapılmaz. Katalog cache'i ortak içeriktir, kullanıcı verisi silme kapsamına girmez.
+Uzak belge silme başarısızsa yerel snapshot tekrar deneme için korunur; bloke UID eski veriyi sessizce yeniden yükleyemez. Auth hesabı silme ayrı sonuçtur; başarısızlığı Firestore ve cihaz verisinin silindiği gerçeğini değiştirmez fakat kullanıcıya açıkça bildirilir. Bloke UID ile sonraki açılışta uzaktan senkronizasyon yapılmaz. Tombstone anahtarı ve yaşam döngüsü v2 queue geçişinde değiştirilmemiştir. Katalog cache'i ortak içeriktir, kullanıcı verisi silme kapsamına girmez.
 
 ## Seed
 

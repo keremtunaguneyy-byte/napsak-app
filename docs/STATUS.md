@@ -1,5 +1,13 @@
 # N’apsak — Durum ve sıradaki iş
 
+## Devam eden çalışma — Owner-bound pending sync queue hardening (24 Eylül 2026)
+
+- `codex/owner-bound-pending-sync` dalı, fetch sonrası doğrulanan `origin/main` `1421749b250b1ff5727e53392fb7a99c9c43280e` üzerinden ayrı ve temiz worktree'de açıldı.
+- Sahipsiz, tam yerel preference snapshot'ı taşıyan `@napsak/user-sync/v1/pending` yerine gerçek Firebase UID sahibini ve yalnız remote allowlist alanlarını taşıyan `@napsak/user-sync/v2/pending` getirildi. Queue yalnız aynı UID için replay edilir; legacy, bozuk veya UID'si eşleşmeyen kayıt upload edilmeden atılır.
+- Yerel preference v1–v5 verisi legacy queue reddinden etkilenmez; remote belge yoksa yeni v2 snapshot ancak güncel UID çözüldükten sonra mevcut yerel durumdan üretilir. Ayrı epoch eklenmedi; Firebase UID incarnation sınırı olarak kullanılır.
+- Deleted-UID tombstone'u ve silme sırası korunur. Remote payload `saved`, `dismissed`, `interests`, `schemaVersion`, `deviceMigrationVersion` ve yazım anındaki server `updatedAt` alanlarıyla sınırlı kalır; yerel-only bağlam alanları queue'ya alınmaz.
+- Odaklı otomatik testler owner eşleşmesi/uyuşmazlığı, legacy ve malformed fail-closed davranışı, silme ve yeni anonim UID, restart, offline reconnect, compare-before-remove ve remote allowlist minimizasyonunu kapsar. Diff kontrolü, typecheck, 111 ana/release testi, 38 build/connected-services/quality testi ve 6 Firestore Rules emulator testi geçti; release baseline beklenen sekiz açık engeli korudu. Bu repository kanıtıdır; bağlı Firebase veya cihaz/production doğrulaması değildir.
+
 ## Devam eden çalışma — Event Freshness Refresh #2 (21 Eylül 2026)
 
 - `codex/event-freshness-refresh-2` dalı, doğrulanmış `origin/main` `c0fb15252a05c86d406e766accbd127d40aa5546` üzerinden açıldı. Onaylı 21 Eylül denetimi kullanıldı; dış kaynak araştırması yapılmadı.
