@@ -1,4 +1,4 @@
-# N’apsak — Recommendation Quality Baseline
+# Gezek — Recommendation Quality Baseline
 
 Baseline date: 16 September 2026. This document defines measurement and characterization only. It does not approve a ranking change.
 

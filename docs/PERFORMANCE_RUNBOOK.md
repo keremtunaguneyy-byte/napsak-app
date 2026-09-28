@@ -1,4 +1,4 @@
-# N’apsak performans ölçümü
+# Gezek performans ölçümü
 
 Bu belge performans iddialarını ölçülebilir, tekrarlanabilir ve kişisel veri içermeyen kanıtlara bağlar.
 

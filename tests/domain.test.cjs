@@ -430,9 +430,10 @@ const { isExperience, isIdea, parseCatalogSnapshot } = require('../.test-build/d
 const { EmbeddedContentRepository } = require('../.test-build/data/contentRepository.js');
 const { DEFAULT_RESULT_FILTER, RESULT_FILTERS } = require('../.test-build/resultFilters.js');
 
-test('result tabs default to N’apsak and preserve the established content order', () => {
+test('result tabs default to Planlar and preserve the established content order', () => {
   assert.equal(DEFAULT_RESULT_FILTER, 'experience');
   assert.deepEqual(RESULT_FILTERS.map(filter => filter.value), ['experience', 'place', 'event', 'idea']);
+  assert.deepEqual(RESULT_FILTERS.map(filter => filter.label), ['Planlar', 'Mekân', 'Etkinlik', 'Fikir']);
   assert.ok(!RESULT_FILTERS.some(filter => filter.value === 'all' || filter.label === 'Hepsi'));
 });
 

@@ -1,4 +1,4 @@
-# N’apsak cihaz ve kullanıcı yolculuğu kabul sözleşmesi
+# Gezek cihaz ve kullanıcı yolculuğu kabul sözleşmesi
 
 Bu belge, imzalı release build hazır olmadan önce test kapsamını ve kanıt biçimini sabitler. Testin planlanması veya development build üzerinde prova edilmesi, `release_device_matrix_unverified` yayın engelini kapatmaz. Engel ancak `RELEASE_RUNBOOK.md` içindeki koşullara uygun imzalı release build, gerçek cihaz matrisi ve erişilebilir HTTPS kanıtı birlikte doğrulandığında kapanabilir.
 
@@ -85,7 +85,7 @@ notes: <kişisel-veri-ve-secret-içermeyen-not>
 ### J04 — İçerik türleri arasında geçiş
 
 - **Ön koşul:** Sonuç ekranı açık.
-- **Adımlar:** Sırayla N’apsak, Mekân, Etkinlik ve Fikir sekmelerini seç; her seçimden sonra başlıkları ve boş durumu incele.
+- **Adımlar:** Sırayla Planlar, Mekân, Etkinlik ve Fikir sekmelerini seç; her seçimden sonra başlıkları ve boş durumu incele.
 - **Beklenen:** Seçili sekme görünür ve erişilebilirlik durumunda seçili olarak işaretlidir; yalnız ilgili içerik türü gösterilir; etkinlik yoksa dürüst boş durum görünür.
 - **Tür:** Manuel arayüz akışı; filtreleme kuralları otomatik testlerle desteklenir.
 - **Kanıt seviyesi:** Development provası hazırlanabilir; release kabulü gerçek cihazda yapılır.
@@ -105,7 +105,7 @@ notes: <kişisel-veri-ve-secret-içermeyen-not>
 ### J06 — Mekândan ilgili plana geçiş
 
 - **Ön koşul:** `Experience.points[].placeId` ile bir plana bağlı mekân; plan gizlenmemiş, süresi dolmamış ve mevcut tercihlere uygun olmalı.
-- **Adımlar:** Mekân detayını aç; “Bu mekânı kullanan N’apsak planları” bölümünden bir plan seç; plan detayını aç; mekâna dön.
+- **Adımlar:** Mekân detayını aç; “Bu mekânı içeren planlar” bölümünden bir plan seç; plan detayını aç; mekâna dön.
 - **Beklenen:** Yalnız ID ile ilişkili ve uygun planlar gösterilir; benzer başlık eşleşme sayılmaz; eşleşme yoksa bölüm gizlenir; plan ve mekân arasında geri dönüş çalışır.
 - **Tür:** Karma; ilişki/uygunluk otomatik testlidir, detay geçişi manuel doğrulanır.
 - **Kanıt seviyesi:** Development provası hazırlanabilir; release akışı gerçek cihazda tekrarlanır.

@@ -80,7 +80,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
             <DetailAction text="Resmî bilgi" onPress={() => onOpenSource(place)} />
           </View>
           {plans.length > 0 && <View>
-            <Text accessibilityRole="header" style={styles.heading}>Bu mekânı kullanan N’apsak planları</Text>
+            <Text accessibilityRole="header" style={styles.heading}>Bu mekânı içeren planlar</Text>
             {plans.map(item => <View key={item.id} style={styles.card}>
               <Text style={styles.headingSmall}>{item.title}</Text>
               <Text style={styles.meta}>{item.points.length} durak · {formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)} · {price(item.priceLevel)}</Text>

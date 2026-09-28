@@ -1,6 +1,6 @@
-# N’apsak — önce burayı oku
+# Gezek — önce burayı oku
 
-Güncelleme: 10 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
+Güncelleme: 28 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
 
 ## Okuma sırası
 
@@ -28,6 +28,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 | RELEASE_RUNBOOK.md | Yayın engelleri, production kapısı, staged dağıtım ve geri dönüş prosedürü |
 | STATUS.md | Sürüme bağlı gerçekleşen işler, kanıt ve sonraki çalışma |
 | DECISIONS.md | Tarihli karar, gerekçe, durum ve etkilenen dosyalar |
+| BRAND_RENAME.md | Gezek adlandırma sınırı ve korunan teknik kimlikler |
 
 ## Bir kararın kayıt yolu
 
@@ -42,5 +43,7 @@ Başka yapay zekâya bu klasörü ve ilgili kodu ver; yalnız eski sohbet bağla
 GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depodaki ikinci klasör bağımsız yedek değildir. Önemli kilometre taşında tam git yedeği ve tasarım kaynakları ayrı bir konuma alınmalı; Firebase kullanıcı/katalog verisi ayrıca yedeklenmelidir. Bu belge düzenli yedekleme servisi kurulduğu anlamına gelmez. Repo erişimi olan ortamda örnek dış yedek: `git bundle create /guvenli-konum/napsak.bundle --all`; ardından `git bundle verify /guvenli-konum/napsak.bundle`. Secret ve kişisel kullanıcı verilerini tasarım devir paketine ekleme.
 
 ## Güncel görev
+
+Kamuya açık ürün adı **Gezek**'tir; N’apsak önceki çalışma adıdır. Adlandırma temeli ve korunacak teknik kimlikler `BRAND_RENAME.md` içinde kayıtlıdır. Sıradaki ürün çalışması görsel tasarımın tamamlanmasıdır; yeni özellik geliştirme bu adlandırma işinin kapsamında değildir.
 
 Tarihsel #37 kontrol noktası `72122d613bbca64601ed3a646ff3ff025015fe1c` commit'idir; canlı HEAD için Git ve güncel yayın durumu için STATUS.md yetkilidir. #35 release gate/readiness/rollback yönetişimini kodda uygulayıp test etti; production onayı vermedi. #36 yalnız proje hafızası/dokümantasyon senkronudur; yeni ürün davranışı veya ürün kararı değildir. #37 cihaz kabul sözleşmesini ve kanıt biçimini repository'de tanımladı; imzalı release cihaz kabulü yapılmadı ve `release_device_matrix_unverified` açık kaldı. Gerçek EAS proje bağlantısı daha sonra doğrulanarak ilgili engel kapatıldı; güncel toplam sekiz yayın engeli vardır. Gerçek bulut restore provası ile production Sentry, source map ve dashboard kanıtı ayrı açık yayın kapılarıdır. Canlı analitik sağlayıcısı ayrıca açık bir karardır ve yayın engeli listesinde yer almaz. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md, RELEASE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.

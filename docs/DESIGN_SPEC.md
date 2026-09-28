@@ -1,14 +1,14 @@
-# N’apsak — Tasarım ve Marka
+# Gezek — Tasarım ve Marka
 
 6 Eylül 2026. Başlangıç kaydı; tüm eski konuşmaların eksiksiz aktarımı veya final tasarım sistemi değildir. Güncel ürün bağlamı PRODUCT_SPEC ve STATUS'tadır.
 
 ## Ürün karakteri ve kararlar
 
-N’apsak kararsızlığı uygulanabilir mikro plana dönüştürür. Samimi, eğlenceli, yetişkinlere hitap eden bir uygulamadır. Harita uygulaması çağrışımı istenmiyor; logo için pin, pusula ve harita sembolü kullanılmamalı. Marka yazımı N’apsak?; soru işareti korunur.
+Gezek kararsızlığı uygulanabilir mikro plana dönüştürür. Samimi, eğlenceli, yetişkinlere hitap eden bir uygulamadır. Harita uygulaması çağrışımı istenmiyor; logo için pin, pusula ve harita sembolü kullanılmamalı. Güncel marka yazımı Gezek’tir; önceki N’apsak? yazımı tarihsel tasarım kaydıdır.
 
-Ana sayfanın beğenilen omurgası: üstte görünür/düzenlenebilir tercihler; kompakt Bugünlük planın; aynı beşlinin kalan dört sonucunu gösteren 2×2 Diğer N’apsak planları. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
+Ana sayfanın beğenilen omurgası: üstte görünür/düzenlenebilir tercihler; kompakt Bugünlük planın; aynı beşlinin kalan dört sonucunu gösteren 2×2 Diğer planlar. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
 
-İçerik seçici N’apsak / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
+İçerik seçici Planlar / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
 
 ## Renk ve logo — henüz açık
 

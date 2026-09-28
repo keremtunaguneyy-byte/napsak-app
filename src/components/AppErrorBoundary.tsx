@@ -23,7 +23,7 @@ export class AppErrorBoundary extends Component<Props, State> {
     if (!this.state.failed) return this.props.children;
     return (
       <View accessibilityRole="alert" style={styles.page}>
-        <Text style={styles.mark}>N’apsak?</Text>
+        <Text style={styles.mark}>Gezek</Text>
         <Text accessibilityRole="header" style={styles.title}>Bir şey yolunda gitmedi.</Text>
         <Text style={styles.copy}>Hata güvenli biçimde kaydedildi. Uygulamayı yeniden yüklemeyi deneyebilirsin.</Text>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Uygulamayı yeniden dene" onPress={this.retry} style={styles.button}>

@@ -1,4 +1,4 @@
-# N’apsak yayın ve geri dönüş kapısı
+# Gezek yayın ve geri dönüş kapısı
 
 Bu belge bir sürümün mağazaya gönderilmeye hazır olduğunu varsaymaz. `npm run check:release` açık engellerin bilinen listeyle aynı kaldığını doğrular; sıfır engel anlamına gelmez. Gerçek yayın yalnız `npm run check:release:strict` ve manuel kanıtlar birlikte geçtiğinde yapılır.
 

@@ -1,4 +1,4 @@
-# N’apsak Firebase Runbook
+# Gezek Firebase Runbook
 
 Bu belge Firebase veri omurgasının geliştirme, production, seed, migration, maliyet sınırı ve backup sözleşmesidir.
 

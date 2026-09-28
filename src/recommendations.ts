@@ -219,7 +219,7 @@ export function recommendPlaces(options: {
         ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
         ...(groupScore > 0 && groupSize ? [`${groupSize} planına uygun`] : []),
         ...(distance !== undefined && distance < 3 ? ['sana yakın'] : []),
-        ...(!moodMatch && !interestMatch ? ['yüksek N’apsak puanı'] : []),
+        ...(!moodMatch && !interestMatch ? ['yüksek Gezek puanı'] : []),
       ];
       return { ...place, distance, reasons, score: (moodMatch ? 48 : 0) + matchedInterests.length * 42 + place.editorialScore * 3 + proximityScore + budgetScore + groupScore + surprise };
     })
@@ -282,7 +282,7 @@ function recommendIdeas(options: {
         ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
         ...(groupMatch && groupSize ? [`${groupSize} planına uygun`] : []),
         ...(discoveryMode && interests.length && !matchedInterests.length ? ['farklı bir şey keşfetmen için'] : []),
-        ...(!moodMatch && !matchedInterests.length ? ['yüksek N’apsak puanı'] : []),
+        ...(!moodMatch && !matchedInterests.length ? ['yüksek Gezek puanı'] : []),
       ];
       return {
         ...idea,
@@ -293,7 +293,7 @@ function recommendIdeas(options: {
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'tr'));
 
   // Outside the explicit Fikir tab, keep the existing hard-interest behavior so
-  // the mixed N'apsak feed does not become looser as a side effect of discovery.
+  // the mixed Planlar feed does not become looser as a side effect of discovery.
   if (!discoveryMode) {
     const eligible = scored.filter(idea => !interests.length || interests.some(interest => idea.category === interest || idea.interests.includes(interest)));
     const fresh = eligible.filter(item => !previous.has(item.id));
