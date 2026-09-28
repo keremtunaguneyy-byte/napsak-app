@@ -1,6 +1,6 @@
 # Gezek — önce burayı oku
 
-Güncelleme: 10 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
+Güncelleme: 28 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
 
 ## Okuma sırası
 
