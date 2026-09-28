@@ -1,4 +1,8 @@
-# N’apsak — Durum ve sıradaki iş
+# Gezek — Durum ve sıradaki iş
+
+## Güncel marka kararı — 28 Eylül 2026
+
+Kamuya açık ürün adı **Gezek**; N’apsak önceki çalışma adıdır. Uygulama adı, görünen metinler ve sonuç sekmesi adı güncellendi; sonuç sekmesi **Planlar** olarak görünür. Teknik kimlikler ve geçmiş kayıtlar korunur. Kapsam ve sonraki bundle/store kararı `BRAND_RENAME.md` içindedir. Sıradaki aşama görsel tasarımın tamamlanmasıdır; bu değişiklik yeni özellik, bağlı beta veya release kanıtı sağlamaz.
 
 ## Devam eden çalışma — Deletion boundary evidence hardening (24 Eylül 2026)
 

@@ -1,6 +1,6 @@
 {
   "name": "napsak-app",
-  "description": "N'apsak? Ankara aktivite ve mekan öneri uygulaması.",
+  "description": "Gezek, Ankara için aktivite ve mekân öneri uygulaması.",
   "private": true,
   "version": "0.1.0",
   "main": "index.ts",

@@ -1,4 +1,4 @@
-# N’apsak Product Spec ve Karar Günlüğü
+# Gezek Product Spec ve Karar Günlüğü
 
 **Sürüm:** 0.2
 
@@ -9,7 +9,7 @@
 
 ## 1. Bu dokümanın amacı
 
-Bu dosya N’apsak’ın yalnızca ne yaptığını değil, ürün kararlarının **nedenini** kaydeder. Ürün sahibi, ChatGPT ve Codex aynı kurallara bakarak çalışmalıdır.
+Bu dosya Gezek'in yalnızca ne yaptığını değil, ürün kararlarının **nedenini** kaydeder. Ürün sahibi, ChatGPT ve Codex aynı kurallara bakarak çalışmalıdır.
 
 Bu dosyada üç karar statüsü kullanılır:
 
@@ -23,7 +23,7 @@ Kod ile bu doküman çelişirse çelişki PR incelemesinde açıkça belirtilir.
 
 ### 2.1 Tek cümlelik tanım — Kararlaştırıldı
 
-N’apsak, “Bugün ne yapsak?” kararsızlığını kullanıcının ruh hâli, ilgi alanı, bütçesi, kişi sayısı, zamanı ve konumuna göre kısa sürede uygulanabilir önerilere dönüştüren; Ankara’dan başlayan mobil keşif ve planlama uygulamasıdır.
+Gezek, “Bugün ne yapsak?” kararsızlığını kullanıcının ruh hâli, ilgi alanı, bütçesi, kişi sayısı, zamanı ve konumuna göre kısa sürede uygulanabilir önerilere dönüştüren; Ankara’dan başlayan mobil keşif ve planlama uygulamasıdır.
 
 ### 2.2 Çözülen problem — Kararlaştırıldı
 
@@ -37,7 +37,7 @@ Kullanıcının temel sorunu seçenek yokluğu değildir. İnternette binlerce m
 - güncel olmayan veya güvenilmez bilgi,
 - aynı popüler önerilerin tekrar tekrar gösterilmesidir.
 
-N’apsak bir listeleme uygulaması olmamalıdır. Kullanıcıya araştırma yaptırmak yerine kararı küçültmeli ve eyleme geçirilebilir hâle getirmelidir.
+Gezek bir listeleme uygulaması olmamalıdır. Kullanıcıya araştırma yaptırmak yerine kararı küçültmeli ve eyleme geçirilebilir hâle getirmelidir.
 
 ### 2.3 Temel değer önerisi — Kararlaştırıldı
 
@@ -49,7 +49,7 @@ Kullanıcı 60 saniyeden kısa sürede şu üç cevabı alabilmelidir:
 
 ## 3. Ürünün farkı
 
-### 3.1 N’apsak ne değildir — Kararlaştırıldı
+### 3.1 Gezek ne değildir — Kararlaştırıldı
 
 - Yalnızca Google Maps benzeri bir mekân listesi değildir.
 - Yalnızca etkinlik bileti kataloğu değildir.
@@ -57,7 +57,7 @@ Kullanıcı 60 saniyeden kısa sürede şu üç cevabı alabilmelidir:
 - Kullanıcıdan onlarca filtre doldurmasını isteyen bir arama formu değildir.
 - Editoryal doğrulama olmadan internetten içerik toplayan bir öneri motoru değildir.
 
-### 3.2 N’apsak’ın savunulabilir farkı — Kararlaştırıldı
+### 3.2 Gezek'in savunulabilir farkı — Kararlaştırıldı
 
 Uygulamanın asıl farkı tek bir mekân önermekten çok, bağlama uygun **mikro planlar/Experience’lar** kurmasıdır. Örneğin yalnızca “Erimtan Müzesi” demek yerine “Erimtan → Ankara Kalesi yürüyüşü” gibi süre, sıra, bağlam ve gerekçe içeren uygulanabilir bir deneyim önerir.
 
@@ -76,11 +76,11 @@ Uygulamanın asıl farkı tek bir mekân önermekten çok, bağlama uygun **mikr
 
 Ana öneri alanındaki içerik sırası:
 
-`N’apsak · Mekân · Etkinlik · Fikir`
+`Planlar · Mekân · Etkinlik · Fikir`
 
-`N’apsak` varsayılan seçenektir.
+`Planlar` varsayılan seçenektir.
 
-### 4.2 N’apsak / Experience — Kararlaştırıldı
+### 4.2 Planlar / Experience — Kararlaştırıldı
 
 Bir veya daha fazla noktayı, eylemi veya sırayı birleştiren uygulanabilir mikro plandır. Şunları içerebilir:
 
@@ -209,7 +209,7 @@ Hard filter örnekleri:
 - süresi dolmuş etkinlik/canlı deneyim,
 - seçilen süreye sığmayan Experience.
 
-İlgi hard filter'ı içerik katmanına göre uygulanır. Mekân, Experience ve `N’apsak` karma akışındaki uygunluk davranışı korunur; açık `Fikir` sekmesi 4.5'teki kontrollü keşif kotasının bilinçli istisnasıdır.
+İlgi hard filter'ı içerik katmanına göre uygulanır. Mekân, Experience ve `Planlar` karma akışındaki uygunluk davranışı korunur; açık `Fikir` sekmesi 4.5'teki kontrollü keşif kotasının bilinçli istisnasıdır.
 
 ### 6.2 Süre filtresi — Kararlaştırıldı
 
@@ -321,7 +321,7 @@ Kullanıcı öneriyi kaydedebilir, kaydedilenlerden çıkarabilir ve haritada a�
 - Ekranlar gereksiz seçeneklerle kalabalıklaştırılmaz.
 - Ana karar akışı tek elde kullanılabilecek kadar kolay olmalıdır.
 - Global bölümler daha sonra alt navigasyona taşınabilir; üst bölüm her şeyi taşıyan menüye dönüşmemelidir.
-- Marka yazımı `N’apsak?` logo/başlık kullanımında soru işaretini korur; içerik sekmesinde `N’apsak` kullanılabilir.
+- Kamuya açık marka adı `Gezek`; sonuç sekmesinin adı `Planlar`dır. Önceki `N’apsak?` yazımı 28 Eylül 2026 marka kararıyla geçersiz kılındı; tarihsel kaydı `DECISIONS.md` içinde korunur.
 
 ### 9.2 Erişilebilirlik — Kararlaştırıldı
 
@@ -346,17 +346,17 @@ Kullanıcı öneriyi kaydedebilir, kaydedilenlerden çıkarabilir ve haritada a�
 - “Bana göre değil”,
 - haritada veya kaynakta açma.
 
-### 9.4 Mekândan N’apsak planına geçiş — Kararlaştırıldı
+### 9.4 Mekândan plana geçiş — Kararlaştırıldı
 
-Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mekânı kullanan N’apsak planları” başlığıyla gösterilir. İlişki `Experience.points[].placeId` üzerinden kurulur; başlık benzerliği kullanılmaz. Gizlenen ve süresi dolmuş planlar gösterilmez, eşleşme yoksa bölüm gizlenir. Bu davranış #21 ile main'e alındı (`dcde744961d914a7a4c1f555939fe55aad11f8cf`) ve kullanıcı temel telefon akışını doğruladı.
+Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mekânı içeren planlar” başlığıyla gösterilir. İlişki `Experience.points[].placeId` üzerinden kurulur; başlık benzerliği kullanılmaz. Gizlenen ve süresi dolmuş planlar gösterilmez, eşleşme yoksa bölüm gizlenir. Bu davranış #21 ile main'e alındı (`dcde744961d914a7a4c1f555939fe55aad11f8cf`) ve kullanıcı temel telefon akışını doğruladı.
 
 ### 9.5 Kaydedilenler sırası — Kararlaştırıldı
 
 Kaydedilenler ekranı içerik türüne göre ayrı gruplara bölünmez. Mekân, plan, etkinlik, fikir ve Ankara 101 kayıtları tek akışta gösterilir; en son kaydedilen içerik en üsttedir. Kayıttan çıkarılıp yeniden eklenen içerik tekrar en üste gelir.
 
-### 9.6 N’apsak planını haritada açma — Kararlaştırıldı
+### 9.6 Planı haritada açma — Kararlaştırıldı
 
-N’apsak planlarında katalogdaki koordinatlar kullanılarak Google Maps bağlantısı sunulur. İki veya daha fazla durakta sıralı başlangıç, ara duraklar ve bitiş yürüyüş rotası açılır. Tek duraklı planda yanıltıcı rota yerine o nokta haritada açılır. Boş veya geçersiz koordinatlı plan için bozuk bağlantı üretilmez; kullanıcıya güvenli hata mesajı gösterilir. Davranış ana sonuç kartı, Kaydedilenler ve plan detayında tutarlı olmalıdır.
+Planlarda katalogdaki koordinatlar kullanılarak Google Maps bağlantısı sunulur. İki veya daha fazla durakta sıralı başlangıç, ara duraklar ve bitiş yürüyüş rotası açılır. Tek duraklı planda yanıltıcı rota yerine o nokta haritada açılır. Boş veya geçersiz koordinatlı plan için bozuk bağlantı üretilmez; kullanıcıya güvenli hata mesajı gösterilir. Davranış ana sonuç kartı, Kaydedilenler ve plan detayında tutarlı olmalıdır.
 
 ## 10. Teknik ve veri ilkeleri
 

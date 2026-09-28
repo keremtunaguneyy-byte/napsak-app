@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "N'apsak?",
+    "name": "Gezek",
     "slug": "napsak-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,7 @@
       "bundleIdentifier": "com.getnapsak",
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "N'apsak, yakındaki önerileri sıralamak için konumunu kullanır."
+        "NSLocationWhenInUseUsageDescription": "Gezek, yakındaki önerileri sıralamak için konumunu kullanır."
       }
     },
     "android": {
@@ -30,7 +30,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "N'apsak, yakındaki önerileri sıralamak için konumunu kullanır."
+          "locationWhenInUsePermission": "Gezek, yakındaki önerileri sıralamak için konumunu kullanır."
         }
       ],
       "@sentry/react-native/expo"

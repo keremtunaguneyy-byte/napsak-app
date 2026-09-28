@@ -90,10 +90,16 @@ test('missing, unsupported and mismatched runtime identity fail closed', () => {
   }), /conflicts/);
 });
 
-test('Expo app, package, bundle and active EAS project identities are fixed', () => {
+test('Gezek display name and preserved technical identities are fixed', () => {
+  assert.equal(app.expo.name, 'Gezek');
+  assert.equal(app.expo.slug, 'napsak-app');
+  assert.equal(app.expo.owner, 'napsaks-team');
   assert.equal(app.expo.android.package, 'com.getnapsak');
   assert.equal(app.expo.ios.bundleIdentifier, 'com.getnapsak');
   assert.equal(app.expo.extra.eas.projectId, 'af043dd8-412f-403e-81c3-6e0af8e024d6');
+  assert.throws(() => validateBuildConfiguration({ ...app, expo: {
+    ...app.expo, name: "N'apsak?",
+  } }, eas, 'preview', {}), /identity/);
   assert.throws(() => validateBuildConfiguration({ ...app, expo: {
     ...app.expo, android: { package: 'com.other' },
   } }, eas, 'preview', {}), /identity/);

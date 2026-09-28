@@ -1,4 +1,4 @@
-# N’apsak hata gözlemi runbook
+# Gezek hata gözlemi runbook
 
 ## Amaç
 

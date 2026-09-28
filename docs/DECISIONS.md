@@ -1,6 +1,10 @@
-# N’apsak — Yeni karar kayıtları
+# Gezek — Yeni karar kayıtları
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
+
+## 2026-09-28 — Kamuya açık ürün adı Gezek
+
+Durum: Kullanıcı tarafından onaylandı; adlandırma temeli bu dalda uygulandı. Önceki çalışma adı N’apsak'tı. Sonuç sekmesinin görünen adı Planlar'dır. Eski marka yazımına ve logo fikrine ilişkin tarihsel kararlar bu yeni kararla geçersiz kılınır; geçmiş kayıtlar korunur. Teknik kimliklerin korunma gerekçeleri ve ilerideki dağıtım kararı `BRAND_RENAME.md` içindedir. Sonraki aşama görsel tasarımın tamamlanmasıdır.
 
 ## 2026-09-24 — Yerel tercihler v5 anahtarında yakınsar
 

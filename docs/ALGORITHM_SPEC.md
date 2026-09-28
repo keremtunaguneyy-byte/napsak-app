@@ -1,4 +1,4 @@
-# N’apsak — Öneri ve İçerik Sözleşmesi
+# Gezek — Öneri ve İçerik Sözleşmesi
 
 16 Eylül 2026. Kod dayanağı: src/contentPolicy.ts, src/recommendations.ts, src/recommendationQuality.ts, src/domain.ts, src/resultFilters.ts, src/data/* ve tests/domain.test.cjs. Ürün ilkeleri PRODUCT_SPEC §4–8. Bu belge yeni algoritma uygulamaz.
 

@@ -49,12 +49,12 @@ export function validateBuildConfiguration(
   environment: Environment,
 ): { profile: ProfileName; runtime: string; mode: string } {
   const expo = app.expo;
-  if (expo?.name !== "N'apsak?" || expo.slug !== 'napsak-app' || expo.owner !== 'napsaks-team'
+  if (expo?.name !== 'Gezek' || expo.slug !== 'napsak-app' || expo.owner !== 'napsaks-team'
     || expo.android?.package !== 'com.getnapsak' || expo.ios?.bundleIdentifier !== 'com.getnapsak') {
-    throw new Error('Expo application identity does not match the approved N’apsak identity.');
+    throw new Error('Expo application identity does not match the approved Gezek display name and preserved technical identity.');
   }
   if (expo.extra?.eas?.projectId !== PROJECT_ID) {
-    throw new Error('Expo EAS project ID does not match the active N’apsak project.');
+    throw new Error('Expo EAS project ID does not match the active project.');
   }
   if (eas.cli?.appVersionSource !== 'remote') throw new Error('EAS remote version source is required.');
 

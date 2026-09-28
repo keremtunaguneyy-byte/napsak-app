@@ -1,4 +1,4 @@
-# N’apsak ürün analitiği sözleşmesi
+# Gezek ürün analitiği sözleşmesi
 
 ## Durum
 

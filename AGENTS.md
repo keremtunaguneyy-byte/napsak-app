@@ -1,4 +1,4 @@
-# N’apsak Agent Instructions
+# Gezek Agent Instructions
 
 ## 1. Source of truth
 
@@ -32,8 +32,8 @@ Task-specific references:
 
 Unless a task explicitly requires and approves the change, do not silently change:
 
-- N’apsak’s recommendation-first product direction
-- The Experience / N’apsak, Mekân, Etkinlik, and Fikir content separation
+- Gezek’s recommendation-first product direction
+- The Experience / Planlar, Mekân, Etkinlik, and Fikir content separation
 - Ankara 101 as a separate editorial surface
 - Eligibility-before-ranking behavior
 - Dismissed-before-scoring behavior
