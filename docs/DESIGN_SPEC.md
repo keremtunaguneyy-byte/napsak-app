@@ -10,9 +10,17 @@ Ana sayfanın beğenilen omurgası: üstte görünür/düzenlenebilir tercihler;
 
 İçerik seçici Planlar / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
 
-## Renk ve logo — henüz açık
+## Gezek UI foundation — 1 Ekim 2026 onaylı
 
-Kullanıcı N'nin sağında soru işareti bulunan eski logo fikrini beğendi. Mor/turuncu renklerini seçmiş değildir. Renkleri tasarımcı gerekçeli biçimde önermelidir. Son geniş görsel seti genel olarak beğenilmedi; eski asistan finalist önerileri kullanıcı onayı sayılmaz.
+Gezek UI uygulama kaynağı olarak `Gezek_UI_Handoff_2026-10-01` paketi onaylandı. Home için genel görsel otorite `references/final-home/FINAL_HOME_FULL_REFERENCE.png`; ayrıntılı Home ekran görüntüleri tipografi, boşluk, kart hiyerarşisi ve keşif alanını tamamlar. `FINAL_HOME_ARTISTIC_SVG_ASSETS.zip` içindeki `_svg_5`, `_svg_7`, `_svg_8`, `_svg_9_1` ve `_svg_10_1` sırasıyla Home artistik header'ı, kompakt arch işareti ve Mekânlar / Etkinlikler / Fikir keşif görsellerinin final kaynağıdır. `_svg_9_2` ve `_svg_10_2` yinelenen kopyalardır.
+
+Onboarding davranış ve hareket otoritesi `ONBOARDING_FULL_REFERENCE.zip` içindeki yedi aşamalı akıştır; repository'deki onaylı ürün metni ve davranışı eski marka veya prototip kopyasının önüne geçer. Latest Home prototipi etkileşim referansıdır; web mimarisi, Tailwind/DOM yapısı ve geçici AIDA URL'leri production kaynağı değildir.
+
+Foundation tokenları `src/design/gezekTheme.ts` içinde tanımlıdır: sıcak canvas `#FAF9F5`, navy `#102452`, cobalt `#3F65FC`, yellow `#FFC21A`, mint `#DFF3E8`, lavender `#ECE9FF`, coral `#FFE2D9`, muted text `#6F7890`, border `#E2E8F0`; 20 px ekran inset'i, 8 px spacing tabanı, 22–24 px yüzey radius'u ve 44 px minimum dokunma hedefi. Yeni Gezek bileşenlerinin yazı ailesi Plus Jakarta Sans'tır. Bu kayıt foundation onayıdır; Home veya onboarding ekranının uygulandığı anlamına gelmez. Sıradaki görsel implementation adımı production Home'dur.
+
+## Önceki renk ve logo kaydı — 1 Ekim foundation kararıyla geçersiz kılındı
+
+Kullanıcı N'nin sağında soru işareti bulunan eski logo fikrini beğenmişti. Mor/turuncu renkleri seçilmemişti. Bu tarihsel açık palet/logo kaydı 1 Ekim 2026 Gezek UI handoff kararıyla görsel foundation için geçersiz kılındı; uygulama ikonu bu foundation PR'ının kapsamında değildir.
 
 6 Eylül tarihli diğer proje konuşmasında kullanıcı, seçilen birkaç logo geometrisi üzerinde 15–20 renk varyasyonu görebilmeyi istedi. Bu nedenle önceki devir belgesindeki “en fazla iki renk” kısıtı kullanıcı tercihi olarak dayatılmamalı. Düzen ve geometri sabitlenerek karşılaştırılabilir, düzenli bir renk panosu hazırlanabilir; kullanıcıdan renk teorisini çözmesi beklenmez. Kaç varyasyon üretileceği işin güncel talebine göre belirlenir.
 

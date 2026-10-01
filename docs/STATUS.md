@@ -1,5 +1,12 @@
 # Gezek — Durum ve sıradaki iş
 
+## Devam eden çalışma — Gezek UI foundation (1 Ekim 2026)
+
+- `codex/gezek-ui-foundation` dalı, fetch sonrası doğrulanan `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b` üzerinden açıldı.
+- Onaylı Gezek renk, spacing, radius, ekran inset'i, minimum dokunma hedefi ve Plus Jakarta Sans family sabitleri merkezi token katmanına alındı. Mevcut Source Sans 3 ve Cormorant Garamond kullanan ekranlar topluca değiştirilmedi.
+- Final artistik Home SVG'leri path, viewBox, oran ve renkleri korunarak beş typed native React Native component'e çevrildi; yinelenen `_svg_9_2` ve `_svg_10_2` için ayrı component üretilmedi.
+- Home, onboarding, Settings, Plan Detail, kategori ekranları, navigation, öneri davranışı ve katalog değiştirilmedi. Bu foundation cihaz veya production görsel kanıtı değildir; sonraki implementation adımı production Home PR'ıdır.
+
 ## Güncel marka kararı — 28 Eylül 2026
 
 Kamuya açık ürün adı **Gezek**; N’apsak önceki çalışma adıdır. Uygulama adı, görünen metinler ve sonuç sekmesi adı güncellendi; sonuç sekmesi **Planlar** olarak görünür. Teknik kimlikler ve geçmiş kayıtlar korunur. Kapsam ve sonraki bundle/store kararı `BRAND_RENAME.md` içindedir. Sıradaki aşama görsel tasarımın tamamlanmasıdır; bu değişiklik yeni özellik, bağlı beta veya release kanıtı sağlamaz.

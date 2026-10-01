@@ -2,6 +2,12 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-10-01 — Gezek UI foundation ve görsel kaynak otoritesi
+
+Durum: Kullanıcı tarafından onaylandı; `codex/gezek-ui-foundation` dalında foundation uygulanıyor, ekran veya cihaz görsel doğrulaması henüz yapılmadı.
+
+`Gezek_UI_Handoff_2026-10-01` paketi Gezek UI implementation kaynağıdır. Final Home PNG'leri genel ve ayrıntılı Home görsel otoritesi; final artistik SVG paketi header/arch ve üç keşif kartı görsel otoritesi; yedi aşamalı onboarding paketi onboarding etkileşim/hareket otoritesidir. Repository davranışı, veri sözleşmeleri ve onaylı ürün metni prototiplerin önünde kalır. Warm canvas ve onaylı marka renkleri, Plus Jakarta Sans, 20 px inset, 8 px spacing tabanı, 22–24 px yüzey radius'u ve 44 px minimum hedef foundation olarak sabitlenir. Bu karar Home veya onboarding implementasyonu değildir; sonraki adım production Home PR'ıdır. 6 Eylül tarihli açık palet/logo kaydının foundation renk kısmı bu kararla geçersiz kılınır; uygulama ikonu ayrıca kararlaştırılacaktır.
+
 ## 2026-09-28 — Kamuya açık ürün adı Gezek
 
 Durum: Kullanıcı tarafından onaylandı; adlandırma temeli bu dalda uygulandı. Önceki çalışma adı N’apsak'tı. Sonuç sekmesinin görünen adı Planlar'dır. Eski marka yazımına ve logo fikrine ilişkin tarihsel kararlar bu yeni kararla geçersiz kılınır; geçmiş kayıtlar korunur. Teknik kimliklerin korunma gerekçeleri ve ilerideki dağıtım kararı `BRAND_RENAME.md` içindedir. Sonraki aşama görsel tasarımın tamamlanmasıdır.
@@ -148,7 +154,7 @@ Durum: `codex/idea-expansion-batch-c` dalında uygulandı; PR/CI bekliyor.
 
 ## Açık kararlar
 
-- Ana sayfanın nihai paleti, logo çizimi ve tasarım tokenları.
+- Foundation dışında kalan nihai logo/uygulama ikonu kararı.
 - Etkinlik sağlayıcısının uzun vadede elle editoryal katalog mu yoksa onaylı bir API mı olacağı.
 - Gerçek development/production servis durumu ve bağımsız yedekleme düzeni.
 
