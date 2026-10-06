@@ -1,19 +1,18 @@
 # Gezek — Durum ve sıradaki iş
 
-## Devam eden çalışma — Production Home implementation (6 Ekim 2026)
+## Devam eden çalışma — Production Home / PR #67 uzlaştırması (6 Ekim 2026)
 
-- `codex/gezek-production-home` dalı, UI foundation commit'i `dc501332a21678d50f60088874ae6247f664efe0` üzerinden açıldı.
-- Onaylı Home yönü native React Native bileşenleriyle uygulandı: artistik header, canlı tercih özeti, eşit genişlikte `Gezek / Mekân / Etkinlik / Fikir` seçicisi, bir ana öneri, dört alternatif, kategoriye özel yenileme metni, keşif kartları ve Gezek alt navigasyonu.
-- Mevcut öneri motoru, konum, kaydetme, gizleme/geri alma, rotasyon, Ayarlar, Kaydedilenler ve Ankara 101 davranışları yeni Home görünümüne bağlandı; algoritma veya katalog değiştirilmedi.
-- Nihai logo kararı hâlâ açıktır. Geçici wordmark tek bir `GezekBrandMark` bileşeninde tutulur; final logo geldiğinde ekranları ayrı ayrı düzenlemek gerekmez.
-- TypeScript, otomatik test, kaynak erişilebilirlik kontrolü ve Android Expo exportu bu dalda doğrulanır. Bunlar gerçek cihaz görsel kabulü veya production yayını değildir; sıradaki adım Android Expo Go görsel/etkileşim testidir.
+- Canlı Git ve fetch sonrası `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b`, mevcut PR #67 head'i `dc501332a21678d50f60088874ae6247f664efe0` olarak doğrulandı; ilk worktree temizdi. Tam geçmiş taşıyan bundle head'i `75b2aeb93794a60a2b6505cb361f27bb7fb1d847` mevcut `codex/gezek-ui-foundation` dalına yalnız fast-forward ile alındı. Ayrı PR veya history rewrite yapılmadı.
+- Canlı Figma Final Review `288:3`, Home `7:2 / 7:129 / 7:245`, Components `3:2` ve Onboarding `31:2` incelendi; daha yeni onaylı Home kaynağı bulunmadı. Güncel otorite ve uygulama sözleşmesi `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir.
+- Native Home canlı tercih özeti, kategori renkleri/simgeleri, bir ana ve dört dikey alternatif, ana eylem yanında kaydetme, yenileme, keşif ve alt gezinme ile uzlaştırıldı. Eski Fikir çizimi güncel K0 artwork ile değiştirildi. Fotoğraf lisansları doğrulanamadığı için iki fotoğraf kaldırıldı; kullanıcı 6 Ekim'de mevcut kategori artwork'ünü geçici no-photo fallback olarak açıkça onayladı.
+- Öneri motoru, katalog, konum, kaydetme/gizleme/geri alma, rotasyon, Ayarlar, Kaydedilenler, Ankara 101, internal/external eylemler ve persistence sınırları korunur. Gerçek sonuç yoksa sahte kart/etkinlik eklenmez. Offline embedded/local kullanım korunur; yeni connectivity sinyali üretilmez.
+- TypeScript, regression testleri, Home'u da kapsayan accessibility source check ve Android Expo export yerel olarak doğrulanır. Gerçek native bileşenlerin geçici React Native Web önizlemeleri 412 × 915 ile uzun metin, uzun scroll, dört filtre, loading ve fotoğrafsız fallback'i inceler; callback bağlantıları ve küçük ekran ayrıca kontrol edilir. Bu kanıt Android cihaz, TalkBack veya production kabulü değildir.
+- Nihai logo/uygulama ikonu hâlâ açıktır; geçici wordmark tek `GezekBrandMark` bileşenindedir. Redmi 14 / Expo Go görsel ve etkileşim kabulü bekleniyor. PR #67 `Implement Gezek production Home` başlığıyla Draft kalmalı ve merge edilmemelidir.
 
-## Devam eden çalışma — Gezek UI foundation (1 Ekim 2026)
+## Tarihsel Gezek UI foundation — 1 Ekim 2026
 
-- `codex/gezek-ui-foundation` dalı, fetch sonrası doğrulanan `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b` üzerinden açıldı.
-- Onaylı Gezek renk, spacing, radius, ekran inset'i, minimum dokunma hedefi ve Plus Jakarta Sans family sabitleri merkezi token katmanına alındı. Mevcut Source Sans 3 ve Cormorant Garamond kullanan ekranlar topluca değiştirilmedi.
-- Final artistik Home SVG'leri path, viewBox, oran ve renkleri korunarak beş typed native React Native component'e çevrildi; yinelenen `_svg_9_2` ve `_svg_10_2` için ayrı component üretilmedi.
-- Home, onboarding, Settings, Plan Detail, kategori ekranları, navigation, öneri davranışı ve katalog değiştirilmedi. Bu foundation cihaz veya production görsel kanıtı değildir; sonraki implementation adımı production Home PR'ıdır.
+- `codex/gezek-ui-foundation`, `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b` üzerinden açılmıştı. Foundation commit'i `dc501332` renk/font tokenları ve eski beş SVG component'ini getirdi; Home implementasyonu veya cihaz kabulü değildi.
+- Home için 1 Ekim PNG/SVG otoritesi, eski Fikir artwork'ü ve ayrı production Home PR planı 6 Ekim canlı Figma uzlaştırmasıyla geçersiz kılındı. Source Sans 3/Cormorant Garamond kullanan diğer ekranlar ve Ankara 101 bu işte topluca değiştirilmedi.
 
 ## Güncel marka kararı — 28 Eylül 2026
 

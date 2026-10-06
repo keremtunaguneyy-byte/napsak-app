@@ -14,9 +14,9 @@ import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePrefe
 import { Coordinates, dismissId, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
 import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
-import { GEZEK_COLORS, GEZEK_FONT_FAMILIES } from './src/design/gezekTheme';
+import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
 import { PlaceDetails } from './src/components/PlaceDetails';
-import { GezekBottomNavigation, GezekHome } from './src/components/gezek';
+import { GezekBottomNavigation, GezekBrandMark, GezekHome, GezekHomeLoading } from './src/components/gezek';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
@@ -483,7 +483,8 @@ function AppContent() {
   };
 
 
-  if (!hydrated || (!fontsLoaded && !fontError)) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading]}><StatusBar style="light" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={c.lime} size="large" /><Text accessibilityLiveRegion="polite" style={s.loadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
+  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekSafe]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage]}><GezekBrandMark /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView>;
+  if (!hydrated || (!fontsLoaded && !fontError)) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekSafe]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
 
   const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : step === 'duration' ? '06' : '07';
   const isGuideArticle = step === 'guides' && guideView !== 'landing';
@@ -542,14 +543,14 @@ function AppContent() {
         locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
         lastDismissed={lastDismissed} hiddenCount={hiddenItems.length}
         onSettings={() => setStep('settings')}
-        onEditPreferences={() => { setContextRefreshDue(false); setStep('mood'); }}
+        onEditPreferences={() => { if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } }); setContextRefreshDue(false); setStep('mood'); }}
         onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
         onUndoDismiss={() => { if (lastDismissed) restorePlace(lastDismissed); setLastDismissed(undefined); }}
         onOpenRecommendation={openRecommendation}
         onToggleSaved={(item, rank) => toggleSaved(item.id, item.kind, rank)}
         onDismiss={(item, rank) => dismissPlace(item.id, item.kind, rank)}
         onRotate={rotateRecommendations} onShowHidden={() => setStep('hidden')} onReset={reset}
-        onRecommendationsLayout={y => { recommendationsY.current = y; }}
+        onRecommendationsLayout={y => { recommendationsY.current = y + GEZEK_LAYOUT.homeTopInset; }}
       />}
       {step === 'guides' && guideView === 'landing' && <Ankara101Landing guides={featuredGuides} chapterCount={guideMetadata.chapterCount} totalMinutes={guideMetadata.totalReadMinutes} route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenClassics={() => setGuideView('classics')} onOpenGuide={openGuideChapter} onOpenInsider={() => setGuideView('insider')} />}
       {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={guideMetadata.totalReadMinutes} saved={saved} contentsOpen={guideContentsOpen} onToggleContents={() => setGuideContentsOpen(open => !open)} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y, node) => { guideAnchors.current[id] = y; guideNodes.current[id] = node; if (pendingGuideId === id) requestAnimationFrame(() => focusGuideChapter(id)); }} onOpenContents={openGuideChapter} />}
@@ -723,7 +724,8 @@ function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceD
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
-  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: 20, paddingTop: 4 },
+  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
+  gezekLoadingText: { color: GEZEK_COLORS.mutedText, fontFamily: GEZEK_FONT_FAMILIES.regular, fontSize: 11, lineHeight: 16 },
   readingProgressTrack: { height: 3, backgroundColor: '#352F29', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#8F2938' },
   guideLandingPage: { paddingHorizontal: 18, paddingBottom: 24 }, guideArticlePage: { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 0 },
   editorialTopBar: { minHeight: 61, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0E100E' }, editorialTopAction: { width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center' }, editorialBack: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_400Regular', fontSize: 46, lineHeight: 48 }, editorialTopTitle: { flex: 1, color: '#F2E7CF', fontFamily: 'SourceSans3_600SemiBold', fontSize: 12, letterSpacing: 1.8, textAlign: 'center' }, editorialTopActions: { flexDirection: 'row', alignItems: 'center' }, editorialContentsAction: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 7 }, editorialContentsActionText: { color: '#D8C8AB', fontFamily: 'SourceSans3_700Bold', fontSize: 10 }, editorialBookmark: { color: '#F2E7CF', fontFamily: 'SourceSans3_400Regular', fontSize: 27 }, editorialBookmarkSaved: { color: '#A73343' },

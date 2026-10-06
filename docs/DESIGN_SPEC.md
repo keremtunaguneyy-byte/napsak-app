@@ -6,17 +6,23 @@
 
 Gezek kararsızlığı uygulanabilir mikro plana dönüştürür. Samimi, eğlenceli, yetişkinlere hitap eden bir uygulamadır. Harita uygulaması çağrışımı istenmiyor; logo için pin, pusula ve harita sembolü kullanılmamalı. Güncel marka yazımı Gezek’tir; önceki N’apsak? yazımı tarihsel tasarım kaydıdır.
 
-Ana sayfanın beğenilen omurgası: üstte görünür/düzenlenebilir tercihler; kompakt Bugünlük planın; aynı beşlinin kalan dört sonucunu gösteren 2×2 Diğer planlar. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
+Ana sayfanın güncel sözleşmesi [PRODUCTION_HOME_DESIGN_CONTRACT.md](PRODUCTION_HOME_DESIGN_CONTRACT.md) içindedir. Üstte görünür/düzenlenebilir tercihler, Bugünlük planın ve aynı beşlinin kalan dört sonucunu gösteren dikey alternatif kartları kullanılır. Önceki 2×2 görünüm tarihsel kayıttır. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
 
 İçerik seçici Gezek / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. `Gezek`, teknik olarak mevcut `experience` filtresini ve kürate edilmiş Gezek planlarını temsil eder; algoritma türü yeniden adlandırılmaz. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
 
-## Gezek UI foundation — 1 Ekim 2026 onaylı
+## Güncel Home otoritesi — 6 Ekim 2026
+
+Canlı Figma `yTdAWr92ETyurlQQHNNqpi`, Final Review `288:3`, Home `7:2 / 7:129 / 7:245` ve Components `3:2` incelendi. Görsel ayrıntılarda bu kaynaklar yetkilidir. Tek güncel sözleşme, açık logo ve Redmi 14 kabulü ile kullanıcının 6 Ekim'de onayladığı geçici fotoğrafsız fallback dahil, `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir. Eski Fikir çizimi ve lisansı doğrulanamayan iki Home fotoğrafı güncel uygulamadan çıkarıldı.
+
+## Tarihsel Gezek UI foundation — 1 Ekim 2026 onaylı
+
+Aşağıdaki devir kaydı tarihsel olarak korunur. Home PNG/artwork otoritesi ve ayrı production Home PR planı 6 Ekim canlı Figma uzlaştırmasıyla geçersiz kılınmıştır; onboarding bu işte uygulanmadı.
 
 Gezek UI uygulama kaynağı olarak `Gezek_UI_Handoff_2026-10-01` paketi onaylandı. Home için genel görsel otorite `references/final-home/FINAL_HOME_FULL_REFERENCE.png`; ayrıntılı Home ekran görüntüleri tipografi, boşluk, kart hiyerarşisi ve keşif alanını tamamlar. `FINAL_HOME_ARTISTIC_SVG_ASSETS.zip` içindeki `_svg_5`, `_svg_7`, `_svg_8`, `_svg_9_1` ve `_svg_10_1` sırasıyla Home artistik header'ı, kompakt arch işareti ve Mekânlar / Etkinlikler / Fikir keşif görsellerinin final kaynağıdır. `_svg_9_2` ve `_svg_10_2` yinelenen kopyalardır.
 
 Onboarding davranış ve hareket otoritesi `ONBOARDING_FULL_REFERENCE.zip` içindeki yedi aşamalı akıştır; repository'deki onaylı ürün metni ve davranışı eski marka veya prototip kopyasının önüne geçer. Latest Home prototipi etkileşim referansıdır; web mimarisi, Tailwind/DOM yapısı ve geçici AIDA URL'leri production kaynağı değildir.
 
-Foundation tokenları `src/design/gezekTheme.ts` içinde tanımlıdır: sıcak canvas `#FAF9F5`, navy `#102452`, cobalt `#3F65FC`, yellow `#FFC21A`, mint `#DFF3E8`, lavender `#ECE9FF`, coral `#FFE2D9`, muted text `#6F7890`, border `#E2E8F0`; 20 px ekran inset'i, 8 px spacing tabanı, 22–24 px yüzey radius'u ve 44 px minimum dokunma hedefi. Yeni Gezek bileşenlerinin yazı ailesi Plus Jakarta Sans'tır. Production Home bu foundation üzerinde ayrı dalda uygulanır; onboarding sonraki görsel implementation adımıdır.
+Foundation renkleri ve Plus Jakarta Sans `src/design/gezekTheme.ts` içinde korunur; Home'un güncel type ramp, 12 px section boşluğu, image radius ve geometri değerleri canlı Figma sözleşmesiyle tamamlandı. Production Home mevcut PR #67 içinde uygulanır. Diğer ekranlardaki Source Sans 3/Cormorant Garamond kullanımı bu işte değiştirilmedi.
 
 ## Önceki renk ve logo kaydı — 1 Ekim foundation kararıyla geçersiz kılındı
 

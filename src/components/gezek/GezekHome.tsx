@@ -1,27 +1,32 @@
-import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Svg, { Circle, Path, Rect } from 'react-native-svg';
-import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT, GEZEK_RADII } from '../../design/gezekTheme';
-import { formatDurationRange } from '../../domain';
+import { Component, ErrorInfo, ReactNode, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT as L,
+  GEZEK_RADII as R, GEZEK_SPACING as S, GEZEK_SURFACE_SHADOW as shadow, GEZEK_TYPE as T,
+} from '../../design/gezekTheme';
+import { captureOperationalError } from '../../observability';
 import { RecommendationItem } from '../../recommendations';
 import { ResultFilter } from '../../resultFilters';
 import { BudgetPreference, DurationPreference, GroupSizePreference, Interest, Mood } from '../../types';
-import { GezekEventsArtwork, GezekHomeHeaderArtwork, GezekIdeasArtwork, GezekPlacesArtwork } from './GezekArtwork';
+import { GezekAsset, GezekAssetName } from './GezekArtwork';
 import { GezekBrandMark } from './GezekBrandMark';
+import { homeActionLabel, homeIllustration, homeItemMeta, homeItemTitle, homePhoto } from './gezekHomePresentation';
 
-const MAIN_PHOTO = require('../../../assets/gezek/home-main.jpeg');
-const HAMAMONU_PHOTO = require('../../../assets/gezek/home-alternative-hamamonu.jpeg');
-const tabs: readonly { value: ResultFilter; label: string }[] = [
-  { value: 'experience', label: 'Gezek' }, { value: 'place', label: 'Mekân' },
-  { value: 'event', label: 'Etkinlik' }, { value: 'idea', label: 'Fikir' },
+const RADAR = require('../../../assets/gezek/home-loading-radar.png');
+const tabs: readonly { value: ResultFilter; label: string; color: string }[] = [
+  { value: 'experience', label: 'Gezek', color: C.cobalt },
+  { value: 'place', label: 'Mekân', color: C.venue },
+  { value: 'event', label: 'Etkinlik', color: C.event },
+  { value: 'idea', label: 'Fikir', color: C.yellow },
 ];
 const copy: Record<ResultFilter, { main: string; alternatives: string; refresh: string }> = {
   experience: { main: 'Bugünlük planın', alternatives: 'Alternatif planlar', refresh: 'Başka planlar göster' },
-  place: { main: 'Sana yakın bir mekân', alternatives: 'Diğer mekânlar', refresh: 'Başka mekânlar göster' },
+  place: { main: 'Bugünlük mekânın', alternatives: 'Diğer mekânlar', refresh: 'Başka mekânlar göster' },
   event: { main: 'Bugünün etkinliği', alternatives: 'Diğer etkinlikler', refresh: 'Başka etkinlikler göster' },
   idea: { main: 'Bugünün fikri', alternatives: 'Diğer fikirler', refresh: 'Başka fikirler göster' },
 };
 
-type Props = {
+export type GezekHomeProps = {
   mood?: Mood; interests: Interest[]; budget: BudgetPreference; groupSize?: GroupSizePreference; duration: DurationPreference;
   results: RecommendationItem[]; savedIds: string[]; selectedFilter: ResultFilter; contextRefreshDue: boolean;
   locating: boolean; hasCoordinates: boolean; locationMessage: string; lastDismissed?: string; hiddenCount: number;
@@ -32,76 +37,315 @@ type Props = {
   onReset: () => void; onRecommendationsLayout: (y: number) => void;
 };
 
-export function GezekHome(p: Props) {
+export function GezekHome(props: GezekHomeProps) {
+  return <HomeBoundary onEdit={props.onEditPreferences}><HomeContent {...props} /></HomeBoundary>;
+}
+
+function HomeContent(p: GezekHomeProps) {
+  const [contentWidth, setContentWidth] = useState(353);
   const [main, ...alternatives] = p.results;
   const labels = copy[p.selectedFilter];
-  const preference = [p.mood, p.interests.length ? p.interests.join(', ') : 'Her şeye açığım', p.budget, p.groupSize ?? 'Kişi sayısı yok', p.duration].filter(Boolean).join(' · ');
-  return <View style={s.screen}>
-    <View pointerEvents="none" style={s.headerArt}><GezekHomeHeaderArtwork height={360} width="100%" /></View>
-    <View style={s.top}><GezekBrandMark /><TouchableOpacity accessibilityLabel="Ayarları aç" accessibilityRole="button" onPress={p.onSettings} style={s.settings}><Settings /></TouchableOpacity></View>
-    <View style={s.intro}><Text style={s.eyebrow}>SANA GÖRE</Text><Text accessibilityRole="header" style={s.title}>Bugün bunlar olur.</Text><Text style={s.subtitle}>Moduna, ilgi alanlarına ve gününün ritmine göre sıraladık.</Text></View>
-    <View style={s.preference}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>BUGÜNKÜ TERCİHLERİN</Text><Text numberOfLines={2} style={s.preferenceText}>{preference}</Text></View><TouchableOpacity accessibilityLabel="Tercihleri düzenle" accessibilityRole="button" onPress={p.onEditPreferences} style={s.editHit}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
-    {p.contextRefreshDue && <View accessibilityRole="summary" style={s.context}><View style={s.contextCopy}><Text style={s.contextTitle}>Tercihlerin hâlâ aynı mı?</Text><Text style={s.contextText}>Günün değiştiyse güncelleyebilirsin.</Text></View><TouchableOpacity accessibilityRole="button" onPress={p.onConfirmContext} style={s.contextAction}><Text style={s.contextActionText}>Aynı, devam et</Text></TouchableOpacity></View>}
-    <View accessibilityRole="tablist" style={s.tabs}>{tabs.map(tab => { const selected = p.selectedFilter === tab.value; return <TouchableOpacity key={tab.value} accessibilityLabel={`${tab.label} önerileri`} accessibilityRole="tab" accessibilityState={{ selected }} onPress={() => p.onSelectFilter(tab.value)} style={[s.tab, selected && s.tabSelected]}><CategoryIcon filter={tab.value} selected={selected} /><Text numberOfLines={1} style={[s.tabText, selected && s.tabTextSelected]}>{tab.label}</Text></TouchableOpacity>; })}</View>
-    <TouchableOpacity accessibilityLabel={p.hasCoordinates ? 'Konumu yeniden güncelle' : 'Konum izni iste'} accessibilityRole="button" accessibilityState={{ busy: p.locating, disabled: p.locating }} disabled={p.locating} onPress={p.onRequestLocation} style={[s.location, p.locating && s.disabled]}><Location active={p.hasCoordinates} /><Text numberOfLines={2} style={s.locationText}>{p.locating ? 'Konumun bulunuyor…' : p.locationMessage}</Text><Text style={s.locationArrow}>›</Text></TouchableOpacity>
-    {p.lastDismissed && <View accessibilityLiveRegion="polite" style={s.undo}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" onPress={p.onUndoDismiss} style={s.undoHit}><Text style={s.undoAction}>Geri al</Text></TouchableOpacity></View>}
-    <View onLayout={e => p.onRecommendationsLayout(e.nativeEvent.layout.y)}>
-      {main && <><Heading title={labels.main} /><MainCard item={main} saved={p.savedIds.includes(main.id)} onOpen={() => p.onOpenRecommendation(main)} onSave={() => p.onToggleSaved(main, 1)} onDismiss={() => p.onDismiss(main, 1)} /></>}
-      {!!alternatives.length && <><Heading title={labels.alternatives} />{alternatives.slice(0, 4).map((item, i) => <Alternative key={item.id} item={item} rank={i + 2} onOpen={() => p.onOpenRecommendation(item)} />)}</>}
-      {!p.results.length && <View style={s.empty}><View style={s.emptyIcon}><CategoryIcon filter={p.selectedFilter} selected /></View><Text accessibilityRole="header" style={s.emptyTitle}>{p.selectedFilter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text><Text style={s.emptyText}>{p.selectedFilter === 'event' ? 'Doğrulanan yeni tarihler burada görünecek.' : 'Gizlediklerini geri getirip yeniden bakabilirsin.'}</Text></View>}
+  const preference = [
+    p.mood, p.interests.length ? p.interests.join(' + ') : 'Her şeye açığım',
+    p.duration, p.budget === 'Ücretsiz' ? 'Bedava' : p.budget, p.groupSize,
+  ].filter(Boolean).join(' · ');
+  return <View onLayout={event => setContentWidth(event.nativeEvent.layout.width)} style={s.screen}>
+    <HomeAtmosphere width={contentWidth + 2 * L.screenHorizontalInset} />
+    <View style={s.top}>
+      <GezekBrandMark />
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}>
+        <GezekAsset name="settings" />
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity accessibilityLabel={labels.refresh} accessibilityRole="button" onPress={p.onRotate} style={s.refresh}><Refresh /><Text style={s.refreshText}>{labels.refresh}</Text><View style={s.yellowDot} /></TouchableOpacity>
-    <View style={s.discovery}><Text accessibilityRole="header" style={s.discoveryTitle}>Başka neye bakalım?</Text><View style={s.discoveryGrid}><Discovery filter="place" label="Mekân" onPress={() => p.onSelectFilter('place')} /><Discovery filter="event" label="Etkinlik" onPress={() => p.onSelectFilter('event')} /><Discovery filter="idea" label="Fikir" onPress={() => p.onSelectFilter('idea')} /></View></View>
-    <View style={s.utilities}><TouchableOpacity accessibilityRole="button" onPress={p.onShowHidden} style={s.utility}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" onPress={p.onReset} style={s.utility}><Text style={s.utilityText}>Baştan başla</Text></TouchableOpacity></View>
+    <View style={s.intro}>
+      <Text style={s.eyebrow}>SANA GÖRE</Text>
+      <Text accessibilityRole="header" style={s.title}>Bugün bunlar olur.</Text>
+      <Text style={s.bodyMuted}>Ruh hâline, vaktine ve bütçene göre seçtik.</Text>
+    </View>
+    <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Bugünkü tercihler: ${preference}. Tercihleri düzenle`} onPress={p.onEditPreferences} style={s.preference}>
+      <View style={s.preferenceIcon}><GezekAsset name="preferences" /></View>
+      <Text style={s.preferenceText}>{preference}</Text>
+      <Text style={s.edit}>Düzenle</Text>
+    </TouchableOpacity>
+    {p.contextRefreshDue && <View accessibilityRole="summary" style={s.context}>
+      <View style={s.flex}><Text style={s.label}>Tercihlerin hâlâ aynı mı?</Text><Text style={s.bodyMuted}>Günün değiştiyse güncelleyebilirsin.</Text></View>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Aynı tercihlerle devam et" onPress={p.onConfirmContext} style={s.contextAction}><Text style={s.edit}>Aynı, devam et</Text></TouchableOpacity>
+    </View>}
+    <View accessibilityRole="tablist" style={s.tabs}>
+      {tabs.map(tab => {
+        const selected = p.selectedFilter === tab.value;
+        return <TouchableOpacity key={tab.value} accessibilityRole="tab" accessibilityLabel={`${tab.label} önerileri`} accessibilityState={{ selected }}
+          onPress={() => p.onSelectFilter(tab.value)} style={[s.tab, selected && { backgroundColor: tab.color }]}>
+          <CategoryIcon filter={tab.value} selected={selected} />
+          <Text style={[s.tabText, selected && tab.value !== 'idea' && s.inverseText]}>{tab.label}</Text>
+        </TouchableOpacity>;
+      })}
+    </View>
+    {(!p.hasCoordinates || p.locating) && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konum izni iste"
+      accessibilityState={{ busy: p.locating, disabled: p.locating }} disabled={p.locating} onPress={p.onRequestLocation} style={[s.location, p.locating && s.disabled]}>
+      <GezekAsset name="locationOff" /><Text style={s.noticeText}>{p.locating ? 'Konumun bulunuyor…' : p.locationMessage}</Text><Text style={s.edit}>Aç</Text>
+    </TouchableOpacity>}
+    {p.lastDismissed && <View accessibilityLiveRegion="polite" style={s.undo}>
+      <Text style={s.undoText}>Öneri gizlendi.</Text>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Son gizlenen öneriyi geri al" onPress={p.onUndoDismiss} style={s.utilityHit}><Text style={s.undoAction}>Geri al</Text></TouchableOpacity>
+    </View>}
+    <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
+      <Heading title={labels.main} />
+      {main ? <MainCard item={main} saved={p.savedIds.includes(main.id)} onOpen={() => p.onOpenRecommendation(main)}
+        onSave={() => p.onToggleSaved(main, 1)} onDismiss={() => p.onDismiss(main, 1)} /> :
+        <EmptyCard filter={p.selectedFilter} onEdit={p.onEditPreferences} onHidden={p.onShowHidden} />}
+      {!!alternatives.length && <>
+        <Heading title={labels.alternatives} />
+        <View style={s.alternativeList}>{alternatives.slice(0, 4).map((item, i) =>
+          <Alternative key={item.id} item={item} rank={i + 2} onOpen={() => p.onOpenRecommendation(item)} />)}</View>
+      </>}
+      {main && !alternatives.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Alternatif bulmak için tercihleri düzenle" onPress={p.onEditPreferences} style={s.exhausted}>
+        <GezekAsset name="alternativesNotice" /><Text style={s.noticeText}>Başka uygun alternatif bulunamadı.</Text><Text style={s.edit}>Düzenle</Text>
+      </TouchableOpacity>}
+    </View>
+    <TouchableOpacity accessibilityRole="button" accessibilityLabel={labels.refresh} onPress={p.onRotate} style={s.refresh}>
+      <View accessible={false} style={s.markerSpacer} /><Text style={s.refreshText}>{labels.refresh}</Text>
+      <View style={s.yellowMarker}><GezekAsset name="refresh" /></View>
+    </TouchableOpacity>
+    <View style={s.discovery}>
+      <View accessible={false} pointerEvents="none" style={s.lowerAtmosphere}><GezekAsset name="lowerRoute" /></View>
+      <Text accessibilityRole="header" style={s.sectionTitle}>Başka neye bakalım?</Text>
+      <View style={s.discoveryGrid}>
+        <Discovery filter="place" onPress={() => p.onSelectFilter('place')} />
+        <Discovery filter="event" onPress={() => p.onSelectFilter('event')} />
+        <Discovery filter="idea" onPress={() => p.onSelectFilter('idea')} />
+      </View>
+    </View>
+    <View style={s.utilities}>
+      {p.hasCoordinates && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konumu yeniden güncelle" onPress={p.onRequestLocation} style={s.utilityHit}><Text style={s.utilityText}>Konumu güncelle</Text></TouchableOpacity>}
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Gizlediğim ${p.hiddenCount} öneriyi göster`} onPress={p.onShowHidden} style={s.utilityHit}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Plan tercihlerini baştan seç" onPress={p.onReset} style={s.utilityHit}><Text style={s.utilityText}>Baştan başla</Text></TouchableOpacity>
+    </View>
+  </View>;
+}
+
+function HomeAtmosphere({ width }: { width: number }) {
+  const scale = width / 393;
+  const layers: { name: GezekAssetName; x: number; y: number }[] = [
+    { name: 'header', x: 0, y: 0 },
+    { name: 'lavenderAtmosphere', x: -118, y: 690 },
+    { name: 'mintAtmosphere', x: 300, y: 1010 },
+    { name: 'lavenderDetail', x: -114, y: 323 },
+    { name: 'coralDetail', x: 294, y: 544 },
+    { name: 'yellowDetail', x: 308, y: 648 },
+  ];
+  return <View accessible={false} pointerEvents="none" style={s.atmosphere}>
+    {layers.map(layer => <View key={layer.name} style={{ position: 'absolute', left: layer.x * scale, top: layer.y * scale }}>
+      <GezekAsset name={layer.name} scale={scale} />
+    </View>)}
+  </View>;
+}
+
+function MainCard({ item, saved, onOpen, onSave, onDismiss }: { item: RecommendationItem; saved: boolean; onOpen: () => void; onSave: () => void; onDismiss: () => void }) {
+  const title = homeItemTitle(item);
+  return <View style={s.mainCard}>
+    <RecommendationVisual item={item} large />
+    <Text accessibilityRole="header" style={s.mainTitle}>{title}</Text>
+    <Text style={s.bodyMuted}>{homeItemMeta(item)}</Text>
+    <View style={s.reason}><View style={s.reasonDot}><GezekAsset name="reasonDot" /></View><Text style={s.reasonText}>{item.reasons[0] ?? 'Gezek editörlerinin seçimi'}</Text></View>
+    <View style={s.actions}>
+      <PrimaryAction label={homeActionLabel(item)} accessibilityLabel={`${title}: ${homeActionLabel(item)}`} onPress={onOpen} flex />
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${title} ${saved ? 'önerisini kayıttan çıkar' : 'önerisini kaydet'}`}
+        accessibilityState={{ selected: saved }} onPress={onSave} style={[s.save, saved && s.saved]}>
+        <Text style={s.saveText}>{saved ? 'Kaydedildi' : 'Kaydet'}</Text>
+      </TouchableOpacity>
+    </View>
+    <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${title} önerisini gizle`} onPress={onDismiss} style={s.dismiss}><Text style={s.dismissText}>Bana göre değil</Text></TouchableOpacity>
+  </View>;
+}
+
+function Alternative({ item, rank, onOpen }: { item: RecommendationItem; rank: number; onOpen: () => void }) {
+  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${rank}. öneri: ${homeItemTitle(item)}. ${homeItemMeta(item)}. İncele`} onPress={onOpen} style={s.alternative}>
+    <RecommendationVisual item={item} />
+    <View style={s.altCopy}>
+      <Text style={s.altEyebrow}>{item.category.toLocaleUpperCase('tr-TR')}</Text>
+      <Text style={s.altTitle}>{homeItemTitle(item)}</Text>
+      <Text style={s.bodyMuted}>{homeItemMeta(item)}</Text>
+    </View>
+    <Text accessible={false} style={s.chevron}>›</Text>
+  </TouchableOpacity>;
+}
+
+function RecommendationVisual({ item, large = false }: { item: RecommendationItem; large?: boolean }) {
+  const photo = homePhoto(item.id);
+  const slot = large ? s.mainImage : s.altImage;
+  if (photo) return <Image accessible={false} source={photo} resizeMode="cover" style={slot} />;
+  const kind = homeIllustration(item);
+  return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[slot, s.fallback, { backgroundColor: pastel(kind) }]}>
+    {kind === 'neutral' ? <GezekBrandMark /> : <GezekAsset name={artwork(kind)} />}
+  </View>;
+}
+
+function Heading({ title }: { title: string }) {
+  return <Text accessibilityRole="header" style={s.heading}>{title}</Text>;
+}
+
+function CategoryIcon({ filter, selected = false }: { filter: ResultFilter; selected?: boolean }) {
+  const names: Record<ResultFilter, [GezekAssetName, GezekAssetName]> = {
+    experience: ['planIcon', 'planInverse'], place: ['venueIcon', 'venueInverse'],
+    event: ['eventIcon', 'eventInverse'], idea: ['ideaIcon', 'ideaInverse'],
+  };
+  return <GezekAsset name={names[filter][selected ? 1 : 0]} />;
+}
+
+function artwork(kind: 'place' | 'event' | 'idea'): GezekAssetName {
+  return kind === 'place' ? 'venueArtwork' : kind === 'event' ? 'eventArtwork' : 'ideaArtwork';
+}
+function pastel(kind: 'place' | 'event' | 'idea' | 'neutral'): string {
+  return kind === 'place' ? C.mint : kind === 'event' ? C.coral : kind === 'idea' ? C.lavender : C.blueWhisper;
+}
+
+function Discovery({ filter, onPress }: { filter: 'place' | 'event' | 'idea'; onPress: () => void }) {
+  const labels = { place: ['Mekânlar', 'Kahve, sanat ve şehir durakları'], event: ['Etkinlikler', 'Bugün ve bu hafta'], idea: ['Fikir', 'Küçük bir başlangıç'] };
+  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${labels[filter][0]} önerilerini keşfet`} onPress={onPress} style={[s.discoveryCard, { backgroundColor: pastel(filter) }]}>
+    <Text style={s.discoveryLabel}>{labels[filter][0]}</Text><Text style={s.discoveryCopy}>{labels[filter][1]}</Text>
+    <View style={s.discoveryArt}><GezekAsset name={artwork(filter)} /></View>
+  </TouchableOpacity>;
+}
+
+function PrimaryAction({ label, accessibilityLabel = label, onPress, flex = false }: { label: string; accessibilityLabel?: string; onPress: () => void; flex?: boolean }) {
+  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={accessibilityLabel} onPress={onPress} style={[s.primaryAction, flex && s.flex]}>
+    <View accessible={false} style={s.markerSpacer} /><Text style={s.primaryText}>{label}</Text>
+    <View style={s.yellowMarker}><GezekAsset name="chevron" /></View>
+  </TouchableOpacity>;
+}
+
+function EmptyCard({ filter, onEdit, onHidden }: { filter: ResultFilter; onEdit: () => void; onHidden: () => void }) {
+  return <View style={s.stateCard}>
+    <View style={s.stateIcon}><GezekAsset name="empty" /></View>
+    <Text accessibilityRole="header" style={s.stateTitle}>{filter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text>
+    <Text style={s.stateCopy}>{filter === 'event' ? 'Doğrulanan yeni tarihler burada görünecek.' : 'Tercihlerini güncelleyebilir veya gizlediklerini geri getirebilirsin.'}</Text>
+    <PrimaryAction label="Tercihleri düzenle" onPress={onEdit} />
+    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlenen önerileri göster" onPress={onHidden} style={s.secondaryAction}><Text style={s.saveText}>Gizlediklerini gör</Text></TouchableOpacity>
+  </View>;
+}
+
+class HomeBoundary extends Component<{ children: ReactNode; onEdit: () => void }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch(error: Error, _info: ErrorInfo) {
+    captureOperationalError(error, 'render', 'react_render_failed');
+  }
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return <View accessibilityRole="alert" style={s.stateCard}>
+      <View style={[s.stateIcon, { backgroundColor: C.coral }]}><GezekAsset name="error" /></View>
+      <Text accessibilityRole="header" style={s.stateTitle}>Bir şeyler ters gitti.</Text>
+      <Text style={s.stateCopy}>Planlarını şu an gösteremedik. Biraz sonra yeniden deneyelim.</Text>
+      <PrimaryAction label="Tekrar dene" onPress={() => this.setState({ failed: false })} />
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" onPress={this.props.onEdit} style={s.secondaryAction}><Text style={s.saveText}>Tercihleri düzenle</Text></TouchableOpacity>
+    </View>;
+  }
+}
+
+export function GezekHomeLoading() {
+  return <View accessibilityLabel="Öneriler hazırlanıyor" accessibilityState={{ busy: true }} accessibilityLiveRegion="polite" style={s.loadingCard}>
+    <View style={s.scanStatus}><GezekAsset name="scanSpinner" /><Text style={s.scanText}>Önerilerin hazırlanıyor</Text></View>
+    <View accessible={false} style={s.radar}>
+      <Image accessible={false} resizeMode="contain" source={RADAR} style={s.radarOuter} />
+      <View style={s.radarInner}><GezekAsset name="radarInner" /></View>
+      <View style={s.radarIcon}><GezekAsset name="radarIcon" /></View>
+      <View style={s.radarFocus}><GezekAsset name="radarFocus" /></View>
+    </View>
+    <View accessible={false} style={s.skeletonCopy}>
+      <View style={[s.skeletonBar, { width: '76%', height: 12 }]} /><View style={[s.skeletonBar, { width: '50%', height: 10 }]} />
+      <View style={s.skeletonChips}><View style={[s.skeletonBar, { width: 58 }]} /><View style={[s.skeletonBar, { width: 68 }]} /><View style={[s.skeletonBar, { width: 52, backgroundColor: C.mint }]} /></View>
+    </View>
+    <View accessible={false} style={s.skeletonReason}><GezekAsset name="skeletonDot" /><View style={[s.skeletonBar, s.flex, { height: 10, backgroundColor: C.success }]} /></View>
+    <View style={s.preparing}><GezekAsset name="preparingSpinner" /><Text style={s.preparingText}>Plan hazırlanıyor…</Text><GezekAsset name="preparingDot" /></View>
   </View>;
 }
 
 export function GezekBottomNavigation({ active, savedCount, onHome, onSaved, onGuides }: { active: 'home' | 'saved' | 'guides'; savedCount: number; onHome: () => void; onSaved: () => void; onGuides: () => void }) {
-  return <View accessibilityRole="tablist" style={s.bottom}><BottomTab active={active === 'home'} label="Ana Sayfa" onPress={onHome} type="home" /><BottomTab active={active === 'saved'} badge={savedCount} label="Kaydedilenler" onPress={onSaved} type="saved" /><BottomTab active={active === 'guides'} label="Ankara 101" onPress={onGuides} type="guide" /></View>;
+  const destinations: { id: 'home' | 'saved' | 'guides'; label: string; onPress: () => void; icons: [GezekAssetName, GezekAssetName] }[] = [
+    { id: 'home', label: 'Ana Sayfa', onPress: onHome, icons: ['homeInactive', 'homeActive'] },
+    { id: 'saved', label: 'Kaydedilenler', onPress: onSaved, icons: ['savedInactive', 'savedActive'] },
+    { id: 'guides', label: 'Ankara 101', onPress: onGuides, icons: ['guideInactive', 'guideActive'] },
+  ];
+  return <View accessibilityRole="tablist" style={s.bottom}>
+    {destinations.map(tab => <TouchableOpacity key={tab.id} accessibilityRole="tab" accessibilityLabel={tab.id === 'saved' ? `${tab.label}, ${savedCount} kayıt` : tab.label}
+      accessibilityState={{ selected: active === tab.id }} onPress={tab.onPress} style={s.bottomTab}>
+      <GezekAsset name={tab.icons[active === tab.id ? 1 : 0]} />
+      <Text style={[s.bottomLabel, active === tab.id && s.bottomActive]}>{tab.label}</Text>
+    </TouchableOpacity>)}
+  </View>;
 }
 
-function MainCard({ item, saved, onOpen, onSave, onDismiss }: { item: RecommendationItem; saved: boolean; onOpen: () => void; onSave: () => void; onDismiss: () => void }) {
-  const title = itemTitle(item);
-  return <View style={s.mainCard}><Visual item={item} large /><View style={s.mainBody}><Text accessibilityRole="header" style={s.mainTitle}>{title}</Text><Text style={s.meta}>{itemMeta(item)}</Text><View style={s.reason}><Text numberOfLines={2} style={s.reasonText}>{item.reasons[0] ?? 'Gezek editörlerinin bugünkü seçimi'}</Text></View><TouchableOpacity accessibilityRole="button" onPress={onOpen} style={s.mainAction}><Text style={s.mainActionText}>{actionLabel(item)}</Text><View style={s.actionIcon}><Chevron /></View></TouchableOpacity><TouchableOpacity accessibilityRole="button" accessibilityState={{ selected: saved }} onPress={onSave} style={[s.save, saved && s.saveSelected]}><Bookmark filled={saved} /><Text style={[s.saveText, saved && s.saveTextSelected]}>{saved ? 'Kaydedildi' : 'Kaydet'}</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" onPress={onDismiss} style={s.dismiss}><Text style={s.dismissText}>Bana göre değil</Text></TouchableOpacity></View></View>;
-}
-function Alternative({ item, rank, onOpen }: { item: RecommendationItem; rank: number; onOpen: () => void }) { return <TouchableOpacity accessibilityLabel={`${rank}. öneri: ${itemTitle(item)}`} accessibilityRole="button" onPress={onOpen} style={s.alternative}><Visual item={item} /><View style={s.altCopy}><Text numberOfLines={2} style={s.altTitle}>{itemTitle(item)}</Text><Text numberOfLines={2} style={s.altMeta}>{itemMeta(item)}</Text><Text numberOfLines={1} style={s.altReason}>{item.reasons[0] ?? 'Bugüne uygun'}</Text></View><Chevron color={C.cobalt} /></TouchableOpacity>; }
-function Visual({ item, large = false }: { item: RecommendationItem; large?: boolean }) { const image = itemImage(item); const style = large ? s.mainImage : s.altImage; return image ? <Image accessibilityLabel={`${itemTitle(item)} görseli`} resizeMode="cover" source={image} style={style} /> : <View style={[style, s.fallback, fallbackColor(item.kind)]}><Artwork kind={item.kind} large={large} /></View>; }
-function Heading({ title }: { title: string }) { return <View style={s.heading}><Text accessibilityRole="header" style={s.headingText}>{title}</Text><View style={s.headingDot} /></View>; }
-function Discovery({ filter, label, onPress }: { filter: Exclude<ResultFilter, 'experience'>; label: string; onPress: () => void }) { return <TouchableOpacity accessibilityRole="button" onPress={onPress} style={[s.discoveryCard, discoveryColor(filter)]}><Text style={s.discoveryLabel}>{label}</Text><View style={s.discoveryArt}><Artwork kind={filter} /></View><View style={s.discoveryArrow}><Chevron /></View></TouchableOpacity>; }
-function BottomTab({ active, badge, label, type, onPress }: { active: boolean; badge?: number; label: string; type: 'home' | 'saved' | 'guide'; onPress: () => void }) { return <TouchableOpacity accessibilityRole="tab" accessibilityState={{ selected: active }} onPress={onPress} style={s.bottomTab}><View><BottomIcon active={active} type={type} />{!!badge && <View style={s.badge}><Text style={s.badgeText}>{Math.min(badge, 99)}</Text></View>}</View><Text style={[s.bottomLabel, active && s.bottomActive]}>{label}</Text></TouchableOpacity>; }
-
-function itemTitle(i: RecommendationItem) { return i.kind === 'place' ? i.name : i.title; }
-function itemMeta(i: RecommendationItem) { if (i.kind === 'experience') return `${formatDurationRange(i.minDurationMinutes, i.maxDurationMinutes)} · ${i.points.length} durak · ${i.district}`; if (i.kind === 'place') return `${i.category} · ${i.distance === undefined ? i.district : `${i.distance.toFixed(1)} km · ${i.district}`}`; if (i.kind === 'event') return `${i.venue} · ${new Date(i.startsAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}`; return `${i.category} · ${'₺'.repeat(i.priceLevel) || 'Ücretsiz'}`; }
-function actionLabel(i: RecommendationItem) { return i.kind === 'experience' ? 'Planı incele' : i.kind === 'place' ? 'Mekânı incele' : i.kind === 'event' ? 'Etkinliği incele' : i.actionLabel ?? 'Fikri incele'; }
-function itemImage(i: RecommendationItem): ImageSourcePropType | undefined { const t = itemTitle(i).toLocaleLowerCase('tr-TR'); return t.includes('kuğulu') || t.includes('seğmenler') ? MAIN_PHOTO : t.includes('hamamönü') ? HAMAMONU_PHOTO : undefined; }
-function fallbackColor(k: RecommendationItem['kind']) { return k === 'place' ? s.placeBg : k === 'event' ? s.eventBg : k === 'idea' ? s.ideaBg : s.planBg; }
-function discoveryColor(k: Exclude<ResultFilter, 'experience'>) { return k === 'place' ? s.discoveryPlace : k === 'event' ? s.discoveryEvent : s.discoveryIdea; }
-function Artwork({ kind, large = false }: { kind: RecommendationItem['kind']; large?: boolean }) { const width = large ? 166 : 92; const height = large ? 130 : 86; return kind === 'event' ? <GezekEventsArtwork width={width} height={height} /> : kind === 'idea' ? <GezekIdeasArtwork width={width} height={height} /> : <GezekPlacesArtwork width={width} height={height} />; }
-
-function CategoryIcon({ filter, selected }: { filter: ResultFilter; selected: boolean }) { const color = selected ? '#FFF' : filter === 'place' ? '#1D835B' : filter === 'event' ? '#7856C7' : filter === 'idea' ? '#B37A00' : C.cobalt; return <Svg accessible={false} height={20} width={20} viewBox="0 0 24 24">{filter === 'experience' && <><Path d="M4 17c3-7 6-10 9-10 2 0 3 2 5 2" fill="none" stroke={color} strokeLinecap="round" strokeWidth={2} /><Circle cx={5} cy={17} r={2} fill={color} /><Circle cx={19} cy={9} r={2} fill={color} /></>}{filter === 'place' && <><Path d="M6 20v-9a6 6 0 0 1 12 0v9" fill="none" stroke={color} strokeWidth={2} /><Path d="M4 20h16" stroke={color} strokeWidth={2} /></>}{filter === 'event' && <><Rect x={4} y={6} width={16} height={12} rx={3} fill="none" stroke={color} strokeWidth={2} /><Path d="M8 4v4M16 4v4M7 12h10" stroke={color} strokeWidth={2} /></>}{filter === 'idea' && <><Path d="M5 13c4-7 9-9 14-5-1 6-5 10-12 10" fill="none" stroke={color} strokeWidth={2} /><Circle cx={7} cy={18} r={2} fill={color} /></>}</Svg>; }
-function Settings() { return <Svg height={22} width={22} viewBox="0 0 24 24"><Circle cx={12} cy={12} r={3} fill="none" stroke={C.navy} strokeWidth={2} /><Path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" stroke={C.navy} strokeWidth={2} /></Svg>; }
-function Location({ active }: { active: boolean }) { return <Svg height={20} width={20} viewBox="0 0 24 24"><Path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z" fill={active ? C.mint : 'none'} stroke={active ? '#1D835B' : C.cobalt} strokeWidth={2} /><Circle cx={12} cy={10} r={2} fill={active ? '#1D835B' : C.yellow} /></Svg>; }
-function Bookmark({ filled }: { filled: boolean }) { return <Svg height={18} width={18} viewBox="0 0 24 24"><Path d="M7 4h10v16l-5-3-5 3V4Z" fill={filled ? C.cobalt : 'none'} stroke={filled ? C.cobalt : C.navy} strokeWidth={2} /></Svg>; }
-function Refresh() { return <Svg height={20} width={20} viewBox="0 0 24 24"><Path d="M19 8a8 8 0 1 0 1 7M19 3v5h-5" fill="none" stroke={C.cobalt} strokeWidth={2} /></Svg>; }
-function Chevron({ color = C.navy }: { color?: string }) { return <Svg height={14} width={14} viewBox="0 0 14 14"><Path d="m5 3 4 4-4 4" fill="none" stroke={color} strokeWidth={2} /></Svg>; }
-function BottomIcon({ active, type }: { active: boolean; type: 'home' | 'saved' | 'guide' }) { const color = active ? C.cobalt : '#8A93A8'; return <Svg height={22} width={22} viewBox="0 0 24 24">{type === 'home' && <Path d="m4 11 8-7 8 7v9h-6v-6h-4v6H4v-9Z" fill={active ? '#EAF0FF' : 'none'} stroke={color} strokeWidth={2} />}{type === 'saved' && <Path d="M7 4h10v16l-5-3-5 3V4Z" fill={active ? '#EAF0FF' : 'none'} stroke={color} strokeWidth={2} />}{type === 'guide' && <Path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22V5.5Z" fill={active ? '#EAF0FF' : 'none'} stroke={color} strokeWidth={1.8} />}</Svg>; }
-
-const shadow = { shadowColor: C.navy, shadowOffset: { width: 0, height: 8 }, shadowOpacity: .08, shadowRadius: 18, elevation: 3 };
 const s = StyleSheet.create({
-  screen: { paddingBottom: 14 }, headerArt: { height: 330, left: -20, overflow: 'hidden', position: 'absolute', right: -20, top: -18 }, top: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', minHeight: 52, zIndex: 1 }, settings: { alignItems: 'center', backgroundColor: 'rgba(255,255,255,.82)', borderRadius: 22, height: 44, justifyContent: 'center', width: 44 },
-  intro: { marginTop: 49, paddingRight: 44, zIndex: 1 }, eyebrow: { color: C.cobalt, fontFamily: F.semiBold, fontSize: 10, letterSpacing: 1.8 }, title: { color: C.navy, fontFamily: F.extraBold, fontSize: 25, letterSpacing: -.8, lineHeight: 30, marginTop: 5 }, subtitle: { color: C.mutedText, fontFamily: F.regular, fontSize: 11, lineHeight: 16, marginTop: 7 },
-  preference: { alignItems: 'center', backgroundColor: '#EEF4FF', borderColor: '#DDE7FF', borderRadius: 18, borderWidth: 1, flexDirection: 'row', marginTop: 21, minHeight: 72, padding: 12, zIndex: 1 }, preferenceCopy: { flex: 1 }, preferenceLabel: { color: '#52617E', fontFamily: F.semiBold, fontSize: 9, letterSpacing: 1.2 }, preferenceText: { color: C.navy, fontFamily: F.semiBold, fontSize: 11, lineHeight: 16, marginTop: 4 }, editHit: { justifyContent: 'center', minHeight: GEZEK_LAYOUT.minimumTouchTarget }, edit: { color: C.cobalt, fontFamily: F.bold, fontSize: 11 },
-  context: { alignItems: 'center', backgroundColor: '#FFF7DC', borderRadius: 16, flexDirection: 'row', gap: 8, marginTop: 12, padding: 12 }, contextCopy: { flex: 1 }, contextTitle: { color: C.navy, fontFamily: F.bold, fontSize: 12 }, contextText: { color: C.mutedText, fontFamily: F.regular, fontSize: 10 }, contextAction: { borderColor: C.navy, borderRadius: 12, borderWidth: 1, justifyContent: 'center', minHeight: 44, paddingHorizontal: 9 }, contextActionText: { color: C.navy, fontFamily: F.bold, fontSize: 10 },
-  tabs: { backgroundColor: '#FFF', borderColor: '#DFE5F0', borderRadius: 20, borderWidth: 1, flexDirection: 'row', marginTop: 16, overflow: 'hidden' }, tab: { alignItems: 'center', borderRightColor: '#E5EAF3', borderRightWidth: StyleSheet.hairlineWidth, flex: 1, gap: 4, height: 74, justifyContent: 'center' }, tabSelected: { backgroundColor: C.cobalt }, tabText: { color: C.navy, fontFamily: F.semiBold, fontSize: 10 }, tabTextSelected: { color: '#FFF' },
-  location: { alignItems: 'center', backgroundColor: 'rgba(255,255,255,.8)', borderColor: '#E3E8F2', borderRadius: 15, borderWidth: 1, flexDirection: 'row', gap: 9, marginTop: 11, minHeight: 48, paddingHorizontal: 12 }, locationText: { color: '#67738B', flex: 1, fontFamily: F.medium, fontSize: 10, lineHeight: 14 }, locationArrow: { color: C.cobalt, fontSize: 22 }, disabled: { opacity: .62 },
-  undo: { alignItems: 'center', backgroundColor: C.navy, borderRadius: 14, flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, minHeight: 48, paddingHorizontal: 14 }, undoText: { color: '#FFF', fontFamily: F.semiBold, fontSize: 11 }, undoHit: { justifyContent: 'center', minHeight: 44 }, undoAction: { color: C.yellow, fontFamily: F.bold, fontSize: 11 },
-  heading: { alignItems: 'center', flexDirection: 'row', gap: 8, marginBottom: 12, marginTop: 24 }, headingText: { color: C.navy, fontFamily: F.bold, fontSize: 17 }, headingDot: { backgroundColor: C.yellow, borderRadius: 3, height: 6, width: 6 },
-  mainCard: { ...shadow, backgroundColor: '#FFF', borderRadius: GEZEK_RADII.surfaceLarge, overflow: 'hidden' }, mainImage: { height: 124, width: '100%' }, mainBody: { padding: 16 }, mainTitle: { color: C.navy, fontFamily: F.bold, fontSize: 16, lineHeight: 21 }, meta: { color: C.mutedText, fontFamily: F.medium, fontSize: 10, marginTop: 5 }, reason: { alignSelf: 'flex-start', backgroundColor: C.mint, borderRadius: 12, marginTop: 11, padding: 8 }, reasonText: { color: '#215E48', fontFamily: F.semiBold, fontSize: 10 },
-  mainAction: { alignItems: 'center', backgroundColor: C.navy, borderRadius: 16, flexDirection: 'row', justifyContent: 'space-between', marginTop: 14, minHeight: 52, paddingLeft: 17, paddingRight: 8 }, mainActionText: { color: '#FFF', fontFamily: F.semiBold, fontSize: 13 }, actionIcon: { alignItems: 'center', backgroundColor: C.yellow, borderRadius: 18, height: 36, justifyContent: 'center', width: 36 }, save: { alignItems: 'center', borderColor: '#CBD5E7', borderRadius: 15, borderWidth: 1, flexDirection: 'row', gap: 8, justifyContent: 'center', marginTop: 9, minHeight: 48 }, saveSelected: { backgroundColor: '#EEF4FF', borderColor: C.cobalt }, saveText: { color: C.navy, fontFamily: F.semiBold, fontSize: 12 }, saveTextSelected: { color: C.cobalt }, dismiss: { alignItems: 'center', justifyContent: 'center', minHeight: 44 }, dismissText: { color: '#8992A5', fontFamily: F.medium, fontSize: 10 },
-  alternative: { ...shadow, alignItems: 'center', backgroundColor: '#FFF', borderRadius: GEZEK_RADII.surface, flexDirection: 'row', marginBottom: 11, minHeight: 144, overflow: 'hidden', padding: 11 }, altImage: { borderRadius: 16, height: 112, overflow: 'hidden', width: 112 }, altCopy: { flex: 1, paddingHorizontal: 13 }, altTitle: { color: C.navy, fontFamily: F.bold, fontSize: 13, lineHeight: 18 }, altMeta: { color: C.mutedText, fontFamily: F.medium, fontSize: 9, lineHeight: 13, marginTop: 6 }, altReason: { color: '#1D835B', fontFamily: F.semiBold, fontSize: 9, marginTop: 8 }, fallback: { alignItems: 'center', justifyContent: 'center' }, planBg: { backgroundColor: '#EAF0FF' }, placeBg: { backgroundColor: '#E7F5EC' }, eventBg: { backgroundColor: '#F0ECFF' }, ideaBg: { backgroundColor: '#FFF3CF' },
-  empty: { alignItems: 'center', backgroundColor: '#FFF', borderRadius: 24, padding: 30 }, emptyIcon: { alignItems: 'center', backgroundColor: C.cobalt, borderRadius: 25, height: 50, justifyContent: 'center', width: 50 }, emptyTitle: { color: C.navy, fontFamily: F.bold, fontSize: 16, marginTop: 15, textAlign: 'center' }, emptyText: { color: C.mutedText, fontFamily: F.regular, fontSize: 11, marginTop: 7, textAlign: 'center' },
-  refresh: { alignItems: 'center', backgroundColor: '#F0F5FF', borderColor: '#CAD9FF', borderRadius: 16, borderWidth: 1, flexDirection: 'row', gap: 10, justifyContent: 'center', marginTop: 16, minHeight: 52 }, refreshText: { color: C.cobalt, fontFamily: F.semiBold, fontSize: 12 }, yellowDot: { backgroundColor: C.yellow, borderRadius: 4, height: 7, width: 7 },
-  discovery: { backgroundColor: 'rgba(236,233,255,.55)', borderRadius: 28, marginHorizontal: -8, marginTop: 29, padding: 8, paddingBottom: 20, paddingTop: 18 }, discoveryTitle: { color: C.navy, fontFamily: F.bold, fontSize: 17, marginBottom: 13, paddingHorizontal: 4 }, discoveryGrid: { flexDirection: 'row', gap: 8 }, discoveryCard: { borderRadius: 20, flex: 1, height: 142, overflow: 'hidden', padding: 11 }, discoveryPlace: { backgroundColor: '#E4F4EA' }, discoveryEvent: { backgroundColor: '#EEE9FF' }, discoveryIdea: { backgroundColor: '#FFF0C2' }, discoveryLabel: { color: C.navy, fontFamily: F.bold, fontSize: 12, zIndex: 2 }, discoveryArt: { bottom: -9, position: 'absolute', right: -10 }, discoveryArrow: { alignItems: 'center', backgroundColor: 'rgba(255,255,255,.78)', borderRadius: 13, bottom: 10, height: 26, justifyContent: 'center', left: 10, position: 'absolute', width: 26 },
-  utilities: { flexDirection: 'row', gap: 9, marginTop: 15 }, utility: { alignItems: 'center', borderColor: '#DCE2ED', borderRadius: 14, borderWidth: 1, flex: 1, justifyContent: 'center', minHeight: 46 }, utilityText: { color: '#69758D', fontFamily: F.semiBold, fontSize: 10 },
-  bottom: { backgroundColor: '#FFF', borderTopColor: '#E3E7EF', borderTopWidth: 1, flexDirection: 'row', minHeight: 74, paddingBottom: 4, paddingHorizontal: 12 }, bottomTab: { alignItems: 'center', flex: 1, justifyContent: 'center', minHeight: 64 }, bottomLabel: { color: '#8A93A8', fontFamily: F.semiBold, fontSize: 9, marginTop: 4 }, bottomActive: { color: C.cobalt }, badge: { alignItems: 'center', backgroundColor: C.yellow, borderRadius: 8, height: 16, justifyContent: 'center', minWidth: 16, position: 'absolute', right: -10, top: -5 }, badgeText: { color: C.navy, fontFamily: F.bold, fontSize: 8 },
+  screen: { paddingBottom: 20 }, flex: { flex: 1, minWidth: 0 },
+  atmosphere: { position: 'absolute', top: -L.homeTopInset, left: -L.screenHorizontalInset, right: -L.screenHorizontalInset },
+  top: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  settings: { width: 44, height: 44, borderRadius: R.full, backgroundColor: C.surface, alignItems: 'center', justifyContent: 'center' },
+  intro: { gap: 3, marginTop: S.section }, eyebrow: { ...T.eyebrow, color: C.cobalt, fontFamily: F.semiBold },
+  title: { ...T.home, color: C.navy, fontFamily: F.extraBold }, bodyMuted: { ...T.body, color: C.mutedText, fontFamily: F.regular },
+  label: { ...T.label, color: C.navy, fontFamily: F.semiBold },
+  preference: { ...shadow, marginTop: S.section, minHeight: 60, paddingHorizontal: 12, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: R.preference, borderWidth: 1, borderColor: C.blueBorder, backgroundColor: C.blueWhisper },
+  preferenceIcon: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: C.yellow },
+  preferenceText: { ...T.body, color: C.navy, fontFamily: F.regular, flex: 1, minWidth: 0 },
+  edit: { ...T.small, color: C.cobalt, fontFamily: F.medium },
+  context: { marginTop: S.section, backgroundColor: C.blueWhisper, borderRadius: R.image, paddingHorizontal: 12, paddingVertical: 8, gap: 8, flexDirection: 'row', alignItems: 'center' },
+  contextAction: { minHeight: 44, minWidth: 44, justifyContent: 'center' },
+  tabs: { ...shadow, marginTop: S.section, height: L.selectorHeight, borderRadius: R.surfaceLarge, backgroundColor: C.surface, flexDirection: 'row', overflow: 'hidden' },
+  tab: { flex: 1, minWidth: 0, minHeight: 44, height: L.selectorHeight, alignItems: 'center', justifyContent: 'center', gap: 3, paddingHorizontal: 6 },
+  tabText: { ...T.label, color: C.navy, fontFamily: F.semiBold }, inverseText: { color: C.canvas },
+  location: { marginTop: S.section, minHeight: 60, borderRadius: R.image, backgroundColor: C.locationNotice, flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12 },
+  noticeText: { ...T.body, color: C.navy, fontFamily: F.regular, flex: 1, minWidth: 0 }, disabled: { opacity: 0.6 },
+  undo: { marginTop: S.section, minHeight: 48, borderRadius: R.image, backgroundColor: C.navy, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12 },
+  undoText: { ...T.label, fontFamily: F.semiBold, color: C.surface }, undoAction: { ...T.label, fontFamily: F.semiBold, color: C.yellow },
+  heading: { ...T.section, color: C.navy, fontFamily: F.bold, marginTop: S.section, marginBottom: S.section },
+  mainCard: { ...shadow, padding: 12, gap: 8, borderWidth: 1, borderColor: C.border, backgroundColor: C.surface, borderRadius: R.surfaceLarge },
+  mainImage: { height: L.mainImageHeight, width: '100%', borderRadius: R.image, overflow: 'hidden' },
+  fallback: { alignItems: 'center', justifyContent: 'center' },
+  mainTitle: { ...T.card, color: C.navy, fontFamily: F.bold },
+  reason: { backgroundColor: C.mint, borderRadius: R.image, paddingHorizontal: 12, paddingVertical: 10, flexDirection: 'row', gap: 8 },
+  reasonDot: { marginTop: 4 }, reasonText: { ...T.body, fontFamily: F.regular, color: C.navy, flex: 1, minWidth: 0 },
+  actions: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
+  primaryAction: { minHeight: 44, paddingHorizontal: 8, paddingVertical: 6, borderRadius: R.surface, backgroundColor: C.navy, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  primaryText: { ...T.button, fontFamily: F.semiBold, color: C.surface, flex: 1, minWidth: 0, textAlign: 'center' },
+  markerSpacer: { width: 32, height: 32 }, yellowMarker: { width: 32, height: 32, borderRadius: 16, backgroundColor: C.yellow, alignItems: 'center', justifyContent: 'center' },
+  save: { minHeight: 44, minWidth: 78, paddingHorizontal: 18, borderWidth: 1.25, borderColor: C.cobalt, borderRadius: R.full, alignItems: 'center', justifyContent: 'center' },
+  saved: { backgroundColor: C.blueWhisper }, saveText: { ...T.label, fontFamily: F.semiBold, color: C.cobalt, textAlign: 'center' },
+  dismiss: { minHeight: 44, minWidth: 44, alignSelf: 'flex-start', justifyContent: 'center' },
+  dismissText: { ...T.small, fontFamily: F.medium, color: C.mutedText, textDecorationLine: 'underline' },
+  alternativeList: { gap: S.section },
+  alternative: { ...shadow, minHeight: 144, paddingHorizontal: 12, paddingVertical: 16, borderWidth: 1, borderColor: C.border, borderRadius: R.surface, backgroundColor: C.surface, flexDirection: 'row', alignItems: 'center', gap: S.section },
+  altImage: { width: L.alternativeImageSize, height: L.alternativeImageSize, borderRadius: R.image, overflow: 'hidden' },
+  altCopy: { flex: 1, minWidth: 0, gap: 5 }, altEyebrow: { ...T.small, fontFamily: F.medium, color: C.danger },
+  altTitle: { ...T.label, fontFamily: F.semiBold, color: C.navy }, chevron: { ...T.section, color: C.cobalt, fontFamily: F.bold },
+  exhausted: { marginTop: S.section, minHeight: 60, borderRadius: R.image, padding: 12, gap: 10, backgroundColor: C.lavender, flexDirection: 'row', alignItems: 'center' },
+  refresh: { ...shadow, marginTop: S.section, minHeight: 44, paddingHorizontal: 8, paddingVertical: 6, gap: 8, backgroundColor: C.blueWhisper, borderWidth: 1, borderColor: C.cobalt, borderRadius: R.surface, flexDirection: 'row', alignItems: 'center' },
+  refreshText: { ...T.button, color: C.navy, fontFamily: F.semiBold, flex: 1, minWidth: 0, textAlign: 'center' },
+  discovery: { marginTop: S.section }, sectionTitle: { ...T.section, color: C.navy, fontFamily: F.bold, marginBottom: S.section },
+  lowerAtmosphere: { position: 'absolute', left: -176, top: -96 },
+  discoveryGrid: { flexDirection: 'row', gap: S.section, alignItems: 'stretch' },
+  discoveryCard: { minHeight: 142, paddingHorizontal: 10, paddingTop: 11, paddingBottom: 8, gap: 3, borderRadius: R.image, flex: 1, minWidth: 0, overflow: 'hidden' },
+  discoveryLabel: { ...T.label, color: C.navy, fontFamily: F.semiBold },
+  discoveryCopy: { ...T.small, color: C.mutedText, fontFamily: F.medium },
+  discoveryArt: { flex: 1, minHeight: 72, alignItems: 'flex-end', justifyContent: 'flex-end', marginTop: 3 },
+  utilities: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, marginTop: S.section },
+  utilityHit: { minHeight: 44, minWidth: 44, justifyContent: 'center' },
+  utilityText: { ...T.small, color: C.mutedText, fontFamily: F.medium },
+  stateCard: { ...shadow, minHeight: 336, borderWidth: 1, borderColor: C.border, borderRadius: R.surface, backgroundColor: C.surface, paddingHorizontal: 20, paddingVertical: 18, gap: 10 },
+  stateIcon: { width: 64, height: 64, borderRadius: R.full, backgroundColor: C.lavender, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' },
+  stateTitle: { ...T.card, fontFamily: F.bold, color: C.navy, textAlign: 'center' },
+  stateCopy: { ...T.body, fontFamily: F.regular, color: C.mutedText, textAlign: 'center' },
+  secondaryAction: { minHeight: 44, borderRadius: R.full, borderWidth: 1.25, borderColor: C.cobalt, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 18 },
+  loadingCard: { ...shadow, minHeight: 336, paddingHorizontal: 14, paddingVertical: 12, gap: 8, borderWidth: 1, borderColor: C.border, borderRadius: R.surface, backgroundColor: C.surface },
+  scanStatus: { minHeight: 32, backgroundColor: C.mint, borderRadius: R.image, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  scanText: { ...T.label, fontFamily: F.semiBold, color: C.navy, flex: 1 },
+  radar: { height: 104, backgroundColor: C.lavender, borderRadius: R.image, alignItems: 'center', justifyContent: 'center' },
+  radarOuter: { width: 68, height: 68 }, radarInner: { position: 'absolute' }, radarIcon: { position: 'absolute' },
+  radarFocus: { position: 'absolute', top: 20, left: '59%' },
+  skeletonCopy: { gap: 6 }, skeletonBar: { height: 12, borderRadius: R.full, backgroundColor: C.border }, skeletonChips: { flexDirection: 'row', gap: 8 },
+  skeletonReason: { height: 38, backgroundColor: C.mint, borderRadius: R.image, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  preparing: { minHeight: 44, paddingHorizontal: 14, gap: 10, borderRadius: R.image, backgroundColor: C.navy, flexDirection: 'row', alignItems: 'center' },
+  preparingText: { ...T.label, color: C.surface, fontFamily: F.semiBold, flex: 1 },
+  bottom: { minHeight: L.bottomNavigationHeight, paddingHorizontal: 18, paddingTop: 8, paddingBottom: 12, backgroundColor: C.surface, flexDirection: 'row' },
+  bottomTab: { minHeight: 44, minWidth: 44, flex: 1, gap: 3, alignItems: 'center', justifyContent: 'center' },
+  bottomLabel: { ...T.navigation, color: C.mutedText, fontFamily: F.semiBold }, bottomActive: { color: C.cobalt },
 });
