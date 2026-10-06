@@ -39,6 +39,8 @@ Olayda kullanıcı, cihaz/session kimliği, konum, tercih, içerik adı/ID'si ve
 
 ## Henüz kanıtlanmayanlar
 
+6 Ekim Home stabilizasyonunda development-only yerel React render tanısı eklendi. `EXPO_PUBLIC_GEZEK_HOME_PROFILING=1 npx expo start --clear` ile açılır; JS debugger'da `globalThis.__GEZEK_HOME_PROFILE__` Home/SVG render sayıları, öneri hesaplama sayısı ve en fazla 200 süre örneği verir. Varsayılan kapalıdır; `__DEV__` kapalıyken etkinleşmez. Kullanıcı/içerik ID'si, tercih veya konum kaydetmez ve analytics/Sentry'ye veri göndermez. React commit süreleri native frame/FPS ölçümü değildir. Önce/sonra web tanısı ve Redmi doğrulama adımları `HOME_STABILIZATION_REPORT.md` içindedir.
+
 - Release APK gerçek soğuk açılış p50/p95'i
 - düşük seviye Android cihaz bellek kullanımı
 - uzun liste kaydırma FPS/jank

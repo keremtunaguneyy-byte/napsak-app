@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode, useState } from 'react';
+import { Component, ErrorInfo, memo, Profiler, ReactNode, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT as L,
@@ -10,6 +10,7 @@ import { ResultFilter } from '../../resultFilters';
 import { BudgetPreference, DurationPreference, GroupSizePreference, Interest, Mood } from '../../types';
 import { GezekAsset, GezekAssetName } from './GezekArtwork';
 import { GezekBrandMark } from './GezekBrandMark';
+import { HOME_PROFILING_ENABLED, recordHomeCommit, recordHomeRender } from './homePerformance';
 import { homeActionLabel, homeIllustration, homeItemMeta, homeItemTitle, homePhoto } from './gezekHomePresentation';
 
 const RADAR = require('../../../assets/gezek/home-loading-radar.png');
@@ -37,11 +38,13 @@ export type GezekHomeProps = {
   onReset: () => void; onRecommendationsLayout: (y: number) => void;
 };
 
-export function GezekHome(props: GezekHomeProps) {
-  return <HomeBoundary onEdit={props.onEditPreferences}><HomeContent {...props} /></HomeBoundary>;
-}
+export const GezekHome = memo(function GezekHome(props: GezekHomeProps) {
+  const home = <HomeBoundary onEdit={props.onEditPreferences}><HomeContent {...props} /></HomeBoundary>;
+  return HOME_PROFILING_ENABLED ? <Profiler id="GezekHome" onRender={recordHomeCommit}>{home}</Profiler> : home;
+});
 
 function HomeContent(p: GezekHomeProps) {
+  recordHomeRender('home');
   const [contentWidth, setContentWidth] = useState(353);
   const [main, ...alternatives] = p.results;
   const labels = copy[p.selectedFilter];
@@ -91,13 +94,13 @@ function HomeContent(p: GezekHomeProps) {
     </View>}
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
       <Heading title={labels.main} />
-      {main ? <MainCard item={main} saved={p.savedIds.includes(main.id)} onOpen={() => p.onOpenRecommendation(main)}
-        onSave={() => p.onToggleSaved(main, 1)} onDismiss={() => p.onDismiss(main, 1)} /> :
+      {main ? <MainCard item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
+        onSave={p.onToggleSaved} onDismiss={p.onDismiss} /> :
         <EmptyCard filter={p.selectedFilter} onEdit={p.onEditPreferences} onHidden={p.onShowHidden} />}
       {!!alternatives.length && <>
         <Heading title={labels.alternatives} />
         <View style={s.alternativeList}>{alternatives.slice(0, 4).map((item, i) =>
-          <Alternative key={item.id} item={item} rank={i + 2} onOpen={() => p.onOpenRecommendation(item)} />)}</View>
+          <Alternative key={item.id} item={item} rank={i + 2} onOpen={p.onOpenRecommendation} />)}</View>
       </>}
       {main && !alternatives.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Alternatif bulmak için tercihleri düzenle" onPress={p.onEditPreferences} style={s.exhausted}>
         <GezekAsset name="alternativesNotice" /><Text style={s.noticeText}>Başka uygun alternatif bulunamadı.</Text><Text style={s.edit}>Düzenle</Text>
@@ -111,9 +114,9 @@ function HomeContent(p: GezekHomeProps) {
       <View accessible={false} pointerEvents="none" style={s.lowerAtmosphere}><GezekAsset name="lowerRoute" /></View>
       <Text accessibilityRole="header" style={s.sectionTitle}>Başka neye bakalım?</Text>
       <View style={s.discoveryGrid}>
-        <Discovery filter="place" onPress={() => p.onSelectFilter('place')} />
-        <Discovery filter="event" onPress={() => p.onSelectFilter('event')} />
-        <Discovery filter="idea" onPress={() => p.onSelectFilter('idea')} />
+        <Discovery filter="place" onSelectFilter={p.onSelectFilter} />
+        <Discovery filter="event" onSelectFilter={p.onSelectFilter} />
+        <Discovery filter="idea" onSelectFilter={p.onSelectFilter} />
       </View>
     </View>
     <View style={s.utilities}>
@@ -124,7 +127,7 @@ function HomeContent(p: GezekHomeProps) {
   </View>;
 }
 
-function HomeAtmosphere({ width }: { width: number }) {
+const HomeAtmosphere = memo(function HomeAtmosphere({ width }: { width: number }) {
   const scale = width / 393;
   const layers: { name: GezekAssetName; x: number; y: number }[] = [
     { name: 'header', x: 0, y: 0 },
@@ -139,9 +142,9 @@ function HomeAtmosphere({ width }: { width: number }) {
       <GezekAsset name={layer.name} scale={scale} />
     </View>)}
   </View>;
-}
+});
 
-function MainCard({ item, saved, onOpen, onSave, onDismiss }: { item: RecommendationItem; saved: boolean; onOpen: () => void; onSave: () => void; onDismiss: () => void }) {
+const MainCard = memo(function MainCard({ item, saved, onOpen, onSave, onDismiss }: { item: RecommendationItem; saved: boolean; onOpen: GezekHomeProps['onOpenRecommendation']; onSave: GezekHomeProps['onToggleSaved']; onDismiss: GezekHomeProps['onDismiss'] }) {
   const title = homeItemTitle(item);
   return <View style={s.mainCard}>
     <RecommendationVisual item={item} large />
@@ -149,18 +152,18 @@ function MainCard({ item, saved, onOpen, onSave, onDismiss }: { item: Recommenda
     <Text style={s.bodyMuted}>{homeItemMeta(item)}</Text>
     <View style={s.reason}><View style={s.reasonDot}><GezekAsset name="reasonDot" /></View><Text style={s.reasonText}>{item.reasons[0] ?? 'Gezek editörlerinin seçimi'}</Text></View>
     <View style={s.actions}>
-      <PrimaryAction label={homeActionLabel(item)} accessibilityLabel={`${title}: ${homeActionLabel(item)}`} onPress={onOpen} flex />
+      <PrimaryAction label={homeActionLabel(item)} accessibilityLabel={`${title}: ${homeActionLabel(item)}`} onPress={() => onOpen(item)} flex />
       <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${title} ${saved ? 'önerisini kayıttan çıkar' : 'önerisini kaydet'}`}
-        accessibilityState={{ selected: saved }} onPress={onSave} style={[s.save, saved && s.saved]}>
+        accessibilityState={{ selected: saved }} onPress={() => onSave(item, 1)} style={[s.save, saved && s.saved]}>
         <Text style={s.saveText}>{saved ? 'Kaydedildi' : 'Kaydet'}</Text>
       </TouchableOpacity>
     </View>
-    <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${title} önerisini gizle`} onPress={onDismiss} style={s.dismiss}><Text style={s.dismissText}>Bana göre değil</Text></TouchableOpacity>
+    <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${title} önerisini gizle`} onPress={() => onDismiss(item, 1)} style={s.dismiss}><Text style={s.dismissText}>Bana göre değil</Text></TouchableOpacity>
   </View>;
-}
+});
 
-function Alternative({ item, rank, onOpen }: { item: RecommendationItem; rank: number; onOpen: () => void }) {
-  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${rank}. öneri: ${homeItemTitle(item)}. ${homeItemMeta(item)}. İncele`} onPress={onOpen} style={s.alternative}>
+const Alternative = memo(function Alternative({ item, rank, onOpen }: { item: RecommendationItem; rank: number; onOpen: GezekHomeProps['onOpenRecommendation'] }) {
+  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${rank}. öneri: ${homeItemTitle(item)}. ${homeItemMeta(item)}. İncele`} onPress={() => onOpen(item)} style={s.alternative}>
     <RecommendationVisual item={item} />
     <View style={s.altCopy}>
       <Text style={s.altEyebrow}>{item.category.toLocaleUpperCase('tr-TR')}</Text>
@@ -169,9 +172,9 @@ function Alternative({ item, rank, onOpen }: { item: RecommendationItem; rank: n
     </View>
     <Text accessible={false} style={s.chevron}>›</Text>
   </TouchableOpacity>;
-}
+});
 
-function RecommendationVisual({ item, large = false }: { item: RecommendationItem; large?: boolean }) {
+const RecommendationVisual = memo(function RecommendationVisual({ item, large = false }: { item: RecommendationItem; large?: boolean }) {
   const photo = homePhoto(item.id);
   const slot = large ? s.mainImage : s.altImage;
   if (photo) return <Image accessible={false} source={photo} resizeMode="cover" style={slot} />;
@@ -179,7 +182,7 @@ function RecommendationVisual({ item, large = false }: { item: RecommendationIte
   return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[slot, s.fallback, { backgroundColor: pastel(kind) }]}>
     {kind === 'neutral' ? <GezekBrandMark /> : <GezekAsset name={artwork(kind)} />}
   </View>;
-}
+});
 
 function Heading({ title }: { title: string }) {
   return <Text accessibilityRole="header" style={s.heading}>{title}</Text>;
@@ -200,13 +203,13 @@ function pastel(kind: 'place' | 'event' | 'idea' | 'neutral'): string {
   return kind === 'place' ? C.mint : kind === 'event' ? C.coral : kind === 'idea' ? C.lavender : C.blueWhisper;
 }
 
-function Discovery({ filter, onPress }: { filter: 'place' | 'event' | 'idea'; onPress: () => void }) {
+const Discovery = memo(function Discovery({ filter, onSelectFilter }: { filter: 'place' | 'event' | 'idea'; onSelectFilter: GezekHomeProps['onSelectFilter'] }) {
   const labels = { place: ['Mekânlar', 'Kahve, sanat ve şehir durakları'], event: ['Etkinlikler', 'Bugün ve bu hafta'], idea: ['Fikir', 'Küçük bir başlangıç'] };
-  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${labels[filter][0]} önerilerini keşfet`} onPress={onPress} style={[s.discoveryCard, { backgroundColor: pastel(filter) }]}>
+  return <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${labels[filter][0]} önerilerini keşfet`} onPress={() => onSelectFilter(filter)} style={[s.discoveryCard, { backgroundColor: pastel(filter) }]}>
     <Text style={s.discoveryLabel}>{labels[filter][0]}</Text><Text style={s.discoveryCopy}>{labels[filter][1]}</Text>
     <View style={s.discoveryArt}><GezekAsset name={artwork(filter)} /></View>
   </TouchableOpacity>;
-}
+});
 
 function PrimaryAction({ label, accessibilityLabel = label, onPress, flex = false }: { label: string; accessibilityLabel?: string; onPress: () => void; flex?: boolean }) {
   return <TouchableOpacity accessibilityRole="button" accessibilityLabel={accessibilityLabel} onPress={onPress} style={[s.primaryAction, flex && s.flex]}>

@@ -1,5 +1,14 @@
 # Gezek — Durum ve sıradaki iş
 
+## Devam eden çalışma — Redmi Home integration stabilization / PR #67 (6 Ekim 2026)
+
+- Aynı `codex/gezek-ui-foundation` dalında `b494ee7` head'i ve fetch sonrası `origin/main` `46c4115` doğrulandı. Mevcut Draft PR #67 sürdürülür; yeni PR, merge veya force-push yok.
+- Home'daki **Planı incele** doğrudan Maps açıyordu. Artık seçilen Experience ID'siyle mevcut `PlaceDetails` plan görünümünü açar; harita ayrı açık eylemdir. Plan detail Figma `165:370` / Final Review `288:1575` mevcuttur; görsel implementasyonu details PR'ına kalır, burada restyle yapılmaz.
+- 52 embedded Experience / 71 noktanın Place ID/ad/koordinat bağları ve URL sırası eşleşti. Map helper veya katalog değiştirilmedi. Redmi'deki alakasız hedef gözlemi henüz yeniden üretilmedi; seçilen plan ve Maps hedefiyle cihaz denetimi gerekir.
+- **Düzenle** mevcut tercih akışına gider. Gerçek App browser harness'ında beş alanın dolu kaldığı, tamamlamanın aynı değerlerle Home'a döndüğü doğrulandı; yeni Onboarding/edit flow ayrı ekran bağımlılığıdır.
+- Yerel RN Web / Chrome 4× CPU tanısında 40 filtre değişiminin SVG render sayısı 970 → 250 oldu; 20 save değişiminde 500 → 0, 20 ilgisiz parent değişiminde Home render 20 → 0. Native frame/FPS veya Redmi akıcılığı kanıtı değildir. Varsayılan kapalı development profiling ve ayrıntılı sonuçlar `HOME_STABILIZATION_REPORT.md` içindedir.
+- `npm ci`, diff kontrolü, typecheck, 180 test, accessibility source check ve Android Expo export geçti. 5.000 çağrılık öneri benchmark p95 7,385 ms / checksum 23.624; motor ve çıktıları korunur. Firebase/persistence/release sözleşmeleri ve Saved/Settings/Ankara 101 görselleri değişmedi. Sonraki adım Redmi'de inspect/explicit Maps/Back/undo/tercih persistence ve native scroll ölçümüdür; PR Draft kalır.
+
 ## Devam eden çalışma — Production Home / PR #67 uzlaştırması (6 Ekim 2026)
 
 - Canlı Git ve fetch sonrası `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b`, mevcut PR #67 head'i `dc501332a21678d50f60088874ae6247f664efe0` olarak doğrulandı; ilk worktree temizdi. Tam geçmiş taşıyan bundle head'i `75b2aeb93794a60a2b6505cb361f27bb7fb1d847` mevcut `codex/gezek-ui-foundation` dalına yalnız fast-forward ile alındı. Ayrı PR veya history rewrite yapılmadı.

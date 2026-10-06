@@ -18,6 +18,7 @@ Yeni bir asistan önce bu dosyaları gerçekten açmalı; erişemediği kaynakla
 | PRODUCT_SPEC.md | Ne yapıyoruz ve neden? |
 | DESIGN_SPEC.md | Görünüm, bilgi hiyerarşisi, etkileşim, referanslar, Ankara 101 karakteri |
 | PRODUCTION_HOME_DESIGN_CONTRACT.md | Güncel Figma Home otoritesi, native layout, onaylı geçici fotoğrafsız fallback ve kabul sınırları |
+| HOME_STABILIZATION_REPORT.md | PR #67 Redmi Home entegrasyon düzeltmesi, plan/harita denetimi, render ölçümü ve kalan cihaz kontrolleri |
 | ALGORITHM_SPEC.md | Uygunluk, sıralama, çeşitlilik, içerik sözleşmesi |
 | RECOMMENDATION_QUALITY_SPEC.md | Deterministik kalite fixture'ları, ölçüm tanımları ve insan değerlendirme hazırlığı |
 | FIREBASE_RUNBOOK.md | Backend işletimi, veri yayını, migration, güvenlik ve yedek prosedürleri |

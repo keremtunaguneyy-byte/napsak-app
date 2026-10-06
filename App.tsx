@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, findNodeHandle, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,6 +22,8 @@ import { captureOperationalError, setObservabilityScreen } from './src/observabi
 import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
+import { openHomeRecommendation } from './src/homeNavigation';
+import { recordHomeRecommendation } from './src/components/gezek/homePerformance';
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
 import { CLASSICS_COLLECTION_ID, guideCollectionMetadata, resolveFeaturedGuides, resolveGuideById, resolvePrimaryInsiderRoute } from './src/ankara101';
@@ -111,11 +113,14 @@ function AppContent() {
   const guideAnchors = useRef<Record<string, number>>({});
   const guideNodes = useRef<Record<string, Text | null>>({});
   const [detailPlaceId, setDetailPlaceId] = useState<string>();
+  const [detailPlanId, setDetailPlanId] = useState<string>();
   const detailPlace = places.find(place => place.id === detailPlaceId && isPlacePubliclyResolvable(place));
   const recommendationMeasurement = useMemo(() => {
     const startedAt = Date.now();
     const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
-    return { items, durationBucket: performanceDurationBucket(Date.now() - startedAt) };
+    const elapsed = Date.now() - startedAt;
+    recordHomeRecommendation(elapsed);
+    return { items, durationBucket: performanceDurationBucket(elapsed) };
   }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter, eligibilityNow]);
   const results = recommendationMeasurement.items;
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
@@ -262,7 +267,7 @@ function AppContent() {
 
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
-  const requestLocation = async () => {
+  const requestLocation = useCallback(async () => {
     setLocating(true);
     try {
       const permission = await Location.requestForegroundPermissionsAsync();
@@ -282,14 +287,14 @@ function AppContent() {
     } finally {
       setLocating(false);
     }
-  };
+  }, []);
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
-  const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); };
-  const confirmContext = () => {
+  const reset = useCallback(() => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); }, []);
+  const confirmContext = useCallback(() => {
     trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
     setContextRefreshDue(false);
-  };
+  }, []);
   const finishPreferences = () => {
     trackProductEvent({ name: 'preference_flow_completed', properties: { mode: onboardingCompleted ? 'update' : 'onboarding' } });
     setOnboardingCompleted(true);
@@ -338,38 +343,38 @@ function AppContent() {
       } },
     ],
   );
-  const rotateRecommendations = () => {
+  const rotateRecommendations = useCallback(() => {
     batchTrigger.current = 'rotate';
     setPreviousBatch(results.map(place => place.id));
     scrollAfterRotation.current = true;
     setRecommendationRun(run => run + 1);
-  };
-  const analyticsKindForId = (id: string): AnalyticsItemKind | undefined => {
+  }, [results]);
+  const analyticsKindForId = useCallback((id: string): AnalyticsItemKind | undefined => {
     const item = catalogItems.find(candidate => candidate.id === id);
     if (item) return itemAnalyticsKind(item);
     if (guides.some(guide => guide.id === id) || id === CLASSICS_COLLECTION_ID) return 'guide';
     if (insiderRoutes.some(route => route.id === id)) return 'route';
     return undefined;
-  };
-  const toggleSaved = (id: string, kind = analyticsKindForId(id), rank?: number) => {
+  }, [catalogItems, guides]);
+  const toggleSaved = useCallback((id: string, kind = analyticsKindForId(id), rank?: number) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: saved.includes(id) ? 'unsave' : 'save', itemKind: kind, rank } });
     setSaved(current => toggleId(current, id));
-  };
-  const dismissPlace = (id: string, kind = analyticsKindForId(id), rank?: number) => {
+  }, [analyticsKindForId, saved]);
+  const dismissPlace = useCallback((id: string, kind = analyticsKindForId(id), rank?: number) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'dismiss', itemKind: kind, rank } });
     setDismissed(c => dismissId(c, id));
     setLastDismissed(id);
-  };
-  const restorePlace = (id: string, kind = analyticsKindForId(id)) => {
+  }, [analyticsKindForId]);
+  const restorePlace = useCallback((id: string, kind = analyticsKindForId(id)) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'restore', itemKind: kind } });
     setDismissed(current => restoreId(current, id));
-  };
-  const selectResultFilter = (filter: ResultFilter) => {
+  }, [analyticsKindForId]);
+  const selectResultFilter = useCallback((filter: ResultFilter) => {
     batchTrigger.current = 'filter';
     setResultFilter(filter);
     setPreviousBatch([]);
     setRecommendationRun(run => run + 1);
-  };
+  }, []);
   const openInMaps = async (place: Place) => {
     const label = encodeURIComponent(place.name);
     const url = Platform.select({
@@ -392,7 +397,7 @@ function AppContent() {
       Alert.alert('Bağlantı açılamadı', 'Resmî bilgi bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
-  const openIdea = async (idea: Idea) => {
+  const openIdea = useCallback(async (idea: Idea) => {
     if (!idea.actionUrl) return;
     try {
       if (!(await Linking.canOpenURL(idea.actionUrl))) throw new Error('unsupported URL');
@@ -401,8 +406,8 @@ function AppContent() {
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Bu fikir için bağlantı şu anda açılamıyor. Lütfen tekrar dene.');
     }
-  };
-  const openEvent = async (event: Event) => {
+  }, []);
+  const openEvent = useCallback(async (event: Event) => {
     try {
       if (!(await Linking.canOpenURL(event.sourceUrl))) throw new Error('unsupported URL');
       trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'event' } });
@@ -410,7 +415,7 @@ function AppContent() {
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Etkinlik detay bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
     }
-  };
+  }, []);
   const openExperienceSource = async (experience: Experience) => {
     try {
       const source = experience.sources[0];
@@ -431,13 +436,30 @@ function AppContent() {
       Alert.alert('Rota açılamadı', 'Bu planın harita rotası şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
-  const openRecommendation = (item: RecommendationItem) => {
-    if (item.kind === 'place') return setDetailPlaceId(item.id);
-    if (item.kind === 'experience') return void openExperienceMap(item);
-    if (item.kind === 'event') return void openEvent(item);
-    if (item.actionUrl) return void openIdea(item);
-    Alert.alert(item.title, item.note);
-  };
+  const openRecommendation = useCallback((item: RecommendationItem) => {
+    openHomeRecommendation(item, places, {
+      openPlaceDetail: id => { setDetailPlanId(undefined); setDetailPlaceId(id); },
+      openExperienceDetail: entry => { setDetailPlanId(entry.planId); setDetailPlaceId(entry.placeId); },
+      unavailableExperience: () => Alert.alert('Plan açılamadı', 'Bu planın bağlı mekânı şu anda gösterilemiyor.'),
+      openEvent, openIdea,
+      showIdea: idea => Alert.alert(idea.title, idea.note),
+    });
+  }, [places, openEvent, openIdea]);
+  const openHomeSettings = useCallback(() => setStep('settings'), []);
+  const editHomePreferences = useCallback(() => {
+    if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } });
+    setContextRefreshDue(false);
+    setStep('mood');
+  }, [contextRefreshDue]);
+  const undoHomeDismiss = useCallback(() => {
+    if (lastDismissed) restorePlace(lastDismissed);
+    setLastDismissed(undefined);
+  }, [lastDismissed, restorePlace]);
+  const saveHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => toggleSaved(item.id, item.kind, rank), [toggleSaved]);
+  const dismissHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => dismissPlace(item.id, item.kind, rank), [dismissPlace]);
+  const showHomeHidden = useCallback(() => setStep('hidden'), []);
+  const measureHomeRecommendations = useCallback((y: number) => { recommendationsY.current = y + GEZEK_LAYOUT.homeTopInset; }, []);
+  const closeDetails = useCallback(() => { setDetailPlaceId(undefined); setDetailPlanId(undefined); }, []);
   const openGuideSource = async (guide: Guide) => {
     try {
       if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
@@ -542,15 +564,15 @@ function AppContent() {
         results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
         locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
         lastDismissed={lastDismissed} hiddenCount={hiddenItems.length}
-        onSettings={() => setStep('settings')}
-        onEditPreferences={() => { if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } }); setContextRefreshDue(false); setStep('mood'); }}
+        onSettings={openHomeSettings}
+        onEditPreferences={editHomePreferences}
         onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
-        onUndoDismiss={() => { if (lastDismissed) restorePlace(lastDismissed); setLastDismissed(undefined); }}
+        onUndoDismiss={undoHomeDismiss}
         onOpenRecommendation={openRecommendation}
-        onToggleSaved={(item, rank) => toggleSaved(item.id, item.kind, rank)}
-        onDismiss={(item, rank) => dismissPlace(item.id, item.kind, rank)}
-        onRotate={rotateRecommendations} onShowHidden={() => setStep('hidden')} onReset={reset}
-        onRecommendationsLayout={y => { recommendationsY.current = y + GEZEK_LAYOUT.homeTopInset; }}
+        onToggleSaved={saveHomeRecommendation}
+        onDismiss={dismissHomeRecommendation}
+        onRotate={rotateRecommendations} onShowHidden={showHomeHidden} onReset={reset}
+        onRecommendationsLayout={measureHomeRecommendations}
       />}
       {step === 'guides' && guideView === 'landing' && <Ankara101Landing guides={featuredGuides} chapterCount={guideMetadata.chapterCount} totalMinutes={guideMetadata.totalReadMinutes} route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenClassics={() => setGuideView('classics')} onOpenGuide={openGuideChapter} onOpenInsider={() => setGuideView('insider')} />}
       {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={guideMetadata.totalReadMinutes} saved={saved} contentsOpen={guideContentsOpen} onToggleContents={() => setGuideContentsOpen(open => !open)} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y, node) => { guideAnchors.current[id] = y; guideNodes.current[id] = node; if (pendingGuideId === id) requestAnimationFrame(() => focusGuideChapter(id)); }} onOpenContents={openGuideChapter} />}
@@ -588,9 +610,9 @@ function AppContent() {
       onGuides={() => { setGuideView('landing'); setStep('guides'); }}
     />}
     </KeyboardAvoidingView>
-    {detailPlace && <PlaceDetails key={detailPlace.id} place={detailPlace}
+    {detailPlace && <PlaceDetails key={`${detailPlace.id}:${detailPlanId ?? 'place'}`} place={detailPlace} initialPlanId={detailPlanId}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
-      saved={saved} onClose={() => setDetailPlaceId(undefined)}
+      saved={saved} onClose={closeDetails}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
   </SafeAreaView>;

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { RecommendationItem } from '../src/recommendations';
 import { homeActionLabel, homeIllustration, homeItemMeta, homeItemTitle, homePhoto } from '../src/components/gezek/gezekHomePresentation';
+import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
+import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
 
 const catalog = embeddedCatalog('ankara');
 const plan: RecommendationItem = { ...catalog.experiences[0], score: 0, reasons: [] };
@@ -41,4 +43,48 @@ test('Home action copy preserves each content kind and optional Idea action', ()
   assert.equal(homeActionLabel(event), 'Etkinliği incele');
   assert.equal(homeActionLabel({ ...idea, actionLabel: undefined, actionUrl: undefined }), 'Fikri incele');
   assert.equal(homeActionLabel({ ...idea, actionUrl: 'https://example.com/verified-source', actionLabel: 'Resmî kaynağı aç' }), 'Resmî kaynağı aç');
+});
+
+test('Planı incele opens the exact selected internal plan rather than an external action', () => {
+  const calls: unknown[][] = [];
+  const actions = {
+    openPlaceDetail: (id: string) => calls.push(['place', id]),
+    openExperienceDetail: (entry: { placeId: string; planId: string }) => calls.push(['plan', entry]),
+    unavailableExperience: () => calls.push(['unavailable']),
+    openEvent: () => calls.push(['external-event']), openIdea: () => calls.push(['external-idea']),
+    showIdea: () => calls.push(['idea']),
+  };
+  for (const experience of catalog.experiences) {
+    calls.length = 0;
+    openHomeRecommendation({ ...experience, score: 0, reasons: [] }, catalog.places, actions);
+    assert.deepEqual(calls, [['plan', { placeId: experience.points[0].placeId, planId: experience.id }]]);
+  }
+  calls.length = 0;
+  openHomeRecommendation(plan, [], actions);
+  assert.deepEqual(calls, [['unavailable']]);
+});
+
+test('plans sharing a place keep distinct selected IDs; titles are not navigation keys', () => {
+  const sameTitle = { ...plan, id: 'different-plan', title: plan.title };
+  assert.equal(homeExperienceDetailEntry(plan, catalog.places)?.planId, plan.id);
+  assert.equal(homeExperienceDetailEntry(sameTitle, catalog.places)?.planId, 'different-plan');
+  assert.equal(homeExperienceDetailEntry({ ...plan, points: [] }, catalog.places), undefined);
+});
+
+test('real catalog plan URLs preserve the selected point IDs, coordinates and order', () => {
+  const places = new Map(catalog.places.map(item => [item.id, item]));
+  for (const experience of catalog.experiences) {
+    for (const point of experience.points) {
+      const linked = places.get(point.placeId)!;
+      assert.ok(linked, `${experience.id}: missing ${point.placeId}`);
+      assert.equal(point.latitude, linked.latitude, experience.id);
+      assert.equal(point.longitude, linked.longitude, experience.id);
+    }
+    const url = new URL(googleMapsUrlForExperiencePoints(experience.points)!);
+    const expected = experience.points.map(point => `${point.latitude},${point.longitude}`);
+    const actual = experience.points.length === 1 ? [url.searchParams.get('query')] : [
+      url.searchParams.get('origin'), ...(url.searchParams.get('waypoints')?.split('|') ?? []), url.searchParams.get('destination'),
+    ];
+    assert.deepEqual(actual, expected, experience.id);
+  }
 });
