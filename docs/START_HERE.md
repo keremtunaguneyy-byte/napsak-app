@@ -1,6 +1,6 @@
 # Gezek — önce burayı oku
 
-Güncelleme: 28 Eylül 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
+Güncelleme: 6 Ekim 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
 
 ## Okuma sırası
 
@@ -44,6 +44,6 @@ GitHub sürüm geçmişi kararların eski hâline dönmeyi sağlar. Aynı depoda
 
 ## Güncel görev
 
-Kamuya açık ürün adı **Gezek**'tir; N’apsak önceki çalışma adıdır. Adlandırma temeli ve korunacak teknik kimlikler `BRAND_RENAME.md` içinde kayıtlıdır. 1 Ekim 2026 onaylı UI kaynak otoritesi ve foundation değerleri `DESIGN_SPEC.md` içindedir; foundation sonrası sıradaki implementation adımı production Home PR'ıdır.
+Kamuya açık ürün adı **Gezek**'tir; N’apsak önceki çalışma adıdır. Adlandırma temeli ve korunacak teknik kimlikler `BRAND_RENAME.md` içinde kayıtlıdır. 1 Ekim 2026 onaylı UI kaynak otoritesi ve foundation değerleri `DESIGN_SPEC.md` içindedir. Production Home uygulaması `codex/gezek-production-home` dalında başlamıştır; sıradaki adım Android Expo Go görsel/etkileşim kabulü, ardından onboarding uygulamasıdır. Nihai logo/uygulama ikonu kararı açıktır ve geçici wordmark tek bileşenden değiştirilecektir.
 
 Tarihsel #37 kontrol noktası `72122d613bbca64601ed3a646ff3ff025015fe1c` commit'idir; canlı HEAD için Git ve güncel yayın durumu için STATUS.md yetkilidir. #35 release gate/readiness/rollback yönetişimini kodda uygulayıp test etti; production onayı vermedi. #36 yalnız proje hafızası/dokümantasyon senkronudur; yeni ürün davranışı veya ürün kararı değildir. #37 cihaz kabul sözleşmesini ve kanıt biçimini repository'de tanımladı; imzalı release cihaz kabulü yapılmadı ve `release_device_matrix_unverified` açık kaldı. Gerçek EAS proje bağlantısı daha sonra doğrulanarak ilgili engel kapatıldı; güncel toplam sekiz yayın engeli vardır. Gerçek bulut restore provası ile production Sentry, source map ve dashboard kanıtı ayrı açık yayın kapılarıdır. Canlı analitik sağlayıcısı ayrıca açık bir karardır ve yayın engeli listesinde yer almaz. Kabul kriterleri STATUS.md, PERFORMANCE_RUNBOOK.md, DEVICE_ACCEPTANCE_RUNBOOK.md, RELEASE_RUNBOOK.md, FIREBASE_RUNBOOK.md, EVENT_OPERATIONS_RUNBOOK.md, OBSERVABILITY_RUNBOOK.md ve ANALYTICS_SPEC.md içindedir.

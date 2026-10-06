@@ -9,13 +9,14 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync } from './src/backend';
 import { loadPreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
-import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
+import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
 import { Coordinates, dismissId, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
 import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
-import { GEZEK_FONT_FAMILIES } from './src/design/gezekTheme';
+import { GEZEK_COLORS, GEZEK_FONT_FAMILIES } from './src/design/gezekTheme';
 import { PlaceDetails } from './src/components/PlaceDetails';
+import { GezekBottomNavigation, GezekHome } from './src/components/gezek';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
@@ -430,6 +431,13 @@ function AppContent() {
       Alert.alert('Rota açılamadı', 'Bu planın harita rotası şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
+  const openRecommendation = (item: RecommendationItem) => {
+    if (item.kind === 'place') return setDetailPlaceId(item.id);
+    if (item.kind === 'experience') return void openExperienceMap(item);
+    if (item.kind === 'event') return void openEvent(item);
+    if (item.actionUrl) return void openIdea(item);
+    Alert.alert(item.title, item.note);
+  };
   const openGuideSource = async (guide: Guide) => {
     try {
       if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
@@ -479,19 +487,20 @@ function AppContent() {
 
   const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : step === 'duration' ? '06' : '07';
   const isGuideArticle = step === 'guides' && guideView !== 'landing';
+  const isHome = step === 'results';
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
-  return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
-    <StatusBar style="light" /><View style={s.orb} />
-    <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+  return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, isHome && s.gezekSafe]}>
+    <StatusBar style={isHome ? 'dark' : 'light'} />{!isHome && <View style={s.orb} />}
+    <KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : !!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel={guideView === 'classics' ? 'Ankara Klasikleri koleksiyonu' : 'Bir Ankaralı Gibi rotası'} onBack={() => { setGuideContentsOpen(false); setPendingGuideId(undefined); setGuideView('landing'); }} onOpenContents={guideView === 'classics' ? togglePersistentGuideContents : undefined} contentsOpen={guideContentsOpen} onSave={guideView === 'classics' ? () => toggleSaved(CLASSICS_COLLECTION_ID, 'guide') : primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
-    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && s.pageWide, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && s.pageWide, isHome && s.gezekHomePage, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.logo}>Gezek</Text></TouchableOpacity> : <Text accessibilityRole="header" style={s.logo}>Gezek</Text>}{step !== 'guides' && <View style={s.headerActions}>{['results', 'saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
+      {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.logo}>Gezek</Text></TouchableOpacity> : <Text accessibilityRole="header" style={s.logo}>Gezek</Text>}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
@@ -527,28 +536,21 @@ function AppContent() {
         <Button label="Tercihlerimi kaydet ve 5 plan ver" onPress={finishPreferences} />
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kişi sayısı seçimine geri dön" onPress={() => setStep('group')} style={s.backHit}><Text style={s.back}>← Kişi sayısını değiştir</Text></TouchableOpacity>
       </View>}
-      {step === 'results' && <View>
-        <Lead eyebrow="SANA GÖRE" title="Bugün bunlar olur." subtitle={`${mood} moduna, ilgi, bütçe, kişi sayısı ve süre seçimlerine göre sıraladık.`} />
-        <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'} · {budget} · {groupSize ?? 'Kişi sayısı yok'} · {duration}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => { setContextRefreshDue(false); setStep('mood'); }}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
-        {contextRefreshDue && <View accessibilityRole="summary" style={s.contextRefreshCard}>
-          <View style={s.contextRefreshCopy}><Text style={s.contextRefreshTitle}>Tercihlerin hâlâ aynı mı?</Text><Text style={s.contextRefreshText}>Mod, bütçe, kişi sayısı ve süre gün içinde değişebilir. Önerileri mevcut seçimlerinle göstermeye devam ediyoruz.</Text></View>
-          <View style={s.contextRefreshActions}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihler aynı, önerilere devam et" onPress={confirmContext} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Aynı, devam et</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri güncelle" onPress={() => { trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } }); setContextRefreshDue(false); setStep('mood'); }} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Güncelle</Text></TouchableOpacity></View>
-        </View>}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
-          {RESULT_FILTERS.map(filter => <TouchableOpacity key={filter.value} accessibilityRole="tab" accessibilityLabel={`${filter.label} önerileri`} accessibilityState={{ selected: resultFilter === filter.value }} onPress={() => selectResultFilter(filter.value)} style={[s.filterChip, resultFilter === filter.value && s.filterChipSelected]}><Text style={[s.filterText, resultFilter === filter.value && s.filterTextSelected]}>{filter.label}</Text></TouchableOpacity>)}
-        </ScrollView>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel={coordinates ? 'Konumu yeniden güncelle' : 'Konum izni iste ve yakındaki mekânları bul'} accessibilityState={{ disabled: locating, busy: locating }} disabled={locating} onPress={requestLocation} style={[s.locationCard, locating && s.controlDisabled]}>
-          {locating ? <ActivityIndicator color={c.lime} /> : <Text style={s.locationIcon}>{coordinates ? '✓' : '⌖'}</Text>}
-          <View style={s.locationCopy}><Text style={s.locationTitle}>{coordinates ? 'Konum kullanılıyor' : 'Yakınımdakileri bul'}</Text><Text style={s.locationText}>{locationMessage}</Text></View>
-        </TouchableOpacity>
-        {lastDismissed && <View accessibilityLiveRegion="polite" style={s.undoBar}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Son gizlenen öneriyi geri al" onPress={() => { restorePlace(lastDismissed); setLastDismissed(undefined); }} style={s.undoAction}><Text style={s.edit}>Geri al</Text></TouchableOpacity></View>}
-        <View onLayout={event => { recommendationsY.current = event.nativeEvent.layout.y; }} />
-        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => toggleSaved(item.id, item.kind, i + 1)} onDismiss={() => dismissPlace(item.id, item.kind, i + 1)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceMap={openExperienceMap} onOpenExperienceSource={openExperienceSource} />)}
-        {!results.length && <View style={s.empty}><Text accessible={false} style={s.emptyIcon}>{resultFilter === 'event' ? '◷' : '↻'}</Text><Text accessibilityRole="header" style={s.emptyTitle}>{resultFilter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text><Text style={s.emptyText}>{resultFilter === 'event' ? 'Doğrulanmış katalogda henüz yaklaşan bir Ankara etkinliği yok. Yeni tarihler doğrulandıkça burada görünecek.' : '“Bana göre değil” dediklerini geri getirip yeniden başlayabilirsin.'}</Text>{resultFilter !== 'event' && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm gizlenen önerileri geri getir" style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity>}</View>}
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={rotateRecommendations}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
-        <Button label="Baştan farklı bir plan yap" onPress={reset} />
-      </View>}
+      {step === 'results' && <GezekHome
+        mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
+        results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
+        locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
+        lastDismissed={lastDismissed} hiddenCount={hiddenItems.length}
+        onSettings={() => setStep('settings')}
+        onEditPreferences={() => { setContextRefreshDue(false); setStep('mood'); }}
+        onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
+        onUndoDismiss={() => { if (lastDismissed) restorePlace(lastDismissed); setLastDismissed(undefined); }}
+        onOpenRecommendation={openRecommendation}
+        onToggleSaved={(item, rank) => toggleSaved(item.id, item.kind, rank)}
+        onDismiss={(item, rank) => dismissPlace(item.id, item.kind, rank)}
+        onRotate={rotateRecommendations} onShowHidden={() => setStep('hidden')} onReset={reset}
+        onRecommendationsLayout={y => { recommendationsY.current = y; }}
+      />}
       {step === 'guides' && guideView === 'landing' && <Ankara101Landing guides={featuredGuides} chapterCount={guideMetadata.chapterCount} totalMinutes={guideMetadata.totalReadMinutes} route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenClassics={() => setGuideView('classics')} onOpenGuide={openGuideChapter} onOpenInsider={() => setGuideView('insider')} />}
       {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={guideMetadata.totalReadMinutes} saved={saved} contentsOpen={guideContentsOpen} onToggleContents={() => setGuideContentsOpen(open => !open)} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y, node) => { guideAnchors.current[id] = y; guideNodes.current[id] = node; if (pendingGuideId === id) requestAnimationFrame(() => focusGuideChapter(id)); }} onOpenContents={openGuideChapter} />}
       {step === 'guides' && guideView === 'insider' && (primaryInsiderRoute ? <InsiderGuide route={primaryInsiderRoute} saved={saved.includes(primaryInsiderRoute.id)} onBack={() => setGuideView('landing')} onSave={() => toggleSaved(primaryInsiderRoute.id, 'route')} onOpenMap={openInsiderMap} /> : <InsiderUnavailable onBack={() => setGuideView('landing')} />)}
@@ -579,11 +581,11 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>
-    {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <View accessibilityRole="tablist" style={s.bottomNav}>
-      <NavTab label="Ana Sayfa" selected={step === 'results' || step === 'hidden'} editorial={step === 'guides'} onPress={() => setStep('results')} />
-      <NavTab label={`Kaydedilenler (${saved.length})`} selected={step === 'saved'} editorial={step === 'guides'} onPress={() => setStep('saved')} />
-      <NavTab label="Ankara 101" selected={step === 'guides'} editorial={step === 'guides'} onPress={() => { setGuideView('landing'); setStep('guides'); }} />
-    </View>}
+    {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <GezekBottomNavigation
+      active={step === 'saved' ? 'saved' : step === 'guides' ? 'guides' : 'home'} savedCount={saved.length}
+      onHome={() => setStep('results')} onSaved={() => setStep('saved')}
+      onGuides={() => { setGuideView('landing'); setStep('guides'); }}
+    />}
     </KeyboardAvoidingView>
     {detailPlace && <PlaceDetails key={detailPlace.id} place={detailPlace}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
@@ -720,7 +722,8 @@ function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceD
 
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: c.bg }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
+  safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
+  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: 20, paddingTop: 4 },
   readingProgressTrack: { height: 3, backgroundColor: '#352F29', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#8F2938' },
   guideLandingPage: { paddingHorizontal: 18, paddingBottom: 24 }, guideArticlePage: { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 0 },
   editorialTopBar: { minHeight: 61, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0E100E' }, editorialTopAction: { width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center' }, editorialBack: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_400Regular', fontSize: 46, lineHeight: 48 }, editorialTopTitle: { flex: 1, color: '#F2E7CF', fontFamily: 'SourceSans3_600SemiBold', fontSize: 12, letterSpacing: 1.8, textAlign: 'center' }, editorialTopActions: { flexDirection: 'row', alignItems: 'center' }, editorialContentsAction: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 7 }, editorialContentsActionText: { color: '#D8C8AB', fontFamily: 'SourceSans3_700Bold', fontSize: 10 }, editorialBookmark: { color: '#F2E7CF', fontFamily: 'SourceSans3_400Regular', fontSize: 27 }, editorialBookmarkSaved: { color: '#A73343' },

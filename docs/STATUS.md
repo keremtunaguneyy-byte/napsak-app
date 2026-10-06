@@ -1,5 +1,13 @@
 # Gezek — Durum ve sıradaki iş
 
+## Devam eden çalışma — Production Home implementation (6 Ekim 2026)
+
+- `codex/gezek-production-home` dalı, UI foundation commit'i `dc501332a21678d50f60088874ae6247f664efe0` üzerinden açıldı.
+- Onaylı Home yönü native React Native bileşenleriyle uygulandı: artistik header, canlı tercih özeti, eşit genişlikte `Gezek / Mekân / Etkinlik / Fikir` seçicisi, bir ana öneri, dört alternatif, kategoriye özel yenileme metni, keşif kartları ve Gezek alt navigasyonu.
+- Mevcut öneri motoru, konum, kaydetme, gizleme/geri alma, rotasyon, Ayarlar, Kaydedilenler ve Ankara 101 davranışları yeni Home görünümüne bağlandı; algoritma veya katalog değiştirilmedi.
+- Nihai logo kararı hâlâ açıktır. Geçici wordmark tek bir `GezekBrandMark` bileşeninde tutulur; final logo geldiğinde ekranları ayrı ayrı düzenlemek gerekmez.
+- TypeScript, otomatik test, kaynak erişilebilirlik kontrolü ve Android Expo exportu bu dalda doğrulanır. Bunlar gerçek cihaz görsel kabulü veya production yayını değildir; sıradaki adım Android Expo Go görsel/etkileşim testidir.
+
 ## Devam eden çalışma — Gezek UI foundation (1 Ekim 2026)
 
 - `codex/gezek-ui-foundation` dalı, fetch sonrası doğrulanan `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b` üzerinden açıldı.
@@ -9,7 +17,7 @@
 
 ## Güncel marka kararı — 28 Eylül 2026
 
-Kamuya açık ürün adı **Gezek**; N’apsak önceki çalışma adıdır. Uygulama adı, görünen metinler ve sonuç sekmesi adı güncellendi; sonuç sekmesi **Planlar** olarak görünür. Teknik kimlikler ve geçmiş kayıtlar korunur. Kapsam ve sonraki bundle/store kararı `BRAND_RENAME.md` içindedir. Sıradaki aşama görsel tasarımın tamamlanmasıdır; bu değişiklik yeni özellik, bağlı beta veya release kanıtı sağlamaz.
+Kamuya açık ürün adı **Gezek**; N’apsak önceki çalışma adıdır. Uygulama adı ve görünen metinler güncellendi. Kullanıcının son tasarım kararıyla Home içerik seçicisinde teknik `experience` filtresi **Gezek** olarak görünür; marka/header kullanımıyla aynı kelime olsa da burada kürate edilmiş Gezek planlarını temsil eder. Teknik kimlikler ve geçmiş kayıtlar korunur. Kapsam ve sonraki bundle/store kararı `BRAND_RENAME.md` içindedir.
 
 ## Devam eden çalışma — Deletion boundary evidence hardening (24 Eylül 2026)
 

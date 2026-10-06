@@ -2,6 +2,12 @@
 
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
 
+## 2026-10-06 — Home içerik seçicisinde görünen ilk sekme Gezek'tir
+
+Durum: Kullanıcı tarafından onaylandı; `codex/gezek-production-home` dalında uygulandı.
+
+Home üst seçicisi eşit genişlikte `Gezek / Mekân / Etkinlik / Fikir` görünür. İlk sekme mevcut teknik `experience` filtresini ve kürate edilmiş Gezek planlarını temsil eder; veri modeli, öneri algoritması ve analitik türleri yeniden adlandırılmaz. Marka/header ile aynı adın kullanılması bilinçli ürün kararıdır. 28 Eylül tarihli “sonuç sekmesi Planlar görünür” kaydının yalnız bu kısmının yerine geçer. Nihai logo/uygulama ikonu ayrıca kararlaştırılacaktır.
+
 ## 2026-10-01 — Gezek UI foundation ve görsel kaynak otoritesi
 
 Durum: Kullanıcı tarafından onaylandı; `codex/gezek-ui-foundation` dalında foundation uygulanıyor, ekran veya cihaz görsel doğrulaması henüz yapılmadı.

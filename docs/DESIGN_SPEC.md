@@ -8,7 +8,7 @@ Gezek kararsızlığı uygulanabilir mikro plana dönüştürür. Samimi, eğlen
 
 Ana sayfanın beğenilen omurgası: üstte görünür/düzenlenebilir tercihler; kompakt Bugünlük planın; aynı beşlinin kalan dört sonucunu gösteren 2×2 Diğer planlar. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
 
-İçerik seçici Planlar / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
+İçerik seçici Gezek / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. `Gezek`, teknik olarak mevcut `experience` filtresini ve kürate edilmiş Gezek planlarını temsil eder; algoritma türü yeniden adlandırılmaz. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
 
 ## Gezek UI foundation — 1 Ekim 2026 onaylı
 
@@ -16,7 +16,7 @@ Gezek UI uygulama kaynağı olarak `Gezek_UI_Handoff_2026-10-01` paketi onayland
 
 Onboarding davranış ve hareket otoritesi `ONBOARDING_FULL_REFERENCE.zip` içindeki yedi aşamalı akıştır; repository'deki onaylı ürün metni ve davranışı eski marka veya prototip kopyasının önüne geçer. Latest Home prototipi etkileşim referansıdır; web mimarisi, Tailwind/DOM yapısı ve geçici AIDA URL'leri production kaynağı değildir.
 
-Foundation tokenları `src/design/gezekTheme.ts` içinde tanımlıdır: sıcak canvas `#FAF9F5`, navy `#102452`, cobalt `#3F65FC`, yellow `#FFC21A`, mint `#DFF3E8`, lavender `#ECE9FF`, coral `#FFE2D9`, muted text `#6F7890`, border `#E2E8F0`; 20 px ekran inset'i, 8 px spacing tabanı, 22–24 px yüzey radius'u ve 44 px minimum dokunma hedefi. Yeni Gezek bileşenlerinin yazı ailesi Plus Jakarta Sans'tır. Bu kayıt foundation onayıdır; Home veya onboarding ekranının uygulandığı anlamına gelmez. Sıradaki görsel implementation adımı production Home'dur.
+Foundation tokenları `src/design/gezekTheme.ts` içinde tanımlıdır: sıcak canvas `#FAF9F5`, navy `#102452`, cobalt `#3F65FC`, yellow `#FFC21A`, mint `#DFF3E8`, lavender `#ECE9FF`, coral `#FFE2D9`, muted text `#6F7890`, border `#E2E8F0`; 20 px ekran inset'i, 8 px spacing tabanı, 22–24 px yüzey radius'u ve 44 px minimum dokunma hedefi. Yeni Gezek bileşenlerinin yazı ailesi Plus Jakarta Sans'tır. Production Home bu foundation üzerinde ayrı dalda uygulanır; onboarding sonraki görsel implementation adımıdır.
 
 ## Önceki renk ve logo kaydı — 1 Ekim foundation kararıyla geçersiz kılındı
 
