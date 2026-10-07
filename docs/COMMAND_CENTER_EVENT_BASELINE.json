@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-08",
+  "originMain": "46c41156255da7656a7cc0023fd721539dcaf45b",
+  "previousBranchHead": "140a4df70ca8e785d667249e8830869ccb41389b",
+  "baselineMethod": "Fresh git archive of origin/main, shared locked dependency installation; npm run check:events in the exported tree",
+  "baselineExitCode": 1,
+  "branchExitCode": 1,
+  "identicalOutput": true,
+  "output": "\n> napsak-app@0.1.0 check:events\n> node --import tsx scripts/checkEventOperations.ts\n\nEtkinlik katalog sağlığı: GÜNCELLEME GEREKİYOR\nToplam: 14\nYaklaşan: 2\nSüresi geçmiş: 12\nKatalog ufku: 8.78 gün\nEski doğrulama: 14\nSorunlar: stale_verification, insufficient_upcoming_events\n",
+  "eventCatalogValidationAndDatesDiffAgainstOriginMain": "empty",
+  "userApprovedDocumentedException": true
+}

@@ -1,3 +1,4 @@
+import { BrandLogo } from './src/components/gezek/BrandLogo';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,7 +17,7 @@ import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
 import { PlaceDetails } from './src/components/PlaceDetails';
-import { GezekBottomNavigation, GezekBrandMark, GezekHome, GezekHomeLoading } from './src/components/gezek';
+import { GezekBottomNavigation, GezekHome, GezekHomeLoading } from './src/components/gezek';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
@@ -58,7 +59,7 @@ const OBSERVABILITY_TEST_MODE = process.env.EXPO_PUBLIC_APP_ENV !== 'production'
   && process.env.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE === 'true';
 const APP_STARTED_AT = Date.now();
 export default function App() {
-  return <AppErrorBoundary><SafeAreaProvider><AppContent /></SafeAreaProvider></AppErrorBoundary>;
+  return <AppErrorBoundary><View style={{ flex: 1, backgroundColor: GEZEK_COLORS.canvas }}><SafeAreaProvider><AppContent /></SafeAreaProvider></View></AppErrorBoundary>;
 }
 
 function AppContent() {
@@ -505,7 +506,7 @@ function AppContent() {
   };
 
 
-  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekSafe]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage]}><GezekBrandMark /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView>;
+  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekSafe]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView>;
   if (!hydrated || (!fontsLoaded && !fontError)) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekSafe]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
 
   const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : step === 'duration' ? '06' : '07';
@@ -523,7 +524,7 @@ function AppContent() {
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.logo}>Gezek</Text></TouchableOpacity> : <Text accessibilityRole="header" style={s.logo}>Gezek</Text>}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
+      {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />

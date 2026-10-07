@@ -1,0 +1,218 @@
+{
+  "surface": "React Native Web with actual components; App services stubbed; no Android/device acceptance",
+  "checks": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "scrollWidth": 393,
+      "navigation": {
+        "x": 0,
+        "y": 778,
+        "width": 393,
+        "height": 74,
+        "top": 778,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+        "Etkinlikler \u00f6nerilerini ke\u015ffet",
+        "Fikir \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 41
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "scrollWidth": 393,
+      "navigation": {
+        "x": 0,
+        "y": 778,
+        "width": 393,
+        "height": 74,
+        "top": 778,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Gezek \u00f6nerilerini ke\u015ffet",
+        "Etkinlikler \u00f6nerilerini ke\u015ffet",
+        "Fikir \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 41
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "event",
+      "scrollWidth": 393,
+      "navigation": {
+        "x": 0,
+        "y": 778,
+        "width": 393,
+        "height": 74,
+        "top": 778,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Gezek \u00f6nerilerini ke\u015ffet",
+        "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+        "Fikir \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 29
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "idea",
+      "scrollWidth": 393,
+      "navigation": {
+        "x": 0,
+        "y": 778,
+        "width": 393,
+        "height": 74,
+        "top": 778,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Gezek \u00f6nerilerini ke\u015ffet",
+        "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+        "Etkinlikler \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 41
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "scrollWidth": 412,
+      "navigation": {
+        "x": 0,
+        "y": 841,
+        "width": 412,
+        "height": 74,
+        "top": 841,
+        "right": 412,
+        "bottom": 915,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+        "Etkinlikler \u00f6nerilerini ke\u015ffet",
+        "Fikir \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 41
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "scrollWidth": 412,
+      "navigation": {
+        "x": 0,
+        "y": 841,
+        "width": 412,
+        "height": 74,
+        "top": 841,
+        "right": 412,
+        "bottom": 915,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Gezek \u00f6nerilerini ke\u015ffet",
+        "Etkinlikler \u00f6nerilerini ke\u015ffet",
+        "Fikir \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 41
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "event",
+      "scrollWidth": 412,
+      "navigation": {
+        "x": 0,
+        "y": 841,
+        "width": 412,
+        "height": 74,
+        "top": 841,
+        "right": 412,
+        "bottom": 915,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Gezek \u00f6nerilerini ke\u015ffet",
+        "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+        "Fikir \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 29
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "idea",
+      "scrollWidth": 412,
+      "navigation": {
+        "x": 0,
+        "y": 841,
+        "width": 412,
+        "height": 74,
+        "top": 841,
+        "right": 412,
+        "bottom": 915,
+        "left": 0
+      },
+      "discoveryCards": [
+        "Gezek \u00f6nerilerini ke\u015ffet",
+        "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+        "Etkinlikler \u00f6nerilerini ke\u015ffet"
+      ],
+      "minimumButtonHeight": 44,
+      "svgCount": 41
+    },
+    {
+      "actionIsolation": "save, unsave, dismiss, undo do not open; full card opens",
+      "passed": true
+    },
+    {
+      "actualAppDetail": {
+        "id": "xp-arslanhane-alaaddin-selcuklu",
+        "explicitMaps": true,
+        "scrollBefore": 320,
+        "scrollAfter": 320
+      }
+    }
+  ],
+  "errors": []
+}

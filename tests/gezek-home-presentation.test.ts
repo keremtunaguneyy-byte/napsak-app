@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { RecommendationItem } from '../src/recommendations';
-import { homeActionLabel, homeIllustration, homeItemMeta, homeItemTitle, homePhoto } from '../src/components/gezek/gezekHomePresentation';
+import { homeActionLabel, homeArtwork, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
 import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
 import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
 
@@ -12,21 +12,14 @@ const place: RecommendationItem = { ...catalog.places[0], kind: 'place', score: 
 const event: RecommendationItem = { ...catalog.events[0], score: 0, reasons: [] };
 const idea: RecommendationItem = { ...catalog.ideas[0], score: 0, reasons: [] };
 
-test('Home artwork follows content semantics, never a title or photo-name heuristic', () => {
-  assert.equal(homeIllustration({ ...place, name: 'K0 match · ticket · Gezek' }), 'place');
-  assert.equal(homeIllustration({ ...event, title: 'Hamamönü kahve' }), 'event');
-  assert.equal(homeIllustration({ ...idea, title: 'Kuğulu Park' }), 'idea');
-  assert.equal(homePhoto(place.id), undefined);
-  assert.equal(homePhoto('unverified-photo'), undefined);
-});
-
-test('plans use a reliable declared dominant category or neutral artwork', () => {
-  assert.equal(homeIllustration({ ...plan, category: 'Kahve', primaryInterests: ['Kahve'] }), 'place');
-  assert.equal(homeIllustration({ ...plan, category: 'Lezzet', primaryInterests: ['Lezzet'] }), 'place');
-  assert.equal(homeIllustration({ ...plan, category: 'Etkinlik', primaryInterests: ['Etkinlik'] }), 'event');
-  assert.equal(homeIllustration({ ...plan, category: 'Kahve', primaryInterests: ['Sanat'] }), 'neutral');
-  assert.equal(homeIllustration({ ...plan, category: 'Doğa', primaryInterests: ['Doğa'] }), 'neutral');
-  assert.equal(homeIllustration({ ...plan, category: 'Sanat', primaryInterests: ['Sanat'] }), 'neutral');
+test('Home artwork uses stable content identity independent of title or mutable categories', () => {
+  for (const item of [plan, place, event, idea]) {
+    const visual = homeArtwork(item, 'Hero');
+    assert.equal(visual.type, 'artwork');
+    const renamed = { ...item, title: 'unrelated name', name: 'unrelated name' };
+    assert.deepEqual(homeArtwork(renamed, 'Hero'), visual);
+  }
+  assert.deepEqual(homeArtwork({ kind: 'place', id: 'unverified-photo' }, 'Hero'), { type: 'neutral', layout: 'Hero' });
 });
 
 test('Home metadata uses actual distances, durations, stop counts and prices', () => {

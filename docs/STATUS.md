@@ -1,5 +1,13 @@
 # Gezek — Durum ve sıradaki iş
 
+## Command-center production Home — 8 Ekim 2026
+
+- Kullanıcının onayladığı 2026-10-07 command-center paketi ve canlı Page 07 Home yeni görsel otoritedir; 6 Ekim kategori fallback sözleşmesinin yerine geçer.
+- 384 sabit ID eşlemesi, 125 artwork ailesi / 375 responsive varyant, 46 contextual icon yerel production temelindedir. 12 proof ailesi ve final acoustic `810:102` canlı Figma'dan export edilmiştir.
+- Hero/Square/Compact resolver, bağımsız kaydet/gizle quick action'ları, kart gövdesi eylemi, filtreye göre üçlü keşif ve tek `BrandLogo` uygulanmıştır. Algoritma, katalog, Firebase/persistence ve release yapılandırması korunur.
+- Yerel otomatik ve RN Web kanıtı `COMMAND_CENTER_IMPLEMENTATION_REPORT.md` içindedir. Redmi, Android system-area/Back, TalkBack ve signed-release kabulü beklenir. Event freshness kontrolü origin/main ve bu dalda aynı çıktı/exit 1 ile başarısızdır; kullanıcı bu belgelenmiş baseline istisnasıyla commit/push onayladı. Bu işte içerik güncellenmez. PR #67 Draft ve unmerged kalır.
+
+
 ## Devam eden çalışma — Redmi Home integration stabilization / PR #67 (6 Ekim 2026)
 
 - Aynı `codex/gezek-ui-foundation` dalında `b494ee7` head'i ve fetch sonrası `origin/main` `46c4115` doğrulandı. Mevcut Draft PR #67 sürdürülür; yeni PR, merge veya force-push yok.

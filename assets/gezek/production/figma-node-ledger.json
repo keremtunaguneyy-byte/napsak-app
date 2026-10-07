@@ -1,0 +1,1680 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-07",
+  "file_key": "yTdAWr92ETyurlQQHNNqpi",
+  "page": {
+    "name": "Gezek Artwork Library — Production",
+    "id": "807:2"
+  },
+  "integrated_home_references": {
+    "page_name": "07 Home — Redmi Refinement (Alternative)",
+    "page_id": "748:2",
+    "section_id": "823:2041",
+    "screens": [
+      {
+        "context": "gezek",
+        "node_id": "823:2042",
+        "dimensions": "393x1527",
+        "purpose": "full-scroll implementation reference"
+      },
+      {
+        "context": "place",
+        "node_id": "823:2388",
+        "dimensions": "393x1551",
+        "purpose": "full-scroll implementation reference"
+      },
+      {
+        "context": "event",
+        "node_id": "823:2797",
+        "dimensions": "393x1551",
+        "purpose": "full-scroll implementation reference"
+      },
+      {
+        "context": "idea",
+        "node_id": "823:3274",
+        "dimensions": "393x1551",
+        "purpose": "full-scroll implementation reference"
+      },
+      {
+        "context": "gezek",
+        "node_id": "824:2880",
+        "dimensions": "393x852",
+        "purpose": "device viewport acceptance reference"
+      }
+    ],
+    "visible_card_bindings": [
+      {
+        "context": "gezek",
+        "card_node_id": "823:2266",
+        "slot_node_id": "823:2267",
+        "layout": "Hero",
+        "artwork_key": "experience/xp-kugulu-segmenler/hero-v1",
+        "figma_instance_node_id": "824:2704"
+      },
+      {
+        "context": "gezek",
+        "card_node_id": "823:2291",
+        "slot_node_id": "823:2292",
+        "layout": "Square",
+        "artwork_key": "experience/xp-ulucanlar-hamamonu/hero-v1",
+        "figma_instance_node_id": "824:2714"
+      },
+      {
+        "context": "gezek",
+        "card_node_id": "823:2310",
+        "slot_node_id": "823:2311",
+        "layout": "Square",
+        "artwork_key": "experience/xp-etnografya-resim/hero-v1",
+        "figma_instance_node_id": "824:2723"
+      },
+      {
+        "context": "gezek",
+        "card_node_id": "823:2329",
+        "slot_node_id": "823:2330",
+        "layout": "Square",
+        "artwork_key": "experience/xp-anadolu-kronolojik/hero-v1",
+        "figma_instance_node_id": "824:2732"
+      },
+      {
+        "context": "gezek",
+        "card_node_id": "823:2360",
+        "slot_node_id": "823:2361",
+        "layout": "Square",
+        "artwork_key": "experience/xp-tunali-kugulu-short/hero-v1",
+        "figma_instance_node_id": "824:2741"
+      },
+      {
+        "context": "place",
+        "card_node_id": "823:2650",
+        "slot_node_id": "823:2651",
+        "layout": "Hero",
+        "artwork_key": "place/museum-gallery/museum-gallery/v01",
+        "figma_instance_node_id": "824:2750"
+      },
+      {
+        "context": "place",
+        "card_node_id": "823:2683",
+        "slot_node_id": "823:2684",
+        "layout": "Square",
+        "artwork_key": "place/museum-gallery/museum-gallery/v02",
+        "figma_instance_node_id": "824:2758"
+      },
+      {
+        "context": "place",
+        "card_node_id": "823:2711",
+        "slot_node_id": "823:2712",
+        "layout": "Square",
+        "artwork_key": "place/urban-park/urban-green/v01",
+        "figma_instance_node_id": "837:2852"
+      },
+      {
+        "context": "place",
+        "card_node_id": "823:2741",
+        "slot_node_id": "823:2742",
+        "layout": "Square",
+        "artwork_key": "place/specialty-coffee/coffee-detail/v01",
+        "figma_instance_node_id": "824:2772"
+      },
+      {
+        "context": "place",
+        "card_node_id": "823:2769",
+        "slot_node_id": "823:2770",
+        "layout": "Square",
+        "artwork_key": "place/heritage-landmark/heritage-architecture/v01",
+        "figma_instance_node_id": "824:2779"
+      },
+      {
+        "context": "event",
+        "card_node_id": "823:3085",
+        "slot_node_id": "823:3086",
+        "layout": "Hero",
+        "artwork_key": "event/concert-live/v01",
+        "figma_instance_node_id": "824:2786"
+      },
+      {
+        "context": "event",
+        "card_node_id": "823:3124",
+        "slot_node_id": "823:3125",
+        "layout": "Square",
+        "artwork_key": "event/concert-classical-acoustic/v01",
+        "figma_instance_node_id": "824:2798"
+      },
+      {
+        "context": "event",
+        "card_node_id": "823:3165",
+        "slot_node_id": "823:3166",
+        "layout": "Square",
+        "artwork_key": "event/theatre-play/v01",
+        "figma_instance_node_id": "824:2808"
+      },
+      {
+        "context": "event",
+        "card_node_id": "823:3204",
+        "slot_node_id": "823:3205",
+        "layout": "Square",
+        "artwork_key": "event/standup-comedy/v01",
+        "figma_instance_node_id": "824:2822"
+      },
+      {
+        "context": "event",
+        "card_node_id": "823:3240",
+        "slot_node_id": "823:3241",
+        "layout": "Square",
+        "artwork_key": "event/exhibition-opening/v01",
+        "figma_instance_node_id": "824:2834"
+      },
+      {
+        "context": "idea",
+        "card_node_id": "823:3550",
+        "slot_node_id": "823:3551",
+        "layout": "Hero",
+        "artwork_key": "idea/active-movement/active-motion/v01",
+        "figma_instance_node_id": "824:2841"
+      },
+      {
+        "context": "idea",
+        "card_node_id": "823:3585",
+        "slot_node_id": "823:3586",
+        "layout": "Square",
+        "artwork_key": "idea/outdoor-neighborhood/neighborhood-walk/v01",
+        "figma_instance_node_id": "824:2850"
+      },
+      {
+        "context": "idea",
+        "card_node_id": "823:3619",
+        "slot_node_id": "823:3620",
+        "layout": "Square",
+        "artwork_key": "idea/creative-art/creative-tools/v01",
+        "figma_instance_node_id": "824:2857"
+      },
+      {
+        "context": "idea",
+        "card_node_id": "823:3652",
+        "slot_node_id": "823:3653",
+        "layout": "Square",
+        "artwork_key": "idea/curiosity-learning/learning-detail/v01",
+        "figma_instance_node_id": "824:2865"
+      },
+      {
+        "context": "idea",
+        "card_node_id": "823:3685",
+        "slot_node_id": "823:3686",
+        "layout": "Square",
+        "artwork_key": "idea/food-cooking/hands-cooking/v01",
+        "figma_instance_node_id": "824:2873"
+      }
+    ],
+    "discovery_navigation": {
+      "component_set_id": "758:896",
+      "row_dimensions": "351x142",
+      "card_dimensions": "109x142",
+      "gap_px": 12,
+      "screen_inset_px": 20,
+      "rows": [
+        {
+          "context": "gezek",
+          "row_node_id": "823:2074",
+          "destinations": ["place", "event", "idea"],
+          "instance_node_ids": ["848:2817", "848:2826", "848:2836"]
+        },
+        {
+          "context": "place",
+          "row_node_id": "823:2423",
+          "destinations": ["gezek", "event", "idea"],
+          "instance_node_ids": ["848:2848", "848:2857", "848:2867"]
+        },
+        {
+          "context": "event",
+          "row_node_id": "823:2832",
+          "destinations": ["gezek", "place", "idea"],
+          "instance_node_ids": ["848:2879", "848:2888", "848:2897"]
+        },
+        {
+          "context": "idea",
+          "row_node_id": "823:3309",
+          "destinations": ["gezek", "place", "event"],
+          "instance_node_ids": ["848:2909", "848:2918", "848:2927"]
+        }
+      ]
+    },
+    "artwork_revisions": [
+      {
+        "artwork_key": "event/concert-live/v01",
+        "component_set_node_id": "808:145",
+        "revision": "soloist-at-microphone",
+        "layouts": ["Hero", "Square", "Compact"]
+      },
+      {
+        "artwork_key": "event/concert-classical-acoustic/v01",
+        "component_set_node_id": "810:102",
+        "revision": "minimal-stick-figure-guitarist-with-separated-microphone",
+        "layouts": ["Hero", "Square", "Compact"]
+      },
+      {
+        "artwork_key": "event/theatre-play/v01",
+        "component_set_node_id": "808:179",
+        "revision": "open-stage-with-actors",
+        "layouts": ["Hero", "Square", "Compact"]
+      }
+    ]
+  },
+  "sections": [
+    {
+      "name": "Production / Contextual Icons",
+      "id": "807:3",
+      "placeholder": false,
+      "children": 46
+    },
+    {
+      "name": "Production / Proof Masters",
+      "id": "807:4",
+      "placeholder": false,
+      "children": 12
+    },
+    {
+      "name": "Production / Experience / Batch 01",
+      "id": "807:5",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Experience / Batch 02",
+      "id": "807:6",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Experience / Batch 03",
+      "id": "807:7",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Place / Batch 01",
+      "id": "807:8",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Place / Batch 02",
+      "id": "807:9",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Event / Batch 01",
+      "id": "807:10",
+      "placeholder": false,
+      "children": 8
+    },
+    {
+      "name": "Production / Idea / Batch 01",
+      "id": "807:11",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Idea / Batch 02",
+      "id": "807:12",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / QA Index",
+      "id": "807:13",
+      "placeholder": false,
+      "children": 125
+    },
+    {
+      "name": "Production / Experience / Batch 04",
+      "id": "809:2",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Experience / Batch 05",
+      "id": "809:3",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Place / Batch 03",
+      "id": "809:4",
+      "placeholder": false,
+      "children": 10
+    },
+    {
+      "name": "Production / Place / Batch 04",
+      "id": "809:5",
+      "placeholder": false,
+      "children": 3
+    },
+    {
+      "name": "Production / Idea / Batch 03",
+      "id": "809:6",
+      "placeholder": false,
+      "children": 2
+    }
+  ],
+  "counts": {
+    "artwork_families": 125,
+    "responsive_variants": 375,
+    "contextual_icons": 46,
+    "qa_instances": 125
+  },
+  "artwork": [
+    {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=concert-classical-acoustic, Variant=01",
+      "figma_node_id": "810:102",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/concert-live/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=concert-live, Variant=01",
+      "figma_node_id": "808:145",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "event/creative-workshop/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=creative-workshop, Variant=01",
+      "figma_node_id": "810:125",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/culinary-workshop/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=culinary-workshop, Variant=01",
+      "figma_node_id": "808:63",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "event/exhibition-opening/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=exhibition-opening, Variant=01",
+      "figma_node_id": "810:148",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/family-show/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=family-show, Variant=01",
+      "figma_node_id": "810:180",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/festival-food-drink/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=festival-food-drink, Variant=01",
+      "figma_node_id": "810:206",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/film-talk/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=film-talk, Variant=01",
+      "figma_node_id": "810:232",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/sports-event/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=sports-event, Variant=01",
+      "figma_node_id": "810:258",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "event/standup-comedy/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=standup-comedy, Variant=01",
+      "figma_node_id": "808:216",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "event/theatre-play/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=theatre-play, Variant=01",
+      "figma_node_id": "808:179",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "event/trivia-games/v01",
+      "kind": "event",
+      "figma_component_name": "Artwork / Event / Type=trivia-games, Variant=01",
+      "figma_node_id": "810:287",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-altinkoy-koy-yasamini-uc-izden-oku/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-altinkoy-koy-yasamini-uc-izden-oku",
+      "figma_node_id": "809:10124",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-altinpark-uzun-ogleden-sonra/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-altinpark-uzun-ogleden-sonra",
+      "figma_node_id": "809:10155",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-anadolu-kronolojik/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-anadolu-kronolojik",
+      "figma_node_id": "809:10186",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-anitkabir-maltepe/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-anitkabir-maltepe",
+      "figma_node_id": "809:10218",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-ankara-palas-ikinci-tbmm/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-ankara-palas-ikinci-tbmm",
+      "figma_node_id": "809:10249",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-aoc-kurulus-hikayesi/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-aoc-kurulus-hikayesi",
+      "figma_node_id": "809:10280",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-aqua-vega-uc-yasam-alani/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-aqua-vega-uc-yasam-alani",
+      "figma_node_id": "809:10314",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-arslanhane-alaaddin-selcuklu/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-arslanhane-alaaddin-selcuklu",
+      "figma_node_id": "809:10345",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-aspava-ikram-ritueli/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-aspava-ikram-ritueli",
+      "figma_node_id": "809:10380",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-beypazari-halfday/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-beypazari-halfday",
+      "figma_node_id": "809:10415",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-bogazici-ulus-ogle-ritueli/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-bogazici-ulus-ogle-ritueli",
+      "figma_node_id": "809:10450",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-bolu-akin-eski-garajlar-tencere/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-bolu-akin-eski-garajlar-tencere",
+      "figma_node_id": "809:10485",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-botanik-atakule-short/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-botanik-atakule-short",
+      "figma_node_id": "809:10516",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-cengelhan-teknolojinin-izini-sur/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-cengelhan-teknolojinin-izini-sur",
+      "figma_node_id": "809:10547",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-cin-ali-iki-kusak/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-cin-ali-iki-kusak",
+      "figma_node_id": "809:10578",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-cubuk-1-baraji-muhendislik-gozu/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-cubuk-1-baraji-muhendislik-gozu",
+      "figma_node_id": "809:10609",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-da-vinci-yeni-oyun/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-da-vinci-yeni-oyun",
+      "figma_node_id": "809:10647",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-dikmen-vadisi-kot-yuruyusu/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-dikmen-vadisi-kot-yuruyusu",
+      "figma_node_id": "809:10682",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-dost-konu-raf-haritasi/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-dost-konu-raf-haritasi",
+      "figma_node_id": "809:10713",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-duveroglu-lahmacun/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-duveroglu-lahmacun",
+      "figma_node_id": "809:10748",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-erimtan-kale/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-erimtan-kale",
+      "figma_node_id": "809:10779",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-etnografya-resim/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-etnografya-resim",
+      "figma_node_id": "809:10810",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-eymir-bisikletle-dolas/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-eymir-bisikletle-dolas",
+      "figma_node_id": "809:10842",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-eymir-halfday/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-eymir-halfday",
+      "figma_node_id": "809:10874",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-federal-bilkent-demleme/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-federal-bilkent-demleme",
+      "figma_node_id": "809:10906",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-goksu-loop/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-goksu-loop",
+      "figma_node_id": "809:10938",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-gokyay-satranc-taslari/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-gokyay-satranc-taslari",
+      "figma_node_id": "809:10969",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-gordion-halfday/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-gordion-halfday",
+      "figma_node_id": "809:11000",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-hacibayram-augustus/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-hacibayram-augustus",
+      "figma_node_id": "809:11031",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-hanem-konya-sofrasi/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-hanem-konya-sofrasi",
+      "figma_node_id": "809:11063",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-hava-kuvvetleri-iki-saat/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-hava-kuvvetleri-iki-saat",
+      "figma_node_id": "809:11094",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-kecioren-cocuk-sanat-muzesi-rehber/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-kecioren-cocuk-sanat-muzesi-rehber",
+      "figma_node_id": "809:11125",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-kelime-erimtan-kale/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-kelime-erimtan-kale",
+      "figma_node_id": "809:11156",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-kitir-tunali-bulusma-hafizasi/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-kitir-tunali-bulusma-hafizasi",
+      "figma_node_id": "809:11191",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-kizilcahamam-halfday/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-kizilcahamam-halfday",
+      "figma_node_id": "809:11222",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-kugulu-segmenler/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-kugulu-segmenler",
+      "figma_node_id": "808:249",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "experience/xp-mavi-gol-sehirden-uzak/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-mavi-gol-sehirden-uzak",
+      "figma_node_id": "809:11253",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-meclis-duo-short/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-meclis-duo-short",
+      "figma_node_id": "809:11284",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-millet-kutuphanesi-derin-calisma/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-millet-kutuphanesi-derin-calisma",
+      "figma_node_id": "809:11315",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-mogan-halfday/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-mogan-halfday",
+      "figma_node_id": "809:11346",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-no29-kahve-tatli/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-no29-kahve-tatli",
+      "figma_node_id": "808:2",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "experience/xp-odtu-double-museum/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-odtu-double-museum",
+      "figma_node_id": "809:11377",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-old-school-iki-demleme/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-old-school-iki-demleme",
+      "figma_node_id": "809:11409",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-pecenek-iskitler-doner-ritueli/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-pecenek-iskitler-doner-ritueli",
+      "figma_node_id": "809:11444",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-ptt-pullardan-donem-oku/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-ptt-pullardan-donem-oku",
+      "figma_node_id": "809:11475",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-roma-meclis/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-roma-meclis",
+      "figma_node_id": "809:11506",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-sakarya-muharebesini-araziden-oku/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-sakarya-muharebesini-araziden-oku",
+      "figma_node_id": "809:11537",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-tragos-tanitim-dersi/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-tragos-tanitim-dersi",
+      "figma_node_id": "809:11572",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-trilye-balik/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-trilye-balik",
+      "figma_node_id": "809:11607",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-tunali-kugulu-short/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-tunali-kugulu-short",
+      "figma_node_id": "809:11639",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-ulucanlar-hamamonu/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-ulucanlar-hamamonu",
+      "figma_node_id": "809:11670",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "experience/xp-urumci-on-cebeci-uygur-sofrasi/hero-v1",
+      "kind": "experience",
+      "figma_component_name": "Artwork / Experience / xp-urumci-on-cebeci-uygur-sofrasi",
+      "figma_node_id": "809:11705",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/active-movement/active-motion/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=active-movement, Variant=01",
+      "figma_node_id": "810:313",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/active-movement/active-motion/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=active-movement, Variant=02",
+      "figma_node_id": "810:339",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/coffee-drink-ritual/drink-ritual/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=coffee-drink-ritual, Variant=01",
+      "figma_node_id": "808:91",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "idea/coffee-drink-ritual/drink-ritual/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=coffee-drink-ritual, Variant=02",
+      "figma_node_id": "810:365",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/creative-art/creative-tools/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=creative-art, Variant=01",
+      "figma_node_id": "810:391",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/creative-art/creative-tools/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=creative-art, Variant=02",
+      "figma_node_id": "810:417",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/curiosity-learning/learning-detail/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=curiosity-learning, Variant=01",
+      "figma_node_id": "810:443",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/curiosity-learning/learning-detail/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=curiosity-learning, Variant=02",
+      "figma_node_id": "810:469",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/food-cooking/hands-cooking/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=food-cooking, Variant=01",
+      "figma_node_id": "810:492",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/food-cooking/hands-cooking/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=food-cooking, Variant=02",
+      "figma_node_id": "810:515",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/friend-group/friends-activity/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=friend-group, Variant=01",
+      "figma_node_id": "810:547",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/friend-group/friends-activity/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=friend-group, Variant=02",
+      "figma_node_id": "810:579",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/home-bad-weather/cozy-home/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=home-bad-weather, Variant=01",
+      "figma_node_id": "810:605",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/home-bad-weather/cozy-home/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=home-bad-weather, Variant=02",
+      "figma_node_id": "810:631",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/micro-adventure/small-discovery/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=micro-adventure, Variant=01",
+      "figma_node_id": "808:306",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "idea/micro-adventure/small-discovery/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=micro-adventure, Variant=02",
+      "figma_node_id": "810:657",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/outdoor-neighborhood/neighborhood-walk/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=outdoor-neighborhood, Variant=01",
+      "figma_node_id": "810:680",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/outdoor-neighborhood/neighborhood-walk/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=outdoor-neighborhood, Variant=02",
+      "figma_node_id": "810:703",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/pair-date/two-person-moment/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=pair-date, Variant=01",
+      "figma_node_id": "810:729",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/pair-date/two-person-moment/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=pair-date, Variant=02",
+      "figma_node_id": "810:755",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/social-ritual-hosting/shared-table/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=social-ritual-hosting, Variant=01",
+      "figma_node_id": "810:787",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/social-ritual-hosting/shared-table/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=social-ritual-hosting, Variant=02",
+      "figma_node_id": "810:819",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/solo-reset/quiet-reset/v01",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=solo-reset, Variant=01",
+      "figma_node_id": "810:845",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "idea/solo-reset/quiet-reset/v02",
+      "kind": "idea",
+      "figma_component_name": "Artwork / Idea / Type=solo-reset, Variant=02",
+      "figma_node_id": "810:871",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/active-sports/active-motion/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=active-sports, Variant=01",
+      "figma_node_id": "809:11731",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/activity-venue/venue-program/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=activity-venue, Variant=01",
+      "figma_node_id": "809:11760",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/aquarium-family/aquarium-tunnel/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=aquarium-family, Variant=01",
+      "figma_node_id": "809:11786",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/bakery-local/bakery-detail/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=bakery-local, Variant=01",
+      "figma_node_id": "809:11809",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/bar-nightlife/social-night/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=bar-nightlife, Variant=01",
+      "figma_node_id": "809:11835",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/cafe-social/cafe-interior/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=cafe-social, Variant=01",
+      "figma_node_id": "808:30",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "place/cafe-social/cafe-interior/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=cafe-social, Variant=02",
+      "figma_node_id": "809:11858",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/cinema-screening/cinema-screen/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=cinema-screening, Variant=01",
+      "figma_node_id": "809:11884",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/city-attraction/city-view/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=city-attraction, Variant=01",
+      "figma_node_id": "809:11907",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/creative-workshop/hands-making/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=creative-workshop, Variant=01",
+      "figma_node_id": "809:11930",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/culinary-workshop/hands-cooking/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=culinary-workshop, Variant=01",
+      "figma_node_id": "809:11953",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/culture-space/culture-interior/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=culture-space, Variant=01",
+      "figma_node_id": "809:11976",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/destination-dining/dining-atmosphere/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=destination-dining, Variant=01",
+      "figma_node_id": "809:12002",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/forest-hiking/forest-trail/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=forest-hiking, Variant=01",
+      "figma_node_id": "809:12025",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/games-social/tabletop-play/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=games-social, Variant=01",
+      "figma_node_id": "809:12054",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/heritage-district/historic-street/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=heritage-district, Variant=01",
+      "figma_node_id": "809:12077",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/heritage-landmark/heritage-architecture/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=heritage-landmark, Variant=01",
+      "figma_node_id": "809:12100",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/heritage-landmark/heritage-architecture/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=heritage-landmark, Variant=02",
+      "figma_node_id": "809:12123",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/lake-waterfront/waterfront/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=lake-waterfront, Variant=01",
+      "figma_node_id": "808:278",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "place/lake-waterfront/waterfront/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=lake-waterfront, Variant=02",
+      "figma_node_id": "809:12146",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/library-bookstore/books-culture/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=library-bookstore, Variant=01",
+      "figma_node_id": "809:12169",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/live-music/concert-stage/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=live-music, Variant=01",
+      "figma_node_id": "809:12201",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/local-restaurant/local-food-table/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=local-restaurant, Variant=01",
+      "figma_node_id": "808:334",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "place/local-restaurant/local-food-table/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=local-restaurant, Variant=02",
+      "figma_node_id": "809:12227",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/museum-gallery/museum-gallery/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=museum-gallery, Variant=01",
+      "figma_node_id": "809:12250",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/museum-gallery/museum-gallery/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=museum-gallery, Variant=02",
+      "figma_node_id": "809:12273",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/museum-gallery/museum-gallery/v03",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=museum-gallery, Variant=03",
+      "figma_node_id": "809:12296",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/museum-gallery/museum-gallery/v04",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=museum-gallery, Variant=04",
+      "figma_node_id": "809:12319",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/outdoor-walk/walking-landscape/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=outdoor-walk, Variant=01",
+      "figma_node_id": "809:12342",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/performance-stage/theatre-stage/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=performance-stage, Variant=01",
+      "figma_node_id": "808:120",
+      "production_status": "proof-approved",
+      "asset_authority": "figma-proof-component"
+    },
+    {
+      "artwork_key": "place/performance-stage/theatre-stage/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=performance-stage, Variant=02",
+      "figma_node_id": "809:12368",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/scenic-nature/landscape-detail/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=scenic-nature, Variant=01",
+      "figma_node_id": "809:12394",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/science-interactive/science-exhibit/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=science-interactive, Variant=01",
+      "figma_node_id": "809:12426",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/specialty-coffee/coffee-detail/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=specialty-coffee, Variant=01",
+      "figma_node_id": "809:12449",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/specialty-coffee/coffee-detail/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=specialty-coffee, Variant=02",
+      "figma_node_id": "810:24",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/urban-park/urban-green/v01",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=urban-park, Variant=01",
+      "figma_node_id": "810:47",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    },
+    {
+      "artwork_key": "place/urban-park/urban-green/v02",
+      "kind": "place",
+      "figma_component_name": "Artwork / Place / Type=urban-park, Variant=02",
+      "figma_node_id": "810:70",
+      "production_status": "production-approved",
+      "asset_authority": "generated-svg"
+    }
+  ],
+  "icons": [
+    {
+      "icon_key": "icon/event/family",
+      "figma_component_name": "Icon / event/family",
+      "figma_node_id": "808:360",
+      "path": "svg/icons/icon/event/family.svg"
+    },
+    {
+      "icon_key": "icon/event/festival",
+      "figma_component_name": "Icon / event/festival",
+      "figma_node_id": "808:370",
+      "path": "svg/icons/icon/event/festival.svg"
+    },
+    {
+      "icon_key": "icon/event/film",
+      "figma_component_name": "Icon / event/film",
+      "figma_node_id": "808:380",
+      "path": "svg/icons/icon/event/film.svg"
+    },
+    {
+      "icon_key": "icon/event/game",
+      "figma_component_name": "Icon / event/game",
+      "figma_node_id": "808:388",
+      "path": "svg/icons/icon/event/game.svg"
+    },
+    {
+      "icon_key": "icon/event/music",
+      "figma_component_name": "Icon / event/music",
+      "figma_node_id": "808:397",
+      "path": "svg/icons/icon/event/music.svg"
+    },
+    {
+      "icon_key": "icon/event/sport",
+      "figma_component_name": "Icon / event/sport",
+      "figma_node_id": "808:407",
+      "path": "svg/icons/icon/event/sport.svg"
+    },
+    {
+      "icon_key": "icon/event/stage",
+      "figma_component_name": "Icon / event/stage",
+      "figma_node_id": "808:415",
+      "path": "svg/icons/icon/event/stage.svg"
+    },
+    {
+      "icon_key": "icon/event/workshop",
+      "figma_component_name": "Icon / event/workshop",
+      "figma_node_id": "808:423",
+      "path": "svg/icons/icon/event/workshop.svg"
+    },
+    {
+      "icon_key": "icon/experience/route-active",
+      "figma_component_name": "Icon / experience/route-active",
+      "figma_node_id": "808:430",
+      "path": "svg/icons/icon/experience/route-active.svg"
+    },
+    {
+      "icon_key": "icon/experience/route-culture",
+      "figma_component_name": "Icon / experience/route-culture",
+      "figma_node_id": "808:438",
+      "path": "svg/icons/icon/experience/route-culture.svg"
+    },
+    {
+      "icon_key": "icon/experience/route-food",
+      "figma_component_name": "Icon / experience/route-food",
+      "figma_node_id": "808:445",
+      "path": "svg/icons/icon/experience/route-food.svg"
+    },
+    {
+      "icon_key": "icon/experience/route-nature",
+      "figma_component_name": "Icon / experience/route-nature",
+      "figma_node_id": "808:453",
+      "path": "svg/icons/icon/experience/route-nature.svg"
+    },
+    {
+      "icon_key": "icon/idea/adventure",
+      "figma_component_name": "Icon / idea/adventure",
+      "figma_node_id": "808:460",
+      "path": "svg/icons/icon/idea/adventure.svg"
+    },
+    {
+      "icon_key": "icon/idea/coffee",
+      "figma_component_name": "Icon / idea/coffee",
+      "figma_node_id": "808:467",
+      "path": "svg/icons/icon/idea/coffee.svg"
+    },
+    {
+      "icon_key": "icon/idea/cooking",
+      "figma_component_name": "Icon / idea/cooking",
+      "figma_node_id": "808:473",
+      "path": "svg/icons/icon/idea/cooking.svg"
+    },
+    {
+      "icon_key": "icon/idea/creative",
+      "figma_component_name": "Icon / idea/creative",
+      "figma_node_id": "808:479",
+      "path": "svg/icons/icon/idea/creative.svg"
+    },
+    {
+      "icon_key": "icon/idea/group",
+      "figma_component_name": "Icon / idea/group",
+      "figma_node_id": "808:486",
+      "path": "svg/icons/icon/idea/group.svg"
+    },
+    {
+      "icon_key": "icon/idea/home",
+      "figma_component_name": "Icon / idea/home",
+      "figma_node_id": "808:495",
+      "path": "svg/icons/icon/idea/home.svg"
+    },
+    {
+      "icon_key": "icon/idea/hosting",
+      "figma_component_name": "Icon / idea/hosting",
+      "figma_node_id": "808:502",
+      "path": "svg/icons/icon/idea/hosting.svg"
+    },
+    {
+      "icon_key": "icon/idea/learning",
+      "figma_component_name": "Icon / idea/learning",
+      "figma_node_id": "808:511",
+      "path": "svg/icons/icon/idea/learning.svg"
+    },
+    {
+      "icon_key": "icon/idea/pair",
+      "figma_component_name": "Icon / idea/pair",
+      "figma_node_id": "808:518",
+      "path": "svg/icons/icon/idea/pair.svg"
+    },
+    {
+      "icon_key": "icon/idea/self-care",
+      "figma_component_name": "Icon / idea/self-care",
+      "figma_node_id": "808:525",
+      "path": "svg/icons/icon/idea/self-care.svg"
+    },
+    {
+      "icon_key": "icon/idea/sport",
+      "figma_component_name": "Icon / idea/sport",
+      "figma_node_id": "808:532",
+      "path": "svg/icons/icon/idea/sport.svg"
+    },
+    {
+      "icon_key": "icon/idea/walk",
+      "figma_component_name": "Icon / idea/walk",
+      "figma_node_id": "808:539",
+      "path": "svg/icons/icon/idea/walk.svg"
+    },
+    {
+      "icon_key": "icon/place/aquarium",
+      "figma_component_name": "Icon / place/aquarium",
+      "figma_node_id": "808:545",
+      "path": "svg/icons/icon/place/aquarium.svg"
+    },
+    {
+      "icon_key": "icon/place/attraction",
+      "figma_component_name": "Icon / place/attraction",
+      "figma_node_id": "808:552",
+      "path": "svg/icons/icon/place/attraction.svg"
+    },
+    {
+      "icon_key": "icon/place/bakery",
+      "figma_component_name": "Icon / place/bakery",
+      "figma_node_id": "808:558",
+      "path": "svg/icons/icon/place/bakery.svg"
+    },
+    {
+      "icon_key": "icon/place/book",
+      "figma_component_name": "Icon / place/book",
+      "figma_node_id": "808:564",
+      "path": "svg/icons/icon/place/book.svg"
+    },
+    {
+      "icon_key": "icon/place/coffee",
+      "figma_component_name": "Icon / place/coffee",
+      "figma_node_id": "808:570",
+      "path": "svg/icons/icon/place/coffee.svg"
+    },
+    {
+      "icon_key": "icon/place/culture",
+      "figma_component_name": "Icon / place/culture",
+      "figma_node_id": "808:576",
+      "path": "svg/icons/icon/place/culture.svg"
+    },
+    {
+      "icon_key": "icon/place/film",
+      "figma_component_name": "Icon / place/film",
+      "figma_node_id": "808:582",
+      "path": "svg/icons/icon/place/film.svg"
+    },
+    {
+      "icon_key": "icon/place/forest",
+      "figma_component_name": "Icon / place/forest",
+      "figma_node_id": "808:589",
+      "path": "svg/icons/icon/place/forest.svg"
+    },
+    {
+      "icon_key": "icon/place/game",
+      "figma_component_name": "Icon / place/game",
+      "figma_node_id": "808:595",
+      "path": "svg/icons/icon/place/game.svg"
+    },
+    {
+      "icon_key": "icon/place/landmark",
+      "figma_component_name": "Icon / place/landmark",
+      "figma_node_id": "808:603",
+      "path": "svg/icons/icon/place/landmark.svg"
+    },
+    {
+      "icon_key": "icon/place/museum",
+      "figma_component_name": "Icon / place/museum",
+      "figma_node_id": "808:609",
+      "path": "svg/icons/icon/place/museum.svg"
+    },
+    {
+      "icon_key": "icon/place/music",
+      "figma_component_name": "Icon / place/music",
+      "figma_node_id": "808:615",
+      "path": "svg/icons/icon/place/music.svg"
+    },
+    {
+      "icon_key": "icon/place/nature",
+      "figma_component_name": "Icon / place/nature",
+      "figma_node_id": "808:624",
+      "path": "svg/icons/icon/place/nature.svg"
+    },
+    {
+      "icon_key": "icon/place/nightlife",
+      "figma_component_name": "Icon / place/nightlife",
+      "figma_node_id": "808:631",
+      "path": "svg/icons/icon/place/nightlife.svg"
+    },
+    {
+      "icon_key": "icon/place/park",
+      "figma_component_name": "Icon / place/park",
+      "figma_node_id": "808:638",
+      "path": "svg/icons/icon/place/park.svg"
+    },
+    {
+      "icon_key": "icon/place/restaurant",
+      "figma_component_name": "Icon / place/restaurant",
+      "figma_node_id": "808:644",
+      "path": "svg/icons/icon/place/restaurant.svg"
+    },
+    {
+      "icon_key": "icon/place/science",
+      "figma_component_name": "Icon / place/science",
+      "figma_node_id": "808:651",
+      "path": "svg/icons/icon/place/science.svg"
+    },
+    {
+      "icon_key": "icon/place/sport",
+      "figma_component_name": "Icon / place/sport",
+      "figma_node_id": "808:660",
+      "path": "svg/icons/icon/place/sport.svg"
+    },
+    {
+      "icon_key": "icon/place/stage",
+      "figma_component_name": "Icon / place/stage",
+      "figma_node_id": "808:667",
+      "path": "svg/icons/icon/place/stage.svg"
+    },
+    {
+      "icon_key": "icon/place/ticket",
+      "figma_component_name": "Icon / place/ticket",
+      "figma_node_id": "808:674",
+      "path": "svg/icons/icon/place/ticket.svg"
+    },
+    {
+      "icon_key": "icon/place/water",
+      "figma_component_name": "Icon / place/water",
+      "figma_node_id": "808:682",
+      "path": "svg/icons/icon/place/water.svg"
+    },
+    {
+      "icon_key": "icon/place/workshop",
+      "figma_component_name": "Icon / place/workshop",
+      "figma_node_id": "808:688",
+      "path": "svg/icons/icon/place/workshop.svg"
+    }
+  ],
+  "validation": {
+    "missing_artwork_node_ids": [],
+    "missing_icon_node_ids": [],
+    "placeholder_sections": [],
+    "integrated_home_card_binding_qa": {
+      "status": "passed",
+      "checked_at": "2026-10-07",
+      "visible_cards_checked": 20,
+      "stale_editorial_or_fallback_layers": 0,
+      "semantic_correction": "Seğmenler Parkı -> place/urban-park/urban-green/v01"
+    },
+    "home_discovery_navigation_qa": {
+      "status": "passed",
+      "checked_at": "2026-10-07",
+      "screen_width_px": 393,
+      "rows_checked": 4,
+      "cards_per_row": 3,
+      "card_width_px": 109,
+      "gap_px": 12,
+      "stray_layers": 0
+    },
+    "handoff_readiness_qa": {
+      "status": "passed-with-logo-deferred",
+      "checked_at": "2026-10-07",
+      "artwork_families_checked": 125,
+      "responsive_svg_files_checked": 375,
+      "contextual_icon_files_checked": 46,
+      "missing_manifest_paths": 0,
+      "broken_figma_instances": 0,
+      "device_acceptance_node_id": "824:2880",
+      "device_acceptance_dimensions": "393x852",
+      "temporary_logo_policy": "lowercase wordmark through one replaceable BrandLogo component",
+      "non_final_logo_candidate_node_id": "890:2825"
+    }
+  }
+}

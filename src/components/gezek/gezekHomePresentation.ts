@@ -2,25 +2,7 @@ import type { ImageSourcePropType } from 'react-native';
 import { formatDurationRange } from '../../domain';
 import { RecommendationItem } from '../../recommendations';
 
-export type HomeIllustration = 'place' | 'event' | 'idea' | 'neutral';
-type LicensedHomePhoto = { source: number; sourceCredit: string; licenseEvidence: string };
-
-// Only verified bundled photography belongs here, keyed by stable catalog ID.
-// The supplied Home photographs have no recorded source/license and are not eligible.
-const licensedPhotos: Readonly<Record<string, LicensedHomePhoto>> = {};
-
-export function homePhoto(id: string): ImageSourcePropType | undefined {
-  return licensedPhotos[id]?.source;
-}
-
-/** Product-approved provisional fallback, 2026-10-06. Never infer artwork from a title. */
-export function homeIllustration(item: RecommendationItem): HomeIllustration {
-  if (item.kind !== 'experience') return item.kind;
-  if (!item.primaryInterests.includes(item.category)) return 'neutral';
-  if (item.category === 'Etkinlik') return 'event';
-  if (item.category === 'Kahve' || item.category === 'Lezzet') return 'place';
-  return 'neutral';
-}
+export { ArtworkResolver as homeArtwork } from './ArtworkResolver';
 
 export function homeItemTitle(item: RecommendationItem): string {
   return item.kind === 'place' ? item.name : item.title;

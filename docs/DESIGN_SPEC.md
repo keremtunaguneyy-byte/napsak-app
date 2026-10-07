@@ -1,5 +1,9 @@
 # Gezek — Tasarım ve Marka
 
+## Güncel otorite — 8 Ekim 2026
+
+Onaylı 2026-10-07 command-center paketi ve canlı Page 07 (`823:2041`, dört entegre Home, `824:2880`) önceki Home görsel sözleşmesini geçersiz kılar. Güncel asset, etkileşim ve kabul sınırı `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir. Aşağıdaki eski Home kayıtları tarihseldir. Nihai logo ve cihaz kabulü ertelenmiştir.
+
 6 Eylül 2026. Başlangıç kaydı; tüm eski konuşmaların eksiksiz aktarımı veya final tasarım sistemi değildir. Güncel ürün bağlamı PRODUCT_SPEC ve STATUS'tadır.
 
 ## Ürün karakteri ve kararlar

@@ -1,0 +1,386 @@
+{
+  "artwork": [
+    {
+      "key": "event/concert-classical-acoustic/v01",
+      "setId": "810:102",
+      "id": "810:71",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "event/concert-classical-acoustic/v01",
+      "setId": "810:102",
+      "id": "810:82",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "event/concert-classical-acoustic/v01",
+      "setId": "810:102",
+      "id": "810:92",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "event/concert-live/v01",
+      "setId": "808:145",
+      "id": "808:146",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "event/concert-live/v01",
+      "setId": "808:145",
+      "id": "808:158",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "event/concert-live/v01",
+      "setId": "808:145",
+      "id": "808:169",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "event/culinary-workshop/v01",
+      "setId": "808:63",
+      "id": "808:64",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "event/culinary-workshop/v01",
+      "setId": "808:63",
+      "id": "808:75",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "event/culinary-workshop/v01",
+      "setId": "808:63",
+      "id": "808:84",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "event/standup-comedy/v01",
+      "setId": "808:216",
+      "id": "808:217",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "event/standup-comedy/v01",
+      "setId": "808:216",
+      "id": "808:229",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "event/standup-comedy/v01",
+      "setId": "808:216",
+      "id": "808:241",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "event/theatre-play/v01",
+      "setId": "808:179",
+      "id": "808:180",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "event/theatre-play/v01",
+      "setId": "808:179",
+      "id": "808:194",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "event/theatre-play/v01",
+      "setId": "808:179",
+      "id": "808:208",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "experience/xp-kugulu-segmenler/hero-v1",
+      "setId": "808:249",
+      "id": "808:250",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "experience/xp-kugulu-segmenler/hero-v1",
+      "setId": "808:249",
+      "id": "808:260",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "experience/xp-kugulu-segmenler/hero-v1",
+      "setId": "808:249",
+      "id": "808:270",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "experience/xp-no29-kahve-tatli/hero-v1",
+      "setId": "808:2",
+      "id": "808:3",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "experience/xp-no29-kahve-tatli/hero-v1",
+      "setId": "808:2",
+      "id": "808:13",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "experience/xp-no29-kahve-tatli/hero-v1",
+      "setId": "808:2",
+      "id": "808:22",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "idea/coffee-drink-ritual/drink-ritual/v01",
+      "setId": "808:91",
+      "id": "808:92",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "idea/coffee-drink-ritual/drink-ritual/v01",
+      "setId": "808:91",
+      "id": "808:103",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "idea/coffee-drink-ritual/drink-ritual/v01",
+      "setId": "808:91",
+      "id": "808:112",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "idea/micro-adventure/small-discovery/v01",
+      "setId": "808:306",
+      "id": "808:307",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "idea/micro-adventure/small-discovery/v01",
+      "setId": "808:306",
+      "id": "808:317",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "idea/micro-adventure/small-discovery/v01",
+      "setId": "808:306",
+      "id": "808:326",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "place/cafe-social/cafe-interior/v01",
+      "setId": "808:30",
+      "id": "808:31",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "place/cafe-social/cafe-interior/v01",
+      "setId": "808:30",
+      "id": "808:43",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "place/cafe-social/cafe-interior/v01",
+      "setId": "808:30",
+      "id": "808:54",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "place/lake-waterfront/waterfront/v01",
+      "setId": "808:278",
+      "id": "808:279",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "place/lake-waterfront/waterfront/v01",
+      "setId": "808:278",
+      "id": "808:288",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "place/lake-waterfront/waterfront/v01",
+      "setId": "808:278",
+      "id": "808:297",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "place/local-restaurant/local-food-table/v01",
+      "setId": "808:334",
+      "id": "808:335",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "place/local-restaurant/local-food-table/v01",
+      "setId": "808:334",
+      "id": "808:344",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "place/local-restaurant/local-food-table/v01",
+      "setId": "808:334",
+      "id": "808:353",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "place/performance-stage/theatre-stage/v01",
+      "setId": "808:120",
+      "id": "808:121",
+      "layout": "Hero",
+      "width": 329,
+      "height": 100
+    },
+    {
+      "key": "place/performance-stage/theatre-stage/v01",
+      "setId": "808:120",
+      "id": "808:129",
+      "layout": "Square",
+      "width": 112,
+      "height": 112
+    },
+    {
+      "key": "place/performance-stage/theatre-stage/v01",
+      "setId": "808:120",
+      "id": "808:137",
+      "layout": "Compact",
+      "width": 89,
+      "height": 72
+    }
+  ],
+  "ui": [
+    {
+      "key": "saveDefault",
+      "id": "750:425",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "savePressed",
+      "id": "750:428",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "saveSaved",
+      "id": "750:431",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "dismissDefault",
+      "id": "750:435",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "dismissPressed",
+      "id": "750:439",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "dismissLoading",
+      "id": "750:443",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "dismissDismissed",
+      "id": "750:447",
+      "width": 44,
+      "height": 44
+    },
+    {
+      "key": "discoveryPlace",
+      "id": "758:855",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "discoveryEvent",
+      "id": "758:864",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "discoveryIdea",
+      "id": "758:879",
+      "width": 89,
+      "height": 72
+    },
+    {
+      "key": "discoveryExperience",
+      "id": "758:885",
+      "width": 89,
+      "height": 72
+    }
+  ],
+  "verifiedAt": "2026-10-08",
+  "fileKey": "yTdAWr92ETyurlQQHNNqpi"
+}
