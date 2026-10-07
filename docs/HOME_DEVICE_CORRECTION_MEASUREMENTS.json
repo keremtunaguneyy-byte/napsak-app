@@ -1,0 +1,4372 @@
+{
+  "before": {
+    "method": "Chrome React Native Web development, 393x852, 4x CPU throttle; four warmup + forty transitions; same fixed embedded catalog/preferences",
+    "rows": [
+      {
+        "f": "place",
+        "elapsed": 138.30000007152557,
+        "commit": 86.10000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 13.300000190734863,
+        "compute": 33.299999952316284
+      },
+      {
+        "f": "event",
+        "elapsed": 99.5,
+        "commit": 88.79999995231628,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 4.899999976158142,
+        "compute": 0.6999999284744263
+      },
+      {
+        "f": "idea",
+        "elapsed": 93.20000004768372,
+        "commit": 65.30000007152557,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 11.800000309944153,
+        "compute": 3.899999976158142
+      },
+      {
+        "f": "experience",
+        "elapsed": 84,
+        "commit": 60.300000071525574,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 11.799999833106995,
+        "compute": 4
+      },
+      {
+        "f": "place",
+        "elapsed": 100,
+        "commit": 58.10000014305115,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.100000023841858,
+        "compute": 27.899999976158142
+      },
+      {
+        "f": "event",
+        "elapsed": 50.299999952316284,
+        "commit": 34.89999997615814,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 4.099999904632568,
+        "compute": 0.10000002384185791
+      },
+      {
+        "f": "idea",
+        "elapsed": 75.20000004768372,
+        "commit": 54.799999833106995,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.200000286102295,
+        "compute": 2.1999999284744263
+      },
+      {
+        "f": "experience",
+        "elapsed": 80.30000007152557,
+        "commit": 58.700000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 11.500000238418579,
+        "compute": 3.5999999046325684
+      },
+      {
+        "f": "place",
+        "elapsed": 92.89999997615814,
+        "commit": 54.89999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.800000309944153,
+        "compute": 19.90000009536743
+      },
+      {
+        "f": "event",
+        "elapsed": 54.699999928474426,
+        "commit": 39.5,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 4.5,
+        "compute": 0.09999990463256836
+      },
+      {
+        "f": "idea",
+        "elapsed": 77.30000007152557,
+        "commit": 58.5,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.199999809265137,
+        "compute": 3.8000000715255737
+      },
+      {
+        "f": "experience",
+        "elapsed": 84.09999990463257,
+        "commit": 60.40000009536743,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 11.200000047683716,
+        "compute": 3.5999999046325684
+      },
+      {
+        "f": "place",
+        "elapsed": 114.09999990463257,
+        "commit": 86.39999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 17.199999690055847,
+        "compute": 16.899999976158142
+      },
+      {
+        "f": "event",
+        "elapsed": 69.60000002384186,
+        "commit": 50.699999928474426,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 6.699999809265137,
+        "compute": 0.19999992847442627
+      },
+      {
+        "f": "idea",
+        "elapsed": 86.80000007152557,
+        "commit": 69.29999995231628,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.300000190734863,
+        "compute": 2.200000047683716
+      },
+      {
+        "f": "experience",
+        "elapsed": 90.40000009536743,
+        "commit": 68.39999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 10.100000262260437,
+        "compute": 4.100000023841858
+      },
+      {
+        "f": "place",
+        "elapsed": 98.90000009536743,
+        "commit": 65.799999833107,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.399999856948853,
+        "compute": 14.199999928474426
+      },
+      {
+        "f": "event",
+        "elapsed": 53.89999997615814,
+        "commit": 40.5,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 4.4999998807907104,
+        "compute": 0.10000002384185791
+      },
+      {
+        "f": "idea",
+        "elapsed": 81,
+        "commit": 60.200000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.599999785423279,
+        "compute": 1.5999999046325684
+      },
+      {
+        "f": "experience",
+        "elapsed": 78.60000002384186,
+        "commit": 57.60000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.299999833106995,
+        "compute": 4.100000023841858
+      },
+      {
+        "f": "place",
+        "elapsed": 90.19999992847443,
+        "commit": 57.5,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 6.799999952316284,
+        "compute": 12.899999976158142
+      },
+      {
+        "f": "event",
+        "elapsed": 49.199999928474426,
+        "commit": 36.39999997615814,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 6.799999952316284,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 88.19999992847443,
+        "commit": 64.30000007152557,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 10.899999976158142,
+        "compute": 2
+      },
+      {
+        "f": "experience",
+        "elapsed": 79.60000002384186,
+        "commit": 61.300000071525574,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.799999833106995,
+        "compute": 4.099999904632568
+      },
+      {
+        "f": "place",
+        "elapsed": 90.20000004768372,
+        "commit": 56.5,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.399999976158142,
+        "compute": 15.700000047683716
+      },
+      {
+        "f": "event",
+        "elapsed": 52.199999928474426,
+        "commit": 34.39999997615814,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 3.899999976158142,
+        "compute": 0.10000002384185791
+      },
+      {
+        "f": "idea",
+        "elapsed": 65.5,
+        "commit": 51.200000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.199999928474426,
+        "compute": 1.399999976158142
+      },
+      {
+        "f": "experience",
+        "elapsed": 82,
+        "commit": 57.60000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.399999976158142,
+        "compute": 4.800000071525574
+      },
+      {
+        "f": "place",
+        "elapsed": 87,
+        "commit": 53.89999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 7.800000190734863,
+        "compute": 15.100000023841858
+      },
+      {
+        "f": "event",
+        "elapsed": 52,
+        "commit": 37.5,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 5.199999928474426,
+        "compute": 0.7999999523162842
+      },
+      {
+        "f": "idea",
+        "elapsed": 67.89999997615814,
+        "commit": 51.39999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 7.9999998807907104,
+        "compute": 1.5
+      },
+      {
+        "f": "experience",
+        "elapsed": 77.5,
+        "commit": 60.199999928474426,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.500000238418579,
+        "compute": 3.899999976158142
+      },
+      {
+        "f": "place",
+        "elapsed": 92.20000004768372,
+        "commit": 59.200000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 10.599999904632568,
+        "compute": 13.700000047683716
+      },
+      {
+        "f": "event",
+        "elapsed": 48.59999990463257,
+        "commit": 36.299999952316284,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 5.5,
+        "compute": 0.5999999046325684
+      },
+      {
+        "f": "idea",
+        "elapsed": 79.20000004768372,
+        "commit": 57.90000009536743,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 9.5,
+        "compute": 1.7000000476837158
+      },
+      {
+        "f": "experience",
+        "elapsed": 69.90000009536743,
+        "commit": 44.59999990463257,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 6.699999809265137,
+        "compute": 4.399999976158142
+      },
+      {
+        "f": "place",
+        "elapsed": 78.5,
+        "commit": 52.39999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 6.9999998807907104,
+        "compute": 12.700000047683716
+      },
+      {
+        "f": "event",
+        "elapsed": 46.39999997615814,
+        "commit": 33.49999988079071,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 4.5,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 66.89999997615814,
+        "commit": 49.700000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 7.800000071525574,
+        "compute": 0.5999999046325684
+      },
+      {
+        "f": "experience",
+        "elapsed": 74.5,
+        "commit": 55,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 7.699999928474426,
+        "compute": 3.200000047683716
+      },
+      {
+        "f": "place",
+        "elapsed": 85.30000007152557,
+        "commit": 51.300000071525574,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 6.600000023841858,
+        "compute": 14.100000023841858
+      },
+      {
+        "f": "event",
+        "elapsed": 48,
+        "commit": 33.299999952316284,
+        "renders": 1,
+        "assets": 11,
+        "parses": 8,
+        "parseMs": 4.699999928474426,
+        "compute": 0.19999992847442627
+      },
+      {
+        "f": "idea",
+        "elapsed": 62.09999990463257,
+        "commit": 48.89999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 7.200000047683716,
+        "compute": 0.7999999523162842
+      },
+      {
+        "f": "experience",
+        "elapsed": 82.60000002384186,
+        "commit": 56.59999990463257,
+        "renders": 1,
+        "assets": 23,
+        "parses": 20,
+        "parseMs": 8.199999809265137,
+        "compute": 3.5
+      }
+    ],
+    "stats": {
+      "elapsed": {
+        "p50": 78.5,
+        "p95": 98.90000009536743,
+        "sum": 3003.7999999523163
+      },
+      "commit": {
+        "p50": 54.89999997615814,
+        "p95": 68.39999997615814,
+        "sum": 2119.599999666214
+      },
+      "parseMs": {
+        "p50": 8.199999809265137,
+        "p95": 11.200000047683716,
+        "sum": 321.3999991416931
+      },
+      "compute": {
+        "p50": 3.200000047683716,
+        "p95": 16.899999976158142,
+        "sum": 222.39999949932098
+      },
+      "renders": {
+        "p50": 1,
+        "p95": 1,
+        "sum": 40
+      },
+      "assets": {
+        "p50": 23,
+        "p95": 23,
+        "sum": 800
+      },
+      "parses": {
+        "p50": 20,
+        "p95": 20,
+        "sum": 680
+      }
+    }
+  },
+  "after": {
+    "method": "Chrome React Native Web development, 393x852, 4x CPU throttle; four warmup + forty transitions; same fixed embedded catalog/preferences",
+    "rows": [
+      {
+        "f": "place",
+        "elapsed": 113.10000002384186,
+        "commit": 71.700000166893,
+        "renders": 1,
+        "assets": 23,
+        "parses": 10,
+        "parseMs": 7.8999998569488525,
+        "compute": 30.5
+      },
+      {
+        "f": "event",
+        "elapsed": 109.69999992847443,
+        "commit": 89.39999985694885,
+        "renders": 1,
+        "assets": 11,
+        "parses": 3,
+        "parseMs": 4.299999952316284,
+        "compute": 0.20000004768371582
+      },
+      {
+        "f": "idea",
+        "elapsed": 68.39999997615814,
+        "commit": 50.89999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 7,
+        "parseMs": 5.900000333786011,
+        "compute": 3.8000000715255737
+      },
+      {
+        "f": "experience",
+        "elapsed": 55.60000002384186,
+        "commit": 44.799999952316284,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 3.799999952316284
+      },
+      {
+        "f": "place",
+        "elapsed": 75.60000002384186,
+        "commit": 40.60000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 26.700000047683716
+      },
+      {
+        "f": "event",
+        "elapsed": 47,
+        "commit": 30.799999952316284,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0.10000002384185791
+      },
+      {
+        "f": "idea",
+        "elapsed": 57.199999928474426,
+        "commit": 43.40000009536743,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 2.100000023841858
+      },
+      {
+        "f": "experience",
+        "elapsed": 66.10000002384186,
+        "commit": 46.200000166893005,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 4.100000023841858
+      },
+      {
+        "f": "place",
+        "elapsed": 78.29999995231628,
+        "commit": 42.199999928474426,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 19.799999952316284
+      },
+      {
+        "f": "event",
+        "elapsed": 51.299999952316284,
+        "commit": 32.39999997615814,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 81.80000007152557,
+        "commit": 59.39999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1.6999999284744263
+      },
+      {
+        "f": "experience",
+        "elapsed": 74.29999995231628,
+        "commit": 51.89999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 4.700000047683716
+      },
+      {
+        "f": "place",
+        "elapsed": 75,
+        "commit": 50.299999952316284,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 16.800000071525574
+      },
+      {
+        "f": "event",
+        "elapsed": 43.5,
+        "commit": 29.600000023841858,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 54.200000047683716,
+        "commit": 40.10000014305115,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1.9000000953674316
+      },
+      {
+        "f": "experience",
+        "elapsed": 89.10000002384186,
+        "commit": 61.5,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 4.199999928474426
+      },
+      {
+        "f": "place",
+        "elapsed": 101.29999995231628,
+        "commit": 58.5,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 20.200000047683716
+      },
+      {
+        "f": "event",
+        "elapsed": 53.299999952316284,
+        "commit": 35.39999997615814,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0.10000002384185791
+      },
+      {
+        "f": "idea",
+        "elapsed": 76.79999995231628,
+        "commit": 53.39999997615814,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0.8999999761581421
+      },
+      {
+        "f": "experience",
+        "elapsed": 79.19999992847443,
+        "commit": 50.99999988079071,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 3.8000000715255737
+      },
+      {
+        "f": "place",
+        "elapsed": 82.10000002384186,
+        "commit": 48.300000071525574,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 13.900000095367432
+      },
+      {
+        "f": "event",
+        "elapsed": 50.40000009536743,
+        "commit": 34.799999952316284,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0.7999999523162842
+      },
+      {
+        "f": "idea",
+        "elapsed": 72.5,
+        "commit": 50.700000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1.5
+      },
+      {
+        "f": "experience",
+        "elapsed": 77.20000004768372,
+        "commit": 54.10000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 5.899999976158142
+      },
+      {
+        "f": "place",
+        "elapsed": 108.19999992847443,
+        "commit": 64.99999988079071,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 15.899999976158142
+      },
+      {
+        "f": "event",
+        "elapsed": 54.39999997615814,
+        "commit": 36.200000047683716,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 62.10000002384186,
+        "commit": 44.199999928474426,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1.5999999046325684
+      },
+      {
+        "f": "experience",
+        "elapsed": 72.80000007152557,
+        "commit": 50.60000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 3.899999976158142
+      },
+      {
+        "f": "place",
+        "elapsed": 85.39999997615814,
+        "commit": 48.800000071525574,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 14.5
+      },
+      {
+        "f": "event",
+        "elapsed": 59.299999952316284,
+        "commit": 39.90000009536743,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 62.300000071525574,
+        "commit": 44,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1.5
+      },
+      {
+        "f": "experience",
+        "elapsed": 66.10000002384186,
+        "commit": 45.10000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 3.799999952316284
+      },
+      {
+        "f": "place",
+        "elapsed": 75.5,
+        "commit": 47.200000047683716,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 13.699999928474426
+      },
+      {
+        "f": "event",
+        "elapsed": 56.39999997615814,
+        "commit": 38.99999988079071,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 63.300000071525574,
+        "commit": 44.40000009536743,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1.899999976158142
+      },
+      {
+        "f": "experience",
+        "elapsed": 71.39999997615814,
+        "commit": 46.799999833106995,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 3.799999952316284
+      },
+      {
+        "f": "place",
+        "elapsed": 76.89999997615814,
+        "commit": 45.09999990463257,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 16.300000071525574
+      },
+      {
+        "f": "event",
+        "elapsed": 45.10000002384186,
+        "commit": 29.299999952316284,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0
+      },
+      {
+        "f": "idea",
+        "elapsed": 60.10000002384186,
+        "commit": 47.60000014305115,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0.6000000238418579
+      },
+      {
+        "f": "experience",
+        "elapsed": 74.10000002384186,
+        "commit": 49.60000014305115,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 4.299999952316284
+      },
+      {
+        "f": "place",
+        "elapsed": 88,
+        "commit": 53.60000002384186,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 15.5
+      },
+      {
+        "f": "event",
+        "elapsed": 40.700000047683716,
+        "commit": 33.699999928474426,
+        "renders": 1,
+        "assets": 11,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 0.30000007152557373
+      },
+      {
+        "f": "idea",
+        "elapsed": 64.09999990463257,
+        "commit": 43.90000021457672,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 1
+      },
+      {
+        "f": "experience",
+        "elapsed": 61.89999997615814,
+        "commit": 45,
+        "renders": 1,
+        "assets": 23,
+        "parses": 0,
+        "parseMs": 0,
+        "compute": 4
+      }
+    ],
+    "stats": {
+      "elapsed": {
+        "p50": 66.10000002384186,
+        "p95": 89.10000002384186,
+        "sum": 2734.2999999523163
+      },
+      "commit": {
+        "p50": 45.09999990463257,
+        "p95": 59.39999997615814,
+        "sum": 1813.6000003814697
+      },
+      "parseMs": {
+        "p50": 0,
+        "p95": 0,
+        "sum": 0
+      },
+      "compute": {
+        "p50": 2.100000023841858,
+        "p95": 19.799999952316284,
+        "sum": 231.80000007152557
+      },
+      "renders": {
+        "p50": 1,
+        "p95": 1,
+        "sum": 40
+      },
+      "assets": {
+        "p50": 23,
+        "p95": 23,
+        "sum": 800
+      },
+      "parses": {
+        "p50": 0,
+        "p95": 0,
+        "sum": 0
+      }
+    }
+  },
+  "edgeAcceptance": {
+    "method": "React Native Web actual App; services and 24px safe inset stubbed. Native status bar/splash not represented.",
+    "checks": [
+      {
+        "width": 393,
+        "height": 852,
+        "backgroundTop": 0,
+        "backgroundWidth": 393,
+        "navBottom": 852,
+        "contentInset": 46,
+        "layerFills": [
+          "#FFF0B5",
+          "#ECE9FF",
+          "#DFF3E8",
+          "#ECE9FF",
+          "#3F65FC",
+          "#FFC21A",
+          "#1D835B"
+        ]
+      },
+      {
+        "width": 852,
+        "height": 393,
+        "backgroundTop": 0,
+        "backgroundWidth": 852,
+        "navBottom": 393,
+        "contentInset": 46,
+        "layerFills": [
+          "#FFF0B5",
+          "#ECE9FF",
+          "#DFF3E8",
+          "#ECE9FF",
+          "#3F65FC",
+          "#FFC21A",
+          "#1D835B"
+        ]
+      },
+      {
+        "width": 393,
+        "height": 852,
+        "backgroundTop": 0,
+        "backgroundWidth": 393,
+        "navBottom": 852,
+        "contentInset": 46,
+        "layerFills": [
+          "#FFF0B5",
+          "#ECE9FF",
+          "#DFF3E8",
+          "#ECE9FF",
+          "#3F65FC",
+          "#FFC21A",
+          "#1D835B"
+        ]
+      }
+    ],
+    "navigationReturn": true,
+    "errors": []
+  },
+  "browserRegression": {
+    "surface": "React Native Web with actual components; App services stubbed; no Android/device acceptance",
+    "checks": [
+      {
+        "size": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "metrics": {
+          "width": 393,
+          "scrollWidth": 393,
+          "nav": {
+            "x": 0,
+            "y": 778,
+            "width": 393,
+            "height": 74,
+            "top": 778,
+            "right": 393,
+            "bottom": 852,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 329,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 373,
+              "bottom": 68,
+              "left": 329
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 353,
+              "height": 60,
+              "top": 160,
+              "right": 373,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "No29\u2019da Kahve, Tatl\u0131 ve Biraz Nefes. 1 durak \u00b7 1 sa\u20132 sa \u00b7 \u20ba\u20ba. Sakin moduna uygun. Plan\u0131 incele",
+              "x": 21,
+              "y": 353,
+              "width": 351,
+              "height": 208.390625,
+              "top": 353,
+              "right": 372,
+              "bottom": 561.390625,
+              "left": 21
+            },
+            {
+              "name": "No29\u2019da Kahve, Tatl\u0131 ve Biraz Nefes: Kaydet",
+              "x": 316,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 360,
+              "bottom": 411,
+              "left": 316
+            },
+            {
+              "name": "No29\u2019da Kahve, Tatl\u0131 ve Biraz Nefes: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 360,
+              "bottom": 463,
+              "left": 316
+            },
+            {
+              "name": "2. \u00f6neri: Cin Ali \u2014 Ayn\u0131 \u00c7izgide \u0130ki Ku\u015fak. 1 durak \u00b7 1 sa\u20132 sa \u00b7 \u20ba\u20ba. Plan\u0131 incele",
+              "x": 21,
+              "y": 601.390625,
+              "width": 351,
+              "height": 136,
+              "top": 601.390625,
+              "right": 372,
+              "bottom": 737.390625,
+              "left": 21
+            },
+            {
+              "name": "Cin Ali \u2014 Ayn\u0131 \u00c7izgide \u0130ki Ku\u015fak: Kaydet",
+              "x": 316,
+              "y": 621.390625,
+              "width": 44,
+              "height": 44,
+              "top": 621.390625,
+              "right": 360,
+              "bottom": 665.390625,
+              "left": 316
+            },
+            {
+              "name": "Cin Ali \u2014 Ayn\u0131 \u00c7izgide \u0130ki Ku\u015fak: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 673.390625,
+              "width": 44,
+              "height": 44,
+              "top": 673.390625,
+              "right": 360,
+              "bottom": 717.390625,
+              "left": 316
+            },
+            {
+              "name": "3. \u00f6neri: G\u00f6kyay \u2014 Satran\u00e7 Ta\u015flar\u0131n\u0131n D\u00fcnyas\u0131n\u0131 Oku. 1 durak \u00b7 1 sa\u20132 sa \u00b7 \u20ba. Plan\u0131 incele",
+              "x": 21,
+              "y": 751.390625,
+              "width": 351,
+              "height": 136,
+              "top": 751.390625,
+              "right": 372,
+              "bottom": 887.390625,
+              "left": 21
+            },
+            {
+              "name": "G\u00f6kyay \u2014 Satran\u00e7 Ta\u015flar\u0131n\u0131n D\u00fcnyas\u0131n\u0131 Oku: Kaydet",
+              "x": 316,
+              "y": 771.390625,
+              "width": 44,
+              "height": 44,
+              "top": 771.390625,
+              "right": 360,
+              "bottom": 815.390625,
+              "left": 316
+            },
+            {
+              "name": "G\u00f6kyay \u2014 Satran\u00e7 Ta\u015flar\u0131n\u0131n D\u00fcnyas\u0131n\u0131 Oku: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 823.390625,
+              "width": 44,
+              "height": 44,
+              "top": 823.390625,
+              "right": 360,
+              "bottom": 867.390625,
+              "left": 316
+            },
+            {
+              "name": "4. \u00f6neri: G\u00f6ksu\u2019da tempo + g\u00f6l turu. 1 durak \u00b7 1 sa 15 dk\u20132 sa \u00b7 Bedava. Plan\u0131 incele",
+              "x": 21,
+              "y": 901.390625,
+              "width": 351,
+              "height": 136,
+              "top": 901.390625,
+              "right": 372,
+              "bottom": 1037.390625,
+              "left": 21
+            },
+            {
+              "name": "G\u00f6ksu\u2019da tempo + g\u00f6l turu: Kaydet",
+              "x": 316,
+              "y": 921.390625,
+              "width": 44,
+              "height": 44,
+              "top": 921.390625,
+              "right": 360,
+              "bottom": 965.390625,
+              "left": 316
+            },
+            {
+              "name": "G\u00f6ksu\u2019da tempo + g\u00f6l turu: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 973.390625,
+              "width": 44,
+              "height": 44,
+              "top": 973.390625,
+              "right": 360,
+              "bottom": 1017.390625,
+              "left": 316
+            },
+            {
+              "name": "5. \u00f6neri: Ulucanlar\u2019dan Hamam\u00f6n\u00fc\u2019ne yak\u0131n tarih rotas\u0131. 2 durak \u00b7 1 sa 30 dk\u20132 sa \u00b7 \u20ba. Plan\u0131 incele",
+              "x": 21,
+              "y": 1051.390625,
+              "width": 351,
+              "height": 136,
+              "top": 1051.390625,
+              "right": 372,
+              "bottom": 1187.390625,
+              "left": 21
+            },
+            {
+              "name": "Ulucanlar\u2019dan Hamam\u00f6n\u00fc\u2019ne yak\u0131n tarih rotas\u0131: Kaydet",
+              "x": 316,
+              "y": 1071.390625,
+              "width": 44,
+              "height": 44,
+              "top": 1071.390625,
+              "right": 360,
+              "bottom": 1115.390625,
+              "left": 316
+            },
+            {
+              "name": "Ulucanlar\u2019dan Hamam\u00f6n\u00fc\u2019ne yak\u0131n tarih rotas\u0131: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 1123.390625,
+              "width": 44,
+              "height": 44,
+              "top": 1123.390625,
+              "right": 360,
+              "bottom": 1167.390625,
+              "left": 316
+            },
+            {
+              "name": "Ba\u015fka planlar g\u00f6ster",
+              "x": 20,
+              "y": 1200.390625,
+              "width": 353,
+              "height": 46,
+              "top": 1200.390625,
+              "right": 373,
+              "bottom": 1246.390625,
+              "left": 20
+            },
+            {
+              "name": "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 1292.390625,
+              "width": 109.65625,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 129.65625,
+              "bottom": 1434.390625,
+              "left": 20
+            },
+            {
+              "name": "Etkinlikler \u00f6nerilerini ke\u015ffet",
+              "x": 141.65625,
+              "y": 1292.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 251.328125,
+              "bottom": 1434.390625,
+              "left": 141.65625
+            },
+            {
+              "name": "Fikir \u00f6nerilerini ke\u015ffet",
+              "x": 263.328125,
+              "y": 1292.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 373,
+              "bottom": 1434.390625,
+              "left": 263.328125
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1446.390625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 95.71875,
+              "bottom": 1490.390625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1446.390625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 182.1875,
+              "bottom": 1490.390625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1446.390625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 253.953125,
+              "bottom": 1490.390625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 393,
+              "height": 402
+            },
+            {
+              "width": 220,
+              "height": 260
+            },
+            {
+              "width": 240,
+              "height": 300
+            },
+            {
+              "width": 204,
+              "height": 234
+            },
+            {
+              "width": 198,
+              "height": 218
+            },
+            {
+              "width": 136,
+              "height": 136
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 327,
+              "height": 99.39208984375
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "metrics": {
+          "width": 393,
+          "scrollWidth": 393,
+          "nav": {
+            "x": 0,
+            "y": 778,
+            "width": 393,
+            "height": 74,
+            "top": 778,
+            "right": 393,
+            "bottom": 852,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 329,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 373,
+              "bottom": 68,
+              "left": 329
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 353,
+              "height": 60,
+              "top": 160,
+              "right": 373,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "Old School Roastery \u2014 Bah\u00e7elievler. \u00c7ankaya \u00b7 \u20ba\u20ba. Sakin moduna uygun. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 353,
+              "width": 351,
+              "height": 208.390625,
+              "top": 353,
+              "right": 372,
+              "bottom": 561.390625,
+              "left": 21
+            },
+            {
+              "name": "Old School Roastery \u2014 Bah\u00e7elievler: Kaydet",
+              "x": 316,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 360,
+              "bottom": 411,
+              "left": 316
+            },
+            {
+              "name": "Old School Roastery \u2014 Bah\u00e7elievler: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 360,
+              "bottom": 463,
+              "left": 316
+            },
+            {
+              "name": "2. \u00f6neri: No24 Studio \u2014 \u00dcmitk\u00f6y. \u00c7ankaya \u00b7 \u20ba\u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 601.390625,
+              "width": 351,
+              "height": 136,
+              "top": 601.390625,
+              "right": 372,
+              "bottom": 737.390625,
+              "left": 21
+            },
+            {
+              "name": "No24 Studio \u2014 \u00dcmitk\u00f6y: Kaydet",
+              "x": 316,
+              "y": 621.390625,
+              "width": 44,
+              "height": 44,
+              "top": 621.390625,
+              "right": 360,
+              "bottom": 665.390625,
+              "left": 316
+            },
+            {
+              "name": "No24 Studio \u2014 \u00dcmitk\u00f6y: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 673.390625,
+              "width": 44,
+              "height": 44,
+              "top": 673.390625,
+              "right": 360,
+              "bottom": 717.390625,
+              "left": 316
+            },
+            {
+              "name": "3. \u00f6neri: Ke\u00e7i\u00f6ren Deniz D\u00fcnyas\u0131. Ke\u00e7i\u00f6ren \u00b7 \u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 751.390625,
+              "width": 351,
+              "height": 136,
+              "top": 751.390625,
+              "right": 372,
+              "bottom": 887.390625,
+              "left": 21
+            },
+            {
+              "name": "Ke\u00e7i\u00f6ren Deniz D\u00fcnyas\u0131: Kaydet",
+              "x": 316,
+              "y": 771.390625,
+              "width": 44,
+              "height": 44,
+              "top": 771.390625,
+              "right": 360,
+              "bottom": 815.390625,
+              "left": 316
+            },
+            {
+              "name": "Ke\u00e7i\u00f6ren Deniz D\u00fcnyas\u0131: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 823.390625,
+              "width": 44,
+              "height": 44,
+              "top": 823.390625,
+              "right": 360,
+              "bottom": 867.390625,
+              "left": 316
+            },
+            {
+              "name": "4. \u00f6neri: Divan \u00c7ukurhan. Alt\u0131nda\u011f \u00b7 \u20ba\u20ba\u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 901.390625,
+              "width": 351,
+              "height": 136,
+              "top": 901.390625,
+              "right": 372,
+              "bottom": 1037.390625,
+              "left": 21
+            },
+            {
+              "name": "Divan \u00c7ukurhan: Kaydet",
+              "x": 316,
+              "y": 921.390625,
+              "width": 44,
+              "height": 44,
+              "top": 921.390625,
+              "right": 360,
+              "bottom": 965.390625,
+              "left": 316
+            },
+            {
+              "name": "Divan \u00c7ukurhan: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 973.390625,
+              "width": 44,
+              "height": 44,
+              "top": 973.390625,
+              "right": 360,
+              "bottom": 1017.390625,
+              "left": 316
+            },
+            {
+              "name": "5. \u00f6neri: B\u00fcy\u00fcl\u00fc Fener Sinemalar\u0131 \u2014 K\u0131z\u0131lay. \u00c7ankaya \u00b7 \u20ba\u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 1051.390625,
+              "width": 351,
+              "height": 136,
+              "top": 1051.390625,
+              "right": 372,
+              "bottom": 1187.390625,
+              "left": 21
+            },
+            {
+              "name": "B\u00fcy\u00fcl\u00fc Fener Sinemalar\u0131 \u2014 K\u0131z\u0131lay: Kaydet",
+              "x": 316,
+              "y": 1071.390625,
+              "width": 44,
+              "height": 44,
+              "top": 1071.390625,
+              "right": 360,
+              "bottom": 1115.390625,
+              "left": 316
+            },
+            {
+              "name": "B\u00fcy\u00fcl\u00fc Fener Sinemalar\u0131 \u2014 K\u0131z\u0131lay: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 1123.390625,
+              "width": 44,
+              "height": 44,
+              "top": 1123.390625,
+              "right": 360,
+              "bottom": 1167.390625,
+              "left": 316
+            },
+            {
+              "name": "Ba\u015fka mek\u00e2nlar g\u00f6ster",
+              "x": 20,
+              "y": 1200.390625,
+              "width": 353,
+              "height": 46,
+              "top": 1200.390625,
+              "right": 373,
+              "bottom": 1246.390625,
+              "left": 20
+            },
+            {
+              "name": "Gezek \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 1292.390625,
+              "width": 109.65625,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 129.65625,
+              "bottom": 1434.390625,
+              "left": 20
+            },
+            {
+              "name": "Etkinlikler \u00f6nerilerini ke\u015ffet",
+              "x": 141.65625,
+              "y": 1292.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 251.328125,
+              "bottom": 1434.390625,
+              "left": 141.65625
+            },
+            {
+              "name": "Fikir \u00f6nerilerini ke\u015ffet",
+              "x": 263.328125,
+              "y": 1292.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 373,
+              "bottom": 1434.390625,
+              "left": 263.328125
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1446.390625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 95.71875,
+              "bottom": 1490.390625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1446.390625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 182.1875,
+              "bottom": 1490.390625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1446.390625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 253.953125,
+              "bottom": 1490.390625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 393,
+              "height": 402
+            },
+            {
+              "width": 220,
+              "height": 260
+            },
+            {
+              "width": 240,
+              "height": 300
+            },
+            {
+              "width": 204,
+              "height": 234
+            },
+            {
+              "width": 198,
+              "height": 218
+            },
+            {
+              "width": 136,
+              "height": 136
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 327,
+              "height": 99.39208984375
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "event",
+        "metrics": {
+          "width": 393,
+          "scrollWidth": 393,
+          "nav": {
+            "x": 0,
+            "y": 778,
+            "width": 393,
+            "height": 74,
+            "top": 778,
+            "right": 393,
+            "bottom": 852,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 329,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 373,
+              "bottom": 68,
+              "left": 329
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 353,
+              "height": 60,
+              "top": 160,
+              "right": 373,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "AMADEUS - Veda Turnesi. 16 Eki \u00b7 Congresium Ankara \u00b7 \u20ba\u20ba\u20ba. Sakin moduna uygun. Etkinli\u011fi incele",
+              "x": 21,
+              "y": 353,
+              "width": 351,
+              "height": 208.390625,
+              "top": 353,
+              "right": 372,
+              "bottom": 561.390625,
+              "left": 21
+            },
+            {
+              "name": "AMADEUS - Veda Turnesi: Kaydet",
+              "x": 316,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 360,
+              "bottom": 411,
+              "left": 316
+            },
+            {
+              "name": "AMADEUS - Veda Turnesi: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 360,
+              "bottom": 463,
+              "left": 316
+            },
+            {
+              "name": "2. \u00f6neri: TastyDays Ankara Gastronomi Festival. 11 Eki \u00b7 ODT\u00dc MD Vi\u015fnelik \u00b7 \u20ba\u20ba. Etkinli\u011fi incele",
+              "x": 21,
+              "y": 601.390625,
+              "width": 351,
+              "height": 136,
+              "top": 601.390625,
+              "right": 372,
+              "bottom": 737.390625,
+              "left": 21
+            },
+            {
+              "name": "TastyDays Ankara Gastronomi Festival: Kaydet",
+              "x": 316,
+              "y": 621.390625,
+              "width": 44,
+              "height": 44,
+              "top": 621.390625,
+              "right": 360,
+              "bottom": 665.390625,
+              "left": 316
+            },
+            {
+              "name": "TastyDays Ankara Gastronomi Festival: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 673.390625,
+              "width": 44,
+              "height": 44,
+              "top": 673.390625,
+              "right": 360,
+              "bottom": 717.390625,
+              "left": 316
+            },
+            {
+              "name": "Ba\u015fka etkinlikler g\u00f6ster",
+              "x": 20,
+              "y": 750.390625,
+              "width": 353,
+              "height": 46,
+              "top": 750.390625,
+              "right": 373,
+              "bottom": 796.390625,
+              "left": 20
+            },
+            {
+              "name": "Gezek \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 842.390625,
+              "width": 109.65625,
+              "height": 142,
+              "top": 842.390625,
+              "right": 129.65625,
+              "bottom": 984.390625,
+              "left": 20
+            },
+            {
+              "name": "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+              "x": 141.65625,
+              "y": 842.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 842.390625,
+              "right": 251.328125,
+              "bottom": 984.390625,
+              "left": 141.65625
+            },
+            {
+              "name": "Fikir \u00f6nerilerini ke\u015ffet",
+              "x": 263.328125,
+              "y": 842.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 842.390625,
+              "right": 373,
+              "bottom": 984.390625,
+              "left": 263.328125
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 996.390625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 996.390625,
+              "right": 95.71875,
+              "bottom": 1040.390625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 996.390625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 996.390625,
+              "right": 182.1875,
+              "bottom": 1040.390625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 996.390625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 996.390625,
+              "right": 253.953125,
+              "bottom": 1040.390625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 393,
+              "height": 402
+            },
+            {
+              "width": 220,
+              "height": 260
+            },
+            {
+              "width": 240,
+              "height": 300
+            },
+            {
+              "width": 204,
+              "height": 234
+            },
+            {
+              "width": 198,
+              "height": 218
+            },
+            {
+              "width": 136,
+              "height": 136
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 327,
+              "height": 99.39208984375
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "idea",
+        "metrics": {
+          "width": 393,
+          "scrollWidth": 393,
+          "nav": {
+            "x": 0,
+            "y": 778,
+            "width": 393,
+            "height": 74,
+            "top": 778,
+            "right": 393,
+            "bottom": 852,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 329,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 373,
+              "bottom": 68,
+              "left": 329
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 353,
+              "height": 60,
+              "top": 160,
+              "right": 373,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "Frans\u0131z omleti tekni\u011fini \u00f6\u011fren. Lezzet \u00b7 \u20ba. Sakin moduna uygun. Tekni\u011fi izle",
+              "x": 21,
+              "y": 353,
+              "width": 351,
+              "height": 208.390625,
+              "top": 353,
+              "right": 372,
+              "bottom": 561.390625,
+              "left": 21
+            },
+            {
+              "name": "Frans\u0131z omleti tekni\u011fini \u00f6\u011fren: Kaydet",
+              "x": 316,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 360,
+              "bottom": 411,
+              "left": 316
+            },
+            {
+              "name": "Frans\u0131z omleti tekni\u011fini \u00f6\u011fren: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 360,
+              "bottom": 463,
+              "left": 316
+            },
+            {
+              "name": "2. \u00f6neri: The Grand Budapest Hotel gecesi. Sanat \u00b7 \u20ba. Filmi ara\u015ft\u0131r",
+              "x": 21,
+              "y": 601.390625,
+              "width": 351,
+              "height": 136,
+              "top": 601.390625,
+              "right": 372,
+              "bottom": 737.390625,
+              "left": 21
+            },
+            {
+              "name": "The Grand Budapest Hotel gecesi: Kaydet",
+              "x": 316,
+              "y": 621.390625,
+              "width": 44,
+              "height": 44,
+              "top": 621.390625,
+              "right": 360,
+              "bottom": 665.390625,
+              "left": 316
+            },
+            {
+              "name": "The Grand Budapest Hotel gecesi: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 673.390625,
+              "width": 44,
+              "height": 44,
+              "top": 673.390625,
+              "right": 360,
+              "bottom": 717.390625,
+              "left": 316
+            },
+            {
+              "name": "3. \u00f6neri: Ak\u015famdan so\u011fuk demleme haz\u0131rla. Kahve \u00b7 \u20ba. Fikri incele",
+              "x": 21,
+              "y": 751.390625,
+              "width": 351,
+              "height": 136,
+              "top": 751.390625,
+              "right": 372,
+              "bottom": 887.390625,
+              "left": 21
+            },
+            {
+              "name": "Ak\u015famdan so\u011fuk demleme haz\u0131rla: Kaydet",
+              "x": 316,
+              "y": 771.390625,
+              "width": 44,
+              "height": 44,
+              "top": 771.390625,
+              "right": 360,
+              "bottom": 815.390625,
+              "left": 316
+            },
+            {
+              "name": "Ak\u015famdan so\u011fuk demleme haz\u0131rla: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 823.390625,
+              "width": 44,
+              "height": 44,
+              "top": 823.390625,
+              "right": 360,
+              "bottom": 867.390625,
+              "left": 316
+            },
+            {
+              "name": "4. \u00f6neri: G\u00fcndelik bir nesnenin k\u00f6kenini ara\u015ft\u0131r. Etkinlik \u00b7 Bedava. Fikri incele",
+              "x": 21,
+              "y": 901.390625,
+              "width": 351,
+              "height": 136,
+              "top": 901.390625,
+              "right": 372,
+              "bottom": 1037.390625,
+              "left": 21
+            },
+            {
+              "name": "G\u00fcndelik bir nesnenin k\u00f6kenini ara\u015ft\u0131r: Kaydet",
+              "x": 316,
+              "y": 921.390625,
+              "width": 44,
+              "height": 44,
+              "top": 921.390625,
+              "right": 360,
+              "bottom": 965.390625,
+              "left": 316
+            },
+            {
+              "name": "G\u00fcndelik bir nesnenin k\u00f6kenini ara\u015ft\u0131r: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 973.390625,
+              "width": 44,
+              "height": 44,
+              "top": 973.390625,
+              "right": 360,
+              "bottom": 1017.390625,
+              "left": 316
+            },
+            {
+              "name": "5. \u00f6neri: Yak\u0131ndaki bir bankta g\u00f6zlem notu tut. Do\u011fa \u00b7 Bedava. Fikri incele",
+              "x": 21,
+              "y": 1051.390625,
+              "width": 351,
+              "height": 136,
+              "top": 1051.390625,
+              "right": 372,
+              "bottom": 1187.390625,
+              "left": 21
+            },
+            {
+              "name": "Yak\u0131ndaki bir bankta g\u00f6zlem notu tut: Kaydet",
+              "x": 316,
+              "y": 1071.390625,
+              "width": 44,
+              "height": 44,
+              "top": 1071.390625,
+              "right": 360,
+              "bottom": 1115.390625,
+              "left": 316
+            },
+            {
+              "name": "Yak\u0131ndaki bir bankta g\u00f6zlem notu tut: Bana g\u00f6re de\u011fil",
+              "x": 316,
+              "y": 1123.390625,
+              "width": 44,
+              "height": 44,
+              "top": 1123.390625,
+              "right": 360,
+              "bottom": 1167.390625,
+              "left": 316
+            },
+            {
+              "name": "Ba\u015fka fikirler g\u00f6ster",
+              "x": 20,
+              "y": 1200.390625,
+              "width": 353,
+              "height": 46,
+              "top": 1200.390625,
+              "right": 373,
+              "bottom": 1246.390625,
+              "left": 20
+            },
+            {
+              "name": "Gezek \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 1292.390625,
+              "width": 109.65625,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 129.65625,
+              "bottom": 1434.390625,
+              "left": 20
+            },
+            {
+              "name": "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+              "x": 141.65625,
+              "y": 1292.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 251.328125,
+              "bottom": 1434.390625,
+              "left": 141.65625
+            },
+            {
+              "name": "Etkinlikler \u00f6nerilerini ke\u015ffet",
+              "x": 263.328125,
+              "y": 1292.390625,
+              "width": 109.671875,
+              "height": 142,
+              "top": 1292.390625,
+              "right": 373,
+              "bottom": 1434.390625,
+              "left": 263.328125
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1446.390625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 95.71875,
+              "bottom": 1490.390625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1446.390625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 182.1875,
+              "bottom": 1490.390625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1446.390625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1446.390625,
+              "right": 253.953125,
+              "bottom": 1490.390625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 393,
+              "height": 402
+            },
+            {
+              "width": 220,
+              "height": 260
+            },
+            {
+              "width": 240,
+              "height": 300
+            },
+            {
+              "width": 204,
+              "height": 234
+            },
+            {
+              "width": 198,
+              "height": 218
+            },
+            {
+              "width": 136,
+              "height": 136
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 327,
+              "height": 99.39208984375
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "metrics": {
+          "width": 412,
+          "scrollWidth": 412,
+          "nav": {
+            "x": 0,
+            "y": 841,
+            "width": 412,
+            "height": 74,
+            "top": 841,
+            "right": 412,
+            "bottom": 915,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 348,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 392,
+              "bottom": 68,
+              "left": 348
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 372,
+              "height": 60,
+              "top": 160,
+              "right": 392,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "No29\u2019da Kahve, Tatl\u0131 ve Biraz Nefes. 1 durak \u00b7 1 sa\u20132 sa \u00b7 \u20ba\u20ba. Sakin moduna uygun. Plan\u0131 incele",
+              "x": 21,
+              "y": 353,
+              "width": 370,
+              "height": 214.15625,
+              "top": 353,
+              "right": 391,
+              "bottom": 567.15625,
+              "left": 21
+            },
+            {
+              "name": "No29\u2019da Kahve, Tatl\u0131 ve Biraz Nefes: Kaydet",
+              "x": 335,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 379,
+              "bottom": 411,
+              "left": 335
+            },
+            {
+              "name": "No29\u2019da Kahve, Tatl\u0131 ve Biraz Nefes: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 379,
+              "bottom": 463,
+              "left": 335
+            },
+            {
+              "name": "2. \u00f6neri: Cin Ali \u2014 Ayn\u0131 \u00c7izgide \u0130ki Ku\u015fak. 1 durak \u00b7 1 sa\u20132 sa \u00b7 \u20ba\u20ba. Plan\u0131 incele",
+              "x": 21,
+              "y": 607.15625,
+              "width": 370,
+              "height": 136,
+              "top": 607.15625,
+              "right": 391,
+              "bottom": 743.15625,
+              "left": 21
+            },
+            {
+              "name": "Cin Ali \u2014 Ayn\u0131 \u00c7izgide \u0130ki Ku\u015fak: Kaydet",
+              "x": 335,
+              "y": 627.15625,
+              "width": 44,
+              "height": 44,
+              "top": 627.15625,
+              "right": 379,
+              "bottom": 671.15625,
+              "left": 335
+            },
+            {
+              "name": "Cin Ali \u2014 Ayn\u0131 \u00c7izgide \u0130ki Ku\u015fak: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 679.15625,
+              "width": 44,
+              "height": 44,
+              "top": 679.15625,
+              "right": 379,
+              "bottom": 723.15625,
+              "left": 335
+            },
+            {
+              "name": "3. \u00f6neri: G\u00f6kyay \u2014 Satran\u00e7 Ta\u015flar\u0131n\u0131n D\u00fcnyas\u0131n\u0131 Oku. 1 durak \u00b7 1 sa\u20132 sa \u00b7 \u20ba. Plan\u0131 incele",
+              "x": 21,
+              "y": 757.15625,
+              "width": 370,
+              "height": 136,
+              "top": 757.15625,
+              "right": 391,
+              "bottom": 893.15625,
+              "left": 21
+            },
+            {
+              "name": "G\u00f6kyay \u2014 Satran\u00e7 Ta\u015flar\u0131n\u0131n D\u00fcnyas\u0131n\u0131 Oku: Kaydet",
+              "x": 335,
+              "y": 777.15625,
+              "width": 44,
+              "height": 44,
+              "top": 777.15625,
+              "right": 379,
+              "bottom": 821.15625,
+              "left": 335
+            },
+            {
+              "name": "G\u00f6kyay \u2014 Satran\u00e7 Ta\u015flar\u0131n\u0131n D\u00fcnyas\u0131n\u0131 Oku: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 829.15625,
+              "width": 44,
+              "height": 44,
+              "top": 829.15625,
+              "right": 379,
+              "bottom": 873.15625,
+              "left": 335
+            },
+            {
+              "name": "4. \u00f6neri: G\u00f6ksu\u2019da tempo + g\u00f6l turu. 1 durak \u00b7 1 sa 15 dk\u20132 sa \u00b7 Bedava. Plan\u0131 incele",
+              "x": 21,
+              "y": 907.15625,
+              "width": 370,
+              "height": 136,
+              "top": 907.15625,
+              "right": 391,
+              "bottom": 1043.15625,
+              "left": 21
+            },
+            {
+              "name": "G\u00f6ksu\u2019da tempo + g\u00f6l turu: Kaydet",
+              "x": 335,
+              "y": 927.15625,
+              "width": 44,
+              "height": 44,
+              "top": 927.15625,
+              "right": 379,
+              "bottom": 971.15625,
+              "left": 335
+            },
+            {
+              "name": "G\u00f6ksu\u2019da tempo + g\u00f6l turu: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 979.15625,
+              "width": 44,
+              "height": 44,
+              "top": 979.15625,
+              "right": 379,
+              "bottom": 1023.15625,
+              "left": 335
+            },
+            {
+              "name": "5. \u00f6neri: Ulucanlar\u2019dan Hamam\u00f6n\u00fc\u2019ne yak\u0131n tarih rotas\u0131. 2 durak \u00b7 1 sa 30 dk\u20132 sa \u00b7 \u20ba. Plan\u0131 incele",
+              "x": 21,
+              "y": 1057.15625,
+              "width": 370,
+              "height": 136,
+              "top": 1057.15625,
+              "right": 391,
+              "bottom": 1193.15625,
+              "left": 21
+            },
+            {
+              "name": "Ulucanlar\u2019dan Hamam\u00f6n\u00fc\u2019ne yak\u0131n tarih rotas\u0131: Kaydet",
+              "x": 335,
+              "y": 1077.15625,
+              "width": 44,
+              "height": 44,
+              "top": 1077.15625,
+              "right": 379,
+              "bottom": 1121.15625,
+              "left": 335
+            },
+            {
+              "name": "Ulucanlar\u2019dan Hamam\u00f6n\u00fc\u2019ne yak\u0131n tarih rotas\u0131: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 1129.15625,
+              "width": 44,
+              "height": 44,
+              "top": 1129.15625,
+              "right": 379,
+              "bottom": 1173.15625,
+              "left": 335
+            },
+            {
+              "name": "Ba\u015fka planlar g\u00f6ster",
+              "x": 20,
+              "y": 1206.15625,
+              "width": 372,
+              "height": 46,
+              "top": 1206.15625,
+              "right": 392,
+              "bottom": 1252.15625,
+              "left": 20
+            },
+            {
+              "name": "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 136,
+              "bottom": 1440.15625,
+              "left": 20
+            },
+            {
+              "name": "Etkinlikler \u00f6nerilerini ke\u015ffet",
+              "x": 148,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 264,
+              "bottom": 1440.15625,
+              "left": 148
+            },
+            {
+              "name": "Fikir \u00f6nerilerini ke\u015ffet",
+              "x": 276,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 392,
+              "bottom": 1440.15625,
+              "left": 276
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1452.15625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 95.71875,
+              "bottom": 1496.15625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1452.15625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 182.1875,
+              "bottom": 1496.15625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1452.15625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 253.953125,
+              "bottom": 1496.15625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 412,
+              "height": 421.43511962890625
+            },
+            {
+              "width": 230.63612365722656,
+              "height": 272.5699462890625
+            },
+            {
+              "width": 251.60302734375,
+              "height": 314.5037841796875
+            },
+            {
+              "width": 213.8625946044922,
+              "height": 245.31298828125
+            },
+            {
+              "width": 207.572509765625,
+              "height": 228.5394287109375
+            },
+            {
+              "width": 142.5750732421875,
+              "height": 142.5750732421875
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 346,
+              "height": 105.16717529296875
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "metrics": {
+          "width": 412,
+          "scrollWidth": 412,
+          "nav": {
+            "x": 0,
+            "y": 841,
+            "width": 412,
+            "height": 74,
+            "top": 841,
+            "right": 412,
+            "bottom": 915,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 348,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 392,
+              "bottom": 68,
+              "left": 348
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 372,
+              "height": 60,
+              "top": 160,
+              "right": 392,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "Old School Roastery \u2014 Bah\u00e7elievler. \u00c7ankaya \u00b7 \u20ba\u20ba. Sakin moduna uygun. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 353,
+              "width": 370,
+              "height": 214.15625,
+              "top": 353,
+              "right": 391,
+              "bottom": 567.15625,
+              "left": 21
+            },
+            {
+              "name": "Old School Roastery \u2014 Bah\u00e7elievler: Kaydet",
+              "x": 335,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 379,
+              "bottom": 411,
+              "left": 335
+            },
+            {
+              "name": "Old School Roastery \u2014 Bah\u00e7elievler: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 379,
+              "bottom": 463,
+              "left": 335
+            },
+            {
+              "name": "2. \u00f6neri: No24 Studio \u2014 \u00dcmitk\u00f6y. \u00c7ankaya \u00b7 \u20ba\u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 607.15625,
+              "width": 370,
+              "height": 136,
+              "top": 607.15625,
+              "right": 391,
+              "bottom": 743.15625,
+              "left": 21
+            },
+            {
+              "name": "No24 Studio \u2014 \u00dcmitk\u00f6y: Kaydet",
+              "x": 335,
+              "y": 627.15625,
+              "width": 44,
+              "height": 44,
+              "top": 627.15625,
+              "right": 379,
+              "bottom": 671.15625,
+              "left": 335
+            },
+            {
+              "name": "No24 Studio \u2014 \u00dcmitk\u00f6y: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 679.15625,
+              "width": 44,
+              "height": 44,
+              "top": 679.15625,
+              "right": 379,
+              "bottom": 723.15625,
+              "left": 335
+            },
+            {
+              "name": "3. \u00f6neri: Ke\u00e7i\u00f6ren Deniz D\u00fcnyas\u0131. Ke\u00e7i\u00f6ren \u00b7 \u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 757.15625,
+              "width": 370,
+              "height": 136,
+              "top": 757.15625,
+              "right": 391,
+              "bottom": 893.15625,
+              "left": 21
+            },
+            {
+              "name": "Ke\u00e7i\u00f6ren Deniz D\u00fcnyas\u0131: Kaydet",
+              "x": 335,
+              "y": 777.15625,
+              "width": 44,
+              "height": 44,
+              "top": 777.15625,
+              "right": 379,
+              "bottom": 821.15625,
+              "left": 335
+            },
+            {
+              "name": "Ke\u00e7i\u00f6ren Deniz D\u00fcnyas\u0131: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 829.15625,
+              "width": 44,
+              "height": 44,
+              "top": 829.15625,
+              "right": 379,
+              "bottom": 873.15625,
+              "left": 335
+            },
+            {
+              "name": "4. \u00f6neri: Divan \u00c7ukurhan. Alt\u0131nda\u011f \u00b7 \u20ba\u20ba\u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 907.15625,
+              "width": 370,
+              "height": 136,
+              "top": 907.15625,
+              "right": 391,
+              "bottom": 1043.15625,
+              "left": 21
+            },
+            {
+              "name": "Divan \u00c7ukurhan: Kaydet",
+              "x": 335,
+              "y": 927.15625,
+              "width": 44,
+              "height": 44,
+              "top": 927.15625,
+              "right": 379,
+              "bottom": 971.15625,
+              "left": 335
+            },
+            {
+              "name": "Divan \u00c7ukurhan: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 979.15625,
+              "width": 44,
+              "height": 44,
+              "top": 979.15625,
+              "right": 379,
+              "bottom": 1023.15625,
+              "left": 335
+            },
+            {
+              "name": "5. \u00f6neri: B\u00fcy\u00fcl\u00fc Fener Sinemalar\u0131 \u2014 K\u0131z\u0131lay. \u00c7ankaya \u00b7 \u20ba\u20ba. Mek\u00e2n\u0131 incele",
+              "x": 21,
+              "y": 1057.15625,
+              "width": 370,
+              "height": 136,
+              "top": 1057.15625,
+              "right": 391,
+              "bottom": 1193.15625,
+              "left": 21
+            },
+            {
+              "name": "B\u00fcy\u00fcl\u00fc Fener Sinemalar\u0131 \u2014 K\u0131z\u0131lay: Kaydet",
+              "x": 335,
+              "y": 1077.15625,
+              "width": 44,
+              "height": 44,
+              "top": 1077.15625,
+              "right": 379,
+              "bottom": 1121.15625,
+              "left": 335
+            },
+            {
+              "name": "B\u00fcy\u00fcl\u00fc Fener Sinemalar\u0131 \u2014 K\u0131z\u0131lay: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 1129.15625,
+              "width": 44,
+              "height": 44,
+              "top": 1129.15625,
+              "right": 379,
+              "bottom": 1173.15625,
+              "left": 335
+            },
+            {
+              "name": "Ba\u015fka mek\u00e2nlar g\u00f6ster",
+              "x": 20,
+              "y": 1206.15625,
+              "width": 372,
+              "height": 46,
+              "top": 1206.15625,
+              "right": 392,
+              "bottom": 1252.15625,
+              "left": 20
+            },
+            {
+              "name": "Gezek \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 136,
+              "bottom": 1440.15625,
+              "left": 20
+            },
+            {
+              "name": "Etkinlikler \u00f6nerilerini ke\u015ffet",
+              "x": 148,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 264,
+              "bottom": 1440.15625,
+              "left": 148
+            },
+            {
+              "name": "Fikir \u00f6nerilerini ke\u015ffet",
+              "x": 276,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 392,
+              "bottom": 1440.15625,
+              "left": 276
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1452.15625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 95.71875,
+              "bottom": 1496.15625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1452.15625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 182.1875,
+              "bottom": 1496.15625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1452.15625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 253.953125,
+              "bottom": 1496.15625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 412,
+              "height": 421.43511962890625
+            },
+            {
+              "width": 230.63612365722656,
+              "height": 272.5699462890625
+            },
+            {
+              "width": 251.60302734375,
+              "height": 314.5037841796875
+            },
+            {
+              "width": 213.8625946044922,
+              "height": 245.31298828125
+            },
+            {
+              "width": 207.572509765625,
+              "height": 228.5394287109375
+            },
+            {
+              "width": 142.5750732421875,
+              "height": 142.5750732421875
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 346,
+              "height": 105.16717529296875
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "event",
+        "metrics": {
+          "width": 412,
+          "scrollWidth": 412,
+          "nav": {
+            "x": 0,
+            "y": 841,
+            "width": 412,
+            "height": 74,
+            "top": 841,
+            "right": 412,
+            "bottom": 915,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 348,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 392,
+              "bottom": 68,
+              "left": 348
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 372,
+              "height": 60,
+              "top": 160,
+              "right": 392,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "AMADEUS - Veda Turnesi. 16 Eki \u00b7 Congresium Ankara \u00b7 \u20ba\u20ba\u20ba. Sakin moduna uygun. Etkinli\u011fi incele",
+              "x": 21,
+              "y": 353,
+              "width": 370,
+              "height": 214.15625,
+              "top": 353,
+              "right": 391,
+              "bottom": 567.15625,
+              "left": 21
+            },
+            {
+              "name": "AMADEUS - Veda Turnesi: Kaydet",
+              "x": 335,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 379,
+              "bottom": 411,
+              "left": 335
+            },
+            {
+              "name": "AMADEUS - Veda Turnesi: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 379,
+              "bottom": 463,
+              "left": 335
+            },
+            {
+              "name": "2. \u00f6neri: TastyDays Ankara Gastronomi Festival. 11 Eki \u00b7 ODT\u00dc MD Vi\u015fnelik \u00b7 \u20ba\u20ba. Etkinli\u011fi incele",
+              "x": 21,
+              "y": 607.15625,
+              "width": 370,
+              "height": 136,
+              "top": 607.15625,
+              "right": 391,
+              "bottom": 743.15625,
+              "left": 21
+            },
+            {
+              "name": "TastyDays Ankara Gastronomi Festival: Kaydet",
+              "x": 335,
+              "y": 627.15625,
+              "width": 44,
+              "height": 44,
+              "top": 627.15625,
+              "right": 379,
+              "bottom": 671.15625,
+              "left": 335
+            },
+            {
+              "name": "TastyDays Ankara Gastronomi Festival: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 679.15625,
+              "width": 44,
+              "height": 44,
+              "top": 679.15625,
+              "right": 379,
+              "bottom": 723.15625,
+              "left": 335
+            },
+            {
+              "name": "Ba\u015fka etkinlikler g\u00f6ster",
+              "x": 20,
+              "y": 756.15625,
+              "width": 372,
+              "height": 46,
+              "top": 756.15625,
+              "right": 392,
+              "bottom": 802.15625,
+              "left": 20
+            },
+            {
+              "name": "Gezek \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 848.15625,
+              "width": 116,
+              "height": 142,
+              "top": 848.15625,
+              "right": 136,
+              "bottom": 990.15625,
+              "left": 20
+            },
+            {
+              "name": "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+              "x": 148,
+              "y": 848.15625,
+              "width": 116,
+              "height": 142,
+              "top": 848.15625,
+              "right": 264,
+              "bottom": 990.15625,
+              "left": 148
+            },
+            {
+              "name": "Fikir \u00f6nerilerini ke\u015ffet",
+              "x": 276,
+              "y": 848.15625,
+              "width": 116,
+              "height": 142,
+              "top": 848.15625,
+              "right": 392,
+              "bottom": 990.15625,
+              "left": 276
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1002.15625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1002.15625,
+              "right": 95.71875,
+              "bottom": 1046.15625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1002.15625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1002.15625,
+              "right": 182.1875,
+              "bottom": 1046.15625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1002.15625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1002.15625,
+              "right": 253.953125,
+              "bottom": 1046.15625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 412,
+              "height": 421.43511962890625
+            },
+            {
+              "width": 230.63612365722656,
+              "height": 272.5699462890625
+            },
+            {
+              "width": 251.60302734375,
+              "height": 314.5037841796875
+            },
+            {
+              "width": 213.8625946044922,
+              "height": 245.31298828125
+            },
+            {
+              "width": 207.572509765625,
+              "height": 228.5394287109375
+            },
+            {
+              "width": 142.5750732421875,
+              "height": 142.5750732421875
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 346,
+              "height": 105.16717529296875
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "size": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "idea",
+        "metrics": {
+          "width": 412,
+          "scrollWidth": 412,
+          "nav": {
+            "x": 0,
+            "y": 841,
+            "width": 412,
+            "height": 74,
+            "top": 841,
+            "right": 412,
+            "bottom": 915,
+            "left": 0
+          },
+          "buttons": [
+            {
+              "name": "Ayarlar\u0131 a\u00e7",
+              "x": 348,
+              "y": 24,
+              "width": 44,
+              "height": 44,
+              "top": 24,
+              "right": 392,
+              "bottom": 68,
+              "left": 348
+            },
+            {
+              "name": "Bug\u00fcnk\u00fc tercihler: Sakin \u00b7 Kahve + Sanat \u00b7 1\u20132 saat \u00b7 \u20ba\u20ba \u00b7 2 ki\u015fi. Tercihleri d\u00fczenle",
+              "x": 20,
+              "y": 160,
+              "width": 372,
+              "height": 60,
+              "top": 160,
+              "right": 392,
+              "bottom": 220,
+              "left": 20
+            },
+            {
+              "name": "Frans\u0131z omleti tekni\u011fini \u00f6\u011fren. Lezzet \u00b7 \u20ba. Sakin moduna uygun. Tekni\u011fi izle",
+              "x": 21,
+              "y": 353,
+              "width": 370,
+              "height": 214.15625,
+              "top": 353,
+              "right": 391,
+              "bottom": 567.15625,
+              "left": 21
+            },
+            {
+              "name": "Frans\u0131z omleti tekni\u011fini \u00f6\u011fren: Kaydet",
+              "x": 335,
+              "y": 367,
+              "width": 44,
+              "height": 44,
+              "top": 367,
+              "right": 379,
+              "bottom": 411,
+              "left": 335
+            },
+            {
+              "name": "Frans\u0131z omleti tekni\u011fini \u00f6\u011fren: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 419,
+              "width": 44,
+              "height": 44,
+              "top": 419,
+              "right": 379,
+              "bottom": 463,
+              "left": 335
+            },
+            {
+              "name": "2. \u00f6neri: The Grand Budapest Hotel gecesi. Sanat \u00b7 \u20ba. Filmi ara\u015ft\u0131r",
+              "x": 21,
+              "y": 607.15625,
+              "width": 370,
+              "height": 136,
+              "top": 607.15625,
+              "right": 391,
+              "bottom": 743.15625,
+              "left": 21
+            },
+            {
+              "name": "The Grand Budapest Hotel gecesi: Kaydet",
+              "x": 335,
+              "y": 627.15625,
+              "width": 44,
+              "height": 44,
+              "top": 627.15625,
+              "right": 379,
+              "bottom": 671.15625,
+              "left": 335
+            },
+            {
+              "name": "The Grand Budapest Hotel gecesi: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 679.15625,
+              "width": 44,
+              "height": 44,
+              "top": 679.15625,
+              "right": 379,
+              "bottom": 723.15625,
+              "left": 335
+            },
+            {
+              "name": "3. \u00f6neri: Ak\u015famdan so\u011fuk demleme haz\u0131rla. Kahve \u00b7 \u20ba. Fikri incele",
+              "x": 21,
+              "y": 757.15625,
+              "width": 370,
+              "height": 136,
+              "top": 757.15625,
+              "right": 391,
+              "bottom": 893.15625,
+              "left": 21
+            },
+            {
+              "name": "Ak\u015famdan so\u011fuk demleme haz\u0131rla: Kaydet",
+              "x": 335,
+              "y": 777.15625,
+              "width": 44,
+              "height": 44,
+              "top": 777.15625,
+              "right": 379,
+              "bottom": 821.15625,
+              "left": 335
+            },
+            {
+              "name": "Ak\u015famdan so\u011fuk demleme haz\u0131rla: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 829.15625,
+              "width": 44,
+              "height": 44,
+              "top": 829.15625,
+              "right": 379,
+              "bottom": 873.15625,
+              "left": 335
+            },
+            {
+              "name": "4. \u00f6neri: G\u00fcndelik bir nesnenin k\u00f6kenini ara\u015ft\u0131r. Etkinlik \u00b7 Bedava. Fikri incele",
+              "x": 21,
+              "y": 907.15625,
+              "width": 370,
+              "height": 136,
+              "top": 907.15625,
+              "right": 391,
+              "bottom": 1043.15625,
+              "left": 21
+            },
+            {
+              "name": "G\u00fcndelik bir nesnenin k\u00f6kenini ara\u015ft\u0131r: Kaydet",
+              "x": 335,
+              "y": 927.15625,
+              "width": 44,
+              "height": 44,
+              "top": 927.15625,
+              "right": 379,
+              "bottom": 971.15625,
+              "left": 335
+            },
+            {
+              "name": "G\u00fcndelik bir nesnenin k\u00f6kenini ara\u015ft\u0131r: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 979.15625,
+              "width": 44,
+              "height": 44,
+              "top": 979.15625,
+              "right": 379,
+              "bottom": 1023.15625,
+              "left": 335
+            },
+            {
+              "name": "5. \u00f6neri: Yak\u0131ndaki bir bankta g\u00f6zlem notu tut. Do\u011fa \u00b7 Bedava. Fikri incele",
+              "x": 21,
+              "y": 1057.15625,
+              "width": 370,
+              "height": 136,
+              "top": 1057.15625,
+              "right": 391,
+              "bottom": 1193.15625,
+              "left": 21
+            },
+            {
+              "name": "Yak\u0131ndaki bir bankta g\u00f6zlem notu tut: Kaydet",
+              "x": 335,
+              "y": 1077.15625,
+              "width": 44,
+              "height": 44,
+              "top": 1077.15625,
+              "right": 379,
+              "bottom": 1121.15625,
+              "left": 335
+            },
+            {
+              "name": "Yak\u0131ndaki bir bankta g\u00f6zlem notu tut: Bana g\u00f6re de\u011fil",
+              "x": 335,
+              "y": 1129.15625,
+              "width": 44,
+              "height": 44,
+              "top": 1129.15625,
+              "right": 379,
+              "bottom": 1173.15625,
+              "left": 335
+            },
+            {
+              "name": "Ba\u015fka fikirler g\u00f6ster",
+              "x": 20,
+              "y": 1206.15625,
+              "width": 372,
+              "height": 46,
+              "top": 1206.15625,
+              "right": 392,
+              "bottom": 1252.15625,
+              "left": 20
+            },
+            {
+              "name": "Gezek \u00f6nerilerini ke\u015ffet",
+              "x": 20,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 136,
+              "bottom": 1440.15625,
+              "left": 20
+            },
+            {
+              "name": "Mek\u00e2nlar \u00f6nerilerini ke\u015ffet",
+              "x": 148,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 264,
+              "bottom": 1440.15625,
+              "left": 148
+            },
+            {
+              "name": "Etkinlikler \u00f6nerilerini ke\u015ffet",
+              "x": 276,
+              "y": 1298.15625,
+              "width": 116,
+              "height": 142,
+              "top": 1298.15625,
+              "right": 392,
+              "bottom": 1440.15625,
+              "left": 276
+            },
+            {
+              "name": "Konumu yeniden g\u00fcncelle",
+              "x": 20,
+              "y": 1452.15625,
+              "width": 75.71875,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 95.71875,
+              "bottom": 1496.15625,
+              "left": 20
+            },
+            {
+              "name": "Gizledi\u011fim 0 \u00f6neriyi g\u00f6ster",
+              "x": 111.71875,
+              "y": 1452.15625,
+              "width": 70.46875,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 182.1875,
+              "bottom": 1496.15625,
+              "left": 111.71875
+            },
+            {
+              "name": "Plan tercihlerini ba\u015ftan se\u00e7",
+              "x": 198.1875,
+              "y": 1452.15625,
+              "width": 55.765625,
+              "height": 44,
+              "top": 1452.15625,
+              "right": 253.953125,
+              "bottom": 1496.15625,
+              "left": 198.1875
+            }
+          ],
+          "svg": [
+            {
+              "width": 412,
+              "height": 421.43511962890625
+            },
+            {
+              "width": 230.63612365722656,
+              "height": 272.5699462890625
+            },
+            {
+              "width": 251.60302734375,
+              "height": 314.5037841796875
+            },
+            {
+              "width": 213.8625946044922,
+              "height": 245.31298828125
+            },
+            {
+              "width": 207.572509765625,
+              "height": 228.5394287109375
+            },
+            {
+              "width": 142.5750732421875,
+              "height": 142.5750732421875
+            },
+            {
+              "width": 7,
+              "height": 7
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 16,
+              "height": 16
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 20,
+              "height": 20
+            },
+            {
+              "width": 346,
+              "height": 105.16717529296875
+            },
+            {
+              "width": 8,
+              "height": 8
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 112,
+              "height": 112
+            },
+            {
+              "width": 12,
+              "height": 12
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 44,
+              "height": 44
+            },
+            {
+              "width": 18,
+              "height": 18
+            },
+            {
+              "width": 720,
+              "height": 399
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 89,
+              "height": 72
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            },
+            {
+              "width": 22,
+              "height": 22
+            }
+          ]
+        }
+      },
+      {
+        "actionIsolation": "save, unsave, dismiss, undo do not open; full card opens",
+        "passed": true
+      },
+      {
+        "actualAppDetail": {
+          "id": "xp-arslanhane-alaaddin-selcuklu",
+          "explicitMaps": true,
+          "scrollBefore": 320,
+          "scrollAfter": 320
+        }
+      }
+    ],
+    "errors": []
+  }
+}

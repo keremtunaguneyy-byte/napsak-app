@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, findNodeHandle, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync } from './src/backend';
 import { loadPreferences, shouldRefreshContext } from './src/persistence';
@@ -18,6 +18,7 @@ import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
 import { PlaceDetails } from './src/components/PlaceDetails';
 import { GezekBottomNavigation, GezekHome, GezekHomeLoading } from './src/components/gezek';
+import { HomeAtmosphere } from './src/components/gezek/GezekHome';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
@@ -63,6 +64,7 @@ export default function App() {
 }
 
 function AppContent() {
+  const safeInsets = useSafeAreaInsets();
   const [fontsLoaded, fontError] = useFonts({
     [GEZEK_FONT_FAMILIES.regular]: require('@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf'),
     [GEZEK_FONT_FAMILIES.medium]: require('@expo-google-fonts/plus-jakarta-sans/500Medium/PlusJakartaSans_500Medium.ttf'),
@@ -506,19 +508,19 @@ function AppContent() {
   };
 
 
-  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekSafe]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView>;
-  if (!hydrated || (!fontsLoaded && !fontError)) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekSafe]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
+  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekTransparent]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage, s.gezekTransparent]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView></View>;
+  if (!hydrated || (!fontsLoaded && !fontError)) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekTransparent]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView></View>;
 
   const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : step === 'duration' ? '06' : '07';
   const isGuideArticle = step === 'guides' && guideView !== 'landing';
   const isHome = step === 'results';
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
-  return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, isHome && s.gezekSafe]}>
+  return <SafeAreaView edges={isHome ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isHome && s.gezekSafe]}>
     <StatusBar style={isHome ? 'dark' : 'light'} />{!isHome && <View style={s.orb} />}
     <KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : !!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel={guideView === 'classics' ? 'Ankara Klasikleri koleksiyonu' : 'Bir Ankaralı Gibi rotası'} onBack={() => { setGuideContentsOpen(false); setPendingGuideId(undefined); setGuideView('landing'); }} onOpenContents={guideView === 'classics' ? togglePersistentGuideContents : undefined} contentsOpen={guideContentsOpen} onSave={guideView === 'classics' ? () => toggleSaved(CLASSICS_COLLECTION_ID, 'guide') : primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
-    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && s.pageWide, isHome && s.gezekHomePage, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
@@ -561,6 +563,7 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kişi sayısı seçimine geri dön" onPress={() => setStep('group')} style={s.backHit}><Text style={s.back}>← Kişi sayısını değiştir</Text></TouchableOpacity>
       </View>}
       {step === 'results' && <GezekHome
+        safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
         locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
@@ -746,7 +749,7 @@ function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceD
 
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
+  safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, gezekTransparent: { backgroundColor: 'transparent' }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
   gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
   gezekLoadingText: { color: GEZEK_COLORS.mutedText, fontFamily: GEZEK_FONT_FAMILIES.regular, fontSize: 11, lineHeight: 16 },
   readingProgressTrack: { height: 3, backgroundColor: '#352F29', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#8F2938' },

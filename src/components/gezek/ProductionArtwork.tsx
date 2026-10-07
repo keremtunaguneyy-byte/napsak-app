@@ -1,18 +1,33 @@
 import { memo } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { SvgCss } from 'react-native-svg/css';
+import { parse, SvgAst } from 'react-native-svg';
+import { inlineStyles } from 'react-native-svg/css';
 import { ArtworkLayout, ArtworkResolver, ARTWORK_DIMENSIONS, VisualItem } from './ArtworkResolver';
 import { ContextualIconResolver } from './ContextualIconResolver';
 import { PRODUCTION_ASSET_XML } from './productionAssetXml';
 import { BrandLogo } from './BrandLogo';
 import { GEZEK_COLORS } from '../../design/gezekTheme';
+import { recordHomeRender } from './homePerformance';
+
+// Only immutable registry paths enter this cache (at most 432 assets).
+// Keep the same CSS middleware so Figma fills and geometry remain intact.
+const parsedAssets = new Map<string, ReturnType<typeof parse>>();
+function parsedAsset(path: string, xml: string) {
+  let ast = parsedAssets.get(path);
+  if (!ast) {
+    ast = parse(xml, inlineStyles);
+    parsedAssets.set(path, ast);
+  }
+  return ast;
+}
 
 /** Retains SVG root geometry; wrappers scale uniformly, never crop between layouts. */
 export const ProductionSvg = memo(function ProductionSvg({ path, width }: { path: string; width?: number }) {
+  recordHomeRender('asset');
   const asset = PRODUCTION_ASSET_XML[path];
   const scale = width === undefined ? 1 : width / asset.width;
   return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={{ width: asset.width * scale, height: asset.height * scale }}>
-    <View style={{ width: asset.width, height: asset.height, transformOrigin: 'top left', transform: [{ scale }] }}><SvgCss accessible={false} xml={asset.xml} /></View>
+    <View style={{ width: asset.width, height: asset.height, transformOrigin: 'top left', transform: [{ scale }] }}><SvgAst accessible={false} ast={parsedAsset(path, asset.xml)} /></View>
   </View>;
 });
 

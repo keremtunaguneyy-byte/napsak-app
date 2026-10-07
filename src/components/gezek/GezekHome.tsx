@@ -32,6 +32,7 @@ const copy: Record<ResultFilter, { main: string; alternatives: string; refresh: 
 };
 
 export type GezekHomeProps = {
+  safeTopInset?: number;
   mood?: Mood; interests: Interest[]; budget: BudgetPreference; groupSize?: GroupSizePreference; duration: DurationPreference;
   results: RecommendationItem[]; savedIds: string[]; selectedFilter: ResultFilter; contextRefreshDue: boolean;
   locating: boolean; hasCoordinates: boolean; locationMessage: string; lastDismissed?: string; hiddenCount: number;
@@ -57,7 +58,8 @@ function HomeContent(p: GezekHomeProps) {
     p.duration, p.budget === 'Ücretsiz' ? 'Bedava' : p.budget, p.groupSize,
   ].filter(Boolean).join(' · ');
   return <View onLayout={event => setContentWidth(event.nativeEvent.layout.width)} style={s.screen}>
-    <HomeAtmosphere width={contentWidth + 2 * L.screenHorizontalInset} />
+    <HomeAtmosphere width={contentWidth + 2 * L.screenHorizontalInset} topInset={L.homeTopInset + (p.safeTopInset ?? 0)} />
+    <View style={s.content}>
     <View style={s.top}>
       <BrandLogo />
       <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}>
@@ -126,10 +128,11 @@ function HomeContent(p: GezekHomeProps) {
       <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Gizlediğim ${p.hiddenCount} öneriyi göster`} onPress={p.onShowHidden} style={s.utilityHit}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity>
       <TouchableOpacity accessibilityRole="button" accessibilityLabel="Plan tercihlerini baştan seç" onPress={p.onReset} style={s.utilityHit}><Text style={s.utilityText}>Baştan başla</Text></TouchableOpacity>
     </View>
+    </View>
   </View>;
 }
 
-const HomeAtmosphere = memo(function HomeAtmosphere({ width }: { width: number }) {
+export const HomeAtmosphere = memo(function HomeAtmosphere({ width, topInset = L.homeTopInset, horizontalInset = L.screenHorizontalInset }: { width: number; topInset?: number; horizontalInset?: number }) {
   const scale = width / 393;
   const layers: { name: GezekAssetName; x: number; y: number }[] = [
     { name: 'header', x: 0, y: 0 },
@@ -139,7 +142,7 @@ const HomeAtmosphere = memo(function HomeAtmosphere({ width }: { width: number }
     { name: 'coralDetail', x: 294, y: 626 },
     { name: 'yellowDetail', x: 308, y: 950 },
   ];
-  return <View accessible={false} pointerEvents="none" style={s.atmosphere}>
+  return <View accessible={false} pointerEvents="none" style={[s.atmosphere, { top: -topInset, left: -horizontalInset, right: -horizontalInset }]}>
     {layers.map(layer => <View key={layer.name} style={{ position: 'absolute', left: layer.x * scale, top: layer.y * scale }}>
       <GezekAsset name={layer.name} scale={scale} />
     </View>)}
@@ -288,6 +291,7 @@ export function GezekBottomNavigation({ active, savedCount, onHome, onSaved, onG
 }
 
 const s = StyleSheet.create({
+  content: { width: '100%', maxWidth: 680, alignSelf: 'center' },
   screen: { paddingBottom: 20 }, flex: { flex: 1, minWidth: 0 },
   atmosphere: { position: 'absolute', top: -L.homeTopInset, left: -L.screenHorizontalInset, right: -L.screenHorizontalInset },
   top: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
