@@ -1,5 +1,10 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-08 — Detail Flow PR 1 ve exclusive save/dismiss
+
+Durum: kullanıcı ekli PR 1 handoff’unu bağlayıcı olarak onayladı; `codex/gezek-detail-plan-place` dalında uygulandı. Plan/Place ve shared host için Figma `927:1769` otoritedir. Exact ID/history/origin snapshot; Back stack pop, Close origin exit; mevcut Hero resolver ve gerçek katalog alanları korunur. Dismiss saved’i atomik kaldırır; dismissed kayıt save edilemez; Restore/Undo unsaved döner. Eski overlapping yerel kayıtlar mevcut v5 şemasında dismiss-wins normalizasyonu alır. Sekiz saniyelik undo navigation/unmount’ta temizlenir. Firebase ve algoritma değişmez; Event/Idea, diğer migrasyonlar ve cihaz kabulü ayrıdır. Sözleşme ve kanıt `DETAIL_FLOW_PR1_CONTRACT.md` / `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md` içindedir.
+
+
 ## 2026-10-08 — Onaylı command-center Home / production artwork
 
 Durum: kullanıcı design-to-code audit'ini onayladı; mevcut `codex/gezek-ui-foundation` / Draft #67 içinde yerel uygulama. 2026-10-07 paket + canlı Page 07 Home önceki görsel otoritenin yerine geçer. Başlık tahmini yerine sabit ID / artwork_key / icon_key eşlemeleri ve responsive artwork resolver kullanılır. 12 proof ailesinin exact Figma export'u zorunludur; acoustic `810:102` korunur. Kart gövdesi ve quick action'lar ayrıdır; keşif seçili filtreyi dışlar. Geçici lowercase marka tek `BrandLogo` bileşenindedir. Nihai logo/app icon, Redmi ve release-device kabulü açık kalır. Algoritma, katalog ve servis sözleşmeleri değişmez. Ayrıntılı kanıt ve yayın engeli `COMMAND_CENTER_IMPLEMENTATION_REPORT.md` içindedir.

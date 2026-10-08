@@ -1,5 +1,10 @@
 # Gezek — Durum ve sıradaki iş
 
+## Detail Flow PR 1 — 8 Ekim 2026
+
+`codex/gezek-detail-plan-place`, fetch ile doğrulanan `origin/main` `c1426357ccd4df3ad7408aede9d8b2b77e0e344d` üzerinden açıldı. Onaylı Shared Detail Host + Plan/Place; exact ID/ordered stops, Home/Saved snapshot, nested Back/Close, conditional external actions, Hero resolver, exclusive save/dismiss ve 8 saniyelik undo uygulanır. Event/Idea ve diğer görsel migrasyonlar kapsam dışıdır. Güncel sözleşme `DETAIL_FLOW_PR1_CONTRACT.md`, komut/browser sonuçları ve bekleyen Redmi/TalkBack kabulü `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md` içindedir. Draft kalır; merge yapılmaz. Eski approval-pending Detail notları bu kullanıcı onayıyla geçersizdir.
+
+
 ## PR #68 Redmi smoke sonucu ve ertelenen işler — 8 Ekim 2026
 
 - Kullanıcı no-regression smoke testini tamamladı: kartlar/eşlemeler doğru. Gezek→Mekân en yavaş geçiş; diğer geçişler daha hızlı ama hissedilir gecikme sürüyor. Merged Home baseline'a göre anlamlı subjektif iyileşme yok. Redundant render kaldırıldı; **native Redmi pause çözülmedi**.

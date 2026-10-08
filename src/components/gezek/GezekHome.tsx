@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, memo, Profiler, ReactNode, useLayoutEffect, useState } from 'react';
+import { Component, ErrorInfo, memo, Profiler, ReactNode, useLayoutEffect, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT as L,
@@ -38,7 +38,7 @@ export type GezekHomeProps = {
   locating: boolean; hasCoordinates: boolean; locationMessage: string; lastDismissed?: string; hiddenCount: number;
   onSettings: () => void; onEditPreferences: () => void; onConfirmContext: () => void;
   onSelectFilter: (filter: ResultFilter) => void; onRequestLocation: () => void; onUndoDismiss: () => void;
-  onOpenRecommendation: (item: RecommendationItem) => void; onToggleSaved: (item: RecommendationItem, rank: number) => void;
+  onOpenRecommendation: (item: RecommendationItem, node?: View | null) => void; onToggleSaved: (item: RecommendationItem, rank: number) => void;
   onDismiss: (item: RecommendationItem, rank: number) => void; onRotate: () => void; onShowHidden: () => void;
   onReset: () => void; onRecommendationsLayout: (y: number) => void;
 };
@@ -160,11 +160,12 @@ export const HomeAtmosphere = memo(function HomeAtmosphere({ width, topInset = L
 type CardProps = { item: RecommendationItem; saved: boolean; onOpen: GezekHomeProps['onOpenRecommendation']; onSave: GezekHomeProps['onToggleSaved']; onDismiss: GezekHomeProps['onDismiss'] };
 
 const MainCard = memo(function MainCard({ item, saved, onOpen, onSave, onDismiss }: CardProps) {
+  const invokingControl = useRef<View>(null);
   const [mediaWidth, setMediaWidth] = useState(329);
   const title = homeItemTitle(item);
   return <View style={s.mainCard}>
-    <Pressable accessibilityRole="button" accessibilityLabel={`${title}. ${homeItemMeta(item)}. ${item.reasons[0] ?? ''}. ${homeActionLabel(item)}`}
-      onPress={() => onOpen(item)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
+    <Pressable ref={invokingControl} accessibilityRole="button" accessibilityLabel={`${title}. ${homeItemMeta(item)}. ${item.reasons[0] ?? ''}. ${homeActionLabel(item)}`}
+      onPress={() => onOpen(item, invokingControl.current)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
     <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.mainContent}>
       <View onLayout={event => setMediaWidth(event.nativeEvent.layout.width)} style={s.mainImage}>
         <ProductionArtwork item={item} layout="Hero" width={mediaWidth} />
@@ -178,9 +179,10 @@ const MainCard = memo(function MainCard({ item, saved, onOpen, onSave, onDismiss
 });
 
 const Alternative = memo(function Alternative({ item, saved, rank, onOpen, onSave, onDismiss }: CardProps & { rank: number }) {
+  const invokingControl = useRef<View>(null);
   return <View style={s.alternative}>
-    <Pressable accessibilityRole="button" accessibilityLabel={`${rank}. öneri: ${homeItemTitle(item)}. ${homeItemMeta(item)}. ${homeActionLabel(item)}`}
-      onPress={() => onOpen(item)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
+    <Pressable ref={invokingControl} accessibilityRole="button" accessibilityLabel={`${rank}. öneri: ${homeItemTitle(item)}. ${homeItemMeta(item)}. ${homeActionLabel(item)}`}
+      onPress={() => onOpen(item, invokingControl.current)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
     <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.altImage}><ProductionArtwork item={item} layout="Square" /></View>
     <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.altCopy}>
       <View style={s.contextualLabel}><ContextualIcon icon_key={itemIconKey(item)} /><Text style={s.altEyebrow}>{item.category.toLocaleUpperCase('tr-TR')}</Text></View>

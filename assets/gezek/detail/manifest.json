@@ -1,0 +1,21 @@
+{
+  "fileKey": "yTdAWr92ETyurlQQHNNqpi",
+  "controls": {
+    "back": "928:1749",
+    "close": "928:1758",
+    "maps": "928:1803",
+    "source": "928:1822",
+    "save": "928:1768",
+    "dismiss": "928:1781",
+    "saved": "928:1771"
+  },
+  "files": {
+    "saved.svg": "fa786384fe5d2730d5de60a8d2615704a3708151d0b3f0def6b5d6c23dfbc4dc",
+    "close.svg": "32b6bad8bdd3ce70611a345e3a3cdde27f947f302e2337eb97498b475715ac88",
+    "maps.svg": "ba9f41071e1c7cb75b90a13a7326e1dae7b9e05c0ade350b606d12cffff5f9ab",
+    "save.svg": "5aa314f09035b2abc50ad7ecbb0b46c47d3f1c9c7acf00cc793e27cde5034011",
+    "back.svg": "17d374b068d5e7ec1a3a7ace95869c29947a180ce1a49b1b4c259c823f474c0a",
+    "source.svg": "61c3590311a7aae40832dab9d13273802c8a4ff870c3c16ba87d9b5c47cf8903",
+    "dismiss.svg": "34f5437fd4c6d9be702526688baf485e0ee7853f43b4381b9d7c83094234be6c"
+  }
+}

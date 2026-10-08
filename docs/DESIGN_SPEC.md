@@ -1,5 +1,10 @@
 # Gezek — Tasarım ve Marka
 
+## Güncel Detail otoritesi — 8 Ekim 2026
+
+Kullanıcı bağlayıcı PR 1 handoff’unu onayladı. `Production Detail Flows / Approved v1` (`927:1769`) içindeki Plan `931:2412`, Place `932:2874` ve ortak bileşenler güncel detail otoritesidir. `DETAIL_FLOW_PR1_CONTRACT.md` ayrıntılı ledger ve native adaptasyon sınırını içerir. Home/protected Figma master’ları yeniden tasarlanmaz; Event/Idea bu PR’da uygulanmaz.
+
+
 ## Güncel otorite — 8 Ekim 2026
 
 Onaylı 2026-10-07 command-center paketi ve canlı Page 07 (`823:2041`, dört entegre Home, `824:2880`) önceki Home görsel sözleşmesini geçersiz kılar. Güncel asset, etkileşim ve kabul sınırı `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir. Aşağıdaki eski Home kayıtları tarihseldir. Nihai logo ve cihaz kabulü ertelenmiştir.

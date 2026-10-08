@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 const sources = [
-  'App.tsx', 'src/components/PlaceDetails.tsx', 'src/components/AppErrorBoundary.tsx',
+  'App.tsx', 'src/components/gezek/DetailHost.tsx', 'src/components/AppErrorBoundary.tsx',
   'src/components/gezek/GezekHome.tsx', 'src/components/gezek/BrandLogo.tsx', 'src/components/gezek/GezekArtwork.tsx', 'src/components/gezek/ProductionArtwork.tsx',
 ];
 const failures: string[] = [];
@@ -55,6 +55,20 @@ for (const style of ['title', 'mainTitle', 'heading', 'sectionTitle', 'stateTitl
 if (!app.includes('accessibilityRole="progressbar"') || !app.includes('accessibilityValue={{ min: 0, max: 100')) {
   failures.push('App.tsx: reading progress is missing progressbar semantics');
 }
+
+const detail = readFileSync('src/components/gezek/DetailHost.tsx', 'utf8');
+for (const required of [
+  'accessibilityViewIsModal', 'accessibilityState={{ selected, busy, disabled }}',
+  'accessibilityElementsHidden importantForAccessibility="no-hide-descendants"',
+  'focusDetailControl', 'DETAIL_CONTENT_CLEARANCE', 'footerHeight + 16',
+]) {
+  if (!detail.includes(required)) failures.push(`DetailHost.tsx: missing ${required}`);
+}
+for (const style of ['button', 'row', 'undo']) {
+  const declaration = detail.match(new RegExp(`${style}: \\{[^}]+\\}`))?.[0];
+  if (!declaration?.match(/minHeight: (?:44|60)/) || !declaration.includes('minWidth: 44')) failures.push(`DetailHost.tsx: ${style} has no 44 × 44 target`);
+}
+if (!detail.includes('DETAIL_ASSET_XML[icon].xml')) failures.push('DetailHost.tsx: local control assets are missing');
 
 if (failures.length) {
   console.error('Accessibility source contract failed:\n' + failures.map(item => `- ${item}`).join('\n'));

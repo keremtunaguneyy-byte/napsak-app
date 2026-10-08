@@ -1,5 +1,10 @@
 # Gezek — önce burayı oku
 
+## Güncel Detail Flow — 8 Ekim 2026
+
+Kullanıcı PR 1 handoff’unu bağlayıcı sözleşme olarak onayladı. `DETAIL_FLOW_PR1_CONTRACT.md` canlı Figma Plan/Place otoritesini ve uygulama sınırını; `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md` güncel kanıtı açıklar. Shared Detail Host + Plan/Place `codex/gezek-detail-plan-place` dalındadır; merge ve PR 2 yok. Aşağıdaki eski Home/Detail onay ve SHA kayıtları tarihseldir.
+
+
 Güncelleme: 6 Ekim 2026. Bu klasör sohbetlerden ve model sağlayıcısından bağımsız proje hafızasıdır. Tüm sohbet transkriptinin eksiksiz arşivi değildir.
 
 ## Okuma sırası
