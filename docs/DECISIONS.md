@@ -1,6 +1,32 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-08 — Onaylı command-center Home / production artwork
+
+Durum: kullanıcı design-to-code audit'ini onayladı; mevcut `codex/gezek-ui-foundation` / Draft #67 içinde yerel uygulama. 2026-10-07 paket + canlı Page 07 Home önceki görsel otoritenin yerine geçer. Başlık tahmini yerine sabit ID / artwork_key / icon_key eşlemeleri ve responsive artwork resolver kullanılır. 12 proof ailesinin exact Figma export'u zorunludur; acoustic `810:102` korunur. Kart gövdesi ve quick action'lar ayrıdır; keşif seçili filtreyi dışlar. Geçici lowercase marka tek `BrandLogo` bileşenindedir. Nihai logo/app icon, Redmi ve release-device kabulü açık kalır. Algoritma, katalog ve servis sözleşmeleri değişmez. Ayrıntılı kanıt ve yayın engeli `COMMAND_CENTER_IMPLEMENTATION_REPORT.md` içindedir.
+
 Önceki tarihli kararların aslı PRODUCT_SPEC.md §15'te korunur. Karar durumu öneri / onaylı / uygulanmış olarak; kanıt seviyesi ise repository veya kodda mevcut / otomatik veya manuel test edilmiş / gerçek production ortamında doğrulanmış olarak ayrı kaydedilir. Bir kararın uygulanmış olması test edildiğini, test edilmiş olması da production ortamında doğrulandığını otomatik olarak göstermez.
+
+## 2026-10-06 — Production Home otoritesi ve geçici fotoğrafsız fallback
+
+Durum: Kullanıcı tarafından onaylandı; mevcut `codex/gezek-ui-foundation` / Draft PR #67 içinde uygulandı. Güncel ayrıntılı sözleşme `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir.
+
+Canlı Figma Final Review `288:3`, Home `7:2 / 7:129 / 7:245` ve Components `3:2`, önceki Home PNG/artwork devir otoritesinin yerine geçer. Bundle commit'i `75b2aeb` aynı PR dalına yalnız fast-forward ile alındı. Ayrı Home PR'ı açılmaz. Ürün, algoritma, katalog ve persistence sözleşmeleri korunur; logo ve Redmi 14 cihaz kabulü açıktır.
+
+Kullanıcı ayrı bir Figma no-photo node olmadığını doğruladı ve lisansı doğrulanmış bundled fotoğraf yoksa mevcut artwork fallback'ini onayladı: Mekân → arch/mint, Etkinlik → ticket/coral, Fikir → K0/lavender, Gezek/Plan → güvenilir dominant kategori görseli veya neutral Gezek pastel. Slot/radius korunur; contain/center ve özgün oran kullanılır, crop/stretch yapılmaz; görseller dekoratiftir. Doğrulanmış bundled fotoğraf önceliklidir. Kayıt: “Closed-beta provisional no-photo fallback — product-approved on 2026-10-06; dedicated Figma component still pending.” Yeni illüstrasyon stili veya lisanssız/remote stock fotoğraf onaylanmadı.
+
+## 2026-10-06 — Home içerik seçicisinde görünen ilk sekme Gezek'tir
+
+Durum: Kullanıcı tarafından onaylandı; bundle ilk uygulaması mevcut `codex/gezek-ui-foundation` / PR #67 dalına alındı.
+
+Home üst seçicisi eşit genişlikte `Gezek / Mekân / Etkinlik / Fikir` görünür. İlk sekme mevcut teknik `experience` filtresini ve kürate edilmiş Gezek planlarını temsil eder; veri modeli, öneri algoritması ve analitik türleri yeniden adlandırılmaz. Marka/header ile aynı adın kullanılması bilinçli ürün kararıdır. 28 Eylül tarihli “sonuç sekmesi Planlar görünür” kaydının yalnız bu kısmının yerine geçer. Nihai logo/uygulama ikonu ayrıca kararlaştırılacaktır.
+
+## 2026-10-01 — Gezek UI foundation ve görsel kaynak otoritesi
+
+Tarihsel kayıt: Home görsel otoritesi ve ayrı Home PR planı 6 Ekim canlı Figma uzlaştırmasıyla geçersiz kılındı. Aşağıdaki kayıt yeni uygulama talimatı değildir.
+
+Durum: Kullanıcı tarafından onaylandı; `codex/gezek-ui-foundation` dalında foundation uygulanıyor, ekran veya cihaz görsel doğrulaması henüz yapılmadı.
+
+`Gezek_UI_Handoff_2026-10-01` paketi Gezek UI implementation kaynağıdır. Final Home PNG'leri genel ve ayrıntılı Home görsel otoritesi; final artistik SVG paketi header/arch ve üç keşif kartı görsel otoritesi; yedi aşamalı onboarding paketi onboarding etkileşim/hareket otoritesidir. Repository davranışı, veri sözleşmeleri ve onaylı ürün metni prototiplerin önünde kalır. Warm canvas ve onaylı marka renkleri, Plus Jakarta Sans, 20 px inset, 8 px spacing tabanı, 22–24 px yüzey radius'u ve 44 px minimum hedef foundation olarak sabitlenir. Bu karar Home veya onboarding implementasyonu değildir; sonraki adım production Home PR'ıdır. 6 Eylül tarihli açık palet/logo kaydının foundation renk kısmı bu kararla geçersiz kılınır; uygulama ikonu ayrıca kararlaştırılacaktır.
 
 ## 2026-09-28 — Kamuya açık ürün adı Gezek
 
@@ -148,7 +174,7 @@ Durum: `codex/idea-expansion-batch-c` dalında uygulandı; PR/CI bekliyor.
 
 ## Açık kararlar
 
-- Ana sayfanın nihai paleti, logo çizimi ve tasarım tokenları.
+- Foundation dışında kalan nihai logo/uygulama ikonu kararı.
 - Etkinlik sağlayıcısının uzun vadede elle editoryal katalog mu yoksa onaylı bir API mı olacağı.
 - Gerçek development/production servis durumu ve bağımsız yedekleme düzeni.
 

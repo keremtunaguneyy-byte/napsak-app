@@ -1,11 +1,14 @@
 import { readFileSync } from 'node:fs';
 
-const sources = ['App.tsx', 'src/components/PlaceDetails.tsx', 'src/components/AppErrorBoundary.tsx'];
+const sources = [
+  'App.tsx', 'src/components/PlaceDetails.tsx', 'src/components/AppErrorBoundary.tsx',
+  'src/components/gezek/GezekHome.tsx', 'src/components/gezek/BrandLogo.tsx', 'src/components/gezek/GezekArtwork.tsx', 'src/components/gezek/ProductionArtwork.tsx',
+];
 const failures: string[] = [];
 
 for (const path of sources) {
   const source = readFileSync(path, 'utf8');
-  const touchables = source.match(/<TouchableOpacity\b[\s\S]*?>/g) ?? [];
+  const touchables = source.match(/<(?:TouchableOpacity|Pressable)\b[\s\S]*?>/g) ?? [];
   touchables.forEach((tag, index) => {
     if (!tag.includes('accessibilityRole=')) failures.push(`${path}: TouchableOpacity ${index + 1} has no accessibilityRole`);
   });
@@ -38,6 +41,17 @@ for (const style of minimumTargetStyles) {
   }
 }
 
+const home = readFileSync('src/components/gezek/GezekHome.tsx', 'utf8');
+const homeTargets = ['settings', 'tab', 'contextAction', 'primaryAction', 'quickAction', 'refresh', 'utilityHit', 'secondaryAction', 'bottomTab'];
+for (const style of homeTargets) {
+  const declaration = home.match(new RegExp(`${style}: \\{[^}]+\\}`))?.[0];
+  if (!declaration?.match(/(?:minHeight|height): 44/)) failures.push(`GezekHome.tsx: ${style} has no declared 44 px target`);
+}
+for (const style of ['title', 'mainTitle', 'heading', 'sectionTitle', 'stateTitle']) {
+  const tags = home.match(new RegExp(`<Text\\b[^>]*style=\\{s\\.${style}\\}[^>]*>`, 'g')) ?? [];
+  if (tags.some(tag => !tag.includes('accessibilityRole="header"'))) failures.push(`GezekHome.tsx: ${style} is missing header semantics`);
+}
+
 if (!app.includes('accessibilityRole="progressbar"') || !app.includes('accessibilityValue={{ min: 0, max: 100')) {
   failures.push('App.tsx: reading progress is missing progressbar semantics');
 }
@@ -46,5 +60,5 @@ if (failures.length) {
   console.error('Accessibility source contract failed:\n' + failures.map(item => `- ${item}`).join('\n'));
   process.exitCode = 1;
 } else {
-  console.log('Accessibility source contract passed', { files: sources.length, minimumTargetStyles: minimumTargetStyles.length });
+  console.log('Accessibility source contract passed', { files: sources.length, minimumTargetStyles: minimumTargetStyles.length + homeTargets.length });
 }

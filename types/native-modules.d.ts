@@ -15,6 +15,7 @@ declare module 'expo-location' {
 }
 
 declare module 'react-native-safe-area-context' {
+  export function useSafeAreaInsets(): { top: number; right: number; bottom: number; left: number };
   import type { ComponentType, PropsWithChildren } from 'react';
   import type { ViewProps } from 'react-native';
 

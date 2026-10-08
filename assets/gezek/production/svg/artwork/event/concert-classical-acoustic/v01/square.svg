@@ -1,0 +1,29 @@
+<svg width="112" height="112" viewBox="0 0 112 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_810_82)">
+<g clip-path="url(#clip1_810_82)">
+<path d="M90 0H22C9.84974 0 0 9.84974 0 22V90C0 102.15 9.84974 112 22 112H90C102.15 112 112 102.15 112 90V22C112 9.84974 102.15 0 90 0Z" fill="#FAF9F5"/>
+<path d="M11.9999 16C27.9999 1.99998 75.9999 1.99998 87.9999 19C98.9999 34 93.9999 78 78.9999 91C61.9999 105 19.9999 100 8.99992 80C0.999917 64 0.999916 29 11.9999 16Z" fill="#FFE2D9"/>
+<path d="M90.9998 8C101 12 108 22 112 33V112H95.9998C90.9998 82 89.9998 45 90.9998 8Z" fill="#DFF3E8"/>
+<path d="M17 29C19.2091 29 21 27.2091 21 25C21 22.7909 19.2091 21 17 21C14.7909 21 13 22.7909 13 25C13 27.2091 14.7909 29 17 29Z" fill="#FFC21A"/>
+<path d="M41 38C44.866 38 48 34.866 48 31C48 27.134 44.866 24 41 24C37.134 24 34 27.134 34 31C34 34.866 37.134 38 41 38Z" fill="#102452"/>
+<path d="M41 40C39 48 40 56 44 62" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M41 45L52 54" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M34 84L44 62L56 85" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M61 71C72.0457 71 81 65.1797 81 58C81 50.8203 72.0457 45 61 45C49.9543 45 41 50.8203 41 58C41 65.1797 49.9543 71 61 71Z" fill="#F4A633"/>
+<path d="M61 63C63.7614 63 66 60.7614 66 58C66 55.2386 63.7614 53 61 53C58.2386 53 56 55.2386 56 58C56 60.7614 58.2386 63 61 63Z" fill="#FFC21A"/>
+<path d="M78 53L85 50" stroke="#102452" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44 51C50 55 58 58 67 57" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M97 29V87M90 87H104" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M97 32C100.314 32 103 29.3137 103 26C103 22.6863 100.314 20 97 20C93.6863 20 91 22.6863 91 26C91 29.3137 93.6863 32 97 32Z" fill="#102452"/>
+<path opacity="0.9" d="M56 97C80.3005 97 100 94.3137 100 91C100 87.6863 80.3005 85 56 85C31.6995 85 12 87.6863 12 91C12 94.3137 31.6995 97 56 97Z" fill="#FFC21A"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_810_82">
+<rect width="112" height="112" rx="22" fill="white"/>
+</clipPath>
+<clipPath id="clip1_810_82">
+<rect width="112" height="112" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -8,6 +8,7 @@ import { Experience, Place } from '../types';
 
 type Props = {
   place: Place;
+  initialPlanId?: string;
   context: Parameters<typeof recommendExperiencesForPlace>[1];
   saved: string[];
   onClose: () => void;
@@ -21,8 +22,8 @@ type Props = {
 };
 
 /** Keeps the underlying results/saved screen mounted, including its scroll position. */
-export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss, onRestore, onOpenMaps, onOpenSource, onOpenPlanMap, onOpenPlanSource }: Props) {
-  const [planId, setPlanId] = useState<string>();
+export function PlaceDetails({ place, initialPlanId, context, saved, onClose, onSave, onDismiss, onRestore, onOpenMaps, onOpenSource, onOpenPlanMap, onOpenPlanSource }: Props) {
+  const [planId, setPlanId] = useState(initialPlanId);
   const [undoId, setUndoId] = useState<string>();
   const [now, setNow] = useState(() => new Date());
   const plans = recommendExperiencesForPlace(place, { ...context, limit: context.experiences.length, now });
@@ -35,12 +36,12 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
     return () => { clearTimeout(timer); subscription.remove(); };
   }, [context.events, now]);
 
-  const back = () => planId ? setPlanId(undefined) : onClose();
-  const hide = (id: string) => { onDismiss(id); setUndoId(id); setPlanId(undefined); };
+  const back = () => planId && !initialPlanId ? setPlanId(undefined) : onClose();
+  const hide = (id: string) => { onDismiss(id); if (initialPlanId) { onClose(); return; } setUndoId(id); setPlanId(undefined); };
   return <Modal visible animationType="slide" onRequestClose={back} accessibilityViewIsModal>
     <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={styles.safe}>
       <View style={styles.bar}>
-        <DetailAction text={planId ? 'Mekâna dön' : 'Geri dön'} onPress={back} />
+        <DetailAction text={planId && !initialPlanId ? 'Mekâna dön' : 'Geri dön'} onPress={back} />
         {!!planId && <DetailAction text="Kapat" onPress={onClose} />}
       </View>
       <ScrollView key={planId ?? place.id} contentContainerStyle={styles.page}>
@@ -68,7 +69,7 @@ export function PlaceDetails({ place, context, saved, onClose, onSave, onDismiss
         </> : <>
           <Text accessibilityRole="header" style={styles.heading}>Bu plan artık gösterilemiyor</Text>
           <Text style={styles.text}>Plan güncellenmiş, süresi dolmuş veya tercihlerinle artık eşleşmiyor olabilir.</Text>
-          <DetailAction text="Mekâna dön" onPress={() => setPlanId(undefined)} />
+          <DetailAction text={initialPlanId ? 'Önerilere dön' : 'Mekâna dön'} onPress={back} />
         </> : <>
           <Text accessibilityRole="header" style={styles.title}>{place.name}</Text>
           <Text style={styles.meta}>{place.category} · {place.district} · {price(place.priceLevel)}</Text>

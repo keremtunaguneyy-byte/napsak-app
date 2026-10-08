@@ -1,25 +1,31 @@
+import { BrandLogo } from './src/components/gezek/BrandLogo';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, findNodeHandle, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync } from './src/backend';
 import { loadPreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
-import { DEFAULT_RESULT_FILTER, RESULT_FILTERS, ResultFilter } from './src/resultFilters';
+import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
 import { Coordinates, dismissId, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
 import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
+import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
 import { PlaceDetails } from './src/components/PlaceDetails';
+import { GezekBottomNavigation, GezekHome, GezekHomeLoading } from './src/components/gezek';
+import { HomeAtmosphere } from './src/components/gezek/GezekHome';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
+import { openHomeRecommendation } from './src/homeNavigation';
+import { recordHomeRecommendation } from './src/components/gezek/homePerformance';
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
 import { CLASSICS_COLLECTION_ID, guideCollectionMetadata, resolveFeaturedGuides, resolveGuideById, resolvePrimaryInsiderRoute } from './src/ankara101';
@@ -54,11 +60,17 @@ const OBSERVABILITY_TEST_MODE = process.env.EXPO_PUBLIC_APP_ENV !== 'production'
   && process.env.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE === 'true';
 const APP_STARTED_AT = Date.now();
 export default function App() {
-  return <AppErrorBoundary><SafeAreaProvider><AppContent /></SafeAreaProvider></AppErrorBoundary>;
+  return <AppErrorBoundary><View style={{ flex: 1, backgroundColor: GEZEK_COLORS.canvas }}><SafeAreaProvider><AppContent /></SafeAreaProvider></View></AppErrorBoundary>;
 }
 
 function AppContent() {
+  const safeInsets = useSafeAreaInsets();
   const [fontsLoaded, fontError] = useFonts({
+    [GEZEK_FONT_FAMILIES.regular]: require('@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf'),
+    [GEZEK_FONT_FAMILIES.medium]: require('@expo-google-fonts/plus-jakarta-sans/500Medium/PlusJakartaSans_500Medium.ttf'),
+    [GEZEK_FONT_FAMILIES.semiBold]: require('@expo-google-fonts/plus-jakarta-sans/600SemiBold/PlusJakartaSans_600SemiBold.ttf'),
+    [GEZEK_FONT_FAMILIES.bold]: require('@expo-google-fonts/plus-jakarta-sans/700Bold/PlusJakartaSans_700Bold.ttf'),
+    [GEZEK_FONT_FAMILIES.extraBold]: require('@expo-google-fonts/plus-jakarta-sans/800ExtraBold/PlusJakartaSans_800ExtraBold.ttf'),
     CormorantGaramond_400Regular: require('@expo-google-fonts/cormorant-garamond/400Regular/CormorantGaramond_400Regular.ttf'),
     CormorantGaramond_600SemiBold: require('@expo-google-fonts/cormorant-garamond/600SemiBold/CormorantGaramond_600SemiBold.ttf'),
     SourceSans3_400Regular: require('@expo-google-fonts/source-sans-3/400Regular/SourceSans3_400Regular.ttf'),
@@ -104,11 +116,14 @@ function AppContent() {
   const guideAnchors = useRef<Record<string, number>>({});
   const guideNodes = useRef<Record<string, Text | null>>({});
   const [detailPlaceId, setDetailPlaceId] = useState<string>();
+  const [detailPlanId, setDetailPlanId] = useState<string>();
   const detailPlace = places.find(place => place.id === detailPlaceId && isPlacePubliclyResolvable(place));
   const recommendationMeasurement = useMemo(() => {
     const startedAt = Date.now();
     const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
-    return { items, durationBucket: performanceDurationBucket(Date.now() - startedAt) };
+    const elapsed = Date.now() - startedAt;
+    recordHomeRecommendation(elapsed);
+    return { items, durationBucket: performanceDurationBucket(elapsed) };
   }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter, eligibilityNow]);
   const results = recommendationMeasurement.items;
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
@@ -255,7 +270,7 @@ function AppContent() {
 
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
-  const requestLocation = async () => {
+  const requestLocation = useCallback(async () => {
     setLocating(true);
     try {
       const permission = await Location.requestForegroundPermissionsAsync();
@@ -275,14 +290,14 @@ function AppContent() {
     } finally {
       setLocating(false);
     }
-  };
+  }, []);
   const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
-  const reset = () => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); };
-  const confirmContext = () => {
+  const reset = useCallback(() => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); }, []);
+  const confirmContext = useCallback(() => {
     trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
     setContextRefreshDue(false);
-  };
+  }, []);
   const finishPreferences = () => {
     trackProductEvent({ name: 'preference_flow_completed', properties: { mode: onboardingCompleted ? 'update' : 'onboarding' } });
     setOnboardingCompleted(true);
@@ -331,38 +346,38 @@ function AppContent() {
       } },
     ],
   );
-  const rotateRecommendations = () => {
+  const rotateRecommendations = useCallback(() => {
     batchTrigger.current = 'rotate';
     setPreviousBatch(results.map(place => place.id));
     scrollAfterRotation.current = true;
     setRecommendationRun(run => run + 1);
-  };
-  const analyticsKindForId = (id: string): AnalyticsItemKind | undefined => {
+  }, [results]);
+  const analyticsKindForId = useCallback((id: string): AnalyticsItemKind | undefined => {
     const item = catalogItems.find(candidate => candidate.id === id);
     if (item) return itemAnalyticsKind(item);
     if (guides.some(guide => guide.id === id) || id === CLASSICS_COLLECTION_ID) return 'guide';
     if (insiderRoutes.some(route => route.id === id)) return 'route';
     return undefined;
-  };
-  const toggleSaved = (id: string, kind = analyticsKindForId(id), rank?: number) => {
+  }, [catalogItems, guides]);
+  const toggleSaved = useCallback((id: string, kind = analyticsKindForId(id), rank?: number) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: saved.includes(id) ? 'unsave' : 'save', itemKind: kind, rank } });
     setSaved(current => toggleId(current, id));
-  };
-  const dismissPlace = (id: string, kind = analyticsKindForId(id), rank?: number) => {
+  }, [analyticsKindForId, saved]);
+  const dismissPlace = useCallback((id: string, kind = analyticsKindForId(id), rank?: number) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'dismiss', itemKind: kind, rank } });
     setDismissed(c => dismissId(c, id));
     setLastDismissed(id);
-  };
-  const restorePlace = (id: string, kind = analyticsKindForId(id)) => {
+  }, [analyticsKindForId]);
+  const restorePlace = useCallback((id: string, kind = analyticsKindForId(id)) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'restore', itemKind: kind } });
     setDismissed(current => restoreId(current, id));
-  };
-  const selectResultFilter = (filter: ResultFilter) => {
+  }, [analyticsKindForId]);
+  const selectResultFilter = useCallback((filter: ResultFilter) => {
     batchTrigger.current = 'filter';
     setResultFilter(filter);
     setPreviousBatch([]);
     setRecommendationRun(run => run + 1);
-  };
+  }, []);
   const openInMaps = async (place: Place) => {
     const label = encodeURIComponent(place.name);
     const url = Platform.select({
@@ -385,7 +400,7 @@ function AppContent() {
       Alert.alert('Bağlantı açılamadı', 'Resmî bilgi bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
-  const openIdea = async (idea: Idea) => {
+  const openIdea = useCallback(async (idea: Idea) => {
     if (!idea.actionUrl) return;
     try {
       if (!(await Linking.canOpenURL(idea.actionUrl))) throw new Error('unsupported URL');
@@ -394,8 +409,8 @@ function AppContent() {
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Bu fikir için bağlantı şu anda açılamıyor. Lütfen tekrar dene.');
     }
-  };
-  const openEvent = async (event: Event) => {
+  }, []);
+  const openEvent = useCallback(async (event: Event) => {
     try {
       if (!(await Linking.canOpenURL(event.sourceUrl))) throw new Error('unsupported URL');
       trackProductEvent({ name: 'external_action', properties: { action: 'source', itemKind: 'event' } });
@@ -403,7 +418,7 @@ function AppContent() {
     } catch {
       Alert.alert('Bağlantı açılamadı', 'Etkinlik detay bağlantısı şu anda açılamıyor. Lütfen tekrar dene.');
     }
-  };
+  }, []);
   const openExperienceSource = async (experience: Experience) => {
     try {
       const source = experience.sources[0];
@@ -424,6 +439,30 @@ function AppContent() {
       Alert.alert('Rota açılamadı', 'Bu planın harita rotası şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
+  const openRecommendation = useCallback((item: RecommendationItem) => {
+    openHomeRecommendation(item, places, {
+      openPlaceDetail: id => { setDetailPlanId(undefined); setDetailPlaceId(id); },
+      openExperienceDetail: entry => { setDetailPlanId(entry.planId); setDetailPlaceId(entry.placeId); },
+      unavailableExperience: () => Alert.alert('Plan açılamadı', 'Bu planın bağlı mekânı şu anda gösterilemiyor.'),
+      openEvent, openIdea,
+      showIdea: idea => Alert.alert(idea.title, idea.note),
+    });
+  }, [places, openEvent, openIdea]);
+  const openHomeSettings = useCallback(() => setStep('settings'), []);
+  const editHomePreferences = useCallback(() => {
+    if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } });
+    setContextRefreshDue(false);
+    setStep('mood');
+  }, [contextRefreshDue]);
+  const undoHomeDismiss = useCallback(() => {
+    if (lastDismissed) restorePlace(lastDismissed);
+    setLastDismissed(undefined);
+  }, [lastDismissed, restorePlace]);
+  const saveHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => toggleSaved(item.id, item.kind, rank), [toggleSaved]);
+  const dismissHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => dismissPlace(item.id, item.kind, rank), [dismissPlace]);
+  const showHomeHidden = useCallback(() => setStep('hidden'), []);
+  const measureHomeRecommendations = useCallback((y: number) => { recommendationsY.current = y + GEZEK_LAYOUT.homeTopInset; }, []);
+  const closeDetails = useCallback(() => { setDetailPlaceId(undefined); setDetailPlanId(undefined); }, []);
   const openGuideSource = async (guide: Guide) => {
     try {
       if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
@@ -469,23 +508,25 @@ function AppContent() {
   };
 
 
-  if (!hydrated || (!fontsLoaded && !fontError)) return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading]}><StatusBar style="light" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={c.lime} size="large" /><Text accessibilityLiveRegion="polite" style={s.loadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView>;
+  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekTransparent]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage, s.gezekTransparent]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView></View>;
+  if (!hydrated || (!fontsLoaded && !fontError)) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekTransparent]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView></View>;
 
   const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : step === 'duration' ? '06' : '07';
   const isGuideArticle = step === 'guides' && guideView !== 'landing';
+  const isHome = step === 'results';
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
-  return <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
-    <StatusBar style="light" /><View style={s.orb} />
-    <KeyboardAvoidingView style={s.safe} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+  return <SafeAreaView edges={isHome ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isHome && s.gezekSafe]}>
+    <StatusBar style={isHome ? 'dark' : 'light'} />{!isHome && <View style={s.orb} />}
+    <KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : !!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel={guideView === 'classics' ? 'Ankara Klasikleri koleksiyonu' : 'Bir Ankaralı Gibi rotası'} onBack={() => { setGuideContentsOpen(false); setPendingGuideId(undefined); setGuideView('landing'); }} onOpenContents={guideView === 'classics' ? togglePersistentGuideContents : undefined} contentsOpen={guideContentsOpen} onSave={guideView === 'classics' ? () => toggleSaved(CLASSICS_COLLECTION_ID, 'guide') : primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
-    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && s.pageWide, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.logo}>Gezek</Text></TouchableOpacity> : <Text accessibilityRole="header" style={s.logo}>Gezek</Text>}{step !== 'guides' && <View style={s.headerActions}>{['results', 'saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
+      {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
       {step === 'welcome' && <View>
         <Text style={s.welcomeEmoji}>✦</Text>
         <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
@@ -521,28 +562,22 @@ function AppContent() {
         <Button label="Tercihlerimi kaydet ve 5 plan ver" onPress={finishPreferences} />
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kişi sayısı seçimine geri dön" onPress={() => setStep('group')} style={s.backHit}><Text style={s.back}>← Kişi sayısını değiştir</Text></TouchableOpacity>
       </View>}
-      {step === 'results' && <View>
-        <Lead eyebrow="SANA GÖRE" title="Bugün bunlar olur." subtitle={`${mood} moduna, ilgi, bütçe, kişi sayısı ve süre seçimlerine göre sıraladık.`} />
-        <View style={s.preferenceBar}><View style={s.preferenceCopy}><Text style={s.preferenceLabel}>TERCİHLERİN</Text><Text style={s.preferenceText}>{mood} · {chosen.length ? chosen.join(', ') : 'Her şeye açığım'} · {budget} · {groupSize ?? 'Kişi sayısı yok'} · {duration}</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri düzenle" hitSlop={10} onPress={() => { setContextRefreshDue(false); setStep('mood'); }}><Text style={s.edit}>Düzenle</Text></TouchableOpacity></View>
-        {contextRefreshDue && <View accessibilityRole="summary" style={s.contextRefreshCard}>
-          <View style={s.contextRefreshCopy}><Text style={s.contextRefreshTitle}>Tercihlerin hâlâ aynı mı?</Text><Text style={s.contextRefreshText}>Mod, bütçe, kişi sayısı ve süre gün içinde değişebilir. Önerileri mevcut seçimlerinle göstermeye devam ediyoruz.</Text></View>
-          <View style={s.contextRefreshActions}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihler aynı, önerilere devam et" onPress={confirmContext} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Aynı, devam et</Text></TouchableOpacity><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihleri güncelle" onPress={() => { trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } }); setContextRefreshDue(false); setStep('mood'); }} style={s.contextRefreshAction}><Text style={s.contextRefreshActionText}>Güncelle</Text></TouchableOpacity></View>
-        </View>}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.filterRow}>
-          {RESULT_FILTERS.map(filter => <TouchableOpacity key={filter.value} accessibilityRole="tab" accessibilityLabel={`${filter.label} önerileri`} accessibilityState={{ selected: resultFilter === filter.value }} onPress={() => selectResultFilter(filter.value)} style={[s.filterChip, resultFilter === filter.value && s.filterChipSelected]}><Text style={[s.filterText, resultFilter === filter.value && s.filterTextSelected]}>{filter.label}</Text></TouchableOpacity>)}
-        </ScrollView>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel={coordinates ? 'Konumu yeniden güncelle' : 'Konum izni iste ve yakındaki mekânları bul'} accessibilityState={{ disabled: locating, busy: locating }} disabled={locating} onPress={requestLocation} style={[s.locationCard, locating && s.controlDisabled]}>
-          {locating ? <ActivityIndicator color={c.lime} /> : <Text style={s.locationIcon}>{coordinates ? '✓' : '⌖'}</Text>}
-          <View style={s.locationCopy}><Text style={s.locationTitle}>{coordinates ? 'Konum kullanılıyor' : 'Yakınımdakileri bul'}</Text><Text style={s.locationText}>{locationMessage}</Text></View>
-        </TouchableOpacity>
-        {lastDismissed && <View accessibilityLiveRegion="polite" style={s.undoBar}><Text style={s.undoText}>Öneri gizlendi.</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Son gizlenen öneriyi geri al" onPress={() => { restorePlace(lastDismissed); setLastDismissed(undefined); }} style={s.undoAction}><Text style={s.edit}>Geri al</Text></TouchableOpacity></View>}
-        <View onLayout={event => { recommendationsY.current = event.nativeEvent.layout.y; }} />
-        {results.map((item, i) => <RecommendationCard key={item.id} item={item} rank={i + 1} saved={saved.includes(item.id)} onSave={() => toggleSaved(item.id, item.kind, i + 1)} onDismiss={() => dismissPlace(item.id, item.kind, i + 1)} onOpenPlaceDetails={place => setDetailPlaceId(place.id)} onOpenPlaceMaps={openInMaps} onOpenPlaceSource={openSource} onOpenIdea={openIdea} onOpenEvent={openEvent} onOpenExperienceMap={openExperienceMap} onOpenExperienceSource={openExperienceSource} />)}
-        {!results.length && <View style={s.empty}><Text accessible={false} style={s.emptyIcon}>{resultFilter === 'event' ? '◷' : '↻'}</Text><Text accessibilityRole="header" style={s.emptyTitle}>{resultFilter === 'event' ? 'Yaklaşan etkinlik bulunamadı' : 'Yeni bir öneri kalmadı'}</Text><Text style={s.emptyText}>{resultFilter === 'event' ? 'Doğrulanmış katalogda henüz yaklaşan bir Ankara etkinliği yok. Yeni tarihler doğrulandıkça burada görünecek.' : '“Bana göre değil” dediklerini geri getirip yeniden başlayabilirsin.'}</Text>{resultFilter !== 'event' && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm gizlenen önerileri geri getir" style={s.emptyAction} onPress={() => setDismissed([])}><Text style={s.emptyActionText}>Tüm önerileri geri getir</Text></TouchableOpacity>}</View>}
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Farklı öneriler göster" style={s.secondaryButton} onPress={rotateRecommendations}><Text style={s.secondaryButtonText}>Bana farklı şeyler göster ↻</Text></TouchableOpacity>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Gizlediğim önerileri göster" style={s.secondaryButton} onPress={() => setStep('hidden')}><Text style={s.secondaryButtonText}>Gizlediğim öneriler ({hiddenItems.length})</Text></TouchableOpacity>
-        <Button label="Baştan farklı bir plan yap" onPress={reset} />
-      </View>}
+      {step === 'results' && <GezekHome
+        safeTopInset={safeInsets.top}
+        mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
+        results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
+        locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
+        lastDismissed={lastDismissed} hiddenCount={hiddenItems.length}
+        onSettings={openHomeSettings}
+        onEditPreferences={editHomePreferences}
+        onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
+        onUndoDismiss={undoHomeDismiss}
+        onOpenRecommendation={openRecommendation}
+        onToggleSaved={saveHomeRecommendation}
+        onDismiss={dismissHomeRecommendation}
+        onRotate={rotateRecommendations} onShowHidden={showHomeHidden} onReset={reset}
+        onRecommendationsLayout={measureHomeRecommendations}
+      />}
       {step === 'guides' && guideView === 'landing' && <Ankara101Landing guides={featuredGuides} chapterCount={guideMetadata.chapterCount} totalMinutes={guideMetadata.totalReadMinutes} route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenClassics={() => setGuideView('classics')} onOpenGuide={openGuideChapter} onOpenInsider={() => setGuideView('insider')} />}
       {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={guideMetadata.totalReadMinutes} saved={saved} contentsOpen={guideContentsOpen} onToggleContents={() => setGuideContentsOpen(open => !open)} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y, node) => { guideAnchors.current[id] = y; guideNodes.current[id] = node; if (pendingGuideId === id) requestAnimationFrame(() => focusGuideChapter(id)); }} onOpenContents={openGuideChapter} />}
       {step === 'guides' && guideView === 'insider' && (primaryInsiderRoute ? <InsiderGuide route={primaryInsiderRoute} saved={saved.includes(primaryInsiderRoute.id)} onBack={() => setGuideView('landing')} onSave={() => toggleSaved(primaryInsiderRoute.id, 'route')} onOpenMap={openInsiderMap} /> : <InsiderUnavailable onBack={() => setGuideView('landing')} />)}
@@ -573,15 +608,15 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>
-    {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <View accessibilityRole="tablist" style={s.bottomNav}>
-      <NavTab label="Ana Sayfa" selected={step === 'results' || step === 'hidden'} editorial={step === 'guides'} onPress={() => setStep('results')} />
-      <NavTab label={`Kaydedilenler (${saved.length})`} selected={step === 'saved'} editorial={step === 'guides'} onPress={() => setStep('saved')} />
-      <NavTab label="Ankara 101" selected={step === 'guides'} editorial={step === 'guides'} onPress={() => { setGuideView('landing'); setStep('guides'); }} />
-    </View>}
+    {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <GezekBottomNavigation
+      active={step === 'saved' ? 'saved' : step === 'guides' ? 'guides' : 'home'} savedCount={saved.length}
+      onHome={() => setStep('results')} onSaved={() => setStep('saved')}
+      onGuides={() => { setGuideView('landing'); setStep('guides'); }}
+    />}
     </KeyboardAvoidingView>
-    {detailPlace && <PlaceDetails key={detailPlace.id} place={detailPlace}
+    {detailPlace && <PlaceDetails key={`${detailPlace.id}:${detailPlanId ?? 'place'}`} place={detailPlace} initialPlanId={detailPlanId}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
-      saved={saved} onClose={() => setDetailPlaceId(undefined)}
+      saved={saved} onClose={closeDetails}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
   </SafeAreaView>;
@@ -714,7 +749,9 @@ function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceD
 
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: c.bg }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
+  safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, gezekTransparent: { backgroundColor: 'transparent' }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
+  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
+  gezekLoadingText: { color: GEZEK_COLORS.mutedText, fontFamily: GEZEK_FONT_FAMILIES.regular, fontSize: 11, lineHeight: 16 },
   readingProgressTrack: { height: 3, backgroundColor: '#352F29', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#8F2938' },
   guideLandingPage: { paddingHorizontal: 18, paddingBottom: 24 }, guideArticlePage: { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 0 },
   editorialTopBar: { minHeight: 61, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0E100E' }, editorialTopAction: { width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center' }, editorialBack: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_400Regular', fontSize: 46, lineHeight: 48 }, editorialTopTitle: { flex: 1, color: '#F2E7CF', fontFamily: 'SourceSans3_600SemiBold', fontSize: 12, letterSpacing: 1.8, textAlign: 'center' }, editorialTopActions: { flexDirection: 'row', alignItems: 'center' }, editorialContentsAction: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 7 }, editorialContentsActionText: { color: '#D8C8AB', fontFamily: 'SourceSans3_700Bold', fontSize: 10 }, editorialBookmark: { color: '#F2E7CF', fontFamily: 'SourceSans3_400Regular', fontSize: 27 }, editorialBookmarkSaved: { color: '#A73343' },

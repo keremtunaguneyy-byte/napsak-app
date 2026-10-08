@@ -1,0 +1,29 @@
+<svg width="329" height="100" viewBox="0 0 329 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_810_71)">
+<g clip-path="url(#clip1_810_71)">
+<path d="M307 0H22C9.84974 0 0 9.84974 0 22V78C0 90.1503 9.84974 100 22 100H307C319.15 100 329 90.1503 329 78V22C329 9.84974 319.15 0 307 0Z" fill="#FAF9F5"/>
+<path d="M111 7.99998C131 0.99998 186 2.99998 207 15C224 25 226 72 205 87C184 101 123 96 108 78C95.0001 62 96.0001 20 111 7.99998Z" fill="#FFE2D9"/>
+<path d="M270 5C293 8 315 23 329 43V100H286C276 77 272 43 270 5Z" fill="#DFF3E8"/>
+<path d="M104 33C106.761 33 109 30.7614 109 28C109 25.2386 106.761 23 104 23C101.239 23 99 25.2386 99 28C99 30.7614 101.239 33 104 33Z" fill="#FFC21A"/>
+<path d="M146 35C150.418 35 154 31.4183 154 27C154 22.5817 150.418 19 146 19C141.582 19 138 22.5817 138 27C138 31.4183 141.582 35 146 35Z" fill="#102452"/>
+<path d="M145 36C143 45 144 53 149 60" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M145 41L160 52" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M134 82L149 60L165 82" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M167.457 68.5961C180.355 65.541 189.263 56.5294 187.354 48.4682C185.444 40.407 173.44 36.3487 160.542 39.4039C147.645 42.459 138.737 51.4706 140.646 59.5318C142.556 67.593 154.559 71.6513 167.457 68.5961Z" fill="#F4A633"/>
+<path d="M165 58C168.314 58 171 55.3137 171 52C171 48.6863 168.314 46 165 46C161.686 46 159 48.6863 159 52C159 55.3137 161.686 58 165 58Z" fill="#FFC21A"/>
+<path d="M186 47L202 42" stroke="#102452" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M146 42C151.867 46.8668 159.2 49.7869 168 48.8135" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M236 23V80M227 80H245" stroke="#102452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M236 27C239.866 27 243 23.866 243 20C243 16.134 239.866 13 236 13C232.134 13 229 16.134 229 20C229 23.866 232.134 27 236 27Z" fill="#102452"/>
+<path opacity="0.9" d="M171 93C211.317 93 244 89.866 244 86C244 82.134 211.317 79 171 79C130.683 79 98 82.134 98 86C98 89.866 130.683 93 171 93Z" fill="#FFC21A"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_810_71">
+<rect width="329" height="100" rx="22" fill="white"/>
+</clipPath>
+<clipPath id="clip1_810_71">
+<rect width="329" height="100" fill="white"/>
+</clipPath>
+</defs>
+</svg>

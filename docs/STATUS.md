@@ -1,8 +1,39 @@
 # Gezek — Durum ve sıradaki iş
 
+## Command-center production Home — 8 Ekim 2026
+
+- Kullanıcının onayladığı 2026-10-07 command-center paketi ve canlı Page 07 Home yeni görsel otoritedir; 6 Ekim kategori fallback sözleşmesinin yerine geçer.
+- 384 sabit ID eşlemesi, 125 artwork ailesi / 375 responsive varyant, 46 contextual icon yerel production temelindedir. 12 proof ailesi ve final acoustic `810:102` canlı Figma'dan export edilmiştir.
+- Hero/Square/Compact resolver, bağımsız kaydet/gizle quick action'ları, kart gövdesi eylemi, filtreye göre üçlü keşif ve tek `BrandLogo` uygulanmıştır. Algoritma, katalog, Firebase/persistence ve release yapılandırması korunur.
+- Yerel otomatik ve RN Web kanıtı `COMMAND_CENTER_IMPLEMENTATION_REPORT.md` içindedir. Redmi, Android system-area/Back, TalkBack ve signed-release kabulü beklenir. Event freshness kontrolü origin/main ve bu dalda aynı çıktı/exit 1 ile başarısızdır; kullanıcı bu belgelenmiş baseline istisnasıyla commit/push onayladı. Bu işte içerik güncellenmez. PR #67 Draft ve unmerged kalır.
+
+
+## Devam eden çalışma — Redmi Home integration stabilization / PR #67 (6 Ekim 2026)
+
+- Aynı `codex/gezek-ui-foundation` dalında `b494ee7` head'i ve fetch sonrası `origin/main` `46c4115` doğrulandı. Mevcut Draft PR #67 sürdürülür; yeni PR, merge veya force-push yok.
+- Home'daki **Planı incele** doğrudan Maps açıyordu. Artık seçilen Experience ID'siyle mevcut `PlaceDetails` plan görünümünü açar; harita ayrı açık eylemdir. Plan detail Figma `165:370` / Final Review `288:1575` mevcuttur; görsel implementasyonu details PR'ına kalır, burada restyle yapılmaz.
+- 52 embedded Experience / 71 noktanın Place ID/ad/koordinat bağları ve URL sırası eşleşti. Map helper veya katalog değiştirilmedi. Redmi'deki alakasız hedef gözlemi henüz yeniden üretilmedi; seçilen plan ve Maps hedefiyle cihaz denetimi gerekir.
+- **Düzenle** mevcut tercih akışına gider. Gerçek App browser harness'ında beş alanın dolu kaldığı, tamamlamanın aynı değerlerle Home'a döndüğü doğrulandı; yeni Onboarding/edit flow ayrı ekran bağımlılığıdır.
+- Yerel RN Web / Chrome 4× CPU tanısında 40 filtre değişiminin SVG render sayısı 970 → 250 oldu; 20 save değişiminde 500 → 0, 20 ilgisiz parent değişiminde Home render 20 → 0. Native frame/FPS veya Redmi akıcılığı kanıtı değildir. Varsayılan kapalı development profiling ve ayrıntılı sonuçlar `HOME_STABILIZATION_REPORT.md` içindedir.
+- `npm ci`, diff kontrolü, typecheck, 180 test, accessibility source check ve Android Expo export geçti. 5.000 çağrılık öneri benchmark p95 7,385 ms / checksum 23.624; motor ve çıktıları korunur. Firebase/persistence/release sözleşmeleri ve Saved/Settings/Ankara 101 görselleri değişmedi. Sonraki adım Redmi'de inspect/explicit Maps/Back/undo/tercih persistence ve native scroll ölçümüdür; PR Draft kalır.
+
+## Devam eden çalışma — Production Home / PR #67 uzlaştırması (6 Ekim 2026)
+
+- Canlı Git ve fetch sonrası `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b`, mevcut PR #67 head'i `dc501332a21678d50f60088874ae6247f664efe0` olarak doğrulandı; ilk worktree temizdi. Tam geçmiş taşıyan bundle head'i `75b2aeb93794a60a2b6505cb361f27bb7fb1d847` mevcut `codex/gezek-ui-foundation` dalına yalnız fast-forward ile alındı. Ayrı PR veya history rewrite yapılmadı.
+- Canlı Figma Final Review `288:3`, Home `7:2 / 7:129 / 7:245`, Components `3:2` ve Onboarding `31:2` incelendi; daha yeni onaylı Home kaynağı bulunmadı. Güncel otorite ve uygulama sözleşmesi `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir.
+- Native Home canlı tercih özeti, kategori renkleri/simgeleri, bir ana ve dört dikey alternatif, ana eylem yanında kaydetme, yenileme, keşif ve alt gezinme ile uzlaştırıldı. Eski Fikir çizimi güncel K0 artwork ile değiştirildi. Fotoğraf lisansları doğrulanamadığı için iki fotoğraf kaldırıldı; kullanıcı 6 Ekim'de mevcut kategori artwork'ünü geçici no-photo fallback olarak açıkça onayladı.
+- Öneri motoru, katalog, konum, kaydetme/gizleme/geri alma, rotasyon, Ayarlar, Kaydedilenler, Ankara 101, internal/external eylemler ve persistence sınırları korunur. Gerçek sonuç yoksa sahte kart/etkinlik eklenmez. Offline embedded/local kullanım korunur; yeni connectivity sinyali üretilmez.
+- TypeScript, regression testleri, Home'u da kapsayan accessibility source check ve Android Expo export yerel olarak doğrulanır. Gerçek native bileşenlerin geçici React Native Web önizlemeleri 412 × 915 ile uzun metin, uzun scroll, dört filtre, loading ve fotoğrafsız fallback'i inceler; callback bağlantıları ve küçük ekran ayrıca kontrol edilir. Bu kanıt Android cihaz, TalkBack veya production kabulü değildir.
+- Nihai logo/uygulama ikonu hâlâ açıktır; geçici wordmark tek `GezekBrandMark` bileşenindedir. Redmi 14 / Expo Go görsel ve etkileşim kabulü bekleniyor. PR #67 `Implement Gezek production Home` başlığıyla Draft kalmalı ve merge edilmemelidir.
+
+## Tarihsel Gezek UI foundation — 1 Ekim 2026
+
+- `codex/gezek-ui-foundation`, `origin/main` `46c41156255da7656a7cc0023fd721539dcaf45b` üzerinden açılmıştı. Foundation commit'i `dc501332` renk/font tokenları ve eski beş SVG component'ini getirdi; Home implementasyonu veya cihaz kabulü değildi.
+- Home için 1 Ekim PNG/SVG otoritesi, eski Fikir artwork'ü ve ayrı production Home PR planı 6 Ekim canlı Figma uzlaştırmasıyla geçersiz kılındı. Source Sans 3/Cormorant Garamond kullanan diğer ekranlar ve Ankara 101 bu işte topluca değiştirilmedi.
+
 ## Güncel marka kararı — 28 Eylül 2026
 
-Kamuya açık ürün adı **Gezek**; N’apsak önceki çalışma adıdır. Uygulama adı, görünen metinler ve sonuç sekmesi adı güncellendi; sonuç sekmesi **Planlar** olarak görünür. Teknik kimlikler ve geçmiş kayıtlar korunur. Kapsam ve sonraki bundle/store kararı `BRAND_RENAME.md` içindedir. Sıradaki aşama görsel tasarımın tamamlanmasıdır; bu değişiklik yeni özellik, bağlı beta veya release kanıtı sağlamaz.
+Kamuya açık ürün adı **Gezek**; N’apsak önceki çalışma adıdır. Uygulama adı ve görünen metinler güncellendi. Kullanıcının son tasarım kararıyla Home içerik seçicisinde teknik `experience` filtresi **Gezek** olarak görünür; marka/header kullanımıyla aynı kelime olsa da burada kürate edilmiş Gezek planlarını temsil eder. Teknik kimlikler ve geçmiş kayıtlar korunur. Kapsam ve sonraki bundle/store kararı `BRAND_RENAME.md` içindedir.
 
 ## Devam eden çalışma — Deletion boundary evidence hardening (24 Eylül 2026)
 

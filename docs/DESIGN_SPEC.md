@@ -1,18 +1,36 @@
 # Gezek — Tasarım ve Marka
 
+## Güncel otorite — 8 Ekim 2026
+
+Onaylı 2026-10-07 command-center paketi ve canlı Page 07 (`823:2041`, dört entegre Home, `824:2880`) önceki Home görsel sözleşmesini geçersiz kılar. Güncel asset, etkileşim ve kabul sınırı `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir. Aşağıdaki eski Home kayıtları tarihseldir. Nihai logo ve cihaz kabulü ertelenmiştir.
+
 6 Eylül 2026. Başlangıç kaydı; tüm eski konuşmaların eksiksiz aktarımı veya final tasarım sistemi değildir. Güncel ürün bağlamı PRODUCT_SPEC ve STATUS'tadır.
 
 ## Ürün karakteri ve kararlar
 
 Gezek kararsızlığı uygulanabilir mikro plana dönüştürür. Samimi, eğlenceli, yetişkinlere hitap eden bir uygulamadır. Harita uygulaması çağrışımı istenmiyor; logo için pin, pusula ve harita sembolü kullanılmamalı. Güncel marka yazımı Gezek’tir; önceki N’apsak? yazımı tarihsel tasarım kaydıdır.
 
-Ana sayfanın beğenilen omurgası: üstte görünür/düzenlenebilir tercihler; kompakt Bugünlük planın; aynı beşlinin kalan dört sonucunu gösteren 2×2 Diğer planlar. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
+Ana sayfanın güncel sözleşmesi [PRODUCTION_HOME_DESIGN_CONTRACT.md](PRODUCTION_HOME_DESIGN_CONTRACT.md) içindedir. Üstte görünür/düzenlenebilir tercihler, Bugünlük planın ve aynı beşlinin kalan dört sonucunu gösteren dikey alternatif kartları kullanılır. Önceki 2×2 görünüm tarihsel kayıttır. Birinci eylem Planı incele. Yenileme ve kaydetme ayrı işlevlerdir. Beş uygun aday bulunamazsa sahte kart üretilmez.
 
-İçerik seçici Planlar / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
+İçerik seçici Gezek / Mekân / Etkinlik / Fikir; alt gezinme Ana Sayfa / Kaydedilenler / Ankara 101. `Gezek`, teknik olarak mevcut `experience` filtresini ve kürate edilmiş Gezek planlarını temsil eder; algoritma türü yeniden adlandırılmaz. Sana göre, bu ayrı içerik katmanlarının kişisel önizlemesidir. Etkinlik yoksa uydurulmaz. Kaydettiklerin yalnız kayıt varsa görünür. Tekrarlayan Sana yakın mekânlar modülü eklenmez. Referansta görünen hava durumu, bildirim ve beşli alt menü özellik onayı değildir.
 
-## Renk ve logo — henüz açık
+## Güncel Home otoritesi — 6 Ekim 2026
 
-Kullanıcı N'nin sağında soru işareti bulunan eski logo fikrini beğendi. Mor/turuncu renklerini seçmiş değildir. Renkleri tasarımcı gerekçeli biçimde önermelidir. Son geniş görsel seti genel olarak beğenilmedi; eski asistan finalist önerileri kullanıcı onayı sayılmaz.
+Canlı Figma `yTdAWr92ETyurlQQHNNqpi`, Final Review `288:3`, Home `7:2 / 7:129 / 7:245` ve Components `3:2` incelendi. Görsel ayrıntılarda bu kaynaklar yetkilidir. Tek güncel sözleşme, açık logo ve Redmi 14 kabulü ile kullanıcının 6 Ekim'de onayladığı geçici fotoğrafsız fallback dahil, `PRODUCTION_HOME_DESIGN_CONTRACT.md` içindedir. Eski Fikir çizimi ve lisansı doğrulanamayan iki Home fotoğrafı güncel uygulamadan çıkarıldı.
+
+## Tarihsel Gezek UI foundation — 1 Ekim 2026 onaylı
+
+Aşağıdaki devir kaydı tarihsel olarak korunur. Home PNG/artwork otoritesi ve ayrı production Home PR planı 6 Ekim canlı Figma uzlaştırmasıyla geçersiz kılınmıştır; onboarding bu işte uygulanmadı.
+
+Gezek UI uygulama kaynağı olarak `Gezek_UI_Handoff_2026-10-01` paketi onaylandı. Home için genel görsel otorite `references/final-home/FINAL_HOME_FULL_REFERENCE.png`; ayrıntılı Home ekran görüntüleri tipografi, boşluk, kart hiyerarşisi ve keşif alanını tamamlar. `FINAL_HOME_ARTISTIC_SVG_ASSETS.zip` içindeki `_svg_5`, `_svg_7`, `_svg_8`, `_svg_9_1` ve `_svg_10_1` sırasıyla Home artistik header'ı, kompakt arch işareti ve Mekânlar / Etkinlikler / Fikir keşif görsellerinin final kaynağıdır. `_svg_9_2` ve `_svg_10_2` yinelenen kopyalardır.
+
+Onboarding davranış ve hareket otoritesi `ONBOARDING_FULL_REFERENCE.zip` içindeki yedi aşamalı akıştır; repository'deki onaylı ürün metni ve davranışı eski marka veya prototip kopyasının önüne geçer. Latest Home prototipi etkileşim referansıdır; web mimarisi, Tailwind/DOM yapısı ve geçici AIDA URL'leri production kaynağı değildir.
+
+Foundation renkleri ve Plus Jakarta Sans `src/design/gezekTheme.ts` içinde korunur; Home'un güncel type ramp, 12 px section boşluğu, image radius ve geometri değerleri canlı Figma sözleşmesiyle tamamlandı. Production Home mevcut PR #67 içinde uygulanır. Diğer ekranlardaki Source Sans 3/Cormorant Garamond kullanımı bu işte değiştirilmedi.
+
+## Önceki renk ve logo kaydı — 1 Ekim foundation kararıyla geçersiz kılındı
+
+Kullanıcı N'nin sağında soru işareti bulunan eski logo fikrini beğenmişti. Mor/turuncu renkleri seçilmemişti. Bu tarihsel açık palet/logo kaydı 1 Ekim 2026 Gezek UI handoff kararıyla görsel foundation için geçersiz kılındı; uygulama ikonu bu foundation PR'ının kapsamında değildir.
 
 6 Eylül tarihli diğer proje konuşmasında kullanıcı, seçilen birkaç logo geometrisi üzerinde 15–20 renk varyasyonu görebilmeyi istedi. Bu nedenle önceki devir belgesindeki “en fazla iki renk” kısıtı kullanıcı tercihi olarak dayatılmamalı. Düzen ve geometri sabitlenerek karşılaştırılabilir, düzenli bir renk panosu hazırlanabilir; kullanıcıdan renk teorisini çözmesi beklenmez. Kaç varyasyon üretileceği işin güncel talebine göre belirlenir.
 

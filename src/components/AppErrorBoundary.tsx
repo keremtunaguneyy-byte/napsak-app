@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { BrandLogo } from './gezek/BrandLogo';
 import { captureOperationalError } from '../observability';
 
 type Props = { children: ReactNode };
@@ -23,7 +24,7 @@ export class AppErrorBoundary extends Component<Props, State> {
     if (!this.state.failed) return this.props.children;
     return (
       <View accessibilityRole="alert" style={styles.page}>
-        <Text style={styles.mark}>Gezek</Text>
+        <View style={{ marginBottom: 28 }}><BrandLogo color="#D5FF4B" /></View>
         <Text accessibilityRole="header" style={styles.title}>Bir şey yolunda gitmedi.</Text>
         <Text style={styles.copy}>Hata güvenli biçimde kaydedildi. Uygulamayı yeniden yüklemeyi deneyebilirsin.</Text>
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Uygulamayı yeniden dene" onPress={this.retry} style={styles.button}>
