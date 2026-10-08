@@ -1,5 +1,13 @@
 # Gezek — Durum ve sıradaki iş
 
+## PR #68 Redmi smoke sonucu ve ertelenen işler — 8 Ekim 2026
+
+- Kullanıcı no-regression smoke testini tamamladı: kartlar/eşlemeler doğru. Gezek→Mekân en yavaş geçiş; diğer geçişler daha hızlı ama hissedilir gecikme sürüyor. Merged Home baseline'a göre anlamlı subjektif iyileşme yok. Redundant render kaldırıldı; **native Redmi pause çözülmedi**.
+- Değişmeyen `d06c4e3` head, başarılı CI, temiz worktree, mergeable state ve boş review/thread kayıtları doğrulandı. Kullanıcı bu sınırlı sonuç belgelenerek normal protected workflow ile ready/merge onayladı. Son dokümantasyon commit'inin CI sonucu ve merge/main SHA'sı GitHub/son raporda doğrulanır; ardından Detail Flow implementasyonundan önce durulur.
+- Event kart gövdesi bugün `event.sourceUrl` açıyor. Dedicated Detail Flow PR'da internal Event Detail açmalı; kaynak/bilet bağlantısı explicit detail action olmalı. Bu PR'da routing değişmez.
+- Home “Öneri gizlendi / Geri al” timeout'u yok. Planlanan 8 saniyelik auto-dismiss yeni dismissal ile resetlenmeli; undo/unmount/navigation ile temizlenmeli. Bu PR'da timer uygulanmaz.
+- Idea native Alert kullanır; Experience, Place, Event ve Idea detail görselleri legacy olarak dedicated Detail Flow PR'ına ertelenir. Onboarding/edit, Saved ve Ankara 101 kapsam dışıdır. Ayrıntı `HOME_NATIVE_PERFORMANCE_REPORT.md` içindedir.
+
 ## Home kabulü ve native performance follow-up — 8 Ekim 2026
 
 - Kullanıcı Redmi'de PR #67 Home görsel/etkileşim kabulünü tamamladı: status bar, background, dört filtre/eşleme, kartlar, save/dismiss/undo, detail/scroll dönüşü, Maps, alt nav, orientation ve persistence geçti. Bu kullanıcı tarafından bildirilen kabul; yeni agent/device veya signed-release ölçümü değildir.

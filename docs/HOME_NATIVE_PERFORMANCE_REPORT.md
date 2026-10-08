@@ -1,5 +1,39 @@
 # Home native filter performance investigation — 8 October 2026
 
+## Redmi smoke result and merge disposition
+
+The user completed the PR #68 Redmi smoke test and confirmed no regression:
+cards and artwork/category mappings remain correct. Gezek→Mekân is still the
+visibly slowest transition; other filter transitions are faster but still
+perceptibly delayed. There is no material subjective improvement over the
+merged Home baseline. **The redundant Home render was removed; the native
+Redmi filter-transition pause is not fixed or resolved.** These are user-reported
+observations, not new instrumented native timings or signed-release evidence.
+
+Before this documentation update, PR #68 still had exact head
+`d06c4e3db76a5c749bf8da124beebf959b4de50a`, successful App Quality CI, a clean
+worktree, MERGEABLE/CLEAN state and no reviews or review threads. The user
+authorized ready/merge through the normal protected workflow after documenting
+this limited outcome. This final update changes documentation only; CI must
+pass on the updated head before merge. It does not close the native performance
+follow-up. After fetching updated main, stop before Detail Flow implementation.
+
+## Confirmed deferred follow-ups — not implemented in PR #68
+
+1. Event card body currently opens `event.sourceUrl` directly. In the dedicated
+   Detail Flow PR it must open internal Event Detail. External source/ticket
+   access must be an explicit action within that detail flow, not the card-body
+   destination. PR #68 preserves the current external entry behavior.
+2. Home “Öneri gizlendi / Geri al” currently has no timeout. Planned behavior is
+   an **8-second auto-dismiss window**, reset on each new dismissal and cleared
+   on undo, unmount or navigation. This is a follow-up requirement only; no
+   timer or lifecycle change is implemented here.
+3. Idea still uses the native Alert; its dedicated internal detail flow is
+   deferred to Detail Flow design/implementation.
+4. Experience, Place, Event and Idea detail visuals remain legacy. They require
+   the dedicated Detail Flow PR. Onboarding/edit preferences, Saved and
+   Ankara 101 also remain outside this PR.
+
 ## Git and acceptance
 
 PR #67 was already merged when this task inspected GitHub. Its exact head was
@@ -149,7 +183,8 @@ development work, so also record flag-off screen-video timings.
    unchanged portrait lock; if the environment permits resizing, confirm real
    width changes still update background/content geometry.
 8. Accept a native optimization only after repeated comparable measurements and
-   preserved behavior. Keep the performance PR Draft pending that evidence.
+   preserved behavior. The later smoke-result authorization above permits merging
+   this limited render correction; it does not close the native pause follow-up.
 
 ## Verification and scope
 
@@ -187,5 +222,7 @@ commit probe), `ProductionArtwork.tsx` (opt-in SVG cost/mount probes),
 `homePerformance.ts`, new `homeFilterDiagnostics.ts`, and the focused diagnostic
 test in `gezek-home-presentation.test.ts`. Documentation: START_HERE, STATUS,
 PERFORMANCE_RUNBOOK, this report and its measurement JSON. Commit/push and a new
-Draft PR are authorized; there is no force-push or merge of the new PR. Next
-step: the above Redmi recording/profiling, then native work supported by evidence.
+Draft PR were initially authorized. The later user-reported smoke result and
+ready/merge authorization above supersede the initial Draft-only disposition.
+No force-push or protection bypass is authorized. The pause remains open for
+native work supported by evidence; stop after this PR's merge/main verification.
