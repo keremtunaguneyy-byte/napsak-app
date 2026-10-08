@@ -49,6 +49,10 @@ Olayda kullanıcı, cihaz/session kimliği, konum, tercih, içerik adı/ID'si ve
 
 Expo development açılışı release performansı olarak raporlanmaz. Yayın kapısı için imzalı release build, en az düşük/orta sınıf Android cihaz ve tekrarlı soğuk başlangıç ölçümü gerekir.
 
+## Home filtre tanısı — 8 Ekim 2026
+
+`HOME_NATIVE_PERFORMANCE_REPORT.md` yerel cold/warm kanıtını ve USB gerektirmeyen Redmi retest prosedürünü içerir. Opt-in snapshot artık press→React commit ve press→iki frame callback fırsatı, SVG cache hit/miss, parse+JSX construction süresi/element sayısı ve mount/unmount toplamları verir. Frame callback Android first paint kanıtı değildir. React commit süreleri native drawing/FPS değildir. Production-like preview üzerinde React production Profiler ve bu development-only flag kapalıdır; video/Perfetto ayrı kanıttır.
+
 ## Regresyon prosedürü
 
 `check:performance` başarısız olursa:

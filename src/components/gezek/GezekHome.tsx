@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, memo, Profiler, ReactNode, useState } from 'react';
+import { Component, ErrorInfo, memo, Profiler, ReactNode, useLayoutEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT as L,
@@ -14,7 +14,7 @@ import { ProductionArtwork, ProductionSvg, ContextualIcon } from './ProductionAr
 import { PRODUCTION_ASSET_INDEX } from './productionAssetIndex';
 import { discoveryDestinations } from './ArtworkResolver';
 import { itemIconKey } from './ContextualIconResolver';
-import { HOME_PROFILING_ENABLED, recordHomeCommit, recordHomeRender } from './homePerformance';
+import { HOME_PROFILING_ENABLED, recordHomeCommit, recordHomeContentCommit, recordHomeRender } from './homePerformance';
 import { homeActionLabel, homeItemMeta, homeItemTitle } from './gezekHomePresentation';
 
 const RADAR = require('../../../assets/gezek/home-loading-radar.png');
@@ -45,8 +45,13 @@ export type GezekHomeProps = {
 
 export const GezekHome = memo(function GezekHome(props: GezekHomeProps) {
   const home = <HomeBoundary onEdit={props.onEditPreferences}><HomeContent {...props} /></HomeBoundary>;
-  return HOME_PROFILING_ENABLED ? <Profiler id="GezekHome" onRender={recordHomeCommit}>{home}</Profiler> : home;
+  return HOME_PROFILING_ENABLED ? <Profiler id="GezekHome" onRender={recordHomeCommit}>{home}<HomeContentCommitProbe filter={props.selectedFilter} results={props.results} /></Profiler> : home;
 });
+
+function HomeContentCommitProbe({ filter, results }: { filter: ResultFilter; results: RecommendationItem[] }) {
+  useLayoutEffect(() => { recordHomeContentCommit(filter); }, [filter, results]);
+  return null;
+}
 
 function HomeContent(p: GezekHomeProps) {
   recordHomeRender('home');
@@ -57,7 +62,10 @@ function HomeContent(p: GezekHomeProps) {
     p.mood, p.interests.length ? p.interests.join(' + ') : 'Her şeye açığım',
     p.duration, p.budget === 'Ücretsiz' ? 'Bedava' : p.budget, p.groupSize,
   ].filter(Boolean).join(' · ');
-  return <View onLayout={event => setContentWidth(event.nativeEvent.layout.width)} style={s.screen}>
+  return <View onLayout={event => {
+    const nextWidth = event.nativeEvent.layout.width;
+    if (nextWidth !== contentWidth) setContentWidth(nextWidth);
+  }} style={s.screen}>
     <HomeAtmosphere width={contentWidth + 2 * L.screenHorizontalInset} topInset={L.homeTopInset + (p.safeTopInset ?? 0)} />
     <View style={s.content}>
     <View style={s.top}>
