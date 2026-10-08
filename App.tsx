@@ -25,7 +25,7 @@ import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
 import { openHomeRecommendation } from './src/homeNavigation';
-import { recordHomeRecommendation } from './src/components/gezek/homePerformance';
+import { recordHomeFilterPress, recordHomeRecommendation } from './src/components/gezek/homePerformance';
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
 import { CLASSICS_COLLECTION_ID, guideCollectionMetadata, resolveFeaturedGuides, resolveGuideById, resolvePrimaryInsiderRoute } from './src/ankara101';
@@ -373,6 +373,7 @@ function AppContent() {
     setDismissed(current => restoreId(current, id));
   }, [analyticsKindForId]);
   const selectResultFilter = useCallback((filter: ResultFilter) => {
+    recordHomeFilterPress(filter);
     batchTrigger.current = 'filter';
     setResultFilter(filter);
     setPreviousBatch([]);

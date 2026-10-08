@@ -1,5 +1,12 @@
 # Gezek — Durum ve sıradaki iş
 
+## Home kabulü ve native performance follow-up — 8 Ekim 2026
+
+- Kullanıcı Redmi'de PR #67 Home görsel/etkileşim kabulünü tamamladı: status bar, background, dört filtre/eşleme, kartlar, save/dismiss/undo, detail/scroll dönüşü, Maps, alt nav, orientation ve persistence geçti. Bu kullanıcı tarafından bildirilen kabul; yeni agent/device veya signed-release ölçümü değildir.
+- GitHub #67 head `f09c845974386480acd3ec7e4d243bbbd20f50fc`, reviews/threads boş ve iki CI başarılı. PR zaten kullanıcı tarafından 05:57:07 UTC'de merge edilmiş bulundu; agent yeniden merge etmedi. Güncel main `4f3a7206f444ce706328794f4cd2c022a8f0ef96` doğrulandı.
+- Yeni `codex/gezek-home-native-performance` yalnız kalan filtre gecikmesinin tanısı içindir. Değişmeyen layout width setter'ı redundant Home render üretiyordu; width değişmedikçe setter artık çağrılmaz. Opt-in commit/frame-opportunity, SVG cache/element/mount tanısı hazırlanır. Native first paint ve Expo Go/preview farkı henüz ölçülmedi; USB cihaz zorunlu değildir.
+- Experience, Place, Event, Idea, onboarding/edit, Saved ve Ankara 101 legacy UI olarak ayrı tasarım/implementasyon işlerine ertelendi. Algoritma/katalog/eşleme/persistence/Firebase/release config ve Home tasarımı değişmez. Ayrıntı `HOME_NATIVE_PERFORMANCE_REPORT.md` içindedir. Önceki #67 Draft/bekleyen kabul kayıtları aşağıda tarihsel olarak korunur.
+
 ## Command-center production Home — 8 Ekim 2026
 
 - Kullanıcının onayladığı 2026-10-07 command-center paketi ve canlı Page 07 Home yeni görsel otoritedir; 6 Ekim kategori fallback sözleşmesinin yerine geçer.

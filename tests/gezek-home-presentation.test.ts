@@ -5,6 +5,36 @@ import type { RecommendationItem } from '../src/recommendations';
 import { homeActionLabel, homeArtwork, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
 import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
 import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
+import { createFilterTimingRecorder, FilterTiming } from '../src/components/gezek/homeFilterDiagnostics';
+
+test('filter diagnostics separate cold/warm commits and discard superseded frame opportunities', () => {
+  let now = 0;
+  const frames: (() => void)[] = [];
+  const samples: FilterTiming[] = [];
+  const recorder = createFilterTimingRecorder(() => now, cb => { frames.push(cb); }, s => { samples.push(s); });
+  recorder.commit('experience'); // Initial content has no preceding press.
+  assert.equal(samples.length, 0);
+  recorder.press('place');
+  now = 12;
+  recorder.commit('experience'); // Stale content cannot complete a Place trial.
+  assert.equal(samples.length, 0);
+  recorder.commit('place');
+  assert.deepEqual(samples[0], { metric: 'filter_press_to_commit', durationMs: 12, sequence: 1, cold: true });
+  frames.shift()!();
+  now = 30;
+  recorder.press('place'); // A second press supersedes the previous frame.
+  frames.shift()!();
+  assert.equal(samples.length, 1);
+  now = 38;
+  recorder.commit('place');
+  assert.equal(samples[1].cold, false);
+  assert.equal(samples[1].durationMs, 8);
+  frames.shift()!();
+  now = 55;
+  frames.shift()!();
+  assert.deepEqual(samples[2], { metric: 'filter_press_to_frame_opportunity', durationMs: 25, sequence: 2, cold: false });
+  assert.ok(samples.every(s => Object.keys(s).every(k => ['metric', 'durationMs', 'sequence', 'cold'].includes(k))));
+});
 
 const catalog = embeddedCatalog('ankara');
 const plan: RecommendationItem = { ...catalog.experiences[0], score: 0, reasons: [] };
