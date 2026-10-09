@@ -17,6 +17,9 @@ export function detailNavigationReducer(state: DetailSession | undefined, action
   if (action.type === 'open') return { origin: { ...action.origin }, history: [{ ...action.route, scrollY: 0 }] };
   if (!state || action.type === 'close') return undefined;
   if (action.type === 'back') return state.history.length > 1 ? { ...state, history: state.history.slice(0, -1) } : undefined;
+  const existing = state.history.findIndex(frame => frame.kind === action.route.kind && frame.id === action.route.id);
+  // Revisit the original frame, including its scroll/focus snapshot and reasons.
+  if (existing >= 0) return { ...state, history: state.history.slice(0, existing + 1) };
   const history = state.history.slice();
   history[history.length - 1] = { ...history[history.length - 1], scrollY: action.scrollY, returnFocusKey: action.focusKey };
   return { ...state, history: [...history, { ...action.route, scrollY: 0 }] };
@@ -38,7 +41,8 @@ export function detailExternalActions(item: Experience | Place) {
 
 export const DETAIL_CONTENT_CLEARANCE = 112;
 export const DETAIL_UNDO_MS = 8_000;
-export type UndoNotice = { id: string; sequence: number };
+export const DETAIL_UNDO_EXIT_MS = 180;
+export type UndoNotice = { id: string; sequence: number; exiting?: boolean };
 type Timer = ReturnType<typeof setTimeout>;
 /** The latest dismissal owns the only timer; clearing a notice never changes persistence. */
 export function createDismissUndo(
@@ -63,10 +67,16 @@ export function createDismissUndo(
       const current = { id, sequence: ++sequence };
       notice = current;
       onChange(current);
-      timer = schedule(() => { if (notice === current) clear(); }, DETAIL_UNDO_MS);
+      timer = schedule(() => {
+        if (notice !== current) return;
+        const exiting = { ...current, exiting: true };
+        notice = exiting;
+        onChange(exiting);
+        timer = schedule(() => { if (notice === exiting) clear(); }, DETAIL_UNDO_EXIT_MS);
+      }, DETAIL_UNDO_MS);
     },
     undo() {
-      if (!notice) return;
+      if (!notice || notice.exiting) return;
       const id = notice.id;
       clear(); // Consume before invoking persistence; a second press cannot restore twice.
       restore(id);

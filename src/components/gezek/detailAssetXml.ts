@@ -1,7 +1,7 @@
-// Exact local SVG exports from approved Detail Flow controls. See assets/gezek/detail/manifest.json.
+// Local Detail SVGs; save/saved are user-approved overrides pending Figma synchronization.
 export const DETAIL_ASSET_XML = {
   "saved": {
-    "xml": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Saved save icon\">\n<path id=\"Vector\" d=\"M19.0667 4.30833C17.325 2.56667 14.4833 2.56667 12.7417 4.30833L11 6.05L9.25833 4.30833C7.51667 2.56667 4.675 2.56667 2.93333 4.30833C1.19167 6.05 1.19167 8.89167 2.93333 10.6333L11 18.7L19.0667 10.6333C20.8083 8.89167 20.8083 6.05 19.0667 4.30833Z\" fill=\"#3F65FC\"/>\n</g>\n</svg>\n",
+    "xml": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M6 3H16V19L11 15.5L6 19V3Z\" fill=\"#3F65FC\" stroke=\"#3F65FC\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>\n",
     "width": 22.0,
     "height": 22.0
   },
@@ -16,7 +16,7 @@ export const DETAIL_ASSET_XML = {
     "height": 20.0
   },
   "save": {
-    "xml": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Default save icon\">\n<path id=\"Vector\" d=\"M19.0667 4.30833C17.325 2.56667 14.4833 2.56667 12.7417 4.30833L11 6.05L9.25833 4.30833C7.51667 2.56667 4.675 2.56667 2.93333 4.30833C1.19167 6.05 1.19167 8.89167 2.93333 10.6333L11 18.7L19.0667 10.6333C20.8083 8.89167 20.8083 6.05 19.0667 4.30833Z\" stroke=\"#102452\" stroke-width=\"1.83333\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "xml": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M6 3H16V19L11 15.5L6 19V3Z\" fill=\"none\" stroke=\"#102452\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>\n",
     "width": 22.0,
     "height": 22.0
   },

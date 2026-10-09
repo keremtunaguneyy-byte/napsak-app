@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { embeddedCatalog } from '../src/data/catalog';
 import { contentInteractionReducer as reduce, exclusiveContentInteractions } from '../src/contentInteractions';
-import { createDismissUndo, DETAIL_UNDO_MS, detailExternalActions, detailNavigationReducer as nav, resolveDetail } from '../src/detailFlow';
+import { createDismissUndo, DETAIL_UNDO_MS, DETAIL_UNDO_EXIT_MS, detailExternalActions, detailNavigationReducer as nav, resolveDetail } from '../src/detailFlow';
 import { deserializePreferences, emptyPreferences, loadPreferences, PREFERENCE_STORAGE_KEY, migratePreferences, savePreferences, serializePreferences } from '../src/persistence';
 import { createRemoteUserState } from '../src/firebase/userRepository';
 import { enqueueUserSync, flushUserSync, USER_SYNC_QUEUE_KEY } from '../src/firebase/userSync';
@@ -87,7 +87,7 @@ test('eight-second latest dismissal resets timer, consumes undo once, ignores st
   const pending = new Map<number, { deadline: number; callback: () => void }>();
   const notices: unknown[] = [], restored: string[] = [];
   const controller = createDismissUndo(n => notices.push(n), id => restored.push(id), (cb, ms) => {
-    assert.equal(ms, DETAIL_UNDO_MS);
+    assert.ok(ms === DETAIL_UNDO_MS || ms === DETAIL_UNDO_EXIT_MS);
     pending.set(++sequence, { deadline: now + ms, callback: cb });
     return sequence as unknown as ReturnType<typeof setTimeout>;
   }, id => { pending.delete(id as unknown as number); });
@@ -102,7 +102,16 @@ test('eight-second latest dismissal resets timer, consumes undo once, ignores st
   controller.undo(); controller.undo();
   assert.deepEqual(restored, ['b']);
   assert.equal(pending.size, 0);
-  controller.dismiss('c'); pending.get(3)!.callback();
+  controller.dismiss('c'); const expire = pending.get(3)!.callback; pending.delete(3); expire();
+  assert.deepEqual(notices.at(-1), { id: 'c', sequence: 3, exiting: true });
+  controller.undo();
+  assert.deepEqual(restored, ['b'], 'Undo is unavailable after exactly eight seconds');
+  assert.equal(pending.get(4)?.deadline, now + DETAIL_UNDO_EXIT_MS);
+  const staleExit = pending.get(4)!.callback;
+  controller.dismiss('replacement');
+  staleExit();
+  assert.deepEqual(notices.at(-1), { id: 'replacement', sequence: 4 });
+  controller.clear();
   assert.equal(notices.at(-1), undefined);
   assert.deepEqual(restored, ['b'], 'expiry must not undo persistence');
   controller.dismiss('d'); controller.clear(); controller.undo();
@@ -138,7 +147,7 @@ test('actual host wires Android Back, modal focus, decorative artwork, wrapped c
   assert.match(app, /history.at\(-1\)\?\.id/);
 });
 
-test('detail controls retain exact local Figma exports and intrinsic geometry', () => {
+test('detail controls retain local manifest hashes and intrinsic geometry', () => {
   const manifest = JSON.parse(readFileSync('assets/gezek/detail/manifest.json', 'utf8'));
   for (const [name, asset] of Object.entries(DETAIL_ASSET_XML)) {
     const raw = readFileSync(`assets/gezek/detail/svg/${name}.svg`);
@@ -148,4 +157,64 @@ test('detail controls retain exact local Figma exports and intrinsic geometry', 
     assert.ok(asset.width >= 20 && asset.width <= 24);
     assert.equal(asset.width, asset.height);
   }
+});
+
+
+test('revisiting Plan A truncates Plan–Place cycles and preserves the surviving scroll, focus and reasons', () => {
+  const root = nav(undefined, { type: 'open', origin, route: { kind: 'experience', id: plan.id, reasons: ['original reason'] } })!;
+  const nested = nav(root, { type: 'push', route: { kind: 'place', id: plan.points[0].placeId }, scrollY: 312, focusKey: 'stop:0' })!;
+  const revisited = nav(nested, { type: 'push', route: { kind: 'experience', id: plan.id, reasons: ['new reason'] }, scrollY: 480, focusKey: 'related' })!;
+  assert.deepEqual(revisited.history, [nested.history[0]]);
+  assert.deepEqual(revisited.history[0], { kind: 'experience', id: plan.id, reasons: ['original reason'], scrollY: 312, returnFocusKey: 'stop:0' });
+  assert.equal(nav(revisited, { type: 'back' }), undefined);
+  assert.deepEqual(revisited.origin, origin);
+  const distinct = nav(nested, { type: 'push', route: { kind: 'experience', id: 'plan-b' }, scrollY: 280, focusKey: 'plan:b' })!;
+  assert.deepEqual(distinct.history.map(f => f.id), [plan.id, plan.points[0].placeId, 'plan-b']);
+  const placeAgain = nav(distinct, { type: 'push', route: { kind: 'place', id: plan.points[0].placeId }, scrollY: 90, focusKey: 'stop:b' })!;
+  assert.deepEqual(placeAgain.history, distinct.history.slice(0, 2));
+  assert.equal(nav(distinct, { type: 'close' }), undefined);
+  assert.deepEqual(nav(distinct, { type: 'push', route: distinct.history.at(-1)!, scrollY: 9, focusKey: 'same' })!.history, distinct.history);
+});
+
+test('Plan metadata never renders the stable Experience ID and bookmarks use approved tokens', () => {
+  const host = readFileSync('src/components/gezek/DetailHost.tsx', 'utf8');
+  assert.doesNotMatch(host, /\[plan\.id\]|>\{(?:plan|frame|item)\.id\}</);
+  assert.match(host, /\{place && <View style=\{s.chips\}>/);
+  assert.match(DETAIL_ASSET_XML.save.xml, /d="M6 3H16V19L11 15.5L6 19V3Z"/);
+  assert.match(DETAIL_ASSET_XML.save.xml, /fill="none" stroke="#102452"/);
+  assert.match(DETAIL_ASSET_XML.saved.xml, /fill="#3F65FC" stroke="#3F65FC"/);
+  const manifest = JSON.parse(readFileSync('assets/gezek/detail/manifest.json', 'utf8'));
+  assert.equal(manifest.userApprovedOverrides.save.figmaSynchronization, 'pending');
+  assert.equal(manifest.userApprovedOverrides.saved.figmaSynchronization, 'pending');
+});
+
+test('native snackbar exit honors reduced motion and stops animations on replacement and unmount', () => {
+  const component = readFileSync('src/components/gezek/UndoNoticeTransition.tsx', 'utf8');
+  assert.match(component, /isReduceMotionEnabled/);
+  assert.match(component, /reduceMotionChanged/);
+  assert.match(component, /notice.exiting && reducedMotion\) return null/);
+  assert.match(component, /duration: DETAIL_UNDO_EXIT_MS, useNativeDriver: true/);
+  assert.match(component, /return \(\) => animation.stop\(\)/);
+  assert.match(component, /notice.sequence, notice.exiting/);
+  assert.match(component, /subscription.remove\(\)/);
+});
+
+
+test('expiry ends undo at 8000 ms and removes presentation 180 ms later without restoring', () => {
+  let callback: (() => void) | undefined;
+  let current: import('../src/detailFlow').UndoNotice | undefined;
+  const durations: number[] = [];
+  const restored: string[] = [];
+  const controller = createDismissUndo(notice => { current = notice; }, id => restored.push(id), (cb, ms) => {
+    callback = cb; durations.push(ms); return 1 as unknown as ReturnType<typeof setTimeout>;
+  }, () => { callback = undefined; });
+  controller.dismiss('a');
+  callback!();
+  assert.equal(current?.exiting, true);
+  controller.undo();
+  assert.deepEqual(restored, []);
+  callback!();
+  assert.equal(current, undefined);
+  assert.deepEqual(durations, [8000, 180]);
+  assert.deepEqual(restored, []);
 });

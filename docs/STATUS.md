@@ -1,5 +1,11 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-09 — PR #69 Redmi corrections
+
+Continuing existing Draft PR #69 on `codex/gezek-detail-plan-place` from verified clean local/remote head `3232de3179bb634ac2a22b6478d23b3dfd2f455e`. Removed visible Plan stable-ID chips; replaced Detail heart Save assets with user-approved navy/cobalt bookmarks (Figma component sync pending); deduplicated existing detail routes while preserving surviving scroll/focus; added 180 ms native snackbar exit with an unchanged eight-second undo cutoff and reduced-motion removal. No new branch/PR or merge.
+
+Current correction validation and remaining Redmi acceptance are in `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md`. Native Redmi checks remain pending; browser evidence is not device or signed-release acceptance. Event/Idea, Onboarding, Saved redesign and Ankara 101 remain outside this task.
+
 ## Detail Flow PR 1 — 8 Ekim 2026
 
 `codex/gezek-detail-plan-place`, fetch ile doğrulanan `origin/main` `c1426357ccd4df3ad7408aede9d8b2b77e0e344d` üzerinden açıldı. Onaylı Shared Detail Host + Plan/Place; exact ID/ordered stops, Home/Saved snapshot, nested Back/Close, conditional external actions, Hero resolver, exclusive save/dismiss ve 8 saniyelik undo uygulanır. Event/Idea ve diğer görsel migrasyonlar kapsam dışıdır. Güncel sözleşme `DETAIL_FLOW_PR1_CONTRACT.md`, komut/browser sonuçları ve bekleyen Redmi/TalkBack kabulü `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md` içindedir. Draft kalır; merge yapılmaz. Eski approval-pending Detail notları bu kullanıcı onayıyla geçersizdir.

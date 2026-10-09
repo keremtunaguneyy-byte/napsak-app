@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 const sources = [
-  'App.tsx', 'src/components/gezek/DetailHost.tsx', 'src/components/AppErrorBoundary.tsx',
+  'App.tsx', 'src/components/gezek/DetailHost.tsx', 'src/components/gezek/UndoNoticeTransition.tsx', 'src/components/AppErrorBoundary.tsx',
   'src/components/gezek/GezekHome.tsx', 'src/components/gezek/BrandLogo.tsx', 'src/components/gezek/GezekArtwork.tsx', 'src/components/gezek/ProductionArtwork.tsx',
 ];
 const failures: string[] = [];
@@ -69,6 +69,14 @@ for (const style of ['button', 'row', 'undo']) {
   if (!declaration?.match(/minHeight: (?:44|60)/) || !declaration.includes('minWidth: 44')) failures.push(`DetailHost.tsx: ${style} has no 44 × 44 target`);
 }
 if (!detail.includes('DETAIL_ASSET_XML[icon].xml')) failures.push('DetailHost.tsx: local control assets are missing');
+
+const transition = readFileSync('src/components/gezek/UndoNoticeTransition.tsx', 'utf8');
+for (const required of ['isReduceMotionEnabled', 'reduceMotionChanged', 'notice.exiting && reducedMotion', 'subscription.remove()']) {
+  if (!transition.includes(required)) failures.push(`UndoNoticeTransition.tsx: missing ${required}`);
+}
+for (const [name, source] of [['DetailHost', detail], ['GezekHome', home]]) {
+  if (!source.includes('disabled={!!p.undoNotice.exiting}')) failures.push(`${name}: expired Undo must be disabled during exit`);
+}
 
 if (failures.length) {
   console.error('Accessibility source contract failed:\n' + failures.map(item => `- ${item}`).join('\n'));

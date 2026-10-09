@@ -2,7 +2,84 @@
 
 Date: 2026-10-08. Repository: `/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app`.
 
-## Git and authorization
+## 2026-10-09 — Redmi correction follow-up on existing Draft PR #69
+
+Previous verified local/remote HEAD: `3232de3179bb634ac2a22b6478d23b3dfd2f455e`. Fetched the existing branch and `main` before editing; worktree was clean. Continued `codex/gezek-detail-plan-place`; no new branch or PR. User explicitly authorized normal commit/push and updating Draft PR #69, with no merge. New commit SHA, push and current CI are recorded in Git/GitHub and the completion response; no self-referential SHA is written into this commit.
+
+### Device findings and corrections
+
+Inspected the three supplied Redmi images in Downloads (`WhatsApp Image 2026-10-09 at 12.55.04 (1).jpeg`, `(2).jpeg`, `(3).jpeg`). They show Place hearts and Plan `xp-da-vinci-yeni-oyun` beneath Hero. This is an internal Experience ID, not an image filename. Removed the Plan chip entirely with no replacement metadata; IDs still drive routing/lookup/artwork, and catalog duration/budget/stops remain visible. Actual rendered-body regression checks forbid visible `xp-…` IDs.
+
+Replaced both Detail heart assets with 22×22 outlined navy / filled cobalt bookmarks, updating the local XML registry and SHA manifest. User approval is the component-level override authority. Figma Save `928:1779` and its glyph nodes still need a later synchronization; no Figma write or export claim was made for these glyphs. Selected, busy, disabled and accessibility behavior plus 44×44 targets remain intact; other controls were not redesigned.
+
+The reported alternating Plan–Place duplicate Back history now truncates to the existing `kind + id` frame. Surviving scroll, return-focus key and original reasons are preserved; distinct Plan B stays nested. Root Back restores Home/Saved, nested Back restores its parent, and Close exits any depth.
+
+Snackbar Undo eligibility still expires after eight seconds. At expiry the action is disabled and the presentation fades and moves 6 px down over 180 ms using native Animated; reduced motion removes the presentation instantly. This presentation-only exit cannot restore persistence or extend Undo. New dismissal resets timers/animation; Undo/Restore/navigation/unmount cancel pending work. Home and Detail share this existing lifecycle; no Home or Saved redesign was introduced.
+
+### Current verification (supersedes historical results below)
+
+| Verification | Result |
+| --- | --- |
+| `git diff --check` | Pass, exit 0 |
+| `npm run typecheck` | Pass, exit 0 |
+| `npm test` | Pass, exit 0: 111 compiled + 84 TypeScript tests = 195 total; 12 Detail regressions |
+| `npm run check:accessibility` | Pass, exit 0: 8 source files, 16 existing minimum-target styles; reduced-motion and expired Undo gates added |
+| `npm run check:performance` | Pass, exit 0: 5,000 iterations, p95 9.068 ms, p99 9.539 ms, below 25 ms budget; local JS benchmark |
+| `npm run test:stress` | Pass, exit 0: 2,560 recommendation scenarios, 640 Experience scenarios, 192 Experience rotation checks; zero mismatch/duplicate/diversity/rotation issues |
+| `npm run test:catalog` | Pass, exit 0: unchanged version 2026-09-21.1; 1 city / 178 Places / 52 Experiences / 14 Events / 140 Ideas / 12 guides |
+| `CI=1 npx expo export --platform android --output-dir /tmp/gezek-redmi-android-export` | Pass, exit 0: Android Hermes export; not a signed build or physical-device test |
+| `npm run check` | Absent; attempted command exit 1, Missing script; never reported as a pass |
+| Browser/component at 393×852 and 412×915 | Pass: 32 new regression cases + 38 existing layout/navigation cases, zero page errors |
+| Actual-App state/undo/Saved context | Pass: seven checks, real 8.3-second wait verifies persistence after exit; zero page errors |
+
+New reducer tests cover revisiting Plan A and Place X, preserved frame scroll/focus/reasons, same-current-route idempotence, distinct Plan B, root Back and depth-independent Close. Timer tests cover exact eight-second cutoff, 180 ms presentation removal, consumed Undo, reset during exit, stale callbacks and cleanup. Local asset tests validate bookmark geometry/tokens and override provenance along with all SVG SHA hashes. Native transition source checks cover reduced-motion subscription and animation cleanup.
+
+`tests/detail-browser-regressions.cjs` adds actual-App Home→Plan A→Place X→Back→Plan A→Back→Home and select-parent-Plan→root→Home checks, invoking-control focus, distinct nested Plan B, surviving frame snapshot and Close at depth three. It verifies actual visible text has no technical ID; rendered bookmark geometry, fill, target and native selected/busy/disabled props; intermediate fade/down motion, expiry disabled Undo, replacement reset, Undo once, navigation/unmount cleanup and instant reduced motion at both sizes. Synthetic Plan B exists only in the test fixture; production catalog is unchanged.
+
+Reproducible optional fixture setup (external test tooling, no production dependency added):
+
+```sh
+GEZEK_BROWSER_MODULES=/path/to/test/node_modules node scripts/buildDetailBrowserFixture.cjs
+python3 -m http.server 8771 --bind 127.0.0.1 --directory /tmp/gezek-detail-browser
+GEZEK_BROWSER_MODULES=/path/to/test/node_modules GEZEK_CHROME_PATH=/path/to/chrome node tests/detail-browser-regressions.cjs
+```
+
+External tooling supplies `react-native-web`, `react-dom`, and `playwright`; the builder uses the repository's esbuild/fonts/assets. Native services are stubbed, including storage and external links. The RN Web adapter translates native accessibilityState props (not directly supported by this RN Web version), and provides its expected global alias. Controlled clock tests wait for React effect commits before advancing animation frames. These browser results do not prove native driver timing, TalkBack or Android hardware Back.
+
+Current screenshots/result JSON: `docs/evidence/detail-pr1-redmi-corrections/`. Earlier evidence below is historical and may still show the superseded heart/ID chip.
+
+### Exact files changed by this correction commit
+
+- `App.tsx`
+- `assets/gezek/detail/manifest.json`
+- `assets/gezek/detail/svg/save.svg`
+- `assets/gezek/detail/svg/saved.svg`
+- `docs/DECISIONS.md`
+- `docs/DETAIL_FLOW_PR1_CONTRACT.md`
+- `docs/DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md`
+- `docs/STATUS.md`
+- `docs/evidence/detail-pr1-redmi-corrections/experience-default-393.png`
+- `docs/evidence/detail-pr1-redmi-corrections/experience-saved-412.png`
+- `docs/evidence/detail-pr1-redmi-corrections/place-default-393.png`
+- `docs/evidence/detail-pr1-redmi-corrections/place-saved-412.png`
+- `docs/evidence/detail-pr1-redmi-corrections/results.json`
+- `scripts/buildDetailBrowserFixture.cjs`
+- `scripts/checkAccessibility.ts`
+- `src/components/gezek/DetailHost.tsx`
+- `src/components/gezek/GezekHome.tsx`
+- `src/components/gezek/UndoNoticeTransition.tsx`
+- `src/components/gezek/detailAssetXml.ts`
+- `src/detailFlow.ts`
+- `tests/detail-browser-regressions.cjs`
+- `tests/detail-flow.test.ts`
+
+### Remaining Redmi acceptance
+
+On the updated build: verify Da Vinci Plan has no ID chip; outlined/filled bookmarks on both Plan and Place; selected/busy/disabled TalkBack announcements and 44×44 touch behavior; hardware Back for both specified Home sequences and Saved return; distinct related Plan navigation; scroll/focus restoration and Close at depth; smooth 180 ms snackbar exit, Android reduced-motion preference, replacement dismissal, Undo before/after eight seconds, external navigation/unmount cleanup, and app-restart persistence. No physical Redmi, native TalkBack, signed-release or production verification was run in this follow-up because only still screenshots/local browser tooling were available. Figma component synchronization remains pending and outside this request.
+
+Recommendation behavior, catalog/stable IDs/relationships, Firebase, release configuration, Event/Idea, Onboarding, Saved redesign and Ankara 101 are unchanged. PR #69 must remain Draft and unmerged. Recommended next step is updated Redmi acceptance and CI review, not merge.
+
+## Historical 2026-10-08 Git and authorization
 
 Initial branch `main`, clean tracked/untracked worktree. Fetched `origin/main`: `c1426357ccd4df3ad7408aede9d8b2b77e0e344d`; local main matched. Created `codex/gezek-detail-plan-place` from that ref. Open PR audit found only unrelated #57, which was untouched. The user explicitly authorized implementation, normal commit/push and a Draft PR; merge and PR 2 are excluded. Commit SHA and Draft PR URL are recorded by Git/GitHub and the delivery message, avoiding a self-referential commit hash in this report.
 

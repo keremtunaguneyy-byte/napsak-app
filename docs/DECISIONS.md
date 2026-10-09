@@ -1,5 +1,11 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-09 — approved PR #69 device corrections
+
+The user explicitly approved a component-level override of Detail Plan/Place Save: outline bookmark by default, filled cobalt bookmark when saved, with existing navy/cobalt tokens and 44×44 selected/busy/disabled semantics. This supersedes the prior Figma heart assets only; Figma synchronization remains a later task. Stable Experience IDs remain routing/artwork keys and are forbidden as visible metadata. Existing `kind + id` detail routes pop/truncate to their surviving frame instead of creating cycles; distinct related Plans remain valid. Snackbar expiry has a 180 ms native fade/down presentation after the unchanged eight-second undo cutoff, with instant reduced-motion removal and no persistence restoration.
+
+Authorization is to continue existing Draft PR #69 and push normally on `codex/gezek-detail-plan-place`; no merge or PR 2 work is approved. See `DETAIL_FLOW_PR1_CONTRACT.md` and the correction report for evidence and device boundaries.
+
 ## 2026-10-08 — Detail Flow PR 1 ve exclusive save/dismiss
 
 Durum: kullanıcı ekli PR 1 handoff’unu bağlayıcı olarak onayladı; `codex/gezek-detail-plan-place` dalında uygulandı. Plan/Place ve shared host için Figma `927:1769` otoritedir. Exact ID/history/origin snapshot; Back stack pop, Close origin exit; mevcut Hero resolver ve gerçek katalog alanları korunur. Dismiss saved’i atomik kaldırır; dismissed kayıt save edilemez; Restore/Undo unsaved döner. Eski overlapping yerel kayıtlar mevcut v5 şemasında dismiss-wins normalizasyonu alır. Sekiz saniyelik undo navigation/unmount’ta temizlenir. Firebase ve algoritma değişmez; Event/Idea, diğer migrasyonlar ve cihaz kabulü ayrıdır. Sözleşme ve kanıt `DETAIL_FLOW_PR1_CONTRACT.md` / `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md` içindedir.

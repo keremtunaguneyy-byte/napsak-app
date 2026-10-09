@@ -94,7 +94,6 @@ function AppContent() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
   const [{ saved, dismissed }, interact] = useReducer(contentInteractionReducer, { saved: [], dismissed: [] });
   const [undoNotice, setUndoNotice] = useState<UndoNotice>();
-  const lastDismissed = undoNotice?.id;
   const restoreFromUndo = useRef<(id: string) => void>(() => {});
   const undo = useMemo(() => createDismissUndo(setUndoNotice, id => restoreFromUndo.current(id)), []);
   const [recommendationRun, setRecommendationRun] = useState(0);
@@ -597,7 +596,7 @@ function AppContent() {
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
         locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
-        lastDismissed={lastDismissed} hiddenCount={hiddenItems.length}
+        undoNotice={undoNotice} hiddenCount={hiddenItems.length}
         onSettings={openHomeSettings}
         onEditPreferences={editHomePreferences}
         onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
@@ -646,7 +645,7 @@ function AppContent() {
     </KeyboardAvoidingView></View>
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun, now: eligibilityNow }}
-      saved={saved} onNavigate={navigateDetails} undoId={lastDismissed} onUndo={undoHomeDismiss}
+      saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
 

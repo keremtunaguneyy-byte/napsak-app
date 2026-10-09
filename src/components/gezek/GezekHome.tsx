@@ -17,6 +17,9 @@ import { itemIconKey } from './ContextualIconResolver';
 import { HOME_PROFILING_ENABLED, recordHomeCommit, recordHomeContentCommit, recordHomeRender } from './homePerformance';
 import { homeActionLabel, homeItemMeta, homeItemTitle } from './gezekHomePresentation';
 
+import type { UndoNotice } from '../../detailFlow';
+import { UndoNoticeTransition } from './UndoNoticeTransition';
+
 const RADAR = require('../../../assets/gezek/home-loading-radar.png');
 const tabs: readonly { value: ResultFilter; label: string; color: string }[] = [
   { value: 'experience', label: 'Gezek', color: C.cobalt },
@@ -35,7 +38,7 @@ export type GezekHomeProps = {
   safeTopInset?: number;
   mood?: Mood; interests: Interest[]; budget: BudgetPreference; groupSize?: GroupSizePreference; duration: DurationPreference;
   results: RecommendationItem[]; savedIds: string[]; selectedFilter: ResultFilter; contextRefreshDue: boolean;
-  locating: boolean; hasCoordinates: boolean; locationMessage: string; lastDismissed?: string; hiddenCount: number;
+  locating: boolean; hasCoordinates: boolean; locationMessage: string; undoNotice?: UndoNotice; hiddenCount: number;
   onSettings: () => void; onEditPreferences: () => void; onConfirmContext: () => void;
   onSelectFilter: (filter: ResultFilter) => void; onRequestLocation: () => void; onUndoDismiss: () => void;
   onOpenRecommendation: (item: RecommendationItem, node?: View | null) => void; onToggleSaved: (item: RecommendationItem, rank: number) => void;
@@ -102,10 +105,10 @@ function HomeContent(p: GezekHomeProps) {
       accessibilityState={{ busy: p.locating, disabled: p.locating }} disabled={p.locating} onPress={p.onRequestLocation} style={[s.location, p.locating && s.disabled]}>
       <GezekAsset name="locationOff" /><Text style={s.noticeText}>{p.locating ? 'Konumun bulunuyor…' : p.locationMessage}</Text><Text style={s.edit}>Aç</Text>
     </TouchableOpacity>}
-    {p.lastDismissed && <View accessibilityLiveRegion="polite" style={s.undo}>
+    {p.undoNotice && <UndoNoticeTransition notice={p.undoNotice} accessibilityLiveRegion="polite" style={s.undo}>
       <Text style={s.undoText}>Öneri gizlendi.</Text>
-      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Son gizlenen öneriyi geri al" onPress={p.onUndoDismiss} style={s.utilityHit}><Text style={s.undoAction}>Geri al</Text></TouchableOpacity>
-    </View>}
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Son gizlenen öneriyi geri al" disabled={!!p.undoNotice.exiting} accessibilityState={{ disabled: !!p.undoNotice.exiting }} onPress={p.onUndoDismiss} style={s.utilityHit}><Text style={s.undoAction}>Geri al</Text></TouchableOpacity>
+    </UndoNoticeTransition>}
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
       <Heading title={labels.main} />
       {main ? <MainCard key={main.id} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}

@@ -3,13 +3,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, AppState, Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
-import { DETAIL_CONTENT_CLEARANCE, DetailNavigationAction, DetailSession, detailExternalActions, resolveDetail } from '../../detailFlow';
+import { DETAIL_CONTENT_CLEARANCE, UndoNotice, DetailNavigationAction, DetailSession, detailExternalActions, resolveDetail } from '../../detailFlow';
 import { distanceInKm, formatDurationRange } from '../../domain';
 import { recommendExperiencesForPlace } from '../../recommendations';
 import { Experience, Place } from '../../types';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F } from '../../design/gezekTheme';
 import { ProductionArtwork } from './ProductionArtwork';
 import { DETAIL_ASSET_XML } from './detailAssetXml';
+import { UndoNoticeTransition } from './UndoNoticeTransition';
 import { focusDetailControl } from './detailFocus';
 
 type Props = {
@@ -17,7 +18,7 @@ type Props = {
   context: Parameters<typeof recommendExperiencesForPlace>[1];
   saved: readonly string[];
   loading?: boolean;
-  undoId?: string;
+  undoNotice?: UndoNotice;
   onUndo: () => void;
   onNavigate: (action: DetailNavigationAction) => void;
   onSave: (id: string) => void;
@@ -119,7 +120,7 @@ export function DetailHost(p: Props) {
               <ProductionArtwork item={{ ...item, kind: frame.kind }} layout="Hero" width={artworkWidth} />
             </View>
           </View>
-          <View style={s.chips}>{(plan ? [plan.id] : [place!.category.toLocaleUpperCase('tr-TR'), place!.district.toLocaleUpperCase('tr-TR'), price]).map((label, index) => <View key={index} style={[s.chip, { backgroundColor: plan ? C.lavender : C.mint }]}><Text style={s.chipText}>{label}</Text></View>)}</View>
+          {place && <View style={s.chips}>{[place.category.toLocaleUpperCase('tr-TR'), place.district.toLocaleUpperCase('tr-TR'), price].map((label, index) => <View key={index} style={[s.chip, { backgroundColor: C.mint }]}><Text style={s.chipText}>{label}</Text></View>)}</View>}
           <Text accessibilityRole="header" style={s.title}>{title}</Text>
           {interactions}
           <View style={s.card}>
@@ -150,10 +151,10 @@ export function DetailHost(p: Props) {
         {!!actions.maps && <DetailButton nodeRef={controlRef('maps')} icon="maps" label={plan && plan.points.length > 1 ? 'Rotayı haritada aç' : 'Haritada aç'} external stretch onPress={() => external('maps', () => plan ? p.onOpenPlanMap(plan) : p.onOpenMaps(place!))} />}
         {!!actions.source && <DetailButton nodeRef={controlRef('source')} icon="source" label="Resmî bilgi" external stretch onPress={() => external('source', () => plan ? p.onOpenPlanSource(plan) : p.onOpenSource(place!))} />}
       </View>
-      {!!p.undoId && <View style={[s.snackbar, { bottom: footerHeight + 8 }]}>
+      {!!p.undoNotice && <UndoNoticeTransition notice={p.undoNotice} style={[s.snackbar, { bottom: footerHeight + 8 }]}>
         <Text accessibilityLiveRegion="polite" style={s.snackbarText}>Öneri gizlendi</Text>
-        <Pressable accessibilityRole="button" accessibilityLabel="Son gizlediğin öneriyi geri al" onPress={p.onUndo} style={s.undo}><Text style={s.undoText}>Geri al</Text></Pressable>
-      </View>}
+        <Pressable accessibilityRole="button" accessibilityLabel="Son gizlediğin öneriyi geri al" disabled={!!p.undoNotice.exiting} accessibilityState={{ disabled: !!p.undoNotice.exiting }} onPress={p.onUndo} style={s.undo}><Text style={s.undoText}>Geri al</Text></Pressable>
+      </UndoNoticeTransition>}
     </SafeAreaView>
   </Modal>;
 }
