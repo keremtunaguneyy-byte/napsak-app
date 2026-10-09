@@ -2,6 +2,39 @@
 
 Date: 2026-10-08. Repository: `/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app`.
 
+## 2026-10-09 — Plan chip-row follow-up on existing Draft PR #69
+
+Verified clean local/fetched remote head `9e5cd7459ade5862b624d2da18a244e6fae87842`, same `codex/gezek-detail-plan-place` branch and open Draft PR #69. The earlier ID removal also removed the whole Plan chip row. The user explicitly requested restoring only supported Experience metadata. Plan now displays its own `category`, `district` (Turkish uppercase), and existing formatted `priceLevel` (`Bedava` at 0), with lavender chips and the unchanged wrapping style. Place labels, order, price formatter and mint styling are unchanged. No ID, first-Place, title, artwork or reason-derived metadata is rendered. Bookmark, history, snackbar and all completed corrections remain intact.
+
+Proportionate verification only:
+
+| Verification | Current result |
+| --- | --- |
+| `git diff --check` | Pass, exit 0 |
+| `npm run typecheck` | Pass, exit 0 |
+| `npm test` | Pass, exit 0: 111 compiled + 85 TypeScript = 196 tests; 13 Detail tests |
+| `npm run check:accessibility` | Pass, exit 0: eight source files, 16 minimum-target styles |
+| Existing Detail browser/component checks | Pass: 44 regression checks (32 prior + 12 chip cases), 38 existing layout/navigation checks, zero page errors, both 393×852 and 412×915 |
+| `CI=1 npx expo export --platform android --output-dir /tmp/gezek-plan-chips-android-export` | Pass, exit 0; Android Hermes export |
+
+The added source regression verifies direct Plan/Place fields, unchanged price formatting, no ID/inference in the row and wrapping. Rendered-component regressions verify exact catalog chip labels for both Plan and Place, forbidden visible `xp-…` IDs, a real Eymir Plan's `DOĞA / GÖLBAŞI / Bedava`, and identical Experience labels when the fixture's associated Place category/district/price differ. Narrow-screen and simulated fontScale 1.8 containment/wrapping pass for both families. The test fixture modifies associated Place metadata only in memory; production catalogs remain unchanged. Existing browser navigation/bookmark/snackbar checks also pass.
+
+Evidence: `docs/evidence/detail-pr1-redmi-corrections/plan-chip-results.json`, `plan-chips-393.png`, `plan-chips-412.png`. Visually inspected both free Eymir screenshots. Existing reproducible fixture/suite commands below apply. No new dependencies, branch, PR or merge. Normal commit/push and PR-body update are authorized; resulting SHA and current CI are recorded in Git/GitHub and the completion response.
+
+Exact changed files for this follow-up:
+
+- `src/components/gezek/DetailHost.tsx`
+- `scripts/buildDetailBrowserFixture.cjs`
+- `tests/detail-flow.test.ts`
+- `tests/detail-browser-regressions.cjs`
+- `docs/DETAIL_FLOW_PR1_CONTRACT.md`
+- `docs/DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md`
+- `docs/evidence/detail-pr1-redmi-corrections/plan-chip-results.json`
+- `docs/evidence/detail-pr1-redmi-corrections/plan-chips-393.png`
+- `docs/evidence/detail-pr1-redmi-corrections/plan-chips-412.png`
+
+Stress, performance, catalog, separate state-browser and release checks were not rerun locally because this is a metadata-only UI correction and the user requested the proportionate list above. GitHub CI runs its configured gates independently. Physical Redmi/TalkBack and signed-release validation were not available; next step is verifying the restored chip row on Redmi. Recommendation, catalog, Firebase and release contracts remain unchanged. PR #69 stays Draft/unmerged; earlier results below are historical.
+
 ## 2026-10-09 — Redmi correction follow-up on existing Draft PR #69
 
 Previous verified local/remote HEAD: `3232de3179bb634ac2a22b6478d23b3dfd2f455e`. Fetched the existing branch and `main` before editing; worktree was clean. Continued `codex/gezek-detail-plan-place`; no new branch or PR. User explicitly authorized normal commit/push and updating Draft PR #69, with no merge. New commit SHA, push and current CI are recorded in Git/GitHub and the completion response; no self-referential SHA is written into this commit.

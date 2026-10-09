@@ -86,6 +86,41 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/tmp/gezek-detail-browser';
         record(`${kind} ${fixture}: no visible ID, bookmark geometry, target and accessibility semantics`);
       }
 
+      const chipLabels = () => page.getByTestId('detail-metadata-chips').evaluate(node => [...node.children].map(chip => chip.innerText));
+      for (const kind of ['experience', 'place']) {
+        await page.goto(`${base}/?fixture=default&kind=${kind}`);
+        await page.getByTestId('detail-metadata-chips').waitFor();
+        const expected = await page.evaluate(() => {
+          const record = window.__detailRecord;
+          return [record.category.toLocaleUpperCase('tr-TR'), record.district.toLocaleUpperCase('tr-TR'), '₺'.repeat(record.priceLevel) || 'Bedava'];
+        });
+        assert.deepEqual(await chipLabels(), expected);
+        assert.doesNotMatch(await page.locator('body').innerText(), /\bxp-[a-z0-9-]+/);
+        record(`${kind}: own catalog category/district/price chips render; no technical ID`);
+      }
+      for (const fixture of ['default', 'metadata-independent']) {
+        await page.goto(`${base}/?fixture=${fixture}&plan=xp-eymir-halfday`);
+        await page.getByTestId('detail-metadata-chips').waitFor();
+        assert.deepEqual(await chipLabels(), ['DOĞA', 'GÖLBAŞI', 'Bedava']);
+        assert.doesNotMatch(await page.locator('body').innerText(), /\bxp-[a-z0-9-]+/);
+        await page.screenshot({ path: path.join(output, `plan-chips-${fixture}-${viewport.width}.png`) });
+        record(`Free Eymir Plan ${fixture}: DOĞA/GÖLBAŞI/Bedava from Experience, independent of first Place`);
+      }
+      for (const kind of ['experience', 'place']) {
+        await page.goto(`${base}/?fixture=long&kind=${kind}&scale=1.8`);
+        await page.getByTestId('detail-metadata-chips').waitFor();
+        const geometry = await page.getByTestId('detail-metadata-chips').evaluate(node => ({
+          wrap: getComputedStyle(node).flexWrap,
+          overflow: document.documentElement.scrollWidth > innerWidth,
+          contained: [...node.children].every(chip => {
+            const box = chip.getBoundingClientRect(), row = node.getBoundingClientRect();
+            return box.left >= row.left && box.right <= row.right + 1 && box.bottom <= row.bottom + 1;
+          }),
+        }));
+        assert.deepEqual(geometry, { wrap: 'wrap', overflow: false, contained: true });
+        record(`${kind}: chip wrapping preserved at simulated fontScale 1.8`);
+      }
+
       await page.clock.install();
       await page.goto(`${base}/?fixture=undo`);
       await page.getByRole('button', { name: 'Dismiss A', exact: true }).click();

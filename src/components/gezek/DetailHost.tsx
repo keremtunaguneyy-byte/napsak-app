@@ -120,7 +120,10 @@ export function DetailHost(p: Props) {
               <ProductionArtwork item={{ ...item, kind: frame.kind }} layout="Hero" width={artworkWidth} />
             </View>
           </View>
-          {place && <View style={s.chips}>{[place.category.toLocaleUpperCase('tr-TR'), place.district.toLocaleUpperCase('tr-TR'), price].map((label, index) => <View key={index} style={[s.chip, { backgroundColor: C.mint }]}><Text style={s.chipText}>{label}</Text></View>)}</View>}
+          <View testID="detail-metadata-chips" style={s.chips}>{(plan
+            ? [plan.category.toLocaleUpperCase('tr-TR'), plan.district.toLocaleUpperCase('tr-TR'), price]
+            : [place!.category.toLocaleUpperCase('tr-TR'), place!.district.toLocaleUpperCase('tr-TR'), price]
+          ).map((label, index) => <View key={index} style={[s.chip, { backgroundColor: plan ? C.lavender : C.mint }]}><Text style={s.chipText}>{label}</Text></View>)}</View>
           <Text accessibilityRole="header" style={s.title}>{title}</Text>
           {interactions}
           <View style={s.card}>

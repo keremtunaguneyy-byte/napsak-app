@@ -18,7 +18,7 @@ Inspected live high-fidelity context and screenshots for Plan/Place defaults, pl
 
 The user's Redmi correction request supersedes the Figma heart glyphs in Save `928:1779` (outlined asset `928:1768`, selected asset `928:1771`). Detail Plan/Place now use conventional 22×22 bookmark geometry: outlined navy `#102452`, selected filled cobalt `#3F65FC`. Existing 44×44 targets and selected/busy/disabled semantics are preserved. Local SVGs, XML registry and SHA manifest record this override explicitly. **Later Figma component synchronization remains pending**; this request does not authorize editing Figma or claim these replacement glyphs were exported from it.
 
-Technical Experience ID chips are removed without substitute copy. Other controls and product surfaces retain their existing design contracts.
+Technical Experience ID chips are removed. The Plan chip row must show its own catalog-backed `Experience.category`, `Experience.district` (Turkish uppercase) and the existing formatted `Experience.priceLevel`; level 0 is `Bedava`. Never derive these fields from a Place, title, artwork key or recommendation reason. Plan chips retain lavender styling and wrapping; Place chips and mint styling are unchanged. Other controls and product surfaces retain their existing design contracts.
 
 ## Approved behavior
 

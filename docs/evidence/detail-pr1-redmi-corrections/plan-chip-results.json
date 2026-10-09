@@ -1,0 +1,113 @@
+{
+  "previousHead": "9e5cd7459ade5862b624d2da18a244e6fae87842",
+  "surface": "Actual App and DetailHost / RN Web, service stubs; synthetic Plan B only in cycle fixture; controlled browser clock",
+  "regressionChecks": 44,
+  "layoutChecks": 38,
+  "newChipChecks": [
+    {
+      "name": "experience: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan default: DO\u011eA/G\u00d6LBA\u015eI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan metadata-independent: DO\u011eA/G\u00d6LBA\u015eI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan default: DO\u011eA/G\u00d6LBA\u015eI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan metadata-independent: DO\u011eA/G\u00d6LBA\u015eI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "commands": {
+    "diffCheck": "pass",
+    "typecheck": "pass",
+    "npmTest": "196 pass: 111 compiled + 85 TypeScript",
+    "accessibility": "pass",
+    "androidExport": "pass"
+  },
+  "device": "No physical Redmi or signed-release validation performed."
+}

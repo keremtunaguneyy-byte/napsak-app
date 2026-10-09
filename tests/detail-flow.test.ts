@@ -179,7 +179,7 @@ test('revisiting Plan A truncates Plan–Place cycles and preserves the survivin
 test('Plan metadata never renders the stable Experience ID and bookmarks use approved tokens', () => {
   const host = readFileSync('src/components/gezek/DetailHost.tsx', 'utf8');
   assert.doesNotMatch(host, /\[plan\.id\]|>\{(?:plan|frame|item)\.id\}</);
-  assert.match(host, /\{place && <View style=\{s.chips\}>/);
+  assert.match(host, /testID="detail-metadata-chips"/);
   assert.match(DETAIL_ASSET_XML.save.xml, /d="M6 3H16V19L11 15.5L6 19V3Z"/);
   assert.match(DETAIL_ASSET_XML.save.xml, /fill="none" stroke="#102452"/);
   assert.match(DETAIL_ASSET_XML.saved.xml, /fill="#3F65FC" stroke="#3F65FC"/);
@@ -217,4 +217,15 @@ test('expiry ends undo at 8000 ms and removes presentation 180 ms later without 
   assert.equal(current, undefined);
   assert.deepEqual(durations, [8000, 180]);
   assert.deepEqual(restored, []);
+});
+
+
+test('Detail chips read Plan and Place category/district from their own records and retain free-price formatting and wrap', () => {
+  const host = readFileSync('src/components/gezek/DetailHost.tsx', 'utf8');
+  const chips = host.slice(host.indexOf('<View testID="detail-metadata-chips"'), host.indexOf('<Text accessibilityRole="header" style={s.title}>'));
+  assert.match(chips, /\[plan\.category\.toLocaleUpperCase\('tr-TR'\), plan\.district\.toLocaleUpperCase\('tr-TR'\), price\]/);
+  assert.match(chips, /\[place!\.category\.toLocaleUpperCase\('tr-TR'\), place!\.district\.toLocaleUpperCase\('tr-TR'\), price\]/);
+  assert.doesNotMatch(chips, /\.id|points|title|artwork|reasons/);
+  assert.match(host, /const price = item \? '₺'\.repeat\(item\.priceLevel\) \|\| 'Bedava'/);
+  assert.match(host, /chips: \{ flexDirection: 'row', flexWrap: 'wrap'/);
 });
