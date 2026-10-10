@@ -1,5 +1,10 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-10 — Detail Flow PR 2
+
+Live fetched main is `30b96c059f242ec91d886e9480afb2491c31ab4a`; PR #69 is merged per the current user baseline. Historical “unmerged / PR 2 unauthorized / Figma bookmark sync pending” notes below are superseded by the current user authorization and live Figma bookmark reconciliation. Event/Idea internal detail and minimum Saved routing are implemented on `codex/gezek-detail-event-idea`. Validation, scope, known identical Event-health failure and pending native acceptance: `DETAIL_FLOW_PR2_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR are authorized; no merge or Onboarding.
+
+
 ## 2026-10-09 — PR #69 Redmi corrections
 
 Continuing existing Draft PR #69 on `codex/gezek-detail-plan-place` from verified clean local/remote head `3232de3179bb634ac2a22b6478d23b3dfd2f455e`. Removed visible Plan stable-ID chips; replaced Detail heart Save assets with user-approved navy/cobalt bookmarks (Figma component sync pending); deduplicated existing detail routes while preserving surviving scroll/focus; added 180 ms native snackbar exit with an unchanged eight-second undo cutoff and reduced-motion removal. No new branch/PR or merge.

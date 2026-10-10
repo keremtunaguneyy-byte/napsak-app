@@ -1,9 +1,9 @@
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable } from './contentPolicy';
 import { googleMapsUrlForExperiencePoints } from './mapLinks';
 import type { ResultFilter } from './resultFilters';
-import type { Experience, Place } from './types';
+import type { Event, Idea, Experience, Place, RecommendationKind } from './types';
 
-export type DetailRoute = { kind: 'experience' | 'place'; id: string; reasons?: readonly string[] };
+export type DetailRoute = { kind: RecommendationKind; id: string; reasons?: readonly string[] };
 export type DetailFrame = DetailRoute & { scrollY: number; returnFocusKey?: string };
 export type DetailOrigin = { screen: 'results' | 'saved'; filter: ResultFilter; seed: number; scrollY: number; focusKey: string };
 export type DetailSession = { origin: DetailOrigin; history: DetailFrame[] };
@@ -26,13 +26,35 @@ export function detailNavigationReducer(state: DetailSession | undefined, action
 }
 
 /** Resolution never depends on ranking, dismissal, a title, or an associated Place's plan list. */
-export function resolveDetail(route: DetailRoute, experiences: readonly Experience[], places: readonly Place[]) {
+export function resolveDetail(route: DetailRoute, experiences: readonly Experience[], places: readonly Place[], events: readonly Event[] = [], ideas: readonly Idea[] = []) {
+  if (route.kind === 'event') return events.find(item => item.id === route.id);
+  if (route.kind === 'idea') return ideas.find(item => item.id === route.id);
   if (route.kind === 'place') return places.find(place => place.id === route.id && isPlacePubliclyResolvable(place));
   const plan = experiences.find(plan => plan.id === route.id);
   return plan && isExperiencePubliclyResolvable(plan, new Map(places.map(place => [place.id, place]))) ? plan : undefined;
 }
 
-export function detailExternalActions(item: Experience | Place) {
+// Optional structured map fields are read only when supplied; venue text is never a lookup key.
+export type MappableEvent = Event & { placeId?: string; latitude?: number; longitude?: number };
+export function eventMapUrl(event: MappableEvent, places: readonly Place[] = []) {
+  const place = event.placeId ? places.find(p => p.id === event.placeId && p.cityId === event.cityId && isPlacePubliclyResolvable(p)) : undefined;
+  const point = place ?? event;
+  return googleMapsUrlForExperiencePoints([{ placeId: place?.id ?? '', name: event.venue, latitude: point.latitude ?? NaN, longitude: point.longitude ?? NaN }]);
+}
+export function eventDetailTiming(event: Event, now = new Date()) {
+  const start = Date.parse(event.startsAt);
+  const end = event.endsAt ? Date.parse(event.endsAt) : start;
+  const valid = Number.isFinite(start) && Number.isFinite(end) && end >= start;
+  const date = valid ? new Intl.DateTimeFormat('tr-TR', { timeZone: 'Europe/Istanbul', day: 'numeric', month: 'long', year: 'numeric' }).format(start) : undefined;
+  const time = valid ? new Intl.DateTimeFormat('tr-TR', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' }).format(start) : undefined;
+  return { date, time, unavailable: !valid, expired: valid && end <= now.getTime() };
+}
+export function eventSourceActionLabel(event: Event) {
+  return ['Bubilet', 'Biletinial', 'Biletix', 'Passo'].includes(event.sourceLabel) ? 'Bilet bilgisine git' : 'Etkinlik bilgisine git';
+}
+export function detailExternalActions(item: Experience | Place | Event | Idea, places: readonly Place[] = []) {
+  if ('kind' in item && item.kind === 'event') return { maps: eventMapUrl(item, places), source: /^https?:\/\//.test(item.sourceUrl) ? item.sourceUrl : undefined };
+  if ('kind' in item && item.kind === 'idea') return { maps: undefined, source: item.actionUrl && /^https?:\/\//.test(item.actionUrl) ? item.actionUrl : undefined };
   const points = 'name' in item ? [{ ...item, placeId: item.id }] : item.points;
   const maps = googleMapsUrlForExperiencePoints(points);
   const source = 'name' in item ? item.sourceUrl : item.sources[0]?.url;

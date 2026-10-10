@@ -79,6 +79,7 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/tmp/gezek-detail-browser';
         assert.equal(await save.getAttribute('aria-selected') === 'true', fixture === 'saved');
         assert.equal(await save.getAttribute('aria-disabled') === 'true', ['loading', 'unavailable'].includes(fixture));
         assert.equal(await save.getAttribute('aria-busy') === 'true', fixture === 'loading');
+        if (fixture === 'loading') { assert.equal(await save.getByRole('progressbar').count(), 1); record(`${kind} loading spinner`); continue; }
         const glyph = save.locator('svg path');
         assert.equal(await glyph.getAttribute('d'), 'M6 3H16V19L11 15.5L6 19V3Z');
         assert.equal(await glyph.getAttribute('fill'), fixture === 'saved' ? '#3F65FC' : 'none');
