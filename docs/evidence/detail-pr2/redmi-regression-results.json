@@ -1,0 +1,358 @@
+{
+  "surface": "Actual App and DetailHost / RN Web, service stubs; synthetic Plan B only in cycle fixture; controlled browser clock",
+  "checks": [
+    {
+      "name": "Home → Plan A → Place X → Back → Plan A → Back → Home, focus restored",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Home → Plan A → Place X → select Plan A truncates to root → Back → Home",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Distinct Plan B remains nested; revisiting Place/Plan truncates and preserves scroll/focus/reasons",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Close exits the whole host from depth three",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience default: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience saved: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience loading spinner",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place default: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place saved: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place loading spinner",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan default: DOĞA/GÖLBAŞI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan metadata-independent: DOĞA/GÖLBAŞI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "place: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Eight-second deadline disables Undo; 180 ms native fade/down exit never restores dismissal",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "New dismissal resets exit animation and eight-second timer; Undo consumes once",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Navigation and unmount clean active timers/animations and stale callbacks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Reduced-motion preference removes the notice immediately at expiry",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Home → Plan A → Place X → Back → Plan A → Back → Home, focus restored",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Home → Plan A → Place X → select Plan A truncates to root → Back → Home",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Distinct Plan B remains nested; revisiting Place/Plan truncates and preserves scroll/focus/reasons",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Close exits the whole host from depth three",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience default: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience saved: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience loading spinner",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place default: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place saved: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place loading spinner",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place: own catalog category/district/price chips render; no technical ID",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan default: DOĞA/GÖLBAŞI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Free Eymir Plan metadata-independent: DOĞA/GÖLBAŞI/Bedava from Experience, independent of first Place",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "experience: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "place: chip wrapping preserved at simulated fontScale 1.8",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Eight-second deadline disables Undo; 180 ms native fade/down exit never restores dismissal",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "New dismissal resets exit animation and eight-second timer; Undo consumes once",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Navigation and unmount clean active timers/animations and stale callbacks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Reduced-motion preference removes the notice immediately at expiry",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    }
+  ],
+  "errors": []
+}

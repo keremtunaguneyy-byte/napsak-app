@@ -229,3 +229,56 @@ test('Detail chips read Plan and Place category/district from their own records 
   assert.match(host, /const price = item \? '₺'\.repeat\(item\.priceLevel\) \|\| 'Bedava'/);
   assert.match(host, /chips: \{ flexDirection: 'row', flexWrap: 'wrap'/);
 });
+
+test('Event/Idea exact kind + ID resolution is independent of duplicate titles, time and URLs', () => {
+  const events = catalog.events.map(e => ({ ...e, title: 'Aynı başlık' }));
+  const ideas = catalog.ideas.map(i => ({ ...i, title: 'Aynı başlık' }));
+  for (const [kind, records] of [['event', events], ['idea', ideas]] as const) {
+    for (const record of records) assert.equal(resolveDetail({ kind, id: record.id }, [], [], events, ideas), record);
+    assert.equal(resolveDetail({ kind, id: 'Aynı başlık' }, [], [], events, ideas), undefined);
+    const session = nav(undefined, { type: 'open', origin: { ...origin, screen: 'saved' }, route: { kind, id: records[0].id } })!;
+    assert.deepEqual(session.origin, { ...origin, screen: 'saved' });
+    assert.equal(nav(session, { type: 'close' }), undefined);
+    assert.equal(nav(session, { type: 'back' }), undefined);
+  }
+  const idea = catalog.ideas.find(i => !i.actionUrl)!;
+  assert.equal(resolveDetail({ kind: 'idea', id: idea.id }, [], [], [], catalog.ideas), idea);
+  assert.deepEqual(detailExternalActions(idea), { maps: undefined, source: undefined });
+});
+
+test('Event Maps requires structured data and exact city-matched Place; Idea never searches Maps', async () => {
+  const { eventMapUrl, eventDetailTiming, eventSourceActionLabel } = await import('../src/detailFlow');
+  const event = catalog.events[0], place = catalog.places[0];
+  assert.equal(eventMapUrl({ ...event, venue: place.name }, catalog.places), undefined);
+  assert.equal(eventMapUrl({ ...event, placeId: 'unknown' }, catalog.places), undefined);
+  assert.equal(eventMapUrl({ ...event, placeId: place.id, cityId: 'other' }, catalog.places), undefined);
+  const url = new URL(eventMapUrl({ ...event, placeId: place.id }, catalog.places)!);
+  assert.equal(url.searchParams.get('query'), `${place.latitude},${place.longitude}`);
+  assert.ok(eventMapUrl({ ...event, latitude: 39, longitude: 32 }));
+  assert.equal(eventMapUrl({ ...event, latitude: 91, longitude: 32 }), undefined);
+  assert.equal(detailExternalActions(event).source, event.sourceUrl);
+  assert.equal(eventSourceActionLabel(event), 'Bilet bilgisine git');
+  assert.equal(eventSourceActionLabel({ ...event, sourceLabel: 'Golden Chef Mutfak Akademisi' }), 'Etkinlik bilgisine git');
+  assert.equal(eventDetailTiming(event, new Date('2030-01-01')).expired, true);
+  assert.equal(eventDetailTiming({ ...event, startsAt: 'invalid' }).unavailable, true);
+  assert.deepEqual(eventDetailTiming({ ...event, startsAt: '2026-10-11T20:00:00+03:00' }, new Date('2026-10-10')), { date: '11 Ekim 2026', time: '20:00', unavailable: false, expired: false });
+  const idea = catalog.ideas.find(i => i.actionUrl)!;
+  assert.equal(detailExternalActions(idea).source, idea.actionUrl);
+  assert.equal(detailExternalActions(idea).maps, undefined);
+});
+
+test('Home inspects every family internally; Saved always includes internal inspection, no legacy Idea Alert', () => {
+  const app = readFileSync('App.tsx', 'utf8');
+  const entry = app.slice(app.indexOf('const openRecommendation'), app.indexOf('const openHomeSettings'));
+  assert.match(entry, /openDetail\(\{ kind: item.kind, id: item.id, reasons: item.reasons \}, node\)/);
+  assert.doesNotMatch(entry, /openEvent|openIdea|Alert|Linking|setRecommendationRun|setResultFilter/);
+  const saved = app.slice(app.indexOf("{step === 'saved' &&"), app.indexOf("{step === 'settings' &&"));
+  assert.match(saved, /kind: 'name' in item \? 'place' : item.kind/);
+  assert.doesNotMatch(saved, /openEvent|openIdea/);
+  const host = readFileSync('src/components/gezek/DetailHost.tsx', 'utf8');
+  const ideaContent = host.slice(host.indexOf(': idea ? <View style={s.card}>'), host.indexOf(': plan ? <View style={s.card}>'));
+  assert.match(ideaContent, /idea.note/);
+  assert.doesNotMatch(ideaContent, /steps|duration|minutes|requirements|points|Fikri plana/);
+  assert.match(host, /eventSourceActionLabel\(event\)/);
+  assert.match(host, /ActivityIndicator color=\{C.navy\}/);
+});

@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, AppState, Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Alert, AppState, Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
-import { DETAIL_CONTENT_CLEARANCE, UndoNotice, DetailNavigationAction, DetailSession, detailExternalActions, resolveDetail } from '../../detailFlow';
+import { DETAIL_CONTENT_CLEARANCE, UndoNotice, DetailNavigationAction, DetailSession, detailExternalActions, eventDetailTiming, eventSourceActionLabel, resolveDetail } from '../../detailFlow';
 import { distanceInKm, formatDurationRange } from '../../domain';
 import { recommendExperiencesForPlace } from '../../recommendations';
-import { Experience, Place } from '../../types';
+import { Event, Idea, Experience, Place } from '../../types';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F } from '../../design/gezekTheme';
 import { ProductionArtwork } from './ProductionArtwork';
 import { DETAIL_ASSET_XML } from './detailAssetXml';
@@ -16,6 +16,10 @@ import { focusDetailControl } from './detailFocus';
 type Props = {
   session: DetailSession;
   context: Parameters<typeof recommendExperiencesForPlace>[1];
+  ideas?: readonly Idea[];
+  onOpenEventSource: (event: Event) => Promise<void>;
+  onOpenIdeaAction: (idea: Idea) => Promise<void>;
+  onOpenEventMap: (url: string) => Promise<void>;
   saved: readonly string[];
   loading?: boolean;
   undoNotice?: UndoNotice;
@@ -33,14 +37,20 @@ type Props = {
 /** One modal above the still-mounted origin; no recommendation rotation on entry or return. */
 export function DetailHost(p: Props) {
   const frame = p.session.history[p.session.history.length - 1];
-  const item = resolveDetail(frame, p.context.experiences, p.context.places);
+  const item = resolveDetail(frame, p.context.experiences, p.context.places, p.context.events, p.ideas);
   const place = item && 'name' in item ? item : undefined;
-  const plan = item && !('name' in item) ? item : undefined;
+  const plan = item && 'kind' in item && item.kind === 'experience' ? item : undefined;
+  const event = item && 'kind' in item && item.kind === 'event' ? item : undefined;
+  const idea = item && 'kind' in item && item.kind === 'idea' ? item : undefined;
+  const timing = event ? eventDetailTiming(event, p.context.now) : undefined;
+  const eventEnd = event?.endsAt ? eventDetailTiming({ ...event, startsAt: event.endsAt, endsAt: undefined }, p.context.now) : undefined;
   const dismissed = p.context.dismissed.includes(frame.id);
   const unavailable = !p.loading && !item;
-  const disabled = !!p.loading || unavailable;
-  const family = frame.kind === 'experience' ? 'GEZEK PLANI' : 'MEKÂN';
-  const title = place?.name ?? plan?.title;
+  const eventUnavailable = !!timing && (timing.expired || timing.unavailable);
+  const disabled = !!p.loading || unavailable || eventUnavailable;
+  const family = { experience: 'GEZEK PLANI', place: 'MEKÂN', event: 'ETKİNLİK', idea: 'FİKİR' }[frame.kind];
+  const familyColor = event ? '#FFE8DB' : idea ? '#FFF2B8' : plan ? C.lavender : C.mint;
+  const title = place?.name ?? plan?.title ?? event?.title ?? idea?.title;
   const scroll = useRef<ScrollView>(null);
   const scrollY = useRef(frame.scrollY);
   const header = useRef<View>(null);
@@ -53,11 +63,13 @@ export function DetailHost(p: Props) {
   const [artworkWidth, setArtworkWidth] = useState(329);
   const [footerHeight, setFooterHeight] = useState(96 + insets.bottom);
   const related = useMemo(() => place ? recommendExperiencesForPlace(place, { ...p.context, limit: p.context.experiences.length }) : [], [place, p.context]);
-  const actions: { maps?: string; source?: string } = item && !dismissed && !disabled ? detailExternalActions(item) : {};
+  const actions: { maps?: string; source?: string } = item && !dismissed && !p.loading ? detailExternalActions(item, p.context.places) : {};
   const price = item ? '₺'.repeat(item.priceLevel) || 'Bedava' : '';
   const distance = place && p.context.coordinates ? distanceInKm(p.context.coordinates, place) : undefined;
   const metadata = plan ? `${plan.points.length} durak · ${formatDurationRange(plan.minDurationMinutes, plan.maxDurationMinutes)} · ${price}`
-    : place ? [place.category, place.district, price, distance === undefined ? undefined : `${distance.toFixed(1)} km`].filter(Boolean).join(' · ') : '';
+    : place ? [place.category, place.district, price, distance === undefined ? undefined : `${distance.toFixed(1)} km`].filter(Boolean).join(' · ')
+    : event ? [timing?.date, timing?.time, event.venue].filter(Boolean).join(' · ')
+    : idea ? [idea.category, price, ...idea.groupSizes].join(' · ') : '';
   const restoreFocus = () => {
     if (!restorePending.current) return;
     restorePending.current = false;
@@ -103,18 +115,19 @@ export function DetailHost(p: Props) {
         <DetailButton icon="close" iconOnly label="Detayı kapat ve başladığın ekrana dön" onPress={() => p.onNavigate({ type: 'close' })} />
       </View>
       <ScrollView ref={scroll} key={`${frame.kind}:${frame.id}:${p.session.history.length}`} onContentSizeChange={restoreFocus} scrollEventThrottle={16} onScroll={event => { scrollY.current = event.nativeEvent.contentOffset.y; }} contentContainerStyle={[s.content, { paddingBottom: Math.max(DETAIL_CONTENT_CLEARANCE, footerHeight + 16) }]}>
-        {dismissed && !disabled ? <View style={[s.status, s.dismissed]}>
+        {dismissed && !p.loading && !!item ? <View style={[s.status, s.dismissed]}>
           <Text accessibilityRole="header" style={s.heading}>Bu öneriyi gizledin</Text>
           <Text accessibilityLiveRegion="polite" style={s.muted}>Yeniden görmek için geri getir.</Text>
           <DetailButton label="Geri getir" prominent onPress={() => p.onRestore(frame.id)} />
         </View> : disabled ? <>
-          <View accessibilityState={{ busy: !!p.loading }} style={[s.status, unavailable && s.unavailable]}>
+          <View accessibilityState={{ busy: !!p.loading }} style={[s.status, (unavailable || eventUnavailable) && s.unavailable]}>
             <Text accessibilityRole="header" style={s.heading}>{p.loading ? 'Detay hazırlanıyor' : 'Bu içerik şu anda kullanılamıyor'}</Text>
-            <Text accessibilityLiveRegion="polite" style={s.muted}>{p.loading ? 'Bilgiler doğrulanıyor.' : 'Kaynak veya içerik güncellendiğinde yeniden deneyebilirsin.'}</Text>
+            <Text accessibilityLiveRegion="polite" style={s.muted}>{p.loading ? 'Bilgiler doğrulanıyor.' : eventUnavailable ? timing?.expired ? event?.endsAt ? 'Etkinliğin zamanı geçti.' : 'Etkinliğin başlangıç zamanı geçti.' : 'Etkinlik zamanı şu anda kullanılamıyor.' : 'Kaynak veya içerik güncellendiğinde yeniden deneyebilirsin.'}</Text>
           </View>
+          {eventUnavailable && !!event?.sourceLabel && <Text style={s.muted}>Kaynak: {event.sourceLabel}</Text>}
           {interactions}
         </> : item && <>
-          <View style={[s.hero, { backgroundColor: plan ? C.lavender : C.mint }]}>
+          <View style={[s.hero, { backgroundColor: familyColor }]}>
             <Text style={s.heroLabel}>{family}</Text>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.artwork} onLayout={event => setArtworkWidth(event.nativeEvent.layout.width)}>
               <ProductionArtwork item={{ ...item, kind: frame.kind }} layout="Hero" width={artworkWidth} />
@@ -122,15 +135,27 @@ export function DetailHost(p: Props) {
           </View>
           <View testID="detail-metadata-chips" style={s.chips}>{(plan
             ? [plan.category.toLocaleUpperCase('tr-TR'), plan.district.toLocaleUpperCase('tr-TR'), price]
-            : [place!.category.toLocaleUpperCase('tr-TR'), place!.district.toLocaleUpperCase('tr-TR'), price]
-          ).map((label, index) => <View key={index} style={[s.chip, { backgroundColor: plan ? C.lavender : C.mint }]}><Text style={s.chipText}>{label}</Text></View>)}</View>
+            : place ? [place!.category.toLocaleUpperCase('tr-TR'), place!.district.toLocaleUpperCase('tr-TR'), price]
+            : event ? [timing?.date, timing?.time].filter((label): label is string => !!label)
+            : [idea!.category.toLocaleUpperCase('tr-TR'), price]
+          ).map((label, index) => <View key={index} style={[s.chip, { backgroundColor: familyColor }]}><Text style={s.chipText}>{label}</Text></View>)}</View>
           <Text accessibilityRole="header" style={s.title}>{title}</Text>
           {interactions}
           <View style={s.card}>
             <View style={s.metaChip}><Text style={s.meta}>{metadata}</Text></View>
             {!!frame.reasons?.length && <><Text style={s.reasonLabel}>NEDEN SANA UYGUN?</Text><Text style={s.body}>{frame.reasons.join(' · ')}</Text></>}
           </View>
-          {plan ? <View style={s.card}>
+          {event ? <View style={s.card}>
+            <Text accessibilityRole="header" style={s.heading}>Etkinlik bilgisi</Text>
+            {!!eventEnd?.date && <Text style={s.body}>Bitiş: {eventEnd.date} · {eventEnd.time}</Text>}
+            <Text style={s.stop}>{event.venue}</Text>
+            {!!event.note && <Text style={s.body}>{event.note}</Text>}
+            {!!event.priceNote && <Text style={s.body}>{event.priceNote}</Text>}
+            {!!event.sourceLabel && <Text style={s.muted}>Kaynak: {event.sourceLabel}</Text>}
+          </View> : idea ? <View style={s.card}>
+            <Text accessibilityRole="header" style={s.heading}>Fikir notu</Text>
+            {!!idea.note && <Text style={s.body}>{idea.note}</Text>}
+          </View> : plan ? <View style={s.card}>
             <Text accessibilityRole="header" style={s.heading}>Planın akışı</Text>
             {plan.points.map((point, index) => <Pressable ref={controlRef(`stop:${index}:${point.placeId}`)} key={`${index}:${point.placeId}`} accessibilityRole="button" accessibilityLabel={`${index + 1}. durak: ${point.name}. Mekânı incele`} onPress={() => push('place', point.placeId, `stop:${index}:${point.placeId}`)} style={s.row}>
               <Text style={s.stop}>{index + 1}  {point.name}</Text>
@@ -150,9 +175,9 @@ export function DetailHost(p: Props) {
           </View>}
         </>}
       </ScrollView>
-      <View onLayout={event => setFooterHeight(event.nativeEvent.layout.height)} style={[s.footer, { paddingBottom: 24 + insets.bottom }, fontScale > 1.3 && s.footerLarge]}>
-        {!!actions.maps && <DetailButton nodeRef={controlRef('maps')} icon="maps" label={plan && plan.points.length > 1 ? 'Rotayı haritada aç' : 'Haritada aç'} external stretch onPress={() => external('maps', () => plan ? p.onOpenPlanMap(plan) : p.onOpenMaps(place!))} />}
-        {!!actions.source && <DetailButton nodeRef={controlRef('source')} icon="source" label="Resmî bilgi" external stretch onPress={() => external('source', () => plan ? p.onOpenPlanSource(plan) : p.onOpenSource(place!))} />}
+      <View onLayout={event => setFooterHeight(event.nativeEvent.layout.height)} style={[s.footer, { paddingBottom: 24 + insets.bottom }, fontScale > 1.3 && s.footerLarge, (event || idea) && !actions.maps && s.singleFooter]}>
+        {!!actions.maps && !disabled && <DetailButton nodeRef={controlRef('maps')} icon="maps" label={plan && plan.points.length > 1 ? 'Rotayı haritada aç' : 'Haritada aç'} external stretch onPress={() => external('maps', () => event ? p.onOpenEventMap(actions.maps!) : plan ? p.onOpenPlanMap(plan) : p.onOpenMaps(place!))} />}
+        {!!actions.source && <DetailButton nodeRef={controlRef('source')} icon="source" label={event ? eventSourceActionLabel(event) : idea ? idea.actionLabel! : 'Resmî bilgi'} external stretch={!(event || idea) || !!actions.maps} single={!!(event || idea) && !actions.maps} onPress={() => external('source', () => event ? p.onOpenEventSource(event) : idea ? p.onOpenIdeaAction(idea) : plan ? p.onOpenPlanSource(plan) : p.onOpenSource(place!))} />}
       </View>
       {!!p.undoNotice && <UndoNoticeTransition notice={p.undoNotice} style={[s.snackbar, { bottom: footerHeight + 8 }]}>
         <Text accessibilityLiveRegion="polite" style={s.snackbarText}>Öneri gizlendi</Text>
@@ -162,10 +187,10 @@ export function DetailHost(p: Props) {
   </Modal>;
 }
 
-type ButtonProps = { label: string; icon?: keyof typeof DETAIL_ASSET_XML; iconOnly?: boolean; selected?: boolean; busy?: boolean; disabled?: boolean; stretch?: boolean; external?: boolean; prominent?: boolean; nodeRef?: (node: View | null) => void; onPress: () => void };
-function DetailButton({ label, icon, iconOnly, selected, busy = false, disabled = false, stretch, external, prominent, nodeRef, onPress }: ButtonProps) {
-  return <Pressable ref={nodeRef} accessibilityRole={external ? 'link' : 'button'} accessibilityLabel={label} accessibilityState={{ selected, busy, disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => [s.button, iconOnly && s.iconButton, stretch && s.stretch, selected && s.selected, prominent && s.restoreButton, disabled && s.disabled, pressed && s.pressed]}>
-    {icon && <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none"><SvgXml accessible={false} xml={DETAIL_ASSET_XML[icon].xml} /></View>}
+type ButtonProps = { label: string; icon?: keyof typeof DETAIL_ASSET_XML; iconOnly?: boolean; selected?: boolean; busy?: boolean; disabled?: boolean; stretch?: boolean; external?: boolean; prominent?: boolean; single?: boolean; nodeRef?: (node: View | null) => void; onPress: () => void };
+function DetailButton({ label, icon, iconOnly, selected, busy = false, disabled = false, stretch, external, prominent, single, nodeRef, onPress }: ButtonProps) {
+  return <Pressable ref={nodeRef} accessibilityRole={external ? 'link' : 'button'} accessibilityLabel={label} accessibilityState={{ selected, busy, disabled }} disabled={disabled} onPress={onPress} style={({ pressed }) => [s.button, iconOnly && s.iconButton, stretch && s.stretch, single && s.singleAction, selected && s.selected, prominent && s.restoreButton, disabled && s.disabled, pressed && s.pressed]}>
+    {busy ? <ActivityIndicator color={C.navy} size="small" /> : icon && <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none"><SvgXml accessible={false} xml={DETAIL_ASSET_XML[icon].xml} /></View>}
     {!iconOnly && <Text style={s.buttonText}>{label}</Text>}
   </Pressable>;
 }
@@ -191,5 +216,6 @@ const s = StyleSheet.create({
   relatedHeading: { borderTopWidth: 1, borderTopColor: C.border, paddingTop: 20 },
   status: { marginTop: 162, minHeight: 180, padding: 20, borderRadius: 24, gap: 24 }, dismissed: { backgroundColor: '#FFF2B8' }, unavailable: { backgroundColor: '#FFE8DB' },
   footer: { position: 'absolute', bottom: 0, left: 0, right: 0, minHeight: 96, paddingHorizontal: 16, paddingTop: 24, flexDirection: 'row', gap: 6, borderTopWidth: 1, borderTopColor: C.border, backgroundColor: C.canvas }, footerLarge: { flexDirection: 'column' },
+  singleFooter: { justifyContent: 'center', alignItems: 'center' }, singleAction: { minHeight: 48, minWidth: 178, maxWidth: '100%' },
   snackbar: { position: 'absolute', left: 16, right: 16, minHeight: 56, paddingHorizontal: 18, backgroundColor: C.navy, borderRadius: 16, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8 }, snackbarText: { color: C.surface, fontFamily: F.medium, fontSize: 14, flexShrink: 1 }, undo: { minHeight: 44, minWidth: 44, justifyContent: 'center' }, undoText: { color: C.yellow, fontFamily: F.semiBold, fontSize: 14 },
 });
