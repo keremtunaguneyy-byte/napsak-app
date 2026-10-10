@@ -1,0 +1,653 @@
+{
+  "previousHead": "3232de3179bb634ac2a22b6478d23b3dfd2f455e",
+  "deviceEvidence": "Three user-provided Redmi still images inspected; no new physical-device execution. History and abrupt timeout are reported findings, not proven by still images.",
+  "regressions": {
+    "surface": "Actual App and DetailHost / RN Web, service stubs; synthetic Plan B only in cycle fixture; controlled browser clock",
+    "checks": [
+      {
+        "name": "Home \u2192 Plan A \u2192 Place X \u2192 Back \u2192 Plan A \u2192 Back \u2192 Home, focus restored",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Home \u2192 Plan A \u2192 Place X \u2192 select Plan A truncates to root \u2192 Back \u2192 Home",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Distinct Plan B remains nested; revisiting Place/Plan truncates and preserves scroll/focus/reasons",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Close exits the whole host from depth three",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "experience default: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "experience saved: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "experience loading: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "experience unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "place default: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "place saved: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "place loading: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "place unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Eight-second deadline disables Undo; 180 ms native fade/down exit never restores dismissal",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "New dismissal resets exit animation and eight-second timer; Undo consumes once",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Navigation and unmount clean active timers/animations and stale callbacks",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Reduced-motion preference removes the notice immediately at expiry",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "name": "Home \u2192 Plan A \u2192 Place X \u2192 Back \u2192 Plan A \u2192 Back \u2192 Home, focus restored",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "Home \u2192 Plan A \u2192 Place X \u2192 select Plan A truncates to root \u2192 Back \u2192 Home",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "Distinct Plan B remains nested; revisiting Place/Plan truncates and preserves scroll/focus/reasons",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "Close exits the whole host from depth three",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "experience default: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "experience saved: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "experience loading: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "experience unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "place default: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "place saved: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "place loading: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "place unavailable: no visible ID, bookmark geometry, target and accessibility semantics",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "Eight-second deadline disables Undo; 180 ms native fade/down exit never restores dismissal",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "New dismissal resets exit animation and eight-second timer; Undo consumes once",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "Navigation and unmount clean active timers/animations and stale callbacks",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "name": "Reduced-motion preference removes the notice immediately at expiry",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "layout": {
+    "surface": "React Native Web, stubbed services; large text uses Text shim plus fontScale 1.8; no Android/TalkBack claims",
+    "checks": [
+      {
+        "kind": "experience",
+        "fixture": "default",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "saved",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "loading",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "long",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "empty",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "default",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "saved",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "loading",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "long",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "empty",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "fixture": "simulated-fontScale-1.8",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "fixture": "actual-App-nested-external-home-return",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "fixture": "Modal-onRequestClose-nested-then-root",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "default",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "saved",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "loading",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "long",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "empty",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "default",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "saved",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "loading",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "long",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "empty",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "fixture": "simulated-fontScale-1.8",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "fixture": "actual-App-nested-external-home-return",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "fixture": "Modal-onRequestClose-nested-then-root",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "state": {
+    "surface": "Actual App through RN Web, mocked storage/Linking; real 8.3s browser timer",
+    "passed": [
+      "save-dismiss atomic persisted state",
+      "undo to unsaved",
+      "restore consumes notice",
+      "8s expiry keeps dismissal",
+      "Saved origin nested Close",
+      "dismiss from Saved removes entry",
+      "Close cleans undo"
+    ],
+    "errors": []
+  }
+}

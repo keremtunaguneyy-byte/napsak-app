@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { uniqueIds } from './domain';
+import { exclusiveContentInteractions } from './contentInteractions';
 import { BudgetPreference, DurationPreference, GroupSizePreference, Interest, KNOWN_BUDGETS, KNOWN_DURATIONS, KNOWN_GROUP_SIZES, KNOWN_INTERESTS, KNOWN_MOODS, Mood } from './types';
 
 export const PREFERENCE_STORAGE_KEY = '@napsak/preferences/v5';
@@ -61,8 +62,7 @@ export function migratePreferences(raw: unknown): PersistedPreferences {
   if (!raw || typeof raw !== 'object') return emptyPreferences;
   const value = raw as Partial<PersistedPreferences>;
   return {
-    saved: uniqueIds(value.saved),
-    dismissed: uniqueIds(value.dismissed),
+    ...exclusiveContentInteractions({ saved: uniqueIds(value.saved), dismissed: uniqueIds(value.dismissed) }),
     mood: oneOf(value.mood, KNOWN_MOODS),
     interests: manyOf(value.interests, KNOWN_INTERESTS),
     budget: oneOf(value.budget, KNOWN_BUDGETS),

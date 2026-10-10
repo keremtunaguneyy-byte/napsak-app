@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, findNodeHandle, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,11 +12,14 @@ import { loadPreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
-import { Coordinates, dismissId, formatDurationRange, newestFirstIds, resolveSavedPlaces, restoreId, toggleId } from './src/domain';
+import { Coordinates, formatDurationRange, newestFirstIds, resolveSavedPlaces } from './src/domain';
 import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
-import { PlaceDetails } from './src/components/PlaceDetails';
+import { DetailHost } from './src/components/gezek/DetailHost';
+import { focusDetailControl } from './src/components/gezek/detailFocus';
+import { contentInteractionReducer } from './src/contentInteractions';
+import { createDismissUndo, detailNavigationReducer, DetailNavigationAction, DetailRoute, DetailSession, UndoNotice } from './src/detailFlow';
 import { GezekBottomNavigation, GezekHome, GezekHomeLoading } from './src/components/gezek';
 import { HomeAtmosphere } from './src/components/gezek/GezekHome';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
@@ -24,7 +27,6 @@ import { captureOperationalError, setObservabilityScreen } from './src/observabi
 import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
 import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
-import { openHomeRecommendation } from './src/homeNavigation';
 import { recordHomeFilterPress, recordHomeRecommendation } from './src/components/gezek/homePerformance';
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
@@ -90,9 +92,10 @@ function AppContent() {
   const [contextConfirmedAt, setContextConfirmedAt] = useState<string>();
   const [contextRefreshDue, setContextRefreshDue] = useState(false);
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
-  const [lastDismissed, setLastDismissed] = useState<string>();
-  const [dismissed, setDismissed] = useState<string[]>([]);
-  const [saved, setSaved] = useState<string[]>([]);
+  const [{ saved, dismissed }, interact] = useReducer(contentInteractionReducer, { saved: [], dismissed: [] });
+  const [undoNotice, setUndoNotice] = useState<UndoNotice>();
+  const restoreFromUndo = useRef<(id: string) => void>(() => {});
+  const undo = useMemo(() => createDismissUndo(setUndoNotice, id => restoreFromUndo.current(id)), []);
   const [recommendationRun, setRecommendationRun] = useState(0);
   const [previousBatch, setPreviousBatch] = useState<string[]>([]);
   const [resultFilter, setResultFilter] = useState<ResultFilter>(DEFAULT_RESULT_FILTER);
@@ -115,9 +118,10 @@ function AppContent() {
   const guidePaperY = useRef(0);
   const guideAnchors = useRef<Record<string, number>>({});
   const guideNodes = useRef<Record<string, Text | null>>({});
-  const [detailPlaceId, setDetailPlaceId] = useState<string>();
-  const [detailPlanId, setDetailPlanId] = useState<string>();
-  const detailPlace = places.find(place => place.id === detailPlaceId && isPlacePubliclyResolvable(place));
+  const [detailSession, setDetailSession] = useState<DetailSession>();
+  const originControl = useRef<View | null>(null);
+  const originFallback = useRef<View>(null);
+  const originScrollY = useRef(0);
   const recommendationMeasurement = useMemo(() => {
     const startedAt = Date.now();
     const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
@@ -170,8 +174,7 @@ function AppContent() {
   }, [events, eligibilityNow]);
   useEffect(() => {
     loadPreferences().then(preferences => {
-      setSaved(preferences.saved);
-      setDismissed(preferences.dismissed);
+      interact({ type: 'hydrate', value: preferences });
       setMood(preferences.mood);
       setChosen(preferences.interests);
       setBudget(preferences.budget ?? 'Fark etmez');
@@ -306,9 +309,8 @@ function AppContent() {
     setStep('results');
   };
   const resetAfterDataDeletion = () => {
-    setSaved([]);
-    setDismissed([]);
-    setLastDismissed(undefined);
+    interact({ type: 'clear' });
+    undo.clear();
     setMood(undefined);
     setChosen([]);
     setBudget('Fark etmez');
@@ -347,11 +349,12 @@ function AppContent() {
     ],
   );
   const rotateRecommendations = useCallback(() => {
+    undo.clear();
     batchTrigger.current = 'rotate';
     setPreviousBatch(results.map(place => place.id));
     scrollAfterRotation.current = true;
     setRecommendationRun(run => run + 1);
-  }, [results]);
+  }, [results, undo]);
   const analyticsKindForId = useCallback((id: string): AnalyticsItemKind | undefined => {
     const item = catalogItems.find(candidate => candidate.id === id);
     if (item) return itemAnalyticsKind(item);
@@ -360,25 +363,33 @@ function AppContent() {
     return undefined;
   }, [catalogItems, guides]);
   const toggleSaved = useCallback((id: string, kind = analyticsKindForId(id), rank?: number) => {
+    if (dismissed.includes(id)) return;
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: saved.includes(id) ? 'unsave' : 'save', itemKind: kind, rank } });
-    setSaved(current => toggleId(current, id));
-  }, [analyticsKindForId, saved]);
+    interact({ type: 'toggleSave', id });
+  }, [analyticsKindForId, saved, dismissed]);
   const dismissPlace = useCallback((id: string, kind = analyticsKindForId(id), rank?: number) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'dismiss', itemKind: kind, rank } });
-    setDismissed(c => dismissId(c, id));
-    setLastDismissed(id);
-  }, [analyticsKindForId]);
+    interact({ type: 'dismiss', id });
+    undo.dismiss(id);
+  }, [analyticsKindForId, undo]);
   const restorePlace = useCallback((id: string, kind = analyticsKindForId(id)) => {
     if (kind) trackProductEvent({ name: 'recommendation_action', properties: { action: 'restore', itemKind: kind } });
-    setDismissed(current => restoreId(current, id));
-  }, [analyticsKindForId]);
+    interact({ type: 'restore', id });
+    if (undoNotice?.id === id) undo.clear();
+  }, [analyticsKindForId, undoNotice, undo]);
+  restoreFromUndo.current = restorePlace;
+  useEffect(() => {
+    undo.clear();
+    return () => undo.clear();
+  }, [undo, step, detailSession?.history.length, detailSession?.history.at(-1)?.id]);
   const selectResultFilter = useCallback((filter: ResultFilter) => {
+    undo.clear();
     recordHomeFilterPress(filter);
     batchTrigger.current = 'filter';
     setResultFilter(filter);
     setPreviousBatch([]);
     setRecommendationRun(run => run + 1);
-  }, []);
+  }, [undo]);
   const openInMaps = async (place: Place) => {
     const label = encodeURIComponent(place.name);
     const url = Platform.select({
@@ -440,30 +451,46 @@ function AppContent() {
       Alert.alert('Rota açılamadı', 'Bu planın harita rotası şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
-  const openRecommendation = useCallback((item: RecommendationItem) => {
-    openHomeRecommendation(item, places, {
-      openPlaceDetail: id => { setDetailPlanId(undefined); setDetailPlaceId(id); },
-      openExperienceDetail: entry => { setDetailPlanId(entry.planId); setDetailPlaceId(entry.placeId); },
-      unavailableExperience: () => Alert.alert('Plan açılamadı', 'Bu planın bağlı mekânı şu anda gösterilemiyor.'),
-      openEvent, openIdea,
-      showIdea: idea => Alert.alert(idea.title, idea.note),
-    });
-  }, [places, openEvent, openIdea]);
+  const openDetail = useCallback((route: DetailRoute, node?: View | null) => {
+    undo.clear();
+    originControl.current = node ?? null;
+    setDetailSession(detailNavigationReducer(undefined, { type: 'open', route, origin: {
+      screen: step === 'saved' ? 'saved' : 'results', filter: resultFilter, seed: recommendationRun,
+      scrollY: originScrollY.current, focusKey: `${route.kind}:${route.id}`,
+    } }));
+  }, [step, resultFilter, recommendationRun, undo]);
+  const openRecommendation = useCallback((item: RecommendationItem, node?: View | null) => {
+    undo.clear();
+    if (item.kind === 'place' || item.kind === 'experience') return openDetail({ kind: item.kind, id: item.id, reasons: item.reasons }, node);
+    if (item.kind === 'event') return void openEvent(item);
+    if (item.actionUrl) return void openIdea(item);
+    Alert.alert(item.title, item.note);
+  }, [openDetail, openEvent, openIdea, undo]);
   const openHomeSettings = useCallback(() => setStep('settings'), []);
   const editHomePreferences = useCallback(() => {
     if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } });
     setContextRefreshDue(false);
     setStep('mood');
   }, [contextRefreshDue]);
-  const undoHomeDismiss = useCallback(() => {
-    if (lastDismissed) restorePlace(lastDismissed);
-    setLastDismissed(undefined);
-  }, [lastDismissed, restorePlace]);
+  const undoHomeDismiss = useCallback(() => undo.undo(), [undo]);
   const saveHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => toggleSaved(item.id, item.kind, rank), [toggleSaved]);
   const dismissHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => dismissPlace(item.id, item.kind, rank), [dismissPlace]);
   const showHomeHidden = useCallback(() => setStep('hidden'), []);
   const measureHomeRecommendations = useCallback((y: number) => { recommendationsY.current = y + GEZEK_LAYOUT.homeTopInset; }, []);
-  const closeDetails = useCallback(() => { setDetailPlaceId(undefined); setDetailPlanId(undefined); }, []);
+  const navigateDetails = (action: DetailNavigationAction) => {
+    undo.clear();
+    const next = detailNavigationReducer(detailSession, action);
+    setDetailSession(next);
+    if (!next && detailSession) {
+      const origin = detailSession.origin;
+      setStep(origin.screen);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        scrollRef.current?.scrollTo({ y: origin.scrollY, animated: false });
+        const originStillVisible = origin.screen === 'saved' ? saved.includes(origin.focusKey.split(':').slice(1).join(':')) : results.some(item => `${item.kind}:${item.id}` === origin.focusKey);
+        focusDetailControl(originStillVisible ? originControl.current : originFallback.current);
+      }));
+    }
+  };
   const openGuideSource = async (guide: Guide) => {
     try {
       if (!(await Linking.canOpenURL(guide.sourceUrl))) throw new Error('unsupported URL');
@@ -518,10 +545,11 @@ function AppContent() {
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
   return <SafeAreaView edges={isHome ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isHome && s.gezekSafe]}>
     <StatusBar style={isHome ? 'dark' : 'light'} />{!isHome && <View style={s.orb} />}
-    <KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <View ref={originFallback} focusable tabIndex={-1} accessibilityLabel={step === 'saved' ? 'Kaydedilenler' : 'Ana Sayfa'} style={s.safe}><KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : !!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel={guideView === 'classics' ? 'Ankara Klasikleri koleksiyonu' : 'Bir Ankaralı Gibi rotası'} onBack={() => { setGuideContentsOpen(false); setPendingGuideId(undefined); setGuideView('landing'); }} onOpenContents={guideView === 'classics' ? togglePersistentGuideContents : undefined} contentsOpen={guideContentsOpen} onSave={guideView === 'classics' ? () => toggleSaved(CLASSICS_COLLECTION_ID, 'guide') : primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
     <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+      originScrollY.current = event.nativeEvent.contentOffset.y;
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
@@ -568,7 +596,7 @@ function AppContent() {
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
         locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
-        lastDismissed={lastDismissed} hiddenCount={hiddenItems.length}
+        undoNotice={undoNotice} hiddenCount={hiddenItems.length}
         onSettings={openHomeSettings}
         onEditPreferences={editHomePreferences}
         onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
@@ -586,7 +614,7 @@ function AppContent() {
         <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
         {!hiddenItems.length && <View style={s.empty}><Text accessible={false} style={s.emptyIcon}>✓</Text><Text accessibilityRole="header" style={s.emptyTitle}>Gizli önerin yok</Text><Text style={s.emptyText}>Bir öneriyi gizlediğinde burada görünür.</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
         {hiddenItems.map(item => <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}><Action label={`${itemTitle(item)} önerisini geri getir`} onPress={() => restorePlace(item.id)} text="Geri getir" /></View></View>)}
-        {!!hiddenItems.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm gizlenen önerileri geri getir" style={s.secondaryButton} onPress={() => setDismissed([])}><Text style={s.secondaryButtonText}>Tüm gizlenenleri geri getir</Text></TouchableOpacity>}
+        {!!hiddenItems.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm gizlenen önerileri geri getir" style={s.secondaryButton} onPress={() => interact({ type: 'restoreAll' })}><Text style={s.secondaryButtonText}>Tüm gizlenenleri geri getir</Text></TouchableOpacity>}
         <Button label="Önerilere dön" onPress={() => setStep('results')} />
       </View>}
       {step === 'saved' && <View>
@@ -595,7 +623,7 @@ function AppContent() {
         {savedEntries.map(entry => {
           if (entry.type === 'catalog') {
             const item = entry.item;
-            return <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text>{'name' in item && <Action label={`${item.name} mekân detayını aç`} onPress={() => setDetailPlaceId(item.id)} text="Mekânı incele" />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? item.actionUrl && item.actionLabel ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : null : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
+            return <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text>{('name' in item || item.kind === 'experience') && <Action label={`${itemTitle(item)} detayını aç`} onPress={node => openDetail({ kind: 'name' in item ? 'place' : 'experience', id: item.id }, node)} text={'name' in item ? 'Mekânı incele' : 'Planı incele'} />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? item.actionUrl && item.actionLabel ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : null : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
           }
           if (entry.type === 'guide') return <GuideCard key={entry.guide.id} guide={entry.guide} saved onSave={() => toggleSaved(entry.guide.id, 'guide')} onOpenChapter={() => openGuideChapter(entry.guide.id)} onOpenSource={() => openGuideSource(entry.guide)} />;
           if (entry.type === 'classics') return <SavedEditorialCard key={CLASSICS_COLLECTION_ID} eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />;
@@ -614,12 +642,13 @@ function AppContent() {
       onHome={() => setStep('results')} onSaved={() => setStep('saved')}
       onGuides={() => { setGuideView('landing'); setStep('guides'); }}
     />}
-    </KeyboardAvoidingView>
-    {detailPlace && <PlaceDetails key={`${detailPlace.id}:${detailPlanId ?? 'place'}`} place={detailPlace} initialPlanId={detailPlanId}
-      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun }}
-      saved={saved} onClose={closeDetails}
+    </KeyboardAvoidingView></View>
+    {detailSession && <DetailHost session={detailSession}
+      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun, now: eligibilityNow }}
+      saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
+
   </SafeAreaView>;
 }
 
@@ -634,7 +663,7 @@ function itemMeta(item: Place | Idea | Event | Experience): string {
   return `Fikir · ${item.category}`;
 }
 function Button({ label, onPress, disabled = false }: { label: string; onPress: () => void; disabled?: boolean }) { return <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} activeOpacity={.85} disabled={disabled} onPress={onPress} style={[s.button, disabled && s.disabled]}><Text style={[s.buttonText, disabled && s.disabledText]}>{label}</Text><Text accessible={false} style={[s.arrow, disabled && s.disabledText]}>→</Text></TouchableOpacity>; }
-function Action({ label, onPress, text, muted, remove, selected }: { label: string; onPress: () => void; text: string; muted?: boolean; remove?: boolean; selected?: boolean }) { return <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} accessibilityState={selected === undefined ? undefined : { selected }} hitSlop={6} onPress={onPress} style={s.actionHit}><Text style={remove ? s.removeAction : muted ? s.mutedAction : s.action}>{text}</Text></TouchableOpacity>; }
+function Action({ label, onPress, text, muted, remove, selected }: { label: string; onPress: (node?: View | null) => void; text: string; muted?: boolean; remove?: boolean; selected?: boolean }) { const node = useRef<View>(null); return <TouchableOpacity ref={node} accessibilityRole="button" accessibilityLabel={label} accessibilityState={selected === undefined ? undefined : { selected }} hitSlop={6} onPress={() => onPress(node.current)} style={s.actionHit}><Text style={remove ? s.removeAction : muted ? s.mutedAction : s.action}>{text}</Text></TouchableOpacity>; }
 function NavTab({ label, selected, editorial, onPress }: { label: string; selected: boolean; editorial?: boolean; onPress: () => void }) { return <TouchableOpacity accessibilityRole="tab" accessibilityState={{ selected }} onPress={onPress} style={s.navTab}><Text numberOfLines={1} style={[s.navText, editorial && s.navTextEditorial, selected && s.navTextSelected, editorial && selected && s.navTextEditorialSelected]}>{label}</Text></TouchableOpacity>; }
 
 function EditorialTopBar({ title, saved, saveLabel, contentsOpen, onBack, onOpenContents, onSave }: { title: string; saved: boolean; saveLabel: string; contentsOpen?: boolean; onBack: () => void; onOpenContents?: () => void; onSave?: () => void }) {

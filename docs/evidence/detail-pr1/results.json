@@ -1,0 +1,396 @@
+{
+  "browser": {
+    "surface": "React Native Web, stubbed services; large text uses Text shim plus fontScale 1.8; no Android/TalkBack claims",
+    "checks": [
+      {
+        "kind": "experience",
+        "fixture": "default",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "saved",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "loading",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "long",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "empty",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "default",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "saved",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "loading",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "long",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "empty",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "fixture": "simulated-fontScale-1.8",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "fixture": "actual-App-nested-external-home-return",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "fixture": "Modal-onRequestClose-nested-then-root",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "default",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "saved",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "loading",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "long",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 8,
+        "pass": true
+      },
+      {
+        "kind": "experience",
+        "fixture": "empty",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "default",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "saved",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "dismissed",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 3,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "loading",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "unavailable",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "noexternal",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 4,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "long",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "kind": "place",
+        "fixture": "empty",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "targets": 6,
+        "pass": true
+      },
+      {
+        "fixture": "simulated-fontScale-1.8",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "fixture": "actual-App-nested-external-home-return",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      },
+      {
+        "fixture": "Modal-onRequestClose-nested-then-root",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "state": {
+    "surface": "Actual App through RN Web, mocked storage/Linking; real 8.1s browser timer",
+    "passed": [
+      "save-dismiss atomic persisted state",
+      "undo to unsaved",
+      "restore consumes notice",
+      "8s expiry keeps dismissal",
+      "Saved origin nested Close",
+      "dismiss from Saved removes entry",
+      "Close cleans undo"
+    ],
+    "errors": []
+  },
+  "sourceSha256": {
+    "App.tsx": "38c7aae6f53cd657f8dcbcc379b53374f53da4b337543b3957cd34a7f95ce252",
+    "src/components/gezek/DetailHost.tsx": "6b1be8677da44039db95d3d096c953d8c0a5bf0fc079db31b467c614ca95509e",
+    "src/components/gezek/GezekHome.tsx": "826c2133ffbca5382a3ee1c167e77329d4a611a943ec589042bb6a352744180e",
+    "src/contentInteractions.ts": "c5c457464b3492df0015377a6b1a0ce81029332b7603ae40ad23e3dbfd2e7f0f",
+    "src/detailFlow.ts": "2ce4a91c8f824c386e6feeb65772002906cb956aaf1dee1be613241438535465"
+  }
+}
