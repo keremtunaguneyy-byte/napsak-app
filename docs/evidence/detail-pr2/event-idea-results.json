@@ -1,0 +1,358 @@
+{
+  "checks": [
+    {
+      "name": "event default: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event saved: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event loading: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event unavailable: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event dismissed: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event noexternal: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event long: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event: explicit exact URL and external-return focus",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea default: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea saved: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea loading: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea unavailable: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea dismissed: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea noexternal: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea long: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "idea: explicit exact URL and external-return focus",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Expired Event disables save/dismiss, retains exact source access",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Event Maps appears only for a structured Place ID",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Home Event opens internally, Close restores card focus, scroll, filter and unchanged recommendation batch",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Home Idea opens internally with no native Alert",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Saved Event and URL-free Idea Close restores Saved control context",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Idea dismissal removes Saved; Undo and Restore return unsaved and consume notice",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "pass": true
+    },
+    {
+      "name": "event default: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event saved: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event loading: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event unavailable: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event dismissed: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event noexternal: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event long: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "event: explicit exact URL and external-return focus",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea default: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea saved: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea loading: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea unavailable: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea dismissed: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea noexternal: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea long: internal, semantics, wrapping, artwork/ID and footer checks",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "idea: explicit exact URL and external-return focus",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Expired Event disables save/dismiss, retains exact source access",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Event Maps appears only for a structured Place ID",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Home Event opens internally, Close restores card focus, scroll, filter and unchanged recommendation batch",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Home Idea opens internally with no native Alert",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Saved Event and URL-free Idea Close restores Saved control context",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    },
+    {
+      "name": "Actual Idea dismissal removes Saved; Undo and Restore return unsaved and consume notice",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "limitations": "RN Web with stubbed services; 1.8 font scale simulation, not native acceptance"
+}

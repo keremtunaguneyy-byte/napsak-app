@@ -1,5 +1,10 @@
 # Gezek — önce burayı oku
 
+## 2026-10-10 — Detail Flow PR 2
+
+Live fetched main is `30b96c059f242ec91d886e9480afb2491c31ab4a`; PR #69 is merged per the current user baseline. Historical “unmerged / PR 2 unauthorized / Figma bookmark sync pending” notes below are superseded by the current user authorization and live Figma bookmark reconciliation. Event/Idea internal detail and minimum Saved routing are implemented on `codex/gezek-detail-event-idea`. Validation, scope, known identical Event-health failure and pending native acceptance: `DETAIL_FLOW_PR2_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR are authorized; no merge or Onboarding.
+
+
 ## Güncel Detail Flow — 8 Ekim 2026
 
 Kullanıcı PR 1 handoff’unu bağlayıcı sözleşme olarak onayladı. `DETAIL_FLOW_PR1_CONTRACT.md` canlı Figma Plan/Place otoritesini ve uygulama sınırını; `DETAIL_FLOW_PR1_IMPLEMENTATION_REPORT.md` güncel kanıtı açıklar. Shared Detail Host + Plan/Place `codex/gezek-detail-plan-place` dalındadır; merge ve PR 2 yok. Aşağıdaki eski Home/Detail onay ve SHA kayıtları tarihseldir.

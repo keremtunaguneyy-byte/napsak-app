@@ -1,5 +1,10 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-10 — Detail Flow PR 2
+
+Live fetched main is `30b96c059f242ec91d886e9480afb2491c31ab4a`; PR #69 is merged per the current user baseline. Historical “unmerged / PR 2 unauthorized / Figma bookmark sync pending” notes below are superseded by the current user authorization and live Figma bookmark reconciliation. Event/Idea internal detail and minimum Saved routing are implemented on `codex/gezek-detail-event-idea`. Validation, scope, known identical Event-health failure and pending native acceptance: `DETAIL_FLOW_PR2_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR are authorized; no merge or Onboarding.
+
+
 ## 2026-10-09 — approved PR #69 device corrections
 
 The user explicitly approved a component-level override of Detail Plan/Place Save: outline bookmark by default, filled cobalt bookmark when saved, with existing navy/cobalt tokens and 44×44 selected/busy/disabled semantics. This supersedes the prior Figma heart assets only; Figma synchronization remains a later task. Stable Experience IDs remain routing/artwork keys and are forbidden as visible metadata. Existing `kind + id` detail routes pop/truncate to their surviving frame instead of creating cycles; distinct related Plans remain valid. Snackbar expiry has a 180 ms native fade/down presentation after the unchanged eight-second undo cutoff, with instant reduced-motion removal and no persistence restoration.

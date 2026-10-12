@@ -460,12 +460,8 @@ function AppContent() {
     } }));
   }, [step, resultFilter, recommendationRun, undo]);
   const openRecommendation = useCallback((item: RecommendationItem, node?: View | null) => {
-    undo.clear();
-    if (item.kind === 'place' || item.kind === 'experience') return openDetail({ kind: item.kind, id: item.id, reasons: item.reasons }, node);
-    if (item.kind === 'event') return void openEvent(item);
-    if (item.actionUrl) return void openIdea(item);
-    Alert.alert(item.title, item.note);
-  }, [openDetail, openEvent, openIdea, undo]);
+    openDetail({ kind: item.kind, id: item.id, reasons: item.reasons }, node);
+  }, [openDetail]);
   const openHomeSettings = useCallback(() => setStep('settings'), []);
   const editHomePreferences = useCallback(() => {
     if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } });
@@ -623,7 +619,7 @@ function AppContent() {
         {savedEntries.map(entry => {
           if (entry.type === 'catalog') {
             const item = entry.item;
-            return <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text>{('name' in item || item.kind === 'experience') && <Action label={`${itemTitle(item)} detayını aç`} onPress={node => openDetail({ kind: 'name' in item ? 'place' : 'experience', id: item.id }, node)} text={'name' in item ? 'Mekânı incele' : 'Planı incele'} />}<Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' ? item.actionUrl && item.actionLabel ? <Action label={`${item.title} fikrini aç`} onPress={() => openIdea(item)} text={item.actionLabel} /> : null : item.kind === 'event' ? <Action label={`${item.title} etkinlik detayını aç`} onPress={() => openEvent(item)} text="Bilet / Detay" /> : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
+            return <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Action label={`${itemTitle(item)} detayını aç`} onPress={node => openDetail({ kind: 'name' in item ? 'place' : item.kind, id: item.id }, node)} text={'name' in item ? 'Mekânı incele' : item.kind === 'experience' ? 'Planı incele' : item.kind === 'event' ? 'Etkinliği incele' : 'Fikri incele'} /><Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' || item.kind === 'event' ? null : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
           }
           if (entry.type === 'guide') return <GuideCard key={entry.guide.id} guide={entry.guide} saved onSave={() => toggleSaved(entry.guide.id, 'guide')} onOpenChapter={() => openGuideChapter(entry.guide.id)} onOpenSource={() => openGuideSource(entry.guide)} />;
           if (entry.type === 'classics') return <SavedEditorialCard key={CLASSICS_COLLECTION_ID} eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />;
@@ -645,6 +641,8 @@ function AppContent() {
     </KeyboardAvoidingView></View>
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun, now: eligibilityNow }}
+      ideas={ideas} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
+      onOpenEventMap={async url => { if (!(await Linking.canOpenURL(url))) throw new Error('unsupported map URL'); trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'event' } }); await Linking.openURL(url); }}
       saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
