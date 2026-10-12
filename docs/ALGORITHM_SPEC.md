@@ -1,19 +1,29 @@
 # Gezek — Öneri ve İçerik Sözleşmesi
 
-16 Eylül 2026. Kod dayanağı: src/contentPolicy.ts, src/recommendations.ts, src/recommendationQuality.ts, src/domain.ts, src/resultFilters.ts, src/data/* ve tests/domain.test.cjs. Ürün ilkeleri PRODUCT_SPEC §4–8. Bu belge yeni algoritma uygulamaz.
+13 Ekim 2026. Kod dayanağı: src/contentPolicy.ts, src/recommendations.ts, src/recommendationQuality.ts, src/domain.ts, src/resultFilters.ts, src/data/* ve tests/domain.test.cjs. Ürün ilkeleri PRODUCT_SPEC §4–8. Recommendation Correctness Phase 1'in onaylı süre ve Ücretsiz semantiği aşağıda tanımlanır.
 
 ## Katmanlar
 
 | Katman | Uygunluk ve sıralama |
 |---|---|
 | Experience | Önce merkezi içerik politikası uygulanır: bütün bağlı Place kayıtları uygun olmalı; `conditional` fail-closed, `event_linked` ise bağlı Event yaklaşan ve geçerli olmalıdır. Sonra gizlenen, süreye sığmayan ve açık ilgiyle eşleşmeyen adaylar elenir. Ana/ikincil ilgi ayrımı, mod, bütçe, grup, başlangıç mesafesi, editoryal kalite, güven, güncellik ve seed sinyalleri kullanılır. |
-| Mekân | Yalnız `active` ve hard-exclusion politikasına takılmayan kayıtlar sıralamaya girer. Sonra gizlenen ve açık ilgiyle eşleşmeyen adaylar elenir. Mod, bütçe, grup ve mesafe sıralama sinyalidir; mesafe kesin yarıçap filtresi değildir. |
+| Mekân | Yalnız `active` ve hard-exclusion politikasına takılmayan kayıtlar sıralamaya girer. Sonra gizlenen, Ücretsiz için ücretli ve açık ilgiyle eşleşmeyen adaylar elenir. Mod, diğer bütçe bantları, grup ve mesafe sıralama sinyalidir; mesafe kesin yarıçap filtresi değildir. |
 | Fikir | Açık Fikir sekmesinde standart beşli için bir ilgili + dört seçili ilgilerden bağımsız keşif hedeflenir. Yetersiz havuzda kontrollü fallback vardır. Karma akış ile açık Fikir sekmesi aynı davranış değildir. Batch A, B ve C'nin `ideaFamily`, yapılandırılmış süre, setting, planning mode, ana/ikincil ilgi, context tag ve requirement alanları bu aşamada editoryal metadatadır; sıralama hâlâ legacy kategori/mod/ilgi/bütçe/grup sinyallerini kullanır. |
 | Etkinlik | Geçersiz/geçmiş başlangıç zamanı ve gizlenenler elenir. Açık Etkinlik sekmesinde ilgi sıralama sinyalidir; karma akışta ayrıca ilgi uygunluğu uygulanır. |
 
 Experience ana ilgi eşleşmesi ikincil eşleşmeye göre önceliklidir. Bu katman sırası hem doğrudan `recommendExperiences` sonucunda hem uygulamanın kullandığı `recommendAll(filter: 'experience')` sonucunda korunur: istenen limit kadar uygun ana-ilgi adayı varsa ikincil-only aday ilk gruba giremez; ana arz yetersizse kalan slotlar ikincil eşleşmelerle doldurulabilir. Kategori/ilçe yığılması azaltılır; önceki gruptan kaçınma ve deterministik seed vardır. Küçük havuzda tekrar mümkün olduğundan “daima beş tamamen yeni sonuç” vaat edilmez. Gerekçe gerçek eşleşmeyi anlatmalıdır.
 
 ## Merkezi içerik uygunluğu
+
+### Phase 1: süre, fit ve Ücretsiz
+
+Experience uygunluğu `maxDurationMinutes <= selectedMaximum` ile hesaplanır; görünür bandın alt sınırı hard kapı değildir. Maksimumlar 60 / 120 / 240 / 360 dakikadır. Fark etmez/eksik tercih bütün geçerli süreleri kabul eder ve fit puanı 0'dır. Süre ilk duraktan son durağa, aradaki geçişler dahil editoryal tahmindir; gidiş/dönüş ulaşımı dahil veya tamamlanma garantisi değildir.
+
+Fit formülü: `target = (displayMinimum + selectedMaximum) / 2`, `estimate = (minDurationMinutes + maxDurationMinutes) / 2`, `fit = 16 * max(0, 1 - abs(estimate - target) / target)`. Tercih hedefleri 45 / 90 / 210 / 300 dakikadır. Fit mevcut Experience skoruna eklenen sınırlı [0,16] sinyaldir; interestTier her zaman adjusted score'dan önce sıralanır. Mood 48, mevcut bütçe/grup/mesafe, seed varyasyonu ve kategori 16 / ilçe 7 çeşitlilik cezaları korunur. Fit daha yakın süreli eşdeğer planı destekler; diğer soft tercihleri mutlak olarak geçersiz kılmaz. Daha kısa planlar uygun fallback'tir.
+
+Ücretsiz bütün recommendation türlerinde skordan önce `priceLevel === 0` kapısıdır; previous-batch veya Idea quota fallback'i ücretli aday açmaz. Diğer fiyat bantlarının puanları korunur. Ücretsiz gerekçesi yalnız structured sıfır fiyatta üretilir; exact ücretli eşleşme seçilen bandı, komşu eşleşme kaydın kendi bandını söyler. Event expiry, explicit Event interest davranışı ve Idea 1+4 seçim kodu korunur; kota yalnız budget-eligible arz içinde doldurulur.
+
+Experience runtime validation sonlu, negatif olmayan `minDurationMinutes <= maxDurationMinutes` ister. Global üst sınır/integer-only gereksinimi mevcut dokümantasyonda olmadığından eklenmez. Katalogdaki 52 geçerli kaydın süreleri veya ilişkileri değiştirilmez.
 
 `src/contentPolicy.ts` öneri, public çözümleme ve kalite ölçümü için tek politika sınırıdır. Uygunluk skordan önce uygulanır; kayıtlı olma durumu sıralamayı etkilemez. `deprecated` ve `verification_required` Place önerilmez, fakat hard-exclusion dışında kalan deprecated kayıtlar eski kaydetmeleri çözümlemek için ham katalogda kalır. Yılmaz Güney Sahnesi ham embedded katalogdan kaldırılmıştır ve kimlik/ad/alias normalizasyonuyla kodda hard-excluded kalır; eski kaydedilmiş kimlik çözülmez. Canonical ID veya bilinen alias ile remote katalogdan yeniden içe aktarma runtime doğrulamasında reddedilir; ona bağlanan Experience da kabul edilmez.
 

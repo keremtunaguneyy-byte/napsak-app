@@ -1,5 +1,13 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-13 — Recommendation Correctness Phase 1
+
+Durum: kullanıcı açıkça onayladı; `codex/gezek-recommendation-correctness-phase-1` üzerinde uygulanıyor. Önceki tam containment davranışının yerine süre ayırılabilir maksimum zamandır: Experience maximum 60/120/240/360 dakika kapısını geçmeli, alt display sınırı uygunluk için kullanılmamalıdır. İlk duraktan başlayan editoryal tahmin duraklar arası geçişleri içerir; gidiş/dönüş ulaşımı ve tamamlanma garantisi içermez.
+
+Aynı interest tier'ında süre uygunluğu sınırlı 0–16 puanlık midpoint-closeness sinyalidir; primary ilgi önce kalır. Kısa uygun fallback korunur. Ücretsiz bütün türlerde structured `priceLevel: 0` hard kapısıdır; paid fallback ve prose'dan ücretsiz çıkarımı yok. Diğer fiyat bantları soft kalır; gerekçeler yalnız structured fiyattan türetilir. Experience validation sonlu, negatif olmayan, sıralı süre aralıkları ister.
+
+Grup davranışı, mood 48, konum/yolculuk, rotasyon tasarımı, Event katalog/expiry, Idea 1+4, UI/Onboarding, Firebase, persistence, stable IDs ve release config ertelenir veya korunur. Geçmiş 22/52 erişilemez plan bulgusu süre kapısı değişikliğinin gerekçesidir; fiyat/grup metadata'sı değiştirilmez. Commit, normal push ve bir Draft PR açıkça yetkilidir; merge/force-push yok. Güncel kanıt ve kalan native kontroller `RECOMMENDATION_CORRECTNESS_PHASE1_REPORT.md` içindedir.
+
 ## 2026-10-10 — Detail Flow PR 2
 
 Live fetched main is `30b96c059f242ec91d886e9480afb2491c31ab4a`; PR #69 is merged per the current user baseline. Historical “unmerged / PR 2 unauthorized / Figma bookmark sync pending” notes below are superseded by the current user authorization and live Figma bookmark reconciliation. Event/Idea internal detail and minimum Saved routing are implemented on `codex/gezek-detail-event-idea`. Validation, scope, known identical Event-health failure and pending native acceptance: `DETAIL_FLOW_PR2_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR are authorized; no merge or Onboarding.

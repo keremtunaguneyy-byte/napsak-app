@@ -110,6 +110,7 @@ export function isExperience(value: unknown): value is Experience {
     && stringsIn<Interest>(value.primaryInterests, KNOWN_INTERESTS) && stringsIn<Interest>(value.secondaryInterests, KNOWN_INTERESTS)
     && stringsIn<GroupSizePreference>(value.groupSizes, KNOWN_GROUP_SIZES) && isPrice(value.priceLevel)
     && isNumber(value.minDurationMinutes) && isNumber(value.maxDurationMinutes)
+    && value.minDurationMinutes >= 0 && value.maxDurationMinutes >= value.minDurationMinutes
     && isNumber(value.latitude) && isNumber(value.longitude) && isString(value.availabilityNote)
     && ['any', 'dry', 'indoor'].includes(String(value.weather))
     && ['not-required', 'recommended', 'required'].includes(String(value.reservation))

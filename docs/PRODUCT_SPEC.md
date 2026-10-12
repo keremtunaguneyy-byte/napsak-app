@@ -213,12 +213,15 @@ Hard filter örnekleri:
 
 ### 6.2 Süre filtresi — Kararlaştırıldı
 
-- `30–60 dk`: maksimum süresi 60 dakikayı aşan planlar elenir.
-- `1–2 saat`: seçilen aralığa sığmayan planlar elenir.
-- `3–4 saat` ve `Yarım gün`: daha uzun rotaları açar.
-- `Fark etmez`: süre nedeniyle eleme yapmaz.
+13 Ekim 2026 Recommendation Correctness Phase 1 onayı: süre tercihi kullanıcının ayırabileceği **maksimum zamanı** belirtir. Experience `maxDurationMinutes` değeri 30–60 dk için 60, 1–2 saat için 120, 3–4 saat için 240 ve Yarım gün için 360 dakikayı aşamaz. Görünen bandın alt sınırı uygunluk kapısı değildir; 45–90 dakika 1–2 saatte, 150–240 dakika 3–4 saatte uygundur. Fark etmez veya eksik süre süre kapısı ve süre-fit puanı uygulamaz.
 
-Süre yalnızca küçük bir skor bonusu değildir; gerçek uygunluk kapısıdır.
+Maksimum süre hard kapıdır. Aynı ilgi tier'ında uygun adaylara 0–16 puanlık deterministik süre-fit sinyali eklenir: plan aralığının orta noktası görünür tercih bandının orta noktasına yaklaştıkça puan artar. Primary ilgi önceliği fit'ten önce gelir. Kısa planlar uzun seçimlerde fallback olarak kalır; mod, grup, mesafe ve çeşitlilik sinyalleri korunur. Tam formül ALGORITHM_SPEC içindedir.
+
+Süre ilk plan durağında başlayan, duraklar arasındaki geçişleri içeren editoryal tahmindir. İlk durağa ulaşım ve son duraktan eve dönüş dahil değildir; tamamlanma garantisi değildir. Runtime doğrulaması sonlu, negatif olmayan ve minimumu maksimumunu aşmayan Experience süreleri ister; mevcut sözleşmede genel üst dakika sınırı veya integer-only kuralı bulunmaz.
+
+### 6.2.1 Bütçe kapısı ve gerekçeler — Kararlaştırıldı
+
+Ücretsiz hard zero-cost kapısıdır: yalnız structured `priceLevel: 0` kayıtlar önerilir. Metindeki ücretsiz iddiasından fiyat çıkarılmaz; ücretli fallback uygulanmaz. Boş veya kısmi sonuç doğrudur. Diğer ₺ bantları mevcut soft ranking davranışını korur. Gerekçe ücretsiz/exact seçilen fiyat bandını ya da komşu kaydın kendi structured fiyat bandını anlatır; ücretli kayıt ücretsiz bütçe uyumu iddiası taşıyamaz.
 
 ### 6.3 Sıralama sinyalleri — Kararlaştırıldı
 
@@ -508,7 +511,7 @@ Agent aşağıdaki konularda ürün sahibinin yerine karar veremez:
 1. Ana sonuç ekranında aynı anda kaç öneri gösterilecek: 5 mi, 6 mı, kademeli “daha fazla” mı?
 2. Experience kartında rota adımları kart üzerinde mi, ayrıntı ekranında mı gösterilecek?
 3. Konum verilmezse varsayılan merkez/ilçe seçimi nasıl yapılacak?
-4. Bütçe filtre mi, sıralama sinyali mi, yoksa içerik türüne göre hibrit mi olacak?
+4. Ücretsiz 13 Ekim 2026 kararıyla bütün öneri türlerinde hard kapıdır; diğer ₺ bantlarının gelecekte üst harcama sınırına dönüşüp dönüşmeyeceği açıktır.
 5. Canlı etkinliklerin veri kaynağı ve doğrulama sıklığı ne olacak?
 6. Kullanıcı katkıları yayınlanmadan önce hangi moderasyon sürecinden geçecek?
 7. Ankara 101 ile evergreen Experience arasındaki kesin sınır nedir?

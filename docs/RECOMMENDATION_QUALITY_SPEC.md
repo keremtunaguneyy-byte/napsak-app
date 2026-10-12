@@ -2,11 +2,19 @@
 
 Baseline date: 16 September 2026. This document defines measurement and characterization only. It does not approve a ranking change.
 
+## Current contract — 13 October 2026 Recommendation Correctness Phase 1
+
+The user approved duration as available maximum time (60/120/240/360 minutes), a bounded 0–16 midpoint-closeness Experience ranking signal inside the existing primary-interest priority, and hard structured zero-cost eligibility for Ücretsiz on every recommendation surface. These decisions supersede historical containment/soft-free characterization below. Other budget bands remain soft. Duration is an editorial estimate from the first stop, including inter-stop transitions and excluding outward/homeward travel, not a completion guarantee.
+
+Candidate counts and duration-only exclusions now account for free-budget eligibility. Objective invariants additionally reject `paid_free_budget_leakage` and `false_free_budget_explanation` across all three measured batches. No subjective ranking threshold or new telemetry field is introduced; report schema remains version 2. Independent regression tests enumerate attainable minutes rather than reuse the production predicate, covering all 52 Experiences ×5 preferences and 600 generated boundary cases.
+
+The unchanged 15 fixtures now measure 610 eligible candidates and 72 first-batch results:0 empty /1 partial /14 full. Primary/secondary Experience matches are 21/1; paired location changes 14 slots with 16 symmetric membership differences. Before Phase1 on main `a37d1fc`, the same catalog produced 688 candidates and 70 results:0/2/13, primary/secondary 17/3 and location 17/18. Candidate decline reflects truthful free-budget exclusion; short/free Sanat+Doğa returns 2 rather than 4. Coffee+3–4 hours has 7 eligible candidates and returns 4 primary plus 1 secondary. These are catalog/context characterization, not representative users. Full matrices, performance and command evidence: `RECOMMENDATION_CORRECTNESS_PHASE1_REPORT.md`.
+
 ## 1. Purpose and scope
 
 This baseline makes the current Ankara recommendation behavior reproducible before any quality tuning. It measures the embedded production catalog offline through the same public recommendation entry point used by the app.
 
-The following are explicitly unchanged:
+The original September baseline left the following unchanged; approved Phase1 duration/free-budget exceptions are documented above:
 
 - recommendation weights and score formulas;
 - hard-interest filtering and eligibility-before-ranking;
@@ -49,7 +57,7 @@ All percentages use each scenario's first result batch. Rotation uses three cons
 
 ### 4.1 Supply and result counts
 
-- `eligibleCandidateCount`: catalog items that survive the current filter's dismissed, interest, duration, lifecycle, and Event start-time eligibility rules before scoring, diversity adjustment, rotation, or final selection.
+- `eligibleCandidateCount`: catalog items that survive the current filter's dismissed, interest, duration, free-budget, lifecycle, and Event start-time eligibility rules before scoring, diversity adjustment, rotation, or final selection.
 - `eligibleCandidatesByKind`: the same count split by content kind.
 - `resultCount`: the number returned by the current recommender, capped at five.
 - `zeroResultRate`: scenarios whose first batch has zero results divided by all scenarios.
@@ -63,7 +71,7 @@ The candidate total is a sum across contexts, not a count of unique catalog reco
 
 - `moodMatchCount`: returned items whose mood tags include the selected mood. No-mood fixtures have no mood-fit denominator.
 - `interestMatchCount`: returned items matching at least one selected interest through the current content-type semantics. Cold start has no interest-fit denominator.
-- `exactBudgetFitCount`: returned items whose `priceLevel` exactly equals an explicit budget level. `Fark etmez` and missing budget have no exact-fit denominator. Budget remains a ranking signal, not a hard filter.
+- `exactBudgetFitCount`: returned items whose `priceLevel` exactly equals an explicit budget level. `Fark etmez` and missing budget have no exact-fit denominator. Ücretsiz is now a hard zero-cost filter; other bands remain ranking signals.
 - `groupFitCount`: Experience, Event, and Idea use explicit `groupSizes`; Place uses the current positive place group-scoring signal. Group remains a ranking signal.
 - `primaryInterestMatchCount`: returned Experiences matching at least one selected `primaryInterest`.
 - `secondaryOnlyInterestMatchCount`: returned Experiences with no selected primary match but at least one selected secondary match.
@@ -129,12 +137,12 @@ These fixtures are deterministic quality probes, not statistically representativ
 | 5+ group · Eryaman · Doğa + Etkinlik | Mekân | Enerjik, Ücretsiz, 5+, location on | Large-group and west-Ankara proximity context |
 | No location permission | Mekân | Sakin, Doğa, Ücretsiz, Tek, no coordinates | Location-off availability and deterministic ranking |
 | Cold start / no interests | N’apsak/Experience | No mood, interest, budget, group, duration, or coordinates | Editorial fallback without inferred preferences |
-| Tight budget | Mekân | Meraklı, Sanat + Doğa, Ücretsiz, 2 kişi | Free-budget ranking signal without hard filtering |
+| Tight budget | Mekân | Meraklı, Sanat + Doğa, Ücretsiz, 2 kişi | Hard zero-cost eligibility |
 | Expensive budget | Mekân | Sosyal, Lezzet, ₺₺₺, 2 kişi | Premium exact-price fit |
 | Flexible budget | Mekân | Sosyal, Lezzet, Fark etmez, 2 kişi | Absence of an exact price target |
 | Short duration | N’apsak/Experience | Sakin, Sanat + Doğa, 30–60 dk | Short-duration hard eligibility |
-| Long duration | N’apsak/Experience | Enerjik, Doğa + Sanat, Yarım gün, 5+ | Long-duration supply without short-plan filling |
-| Sparse-interest context | N’apsak/Experience | Meraklı, Kahve, 3–4 saat, Tek | Honest partial result from a narrow intersection |
+| Long duration | N’apsak/Experience | Enerjik, Doğa + Sanat, Yarım gün, 5+ | Six-hour maximum and duration-fit ranking with shorter valid fallback |
+| Sparse-interest context | N’apsak/Experience | Meraklı, Kahve, 3–4 saat, Tek | Four-hour maximum and primary-interest priority with shorter valid plans |
 | Active Event catalog | Etkinlik | 14 Sep 2026 12:00 TRT, Sosyal, Etkinlik, ₺₺₺, 3–4 kişi | Refreshed supply and a full five-result group |
 | Later Event catalog checkpoint | Etkinlik | 21 Sep 2026 12:00 TRT | Remaining refreshed Event supply one week on |
 | Controlled 1+4 discovery | Fikir | Meraklı, Kahve + Sanat, Fark etmez, 2 kişi | One selected-interest result plus four independent discoveries |
@@ -203,6 +211,8 @@ A recorded post-refresh local latency sample was mean 1.446 ms, p50 0.850 ms, p9
 - expired/invalid Event leakage;
 - ineligible Place dependency or expired/invalid Experience lifecycle leakage;
 - duration leakage;
+- paid content under an explicit Ücretsiz budget;
+- paid content claiming an Ücretsiz explanation;
 - duplicates inside a batch;
 - more than five results;
 - more results than eligible candidates;
