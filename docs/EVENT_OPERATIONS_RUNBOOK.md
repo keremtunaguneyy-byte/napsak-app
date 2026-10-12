@@ -29,7 +29,7 @@ npm run check:events
 2. `src/data/events.ts` içindeki kaynak bağlantılarını tek tek aç.
 3. Tarih, saat, mekân, fiyat notu ve etkinliğin hâlâ satışta/yayında olduğunu kaynaktan doğrula.
 4. Geçersiz veya geçmiş kayıtları sil; yeni doğrulanmış kayıtları ekle.
-5. Yalnız gerçekten yeniden kontrol edilen kayıtlarda `verifiedAt` değerini değiştir.
+5. Yalnız gerçekten yeniden kontrol edilen kayıtlarda `verifiedAt` değerini değiştir. Gömülü katalog yenilendiğinde `src/data/catalog.ts` içindeki `EMBEDDED_CATALOG_VERSION` (`YYYY-MM-DD.N`) ve `fetchedAt` değerlerini de gerçek snapshot tarihine güncelle. Yeni embedded sürüm eski AsyncStorage/remote katalogdan önceliklidir; sürüm karşılaştırma ve timeout sözleşmesi `FIREBASE_RUNBOOK.md` içinde tanımlıdır.
 6. `npm run check:events`, `npm test`, `npm run test:catalog` ve `npm run typecheck` çalıştır.
 7. Değişikliği normal PR ve inceleme süreciyle yayınla.
 

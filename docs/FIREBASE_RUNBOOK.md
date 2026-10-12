@@ -57,11 +57,13 @@ Katalog yazıları yalnız güvenilir seed/admin pipeline’ından gelir. Mobil 
 
 Her açılışta tüm katalog indirilmez. Akış:
 
-1. APK içindeki katalog anında kullanılabilir.
-2. Geçerli AsyncStorage cache varsa o kullanılabilir.
-3. Remote `catalogMeta/{cityId}` tek belge olarak kontrol edilir.
-4. `catalogVersion` değişmediyse koleksiyonlar tekrar okunmaz.
-5. Değiştiyse yalnız aktif şehir dilimi yenilenir ve runtime validation’dan geçen snapshot cache’e alınır.
+1. APK içindeki katalog offline başlangıç için her zaman yerel tabandır.
+2. Aynı şehir ve schema ile geçerli AsyncStorage cache yalnız sürümü embedded ile eşit veya daha yeniyse seçilir; eski cache yeni embedded kataloğu gölgeleyemez. Eşitlikte cache yeniden kullanılır.
+3. Remote `catalogMeta/{cityId}` tek belge olarak, beş saniyelik bekleme sınırıyla kontrol edilir. Yanlış şehir, uyumsuz schema veya geçersiz sürüm reddedilir.
+4. Remote sürümü seçilen en yeni yerel katalogla eşit veya daha eskiyse koleksiyonlar tekrar okunmaz; yerel katalog korunur.
+5. Yalnız daha yeni remote sürüm için aktif şehir dilimi beş saniyelik refresh sınırıyla okunur. Tam snapshot runtime validation, şehir/schema uyumu ve metadata ile birebir sürüm eşitliği denetlenir; geçen snapshot cache'e yazılır ve kullanılır. Hata/timeout durumunda en yeni sağlam yerel snapshot korunur. Geç gelen timeout sonucu cache'e yazılmaz.
+
+Sürüm sözleşmesi `YYYY-MM-DD.N` biçimidir: gerçek takvim günü ve başında sıfır olmayan pozitif, JavaScript safe-integer revision. Karşılaştırma önce takvim günü, sonra sayısal revision üzerinden yapılır (`.10`, `.2`'den yenidir). Bozuk sürümler sıralanmaz; cache/snapshot/metadata doğrulamasında reddedilir. `fetchedAt` sıralama anahtarı değildir. Gömülü katalog bakımlarında hem `EMBEDDED_CATALOG_VERSION` hem `fetchedAt` güncellenmelidir; salt Metro/Expo cache temizliği AsyncStorage kataloğunu yenilemez. Eski cache veya kullanıcı tercihleri otomatik silinmez, schema/namespace v3 değişmez ve upgrade yeni embedded sürümü uygulama verilerini silmeden seçer.
 
 Güncel kodda katalog schema ve AsyncStorage namespace sürümü v3'tür (`src/data/catalog.ts`). Eski v2 cache v3 olarak okunmaz. Firestore koleksiyonları ayrı ayrı geçerli görünse bile istemci bunları birleştirdikten sonra tam snapshot doğrulamasını geçmeyen remote katalog cache'e alınmaz veya kullanılmaz.
 

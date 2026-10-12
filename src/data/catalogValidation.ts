@@ -4,6 +4,7 @@ import {
   KNOWN_IDEA_PLANNING_MODES, KNOWN_IDEA_REQUIREMENTS, KNOWN_IDEA_SETTINGS, KNOWN_INTERESTS, KNOWN_MOODS,
   Mood, Place, PlaceStatus, PriceLevel,
 } from '../types';
+import { isCatalogVersion } from './catalogVersion';
 import { isHardExcludedPlace } from '../contentPolicy';
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from './catalog';
 
@@ -129,13 +130,13 @@ export function isGuide(value: unknown): value is Guide {
 }
 
 export function parseCatalogMeta(value: unknown): CatalogMeta | undefined {
-  if (!isObject(value) || !isString(value.cityId) || !isNumber(value.schemaVersion) || !isString(value.catalogVersion) || !isString(value.updatedAt)) return undefined;
+  if (!isObject(value) || !isString(value.cityId) || !isNumber(value.schemaVersion) || !isCatalogVersion(value.catalogVersion) || !isString(value.updatedAt)) return undefined;
   return value as CatalogMeta;
 }
 
 export function parseCatalogSnapshot(value: unknown): CatalogSnapshot | undefined {
   if (!isObject(value) || value.schemaVersion !== CATALOG_SCHEMA_VERSION || !isString(value.cityId)
-    || !isString(value.catalogVersion) || !isString(value.fetchedAt)) return undefined;
+    || !isCatalogVersion(value.catalogVersion) || !isString(value.fetchedAt)) return undefined;
   if (!Array.isArray(value.cities) || !value.cities.every(isCity)
     || !Array.isArray(value.places) || !value.places.every(isPlace)
     || !Array.isArray(value.experiences) || !value.experiences.every(isExperience)
