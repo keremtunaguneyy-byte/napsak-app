@@ -4,22 +4,25 @@ import { catalogCacheKey, CatalogSnapshot } from './catalog';
 import { parseCatalogSnapshot } from './catalogValidation';
 import { CityId } from '../types';
 
+export type CatalogCacheStorage = Pick<typeof AsyncStorage, 'getItem' | 'setItem'>;
+
 const MAX_CACHE_CHARS = 4_000_000;
 
-export async function loadCachedCatalog(cityId: CityId): Promise<CatalogSnapshot | undefined> {
+export async function loadCachedCatalog(cityId: CityId, storage: CatalogCacheStorage = AsyncStorage): Promise<CatalogSnapshot | undefined> {
   try {
-    const raw = await AsyncStorage.getItem(catalogCacheKey(cityId));
+    const raw = await storage.getItem(catalogCacheKey(cityId));
     if (!raw || raw.length > MAX_CACHE_CHARS) return undefined;
-    return parseCatalogSnapshot(JSON.parse(raw));
+    const snapshot = parseCatalogSnapshot(JSON.parse(raw));
+    return snapshot?.cityId === cityId ? snapshot : undefined;
   } catch {
     return undefined;
   }
 }
 
-export async function saveCachedCatalog(snapshot: CatalogSnapshot): Promise<void> {
+export async function saveCachedCatalog(snapshot: CatalogSnapshot, storage: CatalogCacheStorage = AsyncStorage): Promise<void> {
   const validated = parseCatalogSnapshot(snapshot);
   if (!validated) throw new Error('Refusing to cache an invalid catalog snapshot.');
   const raw = JSON.stringify(validated);
   if (raw.length > MAX_CACHE_CHARS) throw new Error('Catalog cache exceeds the 4 MB safety boundary.');
-  await AsyncStorage.setItem(catalogCacheKey(snapshot.cityId), raw);
+  await storage.setItem(catalogCacheKey(snapshot.cityId), raw);
 }

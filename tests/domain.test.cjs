@@ -98,11 +98,12 @@ const eventFixture = (overrides = {}) => ({
 });
 
 test('current event catalog has a complete fresh batch and a safe horizon', () => {
-  const health = analyzeEventCatalog(catalogEvents, new Date('2026-09-21T09:00:00+03:00'));
+  const health = analyzeEventCatalog(catalogEvents, new Date('2026-10-12T23:59:59+03:00'));
   assert.equal(health.healthy, true);
-  assert.equal(health.upcomingCount, 14);
+  assert.ok(health.upcomingCount >= EVENT_MINIMUM_UPCOMING_COUNT);
+  assert.equal(health.upcomingCount, catalogEvents.length);
   assert.equal(health.expiredCount, 0);
-  assert.ok(health.horizonDays >= EVENT_MINIMUM_HORIZON_DAYS);
+  assert.ok(health.horizonDays > EVENT_MINIMUM_HORIZON_DAYS);
   assert.deepEqual(health.issues, []);
 });
 
@@ -757,7 +758,6 @@ test('Ankara Place completeness batch 2 adds only the 8 approved evergreen Place
   assert.equal(places.length, 178);
   assert.equal(experiences.length, 52);
   assert.equal(ideas.length, 140);
-  assert.equal(catalogEvents.length, 14);
   assert.equal(guides.length, 12);
   for (const id of expectedPlaceIds) {
     const place = places.find(item => item.id === id);
@@ -807,7 +807,6 @@ test('Ankara Place completeness batch 3 publishes only candidates that clear cur
   assert.equal(places.length, 178);
   assert.equal(experiences.length, 52);
   assert.equal(ideas.length, 140);
-  assert.equal(catalogEvents.length, 14);
   assert.equal(guides.length, 12);
   for (const id of expectedPlaceIds) {
     const place = places.find(item => item.id === id);
@@ -971,14 +970,14 @@ test('each duration keeps at least one honest match for every explicit interest'
 });
 
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
-  assert.equal(events.length, 14);
+  assert.ok(events.length >= EVENT_MINIMUM_UPCOMING_COUNT);
   assert.equal(new Set(events.map(event => event.id)).size, events.length);
-  const verifiedOn = new Date('2026-09-21T00:00:00+03:00');
+  const verifiedOn = new Date('2026-10-12T23:59:59+03:00');
   for (const event of events) {
     assert.equal(event.kind, 'event');
     assert.equal(event.cityId, 'ankara');
     assert.equal(event.city, 'Ankara');
-    assert.match(event.startsAt, /[+-]\d\d:\d\d$/);
+    assert.match(event.startsAt, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+03:00$/);
     assert.ok(Number.isFinite(Date.parse(event.startsAt)));
     assert.ok(Date.parse(event.startsAt) > verifiedOn.getTime(), `${event.id}: already expired when verified`);
     if (event.endsAt) {
@@ -986,29 +985,43 @@ test('verified event catalogue has explicit Ankara time zones and trustworthy me
       assert.ok(Date.parse(event.endsAt) > Date.parse(event.startsAt), `${event.id}: invalid end time`);
     }
     assert.equal(new URL(event.sourceUrl).protocol, 'https:');
-    assert.equal(event.verifiedAt, '2026-09-21');
+    assert.equal(event.verifiedAt, '2026-10-12');
+    assert.equal(new Date(`${event.verifiedAt}T00:00:00Z`).toISOString().slice(0, 10), event.verifiedAt);
     assert.ok(event.sourceLabel && event.note);
   }
 });
 
-test('refreshed event supply excludes expired and sold-out sessions and admits replacements until start', () => {
+test('refreshed event supply has no duplicate sessions or reused expired IDs', () => {
+  const sessionKeys = events.map(event => `${event.title.normalize('NFKC').toLocaleLowerCase('tr-TR')}|${Date.parse(event.startsAt)}`);
+  assert.equal(new Set(sessionKeys).size, events.length);
+  const expiredIds = [
+    'event-ankara-open-wta-125-2026-09-22',
+    'event-masumiyet-demirkubuz-visnelik-2026-09-23',
+    'event-one-more-atilim-2026-09-24',
+    'event-sami-yusuf-congresium-2026-09-24',
+    'event-tca-burger-fries-workshop-2026-09-24',
+    'event-trivia-night-alti-ustu-2026-09-26',
+    'event-candles-echoes-meb-sura-2026-09-26',
+    'event-happy-pigs-cayyolu-2026-09-27',
+    'event-ankara-cocktail-festival-2026-09-27',
+    'event-golden-chef-el-yapimi-makarnalar-2026-09-29',
+    'event-ajda-pekkan-oran-2026-09-30',
+    'event-bubble-show-cukurambar-2026-10-03',
+    'event-tastydays-visnelik-2026-10-11',
+  ];
   const ids = new Set(events.map(event => event.id));
-  assert.ok(!ids.has('event-ankara-open-wta-125-2026-09-21'));
-  assert.ok(!ids.has('event-one-more-atilim-2026-09-23'));
+  for (const id of expiredIds) assert.ok(!ids.has(id), `${id}: expired ID reused`);
+  assert.ok(ids.has('event-amadeus-congresium-2026-10-16'));
   const eventFeedAt = now => recommendAll({
     places: [], ideas: [], events, filter: 'event', interests: [], dismissed: [],
     limit: 100, now: new Date(now),
   }).map(event => event.id);
-  const beforeStart = eventFeedAt('2026-09-21T09:59:59+03:00');
-  for (const id of [
-    'event-ankara-open-wta-125-2026-09-22',
-    'event-masumiyet-demirkubuz-visnelik-2026-09-23',
-    'event-one-more-atilim-2026-09-24',
-    'event-golden-chef-el-yapimi-makarnalar-2026-09-29',
-  ]) assert.ok(beforeStart.includes(id), `${id}: missing before start`);
-  assert.ok(!beforeStart.includes('event-one-more-atilim-2026-09-23'));
-  const afterStart = eventFeedAt('2026-09-22T10:00:00+03:00');
-  assert.ok(!afterStart.includes('event-ankara-open-wta-125-2026-09-22'));
+  assert.deepEqual(new Set(eventFeedAt('2026-10-12T23:59:59+03:00')), ids);
+  for (const event of events) {
+    const start = Date.parse(event.startsAt);
+    assert.ok(eventFeedAt(new Date(start - 1)).includes(event.id), `${event.id}: missing before start`);
+    assert.ok(!eventFeedAt(new Date(start)).includes(event.id), `${event.id}: leaked at start`);
+  }
 });
 
 test('event feed excludes expired events and admits future events regardless of general interests', () => {
@@ -1024,16 +1037,16 @@ test('empty and fully expired event catalogues are safe', () => {
   assert.deepEqual(recommendAll({ ...common, events }), []);
 });
 
-test('event rotation can produce two fresh five-item batches from the current catalogue', () => {
+test('event rotation fills two batches with only the overlap required by current supply', () => {
   const common = {
     places: [], ideas: [], events, filter: 'event', mood: 'Sosyal', interests: ['Kahve'],
-    dismissed: [], limit: 5, now: new Date('2026-09-07T12:00:00+03:00'), seed: 60,
+    dismissed: [], limit: 5, now: new Date('2026-10-12T23:59:59+03:00'), seed: 60,
   };
   const first = recommendAll(common);
   const second = recommendAll({ ...common, seed: 61, previousBatch: first.map(item => item.id) });
   assert.equal(first.length, 5);
   assert.equal(second.length, 5);
-  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, 0);
+  assert.equal(second.filter(item => first.some(previous => previous.id === item.id)).length, Math.max(0, 10 - events.length));
 });
 
 test('catalog has 120–180 complete, uniquely identified Ankara entries', () => {

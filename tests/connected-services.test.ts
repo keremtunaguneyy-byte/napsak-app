@@ -2,6 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { Auth } from '@firebase/auth';
 import { ensureAnonymousUser } from '../src/firebase/auth';
+import { catalogCacheKey, CatalogSnapshot, embeddedCatalog, EMBEDDED_CATALOG_VERSION } from '../src/data/catalog';
+import { loadCachedCatalog, saveCachedCatalog } from '../src/data/catalogCache';
+import { compareCatalogVersions, isCatalogVersion } from '../src/data/catalogVersion';
+import { parseCatalogMeta, parseCatalogSnapshot } from '../src/data/catalogValidation';
 import { loadBestCatalog } from '../src/data/catalogService';
 import type { ContentRepository } from '../src/data/contentRepository';
 import { resolveObservabilitySettings } from '../src/observabilityPolicy';
@@ -60,7 +64,7 @@ test('failed or malformed remote catalog preserves the embedded catalog', async 
   assert.match(offline.remoteError ?? '', /network unavailable/);
 
   const malformed = {
-    getCatalogMeta: async () => ({ cityId: 'ankara', schemaVersion: 3, catalogVersion: 'broken', updatedAt: '2026-09-22T00:00:00.000Z' }),
+    getCatalogMeta: async () => ({ cityId: 'ankara', schemaVersion: 3, catalogVersion: '2026-10-13.1', updatedAt: '2026-09-22T00:00:00.000Z' }),
     getCatalog: async () => { throw new Error('corrupted remote catalog'); },
   } as ContentRepository;
   const fallback = await loadBestCatalog('ankara', malformed);
@@ -270,4 +274,204 @@ test('beta observability label remains distinct from production', () => {
   assert.throws(() => resolveObservabilitySettings({
     EXPO_PUBLIC_APP_ENV: 'production', EXPO_PUBLIC_SERVICE_TIER: 'beta', EXPO_PUBLIC_SENTRY_DSN: dsn,
   }), /development runtime/);
+});
+
+
+const snapshotAt = (catalogVersion: string): CatalogSnapshot => ({
+  ...embeddedCatalog('ankara'), catalogVersion, fetchedAt: '2026-10-12T20:00:00.000Z',
+});
+const remoteCatalog = (snapshot: CatalogSnapshot): ContentRepository => ({
+  getCatalogMeta: async () => ({
+    cityId: snapshot.cityId, schemaVersion: snapshot.schemaVersion,
+    catalogVersion: snapshot.catalogVersion, updatedAt: snapshot.fetchedAt,
+  }),
+  getCatalog: async () => snapshot,
+});
+
+function catalogStore(snapshot?: unknown) {
+  return memoryStore(snapshot === undefined ? new Map() : new Map([
+    [catalogCacheKey('ankara'), JSON.stringify(snapshot)],
+  ]));
+}
+
+test('catalog versions compare calendar dates and numeric revisions, rejecting malformed values', () => {
+  for (const [left, right, expected] of [
+    ['2026-10-12.1', '2026-09-21.99', 1],
+    ['2026-10-12.10', '2026-10-12.2', 1],
+    ['2026-10-12.2', '2026-10-12.10', -1],
+    ['2026-10-12.1', '2026-10-12.1', 0],
+    ['2024-02-29.1', '2024-03-01.1', -1],
+  ] as const) {
+    assert.equal(compareCatalogVersions(left, right), expected);
+    assert.equal(compareCatalogVersions(right, left), expected === 0 ? 0 : -expected);
+  }
+  for (const value of ['', 'broken', '2026-2-01.1', '2026-02-30.1', '2025-02-29.1',
+    '2026-13-01.1', '0000-01-01.1', '2026-10-12.0', '2026-10-12.01',
+    '2026-10-12.-1', '2026-10-12.1.0', '2026-10-12.9007199254740992',
+    ' 2026-10-12.1', '2026-10-12.1\n']) {
+    assert.equal(isCatalogVersion(value), false, value);
+    assert.equal(compareCatalogVersions(value, EMBEDDED_CATALOG_VERSION), undefined, value);
+    assert.equal(compareCatalogVersions(EMBEDDED_CATALOG_VERSION, value), undefined, value);
+  }
+  assert.equal(isCatalogVersion(null), false);
+});
+
+test('new embedded catalog wins over older valid cache without deleting existing app data', async () => {
+  const old = snapshotAt('2026-09-21.1');
+  old.events = [{ ...old.events[0], id: 'upgrade-expired-event', startsAt: '2026-09-22T10:00:00+03:00' }];
+  assert.ok(parseCatalogSnapshot(old));
+  const { data, store } = catalogStore(old);
+  data.set('unrelated-user-preferences', 'preserved');
+  const result = await loadBestCatalog('ankara', remoteCatalog(old), store);
+  assert.equal(result.source, 'embedded');
+  assert.equal(result.snapshot.catalogVersion, '2026-10-12.1');
+  assert.equal(result.snapshot.fetchedAt, '2026-10-12T19:16:13.000Z');
+  assert.equal(result.snapshot.events.length, 9);
+  assert.deepEqual(result.snapshot.events, embeddedCatalog().events);
+  assert.ok(result.snapshot.events.every(event => Date.parse(event.startsAt) > Date.parse('2026-10-12T23:59:59+03:00')));
+  assert.equal(data.get('unrelated-user-preferences'), 'preserved');
+  assert.equal(JSON.parse(data.get(catalogCacheKey('ankara'))!).catalogVersion, old.catalogVersion);
+  assert.equal((await loadBestCatalog('ankara', undefined, store)).source, 'embedded');
+});
+
+test('equal-version cache reuse avoids remote collection reads and cache writes', async () => {
+  const cached = snapshotAt(EMBEDDED_CATALOG_VERSION);
+  const { data, store } = catalogStore(cached);
+  const before = data.get(catalogCacheKey('ankara'));
+  const remote = remoteCatalog(cached);
+  remote.getCatalog = async () => { throw new Error('must not refresh equal version'); };
+  const result = await loadBestCatalog('ankara', remote, store);
+  assert.equal(result.source, 'cache');
+  assert.equal(result.snapshot.fetchedAt, cached.fetchedAt);
+  assert.equal(result.remoteError, undefined);
+  assert.equal(data.get(catalogCacheKey('ankara')), before);
+});
+
+test('newer compatible cache wins over embedded and older remote metadata is not fetched', async () => {
+  const cached = snapshotAt('2026-10-13.2');
+  const { store } = catalogStore(cached);
+  for (const version of ['2026-09-21.1', EMBEDDED_CATALOG_VERSION, '2026-10-13.1', cached.catalogVersion]) {
+    const remote = remoteCatalog(snapshotAt(version));
+    remote.getCatalog = async () => { throw new Error('must not fetch older/equal remote'); };
+    const result = await loadBestCatalog('ankara', remote, store);
+    assert.equal(result.source, 'cache');
+    assert.equal(result.snapshot.catalogVersion, cached.catalogVersion);
+    assert.equal(result.remoteError, undefined);
+  }
+  assert.equal((await loadBestCatalog('ankara', undefined, store)).snapshot.catalogVersion, cached.catalogVersion);
+});
+
+test('newer compatible remote wins, is cached and is reused offline', async () => {
+  const { store } = catalogStore(snapshotAt('2026-09-21.1'));
+  const newer = snapshotAt('2026-10-13.10');
+  const result = await loadBestCatalog('ankara', remoteCatalog(newer), store);
+  assert.equal(result.source, 'remote');
+  assert.deepEqual(result.snapshot, newer);
+  assert.deepEqual(await loadCachedCatalog('ankara', store), newer);
+  const offline = await loadBestCatalog('ankara', undefined, store);
+  assert.equal(offline.source, 'cache');
+  assert.deepEqual(offline.snapshot, newer);
+});
+
+test('older remote snapshot behind newer metadata cannot downgrade the newest local catalog', async () => {
+  for (const cached of [undefined, snapshotAt('2026-10-13.1')]) {
+    const { data, store } = catalogStore(cached);
+    const before = data.get(catalogCacheKey('ankara'));
+    const remote = remoteCatalog(snapshotAt('2026-10-14.1'));
+    remote.getCatalog = async () => snapshotAt('2026-09-21.1');
+    const result = await loadBestCatalog('ankara', remote, store);
+    assert.equal(result.snapshot.catalogVersion, cached?.catalogVersion ?? EMBEDDED_CATALOG_VERSION);
+    assert.match(result.remoteError!, /version changed/);
+    assert.equal(data.get(catalogCacheKey('ankara')), before);
+  }
+});
+
+test('remote errors retain the newest safe local catalog', async () => {
+  for (const cached of [undefined, snapshotAt('2026-09-21.1'), snapshotAt('2026-10-13.1')]) {
+    for (const stage of ['metadata', 'snapshot']) {
+      const { store } = catalogStore(cached);
+      const remote = remoteCatalog(snapshotAt('2026-10-14.1'));
+      if (stage === 'metadata') remote.getCatalogMeta = async () => { throw new Error('offline metadata'); };
+      else remote.getCatalog = async () => { throw new Error('offline snapshot'); };
+      const result = await loadBestCatalog('ankara', remote, store);
+      assert.equal(result.snapshot.catalogVersion, cached?.catalogVersion === '2026-10-13.1' ? cached.catalogVersion : EMBEDDED_CATALOG_VERSION);
+      assert.match(result.remoteError!, /offline/);
+    }
+  }
+});
+
+test('metadata and snapshot timeouts retain the newest local catalog; late results are not cached', async () => {
+  for (const stage of ['metadata', 'snapshot']) {
+    const cached = snapshotAt('2026-10-13.1');
+    const { data, store } = catalogStore(cached);
+    const before = data.get(catalogCacheKey('ankara'));
+    const remote = remoteCatalog(snapshotAt('2026-10-14.1'));
+    let finish: () => void = () => {};
+    if (stage === 'metadata') remote.getCatalogMeta = () => new Promise(resolve => {
+      finish = () => resolve({ cityId: 'ankara', schemaVersion: 3, catalogVersion: '2026-10-14.1', updatedAt: cached.fetchedAt });
+    });
+    else remote.getCatalog = () => new Promise(resolve => { finish = () => resolve(snapshotAt('2026-10-14.1')); });
+    const started = Date.now();
+    const result = await loadBestCatalog('ankara', remote, store);
+    assert.ok(Date.now() - started < 8_000);
+    assert.equal(result.source, 'cache');
+    assert.equal(result.snapshot.catalogVersion, cached.catalogVersion);
+    assert.match(result.remoteError!, /timed out/);
+    finish();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(data.get(catalogCacheKey('ankara')), before);
+  }
+});
+
+test('malformed, incompatible and wrong-city caches and remote snapshots fail closed', async () => {
+  const valid = snapshotAt('2026-10-14.1');
+  const invalid = [
+    { ...valid, catalogVersion: 'invalid' },
+    { ...valid, catalogVersion: '2026-02-30.1' },
+    { ...valid, schemaVersion: 999 },
+    { ...valid, places: [] },
+    { ...valid, events: [{ ...valid.events[0], sourceUrl: 'javascript:bad' }] },
+    { ...valid, cities: valid.cities.map(city => ({ ...city, id: 'wrong-city' })) },
+  ];
+  for (const snapshot of invalid) {
+    assert.equal(parseCatalogSnapshot(snapshot), undefined);
+    const { store } = catalogStore(snapshot);
+    assert.equal(await loadCachedCatalog('ankara', store), undefined);
+    assert.equal((await loadBestCatalog('ankara', undefined, store)).source, 'embedded');
+    await assert.rejects(saveCachedCatalog(snapshot as CatalogSnapshot, store), /invalid/);
+    const remote = remoteCatalog(valid);
+    remote.getCatalog = async () => snapshot as CatalogSnapshot;
+    const result = await loadBestCatalog('ankara', remote, store);
+    assert.equal(result.source, 'embedded');
+    assert.match(result.remoteError!, /invalid or incompatible/);
+  }
+  const wrongCity: CatalogSnapshot = {
+    ...valid, cityId: 'istanbul', cities: valid.cities.map(city => ({ ...city, id: 'istanbul' })),
+    places: valid.places.map(place => ({ ...place, cityId: 'istanbul' })),
+    experiences: valid.experiences.map(item => ({ ...item, cityId: 'istanbul' })),
+    events: valid.events.map(item => ({ ...item, cityId: 'istanbul' })),
+    guides: valid.guides.map(item => ({ ...item, cityId: 'istanbul' })),
+  };
+  assert.ok(parseCatalogSnapshot(wrongCity));
+  const { store } = catalogStore(wrongCity);
+  assert.equal(await loadCachedCatalog('ankara', store), undefined);
+  const remote = remoteCatalog(valid);
+  remote.getCatalog = async () => wrongCity;
+  assert.equal((await loadBestCatalog('ankara', remote, store)).source, 'embedded');
+  const brokenJson = memoryStore(new Map([[catalogCacheKey('ankara'), '{broken']]));
+  assert.equal(await loadCachedCatalog('ankara', brokenJson.store), undefined);
+});
+
+test('invalid, incompatible and wrong-city remote metadata is rejected before snapshot reads', async () => {
+  for (const changes of [{ catalogVersion: 'broken' }, { schemaVersion: 999 }, { cityId: 'istanbul' }]) {
+    const valid = snapshotAt('2026-10-14.1');
+    const remote = remoteCatalog(valid);
+    const meta = { ...(await remote.getCatalogMeta('ankara'))!, ...changes };
+    if ('catalogVersion' in changes) assert.equal(parseCatalogMeta(meta), undefined);
+    remote.getCatalogMeta = async () => meta;
+    remote.getCatalog = async () => { throw new Error('must not read'); };
+    const result = await loadBestCatalog('ankara', remote, catalogStore().store);
+    assert.equal(result.source, 'embedded');
+    assert.match(result.remoteError!, /metadata/);
+  }
 });

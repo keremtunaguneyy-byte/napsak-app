@@ -27,7 +27,26 @@ test('every package record and live recommendation item resolves with intact res
     }
   }
   const c = embeddedCatalog('ankara');
-  for (const item of [...c.experiences, ...c.events, ...c.ideas, ...c.places.map(p => ({ ...p, kind: 'place' }))]) assert.equal(ArtworkResolver(item, 'Hero').type, 'artwork', item.id);
+  // The catalog-only refresh deliberately preserves the approved artwork registry.
+  const unmappedEventIds = new Set([
+    'event-cso-iki-keman-bir-miras-2026-10-16',
+    'event-sempre-mozart-ankara-dob-2026-10-23',
+    'event-magic-bubbles-csoada-2026-10-24',
+    'event-falda-carmen-xl-ataturk-sanat-2026-10-31',
+    'event-bir-aile-provasi-ataturk-sanat-2026-11-01',
+    'event-ankara-kadin-orkestrasi-csoada-2026-11-02',
+    'event-satonun-altinda-ataturk-sanat-2026-11-07',
+    'event-ataturke-saygi-csoada-tarihi-2026-11-10',
+  ]);
+  assert.deepEqual(new Set(c.events.filter(item => item.id !== 'event-amadeus-congresium-2026-10-16').map(item => item.id)), unmappedEventIds);
+  for (const item of [...c.experiences, ...c.events, ...c.ideas, ...c.places.map(p => ({ ...p, kind: 'place' }))]) {
+    if (item.kind === 'event' && unmappedEventIds.has(item.id)) {
+      assert.equal(index.content[`event:${item.id}` as keyof typeof index.content], undefined);
+      for (const layout of ['Hero', 'Square', 'Compact'] as const) {
+        assert.deepEqual(ArtworkResolver(item, layout), { type: 'neutral', layout }, item.id);
+      }
+    } else assert.equal(ArtworkResolver(item, 'Hero').type, 'artwork', item.id);
+  }
 });
 
 test('generated assets equal local files and recorded checksums, including verified proof exports', () => {
