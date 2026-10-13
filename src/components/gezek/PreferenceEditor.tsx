@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
+import { DETAIL_ASSET_XML } from './detailAssetXml';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_SURFACE_SHADOW as shadow } from '../../design/gezekTheme';
 import { PreferenceEditorAction, PreferenceEditorSession, PreferenceField, preferenceContentClearance } from '../../preferenceEditor';
@@ -29,7 +31,7 @@ export function PreferenceEditor({ session, onAction, onApply }: Props) {
           <View style={s.mint}><PreferenceAsset name="overview-mint" /></View><View style={s.lavender}><PreferenceAsset name="overview-lavender" /></View>
         </View>
         <ScrollView accessibilityElementsHidden={session.mode === 'field'} importantForAccessibility={session.mode === 'field' ? 'no-hide-descendants' : 'auto'} contentContainerStyle={[s.overview, { paddingBottom: preferenceContentClearance(footerHeight) }]}>
-          <View style={s.nav}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihlerden geri dön" onPress={() => onAction({ type: 'back' })} style={s.navButton}><PreferenceAsset name="chevron-left" /></TouchableOpacity><Text style={s.navLabel}>BUGÜNKÜ TERCİHLER</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercih düzenleyiciyi kapat" onPress={() => onAction({ type: 'close' })} style={s.navButton}><Text style={s.close}>×</Text></TouchableOpacity></View>
+          <View style={s.nav}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihlerden geri dön" onPress={() => onAction({ type: 'back' })} style={s.navButton}><PreferenceAsset name="chevron-left" /></TouchableOpacity><Text style={s.navLabel}>BUGÜNKÜ TERCİHLER</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercih düzenleyiciyi kapat" onPress={() => onAction({ type: 'close' })} style={s.navButton}><PreferenceCloseIcon /></TouchableOpacity></View>
           <View ref={session.mode === 'overview' ? header : undefined} focusable tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel="Bugünkü tercihlerin"><Text accessible={false} style={s.title}>Bugünkü tercihlerin</Text></View>
           <Text style={s.description}>Yalnız bugünkü önerileri etkiler. İstersen gün içinde yeniden değiştirebilirsin.</Text>
           <View style={s.note}><View style={s.noteIcon}><PreferenceAsset name="note-dot" /></View><View style={s.flex}><Text style={s.noteTitle}>Bugüne özel</Text><Text style={s.noteText}>İlgi alanların kalıcıdır; ruh hâli ve zamanın günlük değişir.</Text></View></View>
@@ -48,7 +50,7 @@ export function PreferenceEditor({ session, onAction, onApply }: Props) {
         <View accessible={false} style={s.scrim} />
         <View style={[s.sheet, { maxHeight: height - insets.top - insets.bottom - 40, marginBottom: 24 + insets.bottom }]}>
           <View accessible={false} style={s.handle} />
-          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercih düzenleyiciyi kapat" onPress={() => onAction({ type: 'close' })} style={s.sheetClose}><Text style={s.close}>×</Text></TouchableOpacity>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercih düzenleyiciyi kapat" onPress={() => onAction({ type: 'close' })} style={s.sheetClose}><PreferenceCloseIcon /></TouchableOpacity>
           <ScrollView contentContainerStyle={s.sheetContent}>
             <View style={s.sheetHeading}><View style={[s.fieldTile, { backgroundColor: spec.color }]}><PreferenceAsset name={spec.icon} /></View><View style={s.flex}><Text style={[s.section, s.sheetEyebrow]}>BUGÜNÜ AYARLA</Text><View ref={header} focusable tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={spec.title}><Text accessible={false} style={s.sheetTitle}>{spec.title}</Text></View></View></View>
             <Text style={s.sheetDescription}>{spec.description}</Text>
@@ -63,11 +65,17 @@ export function PreferenceEditor({ session, onAction, onApply }: Props) {
     </View>
   </Modal>;
 }
+/** Same approved local Close SVG as DetailHost, independent of font baselines. */
+function PreferenceCloseIcon() {
+  const icon = DETAIL_ASSET_XML.close;
+  return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={{ width: icon.width, height: icon.height }}><SvgXml accessible={false} xml={icon.xml} /></View>;
+}
+
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: C.canvas }, transparent: { backgroundColor: 'transparent' }, flex: { flex: 1 },
   atmosphere: { position: 'absolute', inset: 0, overflow: 'hidden' }, mint: { position: 'absolute', left: '70%', top: -70 }, lavender: { position: 'absolute', left: -120, top: 700 },
   overview: { paddingHorizontal: 20, paddingTop: 22, width: '100%', maxWidth: 433, alignSelf: 'center' },
-  nav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }, navButton: { width: 44, minHeight: 44, borderRadius: 22, backgroundColor: C.surface, justifyContent: 'center', alignItems: 'center', ...shadow }, navLabel: { flex: 1, textAlign: 'center', fontFamily: F.bold, color: C.mutedText, fontSize: 13, lineHeight: 18 }, close: { color: C.navy, fontFamily: F.regular, fontSize: 26, lineHeight: 30 },
+  nav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }, navButton: { width: 44, minHeight: 44, borderRadius: 22, backgroundColor: C.surface, justifyContent: 'center', alignItems: 'center', ...shadow }, navLabel: { flex: 1, textAlign: 'center', fontFamily: F.bold, color: C.mutedText, fontSize: 13, lineHeight: 18 },
   title: { fontFamily: F.extraBold, color: C.navy, fontSize: 27, lineHeight: 34 }, description: { fontFamily: F.regular, color: C.mutedText, fontSize: 13, lineHeight: 19, marginTop: 8 },
   note: { flexDirection: 'row', gap: 12, backgroundColor: C.mint, borderRadius: 22, padding: 14, marginTop: 14, minHeight: 64 }, noteIcon: { paddingTop: 3 }, noteTitle: { color: C.success, fontFamily: F.bold, fontSize: 12, lineHeight: 16 }, noteText: { color: C.navy, fontFamily: F.regular, fontSize: 11, lineHeight: 16, marginTop: 4 },
   section: { color: C.cobalt, fontFamily: F.bold, fontSize: 10, lineHeight: 14, marginTop: 24, marginBottom: 12 }, fields: { gap: 12 },

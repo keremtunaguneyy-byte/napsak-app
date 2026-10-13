@@ -1,0 +1,376 @@
+{
+  "evidence": "React Native Web with Android mobile browser emulation and Plus Jakarta Sans; stubbed native/backend services, not native-device or TalkBack proof",
+  "checks": [
+    {
+      "name": "Android mobile browser emulation",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "free budget has no paid cards or date chip row",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "centered approved Close SVG: budget_only",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "budget Cancel writes nothing, preserves seed/batch/filter/scroll and returns focus",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "budget Apply writes budget only and focuses populated Event",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "centered approved Close SVG: overview",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgb(255, 255, 255)",
+      "radius": "22px",
+      "shadow": "rgba(16, 36, 82, 0.08) 0px 4px 7px 0px"
+    },
+    {
+      "name": "overview fields remain drafts until one save; Back discards field; onboarding stays complete",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "Close exits full editor and discards unapplied draft",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "centered approved Close SVG: Ruh hâli",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: Süre",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: Bütçe",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: Kişi sayısı",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: İlgi alanları",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "restore removes only all nine eligible Event dismissals and preserves saved/preferences",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "globally empty usable catalog has information and no primary CTA",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "real pending retry exposes busy/disabled; failure returns error action without writes",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "retry success focuses Event with no artificial 0.9-second delay or preference writes",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "Android mobile browser emulation",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "free budget has no paid cards or date chip row",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "centered approved Close SVG: budget_only",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "budget Cancel writes nothing, preserves seed/batch/filter/scroll and returns focus",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "budget Apply writes budget only and focuses populated Event",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "centered approved Close SVG: overview",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgb(255, 255, 255)",
+      "radius": "22px",
+      "shadow": "rgba(16, 36, 82, 0.08) 0px 4px 7px 0px"
+    },
+    {
+      "name": "overview fields remain drafts until one save; Back discards field; onboarding stays complete",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "Close exits full editor and discards unapplied draft",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "centered approved Close SVG: Ruh hâli",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: Süre",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: Bütçe",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: Kişi sayısı",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "centered approved Close SVG: İlgi alanları",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "restore removes only all nine eligible Event dismissals and preserves saved/preferences",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "globally empty usable catalog has information and no primary CTA",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "real pending retry exposes busy/disabled; failure returns error action without writes",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "retry success focuses Event with no artificial 0.9-second delay or preference writes",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "centered approved Close SVG: large-text-budget",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "large text/long Turkish copy keeps action clear of footer and instant reduced-motion return",
+      "width": 393,
+      "height": 852,
+      "scale": 1,
+      "long": true
+    },
+    {
+      "name": "centered approved Close SVG: large-text-budget",
+      "text": "",
+      "width": 44,
+      "height": 44,
+      "svgWidth": 24,
+      "svgHeight": 24,
+      "dx": 0,
+      "dy": 0,
+      "path": "M6 6L18 18M18 6L6 18",
+      "stroke": "#102452",
+      "caps": "round",
+      "background": "rgba(0, 0, 0, 0)",
+      "radius": "0px",
+      "shadow": "none"
+    },
+    {
+      "name": "large text/long Turkish copy keeps action clear of footer and instant reduced-motion return",
+      "width": 412,
+      "height": 915,
+      "scale": 1.6,
+      "long": false
+    }
+  ],
+  "errors": []
+}

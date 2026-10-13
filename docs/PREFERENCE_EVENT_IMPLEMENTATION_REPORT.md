@@ -15,7 +15,7 @@ Implementation is committed and pushed normally on the existing branch; Draft PR
 - Home Düzenle opens the production overview, with current mood, interests, budget, group and duration; it no longer routes to onboarding.
 - Shared field controls maintain draft-only changes until overview Save. Field Cancel/Back restores its prior draft; overview Back and any Close exits without applying. Budget-only Event entry bypasses overview; its Apply changes budget only.
 - Existing v5/remote preference values and schema remain compatible. Bedava is visible copy for internal Ücretsiz. onboardingCompleted stays true; no welcome/progress/preparation replay.
-- Home stays mounted. Active filter, seed/run, previous batch and calling scroll persist. Browser focus assertions cover Cancel, populated budget Apply, restore and retry failure/success. Modal Android Back follows field → overview → origin; native validation is pending.
+- Home stays mounted. Active filter, seed/run, previous batch and calling scroll persist. Browser focus assertions cover Cancel, populated budget Apply, restore and retry failure/success. Modal Android Back follows field → overview → origin; the user has accepted Back/Close and preserved Home context on Redmi. TalkBack acceptance is explicitly deferred and remains pending.
 - Deterministic Event precedence: no-safe total failure → loading → globally no current catalog → all budget-eligible Events dismissed → free-budget no match → populated. Total failure only wins without a safe fallback; remote failure plus embedded/cache usability is not load_error.
 - Pre-dismiss and budget-relaxed diagnostic sets use the actual unchanged Event engine, enumerate all eligible IDs, and never populate the visible free feed with paid records.
 - Restore removes only the full current pre-dismiss eligible Event set, preserving saved records and Place/Experience/Idea dismissals.
@@ -47,7 +47,7 @@ Figma/code copy conflict recorded: Duration sheet's travel-inclusive sentence co
 | `GEZEK_PREFERENCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preference-browser node scripts/buildDetailBrowserFixture.cjs` | Passed: real App/controls with fixture-only native/catalog/persistence adapters. No dependencies added. |
 | `GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=docs/evidence/preference-event node tests/preference-event-browser.cjs` | Passed: 20 browser scenarios, zero page errors; screenshots at 393×852 and 412×915 plus long-copy and 1.6 text scale/reduced-motion cases. |
 
-`npm run check` is absent; no script invented. Firebase Rules/release checks are not required by this unchanged-schema/non-release scope and were not run. Redmi/manual/native verification was not run: no connected device acceptance session was available. CI will be read after the Draft PR is created, and its live state reported separately.
+`npm run check` is absent; no script invented. Firebase Rules/release checks are not required by this unchanged-schema/non-release scope and were not run. Original agent-run native verification was not performed. The user subsequently confirmed Redmi checks 1–4 below; these are user-reported device acceptance, not agent-run or signed-release evidence. TalkBack acceptance is explicitly deferred and pending. CI will be read after the Draft PR is created, and its live state reported separately.
 
 ## Matrix and browser evidence
 
@@ -70,8 +70,56 @@ Browser artifact directory: `docs/evidence/preference-event/`:
 
 All generated screen captures were visually inspected across the state/editor/large-text cases. Full-shell differences from the Figma date-chip screen (actual location notice, current production section/discovery surfaces, no date row) follow the corrected user contract; approved Home cards were not redesigned. RN Web font scaling, Escape and focus assertions are component/browser evidence, not Android TalkBack/hardware Back or OS reduced-motion proof. The exceptionally unavailable safe catalog and retry success/failure are injected fixture cases; normal bundled embedded fallback is usable.
 
+## Redmi acceptance and narrow Close correction
+
+User-confirmed Redmi acceptance (current correction request):
+
+1. Preference Editor open/edit/save: **accepted**.
+2. Budget-only Event flow: **accepted**.
+3. Event empty-state restore/retry behavior: **accepted**.
+4. Back/Close and preserved Home context: **accepted**.
+
+**TalkBack device acceptance is explicitly deferred and remains pending.** These user-reported results do not establish a signed-release build/device matrix. No device OS/build identifier was supplied, so none is invented.
+
+The user reported that the visible text close mark sat too low because of the Plus Jakarta Sans font baseline. Inspected the existing production navigation/detail asset registry and manifest first: Close `928:1758`, `assets/gezek/detail/svg/close.svg`, `DETAIL_ASSET_XML.close`, already used by DetailHost. Reused that exact approved SVG through one PreferenceCloseIcon renderer in the overview and the shared field/budget-only sheet. No new SVG or artwork was added. The existing 24×24 SVG root is retained inside the existing 44×44 touch target; its navy symmetric diagonals and round caps center independently of text font metrics. White circular overview surface, shadow, all existing control/sheet layout dimensions, accessibility labels and Back/Close handlers are unchanged.
+
+No preference, recommendation, catalog, Firebase, persistence, Home, onboarding or Event date behavior changed. Functional Event date discovery remains deferred; no decorative date-chip row was added.
+
+The regression prohibits raw, escaped or HTML-encoded multiplication glyphs and Text children in editor close controls, checks exact equality to the existing approved local SVG, and covers the same shared implementation in both close slots. Browser/component checks use Android mobile browser emulation and loaded Plus Jakarta Sans at 393×852 and 412×915. They also cover all five owned field sheets and large text. Sixteen icon checks measured zero x/y center error, unchanged 44×44 targets and 24×24 SVG roots; overview white circle/shadow and Close behavior remain intact. Browser rendering is not native Redmi or TalkBack proof.
+
+Narrow-correction verification:
+
+| Command | Result |
+|---|---|
+| `git diff --check` | Passed. |
+| `npm run typecheck` | Passed. |
+| `npm test` | Passed: 111 + 128 = 239 tests. Initial regression used the wrong asset subdirectory; corrected to detail/svg and reran the full suite. |
+| `npm run check:accessibility` | Passed: 11 source files. |
+| `GEZEK_PREFERENCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-redmi-close-browser node scripts/buildDetailBrowserFixture.cjs` | Passed. |
+| `GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_URL=http://127.0.0.1:8780 GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-redmi-close-evidence node tests/preference-event-browser.cjs` | Passed: 38 checks, zero browser errors, both viewports; Android mobile emulation, Plus Jakarta Sans, every sheet and large text. Snapshot capture waits for actual modal visibility/browser paint only; no runtime delay added. |
+| `npx expo export --platform android --output-dir /private/tmp/gezek-redmi-close-android` | Passed: current Android Hermes bundle; no signing/device verification. |
+
+Fresh screenshots and geometry data:
+
+- `docs/evidence/preference-event/redmi-close-overview-393.png`
+- `docs/evidence/preference-event/redmi-close-overview-412.png`
+- `docs/evidence/preference-event/redmi-close-budget-393.png`
+- `docs/evidence/preference-event/redmi-close-budget-412.png`
+- `docs/evidence/preference-event/redmi-close-results.json`
+
+Exact narrow-correction changed-file list:
+
+- `src/components/gezek/PreferenceEditor.tsx`
+- `tests/preference-event.test.ts`
+- `tests/preference-event-browser.cjs`
+- `docs/PREFERENCE_EVENT_IMPLEMENTATION_REPORT.md`
+- `docs/PREFERENCE_EVENT_CHANGED_FILES.txt`
+- `docs/START_HERE.md`
+- `docs/STATUS.md`
+- the five fresh evidence files listed immediately above.
+
+The existing Draft PR #74 remains open and unmerged on the same branch. Commit and push are normal, with no force or new PR; exact new SHA and live CI outcome are returned in the final response. PR #57 and the unrelated Verilog directory remain untouched. Additional algorithm/catalog/Firebase/release checks are not rerun for this icon-only correction; no related logic/schema changed.
+
 ## Remaining acceptance and recommended next action
 
-No unresolved product/design blocker remains after the user's date decision. Draft PR should remain unmerged until review and Redmi acceptance.
-
-On Redmi: test all five preference fields and Cancel/Apply, budget-only entry, field→overview→Event hardware Back, whole-editor Close, active Event filter/run/previous-batch/scroll retention, free-budget paid exclusion, Event-only restore with other dismissals/saved content, offline/usable fallback, pending retry accessibility, and dark status text/canvas root with no flash. TalkBack: title-first empty entry, title/explanation/action order, decorative exclusion, selected/checked/busy/disabled states, return focus for Cancel/Apply/restore/retry. Enable large system text and reduced motion and verify footer/safe-area clearance and instant replacement. Record device/build/screenshots separately; browser and Expo export do not close native or signed-release acceptance gates.
+Redmi checks 1–4 are accepted. Visually recheck the corrected Close mark on Redmi; **TalkBack acceptance is deferred and pending**, including title-first entry, traversal, decorative exclusion, selected/checked/busy/disabled state and return focus. Native large-system-text, OS reduced-motion and signed-release acceptance are not inferred from these four checks or browser evidence. No other concrete implementation blocker is known. Keep #74 Draft and unmerged; do not recreate a PR or silently close the deferred accessibility acceptance.

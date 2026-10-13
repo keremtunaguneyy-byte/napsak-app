@@ -54,6 +54,11 @@ docs/evidence/preference-event/pre-implementation-audit.md
 docs/evidence/preference-event/pre-implementation-audit.ts.txt
 docs/evidence/preference-event/preference-overview-393.png
 docs/evidence/preference-event/preference-overview-412.png
+docs/evidence/preference-event/redmi-close-budget-393.png
+docs/evidence/preference-event/redmi-close-budget-412.png
+docs/evidence/preference-event/redmi-close-overview-393.png
+docs/evidence/preference-event/redmi-close-overview-412.png
+docs/evidence/preference-event/redmi-close-results.json
 package.json
 scripts/buildDetailBrowserFixture.cjs
 scripts/checkAccessibility.ts

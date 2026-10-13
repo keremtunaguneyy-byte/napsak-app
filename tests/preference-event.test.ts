@@ -181,3 +181,19 @@ test('downloaded Figma assets retain bytes, root dimensions and complete local r
   }
   assert.ok(!controls.includes('https://www.figma.com/api/mcp/asset'));
 });
+
+test('all Preference Editor close controls reuse the approved SVG, never a baseline-dependent text glyph', async () => {
+  const source = readFileSync('src/components/gezek/PreferenceEditor.tsx', 'utf8');
+  assert.ok(!/\u00d7|\\u00d7|&#(?:215|x0*d7);/i.test(source), 'No raw, escaped or HTML-encoded multiplication glyph in the editor');
+  const closeControls = [...source.matchAll(/<TouchableOpacity\b[^>]*accessibilityLabel="Tercih düzenleyiciyi kapat"[^>]*>([\s\S]*?)<\/TouchableOpacity>/g)];
+  assert.equal(closeControls.length, 2, 'Overview and the single shared field/budget-only sheet');
+  for (const [, children] of closeControls) {
+    assert.match(children, /<PreferenceCloseIcon\s*\/>/);
+    assert.ok(!children.includes('<Text'), 'Close mark must not depend on a font baseline');
+  }
+  const { DETAIL_ASSET_XML } = await import('../src/components/gezek/detailAssetXml');
+  assert.equal(DETAIL_ASSET_XML.close.xml, readFileSync('assets/gezek/detail/svg/close.svg', 'utf8'));
+  assert.match(DETAIL_ASSET_XML.close.xml, /stroke="#102452"/);
+  assert.match(DETAIL_ASSET_XML.close.xml, /stroke-linecap="round"/);
+  assert.match(source, /const icon = DETAIL_ASSET_XML\.close/);
+});
