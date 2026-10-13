@@ -22,6 +22,7 @@ function nativeState(Component, {accessibilityState, ...props}, ref) {
 export const Pressable=React.forwardRef((props,ref)=>nativeState(RN.Pressable,props,ref));
 export const TouchableOpacity=React.forwardRef((props,ref)=>nativeState(RN.TouchableOpacity,props,ref));
 export const Alert={alert:(title,message,buttons)=>{window.__alerts.push({title,message,buttons})}};
+${onboardingFixture ? `window.__transitionCommits=[];window.__transitionAnimations=[];window.__transitionFocus=[];window.__assetProfiles=[];export const Animated={...RN.Animated,timing:(value,config)=>{const animation=RN.Animated.timing(value,config);if(!config.useNativeDriver||config.toValue!==0)return animation;return {...animation,start:callback=>{const entry={revision:window.__sceneRevision,start:performance.now(),x:value.__getValue(),duration:config.duration};window.__transitionAnimations.push(entry);animation.start(result=>{entry.end=performance.now();entry.finished=result.finished;callback?.(result)})},stop:()=>animation.stop()}}};` : ''}
 export const Linking={canOpenURL:async()=>true,openURL:async url=>{window.__maps.push(url)},openSettings:()=>{}};
 window.__activeListeners=[];export const AppState={addEventListener:(kind,callback)=>{window.__activeListeners.push(callback);return {remove(){window.__activeListeners=window.__activeListeners.filter(c=>c!==callback)}}}};
 ${onboardingFixture ? `window.__backListeners=[];export const BackHandler={addEventListener:(name,callback)=>{window.__backListeners.push(callback);return {remove(){window.__backListeners=window.__backListeners.filter(c=>c!==callback)}}}};window.__hardwareBack=()=>[...window.__backListeners].reverse().some(f=>f());export const Platform={...RN.Platform,OS:'android'};export const findNodeHandle=node=>node;export const AccessibilityInfo={...RN.AccessibilityInfo,isReduceMotionEnabled:async()=>matchMedia('(prefers-reduced-motion: reduce)').matches,addEventListener:(name,callback)=>{const media=matchMedia('(prefers-reduced-motion: reduce)');const handler=()=>callback(media.matches);media.addEventListener('change',handler);return {remove(){media.removeEventListener('change',handler)}}},setAccessibilityFocus:node=>node?.focus?.()};` : `export const BackHandler={addEventListener:()=>({remove(){}})};`}
@@ -70,6 +71,20 @@ export const persistPreferences=async p=>{window.__writes.push(structuredClone(p
    const source = fs.readFileSync(a.path, 'utf8');
    const anchor = '  const resetAfterDataDeletion = () => {';
    if (source.split(anchor).length !== 2) throw new Error('Onboarding fixture callback anchor changed');
-   return {contents:source.replace(anchor, '  (globalThis as any).__finishOnboarding = finishOnboarding;\n' + anchor),loader:'tsx',resolveDir:repo};
+   return {contents:source.replace(anchor, '  (globalThis as any).__finishOnboarding = finishOnboarding;\n  (globalThis as any).__onboardingAction = navigateOnboarding;\n' + anchor),loader:'tsx',resolveDir:repo};
+ });
+ if (onboardingFixture) b.onLoad({filter:/\/OnboardingHost\.tsx$/}, a => {
+   let source=fs.readFileSync(process.env.GEZEK_ONBOARDING_SOURCE || a.path,'utf8');
+   source="import { useLayoutEffect as fixtureLayoutEffect, Profiler as FixtureProfiler } from 'react';\n"+source;
+   const renderAnchor='  const { width, height, fontScale } = useWindowDimensions();';
+   const commitAnchor='  const compact = height - insets.top - insets.bottom < 740 || fontScale > 1.2;';
+   if(source.split(renderAnchor).length!==2||source.split(commitAnchor).length!==2)throw new Error('Transition fixture anchors changed');
+   source=source.replace(renderAnchor, '  const fixtureRenderStart=performance.now(); (globalThis as any).__assetRevision=session.revision;\n'+renderAnchor);
+   source=source.replace(commitAnchor, `  (globalThis as any).__onboardingReduced=reduced;
+   fixtureLayoutEffect(()=>{const node=document.querySelector('[data-testid="onboarding-scene"]');const matrix=new DOMMatrixReadOnly(node?getComputedStyle(node).transform:undefined);(globalThis as any).__sceneRevision=session.revision;(globalThis as any).__transitionCommits.push({revision:session.revision,step:session.step,reduced,width,time:performance.now(),renderMs:performance.now()-fixtureRenderStart,x:matrix.m41,value:translation.__getValue()});},[session.revision]);\n`+commitAnchor);
+   if(!source.includes('testID="onboarding-scene"'))source=source.replace('<Animated.View style=', '<Animated.View testID="onboarding-scene" style=');
+   source=source.replaceAll('<Asset ', '<FixtureAsset ');
+   source+=`\nfunction FixtureAsset(props: React.ComponentProps<typeof Asset>){return <FixtureProfiler id={props.name} onRender={(id,phase,duration)=>{if((globalThis as any).__assetProfiles.length<4000)(globalThis as any).__assetProfiles.push({id,phase,duration,time:performance.now(),revision:(globalThis as any).__assetRevision});}}><Asset {...props}/></FixtureProfiler>}\n`;
+   return {contents:source,loader:'tsx',resolveDir:path.dirname(a.path)};
  });
  }}]}).catch(error=>{console.error(error);process.exit(1)});

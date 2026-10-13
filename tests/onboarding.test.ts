@@ -8,6 +8,7 @@ import { applyPreferenceEditor, preferenceEditorReducer } from '../src/preferenc
 import { recommendAll } from '../src/recommendations';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { PersistedPreferences } from '../src/persistence';
+import { beginOnboardingTransition, onboardingInitialTranslation } from '../src/onboardingTransition';
 const now = new Date('2026-10-13T12:00:00+03:00');
 const initial: PersistedPreferences = { ...emptyPreferences, saved: ['saved-place'], dismissed: ['hidden-idea'] };
 const valid: PersistedPreferences = { ...initial, mood: 'Sakin', interests: ['Kahve', 'Sanat'], budget: 'Ücretsiz', groupSize: '2 kişi', duration: '1–2 saat' };
@@ -168,4 +169,69 @@ test('exact local asset manifest/registry preserve every nonempty export and roo
     } else { assert.equal(raw.readUInt32BE(16), 52); assert.equal(raw.readUInt32BE(20), 52); }
   }
   for (const layers of Object.values(ONBOARDING_BACKGROUND_LAYERS)) for (const layer of layers) { assert.ok(ONBOARDING_ASSETS[layer.name as keyof typeof ONBOARDING_ASSETS]); for (const coordinate of [layer.x, layer.y, layer.w, layer.h]) assert.ok(Number.isFinite(coordinate)); }
+});
+
+function transitionHarness() {
+  let id = 0;
+  const frames = new Map<number, () => void>(), retained = new Map<number, () => void>();
+  const completions: Array<(finished: boolean) => void> = [];
+  const calls = { starts: 0, stops: 0, rests: 0, focus: 0 };
+  const effects = {
+    frame: (callback: () => void) => { frames.set(++id, callback); retained.set(id, callback); return id; },
+    cancelFrame: (key: number) => { frames.delete(key); },
+    start: (complete: (finished: boolean) => void) => { calls.starts++; completions.push(complete); return () => { calls.stops++; complete(false); }; },
+    rest: () => { calls.rests++; }, focus: () => { calls.focus++; },
+  };
+  const tick = () => { const pending = [...frames.values()]; frames.clear(); pending.forEach(callback => callback()); };
+  return { effects, calls, completions, tick, retained };
+}
+
+test('incoming translation is constructed on the correct side; post-commit frame starts motion and only success focuses', () => {
+  for (const width of [393, 412]) {
+    assert.equal(onboardingInitialTranslation('forward', width, false), width);
+    assert.equal(onboardingInitialTranslation('back', width, false), -width);
+    assert.equal(onboardingInitialTranslation('forward', width, true), 0);
+    assert.equal(onboardingInitialTranslation('back', width, true), 0);
+  }
+  const h = transitionHarness(); beginOnboardingTransition(h.effects, false);
+  assert.equal(h.calls.starts, 0); h.tick(); assert.equal(h.calls.starts, 1);
+  h.completions[0](false); h.tick(); assert.equal(h.calls.focus, 0); assert.equal(h.calls.rests, 1);
+  h.completions[0](true); h.tick(); h.tick(); assert.equal(h.calls.focus, 0);
+  beginOnboardingTransition(h.effects, false); h.tick();
+  h.completions[1](true); h.completions[1](true); h.tick(); assert.equal(h.calls.focus, 0);
+  h.tick(); assert.equal(h.calls.focus, 1);
+});
+
+test('rapid replacement cancels pending starts, stale completions and queued focus, including late callbacks after stop', () => {
+  const pending = transitionHarness(); const queued = beginOnboardingTransition(pending.effects, false);
+  queued.cancel(); pending.retained.get(1)!(); assert.equal(pending.calls.starts, 0);
+  const h = transitionHarness(); const old = beginOnboardingTransition(h.effects, false); h.tick();
+  h.completions[0](true); const staleFocus = [...h.retained.values()].at(-1)!;
+  old.cancel(); h.completions[0](true); staleFocus(); h.tick();
+  assert.equal(h.calls.focus, 0); assert.equal(h.calls.stops, 1);
+  const latest = beginOnboardingTransition(h.effects, false); h.tick();
+  h.completions[0](true); h.tick(); assert.equal(h.calls.focus, 0);
+  h.completions[1](true); h.tick(); h.tick(); assert.equal(h.calls.focus, 1);
+  latest.cancel(); h.completions[1](true); h.tick(); h.tick(); assert.equal(h.calls.focus, 1);
+});
+
+test('Reduced Motion never starts a slide; live reduction settles once and suppresses stale animation completion', () => {
+  const reduced = transitionHarness(); const staticScene = beginOnboardingTransition(reduced.effects, true);
+  reduced.tick(); reduced.tick(); staticScene.reduceMotion();
+  assert.deepEqual(reduced.calls, { starts: 0, stops: 0, rests: 1, focus: 1 });
+  const h = transitionHarness(); const interrupted = beginOnboardingTransition(h.effects, false); h.tick();
+  interrupted.reduceMotion(); h.completions[0](true); interrupted.reduceMotion(); h.tick(); h.tick();
+  assert.deepEqual(h.calls, { starts: 1, stops: 1, rests: 1, focus: 1 });
+  h.tick(); assert.equal(h.calls.starts, 1);
+});
+
+test('scene commits its own initial Animated.Value; revision key/layout lifecycle and immutable asset cache stay onboarding-only', () => {
+  const host = readFileSync('src/components/gezek/OnboardingHost.tsx', 'utf8');
+  assert.match(host, /key=\{props.session.revision\}/);
+  assert.match(host, /useState\(\(\) => new Animated.Value\(onboardingInitialTranslation/);
+  assert.match(host, /useLayoutEffect\(\(\) => \{[\s\S]*beginOnboardingTransition/);
+  assert.match(host, /return \(\) => lifecycle.cancel\(\)/);
+  assert.match(host, /assetAsts.has\(name\)/);
+  assert.match(host, /const Asset = memo/);
+  assert.doesNotMatch(host, /setTimeout|globalThis|window\.|__transition/);
 });

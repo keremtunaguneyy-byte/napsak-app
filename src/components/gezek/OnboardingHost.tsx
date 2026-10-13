@@ -1,12 +1,13 @@
-import { cloneElement, isValidElement, useEffect, useMemo, useRef, useState } from 'react';
+import { cloneElement, isValidElement, memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, Animated, Easing, Image, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SvgAst, SvgXml, parse } from 'react-native-svg';
+import { SvgAst, parse } from 'react-native-svg';
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_SURFACE_SHADOW as shadow } from '../../design/gezekTheme';
 import { canContinueOnboarding, onboardingFooterClearance, ONBOARDING_STEPS, OnboardingAction, OnboardingSession } from '../../onboarding';
 import type { PreferenceDraft } from '../../preferenceEditor';
+import { beginOnboardingTransition, onboardingInitialTranslation } from '../../onboardingTransition';
 import { BrandLogo } from './BrandLogo';
 import { PreferenceOptions, preferenceLabel } from './PreferenceControls';
 import { focusDetailControl } from './detailFocus';
@@ -50,10 +51,17 @@ const headings = {
   duration: { title: 'Bugün ne kadar vaktin var?', copy: 'Planlara ayırabileceğin maksimum süreyi seç. İlk durağa ulaşım ve eve dönüş hariç.', badge: 'Son soru', gap: 16 },
 };
 
-function Asset({ name }: { name: AssetName }) {
-  const asset = assets[name];
-  return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={{ width: asset.width, height: asset.height }}><SvgXml xml={asset.xml} /></View>;
+// Parsed SVG elements are immutable; reuse across keyed scenes and timeline renders.
+const assetAsts = new Map<AssetName, ReturnType<typeof parse>>();
+function assetAst(name: AssetName) {
+  if (!assetAsts.has(name)) assetAsts.set(name, parse(assets[name].xml));
+  return assetAsts.get(name)!;
 }
+const PREPARING_SPINNER = require('../../../assets/gezek/onboarding/4cd91.png');
+const Asset = memo(function Asset({ name }: { name: AssetName }) {
+  const asset = assets[name];
+  return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={{ width: asset.width, height: asset.height }}><SvgAst ast={assetAst(name)} /></View>;
+});
 
 /** Conservative until the asynchronous OS preference resolves; timing belongs to the controller. */
 function useReducedMotion() {
@@ -119,39 +127,45 @@ function Progress({ fraction, elapsed, reduced, label, busy = false, tall = fals
   </View>;
 }
 
-export function OnboardingHost({ session, onAction, onComplete }: { session: OnboardingSession; onAction: (action: OnboardingAction) => void; onComplete: () => void }) {
+type HostProps = { session: OnboardingSession; onAction: (action: OnboardingAction) => void; onComplete: () => void };
+export function OnboardingHost(props: HostProps) {
+  const reduced = useReducedMotion();
+  return <OnboardingScene key={props.session.revision} {...props} reduced={reduced} />;
+}
+
+function OnboardingScene({ session, onAction, onComplete, reduced }: HostProps & { reduced: boolean }) {
   const { width, height, fontScale } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const reduced = useReducedMotion();
   const preparing = session.step === 'preparing', welcome = session.step === 'welcome';
   const elapsed = useTimeline(reduced, session.revision, preparing, session.prepared);
   const [footerHeight, setFooterHeight] = useState(108);
   const title = useRef<View>(null), readyAction = useRef<View>(null), scroll = useRef<ScrollView>(null);
   const controls = useRef<Record<string, View | null>>({});
-  const translation = useRef(new Animated.Value(0)).current;
+  const [translation] = useState(() => new Animated.Value(onboardingInitialTranslation(session.direction, width, reduced)));
   const field = session.step === 'group' ? 'groupSize' : session.step === 'interest' ? 'interests' : session.step;
   const selected = field === 'interests' ? session.draft.interests[0] : session.draft[field as keyof PreferenceDraft];
-  const pendingFocus = useRef(false);
-  const focusFrames = useRef<number[]>([]);
-  const focusStep = () => {
-    pendingFocus.current = false;
-    focusFrames.current.push(requestAnimationFrame(() => {
-      focusFrames.current.push(requestAnimationFrame(() => focusDetailControl(session.direction === 'back' && typeof selected === 'string' && controls.current[selected] ? controls.current[selected] : title.current)));
-    }));
-  };
-  useEffect(() => {
+  const transition = useRef<ReturnType<typeof beginOnboardingTransition> | undefined>(undefined);
+  const focusStep = useRef<() => void>(() => {});
+  focusStep.current = () => focusDetailControl(session.direction === 'back' && typeof selected === 'string' && controls.current[selected] ? controls.current[selected] : title.current);
+  useLayoutEffect(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
-    translation.stopAnimation();
-    translation.setValue(reduced ? 0 : session.direction === 'back' ? -width : width);
-    pendingFocus.current = true;
-    const animation = Animated.timing(translation, { toValue: 0, duration: session.direction === 'back' ? 440 : 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true });
-    if (reduced) focusStep();
-    else animation.start(({ finished }) => { if (finished) focusStep(); });
-    return () => { pendingFocus.current = false; focusFrames.current.forEach(cancelAnimationFrame); focusFrames.current = []; animation.stop(); };
-    // Selection and OS preference changes must not replay navigation or steal focus.
-  }, [session.revision]);
-  useEffect(() => { if (reduced) { translation.stopAnimation(); translation.setValue(0); if (pendingFocus.current) focusStep(); } }, [reduced, translation]);
-  useEffect(() => {
+    const lifecycle = beginOnboardingTransition({
+      frame: callback => requestAnimationFrame(callback),
+      cancelFrame: id => cancelAnimationFrame(id),
+      start: complete => {
+        const animation = Animated.timing(translation, { toValue: 0, duration: session.direction === 'back' ? 440 : 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true });
+        animation.start(({ finished }) => complete(finished));
+        return () => animation.stop();
+      },
+      rest: () => translation.setValue(0),
+      focus: () => focusStep.current(),
+    }, reduced);
+    transition.current = lifecycle;
+    return () => lifecycle.cancel();
+    // Keyed revision owns this lifecycle; answer/width/OS changes never replay it.
+  }, []);
+  useLayoutEffect(() => { if (reduced) transition.current?.reduceMotion(); }, [reduced]);
+  useLayoutEffect(() => {
     if (!session.prepared) return;
     let second = 0;
     const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => focusDetailControl(readyAction.current)); });
@@ -171,7 +185,7 @@ export function OnboardingHost({ session, onAction, onComplete }: { session: Onb
     <StatusBar style="dark" />
     <Background session={session} reduced={reduced} elapsed={elapsed} width={width} />
     <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
-      <Animated.View style={[s.safe, { transform: [{ translateX: translation }] }]}>
+      <Animated.View testID="onboarding-scene" style={[s.safe, { transform: [{ translateX: translation }] }]}>
         <ScrollView ref={scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[s.content, { maxWidth: preparing ? 433 : 457, paddingHorizontal: preparing ? 24 : 32, paddingTop: Math.max(0, (welcome ? 34 : 28) - insets.top), paddingBottom: onboardingFooterClearance(footerHeight) }]}>
           <View style={s.nav}><BrandLogo size={welcome ? 28 : preparing ? 24 : 22} /><View style={[s.badge, (welcome || preparing) && s.mint, welcome && s.welcomeBadge, preparing && s.preparingBadge]}><Text style={[s.badgeText, (welcome || preparing) && s.green]}>{welcome ? 'ANKARA' : preparing ? session.prepared ? '● Hazır' : '● Hazırlanıyor' : question!.badge}</Text></View></View>
           {question && <><View style={s.headerProgress}><Progress fraction={progress} elapsed={elapsed} reduced={reduced} label={`Onboarding ilerlemesi, ${questionNumber}. soru`} /></View><Text style={s.eyebrow}>{questionNumber}. SORU</Text></>}
@@ -197,7 +211,7 @@ export function OnboardingHost({ session, onAction, onComplete }: { session: Onb
           {preparing && <>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[s.radar, compact && s.compactRadar]}>
               <Asset name="2569c" /><View style={s.radarMiddle}><Asset name="f1e66" /></View><View style={s.radarInner}><Asset name="04755" /></View>
-              <View style={[s.spinner, !session.prepared && !reduced && { transform: [{ rotate: `${elapsed < 100 ? 0 : elapsed < 4550 ? (elapsed - 100) / 4450 * 1260 : 1350}deg` }] }]}>{session.prepared ? <Asset name="3fdf5" /> : <Image accessible={false} source={require('../../../assets/gezek/onboarding/4cd91.png')} style={{ width: 26, height: 26 }} />}</View>
+              <View style={[s.spinner, !session.prepared && !reduced && { transform: [{ rotate: `${elapsed < 100 ? 0 : elapsed < 4550 ? (elapsed - 100) / 4450 * 1260 : 1350}deg` }] }]}>{session.prepared ? <Asset name="3fdf5" /> : <Image accessible={false} source={PREPARING_SPINNER} style={{ width: 26, height: 26 }} />}</View>
             </View>
             <Text accessibilityLiveRegion="polite" style={s.stage}>{stage}</Text><View accessibilityState={{ busy: !session.prepared || session.busy }}><Progress fraction={preparingFraction} elapsed={elapsed} reduced={reduced} ready={session.prepared} tall busy={!session.prepared || session.busy} label={session.prepared ? 'Planın hazır' : 'Planın hazırlanıyor'} /></View>
             <View style={s.summary}><Text style={s.summaryHeading}>SEÇTİĞİN PARAMETRELER</Text>{[

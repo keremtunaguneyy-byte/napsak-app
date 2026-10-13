@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Onboarding transition acceptance correction
+
+Existing Draft PR #75 / `codex/gezek-production-onboarding` continues from `82507e7f6559eb5ed6f9672b7168cf8db7993adc`. The incoming zero-position commit was confirmed in cold and warm browser diagnostics. Keyed scene construction now supplies its off-screen translation before commit; layout-timed frame start and cancelled scene callbacks preserve motion/focus semantics. Scoped immutable SVG parsing is cached. Required checks and both browser suites pass; current measurements and Redmi transition/focus checks are appended to `ONBOARDING_IMPLEMENTATION_REPORT.md`. No merge or new PR. Gezek-plan location correctness/UX is explicitly deferred to a separate post-onboarding PR and remains unchanged here.
+
 ## 2026-10-13 — Production first-run onboarding
 
 Verified PR #74 merge baseline `782723c9b2d6aff17363a3c8f2532efcde107f55`; branch `codex/gezek-production-onboarding`. Native host/controller, exact local Figma artwork, minimum-one first-run Interests, isolated RAM drafts, once-only successful commit and safe legacy routing are implemented. Existing audit/captures are preserved; final correction and command/browser/export evidence are recorded in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR authorized; no merge, production operation or #57 changes. Redmi, TalkBack, real OS large text/reduced motion and signed-release acceptance remain pending.

@@ -87,3 +87,60 @@ Regression evidence covers rapid calls making one write attempt, one successful 
 - Signed-release device matrix, production Sentry/restore/identity/release gates remain separate pending acceptance; Expo export or development testing does not close them.
 
 No unresolved product-contract blocker remains after the explicit Interest reconciliation. Native acceptance is still pending. Recommended next action: review the Draft PR and perform the above Redmi/TalkBack checks before considering merge; do not merge automatically.
+
+## 2026-10-14 — Incoming transition correction on existing Draft PR #75
+
+Resumed the verified repository and existing branch at local/remote `82507e7f6559eb5ed6f9672b7168cf8db7993adc`. Tracked tree was clean; user-owned Verilog remained the only untracked directory and was not read, staged or changed. Fetched `origin/main` remains `782723c9b2d6aff17363a3c8f2532efcde107f55`. Draft PR #75 remains open against main. The earlier implementation report/audit/evidence above are preserved as historical checkpoints.
+
+**Confirmed root cause:** the old scene reused an `Animated.Value` settled at zero across a revision change. React committed the incoming content with that value; a passive `useEffect([session.revision])` subsequently reset it to ±width and started timing. Before fixtures at both requested widths recorded zero translation in every incoming commit, including cold forward and warm Back/forward. This creates a commit-to-passive-effect exposure window. The user reported the visible native/browser symptom; the diagnostic records prove the zero-position commit, not native GPU paint timing. SVG construction contributes measurable render work but does not explain the lifecycle defect, which also occurs on warm returns. The spinner PNG appears only in Preparing and cannot cause the first Welcome→Mood transition.
+
+| Lifecycle | Before | After |
+|---|---|---|
+| Identity | Same scene/value for changed question | `OnboardingScene` keyed by navigation revision; draft stays in unchanged parent/controller |
+| Initial translation | Reused settled zero | Lazy scene construction uses +width forward, −width Back, zero for Reduced Motion before first commit |
+| Start | Passive effect resets translation then starts | Layout effect resets scroll and schedules animation on the next frame after the initial commit; no timeout/loading extension |
+| Cancellation | Stops prior timing and cancels focus frames in passive cleanup | Layout cleanup marks scene cancelled before stopping animation/cancelling pending start/focus frames; late callbacks are rejected |
+| Focus | Completed callback plus two frames | Only the surviving successful transition may enqueue the existing two-frame focus; Back restores the selected control/heading |
+| Reduced Motion | Stops presentation without replay | No slide is constructed/started for reduced entry; live reduction settles to zero once; switching back does not replay or refocus |
+| Preparing/Ready | 4800 ms app timer, same revision for Ready | Unchanged timer/state/completion guards; Ready focus retained without remount/replaying entrance |
+| Assets | SVG XML memoization local to each renderer | Bounded module cache of immutable parsed SVG elements plus memoized asset renderer; exact original XML/geometry; static spinner source reused |
+
+An unexpectedly interrupted timing on a surviving scene snaps to zero without emitting stale completion focus; cancelled departed scenes are ignored. No new product behavior, screen geometry/copy, location behavior, recommendation, Home, catalog, Firebase, persistence schema or release setting changed. `App.tsx`, `src/onboarding.ts` and their completion guards are byte-identical to the prior head. Gezek-plan location correctness/UX is explicitly deferred to a separate post-onboarding PR.
+
+### Cold / warm measurements — browser diagnostics only
+
+The before fixture loads the exact prior `OnboardingHost.tsx` extracted read-only with `git show 82507e7f6559eb5ed6f9672b7168cf8db7993adc:src/components/gezek/OnboardingHost.tsx`. The after fixture loads the current component. Both use the same generated service/native adapters, real Plus Jakarta Sans, Chrome/Pixel 7 emulation, React Profiler and DOM commit/RAF probes. Final before and after runs are sequential after other local tests finish. Cold is the first forward entry into Mood in a new page; warm Back revisits Mood; warm forward revisits Interests. Times are one instrumented sample per case, include browser/profiling/scheduling overhead, and are not statistically controlled benchmarks or native performance evidence.
+
+| Viewport | Case | Commit X before → after | Render→commit ms before → after | Commit→start ms before → after | SVG subtree ms before → after |
+|---|---|---|---|---|---|
+| 393×852 | cold-forward | 0 → 393 | 10.2 → 11.1 | 0.9 → 28.5 | 2.9 → 3.0 |
+| 393×852 | warm-back | 0 → -393 | 4.8 → 5.7 | 0.8 → 5.5 | 1.9 → 2.0 |
+| 393×852 | warm-forward | 0 → 393 | 7.4 → 8.5 | 0.7 → 0.9 | 0.8 → 1.3 |
+| 412×915 | cold-forward | 0 → 412 | 10.6 → 11.8 | 0.9 → 27.1 | 2.6 → 3.6 |
+| 412×915 | warm-back | 0 → -412 | 4.4 → 7.5 | 0.8 → 3.1 | 1.6 → 2.1 |
+| 412×915 | warm-forward | 0 → 412 | 8.2 → 8.4 | 0.8 → 1.6 | 0.8 → 1.3 |
+
+The corrected commits are always on the correct side before non-reduced motion starts; the deliberate commit→frame interval keeps that off-screen position, rather than exposing final content. Keyed construction still performs layout/render work; no general cold/warm latency improvement or Redmi FPS claim is made. Raw commit, animation, frame, focus and first-commit asset subtree measurements: `evidence/onboarding/transition-before/transition-results.json` and `transition-after/transition-results.json`.
+
+### Correction validation and changed files
+
+All requested commands passed on the corrected implementation: `git diff --check`, `npm run typecheck`, `npm test` (111 domain/release + 146 TypeScript = 257 tests, including 18 onboarding), `npm run check:accessibility`, `npm run check:performance` (5000 calls, p95 9.127 ms against 25 ms), `npm run check:assets`, and `npx expo export --platform android --output-dir /private/tmp/gezek-onboarding-transition-android-export`. Exact exit codes/logs are in `evidence/onboarding/transition-verification/results.json` and its command logs. No dependency/package/lock change; npm ci was not repeated locally.
+
+The existing full onboarding browser suite passed all 10 scenario groups at 393×852 and 412×915, including normal/reduced motion, draft Back preservation, long/large/short layouts, Preparing/Ready, failure/Retry, completed restart, real deletion/reset and rapid/departed completion with one persistence/event per session. Evidence: `evidence/onboarding/transition-full-regression/`. 32 settled screenshots are byte-identical to the earlier captures; Preparing/Ready at 412 and large-text clearance were visually reinspected. New transition suite passed both viewports with commit/RAF positions, forward/back sides, interrupted/rapid actions, surviving-only focus, reduced entry and live OS reduction without replay. Unit tests also deliberately invoke cancelled starts, late stopped callbacks and cancelled queued focus. No production browser globals are introduced; probes and hooks are only in generated fixtures.
+
+Runtime changed: `src/components/gezek/OnboardingHost.tsx`, new `src/onboardingTransition.ts`. Tests/fixture changed: `tests/onboarding.test.ts`, new `tests/onboarding-transition-browser.cjs`, `scripts/buildDetailBrowserFixture.cjs`. Documentation changed: this report, `STATUS.md`, complete PR inventory `ONBOARDING_CHANGED_FILES.txt`; new baseline/after/full-regression/verification evidence directories are included in that inventory. Intermediate diagnostic artifacts and generated bundles remain in `/private/tmp` and are not committed. Original audit/assets/screenshots are retained untouched.
+
+Fixture build/run commands retain the existing external browser modules. Set `GEZEK_ONBOARDING_FIXTURE=true`, `GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules`, `GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-onboarding-browser` and run `node scripts/buildDetailBrowserFixture.cjs`; run `node tests/onboarding-browser.cjs` with `GEZEK_BROWSER_EVIDENCE=docs/evidence/onboarding/transition-full-regression`. For transition assertions use `node tests/onboarding-transition-browser.cjs` with evidence `transition-after`. For baseline diagnostics additionally set `GEZEK_ONBOARDING_SOURCE` at fixture build to the read-only extracted source, serve it separately at 8779, and set `GEZEK_TRANSITION_BASELINE=true`, `GEZEK_BROWSER_URL=http://127.0.0.1:8779`, evidence `transition-before` at test execution. Native adapters and DOM probes do not establish native compositor or TalkBack results.
+
+Normal commit/push update the existing branch/PR only. Exact final SHA and CI status are reported in the delivery message and live Draft PR, rather than self-embedded into their own commit. No merge, new branch, new PR, production operation or #57 modification.
+
+### Remaining Redmi transition checks
+
+- Cold first Continue and warm returns on the actual device: incoming content must not briefly appear centered, freeze and then restart its slide.
+- Forward/right and Back/left entrances; rapid Continue/Back and hardware Back during motion settle the surviving scene without translated leftovers or stale replay.
+- Draft selections and scroll-to-top after Back; TalkBack focus moves only after the surviving animation, restoring the selected control or heading.
+- Actual OS Reduced Motion on/off and changing mid-transition: no spatial slide for reduced entry, immediate safe settle when enabled, no replay/refocus when disabled.
+- Preparing→Ready retains its timing, summary and CTA focus; repeated completion remains single-write/single-event, Retry/restart/reset remain safe.
+- Safe areas/warm canvas, large-system-text CTA clearance and all earlier native/signed-release acceptance remain pending. The browser result is not Redmi acceptance.
+
+No code blocker remains. Next: repeat these native acceptance checks on the pushed Draft head; keep #75 unmerged. Location work remains deferred.

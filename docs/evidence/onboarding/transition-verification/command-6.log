@@ -1,0 +1,11 @@
+
+> napsak-app@0.1.0 check:assets
+> node --import tsx scripts/buildGezekAssets.ts --check
+
+{
+  contentRecords: 392,
+  artworkFamilies: 125,
+  responsiveVariants: 375,
+  contextualIcons: 46,
+  uiExports: 11
+}

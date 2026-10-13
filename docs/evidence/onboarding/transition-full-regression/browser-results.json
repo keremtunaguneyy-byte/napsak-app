@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "complete first run, disabled/selected states, Back, one atomic commit, restart Home and independent editor",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "complete first run, disabled/selected states, Back, one atomic commit, restart Home and independent editor",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "completed empty-interest legacy bypass and Baştan başla uses editor"
+    },
+    {
+      "name": "incomplete legacy resumes safely, hardware Back preserves drafts, unfinished new drafts never persist"
+    },
+    {
+      "name": "rapid repeated calls write once; failure unlocks Retry; success rejects departed callbacks; real deletion resets guard and permits future completion"
+    },
+    {
+      "name": "large-text",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "long-turkish",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "short-safe-areas",
+      "width": 393,
+      "height": 667
+    },
+    {
+      "name": "full large-text flow, dynamic rows/summary/footer, completion"
+    },
+    {
+      "name": "normal motion and reduced motion keep the same preparation/completion semantics"
+    }
+  ],
+  "errors": []
+}
