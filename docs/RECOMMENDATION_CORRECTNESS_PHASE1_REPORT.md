@@ -95,7 +95,7 @@ Deterministic replay passes for identical catalog/context/time/seed/previousBatc
 
 The first regression run found one stale aggregate location expectation (17/18). Its actual approved output is 14/16; the test was updated after inspecting the unchanged fixtures. Final npm test passes. No unrelated failure was suppressed.
 
-npm ci reported 65 dependency vulnerabilities (24 moderate, 39 high, 2 critical); no dependency fix was attempted. Rules emulator, release-device, live Firebase, source-price re-verification and production deployment were not run: none is part of this scoped recommendation change. GitHub CI is separately checked for the exact pushed commit in the delivery report.
+npm ci reported 64 dependency vulnerabilities (24 moderate, 38 high, 2 critical); no dependency fix was attempted. Rules emulator, release-device, live Firebase, source-price re-verification and production deployment were not run: none is part of this scoped recommendation change. GitHub CI is separately checked for the exact pushed commit in the delivery report.
 
 ### Quality matrix delta
 
