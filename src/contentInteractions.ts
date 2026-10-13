@@ -4,6 +4,7 @@ export type ContentInteractions = { saved: string[]; dismissed: string[] };
 export type ContentInteractionAction =
   | { type: 'hydrate'; value: ContentInteractions }
   | { type: 'toggleSave' | 'dismiss' | 'restore'; id: string }
+  | { type: 'restoreEvents'; ids: readonly string[] }
   | { type: 'restoreAll' } | { type: 'clear' };
 
 /** Dismiss wins when sanitizing older overlapping records; schema and ID order stay unchanged. */
@@ -16,6 +17,7 @@ export function contentInteractionReducer(state: ContentInteractions, action: Co
   if (action.type === 'hydrate') return exclusiveContentInteractions(action.value);
   if (action.type === 'clear') return { saved: [], dismissed: [] };
   if (action.type === 'restoreAll') return { ...state, dismissed: [] };
+  if (action.type === 'restoreEvents') return { ...state, dismissed: state.dismissed.filter(id => !action.ids.includes(id)) };
   const { id } = action;
   if (action.type === 'toggleSave') {
     if (state.dismissed.includes(id)) return state;

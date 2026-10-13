@@ -207,3 +207,9 @@ Yeni kayıt şablonu: tarih / karar / durum / gerekçe / önceki kararın yerine
 ## 2026-10-13 — Reviewed Event artwork inventory
 
 Status: approved by the explicit Event artwork implementation request; implemented locally, Redmi acceptance pending. Refreshed Event IDs are reconciled into the existing structured JSON inventory. Approved subtype/icon/photo-family taxonomy and deterministic manifest generation supply responsive assets; runtime title inference is forbidden and unknown Event IDs retain neutral fallback. No new artwork, domain/Firebase schema or recommendation/layout change. The authoritative acoustic export remains unchanged. Contract and evidence: `EVENT_ARTWORK_CONTRACT.md`, `EVENT_ARTWORK_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR authorized; no merge.
+
+## 2026-10-13 — Production Preference Editor and global Event empty states
+
+User approved the existing unfiltered Event behavior for this PR and corrected the earlier assumption of a production Event date context. No decorative Today/Tomorrow/Weekend chip row, functional date filters or date-related schema/input/state is introduced. Global no_current_catalog means no current Event in the usable active catalog. Date discovery is deferred to a separate approved-range/date_no_match design PR.
+
+The approved Preference Editor opens from Home and directly in Event budget-only mode; drafts, Cancel/Apply, origin context and onboardingCompleted are preserved. Reason-aware Event panels, scoped Event restore and real catalog-only retry use existing eligibility/ranking and cache/embedded fallback. Contract: PREFERENCE_EVENT_CONTRACT.md. Implementation, preserved audit, local/browser/export evidence and pending Redmi/TalkBack acceptance: PREFERENCE_EVENT_IMPLEMENTATION_REPORT.md. One normal commit/push and Draft PR authorized; no merge or #57 changes.

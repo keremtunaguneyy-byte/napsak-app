@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, memo, Profiler, ReactNode, useLayoutEffect, useRef, useState } from 'react';
+import { Component, ErrorInfo, memo, Profiler, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT as L,
@@ -19,6 +19,10 @@ import { homeActionLabel, homeItemMeta, homeItemTitle } from './gezekHomePresent
 
 import type { UndoNotice } from '../../detailFlow';
 import { UndoNoticeTransition } from './UndoNoticeTransition';
+import { EventEmptyStatePanel } from './EventEmptyStatePanel';
+import type { EventPresentationState } from '../../eventPresentation';
+import type { PreferenceReturnFocus } from '../../preferenceEditor';
+import { focusDetailControl } from './detailFocus';
 
 const RADAR = require('../../../assets/gezek/home-loading-radar.png');
 const tabs: readonly { value: ResultFilter; label: string; color: string }[] = [
@@ -44,6 +48,9 @@ export type GezekHomeProps = {
   onOpenRecommendation: (item: RecommendationItem, node?: View | null) => void; onToggleSaved: (item: RecommendationItem, rank: number) => void;
   onDismiss: (item: RecommendationItem, rank: number) => void; onRotate: () => void; onShowHidden: () => void;
   onReset: () => void; onRecommendationsLayout: (y: number) => void;
+  eventState?: EventPresentationState;
+  onEventEmptyAction?: (node?: View | null) => void;
+  focusRequest?: { id: number; target: PreferenceReturnFocus };
 };
 
 export const GezekHome = memo(function GezekHome(props: GezekHomeProps) {
@@ -61,6 +68,15 @@ function HomeContent(p: GezekHomeProps) {
   const [contentWidth, setContentWidth] = useState(353);
   const [main, ...alternatives] = p.results;
   const labels = copy[p.selectedFilter];
+  const preferenceNode = useRef<View>(null);
+  const eventFilterNode = useRef<View>(null);
+  const firstCardNode = useRef<View>(null);
+  const eventEmpty = p.selectedFilter === 'event' && p.eventState && p.eventState !== 'populated' ? p.eventState : undefined;
+  useEffect(() => {
+    if (!p.focusRequest || p.focusRequest.target === 'event_action') return;
+    const frame = requestAnimationFrame(() => focusDetailControl(p.focusRequest?.target === 'preference' ? preferenceNode.current : firstCardNode.current ?? eventFilterNode.current));
+    return () => cancelAnimationFrame(frame);
+  }, [p.focusRequest]);
   const preference = [
     p.mood, p.interests.length ? p.interests.join(' + ') : 'Her şeye açığım',
     p.duration, p.budget === 'Ücretsiz' ? 'Bedava' : p.budget, p.groupSize,
@@ -82,7 +98,7 @@ function HomeContent(p: GezekHomeProps) {
       <Text accessibilityRole="header" style={s.title}>Bugün bunlar olur.</Text>
       <Text style={s.bodyMuted}>Ruh hâline, vaktine ve bütçene göre seçtik.</Text>
     </View>
-    <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Bugünkü tercihler: ${preference}. Tercihleri düzenle`} onPress={p.onEditPreferences} style={s.preference}>
+    <TouchableOpacity ref={preferenceNode} accessibilityRole="button" accessibilityLabel={`Bugünkü tercihler: ${preference}. Tercihleri düzenle`} onPress={p.onEditPreferences} style={s.preference}>
       <View style={s.preferenceIcon}><GezekAsset name="preferences" /></View>
       <Text style={s.preferenceText}>{preference}</Text>
       <Text style={s.edit}>Düzenle</Text>
@@ -94,7 +110,7 @@ function HomeContent(p: GezekHomeProps) {
     <View accessibilityRole="tablist" style={s.tabs}>
       {tabs.map(tab => {
         const selected = p.selectedFilter === tab.value;
-        return <TouchableOpacity key={tab.value} accessibilityRole="tab" accessibilityLabel={`${tab.label} önerileri`} accessibilityState={{ selected }}
+        return <TouchableOpacity ref={tab.value === 'event' ? eventFilterNode : undefined} key={tab.value} accessibilityRole="tab" accessibilityLabel={`${tab.label} önerileri`} accessibilityState={{ selected }}
           onPress={() => p.onSelectFilter(tab.value)} style={[s.tab, selected && { backgroundColor: tab.color }]}>
           <CategoryIcon filter={tab.value} selected={selected} />
           <Text style={[s.tabText, selected && tab.value !== 'idea' && s.inverseText]}>{tab.label}</Text>
@@ -111,22 +127,22 @@ function HomeContent(p: GezekHomeProps) {
     </UndoNoticeTransition>}
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
       <Heading title={labels.main} />
-      {main ? <MainCard key={main.id} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
+      {eventEmpty ? <EventEmptyStatePanel state={eventEmpty} onAction={p.onEventEmptyAction ?? (() => {})} focusAction={p.focusRequest?.target === 'event_action' ? p.focusRequest.id : undefined} /> : main ? <MainCard key={main.id} focusRef={firstCardNode} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
         onSave={p.onToggleSaved} onDismiss={p.onDismiss} /> :
         <EmptyCard filter={p.selectedFilter} onEdit={p.onEditPreferences} onHidden={p.onShowHidden} />}
-      {!!alternatives.length && <>
+      {!eventEmpty && !!alternatives.length && <>
         <Text style={s.alternativesHeading}>BUNLAR DA UYABİLİR</Text>
         <View style={s.alternativeList}>{alternatives.slice(0, 4).map((item, i) =>
           <Alternative key={item.id} item={item} rank={i + 2} saved={p.savedIds.includes(item.id)} onOpen={p.onOpenRecommendation} onSave={p.onToggleSaved} onDismiss={p.onDismiss} />)}</View>
       </>}
-      {main && !alternatives.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Alternatif bulmak için tercihleri düzenle" onPress={p.onEditPreferences} style={s.exhausted}>
+      {!eventEmpty && main && !alternatives.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Alternatif bulmak için tercihleri düzenle" onPress={p.onEditPreferences} style={s.exhausted}>
         <GezekAsset name="alternativesNotice" /><Text style={s.noticeText}>Başka uygun alternatif bulunamadı.</Text><Text style={s.edit}>Düzenle</Text>
       </TouchableOpacity>}
     </View>
-    <TouchableOpacity accessibilityRole="button" accessibilityLabel={labels.refresh} onPress={p.onRotate} style={s.refresh}>
+    {!eventEmpty && <TouchableOpacity accessibilityRole="button" accessibilityLabel={labels.refresh} onPress={p.onRotate} style={s.refresh}>
       <View accessible={false} style={s.markerSpacer} /><Text style={s.refreshText}>{labels.refresh}</Text>
       <View style={s.yellowMarker}><GezekAsset name="refresh" /></View>
-    </TouchableOpacity>
+    </TouchableOpacity>}
     <View style={s.discovery}>
       <View accessible={false} pointerEvents="none" style={s.lowerAtmosphere}><GezekAsset name="lowerRoute" /></View>
       <Text accessibilityRole="header" style={s.sectionTitle}>Başka neye bakalım?</Text>
@@ -162,12 +178,12 @@ export const HomeAtmosphere = memo(function HomeAtmosphere({ width, topInset = L
 
 type CardProps = { item: RecommendationItem; saved: boolean; onOpen: GezekHomeProps['onOpenRecommendation']; onSave: GezekHomeProps['onToggleSaved']; onDismiss: GezekHomeProps['onDismiss'] };
 
-const MainCard = memo(function MainCard({ item, saved, onOpen, onSave, onDismiss }: CardProps) {
+const MainCard = memo(function MainCard({ item, saved, onOpen, onSave, onDismiss, focusRef }: CardProps & { focusRef?: { current: View | null } }) {
   const invokingControl = useRef<View>(null);
   const [mediaWidth, setMediaWidth] = useState(329);
   const title = homeItemTitle(item);
   return <View style={s.mainCard}>
-    <Pressable ref={invokingControl} accessibilityRole="button" accessibilityLabel={`${title}. ${homeItemMeta(item)}. ${item.reasons[0] ?? ''}. ${homeActionLabel(item)}`}
+    <Pressable accessibilityRole="button" ref={node => { invokingControl.current = node; if (focusRef) focusRef.current = node; }} accessibilityLabel={`${title}. ${homeItemMeta(item)}. ${item.reasons[0] ?? ''}. ${homeActionLabel(item)}`}
       onPress={() => onOpen(item, invokingControl.current)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
     <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.mainContent}>
       <View onLayout={event => setMediaWidth(event.nativeEvent.layout.width)} style={s.mainImage}>

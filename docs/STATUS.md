@@ -391,3 +391,9 @@ Kullanıcının eski listesi on başlık: (1) kullanıcı/eşzamanlılık, (2) v
 ## 2026-10-13 — Event artwork automation
 
 `codex/gezek-event-artwork-automation` starts from verified `c4272ea011fb67952aac00a8e133c717510ff693`. All nine current Events now have reviewed subtype/icon/photo-family/artwork mappings and Hero/Square/Compact coverage; eight refreshed IDs previously fell to neutral. Existing acoustic `810:102` bytes and non-Event mappings preserved. Generator and CI enforce current-catalog classification and Android SVG coverage. Details/evidence: `EVENT_ARTWORK_IMPLEMENTATION_REPORT.md`; future ingestion: `EVENT_ARTWORK_CONTRACT.md`. Event facts/ranking/Firebase/persistence/layouts unchanged. Redmi remains pending; one Draft PR, no merge.
+
+## 2026-10-13 — Production Preference Editor / Event empty states
+
+`codex/gezek-preference-editor-event-empty-states` retains verified #73 baseline `a04c385f3854eb47a979208b54d7cb44b592053a`. Production overview/shared field controls and budget-only Event entry replace Home's onboarding-edit route. A deterministic global Event resolver, exact eligible Event restore and real catalog-only retry preserve ranking/schema/context/interactions. User explicitly deferred date discovery: no decorative Figma date-chip row or date behavior was added.
+
+Local suite, 192,000 matrix cases, 20 browser scenarios at both requested viewports and Android Expo export passed. Preserved pre-implementation audit and exact inventory: PREFERENCE_EVENT_IMPLEMENTATION_REPORT.md / PREFERENCE_EVENT_CHANGED_FILES.txt. Normal commit/push and one Draft PR follow validated work; CI and native Redmi/TalkBack/large-system-text/reduced-motion acceptance remain separate checks. No merge, signed-release or production verification is claimed.

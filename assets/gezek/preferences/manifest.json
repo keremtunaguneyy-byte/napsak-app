@@ -1,0 +1,170 @@
+[
+  {
+    "file": "event-budget.png",
+    "sourceNode": "974:4280",
+    "sha256": "dfe454c4ee801ea9a12a2302575d412cb7d2fbac595ea03632316922bbbeb960",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "file": "event-catalog.png",
+    "sourceNode": "974:4299",
+    "sha256": "db34fe32548b78c737a2506242954fcea77fb12491f38f2edff3438536234afa",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "file": "event-error.png",
+    "sourceNode": "974:4310",
+    "sha256": "1d9e9fba965ee18bd3f76378ac7dda4194fb8dbc51ef33dab23280e787bcfb9a",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "file": "event-loading.png",
+    "sourceNode": "974:4319",
+    "sha256": "a5d42a22e8531bebd36b402f52af86e312ee479211eb4f60834f69bef28f30d0",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "file": "event-dismissed.png",
+    "sourceNode": "974:4290",
+    "sha256": "4d35fde9f5dc62cd2246bf6abaec2449ce2d773e5a7bf10f768f8389c0e864fc",
+    "width": 48,
+    "height": 48
+  },
+  {
+    "file": "chevron-right.svg",
+    "sourceNode": "288:1879",
+    "sha256": "c8351de8114c147c46e5752aef093873ac61cd61791fc78565a4e5f844bf9388",
+    "width": 20.0,
+    "height": 20.0
+  },
+  {
+    "file": "chevron-left.svg",
+    "sourceNode": "288:1879",
+    "sha256": "cfd49c9ce2acfdf484b618ff447433cfb95b1d8a56b68d382aecfe5630872618",
+    "width": 20.0,
+    "height": 20.0
+  },
+  {
+    "file": "overview-mint.svg",
+    "sourceNode": "288:1879",
+    "sha256": "6a713fda41ac8f5b312827ced402ab33d32ea5eb4351e3cd4e6645eae3c4c092",
+    "width": 220.0,
+    "height": 240.0
+  },
+  {
+    "file": "overview-lavender.svg",
+    "sourceNode": "288:1879",
+    "sha256": "1a5dd9aa4297d1bd47cf4224abbcab147d98acd0ef000513dd53530df5d66be4",
+    "width": 250.0,
+    "height": 280.0
+  },
+  {
+    "file": "note-dot.svg",
+    "sourceNode": "288:1879",
+    "sha256": "af89602b17a7975fc6a4d34c69dd62bfd429c70961ab76e36235919295d9467c",
+    "width": 9.0,
+    "height": 9.0
+  },
+  {
+    "file": "budget.svg",
+    "sourceNode": "288:2439",
+    "sha256": "d0a3f0354f2e876097fae431ed703291219789dfc7b4f2b171c47dd90575153a",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "selected-pip.svg",
+    "sourceNode": "288:2439",
+    "sha256": "3023e221981a864423652c6e1d4950c2100cbb95a33e248ec3390fa45c789aeb",
+    "width": 7.0,
+    "height": 7.0
+  },
+  {
+    "file": "apply-pip.svg",
+    "sourceNode": "288:2439",
+    "sha256": "bea9064c404b0e910e1b384a3d3883747d6f364420c37db3262b5ff7b6e64409",
+    "width": 9.0,
+    "height": 9.0
+  },
+  {
+    "file": "mood.svg",
+    "sourceNode": "266:638",
+    "sha256": "39d8fc6044eed83c9ae314751f2e95bc7f8924755fea35eb55218ad55dbb73b0",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "duration.svg",
+    "sourceNode": "266:663",
+    "sha256": "25d4553ff6c2c186a6b499bec925c54a30afdbc088e5da42a69a148719706fa6",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "group.svg",
+    "sourceNode": "266:719",
+    "sha256": "4e6cc4a8d7abe86ae3ea563ddca3a22c8a66249a1703e72f5fb72d07673a4d2f",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "interest-coffee.svg",
+    "sourceNode": "31:86",
+    "sha256": "99a23495a45b3fc927f991523fbba85ab6ca71da331057bf2c902581cb7d3fa9",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "interest-art.svg",
+    "sourceNode": "31:86",
+    "sha256": "2f0ccd8cb6223042b9ac1eaa0f1acbb383024beef5d6ef4224af3ef5e3b1ce75",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "interest-nature.svg",
+    "sourceNode": "31:86",
+    "sha256": "8cd9170d5d2537edc656b2214074f98697238e99d92e56bd79f280ca5c421394",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "interest-food.svg",
+    "sourceNode": "31:86",
+    "sha256": "a8ab874009464f792be5f64de4a140a674f63a4c70bb4423ce0aa691029d30e8",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "interest-event.svg",
+    "sourceNode": "31:86",
+    "sha256": "e15eaa99ebbd8359de36ce7de64d57f8166d1b8d13ecd84681b8e08578d19281",
+    "width": 24.0,
+    "height": 24.0
+  },
+  {
+    "file": "information-dot.svg",
+    "sourceNode": "974:4307",
+    "sha256": "49522efcb499321a18d018208aa8ff0d8c0a13bcf6d2e44e84d0b299a85b8a09",
+    "width": 8.0,
+    "height": 8.0
+  },
+  {
+    "file": "selected-check.svg",
+    "sourceNode": "30:222",
+    "sha256": "bdded7bf6f424f0b2abdd6d65f8ca419f1047b1e8dcd2deca50ce7fe83e0efa1",
+    "width": 22.0,
+    "height": 22.0
+  },
+  {
+    "file": "check-mark.svg",
+    "sourceNode": "88:241",
+    "sha256": "3b90223655bddc71ab5a140c2f5c19aab5614c9eca4f9be4d5347f15ee2bf137",
+    "width": 12.0,
+    "height": 12.0
+  }
+]

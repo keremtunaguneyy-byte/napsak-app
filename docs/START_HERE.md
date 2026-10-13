@@ -63,3 +63,7 @@ Tarihsel #37 kontrol noktası `72122d613bbca64601ed3a646ff3ff025015fe1c` commit'
 ## 2026-10-13 — Event artwork reconciliation
 
 Reviewed stable-ID subtype mapping and deterministic generator contract: `EVENT_ARTWORK_CONTRACT.md`. Nine current Event reconciliation, all local checks/browser/Android evidence and pending Redmi acceptance: `EVENT_ARTWORK_IMPLEMENTATION_REPORT.md`. No Event facts, recommendation logic or layouts changed. Normal commit/push and one Draft PR authorized; no merge.
+
+## 2026-10-13 — Preference Editor / Event empty-state implementation
+
+Current approved scope and explicit date-filter deferral: `PREFERENCE_EVENT_CONTRACT.md`. Production preference overview, budget-only Event entry, global reason-aware panels, Event-only restore, real retry and context/focus contracts: `PREFERENCE_EVENT_IMPLEMENTATION_REPORT.md`. Pre-implementation audit is preserved under `docs/evidence/preference-event`. No onboarding implementation or date-chip row; local/browser/Android export evidence is separate from pending Redmi/TalkBack acceptance. One Draft PR, unmerged.
