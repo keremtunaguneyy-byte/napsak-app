@@ -203,3 +203,7 @@ Durum: `codex/idea-expansion-batch-c` dalında uygulandı; PR/CI bekliyor.
 - Gerçek development/production servis durumu ve bağımsız yedekleme düzeni.
 
 Yeni kayıt şablonu: tarih / karar / durum / gerekçe / önceki kararın yerine geçiyor mu / etkilenen dosyalar / kabul kriteri / uygulama ve test kanıtı.
+
+## 2026-10-13 — Reviewed Event artwork inventory
+
+Status: approved by the explicit Event artwork implementation request; implemented locally, Redmi acceptance pending. Refreshed Event IDs are reconciled into the existing structured JSON inventory. Approved subtype/icon/photo-family taxonomy and deterministic manifest generation supply responsive assets; runtime title inference is forbidden and unknown Event IDs retain neutral fallback. No new artwork, domain/Firebase schema or recommendation/layout change. The authoritative acoustic export remains unchanged. Contract and evidence: `EVENT_ARTWORK_CONTRACT.md`, `EVENT_ARTWORK_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR authorized; no merge.

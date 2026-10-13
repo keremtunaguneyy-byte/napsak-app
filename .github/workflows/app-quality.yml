@@ -29,6 +29,8 @@ jobs:
         run: npm ci
       - name: TypeScript
         run: npm run typecheck
+      - name: Reviewed artwork manifest and assets
+        run: npm run check:assets
       - name: Regression tests
         run: npm test
       - name: Internal preview build configuration
@@ -47,5 +49,9 @@ jobs:
         run: npm run check:recommendations
       - name: Release blocker baseline
         run: npm run check:release
+      - name: Android artwork coverage bundle
+        run: npx expo export --platform android --no-bytecode --output-dir dist-artwork
+      - name: Event SVG data in Android bundle
+        run: npm run check:assets:android -- dist-artwork
       - name: Android production bundle
         run: npx expo export --platform android --output-dir dist

@@ -52,3 +52,7 @@ Otomasyon internetten etkinlik kazıyıp kendi başına “doğru” ilan etmez.
 ## Sınırlama
 
 Başarılı otomatik kontrol, kaynak sayfasının o dakika erişilebilir olduğunu veya etkinliğin iptal edilmediğini kanıtlamaz. Düzenli kaynak doğrulamasının yerine geçmez; ne zaman yapılması gerektiğini görünür kılar.
+
+## Artwork review during staged ingestion
+
+Every staged Event also follows [EVENT_ARTWORK_CONTRACT.md](EVENT_ARTWORK_CONTRACT.md): reviewed stable-ID subtype mapping, generator/asset checks, human approval, then publication. No runtime title inference or Firebase migration. A catalog refresh must reconcile its new IDs with the artwork inventory before publication.

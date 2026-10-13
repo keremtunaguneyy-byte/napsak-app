@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scenario": "supply",
+      "cards": 5,
+      "neutralFallbacks": 0,
+      "quickActionsIndependent": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scenario": "acoustic",
+      "cards": 3,
+      "neutralFallbacks": 0,
+      "quickActionsIndependent": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scenario": "family",
+      "cards": 1,
+      "neutralFallbacks": 0,
+      "quickActionsIndependent": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scenario": "supply",
+      "cards": 5,
+      "neutralFallbacks": 0,
+      "quickActionsIndependent": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scenario": "acoustic",
+      "cards": 3,
+      "neutralFallbacks": 0,
+      "quickActionsIndependent": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scenario": "family",
+      "cards": 1,
+      "neutralFallbacks": 0,
+      "quickActionsIndependent": true
+    }
+  ],
+  "errors": [],
+  "evidence": "RN Web; not physical-device acceptance"
+}

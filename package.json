@@ -56,6 +56,9 @@
     "restore:firestore": "node --import tsx scripts/firestoreBackup.ts restore",
     "test:rules": "firebase emulators:exec --project demo-napsak --only firestore \"node --test tests/firestore.rules.test.cjs\"",
     "seed:catalog": "node --import tsx scripts/seedCatalog.ts",
-    "migrate:catalog": "node --import tsx scripts/migrateCatalog.ts"
+    "migrate:catalog": "node --import tsx scripts/migrateCatalog.ts",
+    "assets:generate": "node --import tsx scripts/buildGezekAssets.ts",
+    "check:assets": "node --import tsx scripts/buildGezekAssets.ts --check",
+    "check:assets:android": "node --import tsx scripts/checkEventArtworkExport.ts"
   }
 }

@@ -387,3 +387,7 @@ PRODUCT_SPEC §9.4'teki davranış #21 ile main'e alındı: `dcde744961d914a7a4c
 Kullanıcının eski listesi on başlık: (1) kullanıcı/eşzamanlılık, (2) veri/database, (3) ölçek/maliyet, (4) güvenlik, (5) kimlik, (6) hata/loglama, (7) test/e2e, (8) gizlilik/KVKK, (9) altyapı/deploy, (10) performans. Önceki özette (11) yedek/kurtarma ve (12) analitik/içerik operasyonu ayrıca ayrıştırıldı; on iki maddenin tamamı birebir eski kullanıcı alıntısı değildir.
 
 Öncelik: mevcut backend'in dev/prod ve yetki durumunu kanıtla → test/cihaz regresyonu → hata izleme, yedek/restore ve veri silme akışları → ölçümlü performans/maliyet/yük kontrolü. Azure'a geçiş ayrı onaylı teknik karar gerektirir; mevcut Firebase yönü sırf eski notta Azure geçtiği için değiştirilmez. Sayısal kapasite ve maliyet ölçüm olmadan ilan edilmez.
+
+## 2026-10-13 — Event artwork automation
+
+`codex/gezek-event-artwork-automation` starts from verified `c4272ea011fb67952aac00a8e133c717510ff693`. All nine current Events now have reviewed subtype/icon/photo-family/artwork mappings and Hero/Square/Compact coverage; eight refreshed IDs previously fell to neutral. Existing acoustic `810:102` bytes and non-Event mappings preserved. Generator and CI enforce current-catalog classification and Android SVG coverage. Details/evidence: `EVENT_ARTWORK_IMPLEMENTATION_REPORT.md`; future ingestion: `EVENT_ARTWORK_CONTRACT.md`. Event facts/ranking/Firebase/persistence/layouts unchanged. Redmi remains pending; one Draft PR, no merge.
