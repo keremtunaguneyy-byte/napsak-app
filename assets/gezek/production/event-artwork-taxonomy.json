@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "families": {
+    "concert-classical-acoustic": {
+      "icon_key": "icon/event/music",
+      "photo_family": "concert-stage"
+    },
+    "concert-live": {
+      "icon_key": "icon/event/music",
+      "photo_family": "concert-stage"
+    },
+    "creative-workshop": {
+      "icon_key": "icon/event/workshop",
+      "photo_family": "official-art-or-semantic-fallback"
+    },
+    "culinary-workshop": {
+      "icon_key": "icon/event/workshop",
+      "photo_family": "hands-cooking"
+    },
+    "exhibition-opening": {
+      "icon_key": "icon/event/stage",
+      "photo_family": "official-art-or-semantic-fallback"
+    },
+    "family-show": {
+      "icon_key": "icon/event/family",
+      "photo_family": "family-stage"
+    },
+    "festival-food-drink": {
+      "icon_key": "icon/event/festival",
+      "photo_family": "festival-crowd"
+    },
+    "film-talk": {
+      "icon_key": "icon/event/film",
+      "photo_family": "open-air-cinema"
+    },
+    "sports-event": {
+      "icon_key": "icon/event/sport",
+      "photo_family": "sports-court"
+    },
+    "standup-comedy": {
+      "icon_key": "icon/event/stage",
+      "photo_family": "official-art-or-semantic-fallback"
+    },
+    "theatre-play": {
+      "icon_key": "icon/event/stage",
+      "photo_family": "theatre-stage"
+    },
+    "trivia-games": {
+      "icon_key": "icon/event/game",
+      "photo_family": "quiz-night"
+    }
+  }
+}

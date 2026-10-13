@@ -1,0 +1,80 @@
+[
+  {
+    "command": "git diff --check",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/00.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/01.log"
+  },
+  {
+    "command": "npm test",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/02.log"
+  },
+  {
+    "command": "npm run test:catalog",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/03.log"
+  },
+  {
+    "command": "npm run check:events",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/04.log"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/05.log"
+  },
+  {
+    "command": "npm run test:stress",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/06.log"
+  },
+  {
+    "command": "npm run check:performance",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/07.log"
+  },
+  {
+    "command": "npm run check:recommendations",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/08.log"
+  },
+  {
+    "command": "npm run assets:generate",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/09.log"
+  },
+  {
+    "command": "npm run check:assets",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/10.log"
+  },
+  {
+    "command": "CI=1 npx expo export --platform android --no-bytecode --output-dir /tmp/gezek-artwork-android-readable",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/11.log"
+  },
+  {
+    "command": "CI=1 npx expo export --platform android --output-dir /tmp/gezek-artwork-android",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/12.log"
+  },
+  {
+    "command": "npm test (final acoustic/golden regression fixtures)",
+    "exit": 0,
+    "log": "/tmp/gezek-artwork-validation/final-tests.log",
+    "tests": 226
+  },
+  {
+    "command": "npm run check:assets:android -- /tmp/gezek-artwork-android-readable",
+    "exit": 0,
+    "events": 9,
+    "layoutReferences": 27,
+    "uniqueAssets": 12
+  }
+]

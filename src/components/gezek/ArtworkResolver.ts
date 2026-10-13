@@ -19,8 +19,10 @@ export function ArtworkResolver(item: VisualItem, layout: ArtworkLayout, mediaRe
   if (media && media.source > 0 && media.sourceCredit.trim() && media.licenseEvidence.trim()
     && [media.focalPoint.x, media.focalPoint.y].every(v => Number.isFinite(v) && v >= 0 && v <= 1)) return { type: 'media', media, layout };
   const mapping = contentVisual(item);
+  // Events require a reviewed stable-ID mapping; an unreviewed hint cannot bypass it.
   // Item-specific Experience artwork wins over a semantic hint.
-  const keys = item.kind === 'experience' ? [mapping?.artwork_key, item.artwork_key] : [item.artwork_key, mapping?.artwork_key];
+  const keys = item.kind === 'event' ? [mapping?.artwork_key]
+    : item.kind === 'experience' ? [mapping?.artwork_key, item.artwork_key] : [item.artwork_key, mapping?.artwork_key];
   for (const key of keys) if (key && families[key]?.[layout]) return { type: 'artwork', artwork_key: key, path: families[key][layout], layout };
   return { type: 'neutral', layout };
 }

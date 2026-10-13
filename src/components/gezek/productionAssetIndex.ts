@@ -695,7 +695,9 @@ export const PRODUCTION_ASSET_INDEX = {
     },
     "event:event-amadeus-congresium-2026-10-16": {
       "artwork_key": "event/theatre-play/v01",
-      "icon_key": "icon/event/stage"
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
     },
     "event:event-ankara-cocktail-festival-2026-09-27": {
       "artwork_key": "event/festival-food-drink/v01",
@@ -2224,6 +2226,54 @@ export const PRODUCTION_ASSET_INDEX = {
     "place:ziraat-bankasi-muzesi": {
       "artwork_key": "place/museum-gallery/museum-gallery/v01",
       "icon_key": "icon/place/museum"
+    },
+    "event:event-cso-iki-keman-bir-miras-2026-10-16": {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-classical-acoustic",
+      "photo_family": "concert-stage"
+    },
+    "event:event-sempre-mozart-ankara-dob-2026-10-23": {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-classical-acoustic",
+      "photo_family": "concert-stage"
+    },
+    "event:event-magic-bubbles-csoada-2026-10-24": {
+      "artwork_key": "event/family-show/v01",
+      "icon_key": "icon/event/family",
+      "visual_subtype": "family-show",
+      "photo_family": "family-stage"
+    },
+    "event:event-falda-carmen-xl-ataturk-sanat-2026-10-31": {
+      "artwork_key": "event/theatre-play/v01",
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
+    },
+    "event:event-bir-aile-provasi-ataturk-sanat-2026-11-01": {
+      "artwork_key": "event/theatre-play/v01",
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
+    },
+    "event:event-ankara-kadin-orkestrasi-csoada-2026-11-02": {
+      "artwork_key": "event/concert-live/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-live",
+      "photo_family": "concert-stage"
+    },
+    "event:event-satonun-altinda-ataturk-sanat-2026-11-07": {
+      "artwork_key": "event/theatre-play/v01",
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
+    },
+    "event:event-ataturke-saygi-csoada-tarihi-2026-11-10": {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-classical-acoustic",
+      "photo_family": "concert-stage"
     }
   }
 } as const;
