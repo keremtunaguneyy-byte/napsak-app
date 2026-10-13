@@ -1,5 +1,13 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-13 — Recommendation Correctness Phase 1
+
+Fetch ile doğrulanan `origin/main` `a37d1fc2cfe23ec06164c8165877345d804339c1` üzerinden `codex/gezek-recommendation-correctness-phase-1` açıldı. İlgisiz iki `src/firebase/BA_4bit.sv/rtl/` dosyası korunur. Kullanıcı süreyi available maximum olarak, primary tier içinde bounded fit'i ve Ücretsiz hard zero-cost kapısını onayladı; normal commit/push ve Draft PR yetkilidir, merge yok.
+
+Süre arzı before→after: 30–60 dk 5→5, 1–2 saat 15→26, 3–4 saat 6→46, Yarım gün 5→52, Fark etmez 52→52. 22 erişilemez plan artık bir açık maksimum seçeneğinde uygundur. Katalog kayıtları değiştirilmedi. Structured ücretsiz kapısı bütün recommendation türlerinde uygulanır; boş/kısmi sonuç doğru davranıştır. Experience validation sonlu, negatif olmayan ve sıralı süre aralığı ister.
+
+Kalite baseline'ında 688→610 aday, 70→72 ilk-grup kartı, 0/2/13→0/1/14 boş/kısmi/tam dağılımı vardır. Düşen toplam aday ücretsiz kapısının beklenen etkisidir; no-overrun, budget leakage, açıklama ve deterministik oracle kapsamı genişletildi. Güncel bütün komutlar, performans, tam 52-plan matrisi ve bekleyen device kontrolleri `RECOMMENDATION_CORRECTNESS_PHASE1_REPORT.md` içindedir. Grup, rotasyon, mood, konum, Event expiry, Idea 1+4, UI, Firebase/persistence ve release davranışları korunur; production/signed-device kanıtı değildir.
+
 ## 2026-10-10 — Detail Flow PR 2
 
 Live fetched main is `30b96c059f242ec91d886e9480afb2491c31ab4a`; PR #69 is merged per the current user baseline. Historical “unmerged / PR 2 unauthorized / Figma bookmark sync pending” notes below are superseded by the current user authorization and live Figma bookmark reconciliation. Event/Idea internal detail and minimum Saved routing are implemented on `codex/gezek-detail-event-idea`. Validation, scope, known identical Event-health failure and pending native acceptance: `DETAIL_FLOW_PR2_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR are authorized; no merge or Onboarding.

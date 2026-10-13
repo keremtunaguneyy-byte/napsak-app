@@ -38,6 +38,22 @@ export const budgetPreferencePriceLevel = (budget?: BudgetPreference): PriceLeve
   return undefined;
 };
 
+/** Free is an eligibility constraint; other price bands remain soft targets. */
+export function budgetEligible(priceLevel: PriceLevel, budget?: BudgetPreference): boolean {
+  return budget !== 'Ücretsiz' || priceLevel === 0;
+}
+
+/** Describe the structured price, never infer affordability from a nearby band. */
+function budgetReasons(priceLevel: PriceLevel, budget?: BudgetPreference): string[] {
+  const preferred = budgetPreferencePriceLevel(budget);
+  if (preferred === undefined || !budgetEligible(priceLevel, budget)) return [];
+  if (Math.abs(priceLevel - preferred) > 1) return [];
+  if (priceLevel === 0) return ['ücretsiz'];
+  return priceLevel === preferred
+    ? [`${budget} bütçe seçiminle eşleşiyor`]
+    : [`${'₺'.repeat(priceLevel)} fiyat bandında`];
+}
+
 function budgetSignal(place: Place, budget?: BudgetPreference): number {
   const preferred = budgetPreferencePriceLevel(budget);
   if (preferred === undefined) return 0;
@@ -78,8 +94,17 @@ const durationRanges: Record<Exclude<DurationPreference, 'Fark etmez'>, readonly
 
 export function durationEligible(experience: Experience, duration?: DurationPreference): boolean {
   if (!duration || duration === 'Fark etmez') return true;
+  const [, maximum] = durationRanges[duration];
+  return experience.maxDurationMinutes <= maximum;
+}
+
+/** Bounded soft fit: primary interest tiers still sort before the adjusted score. */
+export function durationFitSignal(experience: Experience, duration?: DurationPreference): number {
+  if (!duration || duration === 'Fark etmez') return 0;
   const [minimum, maximum] = durationRanges[duration];
-  return experience.minDurationMinutes >= minimum && experience.maxDurationMinutes <= maximum;
+  const target = (minimum + maximum) / 2;
+  const estimated = (experience.minDurationMinutes + experience.maxDurationMinutes) / 2;
+  return 16 * Math.max(0, 1 - Math.abs(estimated - target) / target);
 }
 
 export function experienceLifecycleEligible(experience: Experience, now: Date, events: readonly Event[] = []): boolean {
@@ -120,6 +145,7 @@ export function recommendExperiences(options: {
     .filter(item => !dismissed.includes(item.id))
     .filter(item => isExperienceRecommendationEligible(item, eligibilityContext, now))
     .filter(item => durationEligible(item, duration))
+    .filter(item => budgetEligible(item.priceLevel, budget))
     .filter(item => !interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
     .map(item => {
       const distance = coordinates ? distanceInKm(coordinates, item) : undefined;
@@ -139,8 +165,8 @@ export function recommendExperiences(options: {
         ...(primaryMatches.length ? [`${primaryMatches.join(', ')} planın ana odağında`] : []),
         ...(secondaryMatches.length ? [`${secondaryMatches.join(', ')} ikincil olarak eşleşiyor`] : []),
         ...(groupMatch && groupSize ? [`${groupSize} planına uygun`] : []),
-        ...(duration && duration !== 'Fark etmez' ? [`${duration} sürene sığıyor`] : []),
-        ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
+        ...(duration && duration !== 'Fark etmez' ? ['tahmini plan süresi ayırdığın süre içinde; gidiş/dönüş ulaşımı hariç'] : []),
+        ...budgetReasons(item.priceLevel, budget),
         ...(distance !== undefined && distance < 5 ? ['başlangıç noktası sana yakın'] : []),
         ...(!moodMatch && !primaryMatches.length && !secondaryMatches.length ? ['editoryal olarak güçlü bir mikro plan'] : []),
       ];
@@ -150,7 +176,8 @@ export function recommendExperiences(options: {
         reasons,
         interestTier,
         score: (moodMatch ? 48 : 0) + primaryMatches.length * 48 + secondaryMatches.length * 12 + item.editorialScore * 3
-          + item.confidenceScore * 20 + budgetScore + groupScore + proximityScore + freshnessScore + random() * 8,
+          + item.confidenceScore * 20 + budgetScore + groupScore + proximityScore + freshnessScore
+          + durationFitSignal(item, duration) + random() * 8,
       };
     })
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'tr'));
@@ -203,6 +230,7 @@ export function recommendPlaces(options: {
   const candidates = places
     .filter(place => !dismissed.includes(place.id))
     .filter(isPlaceRecommendationEligible)
+    .filter(place => budgetEligible(place.priceLevel, budget))
     .filter(place => placeInterestEligible(place, interests))
     .map(place => {
       const distance = coordinates ? distanceInKm(coordinates, place) : undefined;
@@ -216,7 +244,7 @@ export function recommendPlaces(options: {
       const reasons = [
         ...(moodMatch ? [`${mood} moduna uygun`] : []),
         ...(interestMatch ? [`${matchedInterests.join(', ')} seçiminle eşleşiyor`] : []),
-        ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
+        ...budgetReasons(place.priceLevel, budget),
         ...(groupScore > 0 && groupSize ? [`${groupSize} planına uygun`] : []),
         ...(distance !== undefined && distance < 3 ? ['sana yakın'] : []),
         ...(!moodMatch && !interestMatch ? ['yüksek Gezek puanı'] : []),
@@ -266,6 +294,7 @@ function recommendIdeas(options: {
   const previous = new Set(previousBatch);
   const scored = ideas
     .filter(idea => !dismissed.includes(idea.id))
+    .filter(idea => budgetEligible(idea.priceLevel, budget))
     .map(idea => {
       const moodMatch = Boolean(mood && idea.moods.includes(mood));
       const matchedInterests = interests.filter(interest => idea.category === interest || idea.interests.includes(interest));
@@ -279,7 +308,7 @@ function recommendIdeas(options: {
       const reasons = [
         ...(moodMatch ? [`${mood} moduna uygun`] : []),
         ...(matchedInterests.length ? [`${matchedInterests.join(', ')} seçiminle eşleşiyor`] : []),
-        ...(budgetScore > 0 && budget && budget !== 'Fark etmez' ? [`${budget} bütçene yakın`] : []),
+        ...budgetReasons(idea.priceLevel, budget),
         ...(groupMatch && groupSize ? [`${groupSize} planına uygun`] : []),
         ...(discoveryMode && interests.length && !matchedInterests.length ? ['farklı bir şey keşfetmen için'] : []),
         ...(!moodMatch && !matchedInterests.length ? ['yüksek Gezek puanı'] : []),
@@ -386,6 +415,7 @@ export function recommendAll(options: {
   const eventItems: RecommendationItem[] = filter === 'event' || filter === 'all' ? events
     .filter(event => !dismissed.includes(event.id))
     .filter(event => eventStartEligible(event, now))
+    .filter(event => budgetEligible(event.priceLevel, budget))
     // An explicit Event selection ranks by preferences without emptying the tab.
     .filter(event => filter === 'event' || !interests.length || interests.some(interest => event.category === interest || event.interests.includes(interest)))
     .map(event => {

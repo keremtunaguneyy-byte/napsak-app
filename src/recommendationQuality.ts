@@ -8,6 +8,7 @@ import {
 } from './contentPolicy';
 import {
   budgetPreferencePriceLevel,
+  budgetEligible,
   durationEligible,
   eventStartEligible,
   placeGroupSignal,
@@ -103,7 +104,7 @@ export const GOLDEN_RECOMMENDATION_SCENARIOS: readonly RecommendationQualityScen
   {
     id: 'tight-budget',
     label: 'Tight budget',
-    purpose: 'Free options are a ranking signal, not a new hard filter.',
+    purpose: 'Free options are a hard zero-cost constraint; paid supply is excluded.',
     filter: 'place', mood: 'Meraklı', interests: ['Sanat', 'Doğa'], budget: 'Ücretsiz', groupSize: '2 kişi',
     coordinates: { latitude: 39.9208, longitude: 32.8541 }, seed: 161,
     now: new Date('2026-09-14T12:00:00+03:00'),
@@ -135,7 +136,7 @@ export const GOLDEN_RECOMMENDATION_SCENARIOS: readonly RecommendationQualityScen
   {
     id: 'long-duration',
     label: 'Long duration · Yarım gün',
-    purpose: 'Long Experience supply is measured without filling from shorter plans.',
+    purpose: 'Half-day maximum admits shorter fallback while duration fit favors longer relevant plans.',
     filter: 'experience', mood: 'Enerjik', interests: ['Doğa', 'Sanat'], budget: '₺', groupSize: '5+',
     duration: 'Yarım gün', coordinates: { latitude: 39.9208, longitude: 32.8541 }, seed: 201,
     now: new Date('2026-09-14T12:00:00+03:00'),
@@ -143,7 +144,7 @@ export const GOLDEN_RECOMMENDATION_SCENARIOS: readonly RecommendationQualityScen
   {
     id: 'sparse-interest',
     label: 'Sparse interest context',
-    purpose: 'A narrow Experience intersection may honestly return fewer than five results.',
+    purpose: 'Coffee supply within a four-hour maximum includes shorter primary-interest fallback.',
     filter: 'experience', mood: 'Meraklı', interests: ['Kahve'], budget: '₺₺', groupSize: 'Tek',
     duration: '3–4 saat', seed: 211,
     now: new Date('2026-09-14T12:00:00+03:00'),
@@ -288,8 +289,10 @@ function eligibleCandidates(
 ): QualityCandidate[] {
   const dismissed = scenario.dismissed ?? [];
   const eligibilityContext = createExperienceEligibilityContext(catalog.places, catalog.events);
+  const priceEligible = (item: { priceLevel: RecommendationItem['priceLevel'] }) => budgetEligible(item.priceLevel, scenario.budget);
   if (scenario.filter === 'experience') {
     return catalog.experiences
+      .filter(priceEligible)
       .filter(item => !dismissed.includes(item.id))
       .filter(item => isExperienceRecommendationEligible(item, eligibilityContext, scenario.now))
       .filter(item => durationEligible(item, scenario.duration))
@@ -297,15 +300,17 @@ function eligibleCandidates(
   }
   if (scenario.filter === 'place') {
     return catalog.places
+      .filter(priceEligible)
       .filter(item => !dismissed.includes(item.id))
       .filter(isPlaceRecommendationEligible)
       .filter(item => placeInterestEligible(item, scenario.interests))
       .map(item => ({ ...item, kind: 'place' as const }));
   }
   if (scenario.filter === 'idea') {
-    return catalog.ideas.filter(item => !dismissed.includes(item.id));
+    return catalog.ideas.filter(priceEligible).filter(item => !dismissed.includes(item.id));
   }
   return catalog.events
+    .filter(priceEligible)
     .filter(item => !dismissed.includes(item.id))
     .filter(item => eventStartEligible(item, scenario.now));
 }
@@ -385,6 +390,7 @@ function countDurationExclusions(scenario: RecommendationQualityScenario, catalo
   const dismissed = scenario.dismissed ?? [];
   const eligibilityContext = createExperienceEligibilityContext(catalog.places, catalog.events);
   return catalog.experiences
+    .filter(item => budgetEligible(item.priceLevel, scenario.budget))
     .filter(item => !dismissed.includes(item.id))
     .filter(item => isExperienceRecommendationEligible(item, eligibilityContext, scenario.now))
     .filter(item => !scenario.interests.length || scenario.interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
@@ -448,6 +454,8 @@ export function analyzeRecommendationScenario(
   }
 
   const invariantFailures: string[] = [];
+  if (scenario.budget === 'Ücretsiz' && allResults.some(item => item.priceLevel !== 0)) invariantFailures.push('paid_free_budget_leakage');
+  if (allResults.some(item => item.priceLevel !== 0 && item.reasons.some(reason => /ücretsiz/i.test(reason)))) invariantFailures.push('false_free_budget_explanation');
   if (!deterministicReplay) invariantFailures.push('deterministic_replay');
   if (dismissedLeakageCount) invariantFailures.push('dismissed_leakage');
   if (expiredOrInvalidEventLeakageCount) invariantFailures.push('expired_or_invalid_event_leakage');

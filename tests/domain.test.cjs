@@ -292,12 +292,12 @@ test('explicit Lezzet selection excludes unrelated pure parks', () => {
   assert.deepEqual(results.map(place => place.id), ['food']);
 });
 
-test('budget preference changes ranking without hard filtering', () => {
+test('paid budget bands change ranking without hard filtering', () => {
   const free = fixture({ id: 'free', category: 'Sanat', interests: ['Sanat'], priceLevel: 0, editorialScore: 4 });
   const premium = fixture({ id: 'premium', category: 'Sanat', interests: ['Sanat'], priceLevel: 3, editorialScore: 5 });
-  const results = recommendPlaces({ places: [premium, free], interests: ['Sanat'], dismissed: [], budget: 'Ücretsiz', random: () => 0 });
-  assert.equal(results[0].id, 'free');
-  assert.ok(results.some(place => place.id === 'premium'));
+  const results = recommendPlaces({ places: [premium, free], interests: ['Sanat'], dismissed: [], budget: '₺₺₺', random: () => 0 });
+  assert.equal(results[0].id, 'premium');
+  assert.ok(results.some(place => place.id === 'free'));
 });
 
 test('group size preference changes ranking from safe metadata signals', () => {
@@ -841,10 +841,14 @@ test('duration is a hard eligibility gate and Fark etmez leaves the catalogue op
   const threeToFour = recommendExperiences({ ...common, duration: '3–4 saat' });
   const halfDay = recommendExperiences({ ...common, duration: 'Yarım gün' });
   const any = recommendExperiences({ ...common, duration: 'Fark etmez' });
-  assert.ok(short.length && short.every(item => item.minDurationMinutes >= 30 && item.maxDurationMinutes <= 60));
-  assert.ok(oneToTwo.length && oneToTwo.every(item => item.minDurationMinutes >= 60 && item.maxDurationMinutes <= 120));
-  assert.ok(threeToFour.length && threeToFour.every(item => item.minDurationMinutes >= 180 && item.maxDurationMinutes <= 240));
-  assert.ok(halfDay.length && halfDay.every(item => item.minDurationMinutes >= 240 && item.maxDurationMinutes <= 360));
+  assert.equal(short.length, 5);
+  assert.equal(oneToTwo.length, 26);
+  assert.equal(threeToFour.length, 46);
+  assert.equal(halfDay.length, 52);
+  assert.ok(short.every(item => item.maxDurationMinutes <= 60));
+  assert.ok(oneToTwo.every(item => item.maxDurationMinutes <= 120));
+  assert.ok(threeToFour.every(item => item.maxDurationMinutes <= 240));
+  assert.ok(halfDay.every(item => item.maxDurationMinutes <= 360));
   assert.equal(any.length, experiences.length);
 });
 

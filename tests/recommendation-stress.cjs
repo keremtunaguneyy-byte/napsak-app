@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const { places } = require('../.test-build/data/places.js');
 const { experiences } = require('../.test-build/data/experiences.js');
-const { durationEligible, recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
+const { recommendExperiences, recommendPlaces } = require('../.test-build/recommendations.js');
 const { createExperienceEligibilityContext, isExperienceRecommendationEligible, isPlaceRecommendationEligible } = require('../.test-build/contentPolicy.js');
 const { KNOWN_MOODS, KNOWN_INTERESTS, KNOWN_BUDGETS, KNOWN_DURATIONS, KNOWN_GROUP_SIZES } = require('../.test-build/types.js');
 
@@ -13,24 +13,27 @@ const report = { scenarios: 0, empty: 0, interestMismatch: 0, duplicates: 0, div
 let budgetChanges = 0;
 let groupChanges = 0;
 const ids = values => values.map(value => value.id);
-const eligible = interests => places.filter(isPlaceRecommendationEligible).filter(place => !interests.length || interests.some(interest => place.category === interest || place.interests.includes(interest)));
+const eligible = (interests, budget) => places.filter(isPlaceRecommendationEligible)
+  .filter(place => budget !== 'Ücretsiz' || place.priceLevel === 0)
+  .filter(place => !interests.length || interests.some(interest => place.category === interest || place.interests.includes(interest)));
 
 for (const mood of KNOWN_MOODS) for (const interests of interestSets) for (const budget of KNOWN_BUDGETS) for (const groupSize of KNOWN_GROUP_SIZES) {
   report.scenarios++;
   const options = { places, mood, interests, budget, groupSize, dismissed: [], limit: 5, seed: 71 };
   const first = recommendPlaces(options);
-  if (eligible(interests).length && !first.length) report.empty++;
+  if (eligible(interests, budget).length && !first.length) report.empty++;
+  assert.ok(budget !== 'Ücretsiz' || first.every(place => place.priceLevel === 0), 'paid Place leaked into free budget');
   if (first.some(place => interests.length && !interests.some(interest => place.category === interest || place.interests.includes(interest)))) report.interestMismatch++;
   if (new Set(ids(first)).size !== first.length) report.duplicates++;
   // Diversity is meaningful only where preferences permit several catalogue categories.
-  const eligibleCategories = new Set(eligible(interests).map(place => place.category));
+  const eligibleCategories = new Set(eligible(interests, budget).map(place => place.category));
   if (first.length === 5 && eligibleCategories.size >= 3 && new Set(first.map(place => place.category)).size < 2) report.diversityProblems++;
   const repeat = recommendPlaces(options);
   assert.deepEqual(ids(first), ids(repeat), 'deterministic mode changed output');
   const dismissed = first.slice(0, 2).map(place => place.id);
   assert.ok(recommendPlaces({ ...options, dismissed }).every(place => !dismissed.includes(place.id)), 'dismissed item returned');
   const second = recommendPlaces({ ...options, seed: 72, previousBatch: ids(first) });
-  if (eligible(interests).length >= 10) {
+  if (eligible(interests, budget).length >= 10) {
     report.rotationChecks++;
     report.overlapTotal += second.filter(place => ids(first).includes(place.id)).length;
   }
@@ -57,14 +60,15 @@ assert.ok(groupChanges > 10, 'group size does not materially affect enough profi
 
 const experienceReport = { scenarios: 0, empty: 0, interestMismatch: 0, durationMismatch: 0, duplicates: 0, rotationChecks: 0, overlapTotal: 0 };
 const experienceEligibilityContext = createExperienceEligibilityContext(places);
+const durationMaximums = { '30–60 dk': 60, '1–2 saat': 120, '3–4 saat': 240, 'Yarım gün': 360, 'Fark etmez': Infinity };
 for (const mood of KNOWN_MOODS) for (const interests of interestSets) for (const duration of KNOWN_DURATIONS) {
   experienceReport.scenarios++;
   const options = { experiences, places, mood, interests, duration, dismissed: [], limit: 5, seed: 91, now: new Date('2026-08-08T00:00:00Z') };
-  const eligibleExperiences = experiences.filter(item => isExperienceRecommendationEligible(item, experienceEligibilityContext, options.now) && durationEligible(item, duration) && (!interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest))));
+  const eligibleExperiences = experiences.filter(item => isExperienceRecommendationEligible(item, experienceEligibilityContext, options.now) && item.maxDurationMinutes <= durationMaximums[duration] && (!interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest))));
   const first = recommendExperiences(options);
   if (eligibleExperiences.length && !first.length) experienceReport.empty++;
   if (first.some(item => interests.length && !interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))) experienceReport.interestMismatch++;
-  if (first.some(item => !durationEligible(item, duration))) experienceReport.durationMismatch++;
+  if (first.some(item => item.maxDurationMinutes > durationMaximums[duration])) experienceReport.durationMismatch++;
   if (new Set(ids(first)).size !== first.length) experienceReport.duplicates++;
   const repeat = recommendExperiences(options);
   assert.deepEqual(ids(first), ids(repeat), 'Experience deterministic mode changed output');
