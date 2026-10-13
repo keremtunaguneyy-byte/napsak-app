@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-13 — Production first-run onboarding
+
+Verified PR #74 merge baseline `782723c9b2d6aff17363a3c8f2532efcde107f55`; branch `codex/gezek-production-onboarding`. Native host/controller, exact local Figma artwork, minimum-one first-run Interests, isolated RAM drafts, once-only successful commit and safe legacy routing are implemented. Existing audit/captures are preserved; final correction and command/browser/export evidence are recorded in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR authorized; no merge, production operation or #57 changes. Redmi, TalkBack, real OS large text/reduced motion and signed-release acceptance remain pending.
+
 ## 2026-10-13 — Recommendation Correctness Phase 1
 
 Fetch ile doğrulanan `origin/main` `a37d1fc2cfe23ec06164c8165877345d804339c1` üzerinden `codex/gezek-recommendation-correctness-phase-1` açıldı. İlgisiz iki `src/firebase/BA_4bit.sv/rtl/` dosyası korunur. Kullanıcı süreyi available maximum olarak, primary tier içinde bounded fit'i ve Ücretsiz hard zero-cost kapısını onayladı; normal commit/push ve Draft PR yetkilidir, merge yok.

@@ -1,0 +1,34 @@
+
+> napsak-app@0.1.0 test:stress
+> rm -rf .test-build && tsc src/domain.ts src/types.ts src/recommendations.ts src/resultFilters.ts src/data/places.ts src/data/ideas.ts src/data/events.ts src/data/experiences.ts src/persistence.ts --ignoreConfig --esModuleInterop --moduleResolution node16 --outDir .test-build --module Node16 --target es2020 --skipLibCheck && node tests/recommendation-stress.cjs && rm -rf .test-build
+
+
+Recommendation stress analysis
+┌─────────────────────────┬────────┐
+│ (index)                 │ Values │
+├─────────────────────────┼────────┤
+│ scenarios               │ 2560   │
+│ empty                   │ 0      │
+│ interestMismatch        │ 0      │
+│ duplicates              │ 0      │
+│ diversityProblems       │ 0      │
+│ rotationChecks          │ 2512   │
+│ overlapTotal            │ 0      │
+│ averageBatchOverlap     │ 0      │
+│ budgetSensitiveProfiles │ 128    │
+│ groupSensitiveProfiles  │ 123    │
+└─────────────────────────┴────────┘
+
+Experience stress analysis
+┌─────────────────────┬────────┐
+│ (index)             │ Values │
+├─────────────────────┼────────┤
+│ scenarios           │ 640    │
+│ empty               │ 0      │
+│ interestMismatch    │ 0      │
+│ durationMismatch    │ 0      │
+│ duplicates          │ 0      │
+│ rotationChecks      │ 480    │
+│ overlapTotal        │ 0      │
+│ averageBatchOverlap │ 0      │
+└─────────────────────┴────────┘

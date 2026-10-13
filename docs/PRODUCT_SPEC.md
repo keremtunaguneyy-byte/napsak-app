@@ -181,6 +181,9 @@ Süre:
 
 ### 5.4 Onboarding ilkesi — Kararlaştırıldı
 
+- 13 Ekim 2026 onayı: ilk kullanım Welcome → Mood → Interests → Budget → Group → Duration → Preparing/Ready → Home akışıdır. Interests adımında en az bir seçim gerekir; sıfır seçimde Continue görünür biçimde ve erişilebilirlik durumunda disabled kalır. Çoklu seçim sınırı yoktur; Back taslağı korur, sıfır seçim için hata/Alert üretilmez.
+- Üretim Figma onboarding şartı eski permissive onboarding UI'nin yerini alır. Domain boş ilgi dizisini kabul etmeye devam eder; tamamlanmış legacy kullanıcılar boş diziyle Home'a geçer ve PR #74 Preference Editor doğrulaması değişmez.
+- Taslak yeni bir şemaya yazılmaz. Başarılı son yerel kayıt öncesinde tamamlanma yayımlanmaz; Ready callback'i başarıda kilitli, hatada Retry için açık kalır. Mevcut veri-silme yolu yeni ilk kullanıma izin verir. Eksik eski kayıt, ilk eksik yanıta güvenle döner (mod mevcut/sıfır ilgi → Interests). Sözleşme ve kanıt: `ONBOARDING_IMPLEMENTATION_REPORT.md`.
 - Akış kısa, açık ve adımlı olmalıdır.
 - Yeni alan eklenmesi eski kullanıcıların onboarding’ini kendiliğinden sıfırlamamalıdır.
 - Veri şeması sürümlenmeli ve geriye uyumlu migration içermelidir.

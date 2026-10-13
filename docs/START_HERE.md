@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-13 — Production first-run onboarding
+
+Verified baseline: PR #74 merge `782723c9b2d6aff17363a3c8f2532efcde107f55`. Implementation remains on `codex/gezek-production-onboarding`. Approved minimum-one Interest is scoped to first run; legacy empty arrays, domain and Preference Editor remain compatible. Read `ONBOARDING_IMPLEMENTATION_REPORT.md` for the final contract, preserved audit, exact local/browser/export evidence and pending Redmi acceptance. No merge or production operation is authorized.
+
 ## 2026-10-10 — Detail Flow PR 2
 
 Live fetched main is `30b96c059f242ec91d886e9480afb2491c31ab4a`; PR #69 is merged per the current user baseline. Historical “unmerged / PR 2 unauthorized / Figma bookmark sync pending” notes below are superseded by the current user authorization and live Figma bookmark reconciliation. Event/Idea internal detail and minimum Saved routing are implemented on `codex/gezek-detail-event-idea`. Validation, scope, known identical Event-health failure and pending native acceptance: `DETAIL_FLOW_PR2_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR are authorized; no merge or Onboarding.
