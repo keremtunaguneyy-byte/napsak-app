@@ -30,7 +30,7 @@ export function PreferenceEditor({ session, onAction, onApply }: Props) {
         </View>
         <ScrollView accessibilityElementsHidden={session.mode === 'field'} importantForAccessibility={session.mode === 'field' ? 'no-hide-descendants' : 'auto'} contentContainerStyle={[s.overview, { paddingBottom: preferenceContentClearance(footerHeight) }]}>
           <View style={s.nav}><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercihlerden geri dön" onPress={() => onAction({ type: 'back' })} style={s.navButton}><PreferenceAsset name="chevron-left" /></TouchableOpacity><Text style={s.navLabel}>BUGÜNKÜ TERCİHLER</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercih düzenleyiciyi kapat" onPress={() => onAction({ type: 'close' })} style={s.navButton}><Text style={s.close}>×</Text></TouchableOpacity></View>
-          <View ref={session.mode === 'overview' ? header : undefined} focusable tabIndex={-1} accessibilityRole="header"><Text style={s.title}>Bugünkü tercihlerin</Text></View>
+          <View ref={session.mode === 'overview' ? header : undefined} focusable tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel="Bugünkü tercihlerin"><Text accessible={false} style={s.title}>Bugünkü tercihlerin</Text></View>
           <Text style={s.description}>Yalnız bugünkü önerileri etkiler. İstersen gün içinde yeniden değiştirebilirsin.</Text>
           <View style={s.note}><View style={s.noteIcon}><PreferenceAsset name="note-dot" /></View><View style={s.flex}><Text style={s.noteTitle}>Bugüne özel</Text><Text style={s.noteText}>İlgi alanların kalıcıdır; ruh hâli ve zamanın günlük değişir.</Text></View></View>
           <Text style={s.section}>BUGÜN</Text>
@@ -50,7 +50,7 @@ export function PreferenceEditor({ session, onAction, onApply }: Props) {
           <View accessible={false} style={s.handle} />
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tercih düzenleyiciyi kapat" onPress={() => onAction({ type: 'close' })} style={s.sheetClose}><Text style={s.close}>×</Text></TouchableOpacity>
           <ScrollView contentContainerStyle={s.sheetContent}>
-            <View style={s.sheetHeading}><View style={[s.fieldTile, { backgroundColor: spec.color }]}><PreferenceAsset name={spec.icon} /></View><View style={s.flex}><Text style={[s.section, s.sheetEyebrow]}>BUGÜNÜ AYARLA</Text><View ref={header} focusable tabIndex={-1} accessibilityRole="header"><Text style={s.sheetTitle}>{spec.title}</Text></View></View></View>
+            <View style={s.sheetHeading}><View style={[s.fieldTile, { backgroundColor: spec.color }]}><PreferenceAsset name={spec.icon} /></View><View style={s.flex}><Text style={[s.section, s.sheetEyebrow]}>BUGÜNÜ AYARLA</Text><View ref={header} focusable tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={spec.title}><Text accessible={false} style={s.sheetTitle}>{spec.title}</Text></View></View></View>
             <Text style={s.sheetDescription}>{spec.description}</Text>
             <View style={s.options}><PreferenceOptions field={field} draft={session.fieldDraft} onChange={value => onAction({ type: 'change', value })} /></View>
           </ScrollView>

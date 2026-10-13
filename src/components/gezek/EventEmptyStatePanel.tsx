@@ -20,7 +20,7 @@ export function EventEmptyStatePanel({ state, onAction, focusAction, description
   useEffect(() => { if (!focusAction) return; const frame = requestAnimationFrame(() => focusDetailControl(action.current)); return () => cancelAnimationFrame(frame); }, [focusAction]);
   return <View testID={`event-empty-${state}`} accessibilityState={{ busy: state === 'loading' }} style={s.panel}>
     <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.status}><Image accessible={false} source={copy.image} style={s.icon} /><Text accessible={false} style={s.eyebrow}>{copy.eyebrow}</Text></View>
-    <View ref={title} focusable tabIndex={-1} accessibilityRole="header"><Text style={s.title}>{copy.title}</Text></View>
+    <View ref={title} focusable tabIndex={-1} accessible accessibilityRole="header" accessibilityLabel={copy.title}><Text accessible={false} style={s.title}>{copy.title}</Text></View>
     <Text style={s.description}>{description ?? copy.description}</Text>
     {copy.action ? <TouchableOpacity ref={action} accessibilityRole="button" accessibilityLabel={copy.action} accessibilityState={{ disabled: state === 'loading', busy: state === 'loading' }} disabled={state === 'loading'} onPress={() => onAction(action.current)} style={[s.action, state === 'all_dismissed' && s.restore]}><Text style={s.actionText}>{copy.action}</Text></TouchableOpacity>
       : <View style={s.information}><PreferenceAsset name="information-dot" /><Text style={s.informationText}>Burada otomatik olarak görünecek.</Text></View>}
