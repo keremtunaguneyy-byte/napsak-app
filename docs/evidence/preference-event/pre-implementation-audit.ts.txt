@@ -1,0 +1,52 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { events } from '/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app/src/data/events.ts';
+import { recommendAll, budgetEligible } from '/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app/src/recommendations.ts';
+import { isEventRecommendationEligible } from '/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app/src/contentPolicy.ts';
+import { KNOWN_MOODS, KNOWN_INTERESTS, KNOWN_BUDGETS, KNOWN_GROUP_SIZES, KNOWN_DURATIONS } from '/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app/src/types.ts';
+const now = new Date('2026-10-13T12:00:00+03:00');
+const current = events.filter(event => isEventRecommendationEligible(event, now));
+const scopes = [
+  { name: 'existing_unfiltered_event', start: now.getTime(), end: Infinity },
+  { name: 'today_if_functional', start: Date.parse('2026-10-13T00:00:00+03:00'), end: Date.parse('2026-10-14T00:00:00+03:00') },
+  { name: 'tomorrow_if_functional', start: Date.parse('2026-10-14T00:00:00+03:00'), end: Date.parse('2026-10-15T00:00:00+03:00') },
+  { name: 'weekend_if_functional', start: Date.parse('2026-10-17T00:00:00+03:00'), end: Date.parse('2026-10-19T00:00:00+03:00') },
+];
+const results = [];
+let publicCalls = 0;
+let fullDismissalSubsetChecks = 0;
+for (const scope of scopes) {
+  const scoped = current.filter(event => Date.parse(event.startsAt) >= scope.start && Date.parse(event.startsAt) < scope.end);
+  const counts: Record<string, number> = {};
+  let preferenceCombinations = 0;
+  for (const mood of KNOWN_MOODS) for (let mask = 0; mask < 32; mask++) for (const budget of KNOWN_BUDGETS) for (const groupSize of KNOWN_GROUP_SIZES) for (const duration of KNOWN_DURATIONS) {
+    const interests = KNOWN_INTERESTS.filter((_, i) => (mask & (1 << i)) !== 0);
+    const options = { places: [], ideas: [], experiences: [], events: scoped, filter: 'event' as const, mood, interests, budget, groupSize, duration, now, seed: 17, previousBatch: current.map(e => e.id), limit: 5 };
+    const visible = recommendAll({ ...options, dismissed: [] });
+    const preDismiss = recommendAll({ ...options, dismissed: [], limit: Math.max(5, scoped.length) });
+    const relaxed = recommendAll({ ...options, dismissed: [], budget: 'Fark etmez', limit: Math.max(5, scoped.length) });
+    publicCalls += 3;
+    assert(visible.every(item => item.kind === 'event' && budgetEligible(item.priceLevel, budget)));
+    if (budget === 'Ücretsiz') assert(visible.every(item => item.priceLevel === 0));
+    const reason = !current.length ? 'no_current_catalog' : !preDismiss.length && relaxed.length ? 'budget_no_match' : visible.length ? 'populated' : 'unmapped_global_catalog_nonempty_but_date_scope_empty';
+    counts[reason] = (counts[reason] ?? 0) + 1;
+    preferenceCombinations++;
+  }
+  // Presence is independent of soft ranking fields on the explicit Event surface.
+  // Cover every dismissal subset and budget against the same production eligibility gates.
+  const dismissalCounts: Record<string, number> = {};
+  for (const budget of KNOWN_BUDGETS) for (let mask = 0; mask < (1 << current.length); mask++) {
+    const dismissed = current.filter((_, i) => (mask & (1 << i)) !== 0).map(e => e.id);
+    const eligible = scoped.filter(e => budgetEligible(e.priceLevel, budget));
+    const visible = recommendAll({ places: [], ideas: [], events: scoped, filter: 'event', interests: [], budget, dismissed, now, limit: 5 });
+    publicCalls++;
+    assert.equal(visible.length > 0, eligible.some(e => !dismissed.includes(e.id)));
+    const reason = !current.length ? 'no_current_catalog' : eligible.length && eligible.every(e => dismissed.includes(e.id)) ? 'all_dismissed' : !eligible.length && scoped.length ? 'budget_no_match' : visible.length ? 'populated' : 'unmapped_global_catalog_nonempty_but_date_scope_empty';
+    dismissalCounts[reason] = (dismissalCounts[reason] ?? 0) + 1;
+    fullDismissalSubsetChecks++;
+  }
+  results.push({ scope: scope.name, scopedIds: scoped.map(e => e.id), preferenceCombinations, counts, dismissalCounts });
+}
+const report = { baseline: 'a04c385f3854eb47a979208b54d7cb44b592053a', fixedNow: now.toISOString(), currentVerifiedCatalogCount: current.length, earliestStart: current.map(e => e.startsAt).sort()[0], publicCalls, fullDismissalSubsetChecks, results, caveat: 'Date windows are audit scenarios only. Production has no Event date-filter implementation; no date-range rule or new presentation state has been approved here.' };
+fs.writeFileSync('/private/tmp/gezek-preference-event-audit.json', JSON.stringify(report, null, 2) + '\n');
+console.log(JSON.stringify(report, null, 2));

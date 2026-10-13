@@ -85,6 +85,15 @@ export function initialCatalog(cityId = 'ankara'): CatalogSnapshot {
   return embeddedCatalog(cityId);
 }
 
+/** Catalog-only retry: no preference, interaction, Auth or migration writes. */
+export async function refreshActiveCatalog(cityId = 'ankara'): Promise<CatalogSnapshot> {
+  let client;
+  try { client = getFirebaseClient(); } catch { /* Valid embedded/cache fallback remains usable. */ }
+  const result = await loadBestCatalog(cityId, client ? new FirestoreContentRepository(client.db) : undefined);
+  if (result.remoteError) captureOperationalError(result.remoteError, 'catalog_refresh', 'remote_catalog_refresh_failed');
+  return result.snapshot;
+}
+
 export async function deleteCurrentUserData(): Promise<UserDataDeletionResult> {
   const client = getFirebaseClient();
   // Never report local-only deletion while a configured Auth identity is unresolved.

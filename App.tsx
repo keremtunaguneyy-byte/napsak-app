@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'r
 import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, findNodeHandle, Image, ImageBackground, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync } from './src/backend';
+import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync, refreshActiveCatalog } from './src/backend';
 import { loadPreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
@@ -31,6 +31,11 @@ import { recordHomeFilterPress, recordHomeRecommendation } from './src/component
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
 import { CLASSICS_COLLECTION_ID, guideCollectionMetadata, resolveFeaturedGuides, resolveGuideById, resolvePrimaryInsiderRoute } from './src/ankara101';
+
+import { PreferenceEditor } from './src/components/gezek/PreferenceEditor';
+import { applyPreferenceEditor, preferenceEditorReducer, preferenceReturnFocus, PreferenceEditorAction, PreferenceEditorSession, PreferenceReturnFocus } from './src/preferenceEditor';
+import { CatalogLoadState, eventDiagnostics, resolveEventPresentation, runCatalogLoad } from './src/eventPresentation';
+import { parseCatalogSnapshot } from './src/data/catalogValidation';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -83,6 +88,10 @@ function AppContent() {
   const { width } = useWindowDimensions();
   const [catalog, setCatalog] = useState(() => initialCatalog());
   const { places, ideas, events, experiences, guides } = catalog;
+  const [catalogLoad, setCatalogLoad] = useState<CatalogLoadState>(() => ({ loading: true, totalFailure: false, usable: !!parseCatalogSnapshot(catalog) }));
+  const catalogRetryBusy = useRef(false);
+  const [preferenceSession, setPreferenceSession] = useState<PreferenceEditorSession>();
+  const [homeFocus, setHomeFocus] = useState<{ id: number; target: PreferenceReturnFocus }>();
   const [step, setStep] = useState<Step>('welcome');
   const [mood, setMood] = useState<Mood>();
   const [chosen, setChosen] = useState<Interest[]>([]);
@@ -130,6 +139,8 @@ function AppContent() {
     return { items, durationBucket: performanceDurationBucket(elapsed) };
   }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter, eligibilityNow]);
   const results = recommendationMeasurement.items;
+  const eventDiagnosticSets = useMemo(() => resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined, [resultFilter, events, mood, chosen, budget, groupSize, duration, dismissed, recommendationRun, previousBatch, eligibilityNow]);
+  const eventState = eventDiagnosticSets && resolveEventPresentation({ ...catalogLoad, ...eventDiagnosticSets, dismissed, visibleIds: results.map(item => item.id) });
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
     const placesById = new Map(places.map(place => [place.id, place]));
     return [
@@ -186,10 +197,10 @@ function AppContent() {
         setStep('results');
         setContextRefreshDue(shouldRefreshContext(preferences.contextConfirmedAt));
       }
-      initializeDataBackbone(preferences).then(setCatalog).catch(error => {
-        // The embedded catalogue is already usable; remote recovery retries later.
-        captureOperationalError(error, 'app_startup', 'data_backbone_initialization_failed');
-      });
+      void runCatalogLoad(() => initializeDataBackbone(preferences), catalogLoad.usable ? catalog : undefined, (state, snapshot) => {
+        if (snapshot) setCatalog(snapshot);
+        setCatalogLoad(state);
+      }, error => captureOperationalError(error, 'app_startup', 'data_backbone_initialization_failed'));
     }).finally(() => setHydrated(true));
   }, []);
   useEffect(() => {
@@ -463,11 +474,57 @@ function AppContent() {
     openDetail({ kind: item.kind, id: item.id, reasons: item.reasons }, node);
   }, [openDetail]);
   const openHomeSettings = useCallback(() => setStep('settings'), []);
-  const editHomePreferences = useCallback(() => {
-    if (contextRefreshDue) trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'edit' } });
-    setContextRefreshDue(false);
-    setStep('mood');
-  }, [contextRefreshDue]);
+  const requestHomeFocus = (target: PreferenceReturnFocus) => setHomeFocus(current => ({ id: (current?.id ?? 0) + 1, target }));
+  const openPreferenceEditor = useCallback((budgetOnly = false) => {
+    setPreferenceSession(preferenceEditorReducer(undefined, { type: 'open', budgetOnly,
+      origin: { source: budgetOnly ? 'event_empty' : 'home', filter: resultFilter, seed: recommendationRun, previousBatch, scrollY: originScrollY.current },
+      preferences: { mood, interests: chosen, budget, groupSize, duration },
+    }));
+  }, [resultFilter, recommendationRun, previousBatch, mood, chosen, budget, groupSize, duration]);
+  const editHomePreferences = useCallback(() => openPreferenceEditor(), [openPreferenceEditor]);
+  const finishPreferenceEditor = (applied: boolean) => {
+    if (!preferenceSession) return;
+    const origin = preferenceSession.origin;
+    setPreferenceSession(undefined);
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ y: origin.scrollY, animated: false });
+      requestHomeFocus(preferenceReturnFocus(origin.source, applied));
+    });
+  };
+  const navigatePreferenceEditor = (action: PreferenceEditorAction) => {
+    const next = preferenceEditorReducer(preferenceSession, action);
+    if (next) setPreferenceSession(next); else finishPreferenceEditor(false);
+  };
+  const applyEditor = () => {
+    if (!preferenceSession) return;
+    const current = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
+    const next = applyPreferenceEditor(current, preferenceSession);
+    // React batches this approved draft into one compatible persistence snapshot.
+    setMood(next.mood); setChosen(next.interests); setBudget(next.budget ?? 'Fark etmez'); setGroupSize(next.groupSize); setDuration(next.duration ?? 'Fark etmez');
+    if (contextRefreshDue && preferenceSession.mode !== 'budget_only') {
+      setContextConfirmedAt(new Date().toISOString()); setContextRefreshDue(false);
+    }
+    finishPreferenceEditor(true);
+  };
+  const retryEventCatalog = async () => {
+    if (catalogRetryBusy.current) return;
+    catalogRetryBusy.current = true;
+    let retryFailed = false;
+    await runCatalogLoad(() => refreshActiveCatalog(), catalogLoad.usable ? catalog : undefined, (state, snapshot) => {
+      if (snapshot) setCatalog(snapshot);
+      setCatalogLoad(state);
+      retryFailed = state.totalFailure && !state.usable;
+    }, error => captureOperationalError(error, 'catalog_refresh', 'remote_catalog_refresh_failed'));
+    catalogRetryBusy.current = false;
+    requestHomeFocus(retryFailed ? 'event_action' : 'event_result');
+  };
+  const eventEmptyAction = () => {
+    if (eventState === 'budget_no_match') openPreferenceEditor(true);
+    else if (eventState === 'all_dismissed' && eventDiagnosticSets) {
+      interact({ type: 'restoreEvents', ids: eventDiagnosticSets.preDismissIds });
+      undo.clear(); requestHomeFocus('event_result');
+    } else if (eventState === 'load_error') void retryEventCatalog();
+  };
   const undoHomeDismiss = useCallback(() => undo.undo(), [undo]);
   const saveHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => toggleSaved(item.id, item.kind, rank), [toggleSaved]);
   const dismissHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => dismissPlace(item.id, item.kind, rank), [dismissPlace]);
@@ -541,10 +598,10 @@ function AppContent() {
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
   return <SafeAreaView edges={isHome ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isHome && s.gezekSafe]}>
     <StatusBar style={isHome ? 'dark' : 'light'} />{!isHome && <View style={s.orb} />}
-    <View ref={originFallback} focusable tabIndex={-1} accessibilityLabel={step === 'saved' ? 'Kaydedilenler' : 'Ana Sayfa'} style={s.safe}><KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <View accessibilityElementsHidden={!!preferenceSession} importantForAccessibility={preferenceSession ? 'no-hide-descendants' : 'auto'} ref={originFallback} focusable tabIndex={-1} accessibilityLabel={step === 'saved' ? 'Kaydedilenler' : 'Ana Sayfa'} style={s.safe}><KeyboardAvoidingView style={[s.safe, isHome && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : !!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel={guideView === 'classics' ? 'Ankara Klasikleri koleksiyonu' : 'Bir Ankaralı Gibi rotası'} onBack={() => { setGuideContentsOpen(false); setPendingGuideId(undefined); setGuideView('landing'); }} onOpenContents={guideView === 'classics' ? togglePersistentGuideContents : undefined} contentsOpen={guideContentsOpen} onSave={guideView === 'classics' ? () => toggleSaved(CLASSICS_COLLECTION_ID, 'guide') : primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
-    <ScrollView ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+    <ScrollView testID="production-home-scroll" ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       originScrollY.current = event.nativeEvent.contentOffset.y;
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
@@ -595,6 +652,7 @@ function AppContent() {
         undoNotice={undoNotice} hiddenCount={hiddenItems.length}
         onSettings={openHomeSettings}
         onEditPreferences={editHomePreferences}
+        eventState={eventState} onEventEmptyAction={eventEmptyAction} focusRequest={homeFocus}
         onConfirmContext={confirmContext} onSelectFilter={selectResultFilter} onRequestLocation={requestLocation}
         onUndoDismiss={undoHomeDismiss}
         onOpenRecommendation={openRecommendation}
@@ -639,6 +697,7 @@ function AppContent() {
       onGuides={() => { setGuideView('landing'); setStep('guides'); }}
     />}
     </KeyboardAvoidingView></View>
+    {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun, now: eligibilityNow }}
       ideas={ideas} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}

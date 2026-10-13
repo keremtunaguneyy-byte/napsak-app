@@ -1,0 +1,68 @@
+{
+  "baseline": "a04c385f3854eb47a979208b54d7cb44b592053a",
+  "fixedNow": "2026-10-13T09:00:00.000Z",
+  "currentVerifiedCatalogCount": 9,
+  "earliestStart": "2026-10-16T20:00:00+03:00",
+  "publicCalls": 163840,
+  "fullDismissalSubsetChecks": 10240,
+  "results": [
+    {
+      "scope": "existing_unfiltered_event",
+      "scopedIds": [
+        "event-amadeus-congresium-2026-10-16",
+        "event-cso-iki-keman-bir-miras-2026-10-16",
+        "event-sempre-mozart-ankara-dob-2026-10-23",
+        "event-magic-bubbles-csoada-2026-10-24",
+        "event-falda-carmen-xl-ataturk-sanat-2026-10-31",
+        "event-bir-aile-provasi-ataturk-sanat-2026-11-01",
+        "event-ankara-kadin-orkestrasi-csoada-2026-11-02",
+        "event-satonun-altinda-ataturk-sanat-2026-11-07",
+        "event-ataturke-saygi-csoada-tarihi-2026-11-10"
+      ],
+      "preferenceCombinations": 12800,
+      "counts": {
+        "budget_no_match": 2560,
+        "populated": 10240
+      },
+      "dismissalCounts": {
+        "budget_no_match": 512,
+        "populated": 2044,
+        "all_dismissed": 4
+      }
+    },
+    {
+      "scope": "today_if_functional",
+      "scopedIds": [],
+      "preferenceCombinations": 12800,
+      "counts": {
+        "unmapped_global_catalog_nonempty_but_date_scope_empty": 12800
+      },
+      "dismissalCounts": {
+        "unmapped_global_catalog_nonempty_but_date_scope_empty": 2560
+      }
+    },
+    {
+      "scope": "tomorrow_if_functional",
+      "scopedIds": [],
+      "preferenceCombinations": 12800,
+      "counts": {
+        "unmapped_global_catalog_nonempty_but_date_scope_empty": 12800
+      },
+      "dismissalCounts": {
+        "unmapped_global_catalog_nonempty_but_date_scope_empty": 2560
+      }
+    },
+    {
+      "scope": "weekend_if_functional",
+      "scopedIds": [],
+      "preferenceCombinations": 12800,
+      "counts": {
+        "unmapped_global_catalog_nonempty_but_date_scope_empty": 12800
+      },
+      "dismissalCounts": {
+        "unmapped_global_catalog_nonempty_but_date_scope_empty": 2560
+      }
+    }
+  ],
+  "caveat": "Date windows are audit scenarios only. Production has no Event date-filter implementation; no date-range rule or new presentation state has been approved here."
+}

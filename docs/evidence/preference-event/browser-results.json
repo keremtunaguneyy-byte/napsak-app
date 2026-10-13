@@ -1,0 +1,110 @@
+{
+  "evidence": "React Native Web, stubbed native/backend services; not native-device proof",
+  "checks": [
+    {
+      "name": "free budget has no paid cards or date chip row",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "budget Cancel writes nothing, preserves seed/batch/filter/scroll and returns focus",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "budget Apply writes budget only and focuses populated Event",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "overview fields remain drafts until one save; Back discards field; onboarding stays complete",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "Close exits full editor and discards unapplied draft",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "restore removes only all nine eligible Event dismissals and preserves saved/preferences",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "globally empty usable catalog has information and no primary CTA",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "real pending retry exposes busy/disabled; failure returns error action without writes",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "retry success focuses Event with no artificial 0.9-second delay or preference writes",
+      "width": 393,
+      "height": 852
+    },
+    {
+      "name": "free budget has no paid cards or date chip row",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "budget Cancel writes nothing, preserves seed/batch/filter/scroll and returns focus",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "budget Apply writes budget only and focuses populated Event",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "overview fields remain drafts until one save; Back discards field; onboarding stays complete",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "Close exits full editor and discards unapplied draft",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "restore removes only all nine eligible Event dismissals and preserves saved/preferences",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "globally empty usable catalog has information and no primary CTA",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "real pending retry exposes busy/disabled; failure returns error action without writes",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "retry success focuses Event with no artificial 0.9-second delay or preference writes",
+      "width": 412,
+      "height": 915
+    },
+    {
+      "name": "large text/long Turkish copy keeps action clear of footer and instant reduced-motion return",
+      "width": 393,
+      "height": 852,
+      "scale": 1,
+      "long": true
+    },
+    {
+      "name": "large text/long Turkish copy keeps action clear of footer and instant reduced-motion return",
+      "width": 412,
+      "height": 915,
+      "scale": 1.6,
+      "long": false
+    }
+  ],
+  "errors": []
+}
