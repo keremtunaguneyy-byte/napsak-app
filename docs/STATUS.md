@@ -1,5 +1,25 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Final onboarding presentation acceptance corrections
+
+User reports acceptable Redmi/Android Studio cadence at `5e00a20`; no broader architecture redesign. Ready now owns a distinct keyed static host, and route leaf progression starts at surviving settle without the redundant 460/100 ms onset offset. The native 280/240 ms cubic slide and finite isolated leaves remain intact. Required checks, both browser suites, Ready orientation/host cleanup, route-start before/after measurements and compact canonical evidence are in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Superseded PR-created evidence was consolidated from 249 files to 40 final files; exact removal/retention manifests and current inventory are linked there. Normal same-branch push/update existing Draft #75 only, no merge; Verilog and #57 preserved, distance deferred.
+
+## 2026-10-14 — Onboarding decorative timeline isolation
+
+Continues existing Draft PR #75 from verified `c46ffe8`. Browser source probes confirm parent JS timeline work overlapping slides; native causal FPS attribution still needs device retest. Decorative state is now confined to finite memoized leaf clocks; stable staging precedes post-settle route/progress motion, with isolated native spinner/shimmer. Keyed off-screen construction, 280/240 cubic ease-out, drafts/focus/reduced motion and completion remain intact. Required checks, both browser suites, counts/interval proxies, unchanged visual end states and native recording inspection are in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Existing evidence/audit preserved; normal push to same branch/PR only, no merge. Home/recommendations/location/schema/release untouched; Gezek-plan distance deferred.
+
+## 2026-10-14 — Onboarding native motion timing follow-up
+
+Existing Draft PR #75 continues from `22fc38e7559668621386103bbbc0624d59a2500e`. User-provided native recording and source inspection identify residual presentation latency: slow-start 500/440 ms easing plus an additional staging RAF. The authorized policy is now 280 ms forward / 240 ms Back, cubic ease-out, native driver, starting from the already-committed keyed layout. Off-screen construction, cancellation/focus, drafts, Preparing/Ready and completion remain protected. Measurements, native recording inspection, all required passing checks and remaining Redmi acceptance are appended to `ONBOARDING_IMPLEMENTATION_REPORT.md`. No new dependency, branch or PR; no merge. Gezek-plan distance display remains deferred to the next separate PR.
+
+## 2026-10-14 — Onboarding transition acceptance correction
+
+Existing Draft PR #75 / `codex/gezek-production-onboarding` continues from `82507e7f6559eb5ed6f9672b7168cf8db7993adc`. The incoming zero-position commit was confirmed in cold and warm browser diagnostics. Keyed scene construction now supplies its off-screen translation before commit; layout-timed frame start and cancelled scene callbacks preserve motion/focus semantics. Scoped immutable SVG parsing is cached. Required checks and both browser suites pass; current measurements and Redmi transition/focus checks are appended to `ONBOARDING_IMPLEMENTATION_REPORT.md`. No merge or new PR. Gezek-plan location correctness/UX is explicitly deferred to a separate post-onboarding PR and remains unchanged here.
+
+## 2026-10-13 — Production first-run onboarding
+
+Verified PR #74 merge baseline `782723c9b2d6aff17363a3c8f2532efcde107f55`; branch `codex/gezek-production-onboarding`. Native host/controller, exact local Figma artwork, minimum-one first-run Interests, isolated RAM drafts, once-only successful commit and safe legacy routing are implemented. Existing audit/captures are preserved; final correction and command/browser/export evidence are recorded in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Normal commit/push and one Draft PR authorized; no merge, production operation or #57 changes. Redmi, TalkBack, real OS large text/reduced motion and signed-release acceptance remain pending.
+
 ## 2026-10-13 — Recommendation Correctness Phase 1
 
 Fetch ile doğrulanan `origin/main` `a37d1fc2cfe23ec06164c8165877345d804339c1` üzerinden `codex/gezek-recommendation-correctness-phase-1` açıldı. İlgisiz iki `src/firebase/BA_4bit.sv/rtl/` dosyası korunur. Kullanıcı süreyi available maximum olarak, primary tier içinde bounded fit'i ve Ücretsiz hard zero-cost kapısını onayladı; normal commit/push ve Draft PR yetkilidir, merge yok.

@@ -8,7 +8,7 @@ import { AccessibilityInfo, ActivityIndicator, Alert, AppState, BackHandler, fin
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { deleteCurrentUserData, initialCatalog, initializeDataBackbone, persistPreferences, queuePreferencesForRemoteSync, refreshActiveCatalog } from './src/backend';
-import { loadPreferences, shouldRefreshContext } from './src/persistence';
+import { emptyPreferences, loadPreferences, shouldRefreshContext } from './src/persistence';
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
@@ -36,6 +36,8 @@ import { PreferenceEditor } from './src/components/gezek/PreferenceEditor';
 import { applyPreferenceEditor, preferenceEditorReducer, preferenceReturnFocus, PreferenceEditorAction, PreferenceEditorSession, PreferenceReturnFocus } from './src/preferenceEditor';
 import { CatalogLoadState, eventDiagnostics, resolveEventPresentation, runCatalogLoad } from './src/eventPresentation';
 import { parseCatalogSnapshot } from './src/data/catalogValidation';
+import { OnboardingHost } from './src/components/gezek/OnboardingHost';
+import { canContinueOnboarding, commitOnboarding, createOnboardingSession, firstRunRequired, onboardingReducer, ONBOARDING_PREPARING_MS, OnboardingAction, OnboardingSession } from './src/onboarding';
 
 type Step = 'welcome' | 'mood' | 'interest' | 'budget' | 'group' | 'duration' | 'results' | 'saved' | 'hidden' | 'guides' | 'settings';
 type GuideView = 'landing' | 'classics' | 'insider';
@@ -49,20 +51,6 @@ const ANKARA_CASTLE_HERO = require('./assets/ankara101/ankara-castle-hero.jpg');
 const KUGULU_TUNALI_HERO = require('./assets/ankara101/kugulu-tunali-hero.jpg');
 const TUNALI_CAFE_DETAIL = require('./assets/ankara101/tunali-cafe-detail.jpg');
 
-const moods: { label: Mood; emoji: string; hint: string }[] = [
-  { label: 'Enerjik', emoji: '⚡', hint: 'Hareket ve tempo' },
-  { label: 'Sakin', emoji: '🌿', hint: 'Yavaşla ve nefes al' },
-  { label: 'Sosyal', emoji: '✨', hint: 'İnsan içine karış' },
-  { label: 'Meraklı', emoji: '🔎', hint: 'Yeni bir şey keşfet' },
-];
-const interests: { label: Interest; emoji: string }[] = [
-  { label: 'Kahve', emoji: '☕' }, { label: 'Sanat', emoji: '🎨' },
-  { label: 'Doğa', emoji: '🌳' }, { label: 'Lezzet', emoji: '🍜' },
-  { label: 'Etkinlik', emoji: '🎭' },
-];
-const budgets: BudgetPreference[] = ['Ücretsiz', '₺', '₺₺', '₺₺₺', 'Fark etmez'];
-const groupSizes: GroupSizePreference[] = ['Tek', '2 kişi', '3–4 kişi', '5+'];
-const durations: DurationPreference[] = ['30–60 dk', '1–2 saat', '3–4 saat', 'Yarım gün', 'Fark etmez'];
 const OBSERVABILITY_TEST_MODE = process.env.EXPO_PUBLIC_APP_ENV !== 'production'
   && process.env.EXPO_PUBLIC_OBSERVABILITY_TEST_MODE === 'true';
 const APP_STARTED_AT = Date.now();
@@ -101,6 +89,10 @@ function AppContent() {
   const [contextConfirmedAt, setContextConfirmedAt] = useState<string>();
   const [contextRefreshDue, setContextRefreshDue] = useState(false);
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+  const [onboardingSession, setOnboardingSession] = useState<OnboardingSession | undefined>(() => createOnboardingSession(emptyPreferences));
+  const onboardingCommitBusy = useRef(false);
+  const onboardingGeneration = useRef(0);
+  const completedSnapshot = useRef<string | undefined>(undefined);
   const [{ saved, dismissed }, interact] = useReducer(contentInteractionReducer, { saved: [], dismissed: [] });
   const [undoNotice, setUndoNotice] = useState<UndoNotice>();
   const restoreFromUndo = useRef<(id: string) => void>(() => {});
@@ -193,7 +185,8 @@ function AppContent() {
       setDuration(preferences.duration ?? 'Fark etmez');
       setContextConfirmedAt(preferences.contextConfirmedAt);
       setOnboardingCompleted(preferences.onboardingCompleted);
-      if (preferences.onboardingCompleted && preferences.mood) {
+      setOnboardingSession(firstRunRequired(preferences) ? createOnboardingSession(preferences) : undefined);
+      if (!firstRunRequired(preferences)) {
         setStep('results');
         setContextRefreshDue(shouldRefreshContext(preferences.contextConfirmedAt));
       }
@@ -204,9 +197,12 @@ function AppContent() {
     }).finally(() => setHydrated(true));
   }, []);
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || !onboardingCompleted) return;
     const preferences = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
-    persistPreferences(preferences).catch(error => {
+    // The first-run transaction already wrote this exact coherent snapshot.
+    const alreadyCommitted = completedSnapshot.current === JSON.stringify(preferences);
+    completedSnapshot.current = undefined;
+    if (!alreadyCommitted) persistPreferences(preferences).catch(error => {
       captureOperationalError(error, 'local_persistence', 'preference_save_failed');
       Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.');
     });
@@ -214,11 +210,13 @@ function AppContent() {
       // Local persistence remains authoritative while offline.
     });
   }, [saved, dismissed, mood, chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted, hydrated]);
+  // Preparing stays within the existing duration analytics screen; no new schema or duplicate view.
+  const firstRunScreen = onboardingSession?.step === 'preparing' ? 'duration' : onboardingSession?.step;
+  const screen = (firstRunScreen ?? (step === 'guides' ? `guides_${guideView}` : step)) as AnalyticsScreen;
   useEffect(() => {
-    const screen = (step === 'guides' ? `guides_${guideView}` : step) as AnalyticsScreen;
     setObservabilityScreen(screen);
     if (hydrated) trackProductEvent({ name: 'screen_viewed', properties: { screen } });
-  }, [guideView, hydrated, step]);
+  }, [hydrated, screen]);
   useEffect(() => {
     if (!hydrated || step !== 'results') return;
     trackProductEvent({
@@ -264,6 +262,11 @@ function AppContent() {
   useEffect(() => {
     if (Platform.OS !== 'android') return;
     const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (onboardingSession && !onboardingCompleted) {
+        if (onboardingSession.step === 'welcome') return false;
+        setOnboardingSession(current => current && onboardingReducer(current, { type: 'back' }));
+        return true;
+      }
       if (step === 'guides' && guideView === 'classics' && guideContentsOpen) {
         setGuideContentsOpen(false);
         return true;
@@ -280,7 +283,7 @@ function AppContent() {
       return false;
     });
     return () => subscription.remove();
-  }, [guideContentsOpen, guideView, step]);
+  }, [guideContentsOpen, guideView, step, onboardingSession, onboardingCompleted]);
 
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
@@ -305,21 +308,44 @@ function AppContent() {
       setLocating(false);
     }
   }, []);
-  const toggle = (item: Interest) => setChosen(current => current.includes(item) ? current.filter(x => x !== item) : [...current, item]);
-  const reset = useCallback(() => { setStep('mood'); setMood(undefined); setChosen([]); setBudget('Fark etmez'); setGroupSize(undefined); setDuration('Fark etmez'); setContextRefreshDue(false); setRecommendationRun(0); setPreviousBatch([]); setResultFilter(DEFAULT_RESULT_FILTER); }, []);
   const confirmContext = useCallback(() => {
     trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
     setContextRefreshDue(false);
   }, []);
-  const finishPreferences = () => {
-    trackProductEvent({ name: 'preference_flow_completed', properties: { mode: onboardingCompleted ? 'update' : 'onboarding' } });
-    setOnboardingCompleted(true);
-    setContextConfirmedAt(new Date().toISOString());
-    setContextRefreshDue(false);
-    setStep('results');
+  const navigateOnboarding = (action: OnboardingAction) => setOnboardingSession(current => current && onboardingReducer(current, action));
+  useEffect(() => {
+    if (onboardingSession?.step !== 'preparing' || onboardingSession.prepared) return;
+    const timer = setTimeout(() => setOnboardingSession(current => current && onboardingReducer(current, { type: 'prepared' })), ONBOARDING_PREPARING_MS);
+    return () => clearTimeout(timer);
+  }, [onboardingSession?.step, onboardingSession?.prepared]);
+  const renderedOnboardingGeneration = onboardingGeneration.current;
+  const finishOnboarding = async () => {
+    if (renderedOnboardingGeneration !== onboardingGeneration.current || !onboardingSession || onboardingCommitBusy.current || !canContinueOnboarding(onboardingSession)) return;
+    onboardingCommitBusy.current = true;
+    let committed = false;
+    navigateOnboarding({ type: 'saving' });
+    try {
+      const current = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
+      const next = await commitOnboarding(current, onboardingSession, persistPreferences);
+      committed = true;
+      completedSnapshot.current = JSON.stringify(next);
+      setMood(next.mood); setChosen(next.interests); setBudget(next.budget!); setGroupSize(next.groupSize); setDuration(next.duration!);
+      setContextConfirmedAt(next.contextConfirmedAt); setContextRefreshDue(false);
+      setOnboardingCompleted(true); setOnboardingSession(undefined); setStep('results');
+      trackProductEvent({ name: 'preference_flow_completed', properties: { mode: 'onboarding' } });
+    } catch (error) {
+      captureOperationalError(error, 'local_persistence', 'preference_save_failed');
+      navigateOnboarding({ type: 'failed' });
+      Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.');
+    } finally {
+      // Keep successful completion latched while the departed Ready callback exists.
+      if (!committed) onboardingCommitBusy.current = false;
+    }
   };
   const resetAfterDataDeletion = () => {
+    onboardingGeneration.current += 1;
+    onboardingCommitBusy.current = false;
     interact({ type: 'clear' });
     undo.clear();
     setMood(undefined);
@@ -330,6 +356,8 @@ function AppContent() {
     setContextConfirmedAt(undefined);
     setContextRefreshDue(false);
     setOnboardingCompleted(false);
+    setOnboardingSession(createOnboardingSession(emptyPreferences));
+    completedSnapshot.current = undefined;
     setCoordinates(undefined);
     setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
     setRecommendationRun(0);
@@ -592,7 +620,7 @@ function AppContent() {
   if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekTransparent]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage, s.gezekTransparent]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView></View>;
   if (!hydrated || (!fontsLoaded && !fontError)) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekTransparent]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView></View>;
 
-  const stepNumber = step === 'welcome' ? '01' : step === 'mood' ? '02' : step === 'interest' ? '03' : step === 'budget' ? '04' : step === 'group' ? '05' : step === 'duration' ? '06' : '07';
+  if (onboardingSession && !onboardingCompleted) return <OnboardingHost session={onboardingSession} onAction={navigateOnboarding} onComplete={finishOnboarding} />;
   const isGuideArticle = step === 'guides' && guideView !== 'landing';
   const isHome = step === 'results';
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
@@ -608,42 +636,7 @@ function AppContent() {
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : <Text accessibilityLabel={`Adım ${stepNumber}, toplam 7`} style={s.counter}>{stepNumber} / 07</Text>}</View>}</View>}
-      {step === 'welcome' && <View>
-        <Text style={s.welcomeEmoji}>✦</Text>
-        <Lead eyebrow="ANKARA’DA BUGÜN" title="Plan yapmak artık daha kolay." subtitle="Modunu ve ilgi alanlarını bir kez söyle; sana yakın, gününe uygun fikirleri birkaç saniyede bulalım." />
-        <View style={s.promise}><Text style={s.promiseTitle}>Sana göre öneriler</Text><Text style={s.promiseText}>Tercihlerin cihazında saklanır; çevrimiçiyken anonim hesabınla güvenli biçimde eşitlenebilir. İstediğin zaman değiştirebilirsin.</Text></View>
-        <Button label="Hadi başlayalım" onPress={() => setStep('mood')} />
-      </View>}
-      {step === 'mood' && <View>
-        <Lead eyebrow="ŞU AN" title="Bugün neye açıksın?" subtitle="Modunu seç, Ankara’da sana iyi gelecek bir plan bulalım." />
-        <View style={s.grid}>{moods.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={`${x.label}: ${x.hint}`} accessibilityState={{ selected: mood === x.label }} key={x.label} activeOpacity={.8} style={[s.mood, mood === x.label && s.selected]} onPress={() => setMood(x.label)}><Text style={s.emoji}>{x.emoji}</Text><Text style={s.cardTitle}>{x.label}</Text><Text style={s.hint}>{x.hint}</Text></TouchableOpacity>)}</View>
-        <Button label="Devam et" disabled={!mood} onPress={() => setStep('interest')} />
-      </View>}
-      {step === 'interest' && <View>
-        <Lead eyebrow="BUGÜN" title="Neye açıksın?" subtitle="Bir veya birkaç ilgi alanı seç. Kararsızsan hepsini bize bırak." />
-        <View style={s.chips}>{interests.map(x => <TouchableOpacity accessibilityRole="checkbox" accessibilityLabel={x.label} accessibilityState={{ checked: chosen.includes(x.label) }} key={x.label} style={[s.chip, chosen.includes(x.label) && s.selected]} onPress={() => toggle(x.label)}><Text style={s.chipText}>{x.emoji}  {x.label}</Text></TouchableOpacity>)}</View>
-        <Button label="Bütçeyi seç" onPress={() => setStep('budget')} />
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Mod seçimine geri dön" onPress={() => setStep('mood')} style={s.backHit}><Text style={s.back}>← Modumu değiştir</Text></TouchableOpacity>
-      </View>}
-      {step === 'budget' && <View>
-        <Lead eyebrow="BÜTÇE" title="Bütçen ne olsun?" subtitle="Bu kesin eleme değil; iyi eşleşen fikirler sadece sıralamada dengelenir." />
-        <View style={s.chips}>{budgets.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={x} accessibilityState={{ selected: budget === x }} key={x} style={[s.chip, budget === x && s.selected]} onPress={() => setBudget(x)}><Text style={s.chipText}>{x}</Text></TouchableOpacity>)}</View>
-        <Button label="Kişi sayısını seç" onPress={() => setStep('group')} />
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="İlgi seçimine geri dön" onPress={() => setStep('interest')} style={s.backHit}><Text style={s.back}>← İlgilerimi değiştir</Text></TouchableOpacity>
-      </View>}
-      {step === 'group' && <View>
-        <Lead eyebrow="KİŞİ SAYISI" title="Kaç kişisiniz?" subtitle="Katalogda kesin kapasite yoksa bunu kategori, mod ve aktivite sinyalleriyle sıralamaya yansıtırız." />
-        <View style={s.chips}>{groupSizes.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={x} accessibilityState={{ selected: groupSize === x }} key={x} style={[s.chip, groupSize === x && s.selected]} onPress={() => setGroupSize(x)}><Text style={s.chipText}>{x}</Text></TouchableOpacity>)}</View>
-        <Button label="Süreyi seç" disabled={!groupSize} onPress={() => setStep('duration')} />
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Bütçe seçimine geri dön" onPress={() => setStep('budget')} style={s.backHit}><Text style={s.back}>← Bütçemi değiştir</Text></TouchableOpacity>
-      </View>}
-      {step === 'duration' && <View>
-        <Lead eyebrow="SÜRE" title="Kaç saatin var?" subtitle="Planlarda bu seçim gerçek bir uygunluk sınırıdır; sürene sığmayan uzun planları göstermeyiz." />
-        <View style={s.chips}>{durations.map(x => <TouchableOpacity accessibilityRole="radio" accessibilityLabel={x} accessibilityState={{ selected: duration === x }} key={x} style={[s.chip, duration === x && s.selected]} onPress={() => setDuration(x)}><Text style={s.chipText}>{x}</Text></TouchableOpacity>)}</View>
-        <Button label="Tercihlerimi kaydet ve 5 plan ver" onPress={finishPreferences} />
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kişi sayısı seçimine geri dön" onPress={() => setStep('group')} style={s.backHit}><Text style={s.back}>← Kişi sayısını değiştir</Text></TouchableOpacity>
-      </View>}
+      {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
       {step === 'results' && <GezekHome
         safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
@@ -658,7 +651,7 @@ function AppContent() {
         onOpenRecommendation={openRecommendation}
         onToggleSaved={saveHomeRecommendation}
         onDismiss={dismissHomeRecommendation}
-        onRotate={rotateRecommendations} onShowHidden={showHomeHidden} onReset={reset}
+        onRotate={rotateRecommendations} onShowHidden={showHomeHidden} onReset={editHomePreferences}
         onRecommendationsLayout={measureHomeRecommendations}
       />}
       {step === 'guides' && guideView === 'landing' && <Ankara101Landing guides={featuredGuides} chapterCount={guideMetadata.chapterCount} totalMinutes={guideMetadata.totalReadMinutes} route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenClassics={() => setGuideView('classics')} onOpenGuide={openGuideChapter} onOpenInsider={() => setGuideView('insider')} />}

@@ -1,5 +1,9 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-13 — Production first-run onboarding
+
+User approved the live production Figma flow and minimum one Interest for first run. Zero selections keep Continue visibly/accessibly disabled; no invented validation error, unlimited multiple selections, Back preserves drafts. This supersedes the permissive legacy onboarding UI while the domain retains empty-array compatibility, completed legacy users bypass onboarding, and PR #74 editor validation remains unchanged. Local v5 snapshot is committed once before completion publication; successful callback stays latched, failure permits Retry, and legitimate deletion resets the guard while invalidating old callbacks. No Firebase/schema/recommendation change. Implementation on `codex/gezek-production-onboarding`, evidence and pending native checks: `ONBOARDING_IMPLEMENTATION_REPORT.md`. Draft PR only, no merge or #57 modifications.
+
 ## 2026-10-13 — Recommendation Correctness Phase 1
 
 Durum: kullanıcı açıkça onayladı; `codex/gezek-recommendation-correctness-phase-1` üzerinde uygulanıyor. Önceki tam containment davranışının yerine süre ayırılabilir maksimum zamandır: Experience maximum 60/120/240/360 dakika kapısını geçmeli, alt display sınırı uygunluk için kullanılmamalıdır. İlk duraktan başlayan editoryal tahmin duraklar arası geçişleri içerir; gidiş/dönüş ulaşımı ve tamamlanma garantisi içermez.

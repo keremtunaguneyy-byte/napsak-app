@@ -1,0 +1,665 @@
+{
+  "passed": true,
+  "browserDiagnosticOnly": true,
+  "previousHead": "5e00a20dcdb6ce072fcec10ea5e068d588ba1fe7",
+  "method": "Real DOM click, slide completion callback, then first layout-committed positive SVG trim; post-RAF intervals are JS proxies, not native FPS. Delayed host property writes are explicitly simulated browser ownership regressions.",
+  "before": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "measurements": [
+        {
+          "label": "cold-forward",
+          "revision": 1,
+          "commitX": 393,
+          "renderToCommitMs": 11.199999809265137,
+          "pressToCommitMs": 11.5,
+          "commitToFirstVisibleMs": 34,
+          "firstVisibleToSettledMs": 239.10000014305115,
+          "pressToFirstVisibleFrames": 1,
+          "firstVisibleFrame": 18,
+          "pressFrame": 17,
+          "commitToStartMs": 0.20000004768371582,
+          "animationMs": 289.60000014305115,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 3,
+          "routeStartAfterSettledMs": 483.69999980926514,
+          "routeFirstProgressTimestampMs": 1208.7999999523163,
+          "slideStartTimestampMs": 435.5,
+          "slideSettledTimestampMs": 725.1000001430511,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 16,
+            "min": 1.3000001907348633,
+            "median": 16.799999952316284,
+            "max": 17.5
+          }
+        },
+        {
+          "label": "warm-back",
+          "revision": 3,
+          "commitX": -393,
+          "renderToCommitMs": 9.200000047683716,
+          "pressToCommitMs": 9.400000095367432,
+          "commitToFirstVisibleMs": 20.700000047683716,
+          "firstVisibleToSettledMs": 215.89999985694885,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 121,
+          "pressFrame": 119,
+          "commitToStartMs": 0.09999990463256836,
+          "animationMs": 253.10000014305115,
+          "configuredDurationMs": 240,
+          "firstFrameProgress": 0.19934402332361512,
+          "assetSubtreeMs": 2.6000001430511475,
+          "routeStartAfterSettledMs": 467.09999990463257,
+          "routeFirstProgressTimestampMs": 2858.2000000476837,
+          "slideStartTimestampMs": 2138,
+          "slideSettledTimestampMs": 2391.100000143051,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 14,
+            "min": 14.700000047683716,
+            "median": 16.5,
+            "max": 18.399999856948853
+          }
+        },
+        {
+          "label": "warm-forward",
+          "revision": 4,
+          "commitX": 393,
+          "renderToCommitMs": 10.400000095367432,
+          "pressToCommitMs": 10.5,
+          "commitToFirstVisibleMs": 19.399999856948853,
+          "firstVisibleToSettledMs": 249.5,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 168,
+          "pressFrame": 166,
+          "commitToStartMs": 0,
+          "animationMs": 285.39999985694885,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 1.000000238418579,
+          "routeStartAfterSettledMs": 468.30000019073486,
+          "routeFirstProgressTimestampMs": 3675.600000143051,
+          "slideStartTimestampMs": 2921.9000000953674,
+          "slideSettledTimestampMs": 3207.2999999523163,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 16,
+            "min": 15.700000047683716,
+            "median": 16.700000047683716,
+            "max": 17.5
+          }
+        }
+      ],
+      "idleObservationMs": 1600,
+      "idleCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 37,
+        "timeline-update": 38
+      },
+      "quietObservationMs": 1200,
+      "quietCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 0,
+        "timeline-update": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "measurements": [
+        {
+          "label": "cold-forward",
+          "revision": 1,
+          "commitX": 412,
+          "renderToCommitMs": 13.099999904632568,
+          "pressToCommitMs": 13.400000095367432,
+          "commitToFirstVisibleMs": 32.799999952316284,
+          "firstVisibleToSettledMs": 231,
+          "pressToFirstVisibleFrames": 1,
+          "firstVisibleFrame": 18,
+          "pressFrame": 17,
+          "commitToStartMs": 0.09999990463256836,
+          "animationMs": 281.10000014305115,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 3.5,
+          "routeStartAfterSettledMs": 483.2999999523163,
+          "routeFirstProgressTimestampMs": 1178.5999999046326,
+          "slideStartTimestampMs": 414.19999980926514,
+          "slideSettledTimestampMs": 695.2999999523163,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 16,
+            "min": 6.700000047683716,
+            "median": 16.5,
+            "max": 17.59999990463257
+          }
+        },
+        {
+          "label": "warm-back",
+          "revision": 3,
+          "commitX": -412,
+          "renderToCommitMs": 9.599999904632568,
+          "pressToCommitMs": 9.700000047683716,
+          "commitToFirstVisibleMs": 19.5,
+          "firstVisibleToSettledMs": 215.79999995231628,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 120,
+          "pressFrame": 118,
+          "commitToStartMs": 0.10000014305114746,
+          "animationMs": 253,
+          "configuredDurationMs": 240,
+          "firstFrameProgress": 0.19934402332361512,
+          "assetSubtreeMs": 2.500000238418579,
+          "routeStartAfterSettledMs": 484.7999999523163,
+          "routeFirstProgressTimestampMs": 2846.7999999523163,
+          "slideStartTimestampMs": 2109,
+          "slideSettledTimestampMs": 2362,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 15,
+            "min": 15.700000047683716,
+            "median": 16.700000047683716,
+            "max": 17.799999952316284
+          }
+        },
+        {
+          "label": "warm-forward",
+          "revision": 4,
+          "commitX": 412,
+          "renderToCommitMs": 9.099999904632568,
+          "pressToCommitMs": 9.200000047683716,
+          "commitToFirstVisibleMs": 18.5,
+          "firstVisibleToSettledMs": 249.79999995231628,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 168,
+          "pressFrame": 166,
+          "commitToStartMs": 0.09999990463256836,
+          "animationMs": 285.40000009536743,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 1.2999999523162842,
+          "routeStartAfterSettledMs": 483.7000000476837,
+          "routeFirstProgressTimestampMs": 3678.7999999523163,
+          "slideStartTimestampMs": 2909.699999809265,
+          "slideSettledTimestampMs": 3195.0999999046326,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 17,
+            "min": 15.300000190734863,
+            "median": 16.600000143051147,
+            "max": 18.200000047683716
+          }
+        }
+      ],
+      "idleObservationMs": 1600,
+      "idleCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 36,
+        "timeline-update": 37
+      },
+      "quietObservationMs": 1200,
+      "quietCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 0,
+        "timeline-update": 0
+      }
+    }
+  ],
+  "beforeReadyHostOwnership": [
+    {
+      "width": 393,
+      "sameAnimatedHostRetainedForReady": true,
+      "approvedPath": "M7 13.3L11.1 17.2L19 8.9",
+      "simulatedDelayedPropertyWriteReachedReady": true,
+      "browserDiagnosticOnly": true
+    },
+    {
+      "width": 412,
+      "sameAnimatedHostRetainedForReady": true,
+      "approvedPath": "M7 13.3L11.1 17.2L19 8.9",
+      "simulatedDelayedPropertyWriteReachedReady": true,
+      "browserDiagnosticOnly": true
+    }
+  ],
+  "after": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "measurements": [
+        {
+          "label": "cold-forward",
+          "revision": 1,
+          "commitX": 393,
+          "renderToCommitMs": 10.799999952316284,
+          "pressToCommitMs": 11.099999904632568,
+          "commitToFirstVisibleMs": 33.90000009536743,
+          "firstVisibleToSettledMs": 242.59999990463257,
+          "pressToFirstVisibleFrames": 1,
+          "firstVisibleFrame": 15,
+          "pressFrame": 14,
+          "commitToStartMs": 0,
+          "animationMs": 293.2000000476837,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 2.700000047683716,
+          "routeStartAfterSettledMs": 17.200000047683716,
+          "routeFirstProgressTimestampMs": 654.7000000476837,
+          "slideStartTimestampMs": 344.2999999523163,
+          "slideSettledTimestampMs": 637.5,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 17,
+            "min": 5.099999904632568,
+            "median": 16.59999990463257,
+            "max": 17.300000190734863
+          }
+        },
+        {
+          "label": "warm-back",
+          "revision": 3,
+          "commitX": -393,
+          "renderToCommitMs": 8.099999904632568,
+          "pressToCommitMs": 8.200000047683716,
+          "commitToFirstVisibleMs": 21,
+          "firstVisibleToSettledMs": 216.40000009536743,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 65,
+          "pressFrame": 63,
+          "commitToStartMs": 0,
+          "animationMs": 254.09999990463257,
+          "configuredDurationMs": 240,
+          "firstFrameProgress": 0.19934402332361512,
+          "assetSubtreeMs": 2.1999998092651367,
+          "routeStartAfterSettledMs": 17.600000143051147,
+          "routeFirstProgressTimestampMs": 1438.2000000476837,
+          "slideStartTimestampMs": 1166.5,
+          "slideSettledTimestampMs": 1420.5999999046326,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 14,
+            "min": 16.09999990463257,
+            "median": 16.59999990463257,
+            "max": 17.40000009536743
+          }
+        },
+        {
+          "label": "warm-forward",
+          "revision": 4,
+          "commitX": 393,
+          "renderToCommitMs": 13.700000047683716,
+          "pressToCommitMs": 13.900000095367432,
+          "commitToFirstVisibleMs": 13.400000095367432,
+          "firstVisibleToSettledMs": 249.89999985694885,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 86,
+          "pressFrame": 84,
+          "commitToStartMs": 0,
+          "animationMs": 280.40000009536743,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 1.8000001907348633,
+          "routeStartAfterSettledMs": 18,
+          "routeFirstProgressTimestampMs": 1822.4000000953674,
+          "slideStartTimestampMs": 1524,
+          "slideSettledTimestampMs": 1804.4000000953674,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 16,
+            "min": 12.200000047683716,
+            "median": 16.600000143051147,
+            "max": 18.100000143051147
+          }
+        }
+      ],
+      "idleObservationMs": 1600,
+      "idleCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 36,
+        "timeline-update": 58
+      },
+      "quietObservationMs": 1200,
+      "quietCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 0,
+        "timeline-update": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "reducedMotion": true,
+      "orientation": {
+        "separateHost": true,
+        "delayedOldHostWriteIgnored": true,
+        "identityTransform": true,
+        "approvedCheckPath": true,
+        "noDecorativeLoops": true
+      }
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "preparingReady": true,
+      "singleWriteSingleEvent": true,
+      "orientation": {
+        "spinnerMatrix": "matrix(0.965345, -0.260978, 0.260978, 0.965345, 0, 0)",
+        "readyMatrix": "matrix(1, 0, 0, 1, 0, 0)",
+        "separateHost": true,
+        "spinnerStoppedBeforeReadyCommit": true,
+        "delayedOldHostWriteIgnored": true,
+        "approvedCheckPath": true
+      },
+      "preparationMeasurement": {
+        "label": "prepare",
+        "revision": 6,
+        "commitX": 393,
+        "renderToCommitMs": 7.299999952316284,
+        "pressToCommitMs": 7.400000095367432,
+        "commitToFirstVisibleMs": 23.799999952316284,
+        "firstVisibleToSettledMs": 249,
+        "pressToFirstVisibleFrames": 2,
+        "firstVisibleFrame": 145,
+        "pressFrame": 143,
+        "commitToStartMs": 0.09999990463256836,
+        "animationMs": 289.40000009536743,
+        "configuredDurationMs": 280,
+        "firstFrameProgress": 0.16629350702218604,
+        "assetSubtreeMs": 1.3000004291534424,
+        "routeStartAfterSettledMs": 18.09999990463257,
+        "routeFirstProgressTimestampMs": 2785.199999809265,
+        "slideStartTimestampMs": 2477.699999809265,
+        "slideSettledTimestampMs": 2767.0999999046326,
+        "slideCounts": {
+          "scene-render": 2,
+          "background-render": 1,
+          "route-render": 1,
+          "route-recompose": 0,
+          "timeline-update": 0
+        },
+        "timelineUpdateIntervalsMs": null,
+        "jsFrameIntervalsMs": {
+          "samples": 17,
+          "min": 14.700000047683716,
+          "median": 16.699999809265137,
+          "max": 18.299999952316284
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "measurements": [
+        {
+          "label": "cold-forward",
+          "revision": 1,
+          "commitX": 412,
+          "renderToCommitMs": 9.099999904632568,
+          "pressToCommitMs": 9.400000095367432,
+          "commitToFirstVisibleMs": 24.799999952316284,
+          "firstVisibleToSettledMs": 245.40000009536743,
+          "pressToFirstVisibleFrames": 1,
+          "firstVisibleFrame": 15,
+          "pressFrame": 14,
+          "commitToStartMs": 0.09999990463256836,
+          "animationMs": 286.60000014305115,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 2.299999952316284,
+          "routeStartAfterSettledMs": 17.799999952316284,
+          "routeFirstProgressTimestampMs": 614.5999999046326,
+          "slideStartTimestampMs": 310.19999980926514,
+          "slideSettledTimestampMs": 596.7999999523163,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 17,
+            "min": 5,
+            "median": 16.59999990463257,
+            "max": 17.100000143051147
+          }
+        },
+        {
+          "label": "warm-back",
+          "revision": 3,
+          "commitX": -412,
+          "renderToCommitMs": 10,
+          "pressToCommitMs": 10.200000047683716,
+          "commitToFirstVisibleMs": 19.299999952316284,
+          "firstVisibleToSettledMs": 217.09999990463257,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 65,
+          "pressFrame": 63,
+          "commitToStartMs": 0.09999990463256836,
+          "animationMs": 253,
+          "configuredDurationMs": 240,
+          "firstFrameProgress": 0.19934402332361512,
+          "assetSubtreeMs": 2.8000009059906006,
+          "routeStartAfterSettledMs": 17,
+          "routeFirstProgressTimestampMs": 1397.5999999046326,
+          "slideStartTimestampMs": 1127.5999999046326,
+          "slideSettledTimestampMs": 1380.5999999046326,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 15,
+            "min": 15.900000095367432,
+            "median": 16.699999809265137,
+            "max": 17.799999952316284
+          }
+        },
+        {
+          "label": "warm-forward",
+          "revision": 4,
+          "commitX": 412,
+          "renderToCommitMs": 8,
+          "pressToCommitMs": 8.200000047683716,
+          "commitToFirstVisibleMs": 21.200000047683716,
+          "firstVisibleToSettledMs": 249.59999990463257,
+          "pressToFirstVisibleFrames": 2,
+          "firstVisibleFrame": 86,
+          "pressFrame": 84,
+          "commitToStartMs": 0.09999990463256836,
+          "animationMs": 287.5,
+          "configuredDurationMs": 280,
+          "firstFrameProgress": 0.16629350702218604,
+          "assetSubtreeMs": 0.7999999523162842,
+          "routeStartAfterSettledMs": 18.299999952316284,
+          "routeFirstProgressTimestampMs": 1781.6999998092651,
+          "slideStartTimestampMs": 1475.8999998569489,
+          "slideSettledTimestampMs": 1763.3999998569489,
+          "slideCounts": {
+            "scene-render": 2,
+            "background-render": 1,
+            "route-render": 1,
+            "route-recompose": 0,
+            "timeline-update": 0
+          },
+          "timelineUpdateIntervalsMs": null,
+          "jsFrameIntervalsMs": {
+            "samples": 16,
+            "min": 15.899999856948853,
+            "median": 16.600000143051147,
+            "max": 17.200000047683716
+          }
+        }
+      ],
+      "idleObservationMs": 1600,
+      "idleCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 37,
+        "timeline-update": 60
+      },
+      "quietObservationMs": 1200,
+      "quietCounts": {
+        "scene-render": 0,
+        "background-render": 0,
+        "route-recompose": 0,
+        "timeline-update": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "reducedMotion": true,
+      "orientation": {
+        "separateHost": true,
+        "delayedOldHostWriteIgnored": true,
+        "identityTransform": true,
+        "approvedCheckPath": true,
+        "noDecorativeLoops": true
+      }
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "preparingReady": true,
+      "singleWriteSingleEvent": true,
+      "orientation": {
+        "spinnerMatrix": "matrix(0.964043, -0.265745, 0.265745, 0.964043, 0, 0)",
+        "readyMatrix": "matrix(1, 0, 0, 1, 0, 0)",
+        "separateHost": true,
+        "spinnerStoppedBeforeReadyCommit": true,
+        "delayedOldHostWriteIgnored": true,
+        "approvedCheckPath": true
+      },
+      "preparationMeasurement": {
+        "label": "prepare",
+        "revision": 6,
+        "commitX": 412,
+        "renderToCommitMs": 7,
+        "pressToCommitMs": 7.099999904632568,
+        "commitToFirstVisibleMs": 6.300000190734863,
+        "firstVisibleToSettledMs": 266.39999985694885,
+        "pressToFirstVisibleFrames": 1,
+        "firstVisibleFrame": 142,
+        "pressFrame": 141,
+        "commitToStartMs": 0,
+        "animationMs": 289.5,
+        "configuredDurationMs": 280,
+        "firstFrameProgress": 0.16629350702218604,
+        "assetSubtreeMs": 1.2000000476837158,
+        "routeStartAfterSettledMs": 17.40000009536743,
+        "routeFirstProgressTimestampMs": 2740.2999999523163,
+        "slideStartTimestampMs": 2433.399999856949,
+        "slideSettledTimestampMs": 2722.899999856949,
+        "slideCounts": {
+          "scene-render": 2,
+          "background-render": 1,
+          "route-render": 1,
+          "route-recompose": 0,
+          "timeline-update": 0
+        },
+        "timelineUpdateIntervalsMs": null,
+        "jsFrameIntervalsMs": {
+          "samples": 17,
+          "min": 15.5,
+          "median": 16.600000143051147,
+          "max": 17.700000047683716
+        }
+      }
+    }
+  ],
+  "errors": []
+}

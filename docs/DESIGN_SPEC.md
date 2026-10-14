@@ -1,5 +1,9 @@
 # Gezek — Tasarım ve Marka
 
+## Production onboarding — 13 Ekim 2026
+
+Live Figma `yTdAWr92ETyurlQQHNNqpi`, section `31:3`, steps `31:4`/`31:29`/`31:86`/`31:153`/`31:217`/`31:273`/`31:336`, Ready `389:1179`, Final Review Board `288:3` govern first run. Native host uses exact local exports, current Gezek tokens and replaceable BrandLogo; shared PR #74 Interest controls only where geometry/behavior match. User-approved minimum-one Interest, anchored CTA, 44 px targets, scalable copy and OS reduced-motion fallback are implemented. Maximum-duration wording preserves the approved exclusion of first-stop arrival/homeward travel. Home composition and final logo/icon/splash remain outside scope. Evidence and native acceptance: `ONBOARDING_IMPLEMENTATION_REPORT.md`.
+
 ## Güncel Detail otoritesi — 8 Ekim 2026
 
 Kullanıcı bağlayıcı PR 1 handoff’unu onayladı. `Production Detail Flows / Approved v1` (`927:1769`) içindeki Plan `931:2412`, Place `932:2874` ve ortak bileşenler güncel detail otoritesidir. `DETAIL_FLOW_PR1_CONTRACT.md` ayrıntılı ledger ve native adaptasyon sınırını içerir. Home/protected Figma master’ları yeniden tasarlanmaz; Event/Idea bu PR’da uygulanmaz.
