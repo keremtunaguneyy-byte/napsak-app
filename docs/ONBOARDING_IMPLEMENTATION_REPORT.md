@@ -144,3 +144,65 @@ Normal commit/push update the existing branch/PR only. Exact final SHA and CI st
 - Safe areas/warm canvas, large-system-text CTA clearance and all earlier native/signed-release acceptance remain pending. The browser result is not Redmi acceptance.
 
 No code blocker remains. Next: repeat these native acceptance checks on the pushed Draft head; keep #75 unmerged. Location work remains deferred.
+
+## 2026-10-14 — Native motion timing correction on the same Draft PR
+
+Resumed existing branch `codex/gezek-production-onboarding` / Draft PR #75 at matching local/remote `22fc38e7559668621386103bbbc0624d59a2500e`. Tracked tree was clean apart from the preserved untracked Verilog directory. Fetched main remains `782723c9b2d6aff17363a3c8f2532efcde107f55`. Earlier audit, reports and captures are preserved.
+
+**Confirmed residual cause:** keyed construction fixed the zero-position flash, but the outgoing scene disappeared while the incoming scene was fully off-screen. The lifecycle then scheduled an extra RAF before starting a 500 ms forward / 440 ms Back animation with `Easing.inOut(Easing.ease)`. The slow early progress kept actual foreground content outside the viewport and looked frozen. This is a presentation correction; no recommendation or loading behavior is changed. The source and provided recording agree with the user-reported residual symptom; no native CPU trace or JS event timestamps were available in the recording.
+
+The original recording `/Users/kerem/Downloads/Screen Recording 2026-10-14 at 12.51.10.mov` was inspected read-only with AVFoundation: 48.067 s, nominal 59.896 fps, 816×1738. Consecutive samples show the prior Group scene at 24.983 s, background-only frames at 25.000–25.083 s, incoming edge at 25.100 s and clearer Duration content at 25.167 s. These are recording timestamps, not press→commit measurements. Source hash/metadata and an intentional diagnostic contact strip are under `evidence/onboarding/motion-native-inspection/`. The movie was not modified or committed. This prior-head recording is not new-build native acceptance.
+
+| Policy | Prior head | Current correction |
+|---|---|---|
+| Forward | 500 ms | 280 ms (cap 320 ms) |
+| Back | 440 ms | 240 ms (cap 280 ms) |
+| Easing | `Easing.inOut(Easing.ease)` | `Easing.out(Easing.cubic)` |
+| Initial position | Keyed pre-commit ±width | Preserved |
+| Staging/start | Layout commit, then another RAF, then Animated's frame | The committed layout is the staging boundary; start timing there, Animated owns the next frame |
+| Driver | Native | Native, unchanged |
+| Focus/cancellation | Surviving completion plus two focus frames, guarded cleanup | Preserved; no pending extra start-frame callback remains |
+| Reduced Motion | Zero translation, no slide | Preserved, including mid-slide settle and no replay |
+
+The user-approved runtime policy supersedes only the earlier imported motion timing. Artwork geometry/opacity, screen composition, directions, selected drafts, scroll reset, accessibility, 4800 ms Preparing/Ready and completion guards are unchanged. No timeout, dependency or loading-screen extension was introduced. `App.tsx`, `src/onboarding.ts`, Home, recommendations, location behavior, catalog, Firebase, schema, package/lockfile and release configuration are unchanged from the prior head. Gezek-plan distance display remains explicitly deferred to the next separate PR.
+
+### Motion measurements — diagnostic browser evidence
+
+The final paired run uses the exact prior Host and lifecycle extracted read-only with `git show 22fc38e:...`, and the corrected sources. Both run sequentially after other checks finish, with identical adapters and real fonts. Press time is the captured DOM click that precedes the actual React onPress update, rather than the start of a Playwright command. Staged commit is a layout probe before animation start. First visible movement requires >1 px translation change and a foreground heading/control intersecting the fixed viewport; settled is |translateX| <0.1 px. Frame counts are unique observed RAF timestamp batches, not GPU/display refresh counts; skipped refreshes cannot be inferred. Native callback/paint timing still needs Redmi verification.
+
+RN Web does not provide the Android native animation driver: its ordinary fallback schedules React renders, and initially added a third observed frame. The generated onboarding fixture therefore mirrors native-driver direct view-property updates from the actual Animated.Value. It retains RN Web's actual clock, easing, duration and completion/cancellation callbacks. The fixture also models physical-window clipping so off-screen content cannot expand a mobile layout viewport, samples both direct property changes and post-RAF DOM state, and counts a timestamp once regardless of RAF callback order. These are explicitly diagnostic platform adapters, not native performance proof. They are gated to the generated onboarding fixture; production exposes no browser hooks/globals.
+
+The installed React Native native frame configuration evaluates 60 Hz samples: the first positive forward sample changes from 0.391% to 16.629% of travel, and Back from 0.515% to 19.934%. The new first positive sample clears the unchanged content inset; the old sample did not. Both durations and the actual requested native-driver flag are asserted in the component trace. A faster curve alone with an extra staging RAF still failed the two-batch cold-entry probe; using the committed layout as staging removed that additional start delay while preserving the off-screen initial commit.
+
+| Viewport | Case | Press→commit ms before → after | Commit→visible ms before → after | Visible→settled ms before → after | Observed RAF batches before → after |
+|---|---|---|---|---|---|
+| 393×852 | cold-forward | 11.3 → 11.3 | 134.4 → 32.2 | 399.9 → 247.6 | 9 → 1 |
+| 393×852 | warm-forward | 8.5 → 9.4 | 101.8 → 15.7 | 399.7 → 251.1 | 7 → 2 |
+| 393×852 | warm-back | 6.2 → 9.0 | 88.2 → 16.7 | 366.1 → 216.6 | 6 → 2 |
+| 412×915 | cold-forward | 10.6 → 11.0 | 115.6 → 30.5 | 416.7 → 236.2 | 7 → 1 |
+| 412×915 | warm-forward | 8.5 → 11.6 | 100.8 → 15.0 | 399.9 → 249.9 | 7 → 2 |
+| 412×915 | warm-back | 5.3 → 9.1 | 90.1 → 16.8 | 366.3 → 216.4 | 6 → 2 |
+
+These are single instrumented samples per case, including browser/profiler overhead. No native smoothness, Redmi FPS or general rendering-speed claim is made. Full before/after records are `evidence/onboarding/motion-before/transition-results.json` and `motion-after/transition-results.json`.
+
+### Verification, inventory and delivery
+
+All requested final runtime checks passed: `git diff --check`, `npm run typecheck`, `npm test` (111 domain/release +147 TypeScript =258, including 19 onboarding), `npm run check:accessibility`, `npm run check:performance` (5000 calls, p95 9.121 ms against 25 ms), `npm run check:assets`, and `npx expo export --platform android --output-dir /private/tmp/gezek-onboarding-motion-android-export`. Command exit codes and logs are in `evidence/onboarding/motion-verification/`. No dependency/lock changes; no local npm ci repeat was needed.
+
+The existing onboarding/browser suite passed 10 scenario groups at 393×852 and 412×915, including full flow, draft Back preservation, hardware Back, large/long/short layouts, Preparing/Ready, Retry, restart, deletion/reset and single persistence write/completion event per legitimate session. New transition measurements/assertions passed both viewports: pre-start ±width, forward ≤320 ms and Back ≤280 ms (configured and observed timing), visible entry within ≤2 observed batches, correct directions, rapid Continue/Back plus hardware Back interruption, settled surviving scene, surviving-only focus, no reduced-motion slide and mid-animation reduction without replay. New tests also retain the cancelled-callback and failed-surviving-timing guards.
+
+Exact edited files: `src/components/gezek/OnboardingHost.tsx`, `src/onboardingTransition.ts`, `tests/onboarding.test.ts`, `tests/onboarding-transition-browser.cjs`, `scripts/buildDetailBrowserFixture.cjs`, `docs/STATUS.md`, this report and `docs/ONBOARDING_CHANGED_FILES.txt`. Intentional evidence additions are the motion native-inspection, before, after, full-regression and verification directories. The complete PR inventory lists every path. Generated Swift/browser source, exports and intermediate failed traces remain in `/private/tmp` and are not committed; original artifacts are preserved.
+
+Final fixture build: `GEZEK_ONBOARDING_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-onboarding-browser node scripts/buildDetailBrowserFixture.cjs`. Run `node tests/onboarding-transition-browser.cjs` with the same modules and `GEZEK_BROWSER_EVIDENCE=docs/evidence/onboarding/motion-after`; run the existing `node tests/onboarding-browser.cjs` with evidence `motion-full-regression`. Baseline build sets `GEZEK_ONBOARDING_SOURCE` and `GEZEK_ONBOARDING_TRANSITION_SOURCE` to the exact read-only prior-head files, uses a separate output/server at 8779, and the test sets `GEZEK_TRANSITION_BASELINE=true`, `GEZEK_BROWSER_URL=http://127.0.0.1:8779`, evidence `motion-before`.
+
+Normal commit/push and a description update target only existing Draft PR #75. No force push, new branch/PR or merge; #57 and Verilog remain untouched. Exact final SHA and exact-head CI are reported in the delivery message/live PR rather than embedded into their own commit.
+
+### Remaining Redmi checks for this correction
+
+- Cold forward, warm forward and warm Back: no centered flash, no extended background-only pause; movement should be obvious on the first animated native frame after staging.
+- Confirm the 280/240 ms cubic ease-out feel on the actual Redmi/Android Studio build; inspect actual display frames (including high-refresh settings) for the requested two-frame entry behavior.
+- Rapid Continue/Back and hardware Back, plus a mid-animation OS Reduced Motion change: surviving scene settles at zero, old callbacks cannot replay or steal TalkBack focus.
+- Draft selections/scroll reset and surviving-only focus; Reduced Motion remains spatially instant with no replay when disabled.
+- Preparing→Ready, CTA, single completion, Retry/restart/reset, safe areas and actual large-system-text remain safe. Signed-release acceptance stays separate.
+
+No code blocker remains. Next: repeat native acceptance on the pushed head and keep #75 unmerged. The deferred Gezek-plan distance work is not part of this correction.

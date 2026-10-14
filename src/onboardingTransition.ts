@@ -1,6 +1,8 @@
 /** Each keyed scene constructs this position before its first native commit. */
 export const onboardingInitialTranslation = (direction: 'forward' | 'back', width: number, reduced: boolean) => reduced ? 0 : direction === 'back' ? -width : width;
 
+export const ONBOARDING_SLIDE_MS = { forward: 280, back: 240 } as const;
+
 type TransitionEffects = {
   frame: (callback: () => void) => number;
   cancelFrame: (id: number) => void;
@@ -32,8 +34,9 @@ export function beginOnboardingTransition(effects: TransitionEffects, reduced: b
     focus();
   };
   if (reduced) reduceMotion();
-  else frame(() => {
-    if (phase !== 'waiting') return;
+  else {
+    // The keyed value is already committed by the caller's layout effect.
+    // Animated owns the first animation frame; a second RAF would delay entry.
     phase = 'running';
     stop = effects.start(finished => {
       if (phase !== 'running') return;
@@ -42,7 +45,7 @@ export function beginOnboardingTransition(effects: TransitionEffects, reduced: b
       if (!finished) { effects.rest(); return; }
       focus();
     });
-  });
+  }
   return {
     reduceMotion,
     cancel: () => {

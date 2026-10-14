@@ -1,0 +1,44 @@
+[
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.02,
+    "log": "docs/evidence/onboarding/motion-verification/command-1.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 3.38,
+    "log": "docs/evidence/onboarding/motion-verification/command-2.log"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 12.31,
+    "log": "docs/evidence/onboarding/motion-verification/command-3.log"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.21,
+    "log": "docs/evidence/onboarding/motion-verification/command-4.log"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "seconds": 15.92,
+    "log": "docs/evidence/onboarding/motion-verification/command-5.log"
+  },
+  {
+    "command": "npm run check:assets",
+    "exitCode": 0,
+    "seconds": 0.28,
+    "log": "docs/evidence/onboarding/motion-verification/command-6.log"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-onboarding-motion-android-export",
+    "exitCode": 0,
+    "seconds": 19.74,
+    "log": "docs/evidence/onboarding/motion-verification/command-7.log"
+  }
+]

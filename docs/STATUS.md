@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Onboarding native motion timing follow-up
+
+Existing Draft PR #75 continues from `22fc38e7559668621386103bbbc0624d59a2500e`. User-provided native recording and source inspection identify residual presentation latency: slow-start 500/440 ms easing plus an additional staging RAF. The authorized policy is now 280 ms forward / 240 ms Back, cubic ease-out, native driver, starting from the already-committed keyed layout. Off-screen construction, cancellation/focus, drafts, Preparing/Ready and completion remain protected. Measurements, native recording inspection, all required passing checks and remaining Redmi acceptance are appended to `ONBOARDING_IMPLEMENTATION_REPORT.md`. No new dependency, branch or PR; no merge. Gezek-plan distance display remains deferred to the next separate PR.
+
 ## 2026-10-14 — Onboarding transition acceptance correction
 
 Existing Draft PR #75 / `codex/gezek-production-onboarding` continues from `82507e7f6559eb5ed6f9672b7168cf8db7993adc`. The incoming zero-position commit was confirmed in cold and warm browser diagnostics. Keyed scene construction now supplies its off-screen translation before commit; layout-timed frame start and cancelled scene callbacks preserve motion/focus semantics. Scoped immutable SVG parsing is cached. Required checks and both browser suites pass; current measurements and Redmi transition/focus checks are appended to `ONBOARDING_IMPLEMENTATION_REPORT.md`. No merge or new PR. Gezek-plan location correctness/UX is explicitly deferred to a separate post-onboarding PR and remains unchanged here.

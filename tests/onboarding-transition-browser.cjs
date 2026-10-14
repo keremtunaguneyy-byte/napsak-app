@@ -24,9 +24,24 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
     const page=await browser.newPage({...devices['Pixel 7'],viewport,deviceScaleFactor:1,reducedMotion});
     page.on('pageerror',e=>errors.push(e.message));
     await page.addInitScript(() => {
-      window.__paintFrames=[];window.__focusFrames=[];window.__actions=[];
-      const sample=()=>{const node=document.querySelector('[data-testid="onboarding-scene"]');if(node&&window.__paintFrames.length<1500)window.__paintFrames.push({revision:window.__sceneRevision,time:performance.now(),x:new DOMMatrixReadOnly(getComputedStyle(node).transform).m41});requestAnimationFrame(sample)};
+      window.__paintFrames=[];window.__focusFrames=[];window.__actions=[];window.__frameNumber=0;
+      const nativeRAF=window.requestAnimationFrame.bind(window);let timestamp=-1;
+      window.requestAnimationFrame=callback=>nativeRAF(time=>{if(time!==timestamp){timestamp=time;window.__frameNumber++;}callback(time)});
+      const channel=new MessageChannel();
+      // Read after this RAF batch so an earlier observer callback cannot count a
+      // still-offscreen value before Animated's update in the same rendered frame.
+      const sampleScene=()=>{
+        const node=document.querySelector('[data-testid="onboarding-scene"]');
+        if(!node||window.__paintFrames.length>=1500)return;
+        const viewportWidth=window.visualViewport?.width||innerWidth;
+        const visible=[...node.querySelectorAll('[role="heading"], [role="button"], [role="radio"], [role="checkbox"], [aria-label="Gezek"]')].some(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&r.left<viewportWidth-1&&r.right>1&&r.top<innerHeight&&r.bottom>0});
+        window.__paintFrames.push({revision:window.__sceneRevision,frame:window.__frameNumber,time:performance.now(),x:new DOMMatrixReadOnly(getComputedStyle(node).transform).m41,visible});
+      };
+      channel.port1.onmessage=sampleScene;
+      window.__sampleNativeProperty=sampleScene;
+      const sample=()=>{channel.port2.postMessage(null);requestAnimationFrame(sample)};
       requestAnimationFrame(sample);
+      document.addEventListener('click',()=>{if(window.__pendingAction){window.__actions.push({label:window.__pendingAction,time:performance.now(),frame:window.__frameNumber});window.__pendingAction=undefined;}},true);
       document.addEventListener('focusin',e=>{if(e.target.closest('[data-testid="onboarding-scene"]'))window.__focusFrames.push({revision:window.__sceneRevision,time:performance.now(),label:e.target.getAttribute('aria-label')})});
     });
     await page.goto(base);await page.getByTestId('production-onboarding').waitFor();
@@ -39,14 +54,27 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
     return {...trace,assets:trace.assets.filter(asset=>trace.commits.some(commit=>commit.revision===asset.revision&&asset.time<=commit.time+1))};
   }
   async function action(page,label,callback) {
-    await page.evaluate(label=>window.__actions.push({label,time:performance.now()}),label);
+    await page.evaluate(label=>{window.__pendingAction=label},label);
     await callback();await settle(page);
   }
   function measure(trace,revision,label) {
     const commit=trace.commits.find(c=>c.revision===revision), motion=trace.animations.find(a=>a.revision===revision);
     const action=trace.actions.find(a=>a.label===label);
     const assetMs=trace.assets.filter(a=>a.revision===revision&&a.time<=commit.time+1).reduce((sum,a)=>sum+a.duration,0);
-    return {label,revision,commitX:commit.x,renderToCommitMs:commit.renderMs,actionToCommitMs:commit.time-action.time,commitToStartMs:motion.start-commit.time,animationMs:motion.end-motion.start,assetSubtreeMs:assetMs};
+    const frames=trace.frames.filter(f=>f.revision===revision&&f.time>=commit.time);
+    const first=frames.find(f=>f.visible&&Math.abs(f.x)<Math.abs(commit.x)-1);
+    const settled=frames.find(f=>Math.abs(f.x)<.1);
+    assert.ok(first&&settled,JSON.stringify({label,frames}));
+    const measurement={label,revision,commitX:commit.x,renderToCommitMs:commit.renderMs,pressToCommitMs:commit.time-action.time,commitToFirstVisibleMs:first.time-commit.time,firstVisibleToSettledMs:settled.time-first.time,pressToFirstVisibleFrames:first.frame-action.frame,firstVisibleFrame:first.frame,pressFrame:action.frame,commitToStartMs:motion.start-commit.time,animationMs:motion.end-motion.start,configuredDurationMs:motion.duration,firstFrameProgress:motion.firstFrameProgress,assetSubtreeMs:assetMs};
+    if(!baseline) {
+      if(measurement.pressToFirstVisibleFrames>2)fs.writeFileSync(path.join(output,'failed-frame-trace.json'),JSON.stringify(trace,null,2)+'\n');
+      assert.ok(measurement.pressToFirstVisibleFrames<=2,JSON.stringify(measurement));
+      assert.ok(motion.duration<=(commit.x<0?280:320));
+      assert.ok(measurement.animationMs<=(commit.x<0?280:320),JSON.stringify(measurement));
+      assert.equal(motion.nativeDriver,true);
+      assert.ok(motion.firstFrameProgress>.15);
+    }
+    return measurement;
   }
   function assertTrace(trace,viewport) {
     for(const commit of trace.commits.filter(c=>c.revision>0&&!c.reduced)) {
@@ -77,7 +105,7 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
         assert.ok(measured.commits.find(c=>c.revision===1).x>0);
         assert.ok(measured.commits.find(c=>c.revision===3).x<0);
         // Interrupt a real running animation, then rapidly alternate queued actions.
-        await page.evaluate(()=>window.__onboardingAction({type:'back'}));
+        assert.equal(await page.evaluate(()=>window.__hardwareBack()),true);
         await page.waitForFunction(()=>window.__transitionAnimations.some(a=>a.revision===5));
         await page.evaluate(()=>{window.__onboardingAction({type:'next'});window.__onboardingAction({type:'back'});window.__onboardingAction({type:'next'})});
         await page.waitForFunction(()=>window.__sceneRevision===8);await settle(page);
@@ -86,6 +114,7 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
         assert.equal(trace.animations.find(a=>a.revision===5).finished,false);
         assert.ok(trace.focus.some(f=>f.revision===8&&f.label==='Neler ilgini çekiyor?'));
         assert.ok(!trace.focus.some(f=>[5,6,7].includes(f.revision)));
+        assert.equal(await page.getByTestId('onboarding-scene').evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).m41),0);
         await page.screenshot({path:path.join(output,`surviving-transition-${viewport.width}.png`)});
         // A live OS Reduced Motion change settles immediately; switching back never replays.
         await page.evaluate(()=>window.__onboardingAction({type:'back'}));

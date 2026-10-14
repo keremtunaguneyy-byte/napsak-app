@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_SURFACE_SHADOW as shadow } from '../../design/gezekTheme';
 import { canContinueOnboarding, onboardingFooterClearance, ONBOARDING_STEPS, OnboardingAction, OnboardingSession } from '../../onboarding';
 import type { PreferenceDraft } from '../../preferenceEditor';
-import { beginOnboardingTransition, onboardingInitialTranslation } from '../../onboardingTransition';
+import { beginOnboardingTransition, onboardingInitialTranslation, ONBOARDING_SLIDE_MS } from '../../onboardingTransition';
 import { BrandLogo } from './BrandLogo';
 import { PreferenceOptions, preferenceLabel } from './PreferenceControls';
 import { focusDetailControl } from './detailFocus';
@@ -153,7 +153,7 @@ function OnboardingScene({ session, onAction, onComplete, reduced }: HostProps &
       frame: callback => requestAnimationFrame(callback),
       cancelFrame: id => cancelAnimationFrame(id),
       start: complete => {
-        const animation = Animated.timing(translation, { toValue: 0, duration: session.direction === 'back' ? 440 : 500, easing: Easing.inOut(Easing.ease), useNativeDriver: true });
+        const animation = Animated.timing(translation, { toValue: 0, duration: ONBOARDING_SLIDE_MS[session.direction], easing: Easing.out(Easing.cubic), useNativeDriver: true });
         animation.start(({ finished }) => complete(finished));
         return () => animation.stop();
       },

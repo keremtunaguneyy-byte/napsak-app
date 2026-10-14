@@ -22,7 +22,19 @@ function nativeState(Component, {accessibilityState, ...props}, ref) {
 export const Pressable=React.forwardRef((props,ref)=>nativeState(RN.Pressable,props,ref));
 export const TouchableOpacity=React.forwardRef((props,ref)=>nativeState(RN.TouchableOpacity,props,ref));
 export const Alert={alert:(title,message,buttons)=>{window.__alerts.push({title,message,buttons})}};
-${onboardingFixture ? `window.__transitionCommits=[];window.__transitionAnimations=[];window.__transitionFocus=[];window.__assetProfiles=[];export const Animated={...RN.Animated,timing:(value,config)=>{const animation=RN.Animated.timing(value,config);if(!config.useNativeDriver||config.toValue!==0)return animation;return {...animation,start:callback=>{const entry={revision:window.__sceneRevision,start:performance.now(),x:value.__getValue(),duration:config.duration};window.__transitionAnimations.push(entry);animation.start(result=>{entry.end=performance.now();entry.finished=result.finished;callback?.(result)})},stop:()=>animation.stop()}}};` : ''}
+${onboardingFixture ? `window.__transitionCommits=[];window.__transitionAnimations=[];window.__transitionFocus=[];window.__assetProfiles=[];
+// RN Web falls back to React renders for native-driver props. Mirror native's
+// direct view-property updates from the actual Animated.Value; never replace
+// its clock, duration, easing or callbacks. This remains a browser diagnostic.
+export const Animated={...RN.Animated,timing:(value,config)=>{
+ const animation=RN.Animated.timing(value,config);if(!config.useNativeDriver||config.toValue!==0)return animation;
+ let listener;const detach=()=>{if(listener!==undefined){value.removeListener(listener);listener=undefined}};
+ return {...animation,start:callback=>{
+  const entry={revision:window.__sceneRevision,start:performance.now(),x:value.__getValue(),duration:config.duration,nativeDriver:config.useNativeDriver,firstFrameProgress:config.easing(1/Math.round(config.duration/(1000/60)))};window.__transitionAnimations.push(entry);
+  listener=value.addListener(({value:x})=>{const scene=document.querySelector('[data-testid="onboarding-scene"]');if(scene&&window.__sceneRevision===entry.revision){scene.style.transform='translateX('+x+'px)';window.__sampleNativeProperty?.()}});
+  animation.start(result=>{entry.end=performance.now();entry.finished=result.finished;if(result.finished)detach();callback?.(result)})
+ },stop:()=>{animation.stop();queueMicrotask(detach)}};
+}};` : ''}
 export const Linking={canOpenURL:async()=>true,openURL:async url=>{window.__maps.push(url)},openSettings:()=>{}};
 window.__activeListeners=[];export const AppState={addEventListener:(kind,callback)=>{window.__activeListeners.push(callback);return {remove(){window.__activeListeners=window.__activeListeners.filter(c=>c!==callback)}}}};
 ${onboardingFixture ? `window.__backListeners=[];export const BackHandler={addEventListener:(name,callback)=>{window.__backListeners.push(callback);return {remove(){window.__backListeners=window.__backListeners.filter(c=>c!==callback)}}}};window.__hardwareBack=()=>[...window.__backListeners].reverse().some(f=>f());export const Platform={...RN.Platform,OS:'android'};export const findNodeHandle=node=>node;export const AccessibilityInfo={...RN.AccessibilityInfo,isReduceMotionEnabled:async()=>matchMedia('(prefers-reduced-motion: reduce)').matches,addEventListener:(name,callback)=>{const media=matchMedia('(prefers-reduced-motion: reduce)');const handler=()=>callback(media.matches);media.addEventListener('change',handler);return {remove(){media.removeEventListener('change',handler)}}},setAccessibilityFocus:node=>node?.focus?.()};` : `export const BackHandler={addEventListener:()=>({remove(){}})};`}
@@ -49,7 +61,7 @@ for (const variant of ['400Regular', '500Medium', '600SemiBold', '700Bold', '800
   fs.copyFileSync(path.join(repo, 'node_modules/@expo-google-fonts/plus-jakarta-sans', variant, `${name}.ttf`), path.join(out, `${name}.ttf`));
   fontStyles += `@font-face{font-family:${name};src:url(${name}.ttf)}`;
 }
-fs.writeFileSync(path.join(out, 'index.html'), `<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gezek Detail regression fixture</title><style>${fontStyles}html,body,#root{margin:0;height:100%;background:#FAF9F5}#root{display:flex}*{box-sizing:border-box}${onboardingFixture ? '[role=heading]:focus{outline:none}' : ''}</style><div id="root"></div><script src="bundle.js"></script></html>`);
+fs.writeFileSync(path.join(out, 'index.html'), `<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gezek Detail regression fixture</title><style>${fontStyles}html,body,#root{margin:0;height:100%;background:#FAF9F5}#root{display:flex}*{box-sizing:border-box}${onboardingFixture ? '[role=heading]:focus{outline:none}html,body,#root{overflow:hidden}' : ''}</style><div id="root"></div><script src="bundle.js"></script></html>`);
 esbuild.build({entryPoints:[entry],bundle:true,outdir:out,entryNames:'bundle',platform:'browser',format:'iife',jsx:'automatic',define:{'global':'globalThis','process.env':'{}','process.env.NODE_ENV':'"development"','__DEV__':'true'},alias:{'react-native':native,'react-native-svg/css':repo+'/node_modules/react-native-svg/lib/module/css/css.js','react-native-svg':repo+'/node_modules/react-native-svg/lib/module/ReactNativeSVG.web.js','react':repo+'/node_modules/react','react-dom':modules+'/react-dom'},resolveExtensions:['.web.tsx','.web.ts','.web.js','.tsx','.ts','.js','.json'],loader:{'.png':'dataurl','.jpg':'dataurl','.ttf':'dataurl'},plugins:[{name:'native-service-stubs',setup(b){
  if(preferenceFixture)b.onLoad({filter:/App\.tsx$/},a=>({contents:fs.readFileSync(a.path,'utf8').replace('  const results = recommendationMeasurement.items;', '  const results = recommendationMeasurement.items; (globalThis as any).__homeContext = { filter: resultFilter, seed: recommendationRun, previousBatch, scrollY: originScrollY.current };'),loader:'tsx',resolveDir:repo}));
  const stubs={
@@ -77,7 +89,7 @@ export const persistPreferences=async p=>{window.__writes.push(structuredClone(p
    let source=fs.readFileSync(process.env.GEZEK_ONBOARDING_SOURCE || a.path,'utf8');
    source="import { useLayoutEffect as fixtureLayoutEffect, Profiler as FixtureProfiler } from 'react';\n"+source;
    const renderAnchor='  const { width, height, fontScale } = useWindowDimensions();';
-   const commitAnchor='  const compact = height - insets.top - insets.bottom < 740 || fontScale > 1.2;';
+   const commitAnchor='  const transition = useRef<ReturnType<typeof beginOnboardingTransition> | undefined>(undefined);';
    if(source.split(renderAnchor).length!==2||source.split(commitAnchor).length!==2)throw new Error('Transition fixture anchors changed');
    source=source.replace(renderAnchor, '  const fixtureRenderStart=performance.now(); (globalThis as any).__assetRevision=session.revision;\n'+renderAnchor);
    source=source.replace(commitAnchor, `  (globalThis as any).__onboardingReduced=reduced;
@@ -87,4 +99,5 @@ export const persistPreferences=async p=>{window.__writes.push(structuredClone(p
    source+=`\nfunction FixtureAsset(props: React.ComponentProps<typeof Asset>){return <FixtureProfiler id={props.name} onRender={(id,phase,duration)=>{if((globalThis as any).__assetProfiles.length<4000)(globalThis as any).__assetProfiles.push({id,phase,duration,time:performance.now(),revision:(globalThis as any).__assetRevision});}}><Asset {...props}/></FixtureProfiler>}\n`;
    return {contents:source,loader:'tsx',resolveDir:path.dirname(a.path)};
  });
+ if (onboardingFixture && process.env.GEZEK_ONBOARDING_TRANSITION_SOURCE) b.onLoad({filter:/\/onboardingTransition\.ts$/}, a => ({contents:fs.readFileSync(process.env.GEZEK_ONBOARDING_TRANSITION_SOURCE,'utf8'),loader:'ts',resolveDir:path.dirname(a.path)}));
  }}]}).catch(error=>{console.error(error);process.exit(1)});

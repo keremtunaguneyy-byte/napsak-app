@@ -8,7 +8,7 @@ import { applyPreferenceEditor, preferenceEditorReducer } from '../src/preferenc
 import { recommendAll } from '../src/recommendations';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { PersistedPreferences } from '../src/persistence';
-import { beginOnboardingTransition, onboardingInitialTranslation } from '../src/onboardingTransition';
+import { beginOnboardingTransition, onboardingInitialTranslation, ONBOARDING_SLIDE_MS } from '../src/onboardingTransition';
 const now = new Date('2026-10-13T12:00:00+03:00');
 const initial: PersistedPreferences = { ...emptyPreferences, saved: ['saved-place'], dismissed: ['hidden-idea'] };
 const valid: PersistedPreferences = { ...initial, mood: 'Sakin', interests: ['Kahve', 'Sanat'], budget: 'Ücretsiz', groupSize: '2 kişi', duration: '1–2 saat' };
@@ -186,7 +186,7 @@ function transitionHarness() {
   return { effects, calls, completions, tick, retained };
 }
 
-test('incoming translation is constructed on the correct side; post-commit frame starts motion and only success focuses', () => {
+test('incoming translation is constructed on the correct side; committed layout starts motion and only success focuses', () => {
   for (const width of [393, 412]) {
     assert.equal(onboardingInitialTranslation('forward', width, false), width);
     assert.equal(onboardingInitialTranslation('back', width, false), -width);
@@ -194,7 +194,7 @@ test('incoming translation is constructed on the correct side; post-commit frame
     assert.equal(onboardingInitialTranslation('back', width, true), 0);
   }
   const h = transitionHarness(); beginOnboardingTransition(h.effects, false);
-  assert.equal(h.calls.starts, 0); h.tick(); assert.equal(h.calls.starts, 1);
+  assert.equal(h.calls.starts, 1); h.tick(); assert.equal(h.calls.starts, 1);
   h.completions[0](false); h.tick(); assert.equal(h.calls.focus, 0); assert.equal(h.calls.rests, 1);
   h.completions[0](true); h.tick(); h.tick(); assert.equal(h.calls.focus, 0);
   beginOnboardingTransition(h.effects, false); h.tick();
@@ -202,9 +202,9 @@ test('incoming translation is constructed on the correct side; post-commit frame
   h.tick(); assert.equal(h.calls.focus, 1);
 });
 
-test('rapid replacement cancels pending starts, stale completions and queued focus, including late callbacks after stop', () => {
+test('rapid replacement cancels stale completions and queued focus, including late callbacks after stop', () => {
   const pending = transitionHarness(); const queued = beginOnboardingTransition(pending.effects, false);
-  queued.cancel(); pending.retained.get(1)!(); assert.equal(pending.calls.starts, 0);
+  queued.cancel(); pending.completions[0](true); pending.tick(); pending.tick(); assert.equal(pending.calls.starts, 1); assert.equal(pending.calls.focus, 0);
   const h = transitionHarness(); const old = beginOnboardingTransition(h.effects, false); h.tick();
   h.completions[0](true); const staleFocus = [...h.retained.values()].at(-1)!;
   old.cancel(); h.completions[0](true); staleFocus(); h.tick();
@@ -234,4 +234,13 @@ test('scene commits its own initial Animated.Value; revision key/layout lifecycl
   assert.match(host, /assetAsts.has\(name\)/);
   assert.match(host, /const Asset = memo/);
   assert.doesNotMatch(host, /setTimeout|globalThis|window\.|__transition/);
+});
+
+test('fast-start native slide stays within forward/Back motion budgets without adding staging delay', () => {
+  assert.equal(ONBOARDING_SLIDE_MS.forward, 280); assert.ok(ONBOARDING_SLIDE_MS.forward <= 320);
+  assert.equal(ONBOARDING_SLIDE_MS.back, 240); assert.ok(ONBOARDING_SLIDE_MS.back <= 280);
+  const host = readFileSync('src/components/gezek/OnboardingHost.tsx', 'utf8');
+  assert.match(host, /duration: ONBOARDING_SLIDE_MS\[session.direction\], easing: Easing.out\(Easing.cubic\), useNativeDriver: true/);
+  const lifecycle = readFileSync('src/onboardingTransition.ts', 'utf8');
+  assert.doesNotMatch(lifecycle, /setTimeout|setInterval/);
 });
