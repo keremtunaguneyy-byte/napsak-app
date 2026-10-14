@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Experience start distance
+
+Verified merged #75 / fetched main `746aad3`; branch `codex/gezek-plan-distance`. All 52 Experience starts and ordered Place links pass the complete coordinate audit, with exact first-stop equality. `Başlangıca … km` is presentation-only; location arrival preserves the current Gezek batch and the existing proximity formula remains active on subsequent independently triggered batches. Shared cards and request-lifecycle guards are included. Complete audit, current location/scoring findings, command/browser/export evidence and pending physical Redmi/TalkBack acceptance: [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md). Normal commit/push and one Draft PR authorized; no merge, production changes or #57 work.
+
 ## 2026-10-14 — Final onboarding presentation acceptance corrections
 
 User reports acceptable Redmi/Android Studio cadence at `5e00a20`; no broader architecture redesign. Ready now owns a distinct keyed static host, and route leaf progression starts at surviving settle without the redundant 460/100 ms onset offset. The native 280/240 ms cubic slide and finite isolated leaves remain intact. Required checks, both browser suites, Ready orientation/host cleanup, route-start before/after measurements and compact canonical evidence are in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Superseded PR-created evidence was consolidated from 249 files to 40 final files; exact removal/retention manifests and current inventory are linked there. Normal same-branch push/update existing Draft #75 only, no merge; Verilog and #57 preserved, distance deferred.

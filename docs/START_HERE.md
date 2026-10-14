@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-14 — Experience start distance
+
+Verified merged #75 / fetched main `746aad3`; branch `codex/gezek-plan-distance`. All 52 Experience starts and ordered Place links pass the complete coordinate audit, with exact first-stop equality. `Başlangıca … km` is presentation-only; location arrival preserves the current Gezek batch and the existing proximity formula remains active on subsequent independently triggered batches. Shared cards and request-lifecycle guards are included. Complete audit, current location/scoring findings, command/browser/export evidence and pending physical Redmi/TalkBack acceptance: [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md). Normal commit/push and one Draft PR authorized; no merge, production changes or #57 work.
+
 ## 2026-10-13 — Production first-run onboarding
 
 Verified baseline: PR #74 merge `782723c9b2d6aff17363a3c8f2532efcde107f55`. Implementation remains on `codex/gezek-production-onboarding`. Approved minimum-one Interest is scoped to first run; legacy empty arrays, domain and Preference Editor remain compatible. Read `ONBOARDING_IMPLEMENTATION_REPORT.md` for the final contract, preserved audit, exact local/browser/export evidence and pending Redmi acceptance. No merge or production operation is authorized.
