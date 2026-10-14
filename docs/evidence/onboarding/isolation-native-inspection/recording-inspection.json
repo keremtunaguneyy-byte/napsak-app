@@ -1,0 +1,132 @@
+{
+  "durationSeconds": 29.733333333333334,
+  "fps": 59.966312408447266,
+  "height": 1738,
+  "width": 816,
+  "sourcePath": "/Users/kerem/Desktop/Screen Recording 2026-10-14 at 16.06.25.mov",
+  "sha256": "bf66c39660171ce9b9e52e831a1cd05edb5b38715c6caa4f92ac910b01c3955c",
+  "samples": [
+    {
+      "requestedTimeSeconds": 2.75,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 2.767,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 2.783,
+      "headingLeftPx": null
+    },
+    {
+      "requestedTimeSeconds": 2.8,
+      "headingLeftPx": 631
+    },
+    {
+      "requestedTimeSeconds": 2.817,
+      "headingLeftPx": 631
+    },
+    {
+      "requestedTimeSeconds": 2.833,
+      "headingLeftPx": 631
+    },
+    {
+      "requestedTimeSeconds": 2.85,
+      "headingLeftPx": 532
+    },
+    {
+      "requestedTimeSeconds": 2.867,
+      "headingLeftPx": 448
+    },
+    {
+      "requestedTimeSeconds": 2.883,
+      "headingLeftPx": 448
+    },
+    {
+      "requestedTimeSeconds": 2.9,
+      "headingLeftPx": 448
+    },
+    {
+      "requestedTimeSeconds": 2.917,
+      "headingLeftPx": 375
+    },
+    {
+      "requestedTimeSeconds": 2.933,
+      "headingLeftPx": 220
+    },
+    {
+      "requestedTimeSeconds": 2.95,
+      "headingLeftPx": 220
+    },
+    {
+      "requestedTimeSeconds": 2.967,
+      "headingLeftPx": 220
+    },
+    {
+      "requestedTimeSeconds": 2.983,
+      "headingLeftPx": 187
+    },
+    {
+      "requestedTimeSeconds": 3.0,
+      "headingLeftPx": 127
+    },
+    {
+      "requestedTimeSeconds": 3.017,
+      "headingLeftPx": 127
+    },
+    {
+      "requestedTimeSeconds": 3.033,
+      "headingLeftPx": 127
+    },
+    {
+      "requestedTimeSeconds": 3.05,
+      "headingLeftPx": 111
+    },
+    {
+      "requestedTimeSeconds": 3.067,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.083,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.1,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.117,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.133,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.15,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.167,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.183,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.2,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.217,
+      "headingLeftPx": 107
+    },
+    {
+      "requestedTimeSeconds": 3.233,
+      "headingLeftPx": 107
+    }
+  ],
+  "method": "Requested adjacent 1/60s frames using AVAssetImageGenerator with zero tolerance. Heading-row navy pixel left edge is a visual position proxy, not native JS/commit timestamps or a device FPS measurement. Source recording unmodified.",
+  "causalityLimit": "Recording shows repeated positions; source/browser probes confirm concurrent parent work. Native causal attribution needs instrumented device retest."
+}

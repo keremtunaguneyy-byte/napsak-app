@@ -9,6 +9,7 @@ type TransitionEffects = {
   start: (complete: (finished: boolean) => void) => () => void;
   rest: () => void;
   focus: () => void;
+  settled?: () => void;
 };
 
 /** Called after layout commit. A cancelled scene can neither animate nor focus again. */
@@ -31,6 +32,7 @@ export function beginOnboardingTransition(effects: TransitionEffects, reduced: b
     cancelFrames();
     stop?.();
     effects.rest();
+    effects.settled?.();
     focus();
   };
   if (reduced) reduceMotion();
@@ -42,7 +44,8 @@ export function beginOnboardingTransition(effects: TransitionEffects, reduced: b
       if (phase !== 'running') return;
       phase = 'settled';
       // An interrupted surviving scene must not remain stranded off-screen.
-      if (!finished) { effects.rest(); return; }
+      if (!finished) { effects.rest(); effects.settled?.(); return; }
+      effects.settled?.();
       focus();
     });
   }

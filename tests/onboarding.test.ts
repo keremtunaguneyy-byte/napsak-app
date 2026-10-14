@@ -244,3 +244,41 @@ test('fast-start native slide stays within forward/Back motion budgets without a
   const lifecycle = readFileSync('src/onboardingTransition.ts', 'utf8');
   assert.doesNotMatch(lifecycle, /setTimeout|setInterval/);
 });
+
+test('only the surviving settled slide can enable its decorative lifecycle', () => {
+  const h = transitionHarness(); let starts = 0;
+  const effects = { ...h.effects, settled: () => { starts++; } };
+  const discarded = beginOnboardingTransition(effects, false);
+  assert.equal(starts, 0);
+  discarded.cancel(); h.completions[0](true); h.tick(); h.tick();
+  assert.equal(starts, 0); assert.equal(h.calls.focus, 0);
+  const survivor = beginOnboardingTransition(effects, false);
+  assert.equal(starts, 0);
+  h.completions[1](true); h.completions[1](true);
+  assert.equal(starts, 1); h.tick(); h.tick(); assert.equal(h.calls.focus, 1);
+  survivor.reduceMotion(); assert.equal(starts, 1);
+});
+
+test('mid-slide Reduced Motion publishes one settled state and discards the old callback', () => {
+  const h = transitionHarness(); let settled = 0;
+  const transition = beginOnboardingTransition({ ...h.effects, settled: () => settled++ }, false);
+  transition.reduceMotion(); h.completions[0](true); transition.reduceMotion();
+  assert.equal(settled, 1); assert.equal(h.calls.rests, 1);
+  h.tick(); h.tick(); assert.equal(h.calls.focus, 1);
+});
+
+test('decorative clocks are finite, memoized, gated after slide and detach on completion/unmount', () => {
+  const host = readFileSync('src/components/gezek/OnboardingHost.tsx', 'utf8');
+  const scene = host.slice(host.indexOf('function OnboardingScene'));
+  assert.doesNotMatch(scene, /useTimeline|setElapsed|elapsed/);
+  assert.match(scene, /settled: \(\) => setSlideSettled\(true\)/);
+  assert.doesNotMatch(host, /60000|setInterval|setTimeout|Animated.delay/);
+  for (const name of ['Background', 'Route', 'QuestionProgress', 'PreparingMotion', 'Shimmer', 'Spinner']) assert.ok(host.includes(`const ${name} = memo`));
+  assert.match(host, /useTimeline\(reduced \|\| !active, 420\)/);
+  assert.match(host, /useTimeline\(reduced \|\| !active \|\| prepared, 6000\)/);
+  assert.match(host, /animation.start\(detach\)/);
+  assert.match(host, /return \(\) => \{ detach\(\); animation.stop\(\); \}/);
+  assert.match(host, /move.stop\(\); fade\?\.stop\(\)/);
+  assert.match(host, /return \(\) => animation.stop\(\)/);
+  assert.match(host, /routeStates.get\(trim\) \?\? composeRoute\(trim\)/);
+});

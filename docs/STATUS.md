@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Onboarding decorative timeline isolation
+
+Continues existing Draft PR #75 from verified `c46ffe8`. Browser source probes confirm parent JS timeline work overlapping slides; native causal FPS attribution still needs device retest. Decorative state is now confined to finite memoized leaf clocks; stable staging precedes post-settle route/progress motion, with isolated native spinner/shimmer. Keyed off-screen construction, 280/240 cubic ease-out, drafts/focus/reduced motion and completion remain intact. Required checks, both browser suites, counts/interval proxies, unchanged visual end states and native recording inspection are in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Existing evidence/audit preserved; normal push to same branch/PR only, no merge. Home/recommendations/location/schema/release untouched; Gezek-plan distance deferred.
+
 ## 2026-10-14 — Onboarding native motion timing follow-up
 
 Existing Draft PR #75 continues from `22fc38e7559668621386103bbbc0624d59a2500e`. User-provided native recording and source inspection identify residual presentation latency: slow-start 500/440 ms easing plus an additional staging RAF. The authorized policy is now 280 ms forward / 240 ms Back, cubic ease-out, native driver, starting from the already-committed keyed layout. Off-screen construction, cancellation/focus, drafts, Preparing/Ready and completion remain protected. Measurements, native recording inspection, all required passing checks and remaining Redmi acceptance are appended to `ONBOARDING_IMPLEMENTATION_REPORT.md`. No new dependency, branch or PR; no merge. Gezek-plan distance display remains deferred to the next separate PR.

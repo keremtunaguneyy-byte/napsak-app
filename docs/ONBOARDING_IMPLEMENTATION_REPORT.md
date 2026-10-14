@@ -206,3 +206,78 @@ Normal commit/push and a description update target only existing Draft PR #75. N
 - Preparing→Ready, CTA, single completion, Retry/restart/reset, safe areas and actual large-system-text remain safe. Signed-release acceptance stays separate.
 
 No code blocker remains. Next: repeat native acceptance on the pushed head and keep #75 unmerged. The deferred Gezek-plan distance work is not part of this correction.
+
+
+## 2026-10-14 — Decorative timeline isolation after native smoothness acceptance
+
+Continues the existing branch/Draft PR #75 from live local/remote `c46ffe8c567b8745c5eab217c1ec4a12f991be63`; fetched `origin/main` remains `782723c9b2d6aff17363a3c8f2532efcde107f55`. The preceding timing/flash evidence and original audit are preserved. This section is the current implementation; no new branch/PR or merge.
+
+**Confirmed mechanism, with native causality still unverified:** `useTimeline` lived in `OnboardingScene`, used a JS-driver clock/listener to call `setElapsed` continuously, and looped ordinary screens for 60 seconds. Source-level probes in the generated browser fixture confirm full-scene/Background/Route rerenders and timeline updates overlapping both native-driver slide requests. The exact source is therefore a confirmed competing JS workload. It is a plausible native-frame interference source, but neither the recording nor browser probes establish that it alone caused the Redmi/emulator frame cadence. Instrumented native retest is still required; this correction does not claim native FPS or smoothness.
+
+The new Desktop recording was inspected read-only with AVFoundation: 29.733 s, nominal 59.966 FPS stream, 816×1738. At requested 1/60 s samples, heading-left positions repeat at 2.800/2.817/2.833 s (631 px), 2.867/2.883/2.900 s (448 px), and 2.933/2.950/2.967 s (220 px); major position changes recur about four recorded frames apart, with some smaller intermediate updates. This confirms visibly repeated positions in this recording, not actual device refresh/FPS or JS event timestamps. The movie remains unchanged and uncommitted. Hash, sample proxy method and an adjacent-frame contact sheet: `evidence/onboarding/isolation-native-inspection/`.
+
+### Lifecycle before → after
+
+Before: keyed ±width construction → committed layout starts 280/240 ms native slide → parent passive effect also starts the JS timeline → every listener tick rerenders the complete scene/decorations → question loop continues for up to 60 seconds; Ready loops its parent every two seconds.
+
+After: keyed ±width construction → committed layout starts the unchanged native slide with stable destination artwork/progress → guarded surviving settle publishes one `slideSettled` state → leaf decorative clocks start → only surviving completion restores focus after its two frame callbacks. Cancellation changes phase before stopping the slide, so departed callbacks cannot activate a discarded timeline or focus. An interrupted surviving timing snaps to zero; a live Reduced Motion change settles once and leaves decoration disabled. Reduced Motion starts neither slides nor decorative loops. Unmount/revision cleanup stops native loops and finite clocks, detaches listeners and cancels focus frames.
+
+The motion policy remains **280 ms forward / 240 ms Back, `Easing.out(Easing.cubic)`, `useNativeDriver:true`**. No shortening, timeout, new dependency, opacity effect on scenes, loading extension or artwork geometry change. Existing Back/draft/scroll/focus, preparation controller and completion guards remain intact.
+
+`RouteMotion` alone owns its finite 1000/1140 ms JS route clock; `QuestionProgress` owns a finite 420 ms clock. Background/static layers and parent scene no longer own elapsed state. Immutable stage/end route ASTs are cached before any slide. Dynamic trim still uses the exact exported path, length, end values and easing. Preparing stages/width use a bounded child clock (6000 ms maximum, detached when Ready publishes at the existing 4800 ms controller boundary). Spinner rotation and repeating question/Ready shimmer transform/opacity use isolated native-driver timings, with their original dimensions, delays, sweep/fade end states and cleanup. Ready commits its static check at zero rotation and constructs a fresh native shimmer phase before paint. Only non-native trim/percentage properties use JS updates. No production debug global or profiling path is added; all probes/hooks exist only in generated test source.
+
+### Before/after diagnostics
+
+The baseline is the exact `git show c46ffe8:src/components/gezek/OnboardingHost.tsx`; both variants use the same generated fixture probes, real fonts and platform adapters. Counts include initial scene construction/footer measurement from real press until the slide completion callback timestamp; the one settle publication is outside that interval. An initial cached Route render is not an AST recomposition. Baseline's one recomposition is initial trim construction: the 460 ms route delay means dynamic trim does **not** change during these 280/240 ms question slides. The principal overlap confirmed during the slide is the parent listener/full-tree reevaluation, not per-frame SVG cloning. Later trim cloning is now local to RouteMotion.
+
+| Viewport / case | Scene / Background / Route renders before → after | Timeline updates before → after | AST recompositions before → after |
+|---|---|---|---|
+| 393×852 cold-forward | 17/17/17 → 2/1/1 | 17 → 0 | 1 → 0 |
+| 393×852 warm-forward | 18/18/18 → 2/1/1 | 17 → 0 | 1 → 0 |
+| 393×852 warm-back | 17/17/17 → 2/1/1 | 15 → 0 | 1 → 0 |
+| 412×915 cold-forward | 17/17/17 → 2/1/1 | 17 → 0 | 1 → 0 |
+| 412×915 warm-forward | 19/19/19 → 2/1/1 | 17 → 0 | 1 → 0 |
+| 412×915 warm-back | 17/17/17 → 2/1/1 | 15 → 0 | 1 → 0 |
+
+A 1600 ms settled-question observation still sees approved finite leaf decoration, but zero parent/Background renders after the new settle commit. In the subsequent 1200 ms quiet window, baseline performs 72 scene/Background rerenders and 72 listener updates at both viewports; corrected Scene/Background/Route recomposition/listener counts are all zero. Repeating shimmer does not reintroduce a React parent clock.
+
+| Viewport / case | JS sample interval median/max ms before → after | Listener interval median/max ms before → after |
+|---|---|---|
+| 393 cold-forward | 16.6/21.0 → 16.6/17.7 | 16.6/16.7 → none |
+| 393 warm-forward | 16.7/18.5 → 16.7/16.9 | 16.7/17.0 → none |
+| 393 warm-back | 16.5/21.3 → 16.6/16.9 | 16.6/17.2 → none |
+| 412 cold-forward | 16.6/22.0 → 16.3/17.7 | 16.7/16.8 → none |
+| 412 warm-forward | 16.8/18.4 → 16.5/17.5 | 16.7/16.9 → none |
+| 412 warm-back | 16.7/21.5 → 16.6/17.7 | 16.7/17.2 → none |
+
+The interval table is a JS/post-RAF DOM sampling proxy including test/Profiler overhead, not GPU timing or native FPS. Listener intervals combine clock callbacks within the scene. No runtime is changed to manufacture these intervals. The existing fixture mirrors native-driver direct property writes from the real RN Web Animated.Value and fixed-window clipping, retaining actual clock/easing/duration/cancellation; it now scopes that adapter to slide durations so native decorative timing cannot be mistaken for scene translation. Before/after traces include all render/listener/loop events, start/end callbacks, focus and sampled transforms. These are individual diagnostic samples; cross-run browser load is not controlled sufficiently for a general speed claim.
+
+| Viewport / case | Press→commit ms | Commit→slide start ms | Commit→visible ms | Visible→settled ms | Start / settled timestamps ms | Observed RAF batches |
+|---|---|---|---|---|---|---|
+| 393 cold-forward | 11.3 | 0.1 | 37.8 | 237.5 | 423.1 / 714.9 | 1 |
+| 393 warm-forward | 9.1 | 0.0 | 18.5 | 249.8 | 1629.8 / 1914.9 | 2 |
+| 393 warm-back | 9.0 | 0.0 | 20.1 | 216.4 | 1278.3 / 1531.5 | 2 |
+| 412 cold-forward | 11.1 | 0.1 | 34.4 | 232.9 | 377.4 / 661.5 | 1 |
+| 412 warm-forward | 9.1 | 0.1 | 19.9 | 250.1 | 1525.1 / 1811.3 | 2 |
+| 412 warm-back | 9.8 | 0.1 | 20.7 | 216.4 | 1174.7 / 1427.6 | 2 |
+
+Start/settled timestamps use each page's `performance.now()` clock and the actual timing completion callback; first visible/settled DOM samples are separate. Every non-reduced incoming commit is ±viewport width, visible entry is within two observed RAF batches, and configured/observed forward and Back remain within the existing 320/280 ms diagnostic caps. Absolute native press/paint measurements remain pending.
+
+### Final verification and scope
+
+All commands exit 0: `git diff --check`, `npm run typecheck`, `npm test` (111 domain/release +150 TypeScript =261; 22 onboarding), `npm run check:accessibility`, `npm run check:performance` (5000 calls, p95 9.462 ms / 25 ms, checksum 22308), `npm run check:assets`, `npx expo export --platform android --output-dir /private/tmp/gezek-onboarding-isolation-android-export`. Exact logs/exit codes: `evidence/onboarding/isolation-verification/`. Browser builder/transition CJS syntax checks pass. Package files and dependency state are unchanged; `npm ci` already passed and was not repeated.
+
+Existing onboarding/browser suite: 10 scenario groups passed, zero page errors, both 393×852 and 412×915. Expanded transition suite: both viewports pass initial off-screen commit, correct direction/timing/entry, ≤2 parent renders, zero slide timeline updates/recompositions, timeline activation after surviving settle, discarded timeline suppression, hardware/rapid Back, stale focus rejection, mid-slide Reduced Motion, no reduced decorative loops, finite quiet question state, all four Preparing stages, Ready, listener/native-loop cleanup and once-only persistence/event after Ready (including departed callbacks). Existing suite also passes failure/Retry, restart Home, deletion/reset, legacy empty-interest bypass, first-run min-one/multiple/Back, large/long/short/safe-area layouts and unchanged independent editor behavior.
+
+All 35 existing full-flow capture counterparts were compared with the prior motion evidence: 34 are pixel-identical. Only `preparing-motion.png` differs inside spinner/progress bounds, as decoration is intentionally deferred until the slide settles. Reduced/settled geometry and selected end states are unchanged. Final captures were visually inspected again for zero/one Interest, Back-return selection, Preparing/Ready, first Home and large-text Ready/scrolled note with CTA clearance. Normal Preparing/Ready captures at both viewports were also inspected. Comparison details: `isolation-full-regression/visual-end-state-comparison.json`; all current screenshots/results: `isolation-full-regression/` and `isolation-after/`.
+
+Edited existing files are exactly `src/components/gezek/OnboardingHost.tsx`, `src/onboardingTransition.ts`, `tests/onboarding.test.ts`, `tests/onboarding-transition-browser.cjs`, `scripts/buildDetailBrowserFixture.cjs`, `docs/STATUS.md`, this report and `docs/ONBOARDING_CHANGED_FILES.txt`. Intentional additions are the five `isolation-*` evidence directories (before/after traces, capture comparison, native inspection and verification logs). The inventory enumerates every PR path. `App.tsx`, onboarding controller/domain, persistence/completion, recommendations, Home, location, Preference Editor, catalog, Firebase, assets/geometry, schema, dependency/lock and release configuration are byte-unchanged from c46. User Verilog and PR #57 remain untouched. Generated fixtures, Swift/native extraction files, source movie and Android export stay outside Git in `/private/tmp`/their original source path. Normal commit/push updates only existing Draft #75; exact delivery SHA and exact-head CI are reported in the final message/live PR.
+
+### Remaining Redmi / Android Studio acceptance
+
+- Retest the pushed head's cold/warm forward and Back. Verify native cadence/jank at real display refresh settings, without the repeated major position holds seen in the prior recording; browser proxies do not close this acceptance.
+- Confirm unchanged 280/240 ms cubic ease-out, pre-commit off-screen position, prompt visible entry, stable decoration during slides and approved route/progress/spinner/shimmer after settle.
+- Rapid Continue/Back/hardware Back and mid-slide Reduced Motion: no surviving translation, stale timeline/loop or stolen TalkBack focus; reduced motion has no decorative/spatial loop.
+- Confirm selected drafts, scroll/focus, Preparing stages/Ready, large text/safe areas, one write/event, Retry/restart and legitimate reset on device. Signed-release evidence remains separate.
+
+Gezek-plan distance display remains deferred to the next separate PR. Keep #75 Draft and unmerged; next step is new-head native acceptance, not another timing reduction.

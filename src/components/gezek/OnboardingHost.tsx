@@ -75,19 +75,20 @@ function useReducedMotion() {
   return reduced;
 }
 
-/** Shared Figma timeline: only presentation; never commits preferences or navigates. */
-function useTimeline(reduced: boolean, revision: number, preparing: boolean, ready: boolean) {
-  const clock = useRef(new Animated.Value(0)).current;
+/** Finite JS clock owned only by the decoration that needs non-native properties. */
+function useTimeline(disabled: boolean, duration: number) {
+  const [clock] = useState(() => new Animated.Value(0));
   const [elapsed, setElapsed] = useState(0);
   useEffect(() => {
     clock.stopAnimation(); clock.setValue(0); setElapsed(0);
-    if (reduced) return;
+    if (disabled) return;
     const listener = clock.addListener(({ value }) => setElapsed(value));
-    const duration = ready ? 2000 : preparing ? 6000 : 60000;
-    const animation = Animated.loop(Animated.timing(clock, { toValue: duration, duration, easing: Easing.linear, useNativeDriver: false }));
-    animation.start();
-    return () => { animation.stop(); clock.removeListener(listener); };
-  }, [clock, reduced, revision, preparing, ready]);
+    let listening = true;
+    const detach = () => { if (listening) { listening = false; clock.removeListener(listener); } };
+    const animation = Animated.timing(clock, { toValue: duration, duration, easing: Easing.linear, useNativeDriver: false });
+    animation.start(detach);
+    return () => { detach(); animation.stop(); };
+  }, [clock, disabled, duration]);
   return elapsed;
 }
 const cssEaseOut = Easing.bezier(0, 0, .58, 1);
@@ -98,34 +99,100 @@ const routeEnds = [0, .1355, .2953, .4497, .5956, .7301, .8641, 1];
 // Measured from the exact exported cubic path, not a replacement drawing.
 const routeLength = 2955.89158;
 const routeAst = parse(assets.ecf2d.xml)!;
-function Route({ trim }: { trim: number }) {
-  const ast = useMemo(() => ({ ...routeAst, children: routeAst.children.map(child => isValidElement(child) ? cloneElement(child as React.ReactElement<Record<string, unknown>>, { strokeDasharray: [routeLength * trim, routeLength], strokeDashoffset: 0 }) : child) }), [trim]);
-  return <SvgAst ast={ast} />;
+function composeRoute(trim: number) {
+  return { ...routeAst, children: routeAst.children.map(child => isValidElement(child) ? cloneElement(child as React.ReactElement<Record<string, unknown>>, { strokeDasharray: [routeLength * trim, routeLength], strokeDashoffset: 0 }) : child) };
 }
-function Background({ session, reduced, elapsed, width }: { session: OnboardingSession; reduced: boolean; elapsed: number; width: number }) {
-  const index = ONBOARDING_STEPS.indexOf(session.step);
+// Staging/end geometry is immutable and available before any slide starts.
+const routeStates = new Map(routeEnds.map(trim => [trim, composeRoute(trim)]));
+const Route = memo(function Route({ trim }: { trim: number }) {
+  const ast = useMemo(() => routeStates.get(trim) ?? composeRoute(trim), [trim]);
+  return <SvgAst ast={ast} />;
+});
+const RouteMotion = memo(function RouteMotion({ index, prepared, reduced, active }: { index: number; prepared: boolean; reduced: boolean; active: boolean }) {
+  const elapsed = useTimeline(reduced || !active || prepared, index === 0 ? 1000 : 1140);
   const start = routeEnds[index], end = routeEnds[index + 1];
-  const trim = reduced || session.prepared ? end : start + (end - start) * easeOut((elapsed - (index ? 460 : 100)) / (index === 6 ? 660 : index ? 680 : 900));
+  const t = easeOut((elapsed - (index ? 460 : 100)) / (index === 6 ? 660 : index ? 680 : 900));
+  const trim = reduced || prepared || t === 1 ? end : start + (end - start) * t;
+  return <Route trim={trim} />;
+});
+const Background = memo(function Background({ step, prepared, reduced, active, width }: { step: OnboardingSession['step']; prepared: boolean; reduced: boolean; active: boolean; width: number }) {
+  const index = ONBOARDING_STEPS.indexOf(step);
   return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={s.artwork}>
     <View style={{ width: 393, height: 852, transformOrigin: 'top left', transform: [{ scale: width / 393 }] }}>
-      {layers[session.step].map((layer, i) => <View key={i} style={{ position: 'absolute', left: layer.x, top: layer.y }}>
-        {layer.name === 'ecf2d' ? <Route trim={trim} /> : <Asset name={layer.name as AssetName} />}
+      {layers[step].map((layer, i) => <View key={i} style={{ position: 'absolute', left: layer.x, top: layer.y }}>
+        {layer.name === 'ecf2d' ? <RouteMotion index={index} prepared={prepared} reduced={reduced} active={active} /> : <Asset name={layer.name as AssetName} />}
       </View>)}
     </View>
   </View>;
-}
-function Progress({ fraction, elapsed, reduced, label, busy = false, tall = false, ready = false }: { fraction: number; elapsed: number; reduced: boolean; label: string; busy?: boolean; tall?: boolean; ready?: boolean }) {
+});
+const Shimmer = memo(function Shimmer({ width, active, ready, activeMs }: { width: number; active: boolean; ready: boolean; activeMs: number }) {
+  const [sweep] = useState(() => new Animated.Value(0));
+  const [opacity] = useState(() => new Animated.Value(ready ? 0 : .94));
+  const hasWidth = width > 0;
+  useEffect(() => {
+    sweep.setValue(0); opacity.setValue(ready ? 0 : .94);
+    if (!active || !hasWidth) return;
+    const move = Animated.sequence([
+      Animated.timing(sweep, { toValue: 0, duration: ready ? 0 : 1150, useNativeDriver: true }),
+      Animated.loop(Animated.sequence([
+        Animated.timing(sweep, { toValue: 0, duration: ready ? 100 : 0, useNativeDriver: true }),
+        Animated.timing(sweep, { toValue: 1, duration: ready ? 1050 : activeMs, easing: Easing.linear, useNativeDriver: true }),
+        Animated.timing(sweep, { toValue: 1, duration: ready ? 850 : 620, useNativeDriver: true }),
+      ])),
+    ]);
+    const fade = ready ? Animated.loop(Animated.sequence([
+      Animated.timing(opacity, { toValue: .62, duration: 120, easing: cssEaseOut, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: .62, duration: 980, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 0, duration: 120, easing: cssEaseOut, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 0, duration: 780, useNativeDriver: true }),
+    ])) : undefined;
+    move.start(); fade?.start();
+    return () => { move.stop(); fade?.stop(); };
+  }, [sweep, opacity, hasWidth, active, ready, activeMs]);
+  if (!active) return null;
+  const size = ready ? 56 : 30;
+  return <Animated.View accessible={false} style={[s.shimmer, { width: size, left: -size, opacity, transform: [{ translateX: sweep.interpolate({ inputRange: [0, 1], outputRange: [0, width + size] }) }] }]}><LinearGradient colors={['#FFFFFF00', '#FFFFFF9E', '#FFFFFF00']} start={{ x: 0, y: .5 }} end={{ x: 1, y: .5 }} style={s.gradient} /></Animated.View>;
+});
+const Progress = memo(function Progress({ fraction, active, label, busy = false, tall = false, ready = false, targetFraction = fraction }: { fraction: number; active: boolean; label: string; busy?: boolean; tall?: boolean; ready?: boolean; targetFraction?: number }) {
   const [fillWidth, setFillWidth] = useState(0);
-  const activeMs = [780, 872, 973, 1074, 1120][Math.round((fraction - .1) / .2)] ?? 1120;
-  const tick = ready ? elapsed % 2000 : Math.max(0, elapsed - 1150) % (activeMs + 620);
-  const sweep = ready ? clamp((tick - 100) / 1050) : tick / activeMs;
-  const opacity = ready ? tick < 120 ? .62 * easeOut(tick / 120) : tick < 1100 ? .62 : .62 * (1 - easeOut((tick - 1100) / 120)) : .94;
+  const activeMs = [780, 872, 973, 1074, 1120][Math.round((targetFraction - .1) / .2)] ?? 1120;
   return <View accessibilityRole="progressbar" accessibilityLabel={label} accessibilityState={{ busy }} accessibilityValue={{ min: 0, max: 100, now: Math.round(fraction * 100) }} style={[s.track, tall && s.preparingTrack]}>
     <View onLayout={event => setFillWidth(event.nativeEvent.layout.width)} style={[s.fill, { width: `${fraction * 100}%` }]}>
-      {!reduced && (ready || elapsed >= 1150) && sweep <= 1 && <View accessible={false} style={[s.shimmer, { width: ready ? 56 : 30, left: ready ? -56 : -30, opacity, transform: [{ translateX: sweep * (fillWidth + (ready ? 56 : 30)) }] }]}><LinearGradient colors={['#FFFFFF00', '#FFFFFF9E', '#FFFFFF00']} start={{ x: 0, y: .5 }} end={{ x: 1, y: .5 }} style={s.gradient} /></View>}
+      <Shimmer key={ready ? 'ready' : 'preparing'} width={fillWidth} active={active} ready={ready} activeMs={activeMs} />
     </View>
   </View>;
-}
+});
+const QuestionProgress = memo(function QuestionProgress({ fraction, reduced, active, label }: { fraction: number; reduced: boolean; active: boolean; label: string }) {
+  const elapsed = useTimeline(reduced || !active, 420);
+  const oldFraction = Math.max(0, fraction - .2);
+  const progress = reduced ? fraction : oldFraction + (fraction - oldFraction) * easeOut((elapsed - 20) / 400);
+  return <Progress fraction={progress} targetFraction={fraction} active={active && !reduced} label={label} />;
+});
+
+const Spinner = memo(function Spinner({ ready, active }: { ready: boolean; active: boolean }) {
+  const [rotation] = useState(() => new Animated.Value(0));
+  useEffect(() => {
+    rotation.setValue(0);
+    if (!active || ready) return;
+    const animation = Animated.sequence([Animated.timing(rotation, { toValue: 0, duration: 100, useNativeDriver: true }), Animated.timing(rotation, { toValue: 1260, duration: 4450, easing: Easing.linear, useNativeDriver: true }), Animated.timing(rotation, { toValue: 1350, duration: 0, useNativeDriver: true })]);
+    animation.start();
+    return () => animation.stop();
+  }, [rotation, active, ready]);
+  return <Animated.View style={[s.spinner, { transform: [{ rotate: ready || !active ? '0deg' : rotation.interpolate({ inputRange: [0, 1350], outputRange: ['0deg', '1350deg'] }) }] }]}>{ready ? <Asset name="3fdf5" /> : <Image accessible={false} source={PREPARING_SPINNER} style={{ width: 26, height: 26 }} />}</Animated.View>;
+});
+
+const PreparingMotion = memo(function PreparingMotion({ prepared, busy, reduced, active, compact }: { prepared: boolean; busy: boolean; reduced: boolean; active: boolean; compact: boolean }) {
+  const elapsed = useTimeline(reduced || !active || prepared, 6000);
+  const fraction = prepared ? 1 : reduced ? .94 : elapsed < 120 ? 97 / 345 : elapsed < 1350 ? (97 + 93 * cssEaseInOut(clamp((elapsed - 120) / 1230))) / 345 : elapsed < 2550 ? (190 + 86 * cssEaseInOut(clamp((elapsed - 1350) / 1200))) / 345 : (276 + 48 * easeOut((elapsed - 2550) / 1200)) / 345;
+  const stage = prepared ? 'Bugünün planı hazır!' : reduced ? 'Son dokunuşlar yapılıyor' : elapsed < 1200 ? 'Seçimlerin eşleştiriliyor' : elapsed < 2300 ? 'Sana uygun rotalar taranıyor' : elapsed < 3400 ? 'Planın dengeleniyor' : 'Son dokunuşlar yapılıyor';
+  return <>
+    <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[s.radar, compact && s.compactRadar]}>
+      <Asset name="2569c" /><View style={s.radarMiddle}><Asset name="f1e66" /></View><View style={s.radarInner}><Asset name="04755" /></View>
+      <Spinner ready={prepared} active={active && !reduced} />
+    </View>
+    <Text accessibilityLiveRegion="polite" style={s.stage}>{stage}</Text><View accessibilityState={{ busy: !prepared || busy }}><Progress fraction={fraction} active={active && !reduced} ready={prepared} tall busy={!prepared || busy} label={prepared ? 'Planın hazır' : 'Planın hazırlanıyor'} /></View>
+  </>;
+});
 
 type HostProps = { session: OnboardingSession; onAction: (action: OnboardingAction) => void; onComplete: () => void };
 export function OnboardingHost(props: HostProps) {
@@ -137,7 +204,7 @@ function OnboardingScene({ session, onAction, onComplete, reduced }: HostProps &
   const { width, height, fontScale } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const preparing = session.step === 'preparing', welcome = session.step === 'welcome';
-  const elapsed = useTimeline(reduced, session.revision, preparing, session.prepared);
+  const [slideSettled, setSlideSettled] = useState(false);
   const [footerHeight, setFooterHeight] = useState(108);
   const title = useRef<View>(null), readyAction = useRef<View>(null), scroll = useRef<ScrollView>(null);
   const controls = useRef<Record<string, View | null>>({});
@@ -158,6 +225,7 @@ function OnboardingScene({ session, onAction, onComplete, reduced }: HostProps &
         return () => animation.stop();
       },
       rest: () => translation.setValue(0),
+      settled: () => setSlideSettled(true),
       focus: () => focusStep.current(),
     }, reduced);
     transition.current = lifecycle;
@@ -175,20 +243,16 @@ function OnboardingScene({ session, onAction, onComplete, reduced }: HostProps &
   const question = !welcome && !preparing ? headings[session.step as keyof typeof headings] : undefined;
   const questionNumber = ONBOARDING_STEPS.indexOf(session.step);
   const fraction = [.1, .3, .5, .7, .9][questionNumber - 1] ?? 0;
-  const oldFraction = questionNumber <= 1 ? 0 : fraction - .2;
-  const progress = reduced ? fraction : oldFraction + (fraction - oldFraction) * easeOut((elapsed - 20) / 400);
-  const preparingFraction = session.prepared ? 1 : reduced ? .94 : elapsed < 120 ? 97 / 345 : elapsed < 1350 ? (97 + 93 * cssEaseInOut(clamp((elapsed - 120) / 1230))) / 345 : elapsed < 2550 ? (190 + 86 * cssEaseInOut(clamp((elapsed - 1350) / 1200))) / 345 : (276 + 48 * easeOut((elapsed - 2550) / 1200)) / 345;
-  const stage = session.prepared ? 'Bugünün planı hazır!' : reduced ? 'Son dokunuşlar yapılıyor' : elapsed < 1200 ? 'Seçimlerin eşleştiriliyor' : elapsed < 2300 ? 'Sana uygun rotalar taranıyor' : elapsed < 3400 ? 'Planın dengeleniyor' : 'Son dokunuşlar yapılıyor';
   const disabled = !canContinueOnboarding(session);
   const label = welcome ? 'Başlayalım' : preparing ? 'Planı Gör' : session.step === 'duration' ? 'Planımı hazırla' : 'Devam et';
   return <View style={s.root} testID="production-onboarding">
     <StatusBar style="dark" />
-    <Background session={session} reduced={reduced} elapsed={elapsed} width={width} />
+    <Background step={session.step} prepared={session.prepared} reduced={reduced} active={slideSettled} width={width} />
     <SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={s.safe}>
       <Animated.View testID="onboarding-scene" style={[s.safe, { transform: [{ translateX: translation }] }]}>
         <ScrollView ref={scroll} showsVerticalScrollIndicator={false} contentContainerStyle={[s.content, { maxWidth: preparing ? 433 : 457, paddingHorizontal: preparing ? 24 : 32, paddingTop: Math.max(0, (welcome ? 34 : 28) - insets.top), paddingBottom: onboardingFooterClearance(footerHeight) }]}>
           <View style={s.nav}><BrandLogo size={welcome ? 28 : preparing ? 24 : 22} /><View style={[s.badge, (welcome || preparing) && s.mint, welcome && s.welcomeBadge, preparing && s.preparingBadge]}><Text style={[s.badgeText, (welcome || preparing) && s.green]}>{welcome ? 'ANKARA' : preparing ? session.prepared ? '● Hazır' : '● Hazırlanıyor' : question!.badge}</Text></View></View>
-          {question && <><View style={s.headerProgress}><Progress fraction={progress} elapsed={elapsed} reduced={reduced} label={`Onboarding ilerlemesi, ${questionNumber}. soru`} /></View><Text style={s.eyebrow}>{questionNumber}. SORU</Text></>}
+          {question && <><View style={s.headerProgress}><QuestionProgress fraction={fraction} reduced={reduced} active={slideSettled} label={`Onboarding ilerlemesi, ${questionNumber}. soru`} /></View><Text style={s.eyebrow}>{questionNumber}. SORU</Text></>}
           <View ref={title} accessible focusable tabIndex={-1} accessibilityRole="header" accessibilityLabel={welcome ? 'Bugün sana uyan bir plan bulalım.' : preparing ? 'Senin için bugünün planını hazırlıyoruz.' : question!.title} style={welcome ? [s.welcomeIntro, compact && s.compactWelcome] : preparing ? s.preparingIntro : s.questionIntro}>
             {welcome && <Text accessible={false} style={s.welcomeEyebrow}>ANKARA’DA BUGÜN</Text>}
             <Text accessible={false} style={[s.title, welcome && s.welcomeTitle, preparing && s.preparingTitle]}>{welcome ? 'Bugün sana uyan\nbir plan bulalım.' : preparing ? 'Senin için bugünün planını hazırlıyoruz.' : question!.title}</Text>
@@ -209,11 +273,7 @@ function OnboardingScene({ session, onAction, onComplete, reduced }: HostProps &
             </View>}
           </View>}
           {preparing && <>
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[s.radar, compact && s.compactRadar]}>
-              <Asset name="2569c" /><View style={s.radarMiddle}><Asset name="f1e66" /></View><View style={s.radarInner}><Asset name="04755" /></View>
-              <View style={[s.spinner, !session.prepared && !reduced && { transform: [{ rotate: `${elapsed < 100 ? 0 : elapsed < 4550 ? (elapsed - 100) / 4450 * 1260 : 1350}deg` }] }]}>{session.prepared ? <Asset name="3fdf5" /> : <Image accessible={false} source={PREPARING_SPINNER} style={{ width: 26, height: 26 }} />}</View>
-            </View>
-            <Text accessibilityLiveRegion="polite" style={s.stage}>{stage}</Text><View accessibilityState={{ busy: !session.prepared || session.busy }}><Progress fraction={preparingFraction} elapsed={elapsed} reduced={reduced} ready={session.prepared} tall busy={!session.prepared || session.busy} label={session.prepared ? 'Planın hazır' : 'Planın hazırlanıyor'} /></View>
+            <PreparingMotion prepared={session.prepared} busy={session.busy} reduced={reduced} active={slideSettled} compact={compact} />
             <View style={s.summary}><Text style={s.summaryHeading}>SEÇTİĞİN PARAMETRELER</Text>{[
               ['Ruh hâlin:', session.draft.mood, C.blueWhisper],
               ['İlgi alanların:', session.draft.interests.join(' ve '), C.lavender],

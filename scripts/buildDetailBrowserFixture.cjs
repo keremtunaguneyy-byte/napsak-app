@@ -27,7 +27,7 @@ ${onboardingFixture ? `window.__transitionCommits=[];window.__transitionAnimatio
 // direct view-property updates from the actual Animated.Value; never replace
 // its clock, duration, easing or callbacks. This remains a browser diagnostic.
 export const Animated={...RN.Animated,timing:(value,config)=>{
- const animation=RN.Animated.timing(value,config);if(!config.useNativeDriver||config.toValue!==0)return animation;
+ const animation=RN.Animated.timing(value,config);if(!config.useNativeDriver||config.toValue!==0||![240,280,440,500].includes(config.duration))return animation;
  let listener;const detach=()=>{if(listener!==undefined){value.removeListener(listener);listener=undefined}};
  return {...animation,start:callback=>{
   const entry={revision:window.__sceneRevision,start:performance.now(),x:value.__getValue(),duration:config.duration,nativeDriver:config.useNativeDriver,firstFrameProgress:config.easing(1/Math.round(config.duration/(1000/60)))};window.__transitionAnimations.push(entry);
@@ -87,11 +87,23 @@ export const persistPreferences=async p=>{window.__writes.push(structuredClone(p
  });
  if (onboardingFixture) b.onLoad({filter:/\/OnboardingHost\.tsx$/}, a => {
    let source=fs.readFileSync(process.env.GEZEK_ONBOARDING_SOURCE || a.path,'utf8');
-   source="import { useLayoutEffect as fixtureLayoutEffect, Profiler as FixtureProfiler } from 'react';\n"+source;
+   source="import { useLayoutEffect as fixtureLayoutEffect, Profiler as FixtureProfiler } from 'react';\nfunction fixtureRecord(kind:string,revision=(globalThis as any).__assetRevision,extra={}){const w=globalThis as any;(w.__decorativeDiagnostics??=[]).push({kind,revision,time:performance.now(),...extra});}\n"+source;
    const renderAnchor='  const { width, height, fontScale } = useWindowDimensions();';
    const commitAnchor='  const transition = useRef<ReturnType<typeof beginOnboardingTransition> | undefined>(undefined);';
    if(source.split(renderAnchor).length!==2||source.split(commitAnchor).length!==2)throw new Error('Transition fixture anchors changed');
-   source=source.replace(renderAnchor, '  const fixtureRenderStart=performance.now(); (globalThis as any).__assetRevision=session.revision;\n'+renderAnchor);
+   source=source.replace(renderAnchor, '  const fixtureRenderStart=performance.now(); (globalThis as any).__assetRevision=session.revision; fixtureRecord("scene-render",session.revision,{prepared:session.prepared});\n'+renderAnchor);
+   // Source probes exist only in this generated browser fixture, never in App/Host.
+   source=source.replace(/(function Background\([^\n]+\) \{)/, '$1\n  fixtureRecord("background-render");');
+   source=source.replace(/(function Route\([^\n]+\) \{)/, '$1\n  fixtureRecord("route-render");');
+   source=source.replace('({ ...routeAst, children:', '(fixtureRecord("route-recompose"), { ...routeAst, children:');
+   source=source.replace('function composeRoute(trim: number) {', 'function composeRoute(trim: number) {\n  fixtureRecord("route-recompose");');
+   source=source.replace('    clock.stopAnimation();', '    const fixtureTimelineRevision=(globalThis as any).__assetRevision;\n    clock.stopAnimation();');
+   source=source.replace('clock.addListener(({ value }) => setElapsed(value))', 'clock.addListener(({ value }) => {fixtureRecord("timeline-update",fixtureTimelineRevision);setElapsed(value)})');
+   source=source.replace('    const listener = clock.addListener', '    fixtureRecord("timeline-start",fixtureTimelineRevision);\n    const listener = clock.addListener');
+   source=source.replace('clock.removeListener(listener);', 'fixtureRecord("timeline-stop",fixtureTimelineRevision); clock.removeListener(listener);');
+   source=source.replace('    move.start(); fade?.start();', '    const fixtureLoopRevision=(globalThis as any).__assetRevision; fixtureRecord("shimmer-start",fixtureLoopRevision); move.start(); fade?.start();');
+   source=source.replace('move.stop(); fade?.stop();', 'fixtureRecord("shimmer-stop",fixtureLoopRevision); move.stop(); fade?.stop();');
+   source=source.replace('    animation.start();\n    return () => animation.stop();', '    const fixtureSpinnerRevision=(globalThis as any).__assetRevision; fixtureRecord("spinner-start",fixtureSpinnerRevision); animation.start();\n    return () => {fixtureRecord("spinner-stop",fixtureSpinnerRevision);animation.stop()};');
    source=source.replace(commitAnchor, `  (globalThis as any).__onboardingReduced=reduced;
    fixtureLayoutEffect(()=>{const node=document.querySelector('[data-testid="onboarding-scene"]');const matrix=new DOMMatrixReadOnly(node?getComputedStyle(node).transform:undefined);(globalThis as any).__sceneRevision=session.revision;(globalThis as any).__transitionCommits.push({revision:session.revision,step:session.step,reduced,width,time:performance.now(),renderMs:performance.now()-fixtureRenderStart,x:matrix.m41,value:translation.__getValue()});},[session.revision]);\n`+commitAnchor);
    if(!source.includes('testID="onboarding-scene"'))source=source.replace('<Animated.View style=', '<Animated.View testID="onboarding-scene" style=');
