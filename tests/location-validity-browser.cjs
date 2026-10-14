@@ -80,7 +80,11 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/private/tmp/gezek-validity-
       }
       await acquire(); await page.evaluate(() => { window.__holdStatus = true; });
       await signal('focus'); await page.waitForFunction(() => window.__statusReads.length === 2);
+      // Hold the old lifecycle pair only. Place's new explicit publication now
+      // independently preflights its replacement batch using current status.
+      await page.evaluate(() => { window.__holdStatus = false; });
       await acquire(40.02, 32.94); const newer = await snapshot();
+      await page.evaluate(() => { window.__holdStatus = true; });
       await resolveHeld(false, 'denied'); await page.waitForTimeout(180);
       assert.deepEqual((await snapshot()).coordinates, newer.coordinates); assert.deepEqual(batch(await snapshot()), batch(newer)); record('Old negative status response cannot clear a newer explicit location');
       const heldBefore = await snapshot(); await signal('focus'); await page.waitForFunction(() => window.__statusReads.length === 2);

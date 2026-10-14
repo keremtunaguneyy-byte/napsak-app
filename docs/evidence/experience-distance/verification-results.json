@@ -188,5 +188,83 @@
     "exitCode": 0,
     "phase": "lifecycle follow-up",
     "note": "14 explicit scoped files, no protected directory or scoring/catalog/dependency/schema/release changes."
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Final scoped worktree; protected untracked directory excluded"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Final source"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "288 passing tests (111 compiled-domain + 177 TypeScript), including 25 focused tests"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "12 source files, 16 minimum target styles; PASS"
+  },
+  {
+    "command": "npm run test:catalog",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Catalog parity unchanged; 52 Experiences"
+  },
+  {
+    "command": "npm run test:stress",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Experience: 640 scenarios / 480 rotations, zero empty/mismatch/duplicate/overlap"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "5000 calls, p95 8.521 ms / 25 ms budget, checksum 22308"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-preflight-final-android-export",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Final source exported; local bundle only"
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Generated test bundle; no production globals"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "56 checks / zero page errors; final source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-validity-browser.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "61 checks / zero page errors; final source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-preflight-browser.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "76 checks / zero page errors; final source"
+  },
+  {
+    "command": "npm ci; npm run test:rules; npm run check:release",
+    "result": "NOT RUN",
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Dependencies/lockfile, Rules and release contracts unchanged; no production or signed-release validation"
   }
 ]

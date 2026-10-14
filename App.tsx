@@ -1,4 +1,6 @@
 import { createLocationValidityMonitor } from './src/locationValidity';
+import { createRecommendationLocationResolver } from './src/recommendationLocation';
+import { useValidatedRecommendationBatch } from './src/useValidatedRecommendationBatch';
 import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
 import { experienceStartDistanceLabel } from './src/experienceStartDistance';
 import { createLocationRequestGuard } from './src/locationRequestGuard';
@@ -139,25 +141,32 @@ function AppContent() {
   // recomputation still uses the latest location and the unchanged scoring formula.
   // Place keeps its existing immediate location-driven recomputation.
   const latestLocation = useRef(coordinates);
+  const invalidateLocation = useCallback(() => {
+    locationRequests.invalidate();
+    latestLocation.current = undefined;
+    setCoordinates(undefined);
+    setLocating(false);
+    setLocationMessage('Konum kullanılamıyor. Mesafeleri görmek için konumunu yeniden güncelle.');
+  }, [locationRequests]);
+  const recommendationLocation = useMemo(() => createRecommendationLocationResolver({
+    cachedLocation: () => latestLocation.current,
+    servicesEnabled: Location.hasServicesEnabledAsync,
+    foregroundPermission: Location.getForegroundPermissionsAsync,
+    invalidateLocation,
+  }), [invalidateLocation]);
+  useEffect(() => () => recommendationLocation.locationChanged(), [recommendationLocation]);
   const publishExplicitLocation = useCallback((next?: Coordinates) => {
     locationValidity.current?.locationChanged();
+    recommendationLocation.locationChanged();
     if (next !== latestLocation.current) setLocationRankingRevision(revision => revision + 1);
     latestLocation.current = next;
     setCoordinates(next);
-  }, []);
+  }, [recommendationLocation]);
   useEffect(() => {
     const monitor = createLocationValidityMonitor({
       servicesEnabled: Location.hasServicesEnabledAsync,
       foregroundPermission: Location.getForegroundPermissionsAsync,
-      invalidateLocation: () => {
-        locationRequests.invalidate();
-        // Synchronously remove the future-batch input; leave this batch's memo
-        // revision alone. Place labels are derived separately below.
-        latestLocation.current = undefined;
-        setCoordinates(undefined);
-        setLocating(false);
-        setLocationMessage('Konum kullanılamıyor. Mesafeleri görmek için konumunu yeniden güncelle.');
-      },
+      invalidateLocation,
     });
     locationValidity.current = monitor;
     const change = AppState.addEventListener('change', state => {
@@ -171,16 +180,17 @@ function AppContent() {
       change.remove(); focus?.remove(); blur?.remove();
       if (locationValidity.current === monitor) locationValidity.current = undefined;
     };
-  }, [locationRequests]);
+  }, [invalidateLocation]);
   const liveRankingLocationRevision = resultFilter === 'experience' ? 0 : locationRankingRevision;
   const displayCoordinates = locating ? undefined : coordinates;
-  const recommendationMeasurement = useMemo(() => {
+  const computeRecommendations = useCallback((safeCoordinates?: Coordinates) => {
     const startedAt = Date.now();
-    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: latestLocation.current, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
+    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: safeCoordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
     const elapsed = Date.now() - startedAt;
     recordHomeRecommendation(elapsed);
-    return { items, durationBucket: performanceDurationBucket(elapsed) };
+    return { items, durationBucket: performanceDurationBucket(elapsed), run: recommendationRun, filter: resultFilter };
   }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, liveRankingLocationRevision, previousBatch, resultFilter, eligibilityNow]);
+  const recommendationMeasurement = useValidatedRecommendationBatch(computeRecommendations, recommendationLocation, { items: [] as RecommendationItem[], durationBucket: performanceDurationBucket(0), run: recommendationRun, filter: resultFilter });
   const results = useMemo(() => homeDisplayItems(recommendationMeasurement.items, displayCoordinates), [recommendationMeasurement, displayCoordinates]);
   const eventDiagnosticSets = useMemo(() => resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined, [resultFilter, events, mood, chosen, budget, groupSize, duration, dismissed, recommendationRun, previousBatch, eligibilityNow]);
   const eventState = eventDiagnosticSets && resolveEventPresentation({ ...catalogLoad, ...eventDiagnosticSets, dismissed, visibleIds: results.map(item => item.id) });
@@ -271,13 +281,13 @@ function AppContent() {
     if (hydrated) trackProductEvent({ name: 'screen_viewed', properties: { screen } });
   }, [hydrated, screen]);
   useEffect(() => {
-    if (!hydrated || step !== 'results') return;
+    if (!hydrated || step !== 'results' || recommendationMeasurement.run !== recommendationRun || recommendationMeasurement.filter !== resultFilter) return;
     trackProductEvent({
       name: 'recommendation_batch_viewed',
       properties: { filter: resultFilter, count: results.length, trigger: batchTrigger.current },
     });
     batchTrigger.current = 'initial';
-  }, [hydrated, recommendationRun, resultFilter, step]);
+  }, [hydrated, recommendationRun, resultFilter, recommendationMeasurement.run, recommendationMeasurement.filter, step]);
   useEffect(() => {
     if (!hydrated || step !== 'results') return;
     trackProductEvent({
@@ -297,7 +307,7 @@ function AppContent() {
     if (fontError) captureOperationalError(fontError, 'app_startup', 'font_load_failed');
   }, [fontError]);
   useEffect(() => {
-    if (!scrollAfterRotation.current) return;
+    if (!scrollAfterRotation.current || recommendationMeasurement.run !== recommendationRun) return;
     // Effects run after commit; two frames also let native layout settle before
     // using the anchor measured in ScrollView content coordinates.
     requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -305,7 +315,7 @@ function AppContent() {
       scrollAfterRotation.current = false;
       scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true });
     }));
-  }, [recommendationRun]);
+  }, [recommendationRun, recommendationMeasurement.run]);
   useEffect(() => {
     if (step !== 'guides') return;
     setGuideScrollProgress(0);
@@ -342,6 +352,7 @@ function AppContent() {
 
   const requestLocation = useCallback(async () => {
     locationValidity.current?.locationChanged();
+    recommendationLocation.locationChanged();
     const request = locationRequests.begin();
     setLocating(true);
     try {
@@ -368,7 +379,7 @@ function AppContent() {
     } finally {
       if (locationRequests.isCurrent(request)) setLocating(false);
     }
-  }, [locationRequests, publishExplicitLocation]);
+  }, [locationRequests, publishExplicitLocation, recommendationLocation]);
   const confirmContext = useCallback(() => {
     trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
@@ -696,12 +707,12 @@ function AppContent() {
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
-    }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
+    }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
       {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
       {step === 'results' && <GezekHome
         safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
-        results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
+        results={results} savedIds={saved} selectedFilter={recommendationMeasurement.filter} contextRefreshDue={contextRefreshDue}
         coordinates={displayCoordinates} locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
         undoNotice={undoNotice} hiddenCount={hiddenItems.length}
         onSettings={openHomeSettings}
@@ -754,6 +765,7 @@ function AppContent() {
     {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: recommendationRun, now: eligibilityNow }}
+      recommendationLocation={recommendationLocation}
       ideas={ideas} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
       onOpenEventMap={async url => { if (!(await Linking.canOpenURL(url))) throw new Error('unsupported map URL'); trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'event' } }); await Linking.openURL(url); }}
       saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}

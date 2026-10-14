@@ -1,11 +1,13 @@
 import { experienceStartDistanceLabel } from '../../experienceStartDistance';
+import { useValidatedRecommendationBatch } from '../../useValidatedRecommendationBatch';
+import type { RecommendationLocationResolver } from '../../recommendationLocation';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, AppState, Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
 import { DETAIL_CONTENT_CLEARANCE, UndoNotice, DetailNavigationAction, DetailSession, detailExternalActions, eventDetailTiming, eventSourceActionLabel, resolveDetail } from '../../detailFlow';
-import { distanceInKm, formatDistanceInKm, formatDurationRange } from '../../domain';
+import { Coordinates, distanceInKm, formatDistanceInKm, formatDurationRange } from '../../domain';
 import { recommendExperiencesForPlace } from '../../recommendations';
 import { Event, Idea, Experience, Place } from '../../types';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F } from '../../design/gezekTheme';
@@ -17,6 +19,7 @@ import { focusDetailControl } from './detailFocus';
 type Props = {
   session: DetailSession;
   context: Parameters<typeof recommendExperiencesForPlace>[1];
+  recommendationLocation?: RecommendationLocationResolver;
   ideas?: readonly Idea[];
   onOpenEventSource: (event: Event) => Promise<void>;
   onOpenIdeaAction: (idea: Idea) => Promise<void>;
@@ -63,12 +66,11 @@ export function DetailHost(p: Props) {
   const { fontScale } = useWindowDimensions();
   const [artworkWidth, setArtworkWidth] = useState(329);
   const [footerHeight, setFooterHeight] = useState(96 + insets.bottom);
-  const latestCoordinates = useRef(p.context.coordinates);
-  latestCoordinates.current = p.context.coordinates;
   // A display-location invalidation must not rotate the visible related plans.
   // Independent catalog/preference/place/eligibility changes use the latest input.
-  const related = useMemo(() => place ? recommendExperiencesForPlace(place, { ...p.context, coordinates: latestCoordinates.current, limit: p.context.experiences.length }) : [],
+  const computeRelated = useMemo(() => (coordinates?: Coordinates) => place ? recommendExperiencesForPlace(place, { ...p.context, coordinates, limit: p.context.experiences.length }) : [],
     [place, p.context.experiences, p.context.places, p.context.events, p.context.mood, p.context.interests, p.context.dismissed, p.context.budget, p.context.groupSize, p.context.duration, p.context.seed, p.context.previousBatch, p.context.now]);
+  const related = useValidatedRecommendationBatch(computeRelated, place ? p.recommendationLocation : undefined, [], place?.id);
   const actions: { maps?: string; source?: string } = item && !dismissed && !p.loading ? detailExternalActions(item, p.context.places) : {};
   const price = item ? '₺'.repeat(item.priceLevel) || 'Bedava' : '';
   const distance = place && p.context.coordinates ? distanceInKm(p.context.coordinates, place) : undefined;

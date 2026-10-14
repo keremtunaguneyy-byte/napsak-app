@@ -2,7 +2,70 @@
 
 2026-10-14. Branch `codex/gezek-plan-distance`. Verified repository: `/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app`.
 
-## 2026-10-14 — Redmi foreground location validity correction
+## 2026-10-15 — Final mandatory location preflight
+
+Continues Draft [PR #76](https://github.com/keremtunaguneyy-byte/napsak-app/pull/76) on **`codex/gezek-plan-distance`**. Verified actual repository path, initial status, branch and full local HEAD; fetch verified local branch, `origin/codex/gezek-plan-distance` and PR head all **`e1dd5d992092725f0b0c31a18117a3e340c27a62`**. Local main/fetched `origin/main` remain **`746aad3a19b78d0e0da5fb286898758b0cbba0a0`**. Full existing PR scope inspected against origin/main. Initial status was only the user-owned untracked `src/firebase/BA_4bit.sv/`; it is never read, edited or staged by this correction. No #57, new branch/PR, rebase/amend/force-push or merge.
+
+### Superseding native evidence and approved contract
+
+The user's new Redmi observation disproves the assumption that Expo Go reliably emits active/focus after Quick Settings. Services silently disabled left the valid RAM fix and visible labels intact; pressing **Başka planlar göster** reused that fix. Explicit **Konumu güncelle** and a full restart correctly removed it; Android Settings permission revocation was already detected by lifecycle checks. These are user-reported observations, not a new agent-run physical test.
+
+An already visible Home batch is a snapshot of the last explicit fix. Its last distance may remain until reliable lifecycle revalidation, explicit update, or a new batch request. That is accepted. **A newly computed batch must never score with an unvalidated cached fix.** There is no repeating timer, polling, watch, background tracking, automatic permission prompt, settings dialog or GPS request.
+
+### Implementation and trigger audit
+
+`src/recommendationLocation.ts` is the authoritative asynchronous location-input resolver. No cache returns `undefined` without native calls or a deadline. With cache, it reads installed Expo `hasServicesEnabledAsync` and `getForegroundPermissionsAsync`. Both must succeed with services enabled and status `granted`; otherwise it clears RAM location/loading through the existing shared invalidation path and returns `undefined`. A **2,000 ms one-shot deadline** bounds a hung status pair. This deadline is created only for an actual preflight and is cancelled on completion/supersession/unmount. Late native resolutions/rejections cannot resurrect discarded location.
+
+Concurrent batches can share the same pending status pair; completed success is never reused by a later action. Fix identity and generations prevent old checks from validating or discarding a newer explicit fix. Explicit request start/result publication supersede pending preflights. Superseded checks return locationless without discarding the newer fix. Invalid current checks also invalidate old pending GPS ownership; valid status alone cannot recover a discarded fix.
+
+`src/useValidatedRecommendationBatch.ts` gates both production recommendation computation boundaries. Its absent-cache path stays synchronous. Its cached path retains the existing snapshot while checking, then invokes the unchanged engine with only the resolved safe input. Changed inputs/unmount suppress obsolete computation/publication. Location-only presentation does not trigger this hook. A newly entered Place cannot borrow the previous Place's related-plan snapshot.
+
+| Trigger | Production path covered by the mandatory gate |
+|---|---|
+| Home refresh / discovery / result-filter change | `rotateRecommendations`, `selectResultFilter` → Home compute callback |
+| Home/Detail Dismiss, Undo, individual Restore, Restore All, Event-only restore | `dismissed` dependency → Home compute callback and any active related-plan callback |
+| Preference Apply / completed context change | actual mood/interest/budget/group/duration dependencies → Home and related callbacks |
+| Initial hydration / startup catalog completion / catalog Retry or replacement | recommendation input dependencies → Home and related callbacks; no cache skips OS calls |
+| Actual Event eligibility boundary or elapsed boundary on foreground return | `eligibilityNow` dependency → gated Home/related callback |
+| Explicit Place location publication | existing ranking revision → gated Home callback; Experience publication still only updates labels |
+| Open/new/nested Place detail; independent related-plan input changes | gated `recommendExperiencesForPlace` callback with the same resolver |
+| Save/Unsave, same-value context confirmation, Home return, display-only location update/invalidation | no new scoring batch when inputs are unchanged; existing snapshot preserved |
+
+Home's selected filter, batch-view telemetry and rotation scroll settle now follow the committed replacement, avoiding publication/scroll before preflight completes. Seed increments, previous-batch avoidance, eligibility-before-ranking, dismissed-before-scoring, save/dismiss exclusivity, proximity formulas, weights, rotation/diversity and reasons remain unchanged. No engine, catalog, stable IDs/city relationships, persistence/Firebase, dependency/lockfile, assets, layout or release configuration changed by this correction. All **52/52** audited first stops still match exactly.
+
+### Current validation and limitations
+
+[Preflight browser evidence](evidence/experience-distance/preflight-browser-results.json), [existing distance evidence](evidence/experience-distance/browser-results.json), [lifecycle evidence](evidence/experience-distance/lifecycle-browser-results.json), and [command history](evidence/experience-distance/verification-results.json). Browser uses the actual App/DetailHost with only service/native adapters and opt-in test-only instrumentation. Both **393×852** and **412×915** are covered; the distance suite retains normal and simulated **1.8×** text. Inspected final Home/large-text screenshots; no new screenshots or raw logs are committed.
+
+| Validation | Result |
+|---|---|
+| `git diff --check`, `npm run typecheck`, `npm run check:accessibility` | PASS |
+| `npm test` | PASS **288 tests**: 111 compiled-domain + 177 TypeScript |
+| Focused distance/lifecycle/preflight tests (included above) | PASS **25/25** |
+| Existing distance browser suite | PASS **56 checks**, zero page errors |
+| Existing lifecycle browser suite | PASS **61 checks**, zero page errors |
+| New silent-service/public-action preflight browser suite | PASS **76 checks**, zero page errors |
+| `npm run test:catalog` | PASS; unchanged 52 Experiences and catalog parity |
+| `npm run test:stress` | PASS; Experience 640 scenarios / 480 rotations, zero empty/mismatch/duplicate/overlap |
+| `npm run check:performance` | PASS; 5,000 calls, **p95 8.521 ms / 25 ms**, checksum **22308** |
+| `npx expo export --platform android --output-dir /private/tmp/gezek-preflight-final-android-export` | PASS; local Android bundle only |
+| Staged diff check / normal commit-push / exact-head CI | Final delivery/live Draft #76 |
+
+New coverage includes the exact silent Quick Settings sequence without lifecycle emission, no-cache fast path, each successive valid check, denied and both API failures, a held pair/deadline/late success, rapid actions, a newer-fix race, Dismiss/Undo/single Restore/Restore All/Preference Apply/filter changes, new related-plan batches and unmount. Native status reads cannot be cancelled at the OS; detached promises are handled and ignored. Slow legitimate reads may intentionally fall back to locationless after two seconds. Engine benchmark timing excludes this asynchronous OS wait.
+
+`npm ci` was not rerun because dependencies/lockfile are unchanged and installed tooling is usable. Local Firestore Rules and release-readiness checks were not rerun because those contracts are unchanged; normal GitHub CI still validates its applicable jobs. Browser/external services require sandbox escalation locally; allowed retries completed. Test fixtures were corrected to use the real Gezek tab name, the currently selected filter's explicit-update behavior, and to hold only the intended old lifecycle pair; no production behavior was changed to satisfy those fixture corrections.
+
+### Exact-head Redmi retest — pending
+
+1. Acquire a fix and verify Place/Experience distance. Disable services via Quick Settings and return with no reliable lifecycle signal. The old visible snapshot may keep its last labels; no polling/prompt/GPS should occur.
+2. Press **Başka planlar göster**, then repeat for Mekân. The replacement must be locationless, old cache/labels cleared, no automatic permission prompt/GPS and normal rotation preserved. Repeat via filter/discovery, Dismiss/Undo/Restore, Preference Apply and newly entered Place-related plans.
+3. Re-enable services: discarded location must stay absent until explicit **Konumu güncelle** succeeds. A valid cached fix should survive a newly requested batch while being freshly checked.
+4. Repeat Android Settings permission revocation, rapid actions/returns, explicit-location/preflight overlap, late responses and leaving the app/view. Check no stale overwrite or stuck loading; repeat Save, Plan→Place→Back, Home scroll, native large text and TalkBack.
+5. Record device/Expo Go build/exact pushed SHA and results. This correction has no new physical Redmi or signed-release acceptance; PR stays Draft and unmerged until that evidence is supplied.
+
+Full PR file inventory: [EXPERIENCE_DISTANCE_CHANGED_FILES.txt](EXPERIENCE_DISTANCE_CHANGED_FILES.txt). Correction files: `App.tsx`, `src/recommendationLocation.ts`, `src/useValidatedRecommendationBatch.ts`, `src/components/gezek/DetailHost.tsx`, generated-fixture builder, focused/lifecycle/preflight tests, current report/entry points/decision/inventory and compact verification/preflight JSON. Commit/push/CI are reported after execution; no self-referencing SHA is embedded here.
+
+## 2026-10-14 — Redmi foreground location validity correction (historical)
 
 Continues the existing `codex/gezek-plan-distance` / Draft [PR #76](https://github.com/keremtunaguneyy-byte/napsak-app/pull/76) from `fd766d8c29276c729a866dd20c6e151ba4e3e72d`, with fetched main still `746aad3a19b78d0e0da5fb286898758b0cbba0a0`. Initial status remains only `?? src/firebase/BA_4bit.sv/`. Previous-head App Quality and Firestore Rules are verified SUCCESS, PR Draft/OPEN/MERGEABLE. The user reports Redmi checks 1–6 passed; check 7 reproduced stale location after disabling Android services. This correction requires a new physical retest; previous device acceptance does not validate it. Same branch/PR only; normal commit/push, no amend/rebase/force/merge, #57 and user-owned Verilog preserved.
 
@@ -13,7 +76,7 @@ At `fd766d8`, `requestLocation` cleared coordinates only on explicit request den
 Inspected installed **React Native 0.86.0**, **Expo 57.0.11**, **expo-location 57.0.7**, including:
 
 - `node_modules/react-native/Libraries/AppState/AppState.js` and `.d.ts`: supported Android `focus`/`blur` and `change` events.
-- `ReactAndroid/src/main/java/com/facebook/react/modules/appstate/AppStateModule.kt`: host resume/pause emit state changes; window focus emits `appStateFocusChange` independently. This catches notification/quick-settings interaction even when state stays active. See [RN 0.86 AppState](https://reactnative.dev/docs/0.86/appstate).
+- `ReactAndroid/src/main/java/com/facebook/react/modules/appstate/AppStateModule.kt`: host resume/pause emit state changes; window focus emits `appStateFocusChange` independently. The native event supports notification/quick-settings interaction even when state stays active; the 2026-10-15 user observation above establishes that Expo Go delivery is not reliable. See [RN 0.86 AppState](https://reactnative.dev/docs/0.86/appstate).
 - `expo-location/src/Location.ts`, Android `LocationModule.kt` and `LocationHelpers.kt`: `hasServicesEnabledAsync()` reads GPS/network provider availability; `getForegroundPermissionsAsync()` reads coarse/fine permissions through the permission manager, distinct from the requesting method. See [Expo Location API](https://docs.expo.dev/versions/latest/sdk/location/). Installed source, not the newer version shown by online “latest”, is the implementation authority.
 
 The existing local ambient Expo declaration hid these already-installed exports from TypeScript; `types/native-modules.d.ts` now declares the two supported read-only functions. Dependencies, package manifest and lockfile are unchanged by this follow-up; `npm ci` was unnecessary and was not rerun.

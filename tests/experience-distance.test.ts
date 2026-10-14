@@ -1,4 +1,5 @@
 import { createLocationValidityMonitor, LOCATION_REVALIDATION_DEBOUNCE_MS } from '../src/locationValidity';
+import { createRecommendationLocationResolver, RECOMMENDATION_LOCATION_TIMEOUT_MS } from '../src/recommendationLocation';
 import { homeDisplayItems } from '../src/components/gezek/gezekHomePresentation';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -193,4 +194,84 @@ test('Place presentation clears cached distance without changing the scored batc
   assert.deepEqual(invalidated.map(item => [item.id, item.score, item.reasons]), before.map(item => [item.id, item.score, item.reasons]));
   assert.deepEqual(scored, before);
   assert.ok(homeDisplayItems(scored, { latitude: NaN, longitude: 32 }).every(item => item.kind === 'place' && item.distance === undefined));
+});
+
+function preflightFixture(overrides: Partial<Parameters<typeof createRecommendationLocationResolver>[0]> = {}) {
+  let cached: typeof coordinates | undefined = coordinates;
+  let clears = 0, services = 0, permissions = 0;
+  const timers = new Map<ReturnType<typeof setTimeout>, () => void>();
+  let nextTimer = 0;
+  const resolver = createRecommendationLocationResolver({
+    cachedLocation: () => cached,
+    servicesEnabled: async () => { services++; return true; },
+    foregroundPermission: async () => { permissions++; return { status: 'granted' }; },
+    invalidateLocation: () => { clears++; cached = undefined; },
+    schedule: (callback, delay) => {
+      assert.equal(delay, RECOMMENDATION_LOCATION_TIMEOUT_MS);
+      const id = ++nextTimer as unknown as ReturnType<typeof setTimeout>; timers.set(id, callback); return id;
+    },
+    cancel: id => { timers.delete(id); }, ...overrides,
+  });
+  return { resolver, timers, counts: () => ({ clears, services, permissions }),
+    publish: (next?: typeof coordinates) => { resolver.locationChanged(); cached = next; } };
+}
+test('batch preflight skips native APIs/deadlines when there is no cached fix', async () => {
+  const f = preflightFixture(); f.publish();
+  assert.equal(await f.resolver.resolve(), undefined);
+  assert.deepEqual(f.counts(), { clears: 0, services: 0, permissions: 0 }); assert.equal(f.timers.size, 0);
+});
+test('every successive located batch reads both services and permission again', async () => {
+  const f = preflightFixture();
+  for (let i = 0; i < 3; i++) assert.equal(await f.resolver.resolve(), coordinates);
+  assert.deepEqual(f.counts(), { clears: 0, services: 3, permissions: 3 }); assert.equal(f.timers.size, 0);
+});
+test('batch preflight fails closed on disabled, denied, malformed and failed native reads', async () => {
+  for (const override of [
+    { servicesEnabled: async () => false },
+    ...['denied', 'undetermined', ''].map(status => ({ foregroundPermission: async () => ({ status }) })),
+    { foregroundPermission: async () => undefined as unknown as { status: string } },
+    ...(['servicesEnabled', 'foregroundPermission'] as const).map(key => ({ [key]: () => { throw new Error('Native error'); } })),
+  ]) {
+    const f = preflightFixture(override);
+    assert.equal(await f.resolver.resolve(), undefined); assert.equal(f.counts().clears, 1);
+    assert.equal(f.resolver.cachedLocation(), undefined); assert.equal(f.timers.size, 0);
+  }
+});
+test('hung services or permission hits one deadline, clears cache and ignores late success/rejection', async () => {
+  for (const kind of ['servicesEnabled', 'foregroundPermission'] as const) {
+    const held = deferred<never>(); const f = preflightFixture({ [kind]: () => held.promise });
+    const pending = f.resolver.resolve(); await settled(); assert.equal(f.timers.size, 1);
+    [...f.timers.values()][0](); assert.equal(await pending, undefined);
+    assert.equal(f.counts().clears, 1); assert.equal(f.timers.size, 0);
+    held.reject(new Error('Late native failure')); await settled();
+    assert.equal(f.resolver.cachedLocation(), undefined); assert.equal(f.counts().clears, 1);
+  }
+});
+test('concurrent batches share only the pending check and do not trust its result on a later action', async () => {
+  const held = deferred<boolean>(); let reads = 0;
+  const f = preflightFixture({ servicesEnabled: () => { reads++; return held.promise; } });
+  const a = f.resolver.resolve(), b = f.resolver.resolve(); await settled();
+  assert.equal(reads, 1); assert.equal(f.counts().permissions, 1); assert.equal(f.timers.size, 1);
+  held.resolve(true); assert.equal(await a, coordinates); assert.equal(await b, coordinates);
+  assert.equal(await f.resolver.resolve(), coordinates); assert.equal(reads, 2);
+});
+test('superseding/unmounting cancels the deadline and prevents old preflight clearing a newer fix', async () => {
+  const held = deferred<boolean>(); const f = preflightFixture({ servicesEnabled: () => held.promise });
+  const pending = f.resolver.resolve(); await settled();
+  const newer = { latitude: 40, longitude: 33 }; f.publish(newer);
+  assert.equal(await pending, undefined); assert.equal(f.timers.size, 0);
+  held.resolve(false); await settled(); assert.equal(f.resolver.cachedLocation(), newer); assert.equal(f.counts().clears, 0);
+  const next = f.resolver.resolve(); f.resolver.locationChanged();
+  assert.equal(await next, undefined); assert.equal(f.counts().clears, 0); assert.equal(f.timers.size, 0);
+});
+test('status recovery alone cannot restore discarded location or proximity scores', async () => {
+  let enabled = false;
+  const f = preflightFixture({ servicesEnabled: async () => enabled });
+  const safe = await f.resolver.resolve();
+  assert.equal(safe, undefined);
+  const locationless = recommendExperiences({ ...options, coordinates: safe });
+  assert.deepEqual(locationless, recommendExperiences(options));
+  enabled = true;
+  assert.equal(await f.resolver.resolve(), undefined); assert.equal(f.counts().permissions, 1);
+  f.publish(coordinates); assert.equal(await f.resolver.resolve(), coordinates);
 });

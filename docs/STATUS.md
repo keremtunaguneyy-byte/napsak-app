@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-15 — Final location preflight / Draft #76
+
+Verified local/remote/PR head `e1dd5d9` and fetched main `746aad3`. New user-reported Redmi evidence shows Expo Go Quick Settings may emit neither active nor focus. The visible batch is an accepted last-acquired-location snapshot. Every new Home and Place-related recommendation computation now uses one read-only validity resolver; absent cache skips native reads, invalid/error/2 s one-shot timeout clears cache and computes locationless. No polling or automatic GPS. Current local/browser/export evidence and pending exact-head Redmi retest: [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md). Same branch/Draft #76 only; normal commit/push, no merge, #57 or Verilog work.
+
 ## 2026-10-14 — Redmi location validity correction / Draft #76
 
 Continues `fd766d8` on `codex/gezek-plan-distance`; user reports Redmi checks 1–6 passed and check 7 found stale coordinates after disabling Android services. Foreground active/Android focus now revalidate services and existing permission without prompting/GPS; serialized debounced generations reject obsolete checks and late fixes. Invalidation clears Place/Experience presentation and future-batch coordinates while preserving the visible batch, seed/state/scroll; scoring formulas/catalog remain unchanged. Current 281 tests, 18 focused tests, 56 existing + 61 lifecycle browser checks and Android export pass. [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md) records exact source/API audit, evidence and pending new-head Redmi retest; [changed-file inventory](EXPERIENCE_DISTANCE_CHANGED_FILES.txt). Normal same-branch commit/push/update Draft #76 only; no merge, #57 or Verilog changes.
