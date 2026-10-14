@@ -1,3 +1,5 @@
+import { createLocationValidityMonitor, LOCATION_REVALIDATION_DEBOUNCE_MS } from '../src/locationValidity';
+import { homeDisplayItems } from '../src/components/gezek/gezekHomePresentation';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { auditExperienceStarts } from '../scripts/auditExperienceStartCoordinates';
@@ -95,4 +97,100 @@ test('request generations reject superseded, obsolete and unmounted callbacks', 
   guard.invalidate();
   assert.equal(guard.isCurrent(current), false);
   assert.deepEqual(writes, []);
+});
+
+
+const settled = () => new Promise<void>(resolve => setImmediate(resolve));
+function validityFixture(overrides: Partial<Parameters<typeof createLocationValidityMonitor>[0]> = {}) {
+  let nextTimer = 0, clears = 0, serviceCalls = 0, permissionCalls = 0;
+  const timers = new Map<ReturnType<typeof setTimeout>, () => void>();
+  const monitor = createLocationValidityMonitor({
+    servicesEnabled: async () => { serviceCalls++; return true; },
+    foregroundPermission: async () => { permissionCalls++; return { status: 'granted' }; },
+    invalidateLocation: () => { clears++; },
+    schedule: (cb, delay) => { assert.equal(delay, LOCATION_REVALIDATION_DEBOUNCE_MS); const timer = ++nextTimer as unknown as ReturnType<typeof setTimeout>; timers.set(timer, cb); return timer; },
+    cancel: timer => { timers.delete(timer); }, ...overrides,
+  });
+  return { monitor, timers, counts: () => ({ clears, serviceCalls, permissionCalls }),
+    flush: async () => { const pending = [...timers.values()]; timers.clear(); pending.forEach(cb => cb()); await settled(); } };
+}
+function deferred<T>() {
+  let resolve!: (value: T) => void, reject!: (error: Error) => void;
+  const promise = new Promise<T>((yes, no) => { resolve = yes; reject = no; });
+  return { promise, resolve, reject };
+}
+
+test('read-only active/focus checks debounce a burst and preserve valid location', async () => {
+  const f = validityFixture();
+  f.monitor.pause(); f.monitor.resume(); f.monitor.resume(); f.monitor.resume();
+  assert.equal(f.timers.size, 1);
+  await f.flush();
+  assert.deepEqual(f.counts(), { clears: 0, serviceCalls: 1, permissionCalls: 1 });
+  f.monitor.dispose();
+});
+test('disabled services and revoked/undetermined permissions fail closed on return', async () => {
+  for (const [services, status] of [[false, 'granted'], [true, 'denied'], [true, 'undetermined']] as const) {
+    const f = validityFixture({ servicesEnabled: async () => services, foregroundPermission: async () => ({ status }) });
+    f.monitor.pause(); f.monitor.resume(); await f.flush(); assert.equal(f.counts().clears, 1); f.monitor.dispose();
+  }
+});
+test('either failed status read fails closed, including synchronous native errors', async () => {
+  for (const failed of ['servicesEnabled', 'foregroundPermission'] as const) {
+    const f = validityFixture({ [failed]: () => { throw new Error('Native status read failed'); } });
+    f.monitor.resume(); await f.flush(); assert.equal(f.counts().clears, 1); f.monitor.dispose();
+  }
+});
+test('a status check cannot clear an explicit location acquired after that check began', async () => {
+  const oldServices = deferred<boolean>();
+  const f = validityFixture({ servicesEnabled: () => oldServices.promise });
+  f.monitor.resume(); await f.flush();
+  f.monitor.locationChanged(); // Explicit request begins.
+  f.monitor.locationChanged(); // A new valid GPS result commits.
+  oldServices.resolve(false); await settled();
+  assert.equal(f.counts().clears, 0); assert.equal(f.timers.size, 0); f.monitor.dispose();
+});
+test('duplicate in-flight signals share a single native check without a trailing duplicate', async () => {
+  const services = deferred<boolean>(); let calls = 0;
+  const f = validityFixture({ servicesEnabled: () => { calls++; return services.promise; } });
+  f.monitor.resume(); await f.flush();
+  for (let i = 0; i < 10; i++) f.monitor.resume();
+  assert.equal(calls, 1); assert.equal(f.timers.size, 0);
+  services.resolve(true); await settled();
+  assert.equal(f.timers.size, 0); assert.equal(f.counts().clears, 0); f.monitor.dispose();
+});
+test('rapid departure/return ignores the old response and serializes the newest check', async () => {
+  const first = deferred<boolean>(); let calls = 0;
+  const f = validityFixture({ servicesEnabled: () => ++calls === 1 ? first.promise : Promise.resolve(true) });
+  f.monitor.resume(); await f.flush();
+  f.monitor.pause(); f.monitor.resume(); f.monitor.pause(); f.monitor.resume();
+  assert.equal(calls, 1);
+  first.resolve(false); await settled();
+  assert.equal(f.counts().clears, 0); assert.equal(f.timers.size, 1);
+  await f.flush(); assert.equal(calls, 2); assert.equal(f.counts().clears, 0); f.monitor.dispose();
+});
+test('one failed read cannot release the serial gate before the other native read settles', async () => {
+  const first = deferred<boolean>(); let calls = 0;
+  const f = validityFixture({ servicesEnabled: () => { calls++; return first.promise; }, foregroundPermission: async () => { throw new Error('Read failed'); } });
+  f.monitor.resume(); await f.flush(); f.monitor.resume();
+  assert.equal(f.counts().clears, 0); assert.equal(calls, 1);
+  first.resolve(true); await settled(); assert.equal(f.counts().clears, 1); f.monitor.dispose();
+});
+test('pause cancels a scheduled check; unmount cancels timers and rejects late updates', async () => {
+  const f = validityFixture(); f.monitor.resume(); f.monitor.pause(); await f.flush();
+  assert.equal(f.counts().serviceCalls, 0); f.monitor.resume(); f.monitor.dispose(); await f.flush();
+  assert.equal(f.counts().serviceCalls, 0);
+  const pending = deferred<boolean>(); const g = validityFixture({ servicesEnabled: () => pending.promise });
+  g.monitor.resume(); await g.flush(); g.monitor.dispose(); pending.resolve(false); await settled();
+  assert.equal(g.counts().clears, 0); assert.equal(g.timers.size, 0);
+});
+test('Place presentation clears cached distance without changing the scored batch or its ordering', () => {
+  const scored = recommendAll({ ...options, ideas: [], events: [], filter: 'place', coordinates, limit: 5 });
+  const before = structuredClone(scored);
+  const visible = homeDisplayItems(scored, coordinates);
+  assert.ok(visible.every(item => item.kind === 'place' && item.distance !== undefined));
+  const invalidated = homeDisplayItems(scored);
+  assert.ok(invalidated.every(item => item.kind === 'place' && item.distance === undefined && !homeItemMeta(item).includes(' km')));
+  assert.deepEqual(invalidated.map(item => [item.id, item.score, item.reasons]), before.map(item => [item.id, item.score, item.reasons]));
+  assert.deepEqual(scored, before);
+  assert.ok(homeDisplayItems(scored, { latitude: NaN, longitude: 32 }).every(item => item.kind === 'place' && item.distance === undefined));
 });

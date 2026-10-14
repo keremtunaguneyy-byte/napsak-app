@@ -1,3 +1,5 @@
+import { createLocationValidityMonitor } from './src/locationValidity';
+import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
 import { experienceStartDistanceLabel } from './src/experienceStartDistance';
 import { createLocationRequestGuard } from './src/locationRequestGuard';
 import { BrandLogo } from './src/components/gezek/BrandLogo';
@@ -131,12 +133,46 @@ function AppContent() {
     setLocating(false);
     return () => locationRequests.invalidate();
   }, [locationRequests, step, !!detailSession, deletionBusy, resultFilter]);
+  const [locationRankingRevision, setLocationRankingRevision] = useState(0);
+  const locationValidity = useRef<ReturnType<typeof createLocationValidityMonitor> | undefined>(undefined);
   // Gezek location arrival updates presentation only. The next intentional batch
   // recomputation still uses the latest location and the unchanged scoring formula.
   // Place keeps its existing immediate location-driven recomputation.
   const latestLocation = useRef(coordinates);
-  latestLocation.current = coordinates;
-  const liveRankingCoordinates = resultFilter === 'experience' ? undefined : coordinates;
+  const publishExplicitLocation = useCallback((next?: Coordinates) => {
+    locationValidity.current?.locationChanged();
+    if (next !== latestLocation.current) setLocationRankingRevision(revision => revision + 1);
+    latestLocation.current = next;
+    setCoordinates(next);
+  }, []);
+  useEffect(() => {
+    const monitor = createLocationValidityMonitor({
+      servicesEnabled: Location.hasServicesEnabledAsync,
+      foregroundPermission: Location.getForegroundPermissionsAsync,
+      invalidateLocation: () => {
+        locationRequests.invalidate();
+        // Synchronously remove the future-batch input; leave this batch's memo
+        // revision alone. Place labels are derived separately below.
+        latestLocation.current = undefined;
+        setCoordinates(undefined);
+        setLocating(false);
+        setLocationMessage('Konum kullanılamıyor. Mesafeleri görmek için konumunu yeniden güncelle.');
+      },
+    });
+    locationValidity.current = monitor;
+    const change = AppState.addEventListener('change', state => {
+      if (state === 'active') monitor.resume();
+      else monitor.pause();
+    });
+    const focus = Platform.OS === 'android' ? AppState.addEventListener('focus', () => monitor.resume()) : undefined;
+    const blur = Platform.OS === 'android' ? AppState.addEventListener('blur', () => monitor.pause()) : undefined;
+    return () => {
+      monitor.dispose();
+      change.remove(); focus?.remove(); blur?.remove();
+      if (locationValidity.current === monitor) locationValidity.current = undefined;
+    };
+  }, [locationRequests]);
+  const liveRankingLocationRevision = resultFilter === 'experience' ? 0 : locationRankingRevision;
   const displayCoordinates = locating ? undefined : coordinates;
   const recommendationMeasurement = useMemo(() => {
     const startedAt = Date.now();
@@ -144,8 +180,8 @@ function AppContent() {
     const elapsed = Date.now() - startedAt;
     recordHomeRecommendation(elapsed);
     return { items, durationBucket: performanceDurationBucket(elapsed) };
-  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, liveRankingCoordinates, previousBatch, resultFilter, eligibilityNow]);
-  const results = recommendationMeasurement.items;
+  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, liveRankingLocationRevision, previousBatch, resultFilter, eligibilityNow]);
+  const results = useMemo(() => homeDisplayItems(recommendationMeasurement.items, displayCoordinates), [recommendationMeasurement, displayCoordinates]);
   const eventDiagnosticSets = useMemo(() => resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined, [resultFilter, events, mood, chosen, budget, groupSize, duration, dismissed, recommendationRun, previousBatch, eligibilityNow]);
   const eventState = eventDiagnosticSets && resolveEventPresentation({ ...catalogLoad, ...eventDiagnosticSets, dismissed, visibleIds: results.map(item => item.id) });
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
@@ -183,7 +219,9 @@ function AppContent() {
       Math.min(2_147_483_647, Math.max(1, nextChange - Date.now())),
     );
     const subscription = AppState.addEventListener('change', state => {
-      if (state === 'active') setEligibilityNow(new Date());
+      // A foreground signal alone is not a new recommendation run. Preserve the
+      // eligibility clock unless a known Event boundary actually elapsed.
+      if (state === 'active' && nextChange !== undefined && Date.now() >= nextChange) setEligibilityNow(new Date());
     });
     return () => {
       if (timer !== undefined) clearTimeout(timer);
@@ -303,13 +341,14 @@ function AppContent() {
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
   const requestLocation = useCallback(async () => {
+    locationValidity.current?.locationChanged();
     const request = locationRequests.begin();
     setLocating(true);
     try {
       const permission = await Location.requestForegroundPermissionsAsync();
       if (!locationRequests.isCurrent(request)) return;
       if (permission.status !== 'granted') {
-        setCoordinates(undefined);
+        publishExplicitLocation(undefined);
         trackProductEvent({ name: 'location_permission_result', properties: { result: 'denied' } });
         setLocationMessage('Konum izni kapalı. Ayarlardan dilediğin zaman açabilirsin.');
         if (!permission.canAskAgain) Alert.alert('Konum izni gerekli', 'Yakınındaki sonuçları görmek için uygulama ayarlarından konum iznini açabilirsin.', [{ text: 'Vazgeç', style: 'cancel' }, { text: 'Ayarları aç', onPress: () => Linking.openSettings() }]);
@@ -319,17 +358,17 @@ function AppContent() {
       if (!locationRequests.isCurrent(request)) return;
       if (!isValidCoordinates(current.coords)) throw new Error('Invalid location');
       trackProductEvent({ name: 'location_permission_result', properties: { result: 'granted' } });
-      setCoordinates(current.coords);
+      publishExplicitLocation(current.coords);
       setLocationMessage('Canlı konumuna göre mesafeler güncellendi.');
     } catch {
       if (!locationRequests.isCurrent(request)) return;
-      setCoordinates(undefined);
+      publishExplicitLocation(undefined);
       trackProductEvent({ name: 'location_permission_result', properties: { result: 'error' } });
       setLocationMessage('Konum alınamadı. Bağlantını kontrol edip tekrar dene.');
     } finally {
       if (locationRequests.isCurrent(request)) setLocating(false);
     }
-  }, [locationRequests]);
+  }, [locationRequests, publishExplicitLocation]);
   const confirmContext = useCallback(() => {
     trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
@@ -380,7 +419,7 @@ function AppContent() {
     setOnboardingCompleted(false);
     setOnboardingSession(createOnboardingSession(emptyPreferences));
     completedSnapshot.current = undefined;
-    setCoordinates(undefined);
+    publishExplicitLocation(undefined);
     setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
     setRecommendationRun(0);
     setPreviousBatch([]);

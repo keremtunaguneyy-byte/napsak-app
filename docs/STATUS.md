@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Redmi location validity correction / Draft #76
+
+Continues `fd766d8` on `codex/gezek-plan-distance`; user reports Redmi checks 1–6 passed and check 7 found stale coordinates after disabling Android services. Foreground active/Android focus now revalidate services and existing permission without prompting/GPS; serialized debounced generations reject obsolete checks and late fixes. Invalidation clears Place/Experience presentation and future-batch coordinates while preserving the visible batch, seed/state/scroll; scoring formulas/catalog remain unchanged. Current 281 tests, 18 focused tests, 56 existing + 61 lifecycle browser checks and Android export pass. [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md) records exact source/API audit, evidence and pending new-head Redmi retest; [changed-file inventory](EXPERIENCE_DISTANCE_CHANGED_FILES.txt). Normal same-branch commit/push/update Draft #76 only; no merge, #57 or Verilog changes.
+
 ## 2026-10-14 — Experience start distance
 
 Verified merged #75 / fetched main `746aad3`; branch `codex/gezek-plan-distance`. All 52 Experience starts and ordered Place links pass the complete coordinate audit, with exact first-stop equality. `Başlangıca … km` is presentation-only; location arrival preserves the current Gezek batch and the existing proximity formula remains active on subsequent independently triggered batches. Shared cards and request-lifecycle guards are included. Complete audit, current location/scoring findings, command/browser/export evidence and pending physical Redmi/TalkBack acceptance: [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md). Normal commit/push and one Draft PR authorized; no merge, production changes or #57 work.

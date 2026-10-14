@@ -111,5 +111,82 @@
     "command": "git diff --cached --check",
     "exitCode": 0,
     "note": "Explicit scoped staging; protected user-owned untracked directory excluded."
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.05,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 3.35,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 11.98,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.19,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "seconds": 12.63,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-validity-android-export",
+    "exitCode": 0,
+    "seconds": 16.19,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm ci",
+    "result": "NOT RUN",
+    "phase": "lifecycle follow-up",
+    "note": "Dependencies and package/lockfile unchanged; installed locked tooling and inspected RN 0.86.0 / Expo 57.0.11 / expo-location 57.0.7 are present."
+  },
+  {
+    "command": "node --import tsx --test tests/experience-distance.test.ts",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "18 focused tests; all included in npm test (281 total)."
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-validity-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8795 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-validity-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "56 checks at both viewports, normal/1.8 fontScale, zero page errors; original screenshot evidence reused."
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8795 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-validity-browser node tests/location-validity-browser.cjs",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "61 checks, Experience and Place at both viewports plus real Event expiry; zero page errors."
+  },
+  {
+    "command": "node --import tsx scripts/auditExperienceStartCoordinates.ts --write",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "52/52 still pass; audit files unchanged."
+  },
+  {
+    "command": "git diff --cached --check",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "14 explicit scoped files, no protected directory or scoring/catalog/dependency/schema/release changes."
   }
 ]

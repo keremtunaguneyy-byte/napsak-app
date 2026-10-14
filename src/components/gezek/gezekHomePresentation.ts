@@ -1,5 +1,5 @@
 import type { ImageSourcePropType } from 'react-native';
-import { formatDistanceInKm, formatDurationRange } from '../../domain';
+import { Coordinates, distanceInKm, formatDistanceInKm, formatDurationRange, isValidCoordinates } from '../../domain';
 import { RecommendationItem } from '../../recommendations';
 
 export { ArtworkResolver as homeArtwork } from './ArtworkResolver';
@@ -21,4 +21,12 @@ export function homeActionLabel(item: RecommendationItem): string {
   if (item.kind === 'place') return 'Mekânı incele';
   if (item.kind === 'event') return 'Etkinliği incele';
   return item.actionLabel ?? 'Fikri incele';
+}
+
+/** Live display distances cannot reorder or overwrite the scored batch. */
+export function homeDisplayItems(items: RecommendationItem[], coordinates?: Coordinates): RecommendationItem[] {
+  return items.map(item => item.kind === 'place' ? {
+    ...item,
+    distance: isValidCoordinates(coordinates) && isValidCoordinates(item) ? distanceInKm(coordinates, item) : undefined,
+  } : item);
 }

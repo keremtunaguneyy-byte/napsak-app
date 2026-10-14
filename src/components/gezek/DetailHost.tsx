@@ -63,7 +63,12 @@ export function DetailHost(p: Props) {
   const { fontScale } = useWindowDimensions();
   const [artworkWidth, setArtworkWidth] = useState(329);
   const [footerHeight, setFooterHeight] = useState(96 + insets.bottom);
-  const related = useMemo(() => place ? recommendExperiencesForPlace(place, { ...p.context, limit: p.context.experiences.length }) : [], [place, p.context]);
+  const latestCoordinates = useRef(p.context.coordinates);
+  latestCoordinates.current = p.context.coordinates;
+  // A display-location invalidation must not rotate the visible related plans.
+  // Independent catalog/preference/place/eligibility changes use the latest input.
+  const related = useMemo(() => place ? recommendExperiencesForPlace(place, { ...p.context, coordinates: latestCoordinates.current, limit: p.context.experiences.length }) : [],
+    [place, p.context.experiences, p.context.places, p.context.events, p.context.mood, p.context.interests, p.context.dismissed, p.context.budget, p.context.groupSize, p.context.duration, p.context.seed, p.context.previousBatch, p.context.now]);
   const actions: { maps?: string; source?: string } = item && !dismissed && !p.loading ? detailExternalActions(item, p.context.places) : {};
   const price = item ? '₺'.repeat(item.priceLevel) || 'Bedava' : '';
   const distance = place && p.context.coordinates ? distanceInKm(p.context.coordinates, place) : undefined;

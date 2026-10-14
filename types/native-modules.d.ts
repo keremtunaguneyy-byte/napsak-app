@@ -10,6 +10,8 @@ declare module '@react-native-async-storage/async-storage' {
 declare module 'expo-location' {
   export type LocationObject = { coords: { latitude: number; longitude: number } };
   export enum Accuracy { Balanced = 3 }
+  export function hasServicesEnabledAsync(): Promise<boolean>;
+  export function getForegroundPermissionsAsync(): Promise<{ status: string; canAskAgain: boolean }>;
   export function requestForegroundPermissionsAsync(): Promise<{ status: string; canAskAgain: boolean }>;
   export function getCurrentPositionAsync(options: { accuracy: Accuracy }): Promise<LocationObject>;
 }
