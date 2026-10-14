@@ -1,0 +1,89 @@
+{
+  "commands": [
+    {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "seconds": 0.03
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "seconds": 2.95
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "seconds": 11.8
+    },
+    {
+      "command": "npm run check:accessibility",
+      "exitCode": 0,
+      "seconds": 0.24
+    },
+    {
+      "command": "npm run check:performance",
+      "exitCode": 0,
+      "seconds": 12.71
+    },
+    {
+      "command": "npm run check:assets",
+      "exitCode": 0,
+      "seconds": 0.3
+    },
+    {
+      "command": "npx expo export --platform android --output-dir /private/tmp/gezek-ready-final-android-export",
+      "exitCode": 0,
+      "seconds": 14.16
+    }
+  ],
+  "focusedComponents": {
+    "command": "node --import tsx --test tests/onboarding.test.ts",
+    "passed": true,
+    "tests": 24
+  },
+  "npmTest": {
+    "passed": true,
+    "domainReleaseTests": 111,
+    "typeScriptTests": 152,
+    "total": 263
+  },
+  "performance": {
+    "iterations": 5000,
+    "p95Ms": 7.275,
+    "budgetMs": 25,
+    "checksum": 22308
+  },
+  "syntaxChecks": {
+    "builder": true,
+    "onboardingBrowser": true,
+    "transitionBrowser": true
+  },
+  "aggregateCheckScriptExists": false,
+  "npmCi": {
+    "rerun": false,
+    "earlierResult": "passed",
+    "dependenciesAndLockUnchanged": true,
+    "historicalLogUrl": "https://github.com/keremtunaguneyy-byte/napsak-app/blob/5e00a20dcdb6ce072fcec10ea5e068d588ba1fe7/docs/evidence/onboarding/npm-ci.log"
+  },
+  "browser": {
+    "onboardingGroups": 10,
+    "viewports": [
+      {
+        "width": 393,
+        "height": 852
+      },
+      {
+        "width": 412,
+        "height": 915
+      }
+    ],
+    "passed": true,
+    "pageErrors": 0
+  },
+  "rawLogs": "Temporary diagnostic files outside Git; compact final results retained.",
+  "productionBrowserTestHooksAbsentFromAndroidExport": true,
+  "stagedDiffCheck": {
+    "command": "git diff --cached --check",
+    "exitCode": 0
+  }
+}

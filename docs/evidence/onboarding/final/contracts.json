@@ -1,0 +1,264 @@
+{
+  "baseline": "782723c9b2d6aff17363a3c8f2532efcde107f55",
+  "files": [
+    {
+      "file": "src/domain.ts",
+      "unchanged": true,
+      "sha256": "95811c9ea2a7288b39409cb00495e123b1447f742ab5ee5e14d84813867ba8e1"
+    },
+    {
+      "file": "src/recommendations.ts",
+      "unchanged": true,
+      "sha256": "8c832ec1600d7f80ef8fddfd96d6876dcd2a4fb72ca4d21ab29de3d07f5ddb8d"
+    },
+    {
+      "file": "src/persistence.ts",
+      "unchanged": true,
+      "sha256": "db114f1a06a8d0c4515873e517f7952e84ae0fac49043b2ceada1f5a2cd95c38"
+    },
+    {
+      "file": "src/backend.ts",
+      "unchanged": true,
+      "sha256": "3c947dce9a5d06f4034fdf69e1e4fbf6235c7be9f92173b0700f543b3328df5b"
+    },
+    {
+      "file": "src/types.ts",
+      "unchanged": true,
+      "sha256": "bfb7d46a997ef8381555a79f58974cf0fb02d43d266379478c85c266a84b661f"
+    },
+    {
+      "file": "src/preferenceEditor.ts",
+      "unchanged": true,
+      "sha256": "03578b1209f1466baaab88988661d3fa4ad83c47eec8e1587e0f8a15c82d8157"
+    },
+    {
+      "file": "src/components/gezek/PreferenceEditor.tsx",
+      "unchanged": true,
+      "sha256": "89da30dfd235ccac602fd8b32c6911cddab0d9a90dbf27c64ee90c580c4efaa9"
+    },
+    {
+      "file": "src/components/gezek/PreferenceControls.tsx",
+      "unchanged": true,
+      "sha256": "565a8fdec4affa832e4660b72db456a4f649df238081f4e3a7983f438e634c11"
+    },
+    {
+      "file": "src/components/gezek/GezekHome.tsx",
+      "unchanged": true,
+      "sha256": "1d333c145536efcf9c65b6671c97c81125f0d1fd79975a235b276aeecd2fcaeb"
+    },
+    {
+      "file": "src/components/gezek/DetailHost.tsx",
+      "unchanged": true,
+      "sha256": "0ac074b4db92c6f6b7b6a724dff3617f67aedc08b63301ee4220ebbadbc8f8d3"
+    },
+    {
+      "file": "src/eventPresentation.ts",
+      "unchanged": true,
+      "sha256": "0c4c7a49952b619867f31e5cce609bf33130a6ef2e294bfd12a17b50f08ca0f2"
+    },
+    {
+      "file": "src/analyticsPolicy.ts",
+      "unchanged": true,
+      "sha256": "829cef34427a8f2bcf9ec94f7f5e0c2b1009aaaf14309527149576707a939988"
+    },
+    {
+      "file": "package-lock.json",
+      "unchanged": true,
+      "sha256": "b93db9eba28ac78e5cf1247842c26b91c0febe5e2b6a60afbeeb8e7a96d5a9b4"
+    },
+    {
+      "file": "app.json",
+      "unchanged": true,
+      "sha256": "e998650a640625dc5903a938487eae03943909be8341c8098a66279550f08873"
+    },
+    {
+      "file": "eas.json",
+      "unchanged": true,
+      "sha256": "f3641f788d1a75587fce14857417ee029e1204643ef4ab67ff62ccda52825727"
+    },
+    {
+      "file": "firestore.rules",
+      "unchanged": true,
+      "sha256": "9245e6f6511644e53e514b0e59562dcfd550f696d106396ae3888176a4a8016a"
+    }
+  ],
+  "previousHead": "5e00a20dcdb6ce072fcec10ea5e068d588ba1fe7",
+  "additionalPreviousHeadComparisons": [
+    {
+      "file": "App.tsx",
+      "unchanged": true,
+      "sha256": "9e2c409d642c1f099412102e62a1ef7a1d7ec44e03aa7ac91e9bd3e78f4ca0ac"
+    },
+    {
+      "file": "src/onboarding.ts",
+      "unchanged": true,
+      "sha256": "64253642ff3bdf8570a27eaaf018e559fd7cd7ea496a1068dc27dd1b79daea22"
+    },
+    {
+      "file": "src/onboardingTransition.ts",
+      "unchanged": true,
+      "sha256": "a4a9ae622395f3b6b7e758414fa08edf03e85364f355819e877a5a4f914640ec"
+    },
+    {
+      "file": "src/components/gezek/onboardingAssetXml.ts",
+      "unchanged": true,
+      "sha256": "3b1e1b277522ca6319dafff79e42e58d80656bd139278de2599ca8289228b6b2"
+    },
+    {
+      "file": "src/components/gezek/onboardingArtwork.ts",
+      "unchanged": true,
+      "sha256": "4dbd9393dcf0d4aec2fa9c6d222ddf0bc3c53704750890603ad0099fae9bfad3"
+    },
+    {
+      "file": "package.json",
+      "unchanged": true,
+      "sha256": "8b0c83ad9361b942c55a616dd1a62375aedfbfa67f77ea936b30dd66ae65395f"
+    }
+  ],
+  "approvedReadyCheck": {
+    "file": "assets/gezek/onboarding/3fdf5.svg",
+    "sha256": "7309cddcf42a8bd68764f84d61083ba8d4140a40ea50fae7730bb6e5a821dc21",
+    "unchanged": true,
+    "path": "M7 13.3L11.1 17.2L19 8.9",
+    "width": 26,
+    "height": 26
+  },
+  "staticCaptureComparisonsToPreviousHead": [
+    {
+      "file": "docs/evidence/onboarding/final/393x667-safe-areas/budget.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x667-safe-areas/interests.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/budget-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/duration-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/first-home.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/group-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/interests-back.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/interests-disabled.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/interests-one.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/large-text-budget.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/large-text-ready-scrolled.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/large-text-ready.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/large-text.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/mood-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/mood-unselected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/preparing.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/ready.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/393x852/welcome.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/budget-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/duration-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/first-home.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/group-selected.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/interests-back.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/interests-disabled.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/interests-one.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/long-turkish.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/mood-selected.png",
+      "identicalPixels": false,
+      "changedBounds": [
+        149,
+        451,
+        150,
+        452
+      ]
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/mood-unselected.png",
+      "identicalPixels": false,
+      "changedBounds": [
+        149,
+        451,
+        150,
+        452
+      ]
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/preparing.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/ready.png",
+      "identicalPixels": true
+    },
+    {
+      "file": "docs/evidence/onboarding/final/412x915/welcome.png",
+      "identicalPixels": true
+    }
+  ]
+}

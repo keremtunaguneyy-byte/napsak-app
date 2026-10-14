@@ -1,5 +1,0 @@
-
-> napsak-app@0.1.0 check:accessibility
-> node --import tsx scripts/checkAccessibility.ts
-
-Accessibility source contract passed { files: 12, minimumTargetStyles: 16 }

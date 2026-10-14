@@ -95,6 +95,10 @@ export const persistPreferences=async p=>{window.__writes.push(structuredClone(p
    // Source probes exist only in this generated browser fixture, never in App/Host.
    source=source.replace(/(function Background\([^\n]+\) \{)/, '$1\n  fixtureRecord("background-render");');
    source=source.replace(/(function Route\([^\n]+\) \{)/, '$1\n  fixtureRecord("route-render");');
+   source=source.replace('  const ast = useMemo(() => routeStates.get(trim)', '  fixtureLayoutEffect(()=>fixtureRecord("route-commit",(globalThis as any).__assetRevision,{trim}),[trim]);\n  const ast = useMemo(() => routeStates.get(trim)');
+   // The baseline reused this animated host for Ready; record its real node identity.
+   if(source.includes('function Spinner({ ready, active }'))source=source.replace('<Animated.View style={[s.spinner', '<Animated.View testID="onboarding-spinner" style={[s.spinner');
+   source=source.replace('const ReadyCheck = memo(function ReadyCheck() {', 'const ReadyCheck = memo(function ReadyCheck() {\n  fixtureLayoutEffect(()=>fixtureRecord("ready-check-commit"),[]);');
    source=source.replace('({ ...routeAst, children:', '(fixtureRecord("route-recompose"), { ...routeAst, children:');
    source=source.replace('function composeRoute(trim: number) {', 'function composeRoute(trim: number) {\n  fixtureRecord("route-recompose");');
    source=source.replace('    clock.stopAnimation();', '    const fixtureTimelineRevision=(globalThis as any).__assetRevision;\n    clock.stopAnimation();');

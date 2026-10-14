@@ -282,3 +282,25 @@ test('decorative clocks are finite, memoized, gated after slide and detach on co
   assert.match(host, /return \(\) => animation.stop\(\)/);
   assert.match(host, /routeStates.get\(trim\) \?\? composeRoute\(trim\)/);
 });
+
+test('Ready has a separate keyed static host using the unchanged approved check; spinner cleans up at layout replacement', () => {
+  const host = readFileSync('src/components/gezek/OnboardingHost.tsx', 'utf8');
+  const ready = host.slice(host.indexOf('const ReadyCheck = memo'), host.indexOf('const PreparingMotion = memo'));
+  assert.match(ready, /<View testID="onboarding-ready-check"/);
+  assert.match(ready, /rotate: '0deg'/); assert.match(ready, /<Asset name="3fdf5"/);
+  assert.doesNotMatch(ready, /Animated|rotation|useEffect/);
+  assert.match(host, /prepared \? <ReadyCheck key="ready" \/> : <Spinner key="preparing"/);
+  const spinner = host.slice(host.indexOf('const Spinner = memo'),host.indexOf('const ReadyCheck = memo'));
+  assert.match(spinner, /useLayoutEffect/); assert.match(spinner, /return \(\) => animation.stop\(\)/);
+  assert.doesNotMatch(spinner, /3fdf5|ready/);
+  assert.match(readFileSync('assets/gezek/onboarding/3fdf5.svg','utf8'), /d="M7 13.3L11.1 17.2L19 8.9"/);
+});
+
+test('every route leaf begins at settlement without a second entry delay and retains its approved trim duration', () => {
+  const host = readFileSync('src/components/gezek/OnboardingHost.tsx', 'utf8');
+  const route = host.slice(host.indexOf('const RouteMotion = memo'),host.indexOf('const Background = memo'));
+  assert.match(route, /index === 0 \? 900 : index === 6 \? 660 : 680/);
+  assert.match(route, /useTimeline\(reduced \|\| !active \|\| prepared, duration\)/);
+  assert.match(route, /easeOut\(elapsed \/ duration\)/);
+  assert.doesNotMatch(route, /460|elapsed -|setTimeout/);
+});

@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-14 — Final onboarding presentation acceptance corrections
+
+User reports acceptable Redmi/Android Studio cadence at `5e00a20`; no broader architecture redesign. Ready now owns a distinct keyed static host, and route leaf progression starts at surviving settle without the redundant 460/100 ms onset offset. The native 280/240 ms cubic slide and finite isolated leaves remain intact. Required checks, both browser suites, Ready orientation/host cleanup, route-start before/after measurements and compact canonical evidence are in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Superseded PR-created evidence was consolidated from 249 files to 40 final files; exact removal/retention manifests and current inventory are linked there. Normal same-branch push/update existing Draft #75 only, no merge; Verilog and #57 preserved, distance deferred.
+
 ## 2026-10-14 — Onboarding decorative timeline isolation
 
 Continues existing Draft PR #75 from verified `c46ffe8`. Browser source probes confirm parent JS timeline work overlapping slides; native causal FPS attribution still needs device retest. Decorative state is now confined to finite memoized leaf clocks; stable staging precedes post-settle route/progress motion, with isolated native spinner/shimmer. Keyed off-screen construction, 280/240 cubic ease-out, drafts/focus/reduced motion and completion remain intact. Required checks, both browser suites, counts/interval proxies, unchanged visual end states and native recording inspection are in `ONBOARDING_IMPLEMENTATION_REPORT.md`. Existing evidence/audit preserved; normal push to same branch/PR only, no merge. Home/recommendations/location/schema/release untouched; Gezek-plan distance deferred.

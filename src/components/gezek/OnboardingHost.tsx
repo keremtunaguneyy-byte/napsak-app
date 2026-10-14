@@ -109,9 +109,10 @@ const Route = memo(function Route({ trim }: { trim: number }) {
   return <SvgAst ast={ast} />;
 });
 const RouteMotion = memo(function RouteMotion({ index, prepared, reduced, active }: { index: number; prepared: boolean; reduced: boolean; active: boolean }) {
-  const elapsed = useTimeline(reduced || !active || prepared, index === 0 ? 1000 : 1140);
+  const duration = index === 0 ? 900 : index === 6 ? 660 : 680;
+  const elapsed = useTimeline(reduced || !active || prepared, duration);
   const start = routeEnds[index], end = routeEnds[index + 1];
-  const t = easeOut((elapsed - (index ? 460 : 100)) / (index === 6 ? 660 : index ? 680 : 900));
+  const t = easeOut(elapsed / duration);
   const trim = reduced || prepared || t === 1 ? end : start + (end - start) * t;
   return <Route trim={trim} />;
 });
@@ -169,16 +170,19 @@ const QuestionProgress = memo(function QuestionProgress({ fraction, reduced, act
   return <Progress fraction={progress} targetFraction={fraction} active={active && !reduced} label={label} />;
 });
 
-const Spinner = memo(function Spinner({ ready, active }: { ready: boolean; active: boolean }) {
+const Spinner = memo(function Spinner({ active }: { active: boolean }) {
   const [rotation] = useState(() => new Animated.Value(0));
-  useEffect(() => {
+  useLayoutEffect(() => {
     rotation.setValue(0);
-    if (!active || ready) return;
+    if (!active) return;
     const animation = Animated.sequence([Animated.timing(rotation, { toValue: 0, duration: 100, useNativeDriver: true }), Animated.timing(rotation, { toValue: 1260, duration: 4450, easing: Easing.linear, useNativeDriver: true }), Animated.timing(rotation, { toValue: 1350, duration: 0, useNativeDriver: true })]);
     animation.start();
     return () => animation.stop();
-  }, [rotation, active, ready]);
-  return <Animated.View style={[s.spinner, { transform: [{ rotate: ready || !active ? '0deg' : rotation.interpolate({ inputRange: [0, 1350], outputRange: ['0deg', '1350deg'] }) }] }]}>{ready ? <Asset name="3fdf5" /> : <Image accessible={false} source={PREPARING_SPINNER} style={{ width: 26, height: 26 }} />}</Animated.View>;
+  }, [rotation, active]);
+  return <Animated.View testID="onboarding-spinner" style={[s.spinner, { transform: [{ rotate: !active ? '0deg' : rotation.interpolate({ inputRange: [0, 1350], outputRange: ['0deg', '1350deg'] }) }] }]}><Image accessible={false} source={PREPARING_SPINNER} style={{ width: 26, height: 26 }} /></Animated.View>;
+});
+const ReadyCheck = memo(function ReadyCheck() {
+  return <View testID="onboarding-ready-check" style={[s.spinner, { transform: [{ rotate: '0deg' }] }]}><Asset name="3fdf5" /></View>;
 });
 
 const PreparingMotion = memo(function PreparingMotion({ prepared, busy, reduced, active, compact }: { prepared: boolean; busy: boolean; reduced: boolean; active: boolean; compact: boolean }) {
@@ -188,7 +192,7 @@ const PreparingMotion = memo(function PreparingMotion({ prepared, busy, reduced,
   return <>
     <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[s.radar, compact && s.compactRadar]}>
       <Asset name="2569c" /><View style={s.radarMiddle}><Asset name="f1e66" /></View><View style={s.radarInner}><Asset name="04755" /></View>
-      <Spinner ready={prepared} active={active && !reduced} />
+      {prepared ? <ReadyCheck key="ready" /> : <Spinner key="preparing" active={active && !reduced} />}
     </View>
     <Text accessibilityLiveRegion="polite" style={s.stage}>{stage}</Text><View accessibilityState={{ busy: !prepared || busy }}><Progress fraction={fraction} active={active && !reduced} ready={prepared} tall busy={!prepared || busy} label={prepared ? 'Planın hazır' : 'Planın hazırlanıyor'} /></View>
   </>;

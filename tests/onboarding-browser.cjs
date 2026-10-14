@@ -19,6 +19,12 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
   const paint = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   const shot = async (page, name) => { await page.waitForTimeout(520); await paint(page); await page.screenshot({ path: path.join(output, name + '.png') }); };
   const writes = page => page.evaluate(() => structuredClone(window.__writes));
+  const assertReady = async page => {
+    const check=page.getByTestId('onboarding-ready-check');await check.waitFor();
+    assert.equal(await check.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).isIdentity),true);
+    assert.equal(await check.locator('svg path').getAttribute('d'),'M7 13.3L11.1 17.2L19 8.9');
+    assert.equal(await page.getByTestId('onboarding-spinner').count(),0);
+  };
   const targets = async page => {
     const metrics = await page.locator('[role="button"], [role="radio"], [role="checkbox"]').evaluateAll(elements => elements.filter(e => e.getClientRects().length).map(e => { const r=e.getBoundingClientRect();return { label:e.getAttribute('aria-label'),width:r.width,height:r.height }; }));
     for (const m of metrics) assert.ok(m.width >= 44 && m.height >= 44, JSON.stringify(m));
@@ -69,6 +75,7 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
     assert.equal((await writes(page)).length,initialWrites);
     if(width) await shot(page,`preparing-${width}`);
     await page.getByRole('button',{name:'Planı Gör',exact:true}).waitFor();
+    await assertReady(page);
     if(width) await shot(page,`ready-${width}`);
     return page.getByRole('button',{name:'Planı Gör',exact:true});
   }

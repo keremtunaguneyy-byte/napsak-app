@@ -56,6 +56,10 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
   async function action(page,label,callback) {
     await page.evaluate(label=>{window.__pendingAction=label},label);
     await callback();await settle(page);
+    if(['cold-forward','first-interests','warm-back','warm-forward'].includes(label))await page.waitForFunction(()=>{
+      const commits=window.__decorativeDiagnostics.filter(e=>e.kind==='route-commit'&&e.revision===window.__sceneRevision);
+      return commits.some(e=>e.trim>commits[0].trim+.000001);
+    });
   }
   function measure(trace,revision,label) {
     const commit=trace.commits.find(c=>c.revision===revision), motion=trace.animations.find(a=>a.revision===revision);
@@ -66,6 +70,13 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
     const settled=frames.find(f=>Math.abs(f.x)<.1);
     assert.ok(first&&settled,JSON.stringify({label,frames}));
     const measurement={label,revision,commitX:commit.x,renderToCommitMs:commit.renderMs,pressToCommitMs:commit.time-action.time,commitToFirstVisibleMs:first.time-commit.time,firstVisibleToSettledMs:settled.time-first.time,pressToFirstVisibleFrames:first.frame-action.frame,firstVisibleFrame:first.frame,pressFrame:action.frame,commitToStartMs:motion.start-commit.time,animationMs:motion.end-motion.start,configuredDurationMs:motion.duration,firstFrameProgress:motion.firstFrameProgress,assetSubtreeMs:assetMs};
+    const route=trace.decorations.filter(e=>e.kind==='route-commit'&&e.revision===revision);
+    const progression=route.find(e=>e.trim>route[0].trim+.000001);
+    assert.ok(progression,JSON.stringify({label,route}));
+    measurement.routeStartAfterSettledMs=progression.time-motion.end;
+    measurement.routeFirstProgressTimestampMs=progression.time;
+    measurement.slideStartTimestampMs=motion.start;
+    measurement.slideSettledTimestampMs=motion.end;
     const during=trace.decorations.filter(e=>e.revision===revision&&e.time>=action.time&&e.time<motion.end);
     measurement.slideCounts=Object.fromEntries(['scene-render','background-render','route-render','route-recompose','timeline-update'].map(kind=>[kind,during.filter(e=>e.kind===kind).length]));
     const intervals=times=>times.slice(1).map((t,i)=>t-times[i]);
@@ -73,6 +84,7 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
     measurement.timelineUpdateIntervalsMs=summary(intervals(during.filter(e=>e.kind==='timeline-update').map(e=>e.time)));
     measurement.jsFrameIntervalsMs=summary(intervals([...new Map(frames.filter(f=>f.time<motion.end).map(f=>[f.frame,f.time])).values()]));
     if(!baseline) {
+      assert.ok(measurement.routeStartAfterSettledMs>=0&&measurement.routeStartAfterSettledMs<=50,JSON.stringify(measurement));
       assert.ok(measurement.slideCounts['scene-render']<=2,JSON.stringify(measurement));
       assert.equal(measurement.slideCounts['timeline-update'],0);
       assert.equal(measurement.slideCounts['route-recompose'],0);
@@ -168,7 +180,17 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
         assert.equal(trace.animations.length,0);assert.ok(trace.commits.every(c=>c.x===0));
         assert.ok(!trace.decorations.some(e=>e.kind.endsWith('-start')||e.kind==='timeline-update'));
         assert.ok(trace.focus.some(f=>f.revision===2&&f.label==='Bugün sana uyan bir plan bulalım.'));
-        results.push({viewport,reducedMotion:true,trace:evidenceTrace(trace)});await reduced.close();
+        await reduced.evaluate(()=>{window.__onboardingAction({type:'next'});for(const value of [{mood:'Sakin'},{interests:['Kahve']},{budget:'Ücretsiz'},{groupSize:'2 kişi'},{duration:'1–2 saat'}]){window.__onboardingAction({type:'change',value});window.__onboardingAction({type:'next'})}});
+        const staticSpinner=await reduced.getByTestId('onboarding-spinner').elementHandle();
+        await reduced.getByRole('button',{name:'Planı Gör',exact:true}).waitFor();
+        assert.equal(await staticSpinner.evaluate(el=>el.isConnected),false);
+        await staticSpinner.evaluate(el=>{el.style.transform='rotate(90deg)'});
+        const reducedCheck=reduced.getByTestId('onboarding-ready-check');
+        assert.equal(await reducedCheck.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).isIdentity),true);
+        assert.equal(await reducedCheck.locator('svg path').getAttribute('d'),'M7 13.3L11.1 17.2L19 8.9');
+        const reducedReadyTrace=await snapshot(reduced);
+        assert.ok(!reducedReadyTrace.decorations.some(e=>e.kind.endsWith('-start')||e.kind==='timeline-update'));
+        results.push({viewport,reducedMotion:true,orientation:{separateHost:true,delayedOldHostWriteIgnored:true,identityTransform:true,approvedCheckPath:true,noDecorativeLoops:true},trace:evidenceTrace(reducedReadyTrace)});await reduced.close();
 
         const preparing=await newPage(viewport,'no-preference');
         await action(preparing,'prepare-mood',()=>preparing.getByRole('button',{name:'Başlayalım',exact:true}).click());
@@ -179,7 +201,13 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
         await preparing.getByRole('radio',{name:/^1–2 saat:/}).click();
         await action(preparing,'prepare',()=>preparing.getByRole('button',{name:'Planımı hazırla',exact:true}).click());
         const stageStart=await preparing.evaluate(()=>performance.now());
-        for(const text of ['Seçimlerin eşleştiriliyor','Sana uygun rotalar taranıyor','Planın dengeleniyor','Son dokunuşlar yapılıyor'])await preparing.getByText(text,{exact:true}).waitFor();
+        const spinner=await preparing.getByTestId('onboarding-spinner').elementHandle();
+        let spinnerMatrix;
+        for(const text of ['Seçimlerin eşleştiriliyor','Sana uygun rotalar taranıyor','Planın dengeleniyor','Son dokunuşlar yapılıyor']) {
+          await preparing.getByText(text,{exact:true}).waitFor();
+          if(text==='Sana uygun rotalar taranıyor')spinnerMatrix=await spinner.evaluate(el=>getComputedStyle(el).transform);
+        }
+        assert.notEqual(spinnerMatrix,'none');assert.notEqual(spinnerMatrix,'matrix(1, 0, 0, 1, 0, 0)');
         await preparing.screenshot({path:path.join(output,`preparing-isolated-${viewport.width}.png`)});
         await preparing.getByRole('button',{name:'Planı Gör',exact:true}).waitFor();
         await preparing.waitForTimeout(100);
@@ -189,6 +217,18 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
         assert.ok(preparingRenders.length<=2);
         assert.ok(preparedTrace.decorations.some(e=>e.revision===6&&e.kind==='spinner-start'));
         assert.ok(preparedTrace.decorations.some(e=>e.revision===6&&e.kind==='spinner-stop'));
+        assert.equal(await spinner.evaluate(el=>el.isConnected),false);
+        const stop=preparedTrace.decorations.find(e=>e.revision===6&&e.kind==='spinner-stop');
+        const readyCommit=preparedTrace.decorations.find(e=>e.revision===6&&e.kind==='ready-check-commit');
+        assert.ok(stop.time<=readyCommit.time,JSON.stringify({stop,readyCommit}));
+        // Simulate a delayed native property update against the old host. The
+        // detached node must not be the Ready check's host (browser diagnostic).
+        await spinner.evaluate(el=>{el.style.transform='rotate(90deg)'});
+        const check=preparing.getByTestId('onboarding-ready-check');
+        const readyMatrix=await check.evaluate(el=>getComputedStyle(el).transform);
+        assert.equal(await check.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).isIdentity),true);
+        assert.equal(await check.locator('svg path').getAttribute('d'),'M7 13.3L11.1 17.2L19 8.9');
+        assert.equal(await preparing.getByTestId('onboarding-spinner').count(),0);
         await preparing.screenshot({path:path.join(output,`ready-isolated-${viewport.width}.png`)});
         await preparing.evaluate(()=>{window.__departedFinish=window.__finishOnboarding;window.__finishOnboarding();window.__finishOnboarding()});
         await preparing.getByRole('button',{name:/^Bugünkü tercihler:/}).waitFor();await preparing.evaluate(()=>window.__departedFinish());
@@ -196,11 +236,13 @@ const base = process.env.GEZEK_BROWSER_URL || 'http://127.0.0.1:8778';
         assert.equal(await preparing.evaluate(()=>window.__events.filter(e=>e.name==='preference_flow_completed').length),1);
         const completedTrace=await snapshot(preparing);
         for(const kind of ['timeline','shimmer','spinner'])assert.equal(completedTrace.decorations.filter(e=>e.kind===kind+'-start').length,completedTrace.decorations.filter(e=>e.kind===kind+'-stop').length,kind+' completion cleanup');
-        results.push({viewport,preparingReady:true,singleWriteSingleEvent:true,trace:evidenceTrace(completedTrace)});await preparing.close();
+        const preparationMeasurement=measure(completedTrace,6,'prepare');
+        results.push({viewport,preparingReady:true,singleWriteSingleEvent:true,orientation:{spinnerMatrix,readyMatrix,separateHost:true,spinnerStoppedBeforeReadyCommit:true,delayedOldHostWriteIgnored:true,approvedCheckPath:true},preparationMeasurement,trace:evidenceTrace(completedTrace)});await preparing.close();
       }
     }
     assert.deepEqual(errors,[]);
-    fs.writeFileSync(path.join(output,'transition-results.json'),JSON.stringify({passed:true,baseline,browserDiagnosticOnly:true,results,errors},null,2)+'\n');
+    const evidenceResults=process.env.GEZEK_BROWSER_TRACE==='true'?results:results.map(({trace,...result})=>result);
+    fs.writeFileSync(path.join(output,'transition-results.json'),JSON.stringify({passed:true,baseline,browserDiagnosticOnly:true,results:evidenceResults,errors},null,2)+'\n');
     console.log(JSON.stringify({passed:true,baseline,measurements:results.filter(r=>r.measurements).map(r=>({viewport:r.viewport,measurements:r.measurements})),errors},null,2));
   } finally {await browser.close();}
 })().catch(error=>{console.error(error);process.exit(1)});
