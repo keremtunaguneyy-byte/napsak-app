@@ -17,15 +17,23 @@ export function createRecommendationLocationResolver({
   schedule = setTimeout, cancel = clearTimeout,
 }: Options) {
   let generation = 0;
-  let pending: { generation: number; promise: Promise<Coordinates | undefined>; stop: () => void } | undefined;
+  let latestCheck = 0;
+  const active = new Set<() => void>();
   const resolve = async (): Promise<Coordinates | undefined> => {
     const coordinate = cachedLocation();
     if (!coordinate) return undefined;
     const request = generation;
-    if (pending?.generation === request) return pending.promise;
+    const check = ++latestCheck;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let finishDeadline!: (valid: false) => void;
-    const promise = (async () => {
+    const stop = () => {
+      if (timer !== undefined) cancel(timer);
+      finishDeadline(false);
+    };
+    active.add(stop);
+    try {
+      // Each batch gets fresh reads. Sharing an older pending pair could reuse
+      // its already-settled services result after a silent Quick Settings change.
       const valid = await Promise.race([
         Promise.allSettled([
           Promise.resolve().then(servicesEnabled), Promise.resolve().then(foregroundPermission),
@@ -34,24 +42,20 @@ export function createRecommendationLocationResolver({
           && permission.status === 'fulfilled' && permission.value?.status === 'granted'),
         new Promise<false>(done => { finishDeadline = done; timer = schedule(() => done(false), RECOMMENDATION_LOCATION_TIMEOUT_MS); }),
       ]);
-      if (timer !== undefined) cancel(timer);
-      // Never validate or discard a fix acquired after this pair began.
+      // An obsolete pair cannot validate input or discard a newer fix/check.
       if (request !== generation || cachedLocation() !== coordinate) return undefined;
       if (valid) return coordinate;
-      invalidateLocation();
+      if (check === latestCheck) invalidateLocation();
       return undefined;
-    })();
-    pending = { generation: request, promise, stop: () => {
+    } finally {
       if (timer !== undefined) cancel(timer);
-      finishDeadline(false);
-    } };
-    try { return await promise; }
-    finally { if (pending?.promise === promise) pending = undefined; }
+      active.delete(stop);
+    }
   };
   return { cachedLocation, resolve, locationChanged: () => {
     generation++;
-    pending?.stop();
-    pending = undefined;
+    for (const stop of active) stop();
+    active.clear();
   } };
 }
 

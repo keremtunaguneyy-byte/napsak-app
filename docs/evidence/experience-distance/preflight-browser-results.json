@@ -73,7 +73,16 @@
       "pass": true
     },
     {
-      "name": "Rapid actions share only a pending preflight; obsolete batch never computes/publishes",
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
       "viewport": {
         "width": 393,
         "height": 852
@@ -244,7 +253,16 @@
       "pass": true
     },
     {
-      "name": "Rapid actions share only a pending preflight; obsolete batch never computes/publishes",
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
       "viewport": {
         "width": 393,
         "height": 852
@@ -415,7 +433,16 @@
       "pass": true
     },
     {
-      "name": "Rapid actions share only a pending preflight; obsolete batch never computes/publishes",
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
       "viewport": {
         "width": 412,
         "height": 915
@@ -586,7 +613,16 @@
       "pass": true
     },
     {
-      "name": "Rapid actions share only a pending preflight; obsolete batch never computes/publishes",
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
       "viewport": {
         "width": 412,
         "height": 915

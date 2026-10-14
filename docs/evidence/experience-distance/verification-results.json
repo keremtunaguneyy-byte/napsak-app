@@ -266,5 +266,53 @@
     "result": "NOT RUN",
     "phase": "Final location preflight from e1dd5d9; 2026-10-15",
     "note": "Dependencies/lockfile, Rules and release contracts unchanged; no production or signed-release validation"
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "PASS"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "Final fresh-read controller"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "290 passing tests (111 compiled-domain + 179 TypeScript), including 27 focused distance/lifecycle/preflight tests"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-preflight-independent-android-export",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "Final fresh-read source; local Android bundle"
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "Final generated test-only fixture"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "56 checks, zero page errors; final fresh-read source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-validity-browser.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "61 checks, zero page errors; final fresh-read source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-preflight-browser.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "80 checks, zero page errors; final fresh-read source"
   }
 ]

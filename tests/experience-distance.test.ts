@@ -247,13 +247,31 @@ test('hung services or permission hits one deadline, clears cache and ignores la
     assert.equal(f.resolver.cachedLocation(), undefined); assert.equal(f.counts().clears, 1);
   }
 });
-test('concurrent batches share only the pending check and do not trust its result on a later action', async () => {
+test('each concurrent batch starts fresh reads without reusing pending or completed results', async () => {
   const held = deferred<boolean>(); let reads = 0;
   const f = preflightFixture({ servicesEnabled: () => { reads++; return held.promise; } });
   const a = f.resolver.resolve(), b = f.resolver.resolve(); await settled();
-  assert.equal(reads, 1); assert.equal(f.counts().permissions, 1); assert.equal(f.timers.size, 1);
+  assert.equal(reads, 2); assert.equal(f.counts().permissions, 2); assert.equal(f.timers.size, 2);
   held.resolve(true); assert.equal(await a, coordinates); assert.equal(await b, coordinates);
-  assert.equal(await f.resolver.resolve(), coordinates); assert.equal(reads, 2);
+  assert.equal(await f.resolver.resolve(), coordinates); assert.equal(reads, 3);
+});
+test('a new action cannot reuse an older pair with services already settled before a silent disable', async () => {
+  const held = deferred<{ status: string }>(); let enabled = true, permissionCalls = 0;
+  const f = preflightFixture({ servicesEnabled: async () => enabled,
+    foregroundPermission: () => ++permissionCalls === 1 ? held.promise : Promise.resolve({ status: 'granted' }) });
+  const older = f.resolver.resolve(); await settled(); enabled = false;
+  assert.equal(await f.resolver.resolve(), undefined); assert.equal(f.counts().clears, 1);
+  held.resolve({ status: 'granted' }); assert.equal(await older, undefined);
+  assert.equal(f.resolver.cachedLocation(), undefined); assert.equal(f.timers.size, 0);
+});
+test('an old negative pair cannot clear a fix freshly validated by a later batch', async () => {
+  const held = deferred<{ status: string }>(); let enabled = false, permissionCalls = 0;
+  const f = preflightFixture({ servicesEnabled: async () => enabled,
+    foregroundPermission: () => ++permissionCalls === 1 ? held.promise : Promise.resolve({ status: 'granted' }) });
+  const older = f.resolver.resolve(); await settled(); enabled = true;
+  assert.equal(await f.resolver.resolve(), coordinates);
+  held.resolve({ status: 'granted' }); assert.equal(await older, undefined);
+  assert.equal(f.resolver.cachedLocation(), coordinates); assert.equal(f.counts().clears, 0);
 });
 test('superseding/unmounting cancels the deadline and prevents old preflight clearing a newer fix', async () => {
   const held = deferred<boolean>(); const f = preflightFixture({ servicesEnabled: () => held.promise });

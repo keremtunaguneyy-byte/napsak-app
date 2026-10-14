@@ -16,7 +16,7 @@ An already visible Home batch is a snapshot of the last explicit fix. Its last d
 
 `src/recommendationLocation.ts` is the authoritative asynchronous location-input resolver. No cache returns `undefined` without native calls or a deadline. With cache, it reads installed Expo `hasServicesEnabledAsync` and `getForegroundPermissionsAsync`. Both must succeed with services enabled and status `granted`; otherwise it clears RAM location/loading through the existing shared invalidation path and returns `undefined`. A **2,000 ms one-shot deadline** bounds a hung status pair. This deadline is created only for an actual preflight and is cancelled on completion/supersession/unmount. Late native resolutions/rejections cannot resurrect discarded location.
 
-Concurrent batches can share the same pending status pair; completed success is never reused by a later action. Fix identity and generations prevent old checks from validating or discarding a newer explicit fix. Explicit request start/result publication supersede pending preflights. Superseded checks return locationless without discarding the newer fix. Invalid current checks also invalidate old pending GPS ownership; valid status alone cannot recover a discarded fix.
+Every batch request starts fresh reads of both statuses, including concurrent requests. Neither pending nor completed results are reused. Sharing a pending pair is unsafe when its services read settles before a silent disable and its permission read remains pending; the second action must read services again. An older negative pair cannot discard a fix validated by a newer pair. Fix identity and generations prevent old checks from validating or discarding a newer explicit fix. Explicit request start/result publication supersede pending preflights. Superseded checks return locationless without discarding the newer fix. Invalid current checks also invalidate old pending GPS ownership; valid status alone cannot recover a discarded fix.
 
 `src/useValidatedRecommendationBatch.ts` gates both production recommendation computation boundaries. Its absent-cache path stays synchronous. Its cached path retains the existing snapshot while checking, then invokes the unchanged engine with only the resolved safe input. Changed inputs/unmount suppress obsolete computation/publication. Location-only presentation does not trigger this hook. A newly entered Place cannot borrow the previous Place's related-plan snapshot.
 
@@ -40,18 +40,18 @@ Home's selected filter, batch-view telemetry and rotation scroll settle now foll
 | Validation | Result |
 |---|---|
 | `git diff --check`, `npm run typecheck`, `npm run check:accessibility` | PASS |
-| `npm test` | PASS **288 tests**: 111 compiled-domain + 177 TypeScript |
-| Focused distance/lifecycle/preflight tests (included above) | PASS **25/25** |
+| `npm test` | PASS **290 tests**: 111 compiled-domain + 179 TypeScript |
+| Focused distance/lifecycle/preflight tests (included above) | PASS **27/27** |
 | Existing distance browser suite | PASS **56 checks**, zero page errors |
 | Existing lifecycle browser suite | PASS **61 checks**, zero page errors |
-| New silent-service/public-action preflight browser suite | PASS **76 checks**, zero page errors |
+| New silent-service/public-action preflight browser suite | PASS **80 checks**, zero page errors |
 | `npm run test:catalog` | PASS; unchanged 52 Experiences and catalog parity |
 | `npm run test:stress` | PASS; Experience 640 scenarios / 480 rotations, zero empty/mismatch/duplicate/overlap |
 | `npm run check:performance` | PASS; 5,000 calls, **p95 8.521 ms / 25 ms**, checksum **22308** |
-| `npx expo export --platform android --output-dir /private/tmp/gezek-preflight-final-android-export` | PASS; local Android bundle only |
+| `npx expo export --platform android --output-dir /private/tmp/gezek-preflight-independent-android-export` | PASS; local Android bundle only |
 | Staged diff check / normal commit-push / exact-head CI | Final delivery/live Draft #76 |
 
-New coverage includes the exact silent Quick Settings sequence without lifecycle emission, no-cache fast path, each successive valid check, denied and both API failures, a held pair/deadline/late success, rapid actions, a newer-fix race, Dismiss/Undo/single Restore/Restore All/Preference Apply/filter changes, new related-plan batches and unmount. Native status reads cannot be cancelled at the OS; detached promises are handled and ignored. Slow legitimate reads may intentionally fall back to locationless after two seconds. Engine benchmark timing excludes this asynchronous OS wait.
+New coverage includes the exact silent Quick Settings sequence without lifecycle emission, no-cache fast path, each successive valid check, denied and both API failures, a held pair/deadline/late success, rapid actions with fresh reads, silent disable after an older services read settled, a newer-fix race, Dismiss/Undo/single Restore/Restore All/Preference Apply/filter changes, new related-plan batches and unmount. Native status reads cannot be cancelled at the OS; detached promises are handled and ignored. Slow legitimate reads may intentionally fall back to locationless after two seconds. Engine benchmark timing excludes this asynchronous OS wait.
 
 `npm ci` was not rerun because dependencies/lockfile are unchanged and installed tooling is usable. Local Firestore Rules and release-readiness checks were not rerun because those contracts are unchanged; normal GitHub CI still validates its applicable jobs. Browser/external services require sandbox escalation locally; allowed retries completed. Test fixtures were corrected to use the real Gezek tab name, the currently selected filter's explicit-update behavior, and to hold only the intended old lifecycle pair; no production behavior was changed to satisfy those fixture corrections.
 
