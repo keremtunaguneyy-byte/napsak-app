@@ -1,5 +1,11 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-15 — Saved merged; independent Home filter snapshots
+
+PR #77 merged normally after acceptance-only commit `6e4e9015371ba1b1741b28e1c3020cbee843ef2b` passed exact-head App Quality and Security Rules. Merge/fetched local main: `5ed153e46fe7bc53a4d9100efef2f62ec1183111`. Earlier #77 Draft/no-merge notes below are historical; the three deferred native checks, signed-release gate and Ankara 101 visual closure remain open.
+
+Separate branch `codex/gezek-home-filter-snapshot-stability` gives each Home filter an in-memory batch/run/history snapshot. Navigation restores exact batches; active-tab presses are no-ops; explicit refresh rotates only its surface. Preference Save invalidates all, Cancel/save status/location presentation do not rotate, dismiss/restore and catalog/real Event retry invalidate only affected surfaces. This explicitly extends the accepted visible-location snapshot contract to Place. Algorithms, schemas, visuals and Detail Host remain unchanged. Twenty warm four-filter cycles: 80 computations before, zero after in all four controlled browser viewport/text configurations. [HOME_FILTER_SNAPSHOT_REPORT.md](HOME_FILTER_SNAPSHOT_REPORT.md) contains the root cause, matrix, full verification/evidence, inventory and native retest checklist. New PR stays Draft and unmerged; Redmi timing and native acceptance remain pending. #57 and unrelated Verilog work remain untouched.
+
 ## 2026-10-15 — Saved Redmi acceptance and authorized merge
 
 The user tested exact PR #77 implementation head `d1b611c38eb665f35711ce546264a5661fa5529f` on Redmi and accepted mixed Saved, saving Ankara 101/editorial content, independent row/Unsave actions, final-item Empty, recommendation/editorial Android Back to Saved, restart persistence, normal device layout and fixed-navigation clearance. Three native checks remain explicitly deferred: expired Event row (none exists in the active catalog), actual Android OS large text, and TalkBack separation of row body versus “Kaydı kaldır”. Signed-release acceptance remains separate and unverified. Simple/artwork-free Ankara 101 Saved rows are recorded for later Ankara 101 visual closure; no arbitrary artwork change is authorized here.

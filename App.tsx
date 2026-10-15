@@ -1,6 +1,7 @@
 import { createLocationValidityMonitor } from './src/locationValidity';
 import { createRecommendationLocationResolver } from './src/recommendationLocation';
-import { useValidatedRecommendationBatch } from './src/useValidatedRecommendationBatch';
+import { useHomeRecommendationSnapshot } from './src/useHomeRecommendationSnapshot';
+import { createHomeFilterRuns, homeCatalogKeys, homeDismissalKeys, homeSnapshotKey, invalidateHomeFilters, rotateHomeFilter } from './src/homeFilterSnapshots';
 import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
 import { experienceStartDistanceLabel } from './src/experienceStartDistance';
 import { createLocationRequestGuard } from './src/locationRequestGuard';
@@ -99,9 +100,9 @@ function AppContent() {
   const [undoNotice, setUndoNotice] = useState<UndoNotice>();
   const restoreFromUndo = useRef<(id: string) => void>(() => {});
   const undo = useMemo(() => createDismissUndo(setUndoNotice, id => restoreFromUndo.current(id)), []);
-  const [recommendationRun, setRecommendationRun] = useState(0);
-  const [previousBatch, setPreviousBatch] = useState<string[]>([]);
+  const [filterRuns, setFilterRuns] = useState(createHomeFilterRuns);
   const [resultFilter, setResultFilter] = useState<ResultFilter>(DEFAULT_RESULT_FILTER);
+  const { run: recommendationRun, previousBatch } = filterRuns[resultFilter];
   const [eligibilityNow, setEligibilityNow] = useState(() => new Date());
   const scrollRef = useRef<ScrollView>(null);
   const recommendationsY = useRef(0);
@@ -144,11 +145,9 @@ function AppContent() {
     setLocating(false);
     return () => locationRequests.invalidate();
   }, [locationRequests, step, !!detailSession, deletionBusy, resultFilter]);
-  const [locationRankingRevision, setLocationRankingRevision] = useState(0);
   const locationValidity = useRef<ReturnType<typeof createLocationValidityMonitor> | undefined>(undefined);
-  // Gezek location arrival updates presentation only. The next intentional batch
-  // recomputation still uses the latest location and the unchanged scoring formula.
-  // Place keeps its existing immediate location-driven recomputation.
+  // Every Home filter keeps its scored batch while live distance presentation
+  // changes. Only a genuinely new batch reads the latest validated location.
   const latestLocation = useRef(coordinates);
   const invalidateLocation = useCallback(() => {
     locationRequests.invalidate();
@@ -167,7 +166,6 @@ function AppContent() {
   const publishExplicitLocation = useCallback((next?: Coordinates) => {
     locationValidity.current?.locationChanged();
     recommendationLocation.locationChanged();
-    if (next !== latestLocation.current) setLocationRankingRevision(revision => revision + 1);
     latestLocation.current = next;
     setCoordinates(next);
   }, [recommendationLocation]);
@@ -190,18 +188,28 @@ function AppContent() {
       if (locationValidity.current === monitor) locationValidity.current = undefined;
     };
   }, [invalidateLocation]);
-  const liveRankingLocationRevision = resultFilter === 'experience' ? 0 : locationRankingRevision;
+  const catalogKeys = useMemo(() => homeCatalogKeys(catalog), [catalog]);
+  const dismissalKeys = useMemo(() => homeDismissalKeys(catalog, dismissed), [catalog, dismissed]);
+  const preferenceKey = JSON.stringify([mood, chosen, budget, groupSize, duration]);
+  const snapshotKey = homeSnapshotKey(resultFilter, filterRuns[resultFilter], catalogKeys[resultFilter], preferenceKey, dismissalKeys[resultFilter], eligibilityNow);
   const displayCoordinates = locating ? undefined : coordinates;
   const computeRecommendations = useCallback((safeCoordinates?: Coordinates) => {
     const startedAt = Date.now();
     const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: safeCoordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
     const elapsed = Date.now() - startedAt;
     recordHomeRecommendation(elapsed);
-    return { items, durationBucket: performanceDurationBucket(elapsed), run: recommendationRun, filter: resultFilter };
-  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, liveRankingLocationRevision, previousBatch, resultFilter, eligibilityNow]);
-  const recommendationMeasurement = useValidatedRecommendationBatch(computeRecommendations, recommendationLocation, { items: [] as RecommendationItem[], durationBucket: performanceDurationBucket(0), run: recommendationRun, filter: resultFilter });
+    return { items, durationBucket: performanceDurationBucket(elapsed), run: recommendationRun, filter: resultFilter,
+      eventDiagnostics: resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined };
+  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, previousBatch, resultFilter, eligibilityNow]);
+  const homeSnapshot = useHomeRecommendationSnapshot(resultFilter, snapshotKey, hydrated && onboardingCompleted && step === 'results', computeRecommendations,
+    resultFilter === 'experience' || resultFilter === 'place' ? recommendationLocation : undefined,
+    { items: [] as RecommendationItem[], durationBucket: performanceDurationBucket(0), run: recommendationRun, filter: resultFilter, eventDiagnostics: undefined });
+  // A pending real replacement can show its prior same-filter snapshot, but a
+  // newly dismissed record must disappear immediately, before preflight settles.
+  const recommendationMeasurement = useMemo(() => homeSnapshot.items.some(item => dismissed.includes(item.id))
+    ? { ...homeSnapshot, items: homeSnapshot.items.filter(item => !dismissed.includes(item.id)) } : homeSnapshot, [homeSnapshot, dismissed]);
   const results = useMemo(() => homeDisplayItems(recommendationMeasurement.items, displayCoordinates), [recommendationMeasurement, displayCoordinates]);
-  const eventDiagnosticSets = useMemo(() => resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined, [resultFilter, events, mood, chosen, budget, groupSize, duration, dismissed, recommendationRun, previousBatch, eligibilityNow]);
+  const eventDiagnosticSets = recommendationMeasurement.eventDiagnostics;
   const eventState = eventDiagnosticSets && resolveEventPresentation({ ...catalogLoad, ...eventDiagnosticSets, dismissed, visibleIds: results.map(item => item.id) });
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
     const placesById = new Map(places.map(place => [place.id, place]));
@@ -428,8 +436,7 @@ function AppContent() {
     completedSnapshot.current = undefined;
     publishExplicitLocation(undefined);
     setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
-    setRecommendationRun(0);
-    setPreviousBatch([]);
+    setFilterRuns(createHomeFilterRuns());
     setResultFilter(DEFAULT_RESULT_FILTER);
     setStep('welcome');
   };
@@ -458,10 +465,13 @@ function AppContent() {
   const rotateRecommendations = useCallback(() => {
     undo.clear();
     batchTrigger.current = 'rotate';
-    setPreviousBatch(results.map(place => place.id));
+    // A first-visit preflight may still display the last committed surface.
+    // Its visible refresh action owns that surface, never another kind's IDs.
+    const filter = recommendationMeasurement.filter;
+    if (filter !== resultFilter) setResultFilter(filter);
     scrollAfterRotation.current = true;
-    setRecommendationRun(run => run + 1);
-  }, [results, undo]);
+    setFilterRuns(current => rotateHomeFilter(current, filter, results.map(item => item.id)));
+  }, [results, resultFilter, recommendationMeasurement.filter, undo]);
   const analyticsKindForId = useCallback((id: string): AnalyticsItemKind | undefined => {
     const item = catalogItems.find(candidate => candidate.id === id);
     if (item) return itemAnalyticsKind(item);
@@ -490,13 +500,13 @@ function AppContent() {
     return () => undo.clear();
   }, [undo, step, detailSession?.history.length, detailSession?.history.at(-1)?.id]);
   const selectResultFilter = useCallback((filter: ResultFilter) => {
+    if (filter === resultFilter) return;
+    scrollAfterRotation.current = false;
     undo.clear();
     recordHomeFilterPress(filter);
     batchTrigger.current = 'filter';
     setResultFilter(filter);
-    setPreviousBatch([]);
-    setRecommendationRun(run => run + 1);
-  }, [undo]);
+  }, [resultFilter, undo]);
   const openInMaps = async (place: Place) => {
     const label = encodeURIComponent(place.name);
     const url = Platform.select({
@@ -595,6 +605,7 @@ function AppContent() {
     if (!preferenceSession) return;
     const current = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
     const next = applyPreferenceEditor(current, preferenceSession);
+    setFilterRuns(current => invalidateHomeFilters(current));
     // React batches this approved draft into one compatible persistence snapshot.
     setMood(next.mood); setChosen(next.interests); setBudget(next.budget ?? 'Fark etmez'); setGroupSize(next.groupSize); setDuration(next.duration ?? 'Fark etmez');
     if (contextRefreshDue && preferenceSession.mode !== 'budget_only') {
@@ -609,6 +620,7 @@ function AppContent() {
     await runCatalogLoad(() => refreshActiveCatalog(), catalogLoad.usable ? catalog : undefined, (state, snapshot) => {
       if (snapshot) setCatalog(snapshot);
       setCatalogLoad(state);
+      if (!state.loading && !state.totalFailure) setFilterRuns(current => invalidateHomeFilters(current, ['event']));
       retryFailed = state.totalFailure && !state.usable;
     }, error => captureOperationalError(error, 'catalog_refresh', 'remote_catalog_refresh_failed'));
     catalogRetryBusy.current = false;

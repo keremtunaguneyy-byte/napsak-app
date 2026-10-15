@@ -1,0 +1,1099 @@
+{
+  "baseline": "5ed153e46fe7bc53a4d9100efef2f62ec1183111",
+  "initial": {
+    "context": {
+      "filter": "experience",
+      "seed": 0,
+      "batchSeed": 0,
+      "batchFilter": "experience",
+      "previousBatch": [],
+      "ids": [
+        "xp-gokyay-satranc-taslari",
+        "xp-goksu-loop",
+        "xp-cin-ali-iki-kusak",
+        "xp-kugulu-segmenler",
+        "xp-ptt-pullardan-donem-oku"
+      ],
+      "scores": [
+        184.59801695653093,
+        180.53463932979398,
+        179.42282225088073,
+        178.38976224164128,
+        178.38427450346413
+      ],
+      "saved": [],
+      "dismissed": [],
+      "locating": false
+    },
+    "inputs": [
+      {
+        "filter": "experience",
+        "seed": 0
+      },
+      {
+        "filter": "experience",
+        "seed": 0
+      }
+    ],
+    "profile": {
+      "homeRenders": 1,
+      "assetRenders": 49,
+      "recommendationComputes": 2,
+      "assetMounts": 22,
+      "assetUnmounts": 0,
+      "svgCacheHits": 10,
+      "svgCacheMisses": 13,
+      "svgElementsConstructed": 109
+    },
+    "services": 0,
+    "permissions": 0
+  },
+  "sequence": [
+    {
+      "filter": "experience",
+      "elapsedMs": 136,
+      "context": {
+        "filter": "experience",
+        "seed": 1,
+        "batchSeed": 1,
+        "batchFilter": "experience",
+        "previousBatch": [],
+        "ids": [
+          "xp-gokyay-satranc-taslari",
+          "xp-kugulu-segmenler",
+          "xp-goksu-loop",
+          "xp-cin-ali-iki-kusak",
+          "xp-arslanhane-alaaddin-selcuklu"
+        ],
+        "scores": [
+          182.6417599019487,
+          178.85308693374157,
+          173.47444822188012,
+          179.3260178387989,
+          175.96280359998303
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        }
+      ],
+      "profile": {
+        "homeRenders": 2,
+        "assetRenders": 53,
+        "recommendationComputes": 3,
+        "assetMounts": 26,
+        "assetUnmounts": 4,
+        "svgCacheHits": 13,
+        "svgCacheMisses": 14,
+        "svgElementsConstructed": 117
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "place",
+      "elapsedMs": 97,
+      "context": {
+        "filter": "place",
+        "seed": 2,
+        "batchSeed": 2,
+        "batchFilter": "place",
+        "previousBatch": [],
+        "ids": [
+          "kartaltepe-mehmetcik",
+          "cubuk-1-baraji-rekreasyon-alani",
+          "kizilcahamam-jeopark",
+          "guvenpark-kizilay",
+          "camildere-doga-hayvan"
+        ],
+        "scores": [
+          161.09070779196918,
+          159.25627881921827,
+          159.75551501102746,
+          157.80170716494322,
+          158.3798175871372
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        }
+      ],
+      "profile": {
+        "homeRenders": 3,
+        "assetRenders": 77,
+        "recommendationComputes": 4,
+        "assetMounts": 46,
+        "assetUnmounts": 24,
+        "svgCacheHits": 25,
+        "svgCacheMisses": 23,
+        "svgElementsConstructed": 180
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "event",
+      "elapsedMs": 99,
+      "context": {
+        "filter": "event",
+        "seed": 3,
+        "batchSeed": 3,
+        "batchFilter": "event",
+        "previousBatch": [],
+        "ids": [
+          "event-amadeus-congresium-2026-10-16",
+          "event-ankara-kadin-orkestrasi-csoada-2026-11-02",
+          "event-bir-aile-provasi-ataturk-sanat-2026-11-01",
+          "event-cso-iki-keman-bir-miras-2026-10-16",
+          "event-falda-carmen-xl-ataturk-sanat-2026-10-31"
+        ],
+        "scores": [
+          114.7,
+          113.5,
+          113.5,
+          113.5,
+          113.5
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        },
+        {
+          "filter": "event",
+          "seed": 3
+        }
+      ],
+      "profile": {
+        "homeRenders": 4,
+        "assetRenders": 101,
+        "recommendationComputes": 5,
+        "assetMounts": 66,
+        "assetUnmounts": 44,
+        "svgCacheHits": 40,
+        "svgCacheMisses": 29,
+        "svgElementsConstructed": 288
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "idea",
+      "elapsedMs": 80,
+      "context": {
+        "filter": "idea",
+        "seed": 4,
+        "batchSeed": 4,
+        "batchFilter": "idea",
+        "previousBatch": [],
+        "ids": [
+          "idea-neighborhood-type-collection",
+          "idea-slow-bread-day",
+          "idea-repair-one-object",
+          "idea-quick-flatbread",
+          "idea-evening-caffeine-free-infusions"
+        ],
+        "scores": [
+          176.41782684065402,
+          101.42643665373325,
+          99.9937772192061,
+          99.87062608702108,
+          98.86273334315047
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        },
+        {
+          "filter": "event",
+          "seed": 3
+        },
+        {
+          "filter": "idea",
+          "seed": 4
+        }
+      ],
+      "profile": {
+        "homeRenders": 5,
+        "assetRenders": 125,
+        "recommendationComputes": 6,
+        "assetMounts": 86,
+        "assetUnmounts": 64,
+        "svgCacheHits": 53,
+        "svgCacheMisses": 37,
+        "svgElementsConstructed": 338
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "experience",
+      "elapsedMs": 81,
+      "context": {
+        "filter": "experience",
+        "seed": 5,
+        "batchSeed": 5,
+        "batchFilter": "experience",
+        "previousBatch": [],
+        "ids": [
+          "xp-cin-ali-iki-kusak",
+          "xp-goksu-loop",
+          "xp-gokyay-satranc-taslari",
+          "xp-kugulu-segmenler",
+          "xp-ulucanlar-hamamonu"
+        ],
+        "scores": [
+          185.18075972319437,
+          175.06051806095533,
+          181.16207416699123,
+          181.75551249297916,
+          178.69532217217775
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        },
+        {
+          "filter": "event",
+          "seed": 3
+        },
+        {
+          "filter": "idea",
+          "seed": 4
+        },
+        {
+          "filter": "experience",
+          "seed": 5
+        }
+      ],
+      "profile": {
+        "homeRenders": 6,
+        "assetRenders": 149,
+        "recommendationComputes": 7,
+        "assetMounts": 106,
+        "assetUnmounts": 84,
+        "svgCacheHits": 71,
+        "svgCacheMisses": 40,
+        "svgElementsConstructed": 369
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "place",
+      "elapsedMs": 99,
+      "context": {
+        "filter": "place",
+        "seed": 6,
+        "batchSeed": 6,
+        "batchFilter": "place",
+        "previousBatch": [],
+        "ids": [
+          "guvenpark-kizilay",
+          "altinkoy-acik-hava-muzesi",
+          "meteoroloji-muzesi",
+          "cubuk-1-baraji-rekreasyon-alani",
+          "kartaltepe-mehmetcik"
+        ],
+        "scores": [
+          161.5590276155621,
+          161.28791127242147,
+          159.71728047505022,
+          159.42309222258626,
+          158.76396826282144
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        },
+        {
+          "filter": "event",
+          "seed": 3
+        },
+        {
+          "filter": "idea",
+          "seed": 4
+        },
+        {
+          "filter": "experience",
+          "seed": 5
+        },
+        {
+          "filter": "place",
+          "seed": 6
+        }
+      ],
+      "profile": {
+        "homeRenders": 7,
+        "assetRenders": 173,
+        "recommendationComputes": 8,
+        "assetMounts": 126,
+        "assetUnmounts": 104,
+        "svgCacheHits": 87,
+        "svgCacheMisses": 45,
+        "svgElementsConstructed": 399
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "idea",
+      "elapsedMs": 79,
+      "context": {
+        "filter": "idea",
+        "seed": 7,
+        "batchSeed": 7,
+        "batchFilter": "idea",
+        "previousBatch": [],
+        "ids": [
+          "idea-bench-observation-notes",
+          "idea-pasta-two-sauces",
+          "idea-salad-dressing-balance",
+          "idea-repair-one-object",
+          "idea-coffee-temperature-tasting"
+        ],
+        "scores": [
+          175.62150290943683,
+          102.73209119560197,
+          100.95543332211673,
+          99.45300142746419,
+          98.96931031905115
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        },
+        {
+          "filter": "event",
+          "seed": 3
+        },
+        {
+          "filter": "idea",
+          "seed": 4
+        },
+        {
+          "filter": "experience",
+          "seed": 5
+        },
+        {
+          "filter": "place",
+          "seed": 6
+        },
+        {
+          "filter": "idea",
+          "seed": 7
+        }
+      ],
+      "profile": {
+        "homeRenders": 8,
+        "assetRenders": 197,
+        "recommendationComputes": 9,
+        "assetMounts": 146,
+        "assetUnmounts": 124,
+        "svgCacheHits": 107,
+        "svgCacheMisses": 46,
+        "svgElementsConstructed": 406
+      },
+      "services": 0,
+      "permissions": 0
+    },
+    {
+      "filter": "experience",
+      "elapsedMs": 81,
+      "context": {
+        "filter": "experience",
+        "seed": 8,
+        "batchSeed": 8,
+        "batchFilter": "experience",
+        "previousBatch": [],
+        "ids": [
+          "xp-cin-ali-iki-kusak",
+          "xp-goksu-loop",
+          "xp-arslanhane-alaaddin-selcuklu",
+          "xp-kugulu-segmenler",
+          "xp-ptt-pullardan-donem-oku"
+        ],
+        "scores": [
+          185.22280917213155,
+          180.15228709313564,
+          181.1907308656718,
+          177.77061538050532,
+          180.29200179899695
+        ],
+        "saved": [],
+        "dismissed": [],
+        "locating": false
+      },
+      "inputs": [
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 0
+        },
+        {
+          "filter": "experience",
+          "seed": 1
+        },
+        {
+          "filter": "place",
+          "seed": 2
+        },
+        {
+          "filter": "event",
+          "seed": 3
+        },
+        {
+          "filter": "idea",
+          "seed": 4
+        },
+        {
+          "filter": "experience",
+          "seed": 5
+        },
+        {
+          "filter": "place",
+          "seed": 6
+        },
+        {
+          "filter": "idea",
+          "seed": 7
+        },
+        {
+          "filter": "experience",
+          "seed": 8
+        }
+      ],
+      "profile": {
+        "homeRenders": 9,
+        "assetRenders": 221,
+        "recommendationComputes": 10,
+        "assetMounts": 166,
+        "assetUnmounts": 144,
+        "svgCacheHits": 128,
+        "svgCacheMisses": 46,
+        "svgElementsConstructed": 406
+      },
+      "services": 0,
+      "permissions": 0
+    }
+  ],
+  "cycleStart": {
+    "context": {
+      "filter": "experience",
+      "seed": 8,
+      "batchSeed": 8,
+      "batchFilter": "experience",
+      "previousBatch": [],
+      "ids": [
+        "xp-cin-ali-iki-kusak",
+        "xp-goksu-loop",
+        "xp-arslanhane-alaaddin-selcuklu",
+        "xp-kugulu-segmenler",
+        "xp-ptt-pullardan-donem-oku"
+      ],
+      "scores": [
+        185.22280917213155,
+        180.15228709313564,
+        181.1907308656718,
+        177.77061538050532,
+        180.29200179899695
+      ],
+      "saved": [],
+      "dismissed": [],
+      "locating": false
+    },
+    "inputs": [
+      {
+        "filter": "experience",
+        "seed": 0
+      },
+      {
+        "filter": "experience",
+        "seed": 0
+      },
+      {
+        "filter": "experience",
+        "seed": 1
+      },
+      {
+        "filter": "place",
+        "seed": 2
+      },
+      {
+        "filter": "event",
+        "seed": 3
+      },
+      {
+        "filter": "idea",
+        "seed": 4
+      },
+      {
+        "filter": "experience",
+        "seed": 5
+      },
+      {
+        "filter": "place",
+        "seed": 6
+      },
+      {
+        "filter": "idea",
+        "seed": 7
+      },
+      {
+        "filter": "experience",
+        "seed": 8
+      }
+    ],
+    "profile": {
+      "homeRenders": 9,
+      "assetRenders": 221,
+      "recommendationComputes": 10,
+      "assetMounts": 166,
+      "assetUnmounts": 144,
+      "svgCacheHits": 128,
+      "svgCacheMisses": 46,
+      "svgElementsConstructed": 406
+    },
+    "services": 0,
+    "permissions": 0
+  },
+  "after20Cycles": {
+    "context": {
+      "filter": "idea",
+      "seed": 88,
+      "batchSeed": 88,
+      "batchFilter": "idea",
+      "previousBatch": [],
+      "ids": [
+        "idea-neighborhood-architecture-details",
+        "idea-signature-soft-drink",
+        "idea-evening-caffeine-free-infusions",
+        "idea-breakfast-for-dinner",
+        "idea-mobility-flow"
+      ],
+      "scores": [
+        177.12347810454668,
+        101.06092742206529,
+        100.60135136870667,
+        98.53360271453857,
+        98.49286859855056
+      ],
+      "saved": [],
+      "dismissed": [],
+      "locating": false
+    },
+    "inputs": [
+      {
+        "filter": "experience",
+        "seed": 0
+      },
+      {
+        "filter": "experience",
+        "seed": 0
+      },
+      {
+        "filter": "experience",
+        "seed": 1
+      },
+      {
+        "filter": "place",
+        "seed": 2
+      },
+      {
+        "filter": "event",
+        "seed": 3
+      },
+      {
+        "filter": "idea",
+        "seed": 4
+      },
+      {
+        "filter": "experience",
+        "seed": 5
+      },
+      {
+        "filter": "place",
+        "seed": 6
+      },
+      {
+        "filter": "idea",
+        "seed": 7
+      },
+      {
+        "filter": "experience",
+        "seed": 8
+      },
+      {
+        "filter": "experience",
+        "seed": 9
+      },
+      {
+        "filter": "place",
+        "seed": 10
+      },
+      {
+        "filter": "event",
+        "seed": 11
+      },
+      {
+        "filter": "idea",
+        "seed": 12
+      },
+      {
+        "filter": "experience",
+        "seed": 13
+      },
+      {
+        "filter": "place",
+        "seed": 14
+      },
+      {
+        "filter": "event",
+        "seed": 15
+      },
+      {
+        "filter": "idea",
+        "seed": 16
+      },
+      {
+        "filter": "experience",
+        "seed": 17
+      },
+      {
+        "filter": "place",
+        "seed": 18
+      },
+      {
+        "filter": "event",
+        "seed": 19
+      },
+      {
+        "filter": "idea",
+        "seed": 20
+      },
+      {
+        "filter": "experience",
+        "seed": 21
+      },
+      {
+        "filter": "place",
+        "seed": 22
+      },
+      {
+        "filter": "event",
+        "seed": 23
+      },
+      {
+        "filter": "idea",
+        "seed": 24
+      },
+      {
+        "filter": "experience",
+        "seed": 25
+      },
+      {
+        "filter": "place",
+        "seed": 26
+      },
+      {
+        "filter": "event",
+        "seed": 27
+      },
+      {
+        "filter": "idea",
+        "seed": 28
+      },
+      {
+        "filter": "experience",
+        "seed": 29
+      },
+      {
+        "filter": "place",
+        "seed": 30
+      },
+      {
+        "filter": "event",
+        "seed": 31
+      },
+      {
+        "filter": "idea",
+        "seed": 32
+      },
+      {
+        "filter": "experience",
+        "seed": 33
+      },
+      {
+        "filter": "place",
+        "seed": 34
+      },
+      {
+        "filter": "event",
+        "seed": 35
+      },
+      {
+        "filter": "idea",
+        "seed": 36
+      },
+      {
+        "filter": "experience",
+        "seed": 37
+      },
+      {
+        "filter": "place",
+        "seed": 38
+      },
+      {
+        "filter": "event",
+        "seed": 39
+      },
+      {
+        "filter": "idea",
+        "seed": 40
+      },
+      {
+        "filter": "experience",
+        "seed": 41
+      },
+      {
+        "filter": "place",
+        "seed": 42
+      },
+      {
+        "filter": "event",
+        "seed": 43
+      },
+      {
+        "filter": "idea",
+        "seed": 44
+      },
+      {
+        "filter": "experience",
+        "seed": 45
+      },
+      {
+        "filter": "place",
+        "seed": 46
+      },
+      {
+        "filter": "event",
+        "seed": 47
+      },
+      {
+        "filter": "idea",
+        "seed": 48
+      },
+      {
+        "filter": "experience",
+        "seed": 49
+      },
+      {
+        "filter": "place",
+        "seed": 50
+      },
+      {
+        "filter": "event",
+        "seed": 51
+      },
+      {
+        "filter": "idea",
+        "seed": 52
+      },
+      {
+        "filter": "experience",
+        "seed": 53
+      },
+      {
+        "filter": "place",
+        "seed": 54
+      },
+      {
+        "filter": "event",
+        "seed": 55
+      },
+      {
+        "filter": "idea",
+        "seed": 56
+      },
+      {
+        "filter": "experience",
+        "seed": 57
+      },
+      {
+        "filter": "place",
+        "seed": 58
+      },
+      {
+        "filter": "event",
+        "seed": 59
+      },
+      {
+        "filter": "idea",
+        "seed": 60
+      },
+      {
+        "filter": "experience",
+        "seed": 61
+      },
+      {
+        "filter": "place",
+        "seed": 62
+      },
+      {
+        "filter": "event",
+        "seed": 63
+      },
+      {
+        "filter": "idea",
+        "seed": 64
+      },
+      {
+        "filter": "experience",
+        "seed": 65
+      },
+      {
+        "filter": "place",
+        "seed": 66
+      },
+      {
+        "filter": "event",
+        "seed": 67
+      },
+      {
+        "filter": "idea",
+        "seed": 68
+      },
+      {
+        "filter": "experience",
+        "seed": 69
+      },
+      {
+        "filter": "place",
+        "seed": 70
+      },
+      {
+        "filter": "event",
+        "seed": 71
+      },
+      {
+        "filter": "idea",
+        "seed": 72
+      },
+      {
+        "filter": "experience",
+        "seed": 73
+      },
+      {
+        "filter": "place",
+        "seed": 74
+      },
+      {
+        "filter": "event",
+        "seed": 75
+      },
+      {
+        "filter": "idea",
+        "seed": 76
+      },
+      {
+        "filter": "experience",
+        "seed": 77
+      },
+      {
+        "filter": "place",
+        "seed": 78
+      },
+      {
+        "filter": "event",
+        "seed": 79
+      },
+      {
+        "filter": "idea",
+        "seed": 80
+      },
+      {
+        "filter": "experience",
+        "seed": 81
+      },
+      {
+        "filter": "place",
+        "seed": 82
+      },
+      {
+        "filter": "event",
+        "seed": 83
+      },
+      {
+        "filter": "idea",
+        "seed": 84
+      },
+      {
+        "filter": "experience",
+        "seed": 85
+      },
+      {
+        "filter": "place",
+        "seed": 86
+      },
+      {
+        "filter": "event",
+        "seed": 87
+      },
+      {
+        "filter": "idea",
+        "seed": 88
+      }
+    ],
+    "profile": {
+      "homeRenders": 89,
+      "assetRenders": 2130,
+      "recommendationComputes": 90,
+      "assetMounts": 1757,
+      "assetUnmounts": 1735,
+      "svgCacheHits": 1779,
+      "svgCacheMisses": 66,
+      "svgElementsConstructed": 568
+    },
+    "services": 0,
+    "permissions": 0
+  },
+  "sequenceComputes": 8,
+  "cycleComputes": 80,
+  "cycleComputesByFilter": {
+    "experience": 20,
+    "place": 20,
+    "event": 20,
+    "idea": 20
+  },
+  "homeHeadingSurvived": true,
+  "errors": [],
+  "locationWarmRevisit": {
+    "before": {
+      "services": 2,
+      "permission": 2,
+      "calls": 4
+    },
+    "after": {
+      "services": 3,
+      "permission": 3,
+      "calls": 5
+    }
+  }
+}

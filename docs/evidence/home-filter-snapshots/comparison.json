@@ -1,0 +1,406 @@
+{
+  "method": "Actual App + recommendAll through controlled RN Web fixture, Chrome headless, external Playwright. Budget Fark etmez, same fixture preferences. Wall time includes automation and two animation frames; not native FPS or Redmi latency. Baseline main frozen before edits. Location probe is separate default-preference run.",
+  "baseline": "5ed153e46fe7bc53a4d9100efef2f62ec1183111",
+  "before": {
+    "initialBatchComputations": 2,
+    "eightPressComputations": 8,
+    "twentyCycleComputations": 80,
+    "twentyCycleComputationsByFilter": {
+      "experience": 20,
+      "place": 20,
+      "event": 20,
+      "idea": 20
+    },
+    "twentyCycleProfileDelta": {
+      "homeRenders": 80,
+      "assetRenders": 1909,
+      "recommendationComputes": 80,
+      "assetMounts": 1591,
+      "assetUnmounts": 1591,
+      "svgCacheHits": 1651,
+      "svgCacheMisses": 20,
+      "svgElementsConstructed": 162
+    },
+    "sequenceWallMs": [
+      {
+        "filter": "experience",
+        "elapsedMs": 136
+      },
+      {
+        "filter": "place",
+        "elapsedMs": 97
+      },
+      {
+        "filter": "event",
+        "elapsedMs": 99
+      },
+      {
+        "filter": "idea",
+        "elapsedMs": 80
+      },
+      {
+        "filter": "experience",
+        "elapsedMs": 81
+      },
+      {
+        "filter": "place",
+        "elapsedMs": 99
+      },
+      {
+        "filter": "idea",
+        "elapsedMs": 79
+      },
+      {
+        "filter": "experience",
+        "elapsedMs": 81
+      }
+    ],
+    "homeHeadingSurvived": true,
+    "locationWarmRevisit": {
+      "before": {
+        "services": 2,
+        "permission": 2,
+        "calls": 4
+      },
+      "after": {
+        "services": 3,
+        "permission": 3,
+        "calls": 5
+      }
+    }
+  },
+  "after": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "simulatedFontScale": 1,
+      "initialBatchComputations": 1,
+      "eightPressComputations": 3,
+      "initialComputationsByFilter": {
+        "experience": 1,
+        "place": 1,
+        "event": 1,
+        "idea": 1
+      },
+      "twentyCycleComputations": 0,
+      "twentyCycleAllEngineCalls": 0,
+      "twentyCycleProfileDelta": {
+        "homeRenders": 79,
+        "assetRenders": 1896,
+        "recommendationComputes": 0,
+        "assetMounts": 1580,
+        "assetUnmounts": 1580,
+        "svgCacheHits": 1659,
+        "svgCacheMisses": 0,
+        "svgElementsConstructed": 0
+      },
+      "sequenceWallMs": [
+        {
+          "filter": "experience",
+          "elapsedMs": 66
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 147
+        },
+        {
+          "filter": "event",
+          "elapsedMs": 115
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 97
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 80
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 81
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 80
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 81
+        }
+      ],
+      "warmCycleWallMsByFilter": {
+        "experience": {
+          "minMs": 57,
+          "medianMs": 79.0,
+          "maxMs": 80
+        },
+        "place": {
+          "minMs": 61,
+          "medianMs": 79.0,
+          "maxMs": 96
+        },
+        "event": {
+          "minMs": 75,
+          "medianMs": 78.0,
+          "maxMs": 96
+        },
+        "idea": {
+          "minMs": 62,
+          "medianMs": 79.0,
+          "maxMs": 80
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "simulatedFontScale": 1.8,
+      "initialBatchComputations": 1,
+      "eightPressComputations": 3,
+      "initialComputationsByFilter": {
+        "experience": 1,
+        "place": 1,
+        "event": 1,
+        "idea": 1
+      },
+      "twentyCycleComputations": 0,
+      "twentyCycleAllEngineCalls": 0,
+      "twentyCycleProfileDelta": {
+        "homeRenders": 79,
+        "assetRenders": 1896,
+        "recommendationComputes": 0,
+        "assetMounts": 1580,
+        "assetUnmounts": 1580,
+        "svgCacheHits": 1659,
+        "svgCacheMisses": 0,
+        "svgElementsConstructed": 0
+      },
+      "sequenceWallMs": [
+        {
+          "filter": "experience",
+          "elapsedMs": 66
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 132
+        },
+        {
+          "filter": "event",
+          "elapsedMs": 98
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 97
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 82
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 80
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 82
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 97
+        }
+      ],
+      "warmCycleWallMsByFilter": {
+        "experience": {
+          "minMs": 56,
+          "medianMs": 79.0,
+          "maxMs": 80
+        },
+        "place": {
+          "minMs": 61,
+          "medianMs": 78.0,
+          "maxMs": 95
+        },
+        "event": {
+          "minMs": 77,
+          "medianMs": 78.0,
+          "maxMs": 97
+        },
+        "idea": {
+          "minMs": 61,
+          "medianMs": 78.0,
+          "maxMs": 80
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "simulatedFontScale": 1,
+      "initialBatchComputations": 1,
+      "eightPressComputations": 3,
+      "initialComputationsByFilter": {
+        "experience": 1,
+        "place": 1,
+        "event": 1,
+        "idea": 1
+      },
+      "twentyCycleComputations": 0,
+      "twentyCycleAllEngineCalls": 0,
+      "twentyCycleProfileDelta": {
+        "homeRenders": 79,
+        "assetRenders": 1896,
+        "recommendationComputes": 0,
+        "assetMounts": 1580,
+        "assetUnmounts": 1580,
+        "svgCacheHits": 1659,
+        "svgCacheMisses": 0,
+        "svgElementsConstructed": 0
+      },
+      "sequenceWallMs": [
+        {
+          "filter": "experience",
+          "elapsedMs": 65
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 131
+        },
+        {
+          "filter": "event",
+          "elapsedMs": 98
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 81
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 82
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 81
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 82
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 97
+        }
+      ],
+      "warmCycleWallMsByFilter": {
+        "experience": {
+          "minMs": 58,
+          "medianMs": 78.0,
+          "maxMs": 94
+        },
+        "place": {
+          "minMs": 59,
+          "medianMs": 78.5,
+          "maxMs": 80
+        },
+        "event": {
+          "minMs": 62,
+          "medianMs": 78.0,
+          "maxMs": 97
+        },
+        "idea": {
+          "minMs": 59,
+          "medianMs": 78.0,
+          "maxMs": 81
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "simulatedFontScale": 1.8,
+      "initialBatchComputations": 1,
+      "eightPressComputations": 3,
+      "initialComputationsByFilter": {
+        "experience": 1,
+        "place": 1,
+        "event": 1,
+        "idea": 1
+      },
+      "twentyCycleComputations": 0,
+      "twentyCycleAllEngineCalls": 0,
+      "twentyCycleProfileDelta": {
+        "homeRenders": 79,
+        "assetRenders": 1896,
+        "recommendationComputes": 0,
+        "assetMounts": 1580,
+        "assetUnmounts": 1580,
+        "svgCacheHits": 1659,
+        "svgCacheMisses": 0,
+        "svgElementsConstructed": 0
+      },
+      "sequenceWallMs": [
+        {
+          "filter": "experience",
+          "elapsedMs": 65
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 132
+        },
+        {
+          "filter": "event",
+          "elapsedMs": 98
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 98
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 82
+        },
+        {
+          "filter": "place",
+          "elapsedMs": 82
+        },
+        {
+          "filter": "idea",
+          "elapsedMs": 81
+        },
+        {
+          "filter": "experience",
+          "elapsedMs": 80
+        }
+      ],
+      "warmCycleWallMsByFilter": {
+        "experience": {
+          "minMs": 59,
+          "medianMs": 78.0,
+          "maxMs": 80
+        },
+        "place": {
+          "minMs": 61,
+          "medianMs": 78.0,
+          "maxMs": 80
+        },
+        "event": {
+          "minMs": 62,
+          "medianMs": 78.0,
+          "maxMs": 97
+        },
+        "idea": {
+          "minMs": 61,
+          "medianMs": 78.5,
+          "maxMs": 81
+        }
+      }
+    }
+  ]
+}

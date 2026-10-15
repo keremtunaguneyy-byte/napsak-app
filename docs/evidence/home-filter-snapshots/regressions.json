@@ -1,0 +1,1985 @@
+{
+  "locationPreflight": {
+    "checks": [
+      {
+        "name": "No cache: next batch runs immediately with zero native reads",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Re-enabled services cannot resurrect a discarded coordinate",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "denied: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "services-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "permission-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Hung pair times out once, completes locationless and ignores late success",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Dismiss replacement cannot score using a silently invalidated fix",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Undo replacement preflights cached location",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "single restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "all restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Preference Apply replacement preflights cached location",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Filter switch preflights before the new kind is scored",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "New Place detail related-plan batch uses the same mandatory preflight",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "No cache: next batch runs immediately with zero native reads",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Re-enabled services cannot resurrect a discarded coordinate",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "denied: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "services-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "permission-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Hung pair times out once, completes locationless and ignores late success",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Dismiss replacement cannot score using a silently invalidated fix",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Undo replacement preflights cached location",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "single restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "all restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Preference Apply replacement preflights cached location",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Filter switch preflights before the new kind is scored",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "New Place detail related-plan batch uses the same mandatory preflight",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "No cache: next batch runs immediately with zero native reads",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Re-enabled services cannot resurrect a discarded coordinate",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "denied: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "services-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "permission-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Hung pair times out once, completes locationless and ignores late success",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Dismiss replacement cannot score using a silently invalidated fix",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Undo replacement preflights cached location",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "single restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "all restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Preference Apply replacement preflights cached location",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Filter switch preflights before the new kind is scored",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "New Place detail related-plan batch uses the same mandatory preflight",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "experience",
+        "pass": true
+      },
+      {
+        "name": "No cache: next batch runs immediately with zero native reads",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Re-enabled services cannot resurrect a discarded coordinate",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "denied: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "services-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "permission-error: refresh fails closed without permission prompts or GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Hung pair times out once, completes locationless and ignores late success",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Dismiss replacement cannot score using a silently invalidated fix",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Undo replacement preflights cached location",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "single restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "all restore preflights before regenerating Home recommendations",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Preference Apply replacement preflights cached location",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Filter switch preflights before the new kind is scored",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "New Place detail related-plan batch uses the same mandatory preflight",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      },
+      {
+        "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "filter": "place",
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "distance": {
+    "checks": [
+      {
+        "name": "Unavailable: no distance or placeholder",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Permission and position pending: no distance",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Live update changes labels only",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Denied refresh clears labels without changing batch",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Invalid OS response clears labels without fake zero",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Location error omits labels",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Plan/Place/related metadata and Back preserve Home scroll",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Independent Save/Dismiss/Undo remains functional",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Superseded response cannot overwrite newer location",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Saved approved compact metadata renders; departed Home response ignored",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Obsolete permission response after filter departure cannot start GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Place preserves acquired batch during location presentation changes and retains existing decimal precision",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Unmounted App rejects late response",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Unavailable: no distance or placeholder",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Permission and position pending: no distance",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Live update changes labels only",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Denied refresh clears labels without changing batch",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Invalid OS response clears labels without fake zero",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Location error omits labels",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Plan/Place/related metadata and Back preserve Home scroll",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Independent Save/Dismiss/Undo remains functional",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Superseded response cannot overwrite newer location",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Saved approved compact metadata renders; departed Home response ignored",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Obsolete permission response after filter departure cannot start GPS",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Place preserves acquired batch during location presentation changes and retains existing decimal precision",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Unmounted App rejects late response",
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Unavailable: no distance or placeholder",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Permission and position pending: no distance",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Live update changes labels only",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Denied refresh clears labels without changing batch",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Invalid OS response clears labels without fake zero",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Location error omits labels",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Plan/Place/related metadata and Back preserve Home scroll",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Independent Save/Dismiss/Undo remains functional",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Superseded response cannot overwrite newer location",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Saved approved compact metadata renders; departed Home response ignored",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Obsolete permission response after filter departure cannot start GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Place preserves acquired batch during location presentation changes and retains existing decimal precision",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Unmounted App rejects late response",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "pass": true
+      },
+      {
+        "name": "Unavailable: no distance or placeholder",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Permission and position pending: no distance",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Live update changes labels only",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Denied refresh clears labels without changing batch",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Invalid OS response clears labels without fake zero",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Location error omits labels",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Plan/Place/related metadata and Back preserve Home scroll",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Independent Save/Dismiss/Undo remains functional",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Superseded response cannot overwrite newer location",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Saved approved compact metadata renders; departed Home response ignored",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Obsolete permission response after filter departure cannot start GPS",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Place preserves acquired batch during location presentation changes and retains existing decimal precision",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      },
+      {
+        "name": "Unmounted App rejects late response",
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "saved": {
+    "checks": [
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Nested Plan \u2192 Place Back pops Plan; Close exits entire host to Saved",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1,
+        "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Nested Plan \u2192 Place Back pops Plan; Close exits entire host to Saved",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 393,
+          "height": 852
+        },
+        "scale": 1.8,
+        "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Nested Plan \u2192 Place Back pops Plan; Close exits entire host to Saved",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1,
+        "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Nested Plan \u2192 Place Back pops Plan; Close exits entire host to Saved",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+        "pass": true
+      },
+      {
+        "viewport": {
+          "width": 412,
+          "height": 915
+        },
+        "scale": 1.8,
+        "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+        "pass": true
+      }
+    ],
+    "errors": []
+  },
+  "onboarding": {
+    "checks": [
+      {
+        "name": "complete first run, disabled/selected states, Back, one atomic commit, restart Home and independent editor",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "complete first run, disabled/selected states, Back, one atomic commit, restart Home and independent editor",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "completed empty-interest legacy bypass and Ba\u015ftan ba\u015fla uses editor"
+      },
+      {
+        "name": "incomplete legacy resumes safely, hardware Back preserves drafts, unfinished new drafts never persist"
+      },
+      {
+        "name": "rapid repeated calls write once; failure unlocks Retry; success rejects departed callbacks; real deletion resets guard and permits future completion"
+      },
+      {
+        "name": "large-text",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "long-turkish",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "short-safe-areas",
+        "width": 393,
+        "height": 667
+      },
+      {
+        "name": "full large-text flow, dynamic rows/summary/footer, completion"
+      },
+      {
+        "name": "normal motion and reduced motion keep the same preparation/completion semantics"
+      }
+    ],
+    "errors": []
+  },
+  "preferenceEvent": {
+    "checks": [
+      {
+        "name": "Android mobile browser emulation",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "free budget has no paid cards or date chip row",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "centered approved Close SVG: budget_only",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "budget Cancel writes nothing, preserves seed/batch/filter/scroll and returns focus",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "budget Apply writes budget only and focuses populated Event",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "centered approved Close SVG: overview",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgb(255, 255, 255)",
+        "radius": "22px",
+        "shadow": "rgba(16, 36, 82, 0.08) 0px 4px 7px 0px"
+      },
+      {
+        "name": "overview fields remain drafts until one save; Back discards field; onboarding stays complete",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "Close exits full editor and discards unapplied draft",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "centered approved Close SVG: Ruh h\u00e2li",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: S\u00fcre",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: B\u00fct\u00e7e",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: Ki\u015fi say\u0131s\u0131",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: \u0130lgi alanlar\u0131",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "restore removes only all nine eligible Event dismissals and preserves saved/preferences",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "globally empty usable catalog has information and no primary CTA",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "real pending retry exposes busy/disabled; failure returns error action without writes",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "retry success focuses Event with no artificial 0.9-second delay or preference writes",
+        "width": 393,
+        "height": 852
+      },
+      {
+        "name": "Android mobile browser emulation",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "free budget has no paid cards or date chip row",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "centered approved Close SVG: budget_only",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "budget Cancel writes nothing, preserves seed/batch/filter/scroll and returns focus",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "budget Apply writes budget only and focuses populated Event",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "centered approved Close SVG: overview",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgb(255, 255, 255)",
+        "radius": "22px",
+        "shadow": "rgba(16, 36, 82, 0.08) 0px 4px 7px 0px"
+      },
+      {
+        "name": "overview fields remain drafts until one save; Back discards field; onboarding stays complete",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "Close exits full editor and discards unapplied draft",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "centered approved Close SVG: Ruh h\u00e2li",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: S\u00fcre",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: B\u00fct\u00e7e",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: Ki\u015fi say\u0131s\u0131",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "centered approved Close SVG: \u0130lgi alanlar\u0131",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "restore removes only all nine eligible Event dismissals and preserves saved/preferences",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "globally empty usable catalog has information and no primary CTA",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "real pending retry exposes busy/disabled; failure returns error action without writes",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "retry success focuses Event with no artificial 0.9-second delay or preference writes",
+        "width": 412,
+        "height": 915
+      },
+      {
+        "name": "centered approved Close SVG: large-text-budget",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "large text/long Turkish copy keeps action clear of footer and instant reduced-motion return",
+        "width": 393,
+        "height": 852,
+        "scale": 1,
+        "long": true
+      },
+      {
+        "name": "centered approved Close SVG: large-text-budget",
+        "text": "",
+        "width": 44,
+        "height": 44,
+        "svgWidth": 24,
+        "svgHeight": 24,
+        "dx": 0,
+        "dy": 0,
+        "path": "M6 6L18 18M18 6L6 18",
+        "stroke": "#102452",
+        "caps": "round",
+        "background": "rgba(0, 0, 0, 0)",
+        "radius": "0px",
+        "shadow": "none"
+      },
+      {
+        "name": "large text/long Turkish copy keeps action clear of footer and instant reduced-motion return",
+        "width": 412,
+        "height": 915,
+        "scale": 1.6,
+        "long": false
+      }
+    ],
+    "errors": []
+  }
+}

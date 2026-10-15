@@ -106,10 +106,10 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/private/tmp/gezek-distance-
       record('Obsolete permission response after filter departure cannot start GPS');
       const placeBefore = await snapshot();
       await start(); await permit(); await finish(coordinates);
-      const placeAfter = await snapshot(); assert.ok(placeAfter.calls > placeBefore.calls);
+      const placeAfter = await snapshot(); assert.equal(placeAfter.calls, placeBefore.calls); assert.deepEqual(placeAfter.ids, placeBefore.ids); assert.deepEqual(placeAfter.scores, placeBefore.scores);
       assert.equal(placeAfter.seed, placeBefore.seed);
       assert.ok((await page.locator('body').innerText()).match(/\d+\.\d km/));
-      assert.equal(await labels().count(), 0); record('Place retains immediate location-driven recomputation and existing decimal precision');
+      assert.equal(await labels().count(), 0); record('Place preserves acquired batch during location presentation changes and retains existing decimal precision');
       await start(); await permit(); await page.evaluate(() => window.__unmount());
       const afterUnmountEvents = await page.evaluate(() => window.__events.length);
       await page.evaluate(coords => window.__positions.shift().resolve({ coords }), coordinates);
