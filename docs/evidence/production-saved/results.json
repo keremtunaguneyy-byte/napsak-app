@@ -1,0 +1,329 @@
+{
+  "checks": [
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Nested Plan → Place Back pops Plan; Close exits entire host to Saved",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Nested Plan → Place Back pops Plan; Close exits entire host to Saved",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Nested Plan → Place Back pops Plan; Close exits entire host to Saved",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Seven mixed entry shapes, resolved order, no count/tombstone or decorative image announcement",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Wrapping, two independent 44px actions per row, last row clears fixed navigation by 24px",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "All four recommendation kinds Back/Close restore exact Saved scroll/focus and Home context",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Nested Plan → Place Back pops Plan; Close exits entire host to Saved",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Guide exact chapter, collection and route reader visible/hardware Back restore Saved scroll/focus",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Independent Unsave moves focus, persists across browser restart, last removal focuses Empty, CTA reaches Home",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Expired Event remains Saved, announces textual state and opens existing unavailable Detail",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Controlled long-title, one-item and long mixed list; last-row Unsave focuses predecessor without jumping to top",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "name": "Home-origin Detail remains Home without seed/filter/recommendation changes",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

@@ -1,10 +1,10 @@
 import { AccessibilityInfo, findNodeHandle, Platform, View } from 'react-native';
 
 /** Web focus supports the render harness; native accessibility focus remains device-tested separately. */
-export function focusDetailControl(node: View | null | undefined) {
+export function focusDetailControl(node: View | null | undefined, preventScroll = false) {
   if (!node) return;
   if (Platform.OS === 'web') {
-    (node as unknown as { focus?: () => void }).focus?.();
+    (node as unknown as { focus?: (options?: { preventScroll: boolean }) => void }).focus?.({ preventScroll });
     return;
   }
   const handle = findNodeHandle(node);

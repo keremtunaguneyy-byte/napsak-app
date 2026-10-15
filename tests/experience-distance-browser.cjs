@@ -89,12 +89,12 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/private/tmp/gezek-distance-
       await page.evaluate(() => window.__positions.shift().resolve({ coords: { latitude: 38, longitude: 31 } }));
       await page.waitForTimeout(80); assert.equal((await snapshot()).coordinates.latitude, 40); record('Superseded response cannot overwrite newer location');
       await start(); await permit();
-      await page.getByRole('tab', { name: /Kaydedilenler,/ }).click(); await page.getByRole('heading', { name: 'Kaydedilenler', exact: true }).waitFor();
+      await page.getByRole('tab', { name: 'Kaydedilenler', exact: true }).click(); await page.getByRole('heading', { name: 'Kaydedilenler', exact: true }).waitFor();
       const eventsBefore = await page.evaluate(() => window.__events.length);
       await page.evaluate(() => window.__positions.shift().resolve({ coords: { latitude: 38, longitude: 31 } }));
       await page.waitForTimeout(80); assert.equal((await snapshot()).coordinates.latitude, 40);
       assert.equal(await page.evaluate(() => window.__events.length), eventsBefore);
-      assert.ok((await page.locator('body').innerText()).includes('Başlangıca')); record('Saved metadata renders; departed Home response ignored');
+      assert.ok((await page.locator('body').innerText()).includes('durak')); record('Saved approved compact metadata renders; departed Home response ignored');
       await page.getByRole('tab', { name: 'Ana Sayfa', exact: true }).click();
       // A permission response arriving after a filter departure must not start GPS.
       await start();

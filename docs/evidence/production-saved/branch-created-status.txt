@@ -1,0 +1,3 @@
+## codex/gezek-production-saved...origin/main
+?? docs/evidence/production-saved/
+?? src/firebase/BA_4bit.sv/

@@ -1,5 +1,17 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-15 — Saved Redmi acceptance and authorized merge
+
+The user tested exact PR #77 implementation head `d1b611c38eb665f35711ce546264a5661fa5529f` on Redmi and accepted mixed Saved, saving Ankara 101/editorial content, independent row/Unsave actions, final-item Empty, recommendation/editorial Android Back to Saved, restart persistence, normal device layout and fixed-navigation clearance. Three native checks remain explicitly deferred: expired Event row (none exists in the active catalog), actual Android OS large text, and TalkBack separation of row body versus “Kaydı kaldır”. Signed-release acceptance remains separate and unverified. Simple/artwork-free Ankara 101 Saved rows are recorded for later Ankara 101 visual closure; no arbitrary artwork change is authorized here.
+
+The current user instruction supersedes earlier “keep Draft / no merge” notes for #77 only: update acceptance documentation, await new exact-head CI, then mark ready and merge normally with a merge commit if still clean/mergeable. Home filter snapshot work must start afterward in a separate branch/PR; that new PR must remain Draft and unmerged. Live Git/GitHub establishes merge completion; this documentation update does not itself assert a merge. See `SAVED_IMPLEMENTATION_REPORT.md` for the acceptance audit. #57 and untracked Verilog work remain protected.
+
+
+## 2026-10-15 — Production Saved / Kaydedilenler
+
+Approved Figma section `1026:5886` is implemented on `codex/gezek-production-saved` from fetched main `056ad19`. Seven mixed Saved entry shapes, count removal, compact artwork rows, explicit expired Events, independent Unsave/focus and exact Detail/editorial origin return are scoped here. No Firebase/persistence schema or Ankara 101 visual change. See [SAVED_IMPLEMENTATION_REPORT.md](SAVED_IMPLEMENTATION_REPORT.md) for audit, complete authority ledger, verification, inventory and pending Redmi/TalkBack acceptance. Normal commit/push and one Draft PR authorized; no merge or #57/Verilog work.
+
+
 ## 2026-10-15 — Final location preflight / Draft #76
 
 Verified local/remote/PR head `e1dd5d9` and fetched main `746aad3`. New user-reported Redmi evidence shows Expo Go Quick Settings may emit neither active nor focus. The visible batch is an accepted last-acquired-location snapshot. Every new Home and Place-related recommendation computation now uses one read-only validity resolver; absent cache skips native reads, invalid/error/2 s one-shot timeout clears cache and computes locationless. No polling or automatic GPS. Current local/browser/export evidence and pending exact-head Redmi retest: [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md). Same branch/Draft #76 only; normal commit/push, no merge, #57 or Verilog work.
