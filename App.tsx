@@ -1,3 +1,9 @@
+import { createLocationValidityMonitor } from './src/locationValidity';
+import { createRecommendationLocationResolver } from './src/recommendationLocation';
+import { useValidatedRecommendationBatch } from './src/useValidatedRecommendationBatch';
+import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
+import { experienceStartDistanceLabel } from './src/experienceStartDistance';
+import { createLocationRequestGuard } from './src/locationRequestGuard';
 import { BrandLogo } from './src/components/gezek/BrandLogo';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
@@ -12,7 +18,7 @@ import { emptyPreferences, loadPreferences, shouldRefreshContext } from './src/p
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
-import { Coordinates, formatDurationRange, newestFirstIds, resolveSavedPlaces } from './src/domain';
+import { Coordinates, formatDistanceInKm, formatDurationRange, isValidCoordinates, newestFirstIds, resolveSavedPlaces } from './src/domain';
 import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
@@ -123,14 +129,69 @@ function AppContent() {
   const originControl = useRef<View | null>(null);
   const originFallback = useRef<View>(null);
   const originScrollY = useRef(0);
-  const recommendationMeasurement = useMemo(() => {
+  const locationRequests = useMemo(createLocationRequestGuard, []);
+  useEffect(() => {
+    locationRequests.invalidate();
+    setLocating(false);
+    return () => locationRequests.invalidate();
+  }, [locationRequests, step, !!detailSession, deletionBusy, resultFilter]);
+  const [locationRankingRevision, setLocationRankingRevision] = useState(0);
+  const locationValidity = useRef<ReturnType<typeof createLocationValidityMonitor> | undefined>(undefined);
+  // Gezek location arrival updates presentation only. The next intentional batch
+  // recomputation still uses the latest location and the unchanged scoring formula.
+  // Place keeps its existing immediate location-driven recomputation.
+  const latestLocation = useRef(coordinates);
+  const invalidateLocation = useCallback(() => {
+    locationRequests.invalidate();
+    latestLocation.current = undefined;
+    setCoordinates(undefined);
+    setLocating(false);
+    setLocationMessage('Konum kullanılamıyor. Mesafeleri görmek için konumunu yeniden güncelle.');
+  }, [locationRequests]);
+  const recommendationLocation = useMemo(() => createRecommendationLocationResolver({
+    cachedLocation: () => latestLocation.current,
+    servicesEnabled: Location.hasServicesEnabledAsync,
+    foregroundPermission: Location.getForegroundPermissionsAsync,
+    invalidateLocation,
+  }), [invalidateLocation]);
+  useEffect(() => () => recommendationLocation.locationChanged(), [recommendationLocation]);
+  const publishExplicitLocation = useCallback((next?: Coordinates) => {
+    locationValidity.current?.locationChanged();
+    recommendationLocation.locationChanged();
+    if (next !== latestLocation.current) setLocationRankingRevision(revision => revision + 1);
+    latestLocation.current = next;
+    setCoordinates(next);
+  }, [recommendationLocation]);
+  useEffect(() => {
+    const monitor = createLocationValidityMonitor({
+      servicesEnabled: Location.hasServicesEnabledAsync,
+      foregroundPermission: Location.getForegroundPermissionsAsync,
+      invalidateLocation,
+    });
+    locationValidity.current = monitor;
+    const change = AppState.addEventListener('change', state => {
+      if (state === 'active') monitor.resume();
+      else monitor.pause();
+    });
+    const focus = Platform.OS === 'android' ? AppState.addEventListener('focus', () => monitor.resume()) : undefined;
+    const blur = Platform.OS === 'android' ? AppState.addEventListener('blur', () => monitor.pause()) : undefined;
+    return () => {
+      monitor.dispose();
+      change.remove(); focus?.remove(); blur?.remove();
+      if (locationValidity.current === monitor) locationValidity.current = undefined;
+    };
+  }, [invalidateLocation]);
+  const liveRankingLocationRevision = resultFilter === 'experience' ? 0 : locationRankingRevision;
+  const displayCoordinates = locating ? undefined : coordinates;
+  const computeRecommendations = useCallback((safeCoordinates?: Coordinates) => {
     const startedAt = Date.now();
-    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
+    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: safeCoordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
     const elapsed = Date.now() - startedAt;
     recordHomeRecommendation(elapsed);
-    return { items, durationBucket: performanceDurationBucket(elapsed) };
-  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, coordinates, previousBatch, resultFilter, eligibilityNow]);
-  const results = recommendationMeasurement.items;
+    return { items, durationBucket: performanceDurationBucket(elapsed), run: recommendationRun, filter: resultFilter };
+  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, liveRankingLocationRevision, previousBatch, resultFilter, eligibilityNow]);
+  const recommendationMeasurement = useValidatedRecommendationBatch(computeRecommendations, recommendationLocation, { items: [] as RecommendationItem[], durationBucket: performanceDurationBucket(0), run: recommendationRun, filter: resultFilter });
+  const results = useMemo(() => homeDisplayItems(recommendationMeasurement.items, displayCoordinates), [recommendationMeasurement, displayCoordinates]);
   const eventDiagnosticSets = useMemo(() => resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined, [resultFilter, events, mood, chosen, budget, groupSize, duration, dismissed, recommendationRun, previousBatch, eligibilityNow]);
   const eventState = eventDiagnosticSets && resolveEventPresentation({ ...catalogLoad, ...eventDiagnosticSets, dismissed, visibleIds: results.map(item => item.id) });
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
@@ -168,7 +229,9 @@ function AppContent() {
       Math.min(2_147_483_647, Math.max(1, nextChange - Date.now())),
     );
     const subscription = AppState.addEventListener('change', state => {
-      if (state === 'active') setEligibilityNow(new Date());
+      // A foreground signal alone is not a new recommendation run. Preserve the
+      // eligibility clock unless a known Event boundary actually elapsed.
+      if (state === 'active' && nextChange !== undefined && Date.now() >= nextChange) setEligibilityNow(new Date());
     });
     return () => {
       if (timer !== undefined) clearTimeout(timer);
@@ -218,13 +281,13 @@ function AppContent() {
     if (hydrated) trackProductEvent({ name: 'screen_viewed', properties: { screen } });
   }, [hydrated, screen]);
   useEffect(() => {
-    if (!hydrated || step !== 'results') return;
+    if (!hydrated || step !== 'results' || recommendationMeasurement.run !== recommendationRun || recommendationMeasurement.filter !== resultFilter) return;
     trackProductEvent({
       name: 'recommendation_batch_viewed',
       properties: { filter: resultFilter, count: results.length, trigger: batchTrigger.current },
     });
     batchTrigger.current = 'initial';
-  }, [hydrated, recommendationRun, resultFilter, step]);
+  }, [hydrated, recommendationRun, resultFilter, recommendationMeasurement.run, recommendationMeasurement.filter, step]);
   useEffect(() => {
     if (!hydrated || step !== 'results') return;
     trackProductEvent({
@@ -244,7 +307,7 @@ function AppContent() {
     if (fontError) captureOperationalError(fontError, 'app_startup', 'font_load_failed');
   }, [fontError]);
   useEffect(() => {
-    if (!scrollAfterRotation.current) return;
+    if (!scrollAfterRotation.current || recommendationMeasurement.run !== recommendationRun) return;
     // Effects run after commit; two frames also let native layout settle before
     // using the anchor measured in ScrollView content coordinates.
     requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -252,7 +315,7 @@ function AppContent() {
       scrollAfterRotation.current = false;
       scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true });
     }));
-  }, [recommendationRun]);
+  }, [recommendationRun, recommendationMeasurement.run]);
   useEffect(() => {
     if (step !== 'guides') return;
     setGuideScrollProgress(0);
@@ -288,26 +351,35 @@ function AppContent() {
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
   const requestLocation = useCallback(async () => {
+    locationValidity.current?.locationChanged();
+    recommendationLocation.locationChanged();
+    const request = locationRequests.begin();
     setLocating(true);
     try {
       const permission = await Location.requestForegroundPermissionsAsync();
+      if (!locationRequests.isCurrent(request)) return;
       if (permission.status !== 'granted') {
+        publishExplicitLocation(undefined);
         trackProductEvent({ name: 'location_permission_result', properties: { result: 'denied' } });
         setLocationMessage('Konum izni kapalı. Ayarlardan dilediğin zaman açabilirsin.');
         if (!permission.canAskAgain) Alert.alert('Konum izni gerekli', 'Yakınındaki sonuçları görmek için uygulama ayarlarından konum iznini açabilirsin.', [{ text: 'Vazgeç', style: 'cancel' }, { text: 'Ayarları aç', onPress: () => Linking.openSettings() }]);
         return;
       }
       const current = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      if (!locationRequests.isCurrent(request)) return;
+      if (!isValidCoordinates(current.coords)) throw new Error('Invalid location');
       trackProductEvent({ name: 'location_permission_result', properties: { result: 'granted' } });
-      setCoordinates(current.coords);
+      publishExplicitLocation(current.coords);
       setLocationMessage('Canlı konumuna göre mesafeler güncellendi.');
     } catch {
+      if (!locationRequests.isCurrent(request)) return;
+      publishExplicitLocation(undefined);
       trackProductEvent({ name: 'location_permission_result', properties: { result: 'error' } });
       setLocationMessage('Konum alınamadı. Bağlantını kontrol edip tekrar dene.');
     } finally {
-      setLocating(false);
+      if (locationRequests.isCurrent(request)) setLocating(false);
     }
-  }, []);
+  }, [locationRequests, publishExplicitLocation, recommendationLocation]);
   const confirmContext = useCallback(() => {
     trackProductEvent({ name: 'context_refresh_answered', properties: { action: 'confirm' } });
     setContextConfirmedAt(new Date().toISOString());
@@ -358,7 +430,7 @@ function AppContent() {
     setOnboardingCompleted(false);
     setOnboardingSession(createOnboardingSession(emptyPreferences));
     completedSnapshot.current = undefined;
-    setCoordinates(undefined);
+    publishExplicitLocation(undefined);
     setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
     setRecommendationRun(0);
     setPreviousBatch([]);
@@ -635,13 +707,13 @@ function AppContent() {
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
-    }} onContentSizeChange={() => { if (scrollAfterRotation.current) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
+    }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
       {!isGuideArticle && !isHome && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
       {step === 'results' && <GezekHome
         safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
-        results={results} savedIds={saved} selectedFilter={resultFilter} contextRefreshDue={contextRefreshDue}
-        locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
+        results={results} savedIds={saved} selectedFilter={recommendationMeasurement.filter} contextRefreshDue={contextRefreshDue}
+        coordinates={displayCoordinates} locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
         undoNotice={undoNotice} hiddenCount={hiddenItems.length}
         onSettings={openHomeSettings}
         onEditPreferences={editHomePreferences}
@@ -660,7 +732,7 @@ function AppContent() {
       {step === 'hidden' && <View>
         <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
         {!hiddenItems.length && <View style={s.empty}><Text accessible={false} style={s.emptyIcon}>✓</Text><Text accessibilityRole="header" style={s.emptyTitle}>Gizli önerin yok</Text><Text style={s.emptyText}>Bir öneriyi gizlediğinde burada görünür.</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
-        {hiddenItems.map(item => <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}><Action label={`${itemTitle(item)} önerisini geri getir`} onPress={() => restorePlace(item.id)} text="Geri getir" /></View></View>)}
+        {hiddenItems.map(item => <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Text style={s.meta}>{itemMeta(item)}</Text>{!('name' in item) && item.kind === 'experience' && experienceStartDistanceLabel(item, displayCoordinates) && <Text accessibilityRole="text" style={s.meta}>{experienceStartDistanceLabel(item, displayCoordinates)}</Text>}{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}><Action label={`${itemTitle(item)} önerisini geri getir`} onPress={() => restorePlace(item.id)} text="Geri getir" /></View></View>)}
         {!!hiddenItems.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm gizlenen önerileri geri getir" style={s.secondaryButton} onPress={() => interact({ type: 'restoreAll' })}><Text style={s.secondaryButtonText}>Tüm gizlenenleri geri getir</Text></TouchableOpacity>}
         <Button label="Önerilere dön" onPress={() => setStep('results')} />
       </View>}
@@ -670,7 +742,7 @@ function AppContent() {
         {savedEntries.map(entry => {
           if (entry.type === 'catalog') {
             const item = entry.item;
-            return <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Action label={`${itemTitle(item)} detayını aç`} onPress={node => openDetail({ kind: 'name' in item ? 'place' : item.kind, id: item.id }, node)} text={'name' in item ? 'Mekânı incele' : item.kind === 'experience' ? 'Planı incele' : item.kind === 'event' ? 'Etkinliği incele' : 'Fikri incele'} /><Text style={s.meta}>{itemMeta(item)}</Text>{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' || item.kind === 'event' ? null : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
+            return <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Action label={`${itemTitle(item)} detayını aç`} onPress={node => openDetail({ kind: 'name' in item ? 'place' : item.kind, id: item.id }, node)} text={'name' in item ? 'Mekânı incele' : item.kind === 'experience' ? 'Planı incele' : item.kind === 'event' ? 'Etkinliği incele' : 'Fikri incele'} /><Text style={s.meta}>{itemMeta(item)}</Text>{!('name' in item) && item.kind === 'experience' && experienceStartDistanceLabel(item, displayCoordinates) && <Text accessibilityRole="text" style={s.meta}>{experienceStartDistanceLabel(item, displayCoordinates)}</Text>}{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}>{'name' in item ? <Action label={`${item.name} mekânını haritada aç`} onPress={() => openInMaps(item)} text="Haritada aç" /> : item.kind === 'idea' || item.kind === 'event' ? null : <><Action label={`${item.title} planını haritada aç`} onPress={() => openExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => openExperienceSource(item)} text="Resmî bilgi" /></>}<Action label="Öneriyi kayıttan çıkar" remove onPress={() => toggleSaved(item.id, itemAnalyticsKind(item))} text="Kayıttan çıkar" /></View></View>;
           }
           if (entry.type === 'guide') return <GuideCard key={entry.guide.id} guide={entry.guide} saved onSave={() => toggleSaved(entry.guide.id, 'guide')} onOpenChapter={() => openGuideChapter(entry.guide.id)} onOpenSource={() => openGuideSource(entry.guide)} />;
           if (entry.type === 'classics') return <SavedEditorialCard key={CLASSICS_COLLECTION_ID} eyebrow="ANKARA KLASİKLERİ" title="Şehrin tarihini okumaya nereden başlamalı?" onOpen={() => { setGuideView('classics'); setStep('guides'); }} onRemove={() => toggleSaved(CLASSICS_COLLECTION_ID, 'guide')} />;
@@ -692,7 +764,8 @@ function AppContent() {
     </KeyboardAvoidingView></View>
     {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}
     {detailSession && <DetailHost session={detailSession}
-      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates, seed: recommendationRun, now: eligibilityNow }}
+      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: recommendationRun, now: eligibilityNow }}
+      recommendationLocation={recommendationLocation}
       ideas={ideas} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
       onOpenEventMap={async url => { if (!(await Linking.canOpenURL(url))) throw new Error('unsupported map URL'); trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'event' } }); await Linking.openURL(url); }}
       saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}
@@ -815,13 +888,13 @@ function GuideCard({ guide, saved, onSave, onOpenChapter, onOpenSource }: { guid
   </View>;
 }
 
-function RecommendationCard({ item, rank, saved, onSave, onDismiss, onOpenPlaceDetails, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceMap, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; onSave: () => void; onDismiss: () => void; onOpenPlaceDetails: (place: Place) => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceMap: (experience: Experience) => void; onOpenExperienceSource: (experience: Experience) => void }) {
+function RecommendationCard({ item, rank, saved, coordinates, onSave, onDismiss, onOpenPlaceDetails, onOpenPlaceMaps, onOpenPlaceSource, onOpenIdea, onOpenEvent, onOpenExperienceMap, onOpenExperienceSource }: { item: RecommendationItem; rank: number; saved: boolean; coordinates?: Coordinates; onSave: () => void; onDismiss: () => void; onOpenPlaceDetails: (place: Place) => void; onOpenPlaceMaps: (place: Place) => void; onOpenPlaceSource: (place: Place) => void; onOpenIdea: (idea: Idea) => void; onOpenEvent: (event: Event) => void; onOpenExperienceMap: (experience: Experience) => void; onOpenExperienceSource: (experience: Experience) => void }) {
   const title = item.kind === 'place' ? item.name : item.title;
   return <View style={s.result}>
     <Text style={s.rank}>{rank}</Text><View style={s.kindBadge}><Text style={s.kindBadgeText}>{item.kind === 'experience' ? 'PLAN' : item.kind === 'place' ? 'MEKÂN' : item.kind === 'event' ? 'ETKİNLİK' : 'FİKİR'}</Text></View>
     <Text accessibilityRole="header" style={s.resultName}>{title}</Text>
     {item.kind === 'place' && <Action label={`${item.name} mekân detayını aç`} onPress={() => onOpenPlaceDetails(item)} text="Mekânı incele" />}
-    {item.kind === 'experience' ? <><Text style={s.meta}>{formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'} · {item.distance === undefined ? item.district : `${item.distance.toFixed(1)} km · ${item.district}`}</Text><Text style={s.address}>{item.points.map(point => point.name).join(' → ')}</Text></> : item.kind === 'place' ? <><Text style={s.meta}>Gezek puanı {item.editorialScore}  ·  {item.distance === undefined ? 'Konum bekleniyor' : `${item.distance.toFixed(1)} km`}  ·  {item.district}</Text><Text style={s.address}>{item.address}</Text></> : item.kind === 'event' ? <Text style={s.meta}>{item.venue} · {item.city} · {new Date(item.startsAt).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul', dateStyle: 'long', timeStyle: 'short' })}{item.priceNote ? ` · ${item.priceNote}` : ''}</Text> : <Text style={s.meta}>Zamansız fikir · {item.category} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'}</Text>}
+    {item.kind === 'experience' ? <><Text style={s.meta}>{formatDurationRange(item.minDurationMinutes, item.maxDurationMinutes)} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'} · {[experienceStartDistanceLabel(item, coordinates), item.district].filter(Boolean).join(' · ')}</Text><Text style={s.address}>{item.points.map(point => point.name).join(' → ')}</Text></> : item.kind === 'place' ? <><Text style={s.meta}>Gezek puanı {item.editorialScore}  ·  {item.distance === undefined ? 'Konum bekleniyor' : formatDistanceInKm(item.distance)}  ·  {item.district}</Text><Text style={s.address}>{item.address}</Text></> : item.kind === 'event' ? <Text style={s.meta}>{item.venue} · {item.city} · {new Date(item.startsAt).toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul', dateStyle: 'long', timeStyle: 'short' })}{item.priceNote ? ` · ${item.priceNote}` : ''}</Text> : <Text style={s.meta}>Zamansız fikir · {item.category} · {'₺'.repeat(item.priceLevel) || 'Ücretsiz'}</Text>}
     {item.kind === 'experience' && <Text style={s.note}>{item.description}</Text>}<Text style={s.note}>{item.note}</Text><Text style={s.why}>Neden? {item.reasons.join(' · ')}</Text>
     <View style={s.actions}><Action label={saved ? 'Kaydedildi, kayıttan çıkar' : 'Öneriyi kaydet'} selected={saved} onPress={onSave} text={saved ? '♥ Kaydedildi' : '♡ Kaydet'} />{item.kind === 'experience' ? <><Action label={`${item.title} planını haritada aç`} onPress={() => onOpenExperienceMap(item)} text={experienceMapAction(item)} /><Action label={`${item.title} planının resmî bilgisini aç`} onPress={() => onOpenExperienceSource(item)} text="Resmî bilgi" /></> : item.kind === 'place' ? <><Action label={`${item.name} mekânını haritada aç`} onPress={() => onOpenPlaceMaps(item)} text="Haritada aç" /><Action label={`${item.name} resmî bilgisini aç`} onPress={() => onOpenPlaceSource(item)} text="Resmî bilgi" /></> : item.kind === 'idea' ? item.actionUrl && item.actionLabel ? <Action label={`${item.title} fikrini aç`} onPress={() => onOpenIdea(item)} text={item.actionLabel} /> : null : <Action label={`${item.title} etkinlik detayını aç`} onPress={() => onOpenEvent(item)} text="Bilet / Detay" />}<Action label={`${title} önerisini gizle`} muted onPress={onDismiss} text="Bana göre değil" /></View>
   </View>;

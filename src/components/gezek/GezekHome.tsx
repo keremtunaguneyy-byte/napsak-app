@@ -1,3 +1,5 @@
+import { Coordinates } from '../../domain';
+import { experienceStartDistanceLabel } from '../../experienceStartDistance';
 import { Component, ErrorInfo, memo, Profiler, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
@@ -42,6 +44,7 @@ export type GezekHomeProps = {
   safeTopInset?: number;
   mood?: Mood; interests: Interest[]; budget: BudgetPreference; groupSize?: GroupSizePreference; duration: DurationPreference;
   results: RecommendationItem[]; savedIds: string[]; selectedFilter: ResultFilter; contextRefreshDue: boolean;
+  coordinates?: Coordinates;
   locating: boolean; hasCoordinates: boolean; locationMessage: string; undoNotice?: UndoNotice; hiddenCount: number;
   onSettings: () => void; onEditPreferences: () => void; onConfirmContext: () => void;
   onSelectFilter: (filter: ResultFilter) => void; onRequestLocation: () => void; onUndoDismiss: () => void;
@@ -127,13 +130,13 @@ function HomeContent(p: GezekHomeProps) {
     </UndoNoticeTransition>}
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
       <Heading title={labels.main} />
-      {eventEmpty ? <EventEmptyStatePanel state={eventEmpty} onAction={p.onEventEmptyAction ?? (() => {})} focusAction={p.focusRequest?.target === 'event_action' ? p.focusRequest.id : undefined} /> : main ? <MainCard key={main.id} focusRef={firstCardNode} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
+      {eventEmpty ? <EventEmptyStatePanel state={eventEmpty} onAction={p.onEventEmptyAction ?? (() => {})} focusAction={p.focusRequest?.target === 'event_action' ? p.focusRequest.id : undefined} /> : main ? <MainCard key={main.id} focusRef={firstCardNode} coordinates={p.coordinates} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
         onSave={p.onToggleSaved} onDismiss={p.onDismiss} /> :
         <EmptyCard filter={p.selectedFilter} onEdit={p.onEditPreferences} onHidden={p.onShowHidden} />}
       {!eventEmpty && !!alternatives.length && <>
         <Text style={s.alternativesHeading}>BUNLAR DA UYABİLİR</Text>
         <View style={s.alternativeList}>{alternatives.slice(0, 4).map((item, i) =>
-          <Alternative key={item.id} item={item} rank={i + 2} saved={p.savedIds.includes(item.id)} onOpen={p.onOpenRecommendation} onSave={p.onToggleSaved} onDismiss={p.onDismiss} />)}</View>
+          <Alternative key={item.id} coordinates={p.coordinates} item={item} rank={i + 2} saved={p.savedIds.includes(item.id)} onOpen={p.onOpenRecommendation} onSave={p.onToggleSaved} onDismiss={p.onDismiss} />)}</View>
       </>}
       {!eventEmpty && main && !alternatives.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Alternatif bulmak için tercihleri düzenle" onPress={p.onEditPreferences} style={s.exhausted}>
         <GezekAsset name="alternativesNotice" /><Text style={s.noticeText}>Başka uygun alternatif bulunamadı.</Text><Text style={s.edit}>Düzenle</Text>
@@ -176,41 +179,46 @@ export const HomeAtmosphere = memo(function HomeAtmosphere({ width, topInset = L
   </View>;
 });
 
-type CardProps = { item: RecommendationItem; saved: boolean; onOpen: GezekHomeProps['onOpenRecommendation']; onSave: GezekHomeProps['onToggleSaved']; onDismiss: GezekHomeProps['onDismiss'] };
+type CardProps = { coordinates?: Coordinates; item: RecommendationItem; saved: boolean; onOpen: GezekHomeProps['onOpenRecommendation']; onSave: GezekHomeProps['onToggleSaved']; onDismiss: GezekHomeProps['onDismiss'] };
 
-const MainCard = memo(function MainCard({ item, saved, onOpen, onSave, onDismiss, focusRef }: CardProps & { focusRef?: { current: View | null } }) {
+const MainCard = memo(function MainCard({ item, coordinates, saved, onOpen, onSave, onDismiss, focusRef }: CardProps & { focusRef?: { current: View | null } }) {
   const invokingControl = useRef<View>(null);
   const [mediaWidth, setMediaWidth] = useState(329);
   const title = homeItemTitle(item);
   return <View style={s.mainCard}>
     <Pressable accessibilityRole="button" ref={node => { invokingControl.current = node; if (focusRef) focusRef.current = node; }} accessibilityLabel={`${title}. ${homeItemMeta(item)}. ${item.reasons[0] ?? ''}. ${homeActionLabel(item)}`}
       onPress={() => onOpen(item, invokingControl.current)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
-    <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.mainContent}>
-      <View onLayout={event => setMediaWidth(event.nativeEvent.layout.width)} style={s.mainImage}>
+    <View pointerEvents="none" accessible={false} style={s.mainContent}>
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" onLayout={event => setMediaWidth(event.nativeEvent.layout.width)} style={s.mainImage}>
         <ProductionArtwork item={item} layout="Hero" width={mediaWidth} />
       </View>
-      <Text accessibilityRole="header" style={s.mainTitle}>{title}</Text>
-      <Text style={s.bodyMuted}>{homeItemMeta(item)}</Text>
-      <View style={s.reason}><View style={s.reasonDot}><GezekAsset name="reasonDot" /></View><Text style={s.reasonText}>{item.reasons[0] ?? 'Gezek editörlerinin seçimi'}</Text></View>
+      <Text accessibilityRole="header" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.mainTitle}>{title}</Text>
+      <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.bodyMuted}>{homeItemMeta(item)}</Text><StartDistance item={item} coordinates={coordinates} />
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.reason}><View style={s.reasonDot}><GezekAsset name="reasonDot" /></View><Text style={s.reasonText}>{item.reasons[0] ?? 'Gezek editörlerinin seçimi'}</Text></View>
     </View>
     <View style={s.mainQuickActions}><QuickActions item={item} saved={saved} rank={1} onSave={onSave} onDismiss={onDismiss} /></View>
   </View>;
 });
 
-const Alternative = memo(function Alternative({ item, saved, rank, onOpen, onSave, onDismiss }: CardProps & { rank: number }) {
+const Alternative = memo(function Alternative({ item, coordinates, saved, rank, onOpen, onSave, onDismiss }: CardProps & { rank: number }) {
   const invokingControl = useRef<View>(null);
   return <View style={s.alternative}>
     <Pressable ref={invokingControl} accessibilityRole="button" accessibilityLabel={`${rank}. öneri: ${homeItemTitle(item)}. ${homeItemMeta(item)}. ${homeActionLabel(item)}`}
       onPress={() => onOpen(item, invokingControl.current)} style={({ pressed }) => [s.cardBody, pressed && s.cardPressed]} />
     <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.altImage}><ProductionArtwork item={item} layout="Square" /></View>
-    <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.altCopy}>
-      <View style={s.contextualLabel}><ContextualIcon icon_key={itemIconKey(item)} /><Text style={s.altEyebrow}>{item.category.toLocaleUpperCase('tr-TR')}</Text></View>
-      <Text style={s.altTitle}>{homeItemTitle(item)}</Text>
-      <Text style={s.altMeta}>{homeItemMeta(item)}</Text>
+    <View pointerEvents="none" accessible={false} style={s.altCopy}>
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.contextualLabel}><ContextualIcon icon_key={itemIconKey(item)} /><Text style={s.altEyebrow}>{item.category.toLocaleUpperCase('tr-TR')}</Text></View>
+      <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.altTitle}>{homeItemTitle(item)}</Text>
+      <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.altMeta}>{homeItemMeta(item)}</Text><StartDistance item={item} coordinates={coordinates} compact />
     </View>
     <QuickActions item={item} saved={saved} rank={rank} onSave={onSave} onDismiss={onDismiss} />
   </View>;
 });
+
+function StartDistance({ item, coordinates, compact = false }: { item: RecommendationItem; coordinates?: Coordinates; compact?: boolean }) {
+  const label = item.kind === 'experience' ? experienceStartDistanceLabel(item, coordinates) : undefined;
+  return label ? <Text accessible accessibilityRole="text" testID="experience-start-distance" style={compact ? s.altMeta : s.bodyMuted}>{label}</Text> : null;
+}
 
 function QuickActions({ item, saved, rank, onSave, onDismiss }: Omit<CardProps, 'onOpen'> & { rank: number }) {
   const [dismissState, setDismissState] = useState<'default' | 'loading' | 'dismissed'>('default');

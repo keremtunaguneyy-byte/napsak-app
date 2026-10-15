@@ -1,0 +1,1113 @@
+[
+  {
+    "id": "xp-hacibayram-augustus",
+    "title": "Hacı Bayram’da Roma Ankara’sını oku",
+    "orderedStopIds": [
+      "haci-bayram-veli",
+      "augustus-tapinagi"
+    ],
+    "firstStopId": "haci-bayram-veli",
+    "firstPlaceId": "haci-bayram-veli",
+    "firstPlaceTitle": "Hacı Bayram-ı Veli Camii ve Çevresi",
+    "experienceCoordinates": [
+      39.9442,
+      32.857
+    ],
+    "firstPlaceCoordinates": [
+      39.9442,
+      32.857
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-botanik-atakule-short",
+    "title": "Botanik Parkı’ndan Atakule’ye kısa manzara turu",
+    "orderedStopIds": [
+      "botanik-parki",
+      "atakule"
+    ],
+    "firstStopId": "botanik-parki",
+    "firstPlaceId": "botanik-parki",
+    "firstPlaceTitle": "Botanik Parkı",
+    "experienceCoordinates": [
+      39.8848,
+      32.8551
+    ],
+    "firstPlaceCoordinates": [
+      39.8848,
+      32.8551
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-tunali-kugulu-short",
+    "title": "Tunalı kahvesi + Kuğulu kısa turu",
+    "orderedStopIds": [
+      "coffee-lab-tunali",
+      "kugulu-park"
+    ],
+    "firstStopId": "coffee-lab-tunali",
+    "firstPlaceId": "coffee-lab-tunali",
+    "firstPlaceTitle": "Coffee Lab Tunalı",
+    "experienceCoordinates": [
+      39.909,
+      32.861
+    ],
+    "firstPlaceCoordinates": [
+      39.909,
+      32.861
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-meclis-duo-short",
+    "title": "Birinci Meclis’ten İkinci Meclis’e 500 metrelik tarih",
+    "orderedStopIds": [
+      "kurtulus-savasi-muzesi",
+      "cumhuriyet-muzesi"
+    ],
+    "firstStopId": "kurtulus-savasi-muzesi",
+    "firstPlaceId": "kurtulus-savasi-muzesi",
+    "firstPlaceTitle": "Kurtuluş Savaşı Müzesi (I. TBMM)",
+    "experienceCoordinates": [
+      39.9417,
+      32.8536
+    ],
+    "firstPlaceCoordinates": [
+      39.9417,
+      32.8536
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-erimtan-kale",
+    "title": "Erimtan’dan Kale surlarına çık",
+    "orderedStopIds": [
+      "erimtan",
+      "ankara-kalesi"
+    ],
+    "firstStopId": "erimtan",
+    "firstPlaceId": "erimtan",
+    "firstPlaceTitle": "Erimtan Arkeoloji ve Sanat Müzesi",
+    "experienceCoordinates": [
+      39.9382,
+      32.8624
+    ],
+    "firstPlaceCoordinates": [
+      39.9382,
+      32.8624
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-kugulu-segmenler",
+    "title": "Kuğulu’dan Seğmenler’e yeşil mola",
+    "orderedStopIds": [
+      "kugulu-park",
+      "segmenler-parki"
+    ],
+    "firstStopId": "kugulu-park",
+    "firstPlaceId": "kugulu-park",
+    "firstPlaceTitle": "Kuğulu Park",
+    "experienceCoordinates": [
+      39.9027,
+      32.8608
+    ],
+    "firstPlaceCoordinates": [
+      39.9027,
+      32.8608
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-ulucanlar-hamamonu",
+    "title": "Ulucanlar’dan Hamamönü’ne yakın tarih rotası",
+    "orderedStopIds": [
+      "ulucanlar-cezaevi",
+      "hamamonu"
+    ],
+    "firstStopId": "ulucanlar-cezaevi",
+    "firstPlaceId": "ulucanlar-cezaevi",
+    "firstPlaceTitle": "Ulucanlar Cezaevi Müzesi",
+    "experienceCoordinates": [
+      39.9366,
+      32.8747
+    ],
+    "firstPlaceCoordinates": [
+      39.9366,
+      32.8747
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-goksu-loop",
+    "title": "Göksu’da tempo + göl turu",
+    "orderedStopIds": [
+      "goksu-parki"
+    ],
+    "firstStopId": "goksu-parki",
+    "firstPlaceId": "goksu-parki",
+    "firstPlaceTitle": "Göksu Parkı",
+    "experienceCoordinates": [
+      39.9895,
+      32.651
+    ],
+    "firstPlaceCoordinates": [
+      39.9895,
+      32.651
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-etnografya-resim",
+    "title": "Etnografya’dan Resim ve Heykel’e iki müze",
+    "orderedStopIds": [
+      "etnografya-muzesi",
+      "resim-heykel"
+    ],
+    "firstStopId": "etnografya-muzesi",
+    "firstPlaceId": "etnografya-muzesi",
+    "firstPlaceTitle": "Ankara Etnografya Müzesi",
+    "experienceCoordinates": [
+      39.9327,
+      32.8552
+    ],
+    "firstPlaceCoordinates": [
+      39.9327,
+      32.8552
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-roma-meclis",
+    "title": "Roma Hamamı’ndan Birinci Meclis’e zaman çizgisi",
+    "orderedStopIds": [
+      "roma-hamami",
+      "kurtulus-savasi-muzesi"
+    ],
+    "firstStopId": "roma-hamami",
+    "firstPlaceId": "roma-hamami",
+    "firstPlaceTitle": "Roma Hamamı Açık Hava Müzesi",
+    "experienceCoordinates": [
+      39.9492,
+      32.8537
+    ],
+    "firstPlaceCoordinates": [
+      39.9492,
+      32.8537
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-kelime-erimtan-kale",
+    "title": "Kelimeden arkeolojiye, Kale’den han molasına",
+    "orderedStopIds": [
+      "kelime-muzesi",
+      "erimtan",
+      "ankara-kalesi",
+      "divan-cukurhan"
+    ],
+    "firstStopId": "kelime-muzesi",
+    "firstPlaceId": "kelime-muzesi",
+    "firstPlaceTitle": "Ankara Kelime Müzesi",
+    "experienceCoordinates": [
+      39.9384,
+      32.8626
+    ],
+    "firstPlaceCoordinates": [
+      39.9384,
+      32.8626
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-odtu-double-museum",
+    "title": "ODTÜ’de bilimden arkeolojiye",
+    "orderedStopIds": [
+      "odtu-bilim-teknoloji",
+      "odtu-arkeoloji"
+    ],
+    "firstStopId": "odtu-bilim-teknoloji",
+    "firstPlaceId": "odtu-bilim-teknoloji",
+    "firstPlaceTitle": "ODTÜ Bilim ve Teknoloji Müzesi",
+    "experienceCoordinates": [
+      39.891,
+      32.783
+    ],
+    "firstPlaceCoordinates": [
+      39.891,
+      32.783
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-anitkabir-maltepe",
+    "title": "Anıtkabir’den Maltepe’ye Cumhuriyet rotası",
+    "orderedStopIds": [
+      "anitkabir",
+      "duveroğlu"
+    ],
+    "firstStopId": "anitkabir",
+    "firstPlaceId": "anitkabir",
+    "firstPlaceTitle": "Anıtkabir",
+    "experienceCoordinates": [
+      39.9251,
+      32.8369
+    ],
+    "firstPlaceCoordinates": [
+      39.9251,
+      32.8369
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-mogan-halfday",
+    "title": "Mogan kıyısında yarım günlük reset",
+    "orderedStopIds": [
+      "mogan-parki"
+    ],
+    "firstStopId": "mogan-parki",
+    "firstPlaceId": "mogan-parki",
+    "firstPlaceTitle": "Mogan Parkı",
+    "experienceCoordinates": [
+      39.77,
+      32.7934
+    ],
+    "firstPlaceCoordinates": [
+      39.77,
+      32.7934
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-eymir-halfday",
+    "title": "Eymir’de yürüyüş + göl kıyısı molası",
+    "orderedStopIds": [
+      "eymir-golu"
+    ],
+    "firstStopId": "eymir-golu",
+    "firstPlaceId": "eymir-golu",
+    "firstPlaceTitle": "Eymir Gölü",
+    "experienceCoordinates": [
+      39.8157,
+      32.8267
+    ],
+    "firstPlaceCoordinates": [
+      39.8157,
+      32.8267
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-gordion-halfday",
+    "title": "Gordion’da Frigya’ya yarım gün",
+    "orderedStopIds": [
+      "gordion-muzesi"
+    ],
+    "firstStopId": "gordion-muzesi",
+    "firstPlaceId": "gordion-muzesi",
+    "firstPlaceTitle": "Gordion Müzesi ve Örenyeri",
+    "experienceCoordinates": [
+      39.6544,
+      31.9947
+    ],
+    "firstPlaceCoordinates": [
+      39.6544,
+      31.9947
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-beypazari-halfday",
+    "title": "Beypazarı çarşısında tarih + yerel tat",
+    "orderedStopIds": [
+      "beypazari-tarihi-carsi"
+    ],
+    "firstStopId": "beypazari-tarihi-carsi",
+    "firstPlaceId": "beypazari-tarihi-carsi",
+    "firstPlaceTitle": "Beypazarı Tarihî Çarşısı",
+    "experienceCoordinates": [
+      40.168,
+      31.92
+    ],
+    "firstPlaceCoordinates": [
+      40.168,
+      31.92
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-kizilcahamam-halfday",
+    "title": "Kızılcahamam’da jeoloji + orman havası",
+    "orderedStopIds": [
+      "kizilcahamam-jeopark",
+      "soguksu-milli-parki"
+    ],
+    "firstStopId": "kizilcahamam-jeopark",
+    "firstPlaceId": "kizilcahamam-jeopark",
+    "firstPlaceTitle": "Kızılcahamam Jeopark Müzesi",
+    "experienceCoordinates": [
+      40.469,
+      32.65
+    ],
+    "firstPlaceCoordinates": [
+      40.469,
+      32.65
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-no29-kahve-tatli",
+    "title": "No29’da Kahve, Tatlı ve Biraz Nefes",
+    "orderedStopIds": [
+      "no29-dukkan-coffee"
+    ],
+    "firstStopId": "no29-dukkan-coffee",
+    "firstPlaceId": "no29-dukkan-coffee",
+    "firstPlaceTitle": "NO29 Dükkan Coffee",
+    "experienceCoordinates": [
+      39.8713136,
+      32.6805836
+    ],
+    "firstPlaceCoordinates": [
+      39.8713136,
+      32.6805836
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-federal-bilkent-demleme",
+    "title": "Bilkent’te Demlemeye Odaklan",
+    "orderedStopIds": [
+      "federal-bilkent"
+    ],
+    "firstStopId": "federal-bilkent",
+    "firstPlaceId": "federal-bilkent",
+    "firstPlaceTitle": "Federal Coffee Bilkent",
+    "experienceCoordinates": [
+      39.8834792,
+      32.7558314
+    ],
+    "firstPlaceCoordinates": [
+      39.8834792,
+      32.7558314
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-duveroglu-lahmacun",
+    "title": "Düveroğlu’nda Lahmacun Molası",
+    "orderedStopIds": [
+      "duveroğlu"
+    ],
+    "firstStopId": "duveroğlu",
+    "firstPlaceId": "duveroğlu",
+    "firstPlaceTitle": "Düveroğlu Kebap Salonu",
+    "experienceCoordinates": [
+      39.926,
+      32.846
+    ],
+    "firstPlaceCoordinates": [
+      39.926,
+      32.846
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-trilye-balik",
+    "title": "Trilye’de Balığa Zaman Ayır",
+    "orderedStopIds": [
+      "trilye"
+    ],
+    "firstStopId": "trilye",
+    "firstPlaceId": "trilye",
+    "firstPlaceTitle": "Trilye Restaurant",
+    "experienceCoordinates": [
+      39.895,
+      32.876
+    ],
+    "firstPlaceCoordinates": [
+      39.895,
+      32.876
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-anadolu-kronolojik",
+    "title": "Anadolu’yu Kronolojik Oku",
+    "orderedStopIds": [
+      "anadolu-medeniyetleri"
+    ],
+    "firstStopId": "anadolu-medeniyetleri",
+    "firstPlaceId": "anadolu-medeniyetleri",
+    "firstPlaceTitle": "Anadolu Medeniyetleri Müzesi",
+    "experienceCoordinates": [
+      39.9385,
+      32.8619
+    ],
+    "firstPlaceCoordinates": [
+      39.9385,
+      32.8619
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-hava-kuvvetleri-iki-saat",
+    "title": "Uçakların Arasında İki Saat",
+    "orderedStopIds": [
+      "hava-kuvvetleri-muzesi"
+    ],
+    "firstStopId": "hava-kuvvetleri-muzesi",
+    "firstPlaceId": "hava-kuvvetleri-muzesi",
+    "firstPlaceTitle": "Ankara Hava Kuvvetleri Müzesi",
+    "experienceCoordinates": [
+      39.949,
+      32.689
+    ],
+    "firstPlaceCoordinates": [
+      39.949,
+      32.689
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-mavi-gol-sehirden-uzak",
+    "title": "Mavi Göl’de Şehri Geride Bırak",
+    "orderedStopIds": [
+      "mavi-gol"
+    ],
+    "firstStopId": "mavi-gol",
+    "firstPlaceId": "mavi-gol",
+    "firstPlaceTitle": "Mavi Göl Rekreasyon Alanı",
+    "experienceCoordinates": [
+      39.925,
+      33.032
+    ],
+    "firstPlaceCoordinates": [
+      39.925,
+      33.032
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-altinpark-uzun-ogleden-sonra",
+    "title": "Altınpark’ta Uzun Bir Öğleden Sonra",
+    "orderedStopIds": [
+      "altinpark"
+    ],
+    "firstStopId": "altinpark",
+    "firstPlaceId": "altinpark",
+    "firstPlaceTitle": "Altınpark",
+    "experienceCoordinates": [
+      39.9664,
+      32.891
+    ],
+    "firstPlaceCoordinates": [
+      39.9664,
+      32.891
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-dikmen-vadisi-kot-yuruyusu",
+    "title": "Dikmen Vadisi’nde Kot Değiştirerek Yürü",
+    "orderedStopIds": [
+      "dikmen-vadisi"
+    ],
+    "firstStopId": "dikmen-vadisi",
+    "firstPlaceId": "dikmen-vadisi",
+    "firstPlaceTitle": "Dikmen Vadisi",
+    "experienceCoordinates": [
+      39.888,
+      32.842
+    ],
+    "firstPlaceCoordinates": [
+      39.888,
+      32.842
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-da-vinci-yeni-oyun",
+    "title": "Da Vinci’de Yeni Bir Oyun Öğren",
+    "orderedStopIds": [
+      "da-vinci-board-game-neorama"
+    ],
+    "firstStopId": "da-vinci-board-game-neorama",
+    "firstPlaceId": "da-vinci-board-game-neorama",
+    "firstPlaceTitle": "Da Vinci Board Game Cafe — Neorama",
+    "experienceCoordinates": [
+      39.9127235,
+      32.7509768
+    ],
+    "firstPlaceCoordinates": [
+      39.9127235,
+      32.7509768
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-tragos-tanitim-dersi",
+    "title": "Tragos’ta İlk Bouldering Dersini Al",
+    "orderedStopIds": [
+      "tragos-boulder-outdoor"
+    ],
+    "firstStopId": "tragos-boulder-outdoor",
+    "firstPlaceId": "tragos-boulder-outdoor",
+    "firstPlaceTitle": "Tragos Boulder & Outdoor",
+    "experienceCoordinates": [
+      39.8802602,
+      32.8234277
+    ],
+    "firstPlaceCoordinates": [
+      39.8802602,
+      32.8234277
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-hanem-konya-sofrasi",
+    "title": "Hanem — Konya Sofrası",
+    "orderedStopIds": [
+      "hanem-firin-eryaman"
+    ],
+    "firstStopId": "hanem-firin-eryaman",
+    "firstPlaceId": "hanem-firin-eryaman",
+    "firstPlaceTitle": "Hanem Fırın — Eryaman",
+    "experienceCoordinates": [
+      39.972409,
+      32.647366
+    ],
+    "firstPlaceCoordinates": [
+      39.972409,
+      32.647366
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-bolu-akin-eski-garajlar-tencere",
+    "title": "Bolu Akın — Eski Garajlar’da Tencere Yemeği",
+    "orderedStopIds": [
+      "bolu-akin-lokantasi-etlik"
+    ],
+    "firstStopId": "bolu-akin-lokantasi-etlik",
+    "firstPlaceId": "bolu-akin-lokantasi-etlik",
+    "firstPlaceTitle": "Bolu Akın Lokantası — Etlik Eski Garajlar",
+    "experienceCoordinates": [
+      39.9622294,
+      32.8473192
+    ],
+    "firstPlaceCoordinates": [
+      39.9622294,
+      32.8473192
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-urumci-on-cebeci-uygur-sofrasi",
+    "title": "Urumçi — Ön Cebeci’de Uygur Sofrası",
+    "orderedStopIds": [
+      "urumci-uygur-restaurant-on-cebeci"
+    ],
+    "firstStopId": "urumci-uygur-restaurant-on-cebeci",
+    "firstPlaceId": "urumci-uygur-restaurant-on-cebeci",
+    "firstPlaceTitle": "Urumçi Uygur Restaurant — Ön Cebeci",
+    "experienceCoordinates": [
+      39.925758,
+      32.864856
+    ],
+    "firstPlaceCoordinates": [
+      39.925758,
+      32.864856
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-old-school-iki-demleme",
+    "title": "Old School — İki Demleme Karşılaştır",
+    "orderedStopIds": [
+      "old-school-roastery-bahcelievler"
+    ],
+    "firstStopId": "old-school-roastery-bahcelievler",
+    "firstPlaceId": "old-school-roastery-bahcelievler",
+    "firstPlaceTitle": "Old School Roastery — Bahçelievler",
+    "experienceCoordinates": [
+      39.925252,
+      32.825384
+    ],
+    "firstPlaceCoordinates": [
+      39.925252,
+      32.825384
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-cin-ali-iki-kusak",
+    "title": "Cin Ali — Aynı Çizgide İki Kuşak",
+    "orderedStopIds": [
+      "cin-ali-muzesi"
+    ],
+    "firstStopId": "cin-ali-muzesi",
+    "firstPlaceId": "cin-ali-muzesi",
+    "firstPlaceTitle": "Cin Ali Müzesi",
+    "experienceCoordinates": [
+      39.9056802,
+      32.8626439
+    ],
+    "firstPlaceCoordinates": [
+      39.9056802,
+      32.8626439
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-gokyay-satranc-taslari",
+    "title": "Gökyay — Satranç Taşlarının Dünyasını Oku",
+    "orderedStopIds": [
+      "gokyay-vakfi-satranc-muzesi"
+    ],
+    "firstStopId": "gokyay-vakfi-satranc-muzesi",
+    "firstPlaceId": "gokyay-vakfi-satranc-muzesi",
+    "firstPlaceTitle": "Gökyay Vakfı Satranç Müzesi",
+    "experienceCoordinates": [
+      39.9346959,
+      32.8633082
+    ],
+    "firstPlaceCoordinates": [
+      39.9346959,
+      32.8633082
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-ankara-palas-ikinci-tbmm",
+    "title": "Ankara Palas + II. TBMM — Cumhuriyetin İki Sahnesi",
+    "orderedStopIds": [
+      "cumhuriyet-muzesi",
+      "ankara-palas-muzesi"
+    ],
+    "firstStopId": "cumhuriyet-muzesi",
+    "firstPlaceId": "cumhuriyet-muzesi",
+    "firstPlaceTitle": "Cumhuriyet Müzesi (II. TBMM)",
+    "experienceCoordinates": [
+      39.9422,
+      32.854
+    ],
+    "firstPlaceCoordinates": [
+      39.9422,
+      32.854
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-eymir-bisikletle-dolas",
+    "title": "Eymir’i Bisikletle Dolaş",
+    "orderedStopIds": [
+      "eymir-golu"
+    ],
+    "firstStopId": "eymir-golu",
+    "firstPlaceId": "eymir-golu",
+    "firstPlaceTitle": "Eymir Gölü",
+    "experienceCoordinates": [
+      39.8157,
+      32.8267
+    ],
+    "firstPlaceCoordinates": [
+      39.8157,
+      32.8267
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-aoc-kurulus-hikayesi",
+    "title": "AOÇ’nin Kuruluş Hikâyesini Arazide İzle",
+    "orderedStopIds": [
+      "aoç-hayvanat-bahcesi-alani",
+      "ataturk-orman-ciftligi"
+    ],
+    "firstStopId": "aoç-hayvanat-bahcesi-alani",
+    "firstPlaceId": "aoç-hayvanat-bahcesi-alani",
+    "firstPlaceTitle": "Atatürk Orman Çiftliği Müze ve Sergi Salonu",
+    "experienceCoordinates": [
+      39.947,
+      32.804
+    ],
+    "firstPlaceCoordinates": [
+      39.947,
+      32.804
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-sakarya-muharebesini-araziden-oku",
+    "title": "Sakarya Muharebesi’ni Araziden Oku",
+    "orderedStopIds": [
+      "sakarya-zaferi-muzesi",
+      "duatepe-aniti"
+    ],
+    "firstStopId": "sakarya-zaferi-muzesi",
+    "firstPlaceId": "sakarya-zaferi-muzesi",
+    "firstPlaceTitle": "Sakarya Meydan Muharebesi Tarihi Millî Parkı",
+    "experienceCoordinates": [
+      39.576,
+      32.145
+    ],
+    "firstPlaceCoordinates": [
+      39.576,
+      32.145
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-bogazici-ulus-ogle-ritueli",
+    "title": "Boğaziçi’nde Ulus Öğle Ritüeli",
+    "orderedStopIds": [
+      "bogazici-lokantasi"
+    ],
+    "firstStopId": "bogazici-lokantasi",
+    "firstPlaceId": "bogazici-lokantasi",
+    "firstPlaceTitle": "Boğaziçi Lokantası",
+    "experienceCoordinates": [
+      39.941,
+      32.858
+    ],
+    "firstPlaceCoordinates": [
+      39.941,
+      32.858
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-aspava-ikram-ritueli",
+    "title": "Aspava’nın İkram Ritüelini Yaşa",
+    "orderedStopIds": [
+      "aspava-yildizevler"
+    ],
+    "firstStopId": "aspava-yildizevler",
+    "firstPlaceId": "aspava-yildizevler",
+    "firstPlaceTitle": "Yıldız Aspava",
+    "experienceCoordinates": [
+      39.878,
+      32.864
+    ],
+    "firstPlaceCoordinates": [
+      39.878,
+      32.864
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-ptt-pullardan-donem-oku",
+    "title": "PTT Pul Müzesi’nde Bir Dönemi Pullardan Oku",
+    "orderedStopIds": [
+      "ptt-pul-muzesi"
+    ],
+    "firstStopId": "ptt-pul-muzesi",
+    "firstPlaceId": "ptt-pul-muzesi",
+    "firstPlaceTitle": "PTT Pul Müzesi",
+    "experienceCoordinates": [
+      39.94,
+      32.853
+    ],
+    "firstPlaceCoordinates": [
+      39.94,
+      32.853
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-cengelhan-teknolojinin-izini-sur",
+    "title": "Çengelhan’da Bir Teknolojinin İzini Sür",
+    "orderedStopIds": [
+      "cengelhan-rahmi-koc"
+    ],
+    "firstStopId": "cengelhan-rahmi-koc",
+    "firstPlaceId": "cengelhan-rahmi-koc",
+    "firstPlaceTitle": "Çengelhan Rahmi M. Koç Müzesi",
+    "experienceCoordinates": [
+      39.938,
+      32.864
+    ],
+    "firstPlaceCoordinates": [
+      39.938,
+      32.864
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-arslanhane-alaaddin-selcuklu",
+    "title": "Arslanhane’den Alaaddin’e Selçuklu Ankara’sı",
+    "orderedStopIds": [
+      "aslanhane-camii",
+      "alaaddin-camii"
+    ],
+    "firstStopId": "aslanhane-camii",
+    "firstPlaceId": "aslanhane-camii",
+    "firstPlaceTitle": "Arslanhane Camii",
+    "experienceCoordinates": [
+      39.937,
+      32.864
+    ],
+    "firstPlaceCoordinates": [
+      39.937,
+      32.864
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-altinkoy-koy-yasamini-uc-izden-oku",
+    "title": "Altınköy’de Köy Yaşamını Üç İzden Oku",
+    "orderedStopIds": [
+      "altinkoy-acik-hava-muzesi"
+    ],
+    "firstStopId": "altinkoy-acik-hava-muzesi",
+    "firstPlaceId": "altinkoy-acik-hava-muzesi",
+    "firstPlaceTitle": "Altınköy Açık Hava Müzesi",
+    "experienceCoordinates": [
+      39.9775492,
+      32.9569546
+    ],
+    "firstPlaceCoordinates": [
+      39.9775492,
+      32.9569546
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-millet-kutuphanesi-derin-calisma",
+    "title": "Millet Kütüphanesi’nde Derin Çalışma Bloğu",
+    "orderedStopIds": [
+      "cumhurbaskanligi-millet-kutuphanesi"
+    ],
+    "firstStopId": "cumhurbaskanligi-millet-kutuphanesi",
+    "firstPlaceId": "cumhurbaskanligi-millet-kutuphanesi",
+    "firstPlaceTitle": "Cumhurbaşkanlığı Millet Kütüphanesi",
+    "experienceCoordinates": [
+      39.9246376,
+      32.8007085
+    ],
+    "firstPlaceCoordinates": [
+      39.9246376,
+      32.8007085
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-cubuk-1-baraji-muhendislik-gozu",
+    "title": "Çubuk-1’de Barajı Mühendislik Gözüyle Oku",
+    "orderedStopIds": [
+      "cubuk-1-baraji-rekreasyon-alani"
+    ],
+    "firstStopId": "cubuk-1-baraji-rekreasyon-alani",
+    "firstPlaceId": "cubuk-1-baraji-rekreasyon-alani",
+    "firstPlaceTitle": "Çubuk-1 Barajı Rekreasyon Alanı",
+    "experienceCoordinates": [
+      40.0014247,
+      32.9262609
+    ],
+    "firstPlaceCoordinates": [
+      40.0014247,
+      32.9262609
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-pecenek-iskitler-doner-ritueli",
+    "title": "Peçenek’te İskitler Döner Ritüeli",
+    "orderedStopIds": [
+      "pecenek-doner-iskitler"
+    ],
+    "firstStopId": "pecenek-doner-iskitler",
+    "firstPlaceId": "pecenek-doner-iskitler",
+    "firstPlaceTitle": "Peçenek Döner — İskitler Merkez",
+    "experienceCoordinates": [
+      39.949774,
+      32.8447823
+    ],
+    "firstPlaceCoordinates": [
+      39.949774,
+      32.8447823
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-kitir-tunali-bulusma-hafizasi",
+    "title": "Kıtır’da Tunalı’nın Buluşma Hafızasına Otur",
+    "orderedStopIds": [
+      "kitir-tunali"
+    ],
+    "firstStopId": "kitir-tunali",
+    "firstPlaceId": "kitir-tunali",
+    "firstPlaceTitle": "Kıtır — Tunalı",
+    "experienceCoordinates": [
+      39.9026268,
+      32.8600757
+    ],
+    "firstPlaceCoordinates": [
+      39.9026268,
+      32.8600757
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-kecioren-cocuk-sanat-muzesi-rehber",
+    "title": "Keçiören Çocuk Sanat Müzesi’nde Çocuğun Rehber Olsun",
+    "orderedStopIds": [
+      "kecioren-cocuk-sanat-muzesi"
+    ],
+    "firstStopId": "kecioren-cocuk-sanat-muzesi",
+    "firstPlaceId": "kecioren-cocuk-sanat-muzesi",
+    "firstPlaceTitle": "Keçiören Çocuk Sanat Müzesi",
+    "experienceCoordinates": [
+      40.0242624,
+      32.8588498
+    ],
+    "firstPlaceCoordinates": [
+      40.0242624,
+      32.8588498
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-aqua-vega-uc-yasam-alani",
+    "title": "Aqua Vega’da Üç Yaşam Alanını Karşılaştır",
+    "orderedStopIds": [
+      "aqua-vega-akvaryum"
+    ],
+    "firstStopId": "aqua-vega-akvaryum",
+    "firstPlaceId": "aqua-vega-akvaryum",
+    "firstPlaceTitle": "Aqua Vega Akvaryum — Nata Vega",
+    "experienceCoordinates": [
+      39.8876851,
+      32.9349322
+    ],
+    "firstPlaceCoordinates": [
+      39.8876851,
+      32.9349322
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  },
+  {
+    "id": "xp-dost-konu-raf-haritasi",
+    "title": "Dost’ta Bir Konunun Raf Haritasını Çıkar",
+    "orderedStopIds": [
+      "dost-kitabevi-karanfil"
+    ],
+    "firstStopId": "dost-kitabevi-karanfil",
+    "firstPlaceId": "dost-kitabevi-karanfil",
+    "firstPlaceTitle": "Dost Kitabevi — Karanfil",
+    "experienceCoordinates": [
+      39.919713,
+      32.8552891
+    ],
+    "firstPlaceCoordinates": [
+      39.919713,
+      32.8552891
+    ],
+    "distanceKm": 0,
+    "pass": true,
+    "reason": "Exact first-stop match; all ordered links/coordinates valid"
+  }
+]

@@ -1,0 +1,318 @@
+[
+  {
+    "command": "npm ci",
+    "exitCode": 1,
+    "note": "Initial sandbox run: npm registry DNS unavailable (ENOTFOUND). Authorized retry succeeded."
+  },
+  {
+    "command": "npm ci",
+    "exitCode": 0,
+    "note": "Locked install completed, 1183 packages; lockfile unchanged."
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.05
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 3.41
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 12.25
+  },
+  {
+    "command": "npm run test:catalog",
+    "exitCode": 0,
+    "seconds": 0.46
+  },
+  {
+    "command": "npm run check:events",
+    "exitCode": 0,
+    "seconds": 0.24
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 1,
+    "seconds": 0.23
+  },
+  {
+    "command": "npm run test:stress",
+    "exitCode": 0,
+    "seconds": 57.03
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "seconds": 13.43
+  },
+  {
+    "command": "npm run check:recommendations",
+    "exitCode": 0,
+    "seconds": 1.1
+  },
+  {
+    "command": "npm run check:assets",
+    "exitCode": 0,
+    "seconds": 0.24
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-distance-android-export",
+    "exitCode": 0,
+    "seconds": 16.69
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 2.81,
+    "note": "Final source after header, navigation guard and related-card target corrections"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 11.71,
+    "note": "Final source after header, navigation guard and related-card target corrections"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.18,
+    "note": "Final source after header, navigation guard and related-card target corrections"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-distance-final-android-export",
+    "exitCode": 0,
+    "seconds": 9.65,
+    "note": "Final source after header, navigation guard and related-card target corrections"
+  },
+  {
+    "command": "node --import tsx scripts/auditExperienceStartCoordinates.ts --write",
+    "exitCode": 0,
+    "note": "52/52 pass; complete stable-ID table and JSON."
+  },
+  {
+    "command": "node --import tsx --test tests/experience-distance.test.ts",
+    "exitCode": 0,
+    "note": "9 focused tests; also included in final npm test."
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-distance-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0
+  },
+  {
+    "command": "GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-distance-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "note": "56 checks; two viewports x normal/simulated 1.8 fontScale; zero page errors."
+  },
+  {
+    "command": "git diff --cached --check",
+    "exitCode": 0,
+    "note": "Explicit scoped staging; protected user-owned untracked directory excluded."
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.05,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 3.35,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 11.98,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.19,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "seconds": 12.63,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-validity-android-export",
+    "exitCode": 0,
+    "seconds": 16.19,
+    "phase": "Redmi location lifecycle follow-up from fd766d8"
+  },
+  {
+    "command": "npm ci",
+    "result": "NOT RUN",
+    "phase": "lifecycle follow-up",
+    "note": "Dependencies and package/lockfile unchanged; installed locked tooling and inspected RN 0.86.0 / Expo 57.0.11 / expo-location 57.0.7 are present."
+  },
+  {
+    "command": "node --import tsx --test tests/experience-distance.test.ts",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "18 focused tests; all included in npm test (281 total)."
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-validity-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8795 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-validity-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "56 checks at both viewports, normal/1.8 fontScale, zero page errors; original screenshot evidence reused."
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8795 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-validity-browser node tests/location-validity-browser.cjs",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "61 checks, Experience and Place at both viewports plus real Event expiry; zero page errors."
+  },
+  {
+    "command": "node --import tsx scripts/auditExperienceStartCoordinates.ts --write",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "52/52 still pass; audit files unchanged."
+  },
+  {
+    "command": "git diff --cached --check",
+    "exitCode": 0,
+    "phase": "lifecycle follow-up",
+    "note": "14 explicit scoped files, no protected directory or scoring/catalog/dependency/schema/release changes."
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Final scoped worktree; protected untracked directory excluded"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Final source"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "288 passing tests (111 compiled-domain + 177 TypeScript), including 25 focused tests"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "12 source files, 16 minimum target styles; PASS"
+  },
+  {
+    "command": "npm run test:catalog",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Catalog parity unchanged; 52 Experiences"
+  },
+  {
+    "command": "npm run test:stress",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Experience: 640 scenarios / 480 rotations, zero empty/mismatch/duplicate/overlap"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "5000 calls, p95 8.521 ms / 25 ms budget, checksum 22308"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-preflight-final-android-export",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Final source exported; local bundle only"
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Generated test bundle; no production globals"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "56 checks / zero page errors; final source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-validity-browser.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "61 checks / zero page errors; final source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-preflight-browser.cjs",
+    "exitCode": 0,
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "76 checks / zero page errors; final source"
+  },
+  {
+    "command": "npm ci; npm run test:rules; npm run check:release",
+    "result": "NOT RUN",
+    "phase": "Final location preflight from e1dd5d9; 2026-10-15",
+    "note": "Dependencies/lockfile, Rules and release contracts unchanged; no production or signed-release validation"
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "PASS"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "Final fresh-read controller"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "290 passing tests (111 compiled-domain + 179 TypeScript), including 27 focused distance/lifecycle/preflight tests"
+  },
+  {
+    "command": "npx expo export --platform android --output-dir /private/tmp/gezek-preflight-independent-android-export",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "Final fresh-read source; local Android bundle"
+  },
+  {
+    "command": "GEZEK_DISTANCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node scripts/buildDetailBrowserFixture.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "Final generated test-only fixture"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "56 checks, zero page errors; final fresh-read source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-validity-browser.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "61 checks, zero page errors; final fresh-read source"
+  },
+  {
+    "command": "GEZEK_BROWSER_URL=http://127.0.0.1:8796 GEZEK_BROWSER_MODULES=/private/tmp/gezek-artwork-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-preflight-browser node tests/location-preflight-browser.cjs",
+    "exitCode": 0,
+    "phase": "Fresh reads for every concurrent batch; final refinement from 84e25a8",
+    "note": "80 checks, zero page errors; final fresh-read source"
+  }
+]

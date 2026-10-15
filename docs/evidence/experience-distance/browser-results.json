@@ -1,0 +1,509 @@
+{
+  "checks": [
+    {
+      "name": "Unavailable: no distance or placeholder",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Permission and position pending: no distance",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Live update changes labels only",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Denied refresh clears labels without changing batch",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Invalid OS response clears labels without fake zero",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Location error omits labels",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Plan/Place/related metadata and Back preserve Home scroll",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Independent Save/Dismiss/Undo remains functional",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Superseded response cannot overwrite newer location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Saved metadata renders; departed Home response ignored",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Obsolete permission response after filter departure cannot start GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Place retains immediate location-driven recomputation and existing decimal precision",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Unmounted App rejects late response",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Unavailable: no distance or placeholder",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Permission and position pending: no distance",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Live update changes labels only",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Denied refresh clears labels without changing batch",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Invalid OS response clears labels without fake zero",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Location error omits labels",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Plan/Place/related metadata and Back preserve Home scroll",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Independent Save/Dismiss/Undo remains functional",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Superseded response cannot overwrite newer location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Saved metadata renders; departed Home response ignored",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Obsolete permission response after filter departure cannot start GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Place retains immediate location-driven recomputation and existing decimal precision",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Unmounted App rejects late response",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Unavailable: no distance or placeholder",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Permission and position pending: no distance",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Live update changes labels only",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Denied refresh clears labels without changing batch",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Invalid OS response clears labels without fake zero",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Location error omits labels",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Plan/Place/related metadata and Back preserve Home scroll",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Independent Save/Dismiss/Undo remains functional",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Superseded response cannot overwrite newer location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Saved metadata renders; departed Home response ignored",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Obsolete permission response after filter departure cannot start GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Place retains immediate location-driven recomputation and existing decimal precision",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Unmounted App rejects late response",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "Unavailable: no distance or placeholder",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Permission and position pending: no distance",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Valid: all five labels, single text announcement, no button duplication/overflow; batch/seed/state/scroll stable",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Live update changes labels only",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Denied refresh clears labels without changing batch",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Invalid OS response clears labels without fake zero",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Location error omits labels",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Plan/Place/related metadata and Back preserve Home scroll",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Independent Save/Dismiss/Undo remains functional",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Superseded response cannot overwrite newer location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Saved metadata renders; departed Home response ignored",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Obsolete permission response after filter departure cannot start GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Place retains immediate location-driven recomputation and existing decimal precision",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Unmounted App rejects late response",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    }
+  ],
+  "errors": []
+}

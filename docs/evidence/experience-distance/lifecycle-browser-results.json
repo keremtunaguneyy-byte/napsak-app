@@ -1,0 +1,554 @@
+{
+  "checks": [
+    {
+      "name": "Explicit acquisition displays valid distances",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Active+focus burst checks once; valid coordinate/batch/state/scroll preserved, no prompt/GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Disabled services on active return clear all labels and preserve scored batch/scroll",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Next independent refresh receives no stale coordinate; normal rotation preserved",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Valid status alone never restores an invalidated fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Android blur/focus path clears stale distances without AppState change",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Permission revoked while away clears location without prompting",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "services status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "permission status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Old negative status response cannot clear a newer explicit location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Duplicate in-flight active/focus events share one service/permission pair",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Rapid background/foreground cycles serialize a fresh check and reject obsolete result",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Invalidation clears loading and prevents an in-flight late GPS result repopulating location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Detail/related distances clear while visible related-plan ordering remains stable",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Unmount removes all active/focus/blur subscriptions and rejects late status results",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Explicit acquisition displays valid distances",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Active+focus burst checks once; valid coordinate/batch/state/scroll preserved, no prompt/GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Disabled services on active return clear all labels and preserve scored batch/scroll",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Next independent refresh receives no stale coordinate; normal rotation preserved",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Valid status alone never restores an invalidated fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Android blur/focus path clears stale distances without AppState change",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Permission revoked while away clears location without prompting",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "services status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "permission status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Old negative status response cannot clear a newer explicit location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Duplicate in-flight active/focus events share one service/permission pair",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Rapid background/foreground cycles serialize a fresh check and reject obsolete result",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Invalidation clears loading and prevents an in-flight late GPS result repopulating location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Detail/related distances clear while visible related-plan ordering remains stable",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Unmount removes all active/focus/blur subscriptions and rejects late status results",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Explicit acquisition displays valid distances",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Active+focus burst checks once; valid coordinate/batch/state/scroll preserved, no prompt/GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Disabled services on active return clear all labels and preserve scored batch/scroll",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Next independent refresh receives no stale coordinate; normal rotation preserved",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Valid status alone never restores an invalidated fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Android blur/focus path clears stale distances without AppState change",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Permission revoked while away clears location without prompting",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "services status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "permission status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Old negative status response cannot clear a newer explicit location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Duplicate in-flight active/focus events share one service/permission pair",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Rapid background/foreground cycles serialize a fresh check and reject obsolete result",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Invalidation clears loading and prevents an in-flight late GPS result repopulating location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Detail/related distances clear while visible related-plan ordering remains stable",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Unmount removes all active/focus/blur subscriptions and rejects late status results",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Explicit acquisition displays valid distances",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Active+focus burst checks once; valid coordinate/batch/state/scroll preserved, no prompt/GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Disabled services on active return clear all labels and preserve scored batch/scroll",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Next independent refresh receives no stale coordinate; normal rotation preserved",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Valid status alone never restores an invalidated fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Android blur/focus path clears stale distances without AppState change",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Permission revoked while away clears location without prompting",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "services status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "permission status failure hides until a later explicit update; no batch/automatic fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Old negative status response cannot clear a newer explicit location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Duplicate in-flight active/focus events share one service/permission pair",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Rapid background/foreground cycles serialize a fresh check and reject obsolete result",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Invalidation clears loading and prevents an in-flight late GPS result repopulating location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Detail/related distances clear while visible related-plan ordering remains stable",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Unmount removes all active/focus/blur subscriptions and rejects late status results",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Actual elapsed Event boundary still refreshes eligibility on active",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "event",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

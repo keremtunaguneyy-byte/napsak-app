@@ -1,0 +1,725 @@
+{
+  "checks": [
+    {
+      "name": "No cache: next batch runs immediately with zero native reads",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Re-enabled services cannot resurrect a discarded coordinate",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "denied: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "services-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "permission-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Hung pair times out once, completes locationless and ignores late success",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Dismiss replacement cannot score using a silently invalidated fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Undo replacement preflights cached location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "single restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "all restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Preference Apply replacement preflights cached location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Filter switch preflights before the new kind is scored",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "New Place detail related-plan batch uses the same mandatory preflight",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "No cache: next batch runs immediately with zero native reads",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Re-enabled services cannot resurrect a discarded coordinate",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "denied: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "services-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "permission-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Hung pair times out once, completes locationless and ignores late success",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Dismiss replacement cannot score using a silently invalidated fix",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Undo replacement preflights cached location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "single restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "all restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Preference Apply replacement preflights cached location",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Filter switch preflights before the new kind is scored",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "New Place detail related-plan batch uses the same mandatory preflight",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "No cache: next batch runs immediately with zero native reads",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Re-enabled services cannot resurrect a discarded coordinate",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "denied: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "services-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "permission-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Hung pair times out once, completes locationless and ignores late success",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Dismiss replacement cannot score using a silently invalidated fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Undo replacement preflights cached location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "single restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "all restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Preference Apply replacement preflights cached location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Filter switch preflights before the new kind is scored",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "New Place detail related-plan batch uses the same mandatory preflight",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "experience",
+      "pass": true
+    },
+    {
+      "name": "No cache: next batch runs immediately with zero native reads",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Silent Quick Settings change leaves the accepted visible snapshot intact, with no polling",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Silent services disable + refresh clears cache/labels and scores one locationless replacement with normal seed/previous IDs",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Re-enabled services cannot resurrect a discarded coordinate",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "denied: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "services-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "permission-error: refresh fails closed without permission prompts or GPS",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Each successive valid batch freshly checks both statuses and preserves the cached fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Rapid actions start fresh pairs; obsolete batch never computes/publishes",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Second action after silent disable cannot reuse the first pair's settled services read",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Hung pair times out once, completes locationless and ignores late success",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Old failed preflight cannot discard a newer explicit fix or publish a late replacement",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Dismiss replacement cannot score using a silently invalidated fix",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Undo replacement preflights cached location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "single restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "all restore preflights before regenerating Home recommendations",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Preference Apply replacement preflights cached location",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Filter switch preflights before the new kind is scored",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "New Place detail related-plan batch uses the same mandatory preflight",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    },
+    {
+      "name": "Unmount during preflight cancels deadline and prevents late computation/publication",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "filter": "place",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

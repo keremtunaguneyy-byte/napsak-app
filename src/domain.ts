@@ -16,6 +16,18 @@ export function distanceInKm(from: Coordinates, to: Coordinates): number {
   return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(haversine));
 }
 
+/** Shared one-decimal kilometre formatting; preserve existing Place output by default. */
+export function formatDistanceInKm(distance: number, locale: 'default' | 'tr-TR' = 'default'): string | undefined {
+  if (!Number.isFinite(distance) || distance < 0) return undefined;
+  const decimal = distance.toFixed(1);
+  return `${locale === 'tr-TR' ? decimal.replace('.', ',') : decimal} km`;
+}
+
+export function isValidCoordinates(point: Coordinates | undefined): point is Coordinates {
+  return !!point && Number.isFinite(point.latitude) && Number.isFinite(point.longitude)
+    && point.latitude >= -90 && point.latitude <= 90 && point.longitude >= -180 && point.longitude <= 180;
+}
+
 /** Formats a duration without mixing hours and raw minutes in the same range. */
 export function formatDurationRange(minimum: number, maximum: number): string {
   const format = (value: number) => {

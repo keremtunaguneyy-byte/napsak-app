@@ -1,10 +1,13 @@
+import { experienceStartDistanceLabel } from '../../experienceStartDistance';
+import { useValidatedRecommendationBatch } from '../../useValidatedRecommendationBatch';
+import type { RecommendationLocationResolver } from '../../recommendationLocation';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, AppState, Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
 import { DETAIL_CONTENT_CLEARANCE, UndoNotice, DetailNavigationAction, DetailSession, detailExternalActions, eventDetailTiming, eventSourceActionLabel, resolveDetail } from '../../detailFlow';
-import { distanceInKm, formatDurationRange } from '../../domain';
+import { Coordinates, distanceInKm, formatDistanceInKm, formatDurationRange } from '../../domain';
 import { recommendExperiencesForPlace } from '../../recommendations';
 import { Event, Idea, Experience, Place } from '../../types';
 import { GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F } from '../../design/gezekTheme';
@@ -16,6 +19,7 @@ import { focusDetailControl } from './detailFocus';
 type Props = {
   session: DetailSession;
   context: Parameters<typeof recommendExperiencesForPlace>[1];
+  recommendationLocation?: RecommendationLocationResolver;
   ideas?: readonly Idea[];
   onOpenEventSource: (event: Event) => Promise<void>;
   onOpenIdeaAction: (idea: Idea) => Promise<void>;
@@ -62,12 +66,16 @@ export function DetailHost(p: Props) {
   const { fontScale } = useWindowDimensions();
   const [artworkWidth, setArtworkWidth] = useState(329);
   const [footerHeight, setFooterHeight] = useState(96 + insets.bottom);
-  const related = useMemo(() => place ? recommendExperiencesForPlace(place, { ...p.context, limit: p.context.experiences.length }) : [], [place, p.context]);
+  // A display-location invalidation must not rotate the visible related plans.
+  // Independent catalog/preference/place/eligibility changes use the latest input.
+  const computeRelated = useMemo(() => (coordinates?: Coordinates) => place ? recommendExperiencesForPlace(place, { ...p.context, coordinates, limit: p.context.experiences.length }) : [],
+    [place, p.context.experiences, p.context.places, p.context.events, p.context.mood, p.context.interests, p.context.dismissed, p.context.budget, p.context.groupSize, p.context.duration, p.context.seed, p.context.previousBatch, p.context.now]);
+  const related = useValidatedRecommendationBatch(computeRelated, place ? p.recommendationLocation : undefined, [], place?.id);
   const actions: { maps?: string; source?: string } = item && !dismissed && !p.loading ? detailExternalActions(item, p.context.places) : {};
   const price = item ? '₺'.repeat(item.priceLevel) || 'Bedava' : '';
   const distance = place && p.context.coordinates ? distanceInKm(p.context.coordinates, place) : undefined;
   const metadata = plan ? `${plan.points.length} durak · ${formatDurationRange(plan.minDurationMinutes, plan.maxDurationMinutes)} · ${price}`
-    : place ? [place.category, place.district, price, distance === undefined ? undefined : `${distance.toFixed(1)} km`].filter(Boolean).join(' · ')
+    : place ? [place.category, place.district, price, distance === undefined ? undefined : formatDistanceInKm(distance)].filter(Boolean).join(' · ')
     : event ? [timing?.date, timing?.time, event.venue].filter(Boolean).join(' · ')
     : idea ? [idea.category, price, ...idea.groupSizes].join(' · ') : '';
   const restoreFocus = () => {
@@ -142,7 +150,7 @@ export function DetailHost(p: Props) {
           <Text accessibilityRole="header" style={s.title}>{title}</Text>
           {interactions}
           <View style={s.card}>
-            <View style={s.metaChip}><Text style={s.meta}>{metadata}</Text></View>
+            <View style={s.metaChip}><Text style={s.meta}>{metadata}</Text>{plan && experienceStartDistanceLabel(plan, p.context.coordinates) && <Text accessibilityRole="text" style={s.meta}>{experienceStartDistanceLabel(plan, p.context.coordinates)}</Text>}</View>
             {!!frame.reasons?.length && <><Text style={s.reasonLabel}>NEDEN SANA UYGUN?</Text><Text style={s.body}>{frame.reasons.join(' · ')}</Text></>}
           </View>
           {event ? <View style={s.card}>
@@ -168,10 +176,10 @@ export function DetailHost(p: Props) {
             {!!place?.address && <Text style={s.body}>{place.address}</Text>}
             {!!place?.note && <Text style={s.body}>{place.note}</Text>}
             <Text accessibilityRole="header" style={[s.muted, s.relatedHeading]}>İlgili planlar</Text>
-            {related.length ? related.map(relatedPlan => <Pressable ref={controlRef(`plan:${relatedPlan.id}`)} key={relatedPlan.id} accessibilityRole="button" accessibilityLabel={`${relatedPlan.title}. Planı incele`} onPress={() => push('experience', relatedPlan.id, `plan:${relatedPlan.id}`, relatedPlan.reasons)} style={s.row}>
+            {related.length ? related.map(relatedPlan => <View key={relatedPlan.id} style={s.row}><Pressable ref={controlRef(`plan:${relatedPlan.id}`)} accessibilityRole="button" accessibilityLabel={`${relatedPlan.title}. Planı incele`} onPress={() => push('experience', relatedPlan.id, `plan:${relatedPlan.id}`, relatedPlan.reasons)} style={s.relatedBody}>
               <Text style={s.stop}>{relatedPlan.title}</Text>
               <Text style={s.muted}>{relatedPlan.points.length} durak · {formatDurationRange(relatedPlan.minDurationMinutes, relatedPlan.maxDurationMinutes)}</Text>
-            </Pressable>) : <Text style={s.muted}>Bu mekân için şu anda uygun bir plan yok.</Text>}
+            </Pressable>{experienceStartDistanceLabel(relatedPlan, p.context.coordinates) && <Text accessibilityRole="text" style={s.muted}>{experienceStartDistanceLabel(relatedPlan, p.context.coordinates)}</Text>}</View>) : <Text style={s.muted}>Bu mekân için şu anda uygun bir plan yok.</Text>}
           </View>}
         </>}
       </ScrollView>
@@ -209,6 +217,7 @@ const s = StyleSheet.create({
   iconButton: { width: 44, height: 44, padding: 0 }, buttonText: { fontFamily: F.semiBold, fontSize: 12, color: C.navy, flexShrink: 1 },
   stretch: { flex: 1, minHeight: 48 }, restoreButton: { backgroundColor: C.yellow, alignSelf: 'flex-start', minWidth: 132 }, selected: { backgroundColor: C.canvas }, disabled: { opacity: .45 }, pressed: { backgroundColor: C.blueWhisper },
   card: { padding: 15, backgroundColor: C.surface, borderWidth: 1, borderColor: C.border, borderRadius: 20, gap: 16 },
+  relatedBody: { minHeight: 44, minWidth: 44, justifyContent: 'center' },
   metaChip: { alignSelf: 'flex-start', backgroundColor: C.canvas, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 15 }, meta: { fontFamily: F.semiBold, fontSize: 12, color: C.navy },
   reasonLabel: { fontFamily: F.bold, fontSize: 11, color: C.cobalt }, body: { fontFamily: F.medium, fontSize: 14, color: C.navy },
   heading: { fontFamily: F.bold, fontSize: 18, color: C.navy }, muted: { fontFamily: F.medium, fontSize: 14, color: '#616E85' },

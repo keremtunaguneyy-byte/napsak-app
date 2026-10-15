@@ -1,5 +1,9 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-15 — Approved location snapshot and mandatory batch preflight
+
+User explicitly accepts that an existing Home distance represents the last explicitly acquired fix and may remain after a missed Expo Go Quick Settings lifecycle signal. Reliable lifecycle checks, explicit update, or a new batch action can invalidate it. No periodic polling, repeating timer or continuous tracking is approved. Every newly computed location-scored Home/related batch must resolve its location through read-only service and foreground-permission checks; missing cache proceeds locationless immediately, invalid/denied/error/timeout discards it and proceeds locationless. Only an explicit successful location request restores a discarded fix. Existing ranking/eligibility/catalog formulas and relationships are unchanged. Same branch and Draft #76, normal commit/push; no merge. Implementation and pending native evidence: `EXPERIENCE_DISTANCE_REPORT.md`.
+
 ## 2026-10-13 — Production first-run onboarding
 
 User approved the live production Figma flow and minimum one Interest for first run. Zero selections keep Continue visibly/accessibly disabled; no invented validation error, unlimited multiple selections, Back preserves drafts. This supersedes the permissive legacy onboarding UI while the domain retains empty-array compatibility, completed legacy users bypass onboarding, and PR #74 editor validation remains unchanged. Local v5 snapshot is committed once before completion publication; successful callback stays latched, failure permits Retry, and legitimate deletion resets the guard while invalidating old callbacks. No Firebase/schema/recommendation change. Implementation on `codex/gezek-production-onboarding`, evidence and pending native checks: `ONBOARDING_IMPLEMENTATION_REPORT.md`. Draft PR only, no merge or #57 modifications.
