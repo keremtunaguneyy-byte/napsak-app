@@ -25,7 +25,11 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/private/tmp/gezek-preflight
         await page.waitForFunction(() => window.__positions.length === 1);
         await page.evaluate(coords => window.__positions.shift().resolve({ coords }), coords);
         await page.waitForFunction(() => !window.__homeContext.locating && !!window.__homeContext.coordinates);
-        if (before.filter === 'place') await page.waitForFunction(calls => window.__recommendationCalls > calls, before.calls);
+        await page.waitForTimeout(80);
+        if (before.batchSeed === before.seed) {
+          assert.equal((await snapshot()).calls, before.calls);
+          assert.deepEqual((await snapshot()).ids, before.ids);
+        }
       };
       const freshInput = async before => {
         await page.waitForFunction(calls => window.__recommendationCalls > calls && window.__homeContext.batchSeed === window.__homeContext.seed && window.__homeContext.batchFilter === window.__homeContext.filter, before.calls);
@@ -100,8 +104,10 @@ const output = process.env.GEZEK_BROWSER_OUTPUT || '/private/tmp/gezek-preflight
         await page.getByRole('button', { name: /Gizlediğim \d+ öneriyi göster/ }).click();
         await acquire(); before = await snapshot(); await page.evaluate(() => { window.__servicesEnabled = false; });
         await page.getByRole('button', { name: restore === 'all' ? 'Tüm gizlenen önerileri geri getir' : / önerisini geri getir$/, exact: restore === 'all' }).first().click();
-        assert.equal((await freshInput(before)).coordinates, undefined); await absent();
+        assert.equal((await snapshot()).calls, before.calls);
         await page.getByRole('button', { name: 'Önerilere dön', exact: true }).last().click();
+        if ((await snapshot()).calls === before.calls) await rotate();
+        assert.equal((await freshInput(before)).coordinates, undefined); await absent();
         record(`${restore} restore preflights before regenerating Home recommendations`);
       }
       await acquire(); before = await snapshot(); await page.evaluate(() => { window.__servicesEnabled = false; });
