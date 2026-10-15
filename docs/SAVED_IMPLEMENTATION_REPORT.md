@@ -1,5 +1,15 @@
 # Production Saved / Kaydedilenler — implementation and verification
 
+## Acceptance reconciliation — 15 October 2026
+
+Re-fetched and re-audited before the authorized merge: local/remote/PR head `d1b611c38eb665f35711ce546264a5661fa5529f`; base/fetched main `056ad19faf63107766408867972a76521c7ec134`. PR #77 was open Draft, MERGEABLE/CLEAN, with exactly the expected 60 files, successful exact-head App Quality and Security Rules, zero reviews and zero review threads (no additional thread page). No unexpected code/design changes, tracked local changes or conflicts were found. The sole untracked directory remains `src/firebase/BA_4bit.sv/` and is preserved.
+
+User-reported exact-head Redmi acceptance: mixed list; saving Ankara 101/editorial content; independent opening/Unsave; final removal → Empty; recommendation Detail and editorial Android Back → Saved; restart persistence; normal layout and fixed-navigation clearance. This is user device evidence, not a new agent-run test or signed-release evidence.
+
+Explicitly deferred native checks: (1) expired Event row, absent from the active catalog; (2) real Android OS large-text mode; (3) TalkBack announcing row body and “Kaydı kaldır” as separate actions. Signed-release acceptance remains separately unverified. The simple/artwork-free Ankara 101 Saved row is deferred to Ankara 101 production visual closure, with no arbitrary artwork added to #77.
+
+This reconciliation changes only `docs/START_HERE.md`, `docs/STATUS.md`, `docs/DECISIONS.md` and this report. `git diff --check` and staged diff validation apply; no runtime code changed, so local code/browser/export checks are not rerun for this documentation-only commit. New exact-head GitHub CI is required before merge and will be reported with the actual commit/run identities. The user now authorizes marking #77 ready and a normal merge commit, conditional on passing CI and a final clean merge/review audit. This supersedes the original Draft/no-merge instruction below for #77 only. Home filter changes belong exclusively to the next PR. Final merge SHA is verified from Git/GitHub after merge, not predicted here.
+
 User authorization: attached “GEZEK — PRODUCTION SAVED / KAYDEDİLENLER IMPLEMENTATION”, 15 October 2026. Normal commit, non-force push and one Draft PR targeting main are authorized; merge is explicitly excluded.
 
 ## Repository audit
@@ -69,12 +79,6 @@ Initial regression attempts exposed stale source-test selectors after extraction
 
 Exact inventory: [SAVED_CHANGED_FILES.txt](SAVED_CHANGED_FILES.txt). No recommendation eligibility/scoring/diversity/rotation, duration selection, Bedava gate, location/preflight, catalog/IDs/relationships, artwork mapping, Firebase/persistence schema, Home design, onboarding, Preference Editor, Event empty-state design, Detail Host design or release configuration changed. No production operation, signed release or merge occurred.
 
-Physical Redmi / native TalkBack acceptance remains pending:
+Current device acceptance and deferred checks are recorded in the reconciliation section above. The original implementation-stage checklist is superseded by that user-reported acceptance; do not infer untested TalkBack, OS large-text, expired Event or signed-release results from browser evidence.
 
-1. All seven entries: body versus bookmark targets, visible order, selected navigation, decorative exclusion, page-title-first reading order and textual expired state.
-2. Saved → each Detail → Back/Close; Plan → Place → Back → Plan; Close to Saved; same scroll/focus. Repeat readers and hardware Back, including guide contents panel and exact Guide/route IDs.
-3. First/middle/last Unsave, long-list offset, next/previous row focus, Empty heading and Home CTA; save/dismiss/restore exclusivity and persistence after force-stop/process restart.
-4. System large text, long Turkish titles, final-row clearance, Android status/navigation insets and reduced motion on the delivered commit.
-5. Any signed-release/device matrix evidence remains a separate release gate.
-
-Recommended next step: keep the PR Draft and unmerged, perform the native checks above, then user review. Concrete repository/design blockers: none after final validation; native acceptance is explicitly unperformed work for the device-review stage.
+Recommended next step: after passing CI on the documentation update and a clean merge/review recheck, execute the user's authorized normal merge workflow for #77. Begin the separate Home filter PR only after fetched main and fast-forwarded local main match. No runtime behavior changed in the acceptance update.
