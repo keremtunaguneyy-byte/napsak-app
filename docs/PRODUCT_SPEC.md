@@ -360,6 +360,8 @@ Mekân detayında seçili mekânı durak olarak kullanan uygun planlar “Bu mek
 
 Kaydedilenler ekranı içerik türüne göre ayrı gruplara bölünmez. Mekân, plan, etkinlik, fikir ve Ankara 101 kayıtları tek akışta gösterilir; en son kaydedilen içerik en üsttedir. Kayıttan çıkarılıp yeniden eklenen içerik tekrar en üste gelir.
 
+15 Ekim 2026 onaylı production Saved tasarımında görsel/erişilebilir kayıt sayacı yoktur. Çözülemeyen/silinmiş kimlikler storage değiştirilmeden atlanır; görünür satır kalmazsa boş durum gösterilir. Süresi geçmiş Event kayıtlı kalır, metinle bildirilir ve mevcut kullanılamayan Event detayını açar. Guide/Ankara Klasikleri/Insider okuyucuları ile ortak Detail Host'tan Back/Close, Saved kaydırma konumunu ve mümkün olduğunda çağıran satır odağını geri yükler. Sözleşme ve kanıt: `SAVED_IMPLEMENTATION_REPORT.md`.
+
 ### 9.6 Planı haritada açma — Kararlaştırıldı
 
 Planlarda katalogdaki koordinatlar kullanılarak Google Maps bağlantısı sunulur. İki veya daha fazla durakta sıralı başlangıç, ara duraklar ve bitiş yürüyüş rotası açılır. Tek duraklı planda yanıltıcı rota yerine o nokta haritada açılır. Boş veya geçersiz koordinatlı plan için bozuk bağlantı üretilmez; kullanıcıya güvenli hata mesajı gösterilir. Davranış ana sonuç kartı, Kaydedilenler ve plan detayında tutarlı olmalıdır.

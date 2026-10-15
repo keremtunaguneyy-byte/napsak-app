@@ -1,5 +1,9 @@
 # Gezek — Tasarım ve Marka
 
+## Güncel Saved otoritesi — 15 Ekim 2026
+
+`Production Saved / Approved v1` (`1026:5886`) güncel Kaydedilenler otoritesidir. Sayaç kaldırılır; yedi içerik biçimi tek karma sıradadır. Normal/büyük metin, kompakt öneri ve editoryal satırlar, boş/geçmiş Event, bağımsız Unsave ve exact Saved origin sözleşmesi `SAVED_IMPLEMENTATION_REPORT.md` içinde kayıtlıdır. Eski Saved frame'leri yalnız referanstır; Ankara 101 okuyucu görselleri ve mevcut Detail Host yeniden tasarlanmaz. Redmi/TalkBack kabulü ayrıdır.
+
 ## Production onboarding — 13 Ekim 2026
 
 Live Figma `yTdAWr92ETyurlQQHNNqpi`, section `31:3`, steps `31:4`/`31:29`/`31:86`/`31:153`/`31:217`/`31:273`/`31:336`, Ready `389:1179`, Final Review Board `288:3` govern first run. Native host uses exact local exports, current Gezek tokens and replaceable BrandLogo; shared PR #74 Interest controls only where geometry/behavior match. User-approved minimum-one Interest, anchored CTA, 44 px targets, scalable copy and OS reduced-motion fallback are implemented. Maximum-duration wording preserves the approved exclusion of first-stop arrival/homeward travel. Home composition and final logo/icon/splash remain outside scope. Evidence and native acceptance: `ONBOARDING_IMPLEMENTATION_REPORT.md`.

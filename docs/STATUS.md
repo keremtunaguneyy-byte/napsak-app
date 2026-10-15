@@ -1,5 +1,10 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-15 — Production Saved / Kaydedilenler
+
+Approved Figma section `1026:5886` is implemented on `codex/gezek-production-saved` from fetched main `056ad19`. Seven mixed Saved entry shapes, count removal, compact artwork rows, explicit expired Events, independent Unsave/focus and exact Detail/editorial origin return are scoped here. No Firebase/persistence schema or Ankara 101 visual change. See [SAVED_IMPLEMENTATION_REPORT.md](SAVED_IMPLEMENTATION_REPORT.md) for audit, complete authority ledger, verification, inventory and pending Redmi/TalkBack acceptance. Normal commit/push and one Draft PR authorized; no merge or #57/Verilog work.
+
+
 ## 2026-10-15 — Final location preflight / Draft #76
 
 Verified local/remote/PR head `e1dd5d9` and fetched main `746aad3`. New user-reported Redmi evidence shows Expo Go Quick Settings may emit neither active nor focus. The visible batch is an accepted last-acquired-location snapshot. Every new Home and Place-related recommendation computation now uses one read-only validity resolver; absent cache skips native reads, invalid/error/2 s one-shot timeout clears cache and computes locationless. No polling or automatic GPS. Current local/browser/export evidence and pending exact-head Redmi retest: [EXPERIENCE_DISTANCE_REPORT.md](EXPERIENCE_DISTANCE_REPORT.md). Same branch/Draft #76 only; normal commit/push, no merge, #57 or Verilog work.

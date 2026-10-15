@@ -1,0 +1,72 @@
++ codex/ankara-content-batch-2                                    aa6cf63 (/private/tmp/napsak-ankara-content-batch-2) [origin/codex/ankara-content-batch-2: gone] Add Ankara content batch 2
++ codex/ankara-content-batch-3                                    8f7fc82 (/private/tmp/napsak-ankara-content-batch-3) [origin/codex/ankara-content-batch-3: gone] Add Ankara content batch 3
++ codex/ankara-experience-batch-4                                 78c2a1d (/private/tmp/napsak-ankara-experience-batch-4) [origin/codex/ankara-experience-batch-4] Add Ankara experience batch 4
++ codex/ankara-place-batch-2                                      9e46b31 (/private/tmp/napsak-place-batch-2) [origin/codex/ankara-place-batch-2: gone] Add Ankara place completeness batch 2
++ codex/ankara-place-batch-3                                      98cc32c (/Users/kerem/.codex/worktrees/6178/napsak-app) [origin/codex/ankara-place-batch-3: gone] Add verified Ankara food places batch 3
++ codex/ankara-place-completeness-batch-1                         905af46 (/private/tmp/napsak-ankara-place-batch-1) [origin/codex/ankara-place-completeness-batch-1: gone] Fix catalog fetch timestamp
++ codex/ankara101-editorial-depth                                 deefa6e (/private/tmp/napsak-ankara101-editorial-depth) [origin/codex/ankara101-editorial-depth: gone] Polish Ankara 101 editorial navigation
+  codex/app-identity-eas-setup                                    a65885b [origin/codex/app-identity-eas-setup] Configure app identity and EAS linkage
++ codex/build-environment-hardening                               3767fbe (/Users/kerem/.codex/worktrees/e9c1/napsak-app) [origin/codex/build-environment-hardening: gone] Bind EAS profiles to validated runtime environments
++ codex/catalog-lifecycle-correctness                             23c02f6 (/Users/kerem/.codex/worktrees/e286/napsak-app) [origin/codex/catalog-lifecycle-correctness: gone] Fix catalog lifecycle correctness
++ codex/connected-service-readiness                               dbc6150 (/private/tmp/napsak-connected-service-readiness) [origin/codex/connected-service-readiness: gone] Prepare explicit connected beta service path
++ codex/content-eligibility-infrastructure                        3275cb2 (/private/tmp/napsak-content-eligibility) [origin/codex/content-eligibility-infrastructure] Add content eligibility and lifecycle infrastructure
++ codex/deletion-boundary-evidence                                624c28a (/Users/kerem/.codex/worktrees/3efd/napsak-app) [origin/codex/deletion-boundary-evidence] Harden deletion boundary evidence
+  codex/eas-build-config                                          be391f1 [origin/codex/eas-build-config] Add EAS build configuration
++ codex/event-freshness-refresh-1                                 9206d26 (/Users/kerem/.codex/worktrees/9127/napsak-app) [origin/codex/event-freshness-refresh-1: gone] Refresh Ankara event catalog
++ codex/event-freshness-refresh-2                                 79a1680 (/private/tmp/napsak-event-freshness-refresh-2) [origin/codex/event-freshness-refresh-2] Refresh Ankara event catalog for 21 September audit
++ codex/evergreen-content-batch-1                                 4ed6983 (/private/tmp/napsak-evergreen-content-batch-1) [origin/codex/evergreen-content-batch-1: gone] Correct No29 price level
++ codex/experience-primary-precedence                             bb0f0fd (/private/tmp/napsak-primary-precedence) [origin/codex/experience-primary-precedence] Fix Experience primary-interest precedence
++ codex/experience-primary-tier-order                             8305f22 (/Users/kerem/.codex/worktrees/4c64/napsak-app) [origin/codex/experience-primary-tier-order] Preserve Experience primary interest ordering
++ codex/final-ankara-experience-batch                             2d96590 (/private/tmp/napsak-final-ankara-experience-batch) [origin/codex/final-ankara-experience-batch: gone] Add final Ankara experience batch
+  codex/gezek-brand-rename-foundation                             4b13371 [origin/codex/gezek-brand-rename-foundation: gone] Correct Gezek project memory update date
+  codex/gezek-detail-event-idea                                   83c1eb6 [origin/codex/gezek-detail-event-idea] Implement Gezek Event and Idea detail flows
+  codex/gezek-detail-plan-place                                   62faffd [origin/codex/gezek-detail-plan-place] fix(detail): restore catalog-backed Plan chips
+  codex/gezek-event-artwork-automation                            91a68f7 [origin/codex/gezek-event-artwork-automation] Reconcile reviewed Event artwork and validate deterministic assets
+  codex/gezek-event-catalog-refresh-2026-10-12                    07de141 [origin/codex/gezek-event-catalog-refresh-2026-10-12] Prevent older catalogs from shadowing refreshed embedded data
+  codex/gezek-home-native-performance                             b12bd14 [origin/codex/gezek-home-native-performance] Record Redmi smoke outcome and deferred Home detail follow-ups
+  codex/gezek-plan-distance                                       4efeeac [origin/codex/gezek-plan-distance] Read fresh location status for every batch request
+  codex/gezek-preference-editor-event-empty-states                ee857c6 [origin/codex/gezek-preference-editor-event-empty-states] Center preference editor Close controls with approved SVG
+  codex/gezek-production-onboarding                               6775ed0 [origin/codex/gezek-production-onboarding] Finalize onboarding Ready orientation and route onset
+* codex/gezek-production-saved                                    056ad19 [origin/main] Merge pull request #76 from keremtunaguneyy-byte/codex/gezek-plan-distance
+  codex/gezek-recommendation-correctness-phase-1                  f1d616f [origin/codex/gezek-recommendation-correctness-phase-1] Correct installed dependency audit count in Phase 1 report
+  codex/gezek-ui-foundation                                       f09c845 [origin/codex/gezek-ui-foundation] Correct Home edge-to-edge atmosphere and cache SVG parsing
++ codex/idea-architecture-batch-a                                 0d64073 (/private/tmp/napsak-idea-architecture-batch-a) [origin/codex/idea-architecture-batch-a] Add Idea metadata architecture and Batch A
++ codex/idea-expansion-batch-b                                    2e9b032 (/private/tmp/napsak-idea-batch-b) [origin/codex/idea-expansion-batch-b: gone] Expand structured idea catalog with Batch B
++ codex/idea-expansion-batch-c                                    a6e89bf (/private/tmp/napsak-idea-expansion-batch-c) [origin/codex/idea-expansion-batch-c: gone] Curate final Idea expansion batch
++ codex/legacy-preference-cleanup                                 e161d66 (/Users/kerem/.codex/worktrees/legacy-preference-cleanup/napsak-app) [origin/codex/legacy-preference-cleanup: gone] Harden legacy preference migration
+  codex/local-workflow-setup                                      cd4ad98 [origin/codex/local-workflow-setup: gone] Add local Codex workflow instructions
++ codex/owner-bound-pending-sync                                  23e0b6c (/Users/kerem/.codex/worktrees/owner-bound-pending-sync/napsak-app) [origin/codex/owner-bound-pending-sync: gone] Normalize overlapping remote user state
++ codex/recommendation-quality-baseline                           43962d2 (/Users/kerem/.codex/worktrees/99c7/napsak-app) [origin/codex/recommendation-quality-baseline: gone] Add recommendation quality baseline
+  main                                                            056ad19 [origin/main] Merge pull request #76 from keremtunaguneyy-byte/codex/gezek-plan-distance
+  remotes/origin/HEAD                                             -> origin/main
+  remotes/origin/agent/accessibility-baseline-20260908            e69990a Ekran okuyucu ve dokunma hedeflerini güçlendir
+  remotes/origin/agent/context-refresh-20260907                   f713aa2 Geri dönen kullanıcı bağlamını güvenle yenile
+  remotes/origin/agent/e2e-device-matrix-readiness-20260908       7904436 Cihaz matrisi kabul hazırlığını tanımla
+  remotes/origin/agent/experience-quality-multicity               c138d4e PR #14: add multi-city metadata
+  remotes/origin/agent/firebase-data-backbone                     fb2a9c4 Build Firebase data backbone
+  remotes/origin/agent/idea-discovery-quota                       7668c00 Tune idea feed for controlled discovery
+  remotes/origin/agent/napsak-experience-mvp                      144529b Add src/data/experiences.ts for N’apsak Experience MVP
+  remotes/origin/agent/privacy-safe-analytics-20260907            bd4fd01 Gizlilik güvenli ürün analitiği sözleşmesi
+  remotes/origin/agent/project-memory-20260906                    88340a7 docs: record merged feature and Ankara integration
+  remotes/origin/agent/saved-recency-20260907                     7171139 Kaydedilenleri son eklenene göre sırala
+  remotes/origin/agent/security-rules-ci-20260907                 6a34f18 Firestore kurallarını Java 21 CI ile kanıtla
+  remotes/origin/codex/ankara-experience-batch-4                  78c2a1d Add Ankara experience batch 4
+  remotes/origin/codex/app-identity-eas-setup                     a65885b Configure app identity and EAS linkage
+  remotes/origin/codex/content-eligibility-infrastructure         3275cb2 Add content eligibility and lifecycle infrastructure
+  remotes/origin/codex/deletion-boundary-evidence                 624c28a Harden deletion boundary evidence
+  remotes/origin/codex/eas-build-config                           be391f1 Add EAS build configuration
+  remotes/origin/codex/event-freshness-refresh-2                  79a1680 Refresh Ankara event catalog for 21 September audit
+  remotes/origin/codex/experience-primary-precedence              bb0f0fd Fix Experience primary-interest precedence
+  remotes/origin/codex/experience-primary-tier-order              8305f22 Preserve Experience primary interest ordering
+  remotes/origin/codex/gezek-detail-event-idea                    83c1eb6 Implement Gezek Event and Idea detail flows
+  remotes/origin/codex/gezek-detail-plan-place                    62faffd fix(detail): restore catalog-backed Plan chips
+  remotes/origin/codex/gezek-event-artwork-automation             91a68f7 Reconcile reviewed Event artwork and validate deterministic assets
+  remotes/origin/codex/gezek-event-catalog-refresh-2026-10-12     07de141 Prevent older catalogs from shadowing refreshed embedded data
+  remotes/origin/codex/gezek-home-native-performance              b12bd14 Record Redmi smoke outcome and deferred Home detail follow-ups
+  remotes/origin/codex/gezek-plan-distance                        4efeeac Read fresh location status for every batch request
+  remotes/origin/codex/gezek-preference-editor-event-empty-states ee857c6 Center preference editor Close controls with approved SVG
+  remotes/origin/codex/gezek-production-onboarding                6775ed0 Finalize onboarding Ready orientation and route onset
+  remotes/origin/codex/gezek-recommendation-correctness-phase-1   f1d616f Correct installed dependency audit count in Phase 1 report
+  remotes/origin/codex/gezek-ui-foundation                        f09c845 Correct Home edge-to-edge atmosphere and cache SVG parsing
+  remotes/origin/codex/idea-architecture-batch-a                  0d64073 Add Idea metadata architecture and Batch A
+  remotes/origin/main                                             056ad19 Merge pull request #76 from keremtunaguneyy-byte/codex/gezek-plan-distance

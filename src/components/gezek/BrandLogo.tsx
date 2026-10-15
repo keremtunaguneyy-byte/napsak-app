@@ -4,9 +4,9 @@ import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_TYPE } from '../../design/geze
 import { GezekAsset } from './GezekArtwork';
 
 /** Final logo onaylandığında yalnız bu bileşen değiştirilecek. */
-export const BrandLogo = memo(function BrandLogo({ color = GEZEK_COLORS.navy, size }: { color?: string; size?: number }) {
+export const BrandLogo = memo(function BrandLogo({ color = GEZEK_COLORS.navy, size, allowFontScaling = true }: { color?: string; size?: number; allowFontScaling?: boolean }) {
   return <View accessibilityLabel="Gezek" accessibilityRole="text" style={s.row}>
-    <Text style={[s.word, { color }, size !== undefined && { fontSize: size, lineHeight: Math.round(size * 1.3), letterSpacing: 0 }]}>gezek</Text><GezekAsset name="brandDot" />
+    <Text allowFontScaling={allowFontScaling} style={[s.word, { color }, size !== undefined && { fontSize: size, lineHeight: Math.round(size * 1.3), letterSpacing: 0 }]}>gezek</Text><GezekAsset name="brandDot" />
   </View>;
 });
 const s = StyleSheet.create({

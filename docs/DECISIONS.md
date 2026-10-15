@@ -1,5 +1,10 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-15 — Production Saved / Kaydedilenler
+
+Approved Figma section `1026:5886` is implemented on `codex/gezek-production-saved` from fetched main `056ad19`. Seven mixed Saved entry shapes, count removal, compact artwork rows, explicit expired Events, independent Unsave/focus and exact Detail/editorial origin return are scoped here. No Firebase/persistence schema or Ankara 101 visual change. See [SAVED_IMPLEMENTATION_REPORT.md](SAVED_IMPLEMENTATION_REPORT.md) for audit, complete authority ledger, verification, inventory and pending Redmi/TalkBack acceptance. Normal commit/push and one Draft PR authorized; no merge or #57/Verilog work.
+
+
 ## 2026-10-15 — Approved location snapshot and mandatory batch preflight
 
 User explicitly accepts that an existing Home distance represents the last explicitly acquired fix and may remain after a missed Expo Go Quick Settings lifecycle signal. Reliable lifecycle checks, explicit update, or a new batch action can invalidate it. No periodic polling, repeating timer or continuous tracking is approved. Every newly computed location-scored Home/related batch must resolve its location through read-only service and foreground-permission checks; missing cache proceeds locationless immediately, invalid/denied/error/timeout discards it and proceeds locationless. Only an explicit successful location request restores a discarded fix. Existing ranking/eligibility/catalog formulas and relationships are unchanged. Same branch and Draft #76, normal commit/push; no merge. Implementation and pending native evidence: `EXPERIENCE_DISTANCE_REPORT.md`.
