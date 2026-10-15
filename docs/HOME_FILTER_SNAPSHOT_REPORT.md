@@ -2,11 +2,33 @@
 
 ## Scope and verified base
 
-Branch: `codex/gezek-home-filter-snapshot-stability`. Base: `5ed153e46fe7bc53a4d9100efef2f62ec1183111` (PR #77 merge). This is a separate Draft PR; it must remain unmerged pending review and Redmi acceptance.
+Branch: `codex/gezek-home-filter-snapshot-stability`. Base: `5ed153e46fe7bc53a4d9100efef2f62ec1183111` (PR #77 merge). Implementation was opened as separate Draft PR #78. The subsequent user-provided Redmi acceptance and conditional normal-merge authorization below supersede its original Draft/unmerged hold.
 
 Stage 1 completed before this branch existed. PR #77 was fetched and reconciled against expected implementation head `d1b611c38eb665f35711ce546264a5661fa5529f`, base `056ad19faf63107766408867972a76521c7ec134`, and 60 expected files. It was open/Draft, CLEAN/MERGEABLE, without reviews or unresolved review threads; no unexpected code/design change appeared. Only `START_HERE.md`, `STATUS.md`, `DECISIONS.md`, and `SAVED_IMPLEMENTATION_REPORT.md` changed for acceptance. Documentation commit `6e4e9015371ba1b1741b28e1c3020cbee843ef2b` was pushed normally and the PR description updated consistently. Exact-head [App Quality](https://github.com/keremtunaguneyy-byte/napsak-app/actions/runs/38754642602) and [Security Rules](https://github.com/keremtunaguneyy-byte/napsak-app/actions/runs/38754642630) both passed. After another head/base/review/thread/mergeability check, #77 was marked ready and merged with `--merge --match-head-commit`, without squash/rebase/force. Merge commit: `5ed153e46fe7bc53a4d9100efef2f62ec1183111`, merged 2026-10-15 14:53:39 UTC. Fetched `origin/main` and fast-forwarded local `main` matched that exact SHA before Stage 2.
 
 User-provided exact-build Redmi acceptance for Saved is recorded in its report: mixed list, editorial saves, independent body/Unsave, final-item Empty, recommendation/editorial Android Back, restart persistence, normal layout/navigation clearance. Expired Event, real OS large text and TalkBack separation remain explicitly deferred; signed-release acceptance is separately unverified. Simple Ankara 101 Saved visuals remain for later Ankara 101 closure.
+
+## PR #78 Redmi acceptance reconciliation
+
+On 2026-10-15, the user reported testing exact PR #78 implementation head `6b03a1366f31bfd2271eaac6bd5ba0c8b8afef99` on Redmi and accepted:
+
+1. First visits to Gezek, Mekân, Etkinlik and Fikir work.
+2. Ten warm filter cycles preserve recommendation IDs and ordering.
+3. The previous approximately three-second Mekân delay is gone.
+4. The remaining transition below approximately one second is acceptable for the beta.
+5. Pressing the active filter is a no-op.
+6. Explicit refresh changes only the active filter.
+7. Preference Cancel preserves snapshots.
+8. Preference Save performs controlled invalidation.
+9. Dismiss and Undo affect only the relevant surface.
+10. Location behavior remains correct.
+11. Detail → Android Back preserves the active filter and batch.
+
+This is user-provided exact-build device evidence. The approximate timing observations are not instrumented native measurements or FPS claims. The behavioral defect and major delay are accepted as fixed; the remaining beta-accepted transition does not reopen performance implementation. The separately deferred checks are **real Android OS large text, TalkBack, and signed-release acceptance**. The browser evidence and original implementation verification ledger below remain historical evidence of that implementation, not new tests run during this documentation-only reconciliation.
+
+Initial reconciliation verified the real repository path, branch, local/fetched PR head above, and local/fetched main/base `5ed153e46fe7bc53a4d9100efef2f62ec1183111`. Only protected Verilog work was untracked. PR #78 was Draft/open, CLEAN/MERGEABLE, with its expected one implementation commit and 22-file scope, no unexpected changes or conflicts, no reviews and no review threads (complete first page). Exact implementation-head App Quality `38760481964` and Security Rules `38760481715` were both successful.
+
+Only `START_HERE.md`, `STATUS.md`, `DECISIONS.md` and this report change for acceptance; the PR description is reconciled consistently. No runtime/test/evidence/configuration file is changed. The user now authorizes normal commit/push, new exact-head App Quality and Security Rules, then ready + normal merge if the PR remains mergeable without a review blocker. No squash, rebase, amend or force push. After merge, fetch and fast-forward local main and verify equality with origin/main. Final head/CI/merge/main SHAs are reported from live Git/GitHub in the completion response; this pre-merge documentation commit does not assert completion in advance. PR #57 is closed as superseded without merge and remains untouched.
 
 ## Confirmed root cause and old lifecycle
 
@@ -119,9 +141,9 @@ Local Firebase Rules and release-readiness checks were not separately rerun: thi
 
 Exact file inventory: [HOME_FILTER_SNAPSHOT_CHANGED_FILES.txt](HOME_FILTER_SNAPSHOT_CHANGED_FILES.txt). Runtime changes are limited to App wiring plus the two Home snapshot modules. Test/fixture changes, focused evidence and status/decision updates make the lifecycle reviewable. PR #57 was not modified; `src/firebase/BA_4bit.sv/` remains untouched and uncommitted. No amend, reset, clean, stash or force push used.
 
-Normal commit/push and one separate Draft PR are authorized. Exact-head GitHub CI and the final commit/PR URL are reported in the completion message; the report intentionally avoids inventing a future commit SHA or making a self-referential commit. Do not merge this Draft PR.
+The original implementation was authorized for one separate Draft PR. The later PR #78 Redmi acceptance reconciliation above supersedes that original hold and authorizes a conditional normal merge. Exact-head CI, final head and merge/main commits must be verified live and reported in the completion response.
 
-Redmi retest checklist:
+Original Redmi retest checklist (historical; accepted checks and remaining deferrals are reconciled above):
 
 1. Visit all four filters, note first main item and ordered alternatives; repeat 20 cycles and verify they stay unchanged with no former warm-return pause. Measure real device latency separately.
 2. Repress the selected filter; verify no rotation. Refresh each filter explicitly and verify only that filter changes; return to the others.
@@ -131,4 +153,4 @@ Redmi retest checklist:
 6. Home → Detail → Android Back preserves filter/batch/offset; verify normal navigation and pending-refresh switches do not jump. Check genuine Event loading/error/Retry/recovery.
 7. Repeat normal/actual OS large text and TalkBack interactions. Signed-release acceptance remains a separate gate. Saved's expired Event/native text/TalkBack deferrals and Ankara 101 visual closure remain open as already recorded.
 
-No implementation blocker remains after local validation. Native Redmi latency, real OS text/TalkBack and signed-release acceptance are pending, not claimed passed.
+No implementation blocker was found during local implementation validation. The subsequent user-reported Redmi acceptance closes the confirmed filter defect and major-delay acceptance; real Android OS large text, TalkBack and signed-release acceptance remain separately deferred. Existing Saved-specific expired-Event and Ankara 101 visual closure deferrals are unchanged.

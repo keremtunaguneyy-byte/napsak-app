@@ -1,5 +1,11 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-15 — PR #78 Redmi acceptance and authorized merge
+
+The user tested exact implementation head `6b03a1366f31bfd2271eaac6bd5ba0c8b8afef99` on Redmi. Accepted: first visits to all four filters; ten warm cycles preserving recommendation IDs/order; removal of the previous approximately three-second Mekân delay; the remaining below-approximately-one-second transition as acceptable for beta; active-filter no-op; refresh limited to the active filter; Preference Cancel preservation and Save controlled invalidation; scoped Dismiss/Undo; correct location behavior; and Detail → Android Back retaining the active filter/batch. These are user-reported device observations, not instrumented native timing/FPS measurements. The confirmed defect and major delay are accepted as fixed; this acceptance does not reopen performance work.
+
+Real Android OS large-text, TalkBack and signed-release acceptance remain separately deferred. This instruction supersedes prior PR #78 “keep Draft / do not merge / Redmi pending” notes: reconcile documentation, push normally, await App Quality and Security Rules on the new exact head, then mark ready and merge with a normal merge commit only if still mergeable without a review blocker. Merge completion must be verified from live Git/GitHub. See [HOME_FILTER_SNAPSHOT_REPORT.md](HOME_FILTER_SNAPSHOT_REPORT.md). PR #57 is closed as superseded without merge and must stay untouched; unrelated untracked `src/firebase/BA_4bit.sv/` remains protected. No application, algorithm/scoring, catalog, Firebase/persistence, design, release configuration or Ankara 101 implementation change is authorized here.
+
 ## 2026-10-15 — Saved merged; independent Home filter snapshots
 
 PR #77 merged normally after acceptance-only commit `6e4e9015371ba1b1741b28e1c3020cbee843ef2b` passed exact-head App Quality and Security Rules. Merge/fetched local main: `5ed153e46fe7bc53a4d9100efef2f62ec1183111`. Earlier #77 Draft/no-merge notes below are historical; the three deferred native checks, signed-release gate and Ankara 101 visual closure remain open.
