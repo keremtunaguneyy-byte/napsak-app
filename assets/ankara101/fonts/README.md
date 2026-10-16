@@ -18,6 +18,6 @@ The packaged `visual-approval-and-fonts.json` omits DM Serif Display, but live i
 
 The scoped loading gate waits before rendering editorial text. Error or a ten-second timeout gives Retry and Back, with no fallback look-alike face or automatic late switch after timeout. Retry starts a fresh attempt. Browser error, timeout, retry and safe-exit checks are separate from pending physical Redmi/font-loading acceptance.
 
-Existing Plus Jakarta files used by the shared `GEZEK_FONT_FAMILIES` registry are `400Regular/PlusJakartaSans_400Regular.ttf`, `500Medium/PlusJakartaSans_500Medium.ttf`, `600SemiBold/PlusJakartaSans_600SemiBold.ttf` and `700Bold/PlusJakartaSans_700Bold.ttf` within that exact installed dependency. Its package and font licenses remain supplied by the unchanged lockfile dependency.
+Existing Plus Jakarta files used by the shared `GEZEK_FONT_FAMILIES` registry are `400Regular/PlusJakartaSans_400Regular.ttf`, `500Medium/PlusJakartaSans_500Medium.ttf`, `600SemiBold/PlusJakartaSans_600SemiBold.ttf` `700Bold/PlusJakartaSans_700Bold.ttf` and `800ExtraBold/PlusJakartaSans_800ExtraBold.ttf` within that exact installed dependency. The existing BrandLogo uses the 800 face; its implementation is unchanged. Its package and font licenses remain supplied by the unchanged lockfile dependency.
 
 License records retain the complete official copyright and OFL wording; only CRLF/trailing whitespace was normalized for repository whitespace checks. `provenance.json` records both upstream and local license digests.
