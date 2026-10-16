@@ -1,5 +1,9 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-17 — Approved Ankara 101 implementation authority
+
+Status: user-approved visual implementation; physical acceptance pending. Exact live production Figma nodes govern the cover/index and twelve guide compositions, while the current catalog governs content and stable IDs. Historical candidate labels in retained ledgers are superseded by the approval contract. The user explicitly approved scoped DM Serif Display Regular/Italic for live cover roles omitted from the package font list; Bricolage, Fraunces, Instrument Serif and existing Plus Jakarta roles remain intact. Exact local SVG instance exports solve Figma/native stroke scaling without changing approved masters. See [ANKARA101_IMPLEMENTATION_REPORT.md](ANKARA101_IMPLEMENTATION_REPORT.md). One Draft PR, normal commit/push, no merge; Redmi/TalkBack/OS large text/reduced motion/signed-release evidence remains pending.
+
 ## 2026-10-15 — PR #78 Redmi acceptance and authorized merge
 
 The user tested exact implementation head `6b03a1366f31bfd2271eaac6bd5ba0c8b8afef99` on Redmi. Accepted: first visits to all four filters; ten warm cycles preserving recommendation IDs/order; removal of the previous approximately three-second Mekân delay; the remaining below-approximately-one-second transition as acceptable for beta; active-filter no-op; refresh limited to the active filter; Preference Cancel preservation and Save controlled invalidation; scoped Dismiss/Undo; correct location behavior; and Detail → Android Back retaining the active filter/batch. These are user-reported device observations, not instrumented native timing/FPS measurements. The confirmed defect and major delay are accepted as fixed; this acceptance does not reopen performance work.

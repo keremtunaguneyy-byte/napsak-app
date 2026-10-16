@@ -1,0 +1,1542 @@
+{
+  "authorityFileKey": "yTdAWr92ETyurlQQHNNqpi",
+  "evidence": "docs/evidence/ankara101",
+  "guides": [
+    {
+      "guideId": "guide-ankara-kalesi",
+      "title": "Ankara Kalesi\nve çevresi",
+      "nodes": {
+        "reading_master": "1313:21222",
+        "mobile_393": "1345:24044",
+        "mobile_412": "1345:24335",
+        "entry_card": "1297:20854",
+        "existing_media_node": "1121:12870"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 43,
+        "lineHeight": 44
+      },
+      "palette": {
+        "top": "#E8ECF9",
+        "middle": "#F2EDE2",
+        "end": "#DFF3E8",
+        "ink": "#102452",
+        "accent": "#3F65FC"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-ankara-kalesi/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 42,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "",
+        "background": "",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Kaleden başla",
+          "Sokağa karış"
+        ],
+        "stopPlacement": "split",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 70,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1345:24044",
+          "bodyHeight": 1732,
+          "sourceBottom": 708,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1345:24044",
+          "bodyHeight": 3895,
+          "sourceBottom": 693.203125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1345:24335",
+          "bodyHeight": 1732,
+          "sourceBottom": 771,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1345:24335",
+          "bodyHeight": 3895,
+          "sourceBottom": 756.203125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Mixed-weight title and flow corrected; exact source stone opacity 0.24 preserved despite stronger Figma host raster strokes.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-hamamonu",
+      "title": "Hamamönü\nsokakları",
+      "nodes": {
+        "reading_master": "1340:30862",
+        "mobile_393": "1340:30954",
+        "mobile_412": "1340:31059",
+        "entry_card": "1340:30944",
+        "existing_media_node": "1121:12873"
+      },
+      "titleTypography": {
+        "family": "Fraunces",
+        "style": "Bold",
+        "size": 39,
+        "lineHeight": 40
+      },
+      "palette": {
+        "top": "#F5E4E8",
+        "middle": "#F3E7D8",
+        "end": "#E8E8DE",
+        "ink": "#352B38",
+        "accent": "#8D4056"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-hamamonu/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-hamamonu-interlude",
+        "background": "guide-hamamonu-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Mahallenin ritmi",
+          "Hafızanın izinde"
+        ],
+        "stopPlacement": "split",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-391154/tarih--kultur-turizmi.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1340:30954",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1340:30954",
+          "bodyHeight": 3393,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1340:31059",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1340:31059",
+          "bodyHeight": 3393,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-anadolu-medeniyetleri",
+      "title": "Anadolu\nMedeniyetleri\nMüzesi",
+      "nodes": {
+        "reading_master": "1342:30862",
+        "mobile_393": "1342:30932",
+        "mobile_412": "1342:31015",
+        "entry_card": "1342:30922",
+        "existing_media_node": "1121:12876"
+      },
+      "titleTypography": {
+        "family": "Instrument Serif",
+        "style": "Regular",
+        "size": 47,
+        "lineHeight": 48
+      },
+      "palette": {
+        "top": "#EAE4F0",
+        "middle": "#EFE5D5",
+        "end": "#E1E7E7",
+        "ink": "#302D43",
+        "accent": "#665788"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-anadolu-medeniyetleri/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 230,
+          "x": 24,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 76,
+            "topRight": 76,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-anadolu-medeniyetleri-interlude",
+        "background": "guide-anadolu-medeniyetleri-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Zamanın katmanları",
+          "Kendi keşfini kur"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=AMM&SectionId=AMM01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:30932",
+          "bodyHeight": 1530,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:30932",
+          "bodyHeight": 3090,
+          "sourceBottom": 685.75,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31015",
+          "bodyHeight": 1530,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31015",
+          "bodyHeight": 3090,
+          "sourceBottom": 748.75,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-cumhuriyet-muzesi",
+      "title": "II. Meclis:\nCumhuriyet Müzesi",
+      "nodes": {
+        "reading_master": "1342:31106",
+        "mobile_393": "1342:31191",
+        "mobile_412": "1342:31289",
+        "entry_card": "1342:31181",
+        "existing_media_node": "1121:12879"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 39,
+        "lineHeight": 40
+      },
+      "palette": {
+        "top": "#F1E1E5",
+        "middle": "#F3E9DC",
+        "end": "#E2E7EE",
+        "ink": "#3D2938",
+        "accent": "#963F4C"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-cumhuriyet-muzesi/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 210,
+          "x": 24,
+          "slotHeight": 226,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-cumhuriyet-muzesi-interlude",
+        "background": "guide-cumhuriyet-muzesi-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Mekânın hafızası",
+          "Ulus’a açılan hat"
+        ],
+        "stopPlacement": "afterIntro",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=CUM01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31191",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31191",
+          "bodyHeight": 3361,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31289",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31289",
+          "bodyHeight": 3361,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-etnografya-muzesi",
+      "title": "Etnografya\nMüzesi",
+      "nodes": {
+        "reading_master": "1342:31394",
+        "mobile_393": "1342:31461",
+        "mobile_412": "1342:31541",
+        "entry_card": "1342:31451",
+        "existing_media_node": "1121:12882"
+      },
+      "titleTypography": {
+        "family": "Fraunces",
+        "style": "SemiBold",
+        "size": 41,
+        "lineHeight": 42
+      },
+      "palette": {
+        "top": "#EEEBD7",
+        "middle": "#EEE0CE",
+        "end": "#E4E9DF",
+        "ink": "#30382E",
+        "accent": "#536436"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-etnografya-muzesi/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 234,
+          "x": 24,
+          "slotHeight": 252,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 48,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-etnografya-muzesi-interlude",
+        "background": "guide-etnografya-muzesi-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Gündelik hayatın izi",
+          "Koleksiyondan yapıya"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=AET01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31461",
+          "bodyHeight": 1515,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31461",
+          "bodyHeight": 2940,
+          "sourceBottom": 685.859375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31541",
+          "bodyHeight": 1515,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31541",
+          "bodyHeight": 2940,
+          "sourceBottom": 748.859375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-resim-heykel",
+      "title": "Resim ve\nHeykel Müzesi",
+      "nodes": {
+        "reading_master": "1342:31630",
+        "mobile_393": "1342:31703",
+        "mobile_412": "1342:31789",
+        "entry_card": "1342:31693",
+        "existing_media_node": "1121:12885"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 39,
+        "lineHeight": 40
+      },
+      "palette": {
+        "top": "#EAE3F5",
+        "middle": "#F4E2DA",
+        "end": "#E2EAF5",
+        "ink": "#342B4A",
+        "accent": "#7550A2"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-resim-heykel/editorial-v2",
+        "hero": {
+          "width": 329,
+          "height": 236,
+          "x": 44,
+          "slotHeight": 258,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 54,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-resim-heykel-interlude",
+        "background": "guide-resim-heykel-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Sanatın mekânı",
+          "Yavaş bak"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=ARE01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31703",
+          "bodyHeight": 1525,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31703",
+          "bodyHeight": 2813,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31789",
+          "bodyHeight": 1525,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31789",
+          "bodyHeight": 2813,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-aslanhane",
+      "title": "Aslanhane\nCamii",
+      "nodes": {
+        "reading_master": "1342:31883",
+        "mobile_393": "1342:31968",
+        "mobile_412": "1342:32066",
+        "entry_card": "1342:31958",
+        "existing_media_node": "1121:12888"
+      },
+      "titleTypography": {
+        "family": "Instrument Serif",
+        "style": "Regular",
+        "size": 49,
+        "lineHeight": 50
+      },
+      "palette": {
+        "top": "#E4EBDD",
+        "middle": "#EFE2D0",
+        "end": "#E1E9E4",
+        "ink": "#2B3B35",
+        "accent": "#4E6B5C"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-aslanhane/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 230,
+          "x": 24,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 76,
+            "topRight": 76,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-aslanhane-interlude",
+        "background": "guide-aslanhane-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Ahşabın ritmi",
+          "Çevresiyle birlikte"
+        ],
+        "stopPlacement": "afterStory",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-359166/-aslanhane-camii-ahi-serafettin-unesco-dunya-miras-list-.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31968",
+          "bodyHeight": 1664,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31968",
+          "bodyHeight": 3105,
+          "sourceBottom": 684.953125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32066",
+          "bodyHeight": 1664,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32066",
+          "bodyHeight": 3105,
+          "sourceBottom": 747.953125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-ulus-kultur-hatti",
+      "title": "Başkent\nKültür Turu",
+      "nodes": {
+        "reading_master": "1342:32177",
+        "mobile_393": "1342:32288",
+        "mobile_412": "1342:32412",
+        "entry_card": "1342:32278",
+        "existing_media_node": "1121:12891"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 43,
+        "lineHeight": 44
+      },
+      "palette": {
+        "top": "#E1E9F7",
+        "middle": "#E9E2F0",
+        "end": "#F1E6D9",
+        "ink": "#23344E",
+        "accent": "#3151D5"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-ulus-kultur-hatti/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-ulus-kultur-hatti-interlude",
+        "background": "guide-ulus-kultur-hatti-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Bir kültür omurgası",
+          "Keşfi zamana yay"
+        ],
+        "stopPlacement": "index",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara Büyükşehir Belediyesi",
+        "url": "https://www.ankara.bel.tr/haberler/402-numarali-baskent-kultur-turu-bayramda-da-yollarda-18275",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32288",
+          "bodyHeight": 1722,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32288",
+          "bodyHeight": 3560,
+          "sourceBottom": 685.875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32412",
+          "bodyHeight": 1722,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32412",
+          "bodyHeight": 3560,
+          "sourceBottom": 748.875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-gordion",
+      "title": "Gordion Müzesi\nve antik kent",
+      "nodes": {
+        "reading_master": "1342:32544",
+        "mobile_393": "1342:32626",
+        "mobile_412": "1342:32721",
+        "entry_card": "1342:32616",
+        "existing_media_node": "1121:12894"
+      },
+      "titleTypography": {
+        "family": "Fraunces",
+        "style": "Bold",
+        "size": 36,
+        "lineHeight": 37
+      },
+      "palette": {
+        "top": "#F0E3C9",
+        "middle": "#ECD6BF",
+        "end": "#E8E4D9",
+        "ink": "#44372D",
+        "accent": "#7A4E32"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-gordion/editorial-v2",
+        "hero": {
+          "width": 393,
+          "height": 234,
+          "x": 0,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-gordion-interlude",
+        "background": "guide-gordion-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Bozkırdaki katmanlar",
+          "Bir günü buraya ayır"
+        ],
+        "stopPlacement": "afterStory",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=GOR01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32626",
+          "bodyHeight": 1641,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32626",
+          "bodyHeight": 3402,
+          "sourceBottom": 685.234375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32721",
+          "bodyHeight": 1641,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32721",
+          "bodyHeight": 3402,
+          "sourceBottom": 748.234375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-eymir",
+      "title": "Eymir Gölü\nçevresi",
+      "nodes": {
+        "reading_master": "1342:32824",
+        "mobile_393": "1342:32916",
+        "mobile_412": "1342:33021",
+        "entry_card": "1342:32906",
+        "existing_media_node": "1121:12897"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "SemiBold",
+        "size": 43,
+        "lineHeight": 44
+      },
+      "palette": {
+        "top": "#DDEDE6",
+        "middle": "#DCEAF0",
+        "end": "#EDE6D4",
+        "ink": "#243C3C",
+        "accent": "#28685F"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-eymir/editorial-v2",
+        "hero": {
+          "width": 393,
+          "height": 256,
+          "x": 0,
+          "slotHeight": 274,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 74
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-eymir-interlude",
+        "background": "guide-eymir-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Kıyının ritmi",
+          "Mesafeni sen seç"
+        ],
+        "stopPlacement": "split",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0=",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32916",
+          "bodyHeight": 1687,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32916",
+          "bodyHeight": 3256,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33021",
+          "bodyHeight": 1687,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33021",
+          "bodyHeight": 3256,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-mogan",
+      "title": "Mogan Gölü\nve Gölbaşı",
+      "nodes": {
+        "reading_master": "1342:33133",
+        "mobile_393": "1342:33200",
+        "mobile_412": "1342:33280",
+        "entry_card": "1342:33190",
+        "existing_media_node": "1121:12900"
+      },
+      "titleTypography": {
+        "family": "Instrument Serif",
+        "style": "Regular",
+        "size": 49,
+        "lineHeight": 50
+      },
+      "palette": {
+        "top": "#E2E9F2",
+        "middle": "#F2DDCB",
+        "end": "#E7E8D9",
+        "ink": "#3D3442",
+        "accent": "#835038"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-mogan/editorial-v2",
+        "hero": {
+          "width": 393,
+          "height": 234,
+          "x": 0,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-mogan-interlude",
+        "background": "guide-mogan-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Kıyıda yavaşla",
+          "Günün ışığını izle"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0=",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33200",
+          "bodyHeight": 1504,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33200",
+          "bodyHeight": 2794,
+          "sourceBottom": 685.546875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33280",
+          "bodyHeight": 1504,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33280",
+          "bodyHeight": 2794,
+          "sourceBottom": 748.546875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    },
+    {
+      "guideId": "guide-tunali-kugulu",
+      "title": "Tunalı ve Kuğulu\nPark hattı",
+      "nodes": {
+        "reading_master": "1342:33368",
+        "mobile_393": "1342:33453",
+        "mobile_412": "1342:33551",
+        "entry_card": "1342:33443",
+        "existing_media_node": "1121:12903"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 37,
+        "lineHeight": 38
+      },
+      "palette": {
+        "top": "#E1ECDE",
+        "middle": "#EAE2F1",
+        "end": "#F2E2D7",
+        "ink": "#2F3246",
+        "accent": "#705098"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-tunali-kugulu/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-tunali-kugulu-interlude",
+        "background": "guide-tunali-kugulu-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Parktan caddeye",
+          "Ara sokaklara sap"
+        ],
+        "stopPlacement": "afterIntro",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33453",
+          "bodyHeight": 1651,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33453",
+          "bodyHeight": 3449,
+          "sourceBottom": 685.484375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33551",
+          "bodyHeight": 1651,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33551",
+          "bodyHeight": 3449,
+          "sourceBottom": 748.484375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+    }
+  ]
+}

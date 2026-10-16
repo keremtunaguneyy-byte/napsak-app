@@ -1,0 +1,453 @@
+{
+  "reason": "Figma resize retains vector stroke weights at 54/132/260 px. Exact read-only SVG_STRING exports preserve those weights without editing or replacing any approved 180px master bytes. Node opacity is included in exported SVG; no second opacity multiplier at runtime.",
+  "fileKey": "yTdAWr92ETyurlQQHNNqpi",
+  "records": [
+    {
+      "id": "1342:33187",
+      "x": -100,
+      "y": 767,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        3
+      ],
+      "master": "1342:33133",
+      "guideId": "guide-mogan",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-mogan-ground.svg",
+      "sha256": "60c40a539468482da0d17dc4d8536712bf03c9ae9cdd67b2234ab771e82f24be",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:33157",
+      "x": 240,
+      "y": 832,
+      "w": 54,
+      "h": 54,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        3
+      ],
+      "master": "1342:33133",
+      "guideId": "guide-mogan",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-mogan-interlude.svg",
+      "sha256": "381304312f92b414fb50bd2618a9bc745cd401ff30e1d4248d45bac8e58a44cc",
+      "exportWidth": 54.0,
+      "exportHeight": 54.0
+    },
+    {
+      "id": "1342:33439",
+      "x": -100,
+      "y": 940,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        13,
+        3
+      ],
+      "master": "1342:33368",
+      "guideId": "guide-tunali-kugulu",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-tunali-kugulu-ground.svg",
+      "sha256": "e25c859a33a11a115cbb4f6c54dea06b5223a0e4d5c3c892a879eb2c03f2f104",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:33407",
+      "x": 240,
+      "y": 1005,
+      "w": 54,
+      "h": 54,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        13,
+        3
+      ],
+      "master": "1342:33368",
+      "guideId": "guide-tunali-kugulu",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-tunali-kugulu-interlude.svg",
+      "sha256": "73a1a746a4095bc42f05bf524940f01e8c8ed944259367db184c358056789afa",
+      "exportWidth": 54.0,
+      "exportHeight": 54.0
+    },
+    {
+      "id": "1342:31448",
+      "x": -100,
+      "y": 804,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        16,
+        4
+      ],
+      "master": "1342:31394",
+      "guideId": "guide-etnografya-muzesi",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-etnografya-muzesi-ground.svg",
+      "sha256": "3584f975bb1796b6e29550864b4af726e55af877f3a0420e2f1cebd594804609",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:31418",
+      "x": 240,
+      "y": 869,
+      "w": 54,
+      "h": 54,
+      "opacity": 1,
+      "strokeWeights": [
+        16,
+        4
+      ],
+      "master": "1342:31394",
+      "guideId": "guide-etnografya-muzesi",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-etnografya-muzesi-interlude.svg",
+      "sha256": "75085f9bd712bafbc2217ebdd9b34b38c5bddb8d24cfa1a909b0353e4a0a13f7",
+      "exportWidth": 54.0,
+      "exportHeight": 54.0
+    },
+    {
+      "id": "1342:31688",
+      "x": -100,
+      "y": 806,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        1,
+        3,
+        3
+      ],
+      "master": "1342:31630",
+      "guideId": "guide-resim-heykel",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-resim-heykel-ground.svg",
+      "sha256": "617b5a854fa9d63ea562f61c94fcb310648cbc1fdc8c04ba8ed4e1035fd542e4",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:31652",
+      "x": 24,
+      "y": 842,
+      "w": 132,
+      "h": 132,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        1,
+        3,
+        3
+      ],
+      "master": "1342:31630",
+      "guideId": "guide-resim-heykel",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-resim-heykel-interlude.svg",
+      "sha256": "62153b489de1782d996a3ccbb81ee486685d959ad9f93dcb7b65a7b505dbc4df",
+      "exportWidth": 132.0,
+      "exportHeight": 132.0
+    },
+    {
+      "id": "1342:31954",
+      "x": -100,
+      "y": 953,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        5,
+        3
+      ],
+      "master": "1342:31883",
+      "guideId": "guide-aslanhane",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-aslanhane-ground.svg",
+      "sha256": "00a1ce3e5daabee7fcaee36f5e96da7229bc7476ba401802ffbaed4fd922f992",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:31922",
+      "x": 240,
+      "y": 1018,
+      "w": 54,
+      "h": 54,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        5,
+        3
+      ],
+      "master": "1342:31883",
+      "guideId": "guide-aslanhane",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-aslanhane-interlude.svg",
+      "sha256": "ca2dffd5c2a54cab60ce9f9b1599525c9497766708b52f71d89f871a044d93e2",
+      "exportWidth": 54.0,
+      "exportHeight": 54.0
+    },
+    {
+      "id": "1340:30940",
+      "x": -100,
+      "y": 869,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        3,
+        3
+      ],
+      "master": "1340:30862",
+      "guideId": "guide-hamamonu",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-hamamonu-ground.svg",
+      "sha256": "ab5d368872b3d905eff88f556ff317482c7277458afbc04b35884a92478a675e",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1340:30897",
+      "x": 240,
+      "y": 934,
+      "w": 54,
+      "h": 54,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        3,
+        3
+      ],
+      "master": "1340:30862",
+      "guideId": "guide-hamamonu",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-hamamonu-interlude.svg",
+      "sha256": "0621ba4ee39f0ebe09e30f2e077b9c0fe2a9b2cadf5bbb3cea40c675649a17f5",
+      "exportWidth": 54.0,
+      "exportHeight": 54.0
+    },
+    {
+      "id": "1342:30918",
+      "x": -100,
+      "y": 811,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        3,
+        3
+      ],
+      "master": "1342:30862",
+      "guideId": "guide-anadolu-medeniyetleri",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-anadolu-medeniyetleri-ground.svg",
+      "sha256": "97a98c39a16d91d51a4be52676c64faaf92da4103bc21018f8b5fedd11a5b0d7",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:30884",
+      "x": 24,
+      "y": 847,
+      "w": 132,
+      "h": 132,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        3,
+        3
+      ],
+      "master": "1342:30862",
+      "guideId": "guide-anadolu-medeniyetleri",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-anadolu-medeniyetleri-interlude.svg",
+      "sha256": "544df5bb73b41b93bb6104a68c99e62aaf121306d0e91d38bf6d382fde757937",
+      "exportWidth": 132.0,
+      "exportHeight": 132.0
+    },
+    {
+      "id": "1342:31177",
+      "x": -100,
+      "y": 947,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        2,
+        5
+      ],
+      "master": "1342:31106",
+      "guideId": "guide-cumhuriyet-muzesi",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-cumhuriyet-muzesi-ground.svg",
+      "sha256": "47fb54757bd0e9309178f749bc2792e4277f0d92036a7a73a2c865175fd5af71",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:31143",
+      "x": 24,
+      "y": 983,
+      "w": 132,
+      "h": 132,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        2,
+        5
+      ],
+      "master": "1342:31106",
+      "guideId": "guide-cumhuriyet-muzesi",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-cumhuriyet-muzesi-interlude.svg",
+      "sha256": "cf94c9d9fc7e962391aaadfdd25cbe8589c25177d92576034d52adfa753f5803",
+      "exportWidth": 132.0,
+      "exportHeight": 132.0
+    },
+    {
+      "id": "1342:32269",
+      "x": -100,
+      "y": 1004,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        14,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "master": "1342:32177",
+      "guideId": "guide-ulus-kultur-hatti",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-ulus-kultur-hatti-ground.svg",
+      "sha256": "9f23b17b13e019bdc26089ae6d59848aed5dcb6c3b6c153cd0e462c021bea922",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:32221",
+      "x": 24,
+      "y": 1040,
+      "w": 132,
+      "h": 132,
+      "opacity": 1,
+      "strokeWeights": [
+        14,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "master": "1342:32177",
+      "guideId": "guide-ulus-kultur-hatti",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-ulus-kultur-hatti-interlude.svg",
+      "sha256": "8d5aa7ca43d076f035de0eea43ff53efe516e7731b38fe4a476976c8fd07ce6f",
+      "exportWidth": 132.0,
+      "exportHeight": 132.0
+    },
+    {
+      "id": "1342:32612",
+      "x": -100,
+      "y": 922,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        3,
+        2
+      ],
+      "master": "1342:32544",
+      "guideId": "guide-gordion",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-gordion-ground.svg",
+      "sha256": "cb20fad6409b07ff185221ae3aa00bb99f99e1ac59cb91e90a483a386b3dfea1",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:32578",
+      "x": 24,
+      "y": 958,
+      "w": 132,
+      "h": 132,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        3,
+        2
+      ],
+      "master": "1342:32544",
+      "guideId": "guide-gordion",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-gordion-interlude.svg",
+      "sha256": "52d3566e2223e6c3ce7f63a364f99b43ec3be28666e00c763c58e3a776eab543",
+      "exportWidth": 132.0,
+      "exportHeight": 132.0
+    },
+    {
+      "id": "1342:32902",
+      "x": -100,
+      "y": 890,
+      "w": 260,
+      "h": 260,
+      "opacity": 0.07999999821186066,
+      "strokeWeights": [
+        1,
+        3,
+        3
+      ],
+      "master": "1342:32824",
+      "guideId": "guide-eymir",
+      "role": "ground",
+      "file": "assets/ankara101/production/instances/guide-eymir-ground.svg",
+      "sha256": "a7a343526159be92904724f1dfd6d0a5890a0f2fcde35405395dba532e0d8358",
+      "exportWidth": 160.0,
+      "exportHeight": 260.0
+    },
+    {
+      "id": "1342:32859",
+      "x": 240,
+      "y": 955,
+      "w": 54,
+      "h": 54,
+      "opacity": 1,
+      "strokeWeights": [
+        1,
+        3,
+        3
+      ],
+      "master": "1342:32824",
+      "guideId": "guide-eymir",
+      "role": "interlude",
+      "file": "assets/ankara101/production/instances/guide-eymir-interlude.svg",
+      "sha256": "1178f61bfc2fdc9d69157c301a6428f6f2cb0d9503814bc5cc512513d02341be",
+      "exportWidth": 54.0,
+      "exportHeight": 54.0
+    }
+  ],
+  "groundCrop": "The 260\u00d7260 background instance starts at x=-100 in a clipped 393px Figma lane. Figma exports its visible 160\u00d7260 portion. Render that exact SVG at x=0 at its native root dimensions; do not rescale it to 260px or clip the left 100px twice. The SVG includes instance opacity 0.08."
+}

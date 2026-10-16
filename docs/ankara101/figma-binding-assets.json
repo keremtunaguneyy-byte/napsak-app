@@ -1,0 +1,114 @@
+{
+  "imgOfficialSourceArrow": {
+    "file": "assets/ankara101/production/bindings/imgOfficialSourceArrow.svg",
+    "sha256": "cbdad8361dd1b853a17969a0b5a704073f0bd79ec2080e43f084ddb599ed576a",
+    "width": 20.0,
+    "height": 20.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgBookmarkConsistentGeometry": {
+    "file": "assets/ankara101/production/bindings/imgBookmarkConsistentGeometry.svg",
+    "sha256": "33bdd92351314d344818d50de7678d43142e30e8ebb5522e98baffee002ddacc",
+    "width": 20.0,
+    "height": 24.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgFrame": {
+    "file": "assets/ankara101/production/bindings/imgFrame.svg",
+    "sha256": "347ac4098a10d9e6e316145513f38d172662b8a26f9993d632fec5dd2377a697",
+    "width": 20.0,
+    "height": 20.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgReadArrow": {
+    "file": "assets/ankara101/production/bindings/imgReadArrow.svg",
+    "sha256": "a042b85b6d3e46c7e9116ae8a2bdcb36cef691b22420b524d9067481bb2f1b77",
+    "width": 26.0,
+    "height": 26.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgPageTurnIntersection": {
+    "file": "assets/ankara101/production/bindings/imgPageTurnIntersection.svg",
+    "sha256": "3343677b62229f720cdf8bcf969eb5ed5cca4cf8f68c84204b6a2bc93d1d21ad",
+    "width": 20.0,
+    "height": 20.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgReadingCueNotAMap": {
+    "file": "assets/ankara101/production/bindings/imgReadingCueNotAMap.svg",
+    "sha256": "cd547ac0c4f29fc8a7ece296b4ee52b11e51ffd2cb86b0a3e40883c4a8d8d137",
+    "width": 18.0,
+    "height": 182.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgReadingCueNotAMap1": {
+    "file": "assets/ankara101/production/bindings/imgReadingCueNotAMap1.svg",
+    "sha256": "74d8c2dc71e1e6114d95f4d9b16b52a5fb932964700fbdcc975a441de038b700",
+    "width": 18.0,
+    "height": 130.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgTitleStoneRelief": {
+    "file": "assets/ankara101/production/bindings/imgTitleStoneRelief.svg",
+    "sha256": "d2526c625fdd86da99a0bb785a9d92c79c97646f0a753e50c039e9cbaf5aeec0",
+    "width": 137.75,
+    "height": 124.75,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgWarmMaterialField": {
+    "file": "assets/ankara101/production/bindings/imgWarmMaterialField.svg",
+    "sha256": "64935ab7f32fa3d8da11bf054e964d3a998eb933be36ab21b2b1da13d44d013e",
+    "width": 393.0,
+    "height": 275.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgPhotoBindingSteppedCityEdge": {
+    "file": "assets/ankara101/production/bindings/imgPhotoBindingSteppedCityEdge.svg",
+    "sha256": "66bb48f622bf775777d65108c3bf3841797266b3cca86002db6879d94fd6bd95",
+    "width": 393.0,
+    "height": 230.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgTwoStopReadingSpineNotAGeographicMap": {
+    "file": "assets/ankara101/production/bindings/imgTwoStopReadingSpineNotAGeographicMap.svg",
+    "sha256": "d417f362520fceb8a79716388feb67fa17321174c4404ab73cd2e0593200918d",
+    "width": 32.0,
+    "height": 248.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgSteppedCaptionMarkMatchesTitleStoneCourses": {
+    "file": "assets/ankara101/production/bindings/imgSteppedCaptionMarkMatchesTitleStoneCourses.svg",
+    "sha256": "b09470bdbe4aff7a13fc6a8121ef5be513c5909bacaadad8ba6a35be8a64cbfd",
+    "width": 48.0,
+    "height": 34.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgTwoStopReadingSpineNotAGeographicMap1": {
+    "file": "assets/ankara101/production/bindings/imgTwoStopReadingSpineNotAGeographicMap1.svg",
+    "sha256": "316d9a9931b0f869ae22ac9f580244f2ed9363f324e596ca08f6191bffe5bda4",
+    "width": 32.0,
+    "height": 196.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  },
+  "imgEditorialAnnotationSharedPageTurnGrammar": {
+    "file": "assets/ankara101/production/bindings/imgEditorialAnnotationSharedPageTurnGrammar.svg",
+    "sha256": "226e1e57996bc01fe5bb7ee17bdfdc8de6494aaa127f71a2b2730209958ee83b",
+    "width": 32.0,
+    "height": 32.0,
+    "sourceFileKey": "yTdAWr92ETyurlQQHNNqpi",
+    "authority": "Exact local SVG from approved reader/index get_design_context; temporary download URL intentionally not retained."
+  }
+}

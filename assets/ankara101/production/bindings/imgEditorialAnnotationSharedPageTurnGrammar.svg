@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Editorial annotation / shared page-turn grammar" clip-path="url(#clip0_0_10)">
+<path id="Vector" d="M0 0H32V32H0V0Z" fill="#FFC21A"/>
+<path id="Vector_2" d="M22 0H32V10L22 0Z" fill="#3F65FC"/>
+<g id="Vector_3">
+<path d="M8 12H21ZM8 17H18ZM8 22H15Z" fill="black"/>
+<path d="M8 12H21M8 17H18M8 22H15" stroke-width="1.6" stroke-linecap="round" stroke="#102452"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_10">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+</defs>
+</svg>

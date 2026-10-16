@@ -1,0 +1,28 @@
+{
+  "checks": [
+    {
+      "name": "sixteen current-catalog paragraphs flow at 180% without height clipping",
+      "bodyHeight": 10463,
+      "pass": true
+    },
+    {
+      "name": "missing media retains neutral decorative slot and exact reader identity",
+      "pass": true
+    },
+    {
+      "name": "catalog removal during a session fails safely with Close still available",
+      "pass": true
+    },
+    {
+      "name": "failed font gate exits directly to Home without rendering editorial fallback",
+      "mode": "fontFail",
+      "pass": true
+    },
+    {
+      "name": "failed font gate exits directly to Home without rendering editorial fallback",
+      "mode": "fontHold",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

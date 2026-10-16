@@ -1,0 +1,10 @@
+
+> napsak-app@0.1.0 check:assets:android
+> node --import tsx scripts/checkEventArtworkExport.ts /private/tmp/gezek-ankara101-final-android-readable
+
+{
+  events: 9,
+  layoutReferences: 27,
+  uniqueAssets: 12,
+  exactSvgXml: true
+}

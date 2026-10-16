@@ -1,0 +1,24 @@
+<svg width="393" height="1732" viewBox="0 0 393 1732" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Stone strata / quiet cobalt rules / v11" clip-path="url(#clip0_1313_21225)">
+<g id="Title stone relief">
+<path id="Vector" d="M278 180V132H302V107H327V81H356V56H415V180H278Z" fill="#FFC21A" fill-opacity="0.22"/>
+<path id="Vector_2" d="M278 179V132H302V107H327V81H356V56H415" stroke="#3F65FC" stroke-opacity="0.24" stroke-width="1.5"/>
+<path id="Vector_3" d="M303 146H328V121H354V96H380V73H415" stroke="#3F65FC" stroke-opacity="0.24"/>
+</g>
+<g id="Warm material field">
+<path id="Vector_4" d="M0 880H393V1155H0V880Z" fill="url(#paint0_linear_1313_21225)"/>
+<path id="Vector_5" d="M268 925V948H301V976H393M365 1084V1114H330V1084H365ZM365 1084H393" stroke="#3F65FC" stroke-opacity="0.24" stroke-width="1.5"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1313_21225" x1="0" y1="880" x2="0" y2="1155" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFC21A" stop-opacity="0"/>
+<stop offset="0.25" stop-color="#FFC21A" stop-opacity="0.22"/>
+<stop offset="0.65" stop-color="#FFC21A" stop-opacity="0.22"/>
+<stop offset="1" stop-color="#FFC21A" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_1313_21225">
+<rect width="393" height="1732" fill="white"/>
+</clipPath>
+</defs>
+</svg>

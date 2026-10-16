@@ -1,0 +1,296 @@
+{
+  "upstream": "https://github.com/google/fonts",
+  "commit": "47d54ca1ebb14fd864695f1d39dc734f39017c33",
+  "tool": "FontTools 4.60.1 instantiateVariableFont; all axes pinned at recorded values; unique internal names for instances",
+  "license": "SIL Open Font License 1.1",
+  "records": [
+    {
+      "file": "A101Bricolage400.ttf",
+      "source": "BricolageGrotesque[opsz,wdth,wght].ttf",
+      "family": "bricolagegrotesque",
+      "version": "Version 1.001;gftools[0.9.33.dev8+g029e19f]",
+      "axes": {
+        "opsz": 14,
+        "wght": 400,
+        "wdth": 100
+      },
+      "sha256": "dcd52c0a928ea0d98d84fef1692b932ed5d95f95b6b51e694d188c4f6a64614c",
+      "sourceSha256": "413e7357809ddd12fd80a96a8a396de0e401638d4acd3cb3e37532f0472ac682",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf"
+    },
+    {
+      "file": "A101Bricolage500.ttf",
+      "source": "BricolageGrotesque[opsz,wdth,wght].ttf",
+      "family": "bricolagegrotesque",
+      "version": "Version 1.001;gftools[0.9.33.dev8+g029e19f]",
+      "axes": {
+        "opsz": 14,
+        "wght": 500,
+        "wdth": 100
+      },
+      "sha256": "51326f9c5fc9fbf406e30327e5d9f02362a012e544eb11e196ce255ebb421778",
+      "sourceSha256": "413e7357809ddd12fd80a96a8a396de0e401638d4acd3cb3e37532f0472ac682",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf"
+    },
+    {
+      "file": "A101Bricolage600.ttf",
+      "source": "BricolageGrotesque[opsz,wdth,wght].ttf",
+      "family": "bricolagegrotesque",
+      "version": "Version 1.001;gftools[0.9.33.dev8+g029e19f]",
+      "axes": {
+        "opsz": 14,
+        "wght": 600,
+        "wdth": 100
+      },
+      "sha256": "0a0616399763975807fa48477382d980f6ae6f223bcabefa96c02a33f47ade5b",
+      "sourceSha256": "413e7357809ddd12fd80a96a8a396de0e401638d4acd3cb3e37532f0472ac682",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf"
+    },
+    {
+      "file": "A101Bricolage700.ttf",
+      "source": "BricolageGrotesque[opsz,wdth,wght].ttf",
+      "family": "bricolagegrotesque",
+      "version": "Version 1.001;gftools[0.9.33.dev8+g029e19f]",
+      "axes": {
+        "opsz": 14,
+        "wght": 700,
+        "wdth": 100
+      },
+      "sha256": "f90bf7cc5d4d5ae1dddaecde41912cd68756862f775b0b33317325874b1cabd6",
+      "sourceSha256": "413e7357809ddd12fd80a96a8a396de0e401638d4acd3cb3e37532f0472ac682",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf"
+    },
+    {
+      "file": "A101Bricolage800.ttf",
+      "source": "BricolageGrotesque[opsz,wdth,wght].ttf",
+      "family": "bricolagegrotesque",
+      "version": "Version 1.001;gftools[0.9.33.dev8+g029e19f]",
+      "axes": {
+        "opsz": 14,
+        "wght": 800,
+        "wdth": 100
+      },
+      "sha256": "a72749a3e17e1f8c82dcb4362cf7756490b463247f6fbeefa8faf88d7c22793c",
+      "sourceSha256": "413e7357809ddd12fd80a96a8a396de0e401638d4acd3cb3e37532f0472ac682",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf"
+    },
+    {
+      "file": "A101InstrumentItalic.ttf",
+      "source": "InstrumentSerif-Italic.ttf",
+      "family": "instrumentserif",
+      "version": "Version 1.000; ttfautohint (v1.8.4.7-5d5b);gftools[0.9.27]",
+      "axes": {},
+      "sha256": "08939b8bdf534afec24ae0ef5e03f948940cd9a8fe08e7fecbad040e62327385",
+      "sourceSha256": "08939b8bdf534afec24ae0ef5e03f948940cd9a8fe08e7fecbad040e62327385",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/instrumentserif/InstrumentSerif-Italic.ttf"
+    },
+    {
+      "file": "A101InstrumentRegular.ttf",
+      "source": "InstrumentSerif-Regular.ttf",
+      "family": "instrumentserif",
+      "version": "Version 1.000; ttfautohint (v1.8.4.7-5d5b);gftools[0.9.27]",
+      "axes": {},
+      "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88",
+      "sourceSha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/instrumentserif/InstrumentSerif-Regular.ttf"
+    },
+    {
+      "file": "DMSerifDisplay-Regular.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/dmserifdisplay/DMSerifDisplay-Regular.ttf",
+      "family": "dmserifdisplay",
+      "sha256": "8cc3643535edf039aa5d95440a8542735e9197e4f4b8d9303e980fefbf5ab616",
+      "axes": {},
+      "version": "Version 5.200; ttfautohint (v1.8.3)"
+    },
+    {
+      "file": "DMSerifDisplay-Italic.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/dmserifdisplay/DMSerifDisplay-Italic.ttf",
+      "family": "dmserifdisplay",
+      "sha256": "df74c0ac387baeaeb0fe4f2324e1668e6a3ed8c09cd9796fe162c71753e19e45",
+      "axes": {},
+      "version": "Version 5.200; ttfautohint (v1.8.3)"
+    },
+    {
+      "file": "A101Fraunces400.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 400,
+        "opsz": 20,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "7300a851b24fbacf4351288efc5dc4338c148e1fc026cf79c9f01f57c203dae5",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces600.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 600,
+        "opsz": 21,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "45f9941f37aee52624a98e42a22dac99c0944a7fc6ad1a2e186b809f68561e4d",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces700.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 700,
+        "opsz": 39,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "72ca11c437907f270c5855db913870ef4e9151e2886a1e8ca3098986c7157420",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces400Italic.ttf",
+      "source": "Fraunces-Italic[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 400,
+        "opsz": 21,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "59133b4c17de2cd3dcacb4521465f41e70fbb4775cf0a8f2bd8e630fc48a1623",
+      "sourceSha256": "b24448c43702fac4ee856781d461a0dfba8d8e594b6e8e190234b75fed2c0e01",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces-Italic[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces400opsz21.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 400,
+        "opsz": 21,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "b38d600d11cf04c48378e4011eceef435296019fecdad291b29a4ea15be170de",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces700opsz21.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 700,
+        "opsz": 21,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "f98a2565ddfb4ec86408bc86dcb1af77f80e70f3ee97a8c67ef8fd54c80a964f",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces700opsz25.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 700,
+        "opsz": 25,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "326f5889dec9173fd5ccaa82797fa830fcacbb2357592ab2bd92c3c8e452c27d",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces600opsz25.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 600,
+        "opsz": 25,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "d920fd8fbdeb2c5929433452e5dd79c8349e4af4e5a150b5ec1adac67fdcbb6c",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces700opsz36.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 700,
+        "opsz": 36,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "64f00f8900744fa164f5c86984fb177d56f89d1beae85ad84813721c3e259bdf",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    },
+    {
+      "file": "A101Fraunces600opsz41.ttf",
+      "source": "Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "family": "fraunces",
+      "version": "Version 1.000;[b76b70a41]",
+      "axes": {
+        "wght": 600,
+        "opsz": 41,
+        "WONK": 1,
+        "SOFT": 0
+      },
+      "sha256": "151bcf93678c2e1bc99824d258262024fd157460c23bdba67bba42282876b6d9",
+      "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+    }
+  ],
+  "reconciliation": "User approved DM Serif Display Regular/Italic on 2026-10-16 after live contents master 1345:23708 exposed omission in packaged font list. Only Ankara masthead, slogan, Castle cover and Contents heading.",
+  "opticalSizeReconciliation": "Fraunces static instances pin opsz to the approved role size (20/21/25/36/39/41) to reproduce Figma optical-size rendering. Default upstream opsz=9 widened the 20px Gordion standfirst to five lines; official opsz=20 produces the approved four lines. WONK=1 and SOFT=0 remain fixed.",
+  "licenses": [
+    {
+      "file": "bricolagegrotesque-OFL.txt",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/bricolagegrotesque/OFL.txt",
+      "sourceSha256": "4b5a7d8f37f5602621c8a8d7358a6a2e71317e6c231c661e15aef0275d3e07ba",
+      "sha256": "46ba5f18ee20ea529f21d96c0ef8637a8314c1a5cfb2aa84018bc8157cbeff41",
+      "normalization": "Only CRLF/trailing whitespace normalized for git diff --check; copyright and full license wording unchanged."
+    },
+    {
+      "file": "dmserifdisplay-OFL.txt",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/dmserifdisplay/OFL.txt",
+      "sourceSha256": "a3e5cdd67d4571dd0a24fcc968de0efde7ae97ef752daf0906e4767619dd7231",
+      "sha256": "aa49c876a28d8c0b0a3027d6c25b9c607eee8c0fb96165011d42a6ace1408fe1",
+      "normalization": "Only CRLF/trailing whitespace normalized for git diff --check; copyright and full license wording unchanged."
+    },
+    {
+      "file": "fraunces-OFL.txt",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/fraunces/OFL.txt",
+      "sourceSha256": "bdf4c22802eaf804f998195871c6b8938aac2ac14b2d78a8bd66a6f1eced833b",
+      "sha256": "6732d6cc72c5d09292ff754dc1f39d9ea14918f74e87a17afa3f00a5120c3d48",
+      "normalization": "Only CRLF/trailing whitespace normalized for git diff --check; copyright and full license wording unchanged."
+    },
+    {
+      "file": "instrumentserif-OFL.txt",
+      "sourceUrl": "https://github.com/google/fonts/blob/47d54ca1ebb14fd864695f1d39dc734f39017c33/ofl/instrumentserif/OFL.txt",
+      "sourceSha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+      "sha256": "b6b2292aa580937fb63796878d65a027a27f8c3db2d97601d0c34d9031f4ca17",
+      "normalization": "Only CRLF/trailing whitespace normalized for git diff --check; copyright and full license wording unchanged."
+    }
+  ]
+}

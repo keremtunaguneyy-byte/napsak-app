@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="393" height="275" viewBox="0 0 393 275" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Warm material field">
+<path id="Vector" d="M0 0H393V275H0V0Z" fill="url(#paint0_linear_0_22)"/>
+<path id="Vector_2" d="M268 45V68H301V96H393M365 204V234H330V204H365ZM365 204H393" stroke-width="1.5" stroke="#3F65FC" stroke-opacity="0.24"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_22" x1="0" y1="0" x2="0" y2="275" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFC21A" stop-opacity="0"/>
+<stop offset="0.25" stop-color="#FFC21A" stop-opacity="0.22"/>
+<stop offset="0.65" stop-color="#FFC21A" stop-opacity="0.22"/>
+<stop offset="1" stop-color="#FFC21A" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

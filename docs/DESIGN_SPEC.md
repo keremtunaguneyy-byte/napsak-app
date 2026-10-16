@@ -1,5 +1,9 @@
 # Gezek — Tasarım ve Marka
 
+## Ankara 101 authority — 2026-10-17
+
+For this surface, the approved production Figma nodes and [implementation report](ANKARA101_IMPLEMENTATION_REPORT.md) supersede historical visual candidates and older font suggestions below. Ankara 101 uses scoped Plus Jakarta Sans, Bricolage Grotesque, Fraunces, Instrument Serif, and explicitly user-approved DM Serif Display for the live cover roles. This approval does not change Home, onboarding, Saved, Detail or retained Insider typography. Physical acceptance remains separate.
+
 ## Güncel Saved otoritesi — 15 Ekim 2026
 
 `Production Saved / Approved v1` (`1026:5886`) güncel Kaydedilenler otoritesidir. Sayaç kaldırılır; yedi içerik biçimi tek karma sıradadır. Normal/büyük metin, kompakt öneri ve editoryal satırlar, boş/geçmiş Event, bağımsız Unsave ve exact Saved origin sözleşmesi `SAVED_IMPLEMENTATION_REPORT.md` içinde kayıtlıdır. Eski Saved frame'leri yalnız referanstır; Ankara 101 okuyucu görselleri ve mevcut Detail Host yeniden tasarlanmaz. Redmi/TalkBack kabulü ayrıdır.

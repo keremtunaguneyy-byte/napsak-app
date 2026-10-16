@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-17 — Production Ankara 101 implementation
+
+All twelve approved Guide readers and the cover/index are implemented on `codex/gezek-production-ankara101` using exact live Figma nodes, unchanged approved local AI editorial masters, stable-ID routing and scoped licensed fonts. Exact-size local SVG instances preserve the small motifs’ stroke weights. Current catalog, Home/recommendations, Saved design, Insider access, collection identity and Firebase/persistence/release contracts are preserved. [ANKARA101_IMPLEMENTATION_REPORT.md](ANKARA101_IMPLEMENTATION_REPORT.md) records authority reconciliation, final verification, canonical per-guide evidence, fonts/licenses, changed-file inventory and the physical acceptance checklist. One Draft PR only; no merge. Redmi, real TalkBack, OS large text/reduced motion and signed-release acceptance remain pending. Earlier Ankara 101 visual-open notes are historical; visual approval does not imply device acceptance. Unrelated Verilog work remains protected.
+
 ## 2026-10-15 — PR #78 Redmi acceptance and authorized merge
 
 The user tested exact implementation head `6b03a1366f31bfd2271eaac6bd5ba0c8b8afef99` on Redmi. Accepted: first visits to all four filters; ten warm cycles preserving recommendation IDs/order; removal of the previous approximately three-second Mekân delay; the remaining below-approximately-one-second transition as acceptable for beta; active-filter no-op; refresh limited to the active filter; Preference Cancel preservation and Save controlled invalidation; scoped Dismiss/Undo; correct location behavior; and Detail → Android Back retaining the active filter/batch. These are user-reported device observations, not instrumented native timing/FPS measurements. The confirmed defect and major delay are accepted as fixed; this acceptance does not reopen performance work.

@@ -1,0 +1,1721 @@
+{
+  "guides": [
+    {
+      "guide_id": "guide-ankara-kalesi",
+      "reader_node": "1313:21222",
+      "body_width": 393,
+      "body_height": 1732,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 14,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "ExtraBold",
+            "variationSettings": {
+              "wght": 800,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 43,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 44
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.2999999523162842
+          }
+        },
+        {
+          "start": 14,
+          "end": 24,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "Medium",
+            "variationSettings": {
+              "wght": 500,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 43,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 44
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.2999999523162842
+          }
+        }
+      ],
+      "background": {
+        "node": "1313:21223",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.91019606590271,
+                  "g": 0.9239215850830078,
+                  "b": 0.9770588278770447,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9283137321472168,
+                  "g": 0.929411768913269,
+                  "b": 0.9214117527008057,
+                  "a": 1
+                },
+                "position": 0.25,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9486274719238281,
+                  "g": 0.929411768913269,
+                  "b": 0.888039231300354,
+                  "a": 1
+                },
+                "position": 0.47999998927116394,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9140391945838928,
+                  "g": 0.9416470527648926,
+                  "b": 0.8928627371788025,
+                  "a": 1
+                },
+                "position": 0.6600000262260437,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.8745098114013672,
+                  "g": 0.9529411792755127,
+                  "b": 0.9098039269447327,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1313:21248",
+          "name": "Existing ai_editorial / guide-ankara-kalesi / opening crop",
+          "x": 24,
+          "y": 180,
+          "width": 369,
+          "height": 218,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 42,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "b7949dc5693094de2ebf1a36d09fbdca0ff0d60a",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1313:21275",
+          "name": "Same ai_editorial / left stone and stair detail",
+          "x": -4,
+          "y": 791,
+          "width": 508,
+          "height": 339,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "b7949dc5693094de2ebf1a36d09fbdca0ff0d60a",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-anadolu-medeniyetleri",
+      "reader_node": "1342:30862",
+      "body_width": 393,
+      "body_height": 1530,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 28,
+          "font": {
+            "family": "Instrument Serif",
+            "style": "Regular"
+          },
+          "size": 47,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 48
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:30912",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.9176470637321472,
+                  "g": 0.8941176533699036,
+                  "b": 0.9411764740943909,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9372549057006836,
+                  "g": 0.8980392217636108,
+                  "b": 0.8352941274642944,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.8823529481887817,
+                  "g": 0.9058823585510254,
+                  "b": 0.9058823585510254,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:30873",
+          "name": "ai_editorial / guide-anadolu-medeniyetleri / existing Hero",
+          "x": 24,
+          "y": 252,
+          "width": 345,
+          "height": 230,
+          "corners": {
+            "topLeft": 76,
+            "topRight": 76,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "6de090aa58fbe94dc1b55d5300d9c4642df411da",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-aslanhane",
+      "reader_node": "1342:31883",
+      "body_width": 393,
+      "body_height": 1664,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 15,
+          "font": {
+            "family": "Instrument Serif",
+            "style": "Regular"
+          },
+          "size": 49,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 50
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:31948",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.8941176533699036,
+                  "g": 0.9215686321258545,
+                  "b": 0.8666666746139526,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9372549057006836,
+                  "g": 0.886274516582489,
+                  "b": 0.8156862854957581,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.8823529481887817,
+                  "g": 0.9137254953384399,
+                  "b": 0.8941176533699036,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:31894",
+          "name": "ai_editorial / guide-aslanhane / existing Hero",
+          "x": 24,
+          "y": 208,
+          "width": 345,
+          "height": 230,
+          "corners": {
+            "topLeft": 76,
+            "topRight": 76,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "ad5dc35f14edd11ea6c496d90bb498e32c994bf3",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1342:31920",
+          "name": "ai_editorial / guide-aslanhane / material detail",
+          "x": 24,
+          "y": 989,
+          "width": 200,
+          "height": 150,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 34,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "ad5dc35f14edd11ea6c496d90bb498e32c994bf3",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-cumhuriyet-muzesi",
+      "reader_node": "1342:31106",
+      "body_width": 393,
+      "body_height": 1666,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 29,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "ExtraBold",
+            "variationSettings": {
+              "wght": 800,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 39,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 40
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:31171",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.9450980424880981,
+                  "g": 0.8823529481887817,
+                  "b": 0.8980392217636108,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9529411792755127,
+                  "g": 0.9137254953384399,
+                  "b": 0.8627451062202454,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.886274516582489,
+                  "g": 0.9058823585510254,
+                  "b": 0.9333333373069763,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:31117",
+          "name": "ai_editorial / guide-cumhuriyet-muzesi / existing Hero",
+          "x": 24,
+          "y": 228,
+          "width": 345,
+          "height": 210,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          },
+          "paints": [
+            {
+              "imageHash": "ed815b8a9ebcbb57e9b3e424c59ed237432d4d77",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-etnografya-muzesi",
+      "reader_node": "1342:31394",
+      "body_width": 393,
+      "body_height": 1515,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 17,
+          "font": {
+            "family": "Fraunces",
+            "style": "SemiBold",
+            "variationSettings": {
+              "wght": 600,
+              "WONK": 1,
+              "SOFT": 0
+            }
+          },
+          "size": 41,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 42
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:31443",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.9333333373069763,
+                  "g": 0.9215686321258545,
+                  "b": 0.843137264251709,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9333333373069763,
+                  "g": 0.8784313797950745,
+                  "b": 0.8078431487083435,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.8941176533699036,
+                  "g": 0.9137254953384399,
+                  "b": 0.8745098114013672,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:31405",
+          "name": "ai_editorial / guide-etnografya-muzesi / existing Hero",
+          "x": 24,
+          "y": 192,
+          "width": 345,
+          "height": 234,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 48,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "80d32f0b4ac0c3b3f312a1890f3407f63fd5aa98",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1342:31416",
+          "name": "ai_editorial / guide-etnografya-muzesi / material detail",
+          "x": 24,
+          "y": 840,
+          "width": 200,
+          "height": 150,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 34,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "80d32f0b4ac0c3b3f312a1890f3407f63fd5aa98",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-eymir",
+      "reader_node": "1342:32824",
+      "body_width": 393,
+      "body_height": 1687,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 18,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "SemiBold",
+            "variationSettings": {
+              "wght": 600,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 43,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 44
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:32896",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.8666666746139526,
+                  "g": 0.929411768913269,
+                  "b": 0.9019607901573181,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.8627451062202454,
+                  "g": 0.9176470637321472,
+                  "b": 0.9411764740943909,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.929411768913269,
+                  "g": 0.9019607901573181,
+                  "b": 0.8313725590705872,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:32835",
+          "name": "ai_editorial / guide-eymir / existing Hero",
+          "x": 0,
+          "y": 196,
+          "width": 393,
+          "height": 256,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 74
+          },
+          "paints": [
+            {
+              "imageHash": "8adab1e8e6b3d357694bf0d5b42dbd8a987318e8",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1342:32857",
+          "name": "ai_editorial / guide-eymir / material detail",
+          "x": 24,
+          "y": 926,
+          "width": 200,
+          "height": 150,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 56,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "8adab1e8e6b3d357694bf0d5b42dbd8a987318e8",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-gordion",
+      "reader_node": "1342:32544",
+      "body_width": 393,
+      "body_height": 1641,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 28,
+          "font": {
+            "family": "Fraunces",
+            "style": "Bold",
+            "variationSettings": {
+              "wght": 700,
+              "WONK": 1,
+              "SOFT": 0
+            }
+          },
+          "size": 36,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 37
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:32606",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.9411764740943909,
+                  "g": 0.8901960849761963,
+                  "b": 0.7882353067398071,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9254902005195618,
+                  "g": 0.8392156958580017,
+                  "b": 0.7490196228027344,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9098039269447327,
+                  "g": 0.8941176533699036,
+                  "b": 0.8509804010391235,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:32552",
+          "name": "ai_editorial / guide-gordion / existing Hero",
+          "x": 0,
+          "y": 64,
+          "width": 393,
+          "height": 234,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "67f58ef59e71e4ec32090862922546d8f94a6f08",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-hamamonu",
+      "reader_node": "1340:30862",
+      "body_width": 393,
+      "body_height": 1666,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 18,
+          "font": {
+            "family": "Fraunces",
+            "style": "Bold",
+            "variationSettings": {
+              "wght": 700,
+              "WONK": 1,
+              "SOFT": 0
+            }
+          },
+          "size": 39,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 40
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1340:30934",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.9607843160629272,
+                  "g": 0.8941176533699036,
+                  "b": 0.9098039269447327,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9529411792755127,
+                  "g": 0.9058823585510254,
+                  "b": 0.8470588326454163,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9098039269447327,
+                  "g": 0.9098039269447327,
+                  "b": 0.8705882430076599,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1340:30873",
+          "name": "ai_editorial / guide-hamamonu / existing Hero",
+          "x": 24,
+          "y": 188,
+          "width": 369,
+          "height": 218,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          },
+          "paints": [
+            {
+              "imageHash": "2c9f7006490f56b619744a23982843b1f51a705e",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1340:30895",
+          "name": "ai_editorial / guide-hamamonu / material detail",
+          "x": 24,
+          "y": 905,
+          "width": 200,
+          "height": 150,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 34,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "2c9f7006490f56b619744a23982843b1f51a705e",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-mogan",
+      "reader_node": "1342:33133",
+      "body_width": 393,
+      "body_height": 1504,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 21,
+          "font": {
+            "family": "Instrument Serif",
+            "style": "Regular"
+          },
+          "size": 49,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 50
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:33182",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.886274516582489,
+                  "g": 0.9137254953384399,
+                  "b": 0.9490196108818054,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9490196108818054,
+                  "g": 0.8666666746139526,
+                  "b": 0.7960784435272217,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9058823585510254,
+                  "g": 0.9098039269447327,
+                  "b": 0.8509804010391235,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:33141",
+          "name": "ai_editorial / guide-mogan / existing Hero",
+          "x": 0,
+          "y": 64,
+          "width": 393,
+          "height": 234,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "8593ce7a1c7db7569a8f56a677fd53fc08a0d82b",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1342:33155",
+          "name": "ai_editorial / guide-mogan / material detail",
+          "x": 24,
+          "y": 803,
+          "width": 200,
+          "height": 150,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 34,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "8593ce7a1c7db7569a8f56a677fd53fc08a0d82b",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-resim-heykel",
+      "reader_node": "1342:31630",
+      "body_width": 393,
+      "body_height": 1525,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 22,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "ExtraBold",
+            "variationSettings": {
+              "wght": 800,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 39,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 40
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:31681",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.9176470637321472,
+                  "g": 0.8901960849761963,
+                  "b": 0.9607843160629272,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.95686274766922,
+                  "g": 0.886274516582489,
+                  "b": 0.8549019694328308,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.886274516582489,
+                  "g": 0.9176470637321472,
+                  "b": 0.9607843160629272,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:31641",
+          "name": "ai_editorial / guide-resim-heykel / existing Hero",
+          "x": 44,
+          "y": 188,
+          "width": 329,
+          "height": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 54,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "cdbb2d26890e978e83678eb12368816fd8f53d33",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-tunali-kugulu",
+      "reader_node": "1342:33368",
+      "body_width": 393,
+      "body_height": 1651,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 27,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "ExtraBold",
+            "variationSettings": {
+              "wght": 800,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 37,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 38
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:33433",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.8823529481887817,
+                  "g": 0.9254902005195618,
+                  "b": 0.8705882430076599,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9176470637321472,
+                  "g": 0.886274516582489,
+                  "b": 0.9450980424880981,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9490196108818054,
+                  "g": 0.886274516582489,
+                  "b": 0.843137264251709,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:33379",
+          "name": "ai_editorial / guide-tunali-kugulu / existing Hero",
+          "x": 24,
+          "y": 184,
+          "width": 369,
+          "height": 218,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          },
+          "paints": [
+            {
+              "imageHash": "0ba92228dee8fda897343be84c19ab5d17c90a60",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        },
+        {
+          "node_id": "1342:33405",
+          "name": "ai_editorial / guide-tunali-kugulu / material detail",
+          "x": 24,
+          "y": 976,
+          "width": 200,
+          "height": 150,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 34,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          },
+          "paints": [
+            {
+              "imageHash": "0ba92228dee8fda897343be84c19ab5d17c90a60",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "guide_id": "guide-ulus-kultur-hatti",
+      "reader_node": "1342:32177",
+      "body_width": 393,
+      "body_height": 1722,
+      "title_fonts": [
+        {
+          "start": 0,
+          "end": 19,
+          "font": {
+            "family": "Bricolage Grotesque",
+            "style": "ExtraBold",
+            "variationSettings": {
+              "wght": 800,
+              "wdth": 100,
+              "opsz": 14
+            }
+          },
+          "size": 43,
+          "lineHeight": {
+            "unit": "PIXELS",
+            "value": 44
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": -1.100000023841858
+          }
+        }
+      ],
+      "background": {
+        "node": "1342:32258",
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "visible": true,
+            "opacity": 1,
+            "blendMode": "NORMAL",
+            "gradientStops": [
+              {
+                "color": {
+                  "r": 0.8823529481887817,
+                  "g": 0.9137254953384399,
+                  "b": 0.9686274528503418,
+                  "a": 1
+                },
+                "position": 0,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9137254953384399,
+                  "g": 0.886274516582489,
+                  "b": 0.9411764740943909,
+                  "a": 1
+                },
+                "position": 0.5400000214576721,
+                "boundVariables": {}
+              },
+              {
+                "color": {
+                  "r": 0.9450980424880981,
+                  "g": 0.9019607901573181,
+                  "b": 0.8509804010391235,
+                  "a": 1
+                },
+                "position": 1,
+                "boundVariables": {}
+              }
+            ],
+            "gradientTransform": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                -1,
+                0,
+                1
+              ]
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "node_id": "1342:32188",
+          "name": "ai_editorial / guide-ulus-kultur-hatti / existing Hero",
+          "x": 24,
+          "y": 196,
+          "width": 369,
+          "height": 218,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          },
+          "paints": [
+            {
+              "imageHash": "c29b43de2d387f46b3c134c1b3bcaefc229ac5d6",
+              "scaleMode": "FILL",
+              "imageTransform": [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  1,
+                  0
+                ]
+              ],
+              "scalingFactor": 1,
+              "rotation": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

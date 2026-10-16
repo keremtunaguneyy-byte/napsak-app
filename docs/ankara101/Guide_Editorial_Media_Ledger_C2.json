@@ -1,0 +1,1597 @@
+{
+  "schema": "gezek-guide-editorial-media-c2-v1",
+  "status": "recovered_media_and_visual_candidates_complete_user_review_pending",
+  "file_key": "yTdAWr92ETyurlQQHNNqpi",
+  "section_id": "1121:12853",
+  "visual_bible_node_id": "1121:12856",
+  "contact_sheet_node_id": "1147:12853",
+  "media_ledger_node_id": "1157:16461",
+  "responsive_screen_node_ids": {
+    "393": {
+      "Landing": "1150:16967",
+      "CollectionOpening": "1150:17023",
+      "GuideOpening": "1150:17159",
+      "LongScrollReader": "1150:17226",
+      "ContentsClosed": "1150:17293",
+      "ContentsOpen": "1150:17360",
+      "ExactGuideIDFocus": "1150:17487",
+      "SavedGuide": "1150:17554",
+      "SavedOriginReturn": "1150:17621",
+      "AnkaraOriginReturn": "1150:17663",
+      "Insider": "1150:17719",
+      "InsiderUnavailable": "1150:17764",
+      "MissingGuide": "1150:17798",
+      "LongTurkishTitle": "1150:17832",
+      "LargeText": "1150:17886",
+      "FooterClearance": "1150:17953",
+      "MediaFallback": "1150:18020",
+      "SavedGuideTunali": "1154:16349"
+    },
+    "412": {
+      "Landing": "1150:28157",
+      "CollectionOpening": "1150:28213",
+      "GuideOpening": "1150:28349",
+      "LongScrollReader": "1150:28416",
+      "ContentsClosed": "1150:28483",
+      "ContentsOpen": "1150:28550",
+      "ExactGuideIDFocus": "1150:28677",
+      "SavedGuide": "1150:28744",
+      "SavedOriginReturn": "1150:28811",
+      "AnkaraOriginReturn": "1150:28853",
+      "Insider": "1150:28909",
+      "InsiderUnavailable": "1150:28954",
+      "MissingGuide": "1150:28988",
+      "LongTurkishTitle": "1150:29022",
+      "LargeText": "1150:29076",
+      "FooterClearance": "1150:29143",
+      "MediaFallback": "1150:29210",
+      "SavedGuideTunali": "1154:16459"
+    }
+  },
+  "disclosure": "Görseller editoryal ve temsilîdir.",
+  "resolution": "guide_id → media_key → crop/layout variant; never visible-title inference",
+  "records": [
+    {
+      "guide_id": "guide-ankara-kalesi",
+      "title": "Ankara Kalesi ve çevresi",
+      "media_key": "ankara101/c2/guide-ankara-kalesi/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: off-axis close-to-medium view of time-worn rough Ankara stone rampart at left foreground, a narrow stone walking ascent beside it, muted terracotta rooftops falling away softly beyond the parapet. Elevation and accumulated city texture, clear pale dry autumn air. The stone edge and the ascent are the focal subject, not a fabricated exact castle panorama. No ornamental gate, no readable inscriptions, no monumental fantasy towers, no identifiable faces. Mid-morning light, shadow texture in stone. Main focal point x=.47 y=.56.",
+      "intended_editorial_meaning": "Taş duvar, yükselen yaya yolu ve katmanlı kent",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/ankara-kalesi"
+      ],
+      "catalog_source_url": "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.42,
+        0.55
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            0,
+            0,
+            1437,
+            1024
+          ],
+          "normalized_box": [
+            0.0,
+            0.0,
+            0.93555,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-ankara-kalesi__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            133,
+            0,
+            1157,
+            1024
+          ],
+          "normalized_box": [
+            0.08659,
+            0.0,
+            0.75326,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-ankara-kalesi__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            12,
+            0,
+            1278,
+            1024
+          ],
+          "normalized_box": [
+            0.00781,
+            0.0,
+            0.83203,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-ankara-kalesi__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        133,
+        0,
+        1157,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-ankara-kalesi.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3455248,
+        "sha256": "d20c51531ca76184daba240ab28c48654c2fa92b3f190282182add868db177de"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-ankara-kalesi.jpg",
+        "bytes": 291693,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12869",
+        "image_rectangle_id": "1121:12870",
+        "status": "imported_verified",
+        "component_set_id": "1147:12976",
+        "layout_components": {
+          "Hero": "1147:12856",
+          "Contents": "1147:12858",
+          "SavedCompact": "1147:12860"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18099",
+          "412": "1150:29289"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-hamamonu",
+      "title": "Hamamönü sokakları",
+      "media_key": "ankara101/c2/guide-hamamonu/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: a quiet narrow domestic-scale Ankara neighbourhood lane, restrained white plaster and dark timber rhythm, a modest courtyard threshold and warm worn paving; morning sunlight grazes one wall and a small vine, soft shadow across the lane. Camera is slightly oblique at walking height, not a centered postcard facade. Evoke restored Hamamönü house scale without claiming an actual exact facade. No shops, signs or commercial names; no people needed. Focal point x=.50 y=.52 at the threshold and receding lane.",
+      "intended_editorial_meaning": "Ahşap-sıva ritmi, sokak ve eşik",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/hamamonu"
+      ],
+      "catalog_source_url": "https://ankara.ktb.gov.tr/TR-391154/tarih--kultur-turizmi.html",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.48,
+        0.55
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            19,
+            0,
+            1456,
+            1024
+          ],
+          "normalized_box": [
+            0.01237,
+            0.0,
+            0.94792,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-hamamonu__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            225,
+            0,
+            1249,
+            1024
+          ],
+          "normalized_box": [
+            0.14648,
+            0.0,
+            0.81315,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-hamamonu__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            104,
+            0,
+            1370,
+            1024
+          ],
+          "normalized_box": [
+            0.06771,
+            0.0,
+            0.89193,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-hamamonu__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        225,
+        0,
+        1249,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-hamamonu.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3265947,
+        "sha256": "ea0d5899b8c154df91c4c6488e60baf1412cab93b7db3f7d16be9e2921ce31db"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-hamamonu.jpg",
+        "bytes": 233865,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12872",
+        "image_rectangle_id": "1121:12873",
+        "status": "imported_verified",
+        "component_set_id": "1147:12977",
+        "layout_components": {
+          "Hero": "1147:12866",
+          "Contents": "1147:12868",
+          "SavedCompact": "1147:12870"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18166",
+          "412": "1150:29356"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-anadolu-medeniyetleri",
+      "title": "Anadolu Medeniyetleri Müzesi",
+      "media_key": "ankara101/c2/guide-anadolu-medeniyetleri/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: a warm, modest bedesten-like museum passage, stone-and-brick arch rhythm and side daylight falling onto a worn pale stone floor. Connected spatial layers imply chronological discovery. A restrained non-specific display case may appear far back with only simple blurred unadorned silhouettes; the subject is light, arches and material, never an artefact. No canonical museum layout, no Hittite reliefs/bulls, no vessels copied from a collection, no labels or emblems. Intimate 35mm oblique view, varied light/stone tones, not a grand fantasy cathedral. Focal point x=.52 y=.49 on the illuminated arch and passage.",
+      "intended_editorial_meaning": "Bedesten atmosferi, kemerli geçiş ve kronolojik keşif",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/anadolu-medenyetler-muzes"
+      ],
+      "catalog_source_url": "https://muze.gov.tr/muze-detay?DistId=AMM&SectionId=AMM01",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.57,
+        0.5
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            99,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.06445,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-anadolu-medeniyetleri__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            364,
+            0,
+            1388,
+            1024
+          ],
+          "normalized_box": [
+            0.23698,
+            0.0,
+            0.90365,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-anadolu-medeniyetleri__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            243,
+            0,
+            1509,
+            1024
+          ],
+          "normalized_box": [
+            0.1582,
+            0.0,
+            0.98242,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-anadolu-medeniyetleri__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        364,
+        0,
+        1388,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-anadolu-medeniyetleri.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2670113,
+        "sha256": "b48a574f52fc3cf1a466dd432d9c37ac3b70b43bb467a21cca5531f53d6c3f26"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-anadolu-medeniyetleri.jpg",
+        "bytes": 151806,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12875",
+        "image_rectangle_id": "1121:12876",
+        "status": "imported_verified",
+        "component_set_id": "1147:12978",
+        "layout_components": {
+          "Hero": "1147:12876",
+          "Contents": "1147:12878",
+          "SavedCompact": "1147:12880"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18233",
+          "412": "1150:29423"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-cumhuriyet-muzesi",
+      "title": "II. Meclis: Cumhuriyet Müzesi",
+      "media_key": "ankara101/c2/guide-cumhuriyet-muzesi/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: an imagined early-Republic civic interior detail, warm oak balustrade and disciplined rectangular door/window rhythm, side daylight across polished but worn wood and pale plaster, a quiet unoccupied institutional corridor. Close-to-medium 50mm framing on wood joinery and framed daylight rather than a recreated assembly chamber. No flags, seals, official documents, busts, inscriptions, leader portraits, copied furniture arrangement or precise historic chamber details. Calm navy shadow balanced with warm neutral light, not orange. Focal point x=.48 y=.55.",
+      "intended_editorial_meaning": "Cumhuriyet dönemi kamusal mekân atmosferi, ahşap ve gün ışığı",
+      "factual_reference_urls": [
+        "https://muze.gov.tr/muze-detay?SectionId=CUM01&DistId=MRK"
+      ],
+      "catalog_source_url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=CUM01",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.5,
+        0.56
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            50,
+            0,
+            1487,
+            1024
+          ],
+          "normalized_box": [
+            0.03255,
+            0.0,
+            0.9681,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-cumhuriyet-muzesi__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            256,
+            0,
+            1280,
+            1024
+          ],
+          "normalized_box": [
+            0.16667,
+            0.0,
+            0.83333,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-cumhuriyet-muzesi__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            135,
+            0,
+            1401,
+            1024
+          ],
+          "normalized_box": [
+            0.08789,
+            0.0,
+            0.91211,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-cumhuriyet-muzesi__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        256,
+        0,
+        1280,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-cumhuriyet-muzesi.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2372567,
+        "sha256": "8b750260ed2590557619ad9f3a1e4963c7c988805b1f015160004fd97c21f2e8"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-cumhuriyet-muzesi.jpg",
+        "bytes": 137741,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12878",
+        "image_rectangle_id": "1121:12879",
+        "status": "imported_verified",
+        "component_set_id": "1147:12979",
+        "layout_components": {
+          "Hero": "1147:12886",
+          "Contents": "1147:12888",
+          "SavedCompact": "1147:12890"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18287",
+          "412": "1150:29477"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-etnografya-muzesi",
+      "title": "Etnografya Müzesi",
+      "media_key": "ankara101/c2/guide-etnografya-muzesi/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: museum material culture editorial detail: simple unbranded muted handwoven cloth and a weathered walnut craft surface near a naturally lit museum window; an austere pale stone architectural rhythm softly behind. Plain weave, minimal non-identifiable banding, no copied textile patterns or recognizable collection piece. Tactile 50mm close view, shallow but not extreme depth, warm restrained fibre/wood/stone texture. Do not create ceremonial artefacts or readable labels. Focal point x=.50 y=.57 on textile fibres and wood edge.",
+      "intended_editorial_meaning": "Dokuma, ahşap ve anonim maddi kültür ayrıntısı",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/etnografya-muzes"
+      ],
+      "catalog_source_url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=AET01",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.5,
+        0.6
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            50,
+            0,
+            1487,
+            1024
+          ],
+          "normalized_box": [
+            0.03255,
+            0.0,
+            0.9681,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-etnografya-muzesi__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            256,
+            0,
+            1280,
+            1024
+          ],
+          "normalized_box": [
+            0.16667,
+            0.0,
+            0.83333,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-etnografya-muzesi__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            135,
+            0,
+            1401,
+            1024
+          ],
+          "normalized_box": [
+            0.08789,
+            0.0,
+            0.91211,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-etnografya-muzesi__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        256,
+        0,
+        1280,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-etnografya-muzesi.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2624447,
+        "sha256": "1b77757335ec9fe9848338a1fa92f507f48dc52e7eaaabefd7fcdb984afd5189"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-etnografya-muzesi.jpg",
+        "bytes": 142501,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12881",
+        "image_rectangle_id": "1121:12882",
+        "status": "imported_verified",
+        "component_set_id": "1147:12980",
+        "layout_components": {
+          "Hero": "1147:12896",
+          "Contents": "1147:12898",
+          "SavedCompact": "1147:12900"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18354",
+          "412": "1150:29544"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-resim-heykel",
+      "title": "Resim ve Heykel Müzesi",
+      "media_key": "ankara101/c2/guide-resim-heykel/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: a refined gallery passage with early-Republic Ankara architectural proportions: pale mineral walls, warm oak doorway, framed natural daylight and a quiet room beyond. One or two small out-of-focus frames contain only original abstract colour fields without identifiable composition, signature or real artwork. No sculptures, copies, famous paintings, ornate fictional decoration or readable labels. Oblique 35mm view, airy yet spatially rich, restrained coral-beige/ivory light with cool navy shadow. Focal point x=.52 y=.48 at the framed light/doorway.",
+      "intended_editorial_meaning": "Galeri eşiği, çerçevelenmiş ışık ve tanımlanamayan soyut renk alanları",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/ankara-resm-ve-heykel-muzes"
+      ],
+      "catalog_source_url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=ARE01",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.55,
+        0.52
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            99,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.06445,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-resim-heykel__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            333,
+            0,
+            1357,
+            1024
+          ],
+          "normalized_box": [
+            0.2168,
+            0.0,
+            0.88346,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-resim-heykel__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            212,
+            0,
+            1478,
+            1024
+          ],
+          "normalized_box": [
+            0.13802,
+            0.0,
+            0.96224,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-resim-heykel__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        333,
+        0,
+        1357,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-resim-heykel.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1966145,
+        "sha256": "3f5a8bf90d43c71a972aec6608192ebf17bb3a0339d6ea07c1dbec24c33d3b2c"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-resim-heykel.jpg",
+        "bytes": 84122,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12884",
+        "image_rectangle_id": "1121:12885",
+        "status": "imported_verified",
+        "component_set_id": "1147:12981",
+        "layout_components": {
+          "Hero": "1147:12906",
+          "Contents": "1147:12908",
+          "SavedCompact": "1147:12910"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18408",
+          "412": "1150:29598"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-aslanhane",
+      "title": "Aslanhane Camii",
+      "media_key": "ankara101/c2/guide-aslanhane/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: respectful, empty timber-column interior atmosphere inspired by old Ankara's wooden hypostyle tradition: simple weathered timber posts and beams recede diagonally, gentle side daylight warms their grain and a quiet neutral floor. Human eye-level, cropped environmental view rather than a reconstruction of an actual prayer hall. No calligraphy, religious inscriptions, ornament, emblem, mihrab or minbar, no false exact column capitals, no people. Balanced natural exposure, not dark cinematic gloom. Focal point x=.51 y=.49 in the timber rhythm and light.",
+      "intended_editorial_meaning": "Sakin ahşap taşıyıcı ritmi; gerçek iç mekânın kopyası değil",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/aslanhane--ahi-serafettin--camii"
+      ],
+      "catalog_source_url": "https://ankara.ktb.gov.tr/TR-359166/-aslanhane-camii-ahi-serafettin-unesco-dunya-miras-list-.html",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.55,
+        0.52
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            99,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.06445,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-aslanhane__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            333,
+            0,
+            1357,
+            1024
+          ],
+          "normalized_box": [
+            0.2168,
+            0.0,
+            0.88346,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-aslanhane__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            212,
+            0,
+            1478,
+            1024
+          ],
+          "normalized_box": [
+            0.13802,
+            0.0,
+            0.96224,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-aslanhane__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        333,
+        0,
+        1357,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-aslanhane.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2752612,
+        "sha256": "1ced5f6fdf9288c64e8d1390e18d481afeeefea45ca77078ddd3dddf5704522d"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-aslanhane.jpg",
+        "bytes": 151586,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12887",
+        "image_rectangle_id": "1121:12888",
+        "status": "imported_verified",
+        "component_set_id": "1147:12982",
+        "layout_components": {
+          "Hero": "1147:12916",
+          "Contents": "1147:12918",
+          "SavedCompact": "1147:12920"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18462",
+          "412": "1150:29652"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-ulus-kultur-hatti",
+      "title": "Başkent Kültür Turu",
+      "media_key": "ankara101/c2/guide-ulus-kultur-hatti/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: a quiet city-route editorial photograph looking from the inside edge of an unbranded contemporary municipal bus window across an Ankara civic street. A slim navy-grey window frame at the left and a faint natural reflection provide a journey cue; outside, restrained early-Republic pale stone building rhythm, plane trees, worn sidewalk and soft low hillside urban texture recede obliquely. The outside is the main subject, no famous landmark reconstructed, no invented continuous panorama of actual sites. No old-house alley, no timber cottage lane: this must look distinct from Hamamönü. No visible bus number, logos, tickets, maps, signage or readable text. No passenger faces, no people close to camera, at most one tiny distant pedestrian. Natural soft afternoon daylight, warm-neutral with cool shadow, restrained saturation and real texture. Focal point x=.54 y=.5 on the civic street rhythm framed by the journey window.\n",
+      "intended_editorial_meaning": "Otobüs penceresinden kent katmanları ve yolculuk",
+      "factual_reference_urls": [
+        "https://www.ankara.bel.tr/haberler/abb-den-ankara-nin-tarihi-ve-kulturel-noktalarina-baskent-kultur-turu-ring-seferleri-17847"
+      ],
+      "catalog_source_url": "https://www.ankara.bel.tr/haberler/402-numarali-baskent-kultur-turu-bayramda-da-yollarda-18275",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.36,
+        0.52
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            0,
+            0,
+            1437,
+            1024
+          ],
+          "normalized_box": [
+            0.0,
+            0.0,
+            0.93555,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-ulus-kultur-hatti__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            41,
+            0,
+            1065,
+            1024
+          ],
+          "normalized_box": [
+            0.02669,
+            0.0,
+            0.69336,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-ulus-kultur-hatti__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            0,
+            0,
+            1266,
+            1024
+          ],
+          "normalized_box": [
+            0.0,
+            0.0,
+            0.82422,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-ulus-kultur-hatti__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        41,
+        0,
+        1065,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-ulus-kultur-hatti.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3083927,
+        "sha256": "be099ff6ea3f5d3ce3e1e2fb17c3eafc7047c01bf598abb04deef5a5d7020dae"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-ulus-kultur-hatti.jpg",
+        "bytes": 198401,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12890",
+        "image_rectangle_id": "1121:12891",
+        "status": "imported_verified",
+        "component_set_id": "1147:12983",
+        "layout_components": {
+          "Hero": "1147:12926",
+          "Contents": "1147:12928",
+          "SavedCompact": "1147:12930"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18529",
+          "412": "1150:29719"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-gordion",
+      "title": "Gordion Müzesi ve antik kent",
+      "media_key": "ankara101/c2/guide-gordion/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: broad Central Anatolian plateau with a low rounded tumulus-like landform across the midground, dry pale grasses and weathered earth, a modest path leading across an open landscape under a large pale blue-grey sky. No monumental building or invented excavation/discovery, no objects, no artefacts, no dramatic mountains. Quiet afternoon, long sense of time, low human-eye environmental 35mm view with horizon near upper third; natural earthy tones balanced by cool open sky, not sepia. Focal point x=.52 y=.55 on the gentle mound and path.",
+      "intended_editorial_meaning": "Bozkır, alçak tümülüs çağrışımı, patika ve zaman derinliği",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/gordion-antik-kenti"
+      ],
+      "catalog_source_url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=GOR01",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.52,
+        0.58
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            80,
+            0,
+            1517,
+            1024
+          ],
+          "normalized_box": [
+            0.05208,
+            0.0,
+            0.98763,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-gordion__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            287,
+            0,
+            1311,
+            1024
+          ],
+          "normalized_box": [
+            0.18685,
+            0.0,
+            0.85352,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-gordion__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            166,
+            0,
+            1432,
+            1024
+          ],
+          "normalized_box": [
+            0.10807,
+            0.0,
+            0.93229,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-gordion__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        287,
+        0,
+        1311,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-gordion.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3009443,
+        "sha256": "e866b3143726f65de4edfcb743c86a8f3f0995e2b15dcc6de6817ccf627c3cdf"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-gordion.jpg",
+        "bytes": 166192,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12893",
+        "image_rectangle_id": "1121:12894",
+        "status": "imported_verified",
+        "component_set_id": "1147:12984",
+        "layout_components": {
+          "Hero": "1147:12936",
+          "Contents": "1147:12938",
+          "SavedCompact": "1147:12940"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18599",
+          "412": "1150:29789"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-eymir",
+      "title": "Eymir Gölü çevresi",
+      "media_key": "ankara101/c2/guide-eymir/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: an imagined Ankara-steppe lakeside walking bend, reed clusters at one side, rippled muted sage-blue water close by, dry low hills with restrained patches of trees. A narrow unmarked shore path curves naturally; a single small adult seen from far behind walks along it, normal anatomy, no face. Water-to-steppe relationship and a long walk are the story. No docks, fantasy alpine lake, tall mountains, exact real Eymir coastline or map claim. Calm late-morning daylight, realistic shoreline scale. Focal point x=.50 y=.56 where path, reed edge and water meet.",
+      "intended_editorial_meaning": "Sazlık, kıyı patikası, yalnız yürüyüş ve su-bozkır ilişkisi",
+      "factual_reference_urls": [
+        "https://ihm.metu.edu.tr/tr/node/129"
+      ],
+      "catalog_source_url": "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0=",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.37,
+        0.57
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            0,
+            0,
+            1437,
+            1024
+          ],
+          "normalized_box": [
+            0.0,
+            0.0,
+            0.93555,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-eymir__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            56,
+            0,
+            1080,
+            1024
+          ],
+          "normalized_box": [
+            0.03646,
+            0.0,
+            0.70312,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-eymir__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            0,
+            0,
+            1266,
+            1024
+          ],
+          "normalized_box": [
+            0.0,
+            0.0,
+            0.82422,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-eymir__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        56,
+        0,
+        1080,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-eymir.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3467578,
+        "sha256": "bbefd314cd89c7d5188c4de7ebd6c4794c8583c539605d6e11ef04c987364edd"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-eymir.jpg",
+        "bytes": 228337,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12896",
+        "image_rectangle_id": "1121:12897",
+        "status": "imported_verified",
+        "component_set_id": "1147:12985",
+        "layout_components": {
+          "Hero": "1147:12946",
+          "Contents": "1147:12948",
+          "SavedCompact": "1147:12950"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18663",
+          "412": "1150:29853"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-mogan",
+      "title": "Mogan Gölü ve Gölbaşı",
+      "media_key": "ankara101/c2/guide-mogan/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: a broad accessible lakeside promenade beside open wind-rippled water, simple low unmarked railing and a little wind-bent reed/grass at edge. Low open horizon and gentle late-day daylight, airy wide view distinct from the more intimate Eymir path. Two very small adults far apart, different posture and clothing, seen away from camera, no face detail, not a crowd. Distant shoreline low and soft, no mountains or invented landmarks, no readable text, no sunset cliché. Focal point x=.50 y=.54 on promenade meeting open water.",
+      "intended_editorial_meaning": "Açık su ve geniş kıyı promenadı; Eymir’den farklı sosyal ölçek",
+      "factual_reference_urls": [
+        "https://ankaravisit.com/tr/places/mogan-golu"
+      ],
+      "catalog_source_url": "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0=",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "secondary travel reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.67,
+        0.61
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            99,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.06445,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-mogan__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            512,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.33333,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-mogan__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            270,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.17578,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-mogan__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        512,
+        0,
+        1536,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-mogan.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2992940,
+        "sha256": "0f69375e37d624a9aedaf408325965f147a91806e3bd1b69ba1ab12d26099865"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-mogan.jpg",
+        "bytes": 179136,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12899",
+        "image_rectangle_id": "1121:12900",
+        "status": "imported_verified",
+        "component_set_id": "1147:12986",
+        "layout_components": {
+          "Hero": "1147:12956",
+          "Contents": "1147:12958",
+          "SavedCompact": "1147:12960"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18730",
+          "412": "1150:29920"
+        }
+      }
+    },
+    {
+      "guide_id": "guide-tunali-kugulu",
+      "title": "Tunalı ve Kuğulu Park hattı",
+      "media_key": "ankara101/c2/guide-tunali-kugulu/editorial-v2",
+      "media_kind": "ai_editorial",
+      "generation_tool": "image_gen",
+      "model": "not exposed by tool",
+      "generation_date": "2026-10-16",
+      "generation_date_timezone": "Europe/Istanbul",
+      "prompt": "Use case: photorealistic-natural.\nAsset type: one landscape 1536×1024 high-resolution photographic editorial image, part of GEZEK / Ankara 101 C2 collection of twelve. Generate ONLY the image, no grid, contact sheet, mockup, border or typography.\nArt direction: premium independent contemporary city magazine, quiet and observant rather than tourism advertising. Believable Central Anatolian Ankara materials and early-autumn air. Natural soft side daylight, restrained warm-neutral grading, muted mineral/olive/ivory midtones, gentle navy shadows with detail, subtle analogue film grain, tactile real-world texture. Human-eye camera 35–50mm equivalent, calm intentional asymmetry, optically credible perspective, not HDR or oversharpened; no orange-teal grade or generic dramatic sunset.\nFactual boundary: an imagined editorial interpretation informed by the region's materials and spatial character, NOT a documentary photo or exact reconstruction of the named real place. Do not copy any reference photograph or exact architectural layout. No precise historical detail, invented inscription, real artefact replica, emblem or identifiable painting/sculpture.\nNo readable text, signs, plaques, shop names, logos, watermarks or baked-in vector graphics. No fantasy skyline. No close recognizable faces, duplicated people, malformed limbs, bent walls or impossible structures. Keep the main semantic subject in the central crop-safe region; purposeful detail should survive Hero, square and compact crops. Long text will be placed outside the image.\nScene: contemporary Ankara park-to-street transition at pedestrian eye level: mature trees and a small quiet park edge in foreground open toward a modest urban pavement and an unlabelled passage/side-street with restrained midrise city fabric beyond. Two small non-identifiable adults walking in different directions at natural distance; correct anatomy. Everyday city movement, leaf shadows, park/city threshold, not a coffee still-life or generic retail postcard. No named business, readable storefronts, invented exact facade, exaggerated skyline or close faces. Early-autumn soft afternoon light, muted sage and warm plaster with restrained contemporary navy detail. Focal point x=.48 y=.54 on the pedestrian transition.",
+      "intended_editorial_meaning": "Olgun ağaçlar, park-cadde eşiği ve gündelik yaya ritmi",
+      "factual_reference_urls": [
+        "https://www.kulturportali.gov.tr/turkiye/ankara/gezilecekyer/kugulu-park"
+      ],
+      "catalog_source_url": "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html",
+      "factual_reference_notes": "References informed materials, landscape and atmosphere; no photograph copied or traced. Final scene is an imagined editorial interpretation, not a verified spatial reconstruction.",
+      "reference_status": "institutional/official reference",
+      "prohibited_documentary_claim": "Do not label this as a photograph, exact view or historical evidence of the named real place. No exact artefact/inscription identification.",
+      "focal_point_normalized": [
+        0.61,
+        0.55
+      ],
+      "crop_variants": {
+        "hero": {
+          "target_logical_size": [
+            393,
+            280
+          ],
+          "source_box_px": [
+            99,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.06445,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-tunali-kugulu__hero.jpg"
+        },
+        "contents": {
+          "target_logical_size": [
+            112,
+            112
+          ],
+          "source_box_px": [
+            425,
+            0,
+            1449,
+            1024
+          ],
+          "normalized_box": [
+            0.27669,
+            0.0,
+            0.94336,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-tunali-kugulu__contents.jpg"
+        },
+        "saved": {
+          "target_logical_size": [
+            89,
+            72
+          ],
+          "source_box_px": [
+            270,
+            0,
+            1536,
+            1024
+          ],
+          "normalized_box": [
+            0.17578,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "proof_path": "crop-proofs/guide-tunali-kugulu__saved.jpg"
+        }
+      },
+      "common_crop_safe_region_px": [
+        425,
+        0,
+        1449,
+        1024
+      ],
+      "safe_region_definition": "Intersection of the three declared mechanical crops, not a guarantee for arbitrary aspect ratios. Re-review new ratios.",
+      "text_overlay_suitability": {
+        "unprotected_light_text": false,
+        "unprotected_dark_text": false,
+        "short_heading": "Only after navy/gradient protection and measured contrast in final UI",
+        "body_text": "Outside image on reading surface"
+      },
+      "accessibility_role": "Decorative when adjacent title and text carry all information; exclude from accessibility tree. Do not announce it as a real-place photograph.",
+      "approval_status": "candidate_unapproved",
+      "licensed_photo_replacement": "Replace source behind the same media_key after provenance/license verification; retain Guide ID and re-QA focal crops.",
+      "master": {
+        "path": "masters/guide-tunali-kugulu.png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3504212,
+        "sha256": "0e4b35b3829168cf54b0528ef04cebfb7e35395b09dc21637d2e6788e8186487"
+      },
+      "figma_derivative": {
+        "path": "figma-jpeg/guide-tunali-kugulu.jpg",
+        "bytes": 253737,
+        "width": 1536,
+        "height": 1024
+      },
+      "figma": {
+        "master_component_id": "1121:12902",
+        "image_rectangle_id": "1121:12903",
+        "status": "imported_verified",
+        "component_set_id": "1147:12987",
+        "layout_components": {
+          "Hero": "1147:12966",
+          "Contents": "1147:12968",
+          "SavedCompact": "1147:12970"
+        },
+        "guide_screen_ids": {
+          "393": "1150:18784",
+          "412": "1150:29974"
+        }
+      }
+    }
+  ],
+  "guide_screen_node_ids": {
+    "393": {
+      "guide-ankara-kalesi": "1150:18099",
+      "guide-hamamonu": "1150:18166",
+      "guide-anadolu-medeniyetleri": "1150:18233",
+      "guide-cumhuriyet-muzesi": "1150:18287",
+      "guide-etnografya-muzesi": "1150:18354",
+      "guide-resim-heykel": "1150:18408",
+      "guide-aslanhane": "1150:18462",
+      "guide-ulus-kultur-hatti": "1150:18529",
+      "guide-gordion": "1150:18599",
+      "guide-eymir": "1150:18663",
+      "guide-mogan": "1150:18730",
+      "guide-tunali-kugulu": "1150:18784"
+    },
+    "412": {
+      "guide-ankara-kalesi": "1150:29289",
+      "guide-hamamonu": "1150:29356",
+      "guide-anadolu-medeniyetleri": "1150:29423",
+      "guide-cumhuriyet-muzesi": "1150:29477",
+      "guide-etnografya-muzesi": "1150:29544",
+      "guide-resim-heykel": "1150:29598",
+      "guide-aslanhane": "1150:29652",
+      "guide-ulus-kultur-hatti": "1150:29719",
+      "guide-gordion": "1150:29789",
+      "guide-eymir": "1150:29853",
+      "guide-mogan": "1150:29920",
+      "guide-tunali-kugulu": "1150:29974"
+    }
+  }
+}

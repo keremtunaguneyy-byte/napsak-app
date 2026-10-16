@@ -1,0 +1,15 @@
+
+> napsak-app@0.1.0 check:performance
+> node --import tsx scripts/checkRecommendationPerformance.ts
+
+┌────────────┬────────┐
+│ (index)    │ Values │
+├────────────┼────────┤
+│ iterations │ 5000   │
+│ meanMs     │ 2.507  │
+│ p50Ms      │ 1.085  │
+│ p95Ms      │ 7.602  │
+│ p99Ms      │ 8.02   │
+│ budgetMs   │ 25     │
+│ checksum   │ 22308  │
+└────────────┴────────┘
