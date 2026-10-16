@@ -2,9 +2,7 @@
 Bytecode makes the app startup faster, disabling bytecode is highly discouraged and should only be used for debugging purposes.
 Starting Metro Bundler
 
-| (node:95603) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-| (Use `node --trace-warnings ...` to show where the warning was created)
-Android Bundled 702ms index.ts (1484 modules)
+Android Bundled 632ms index.ts (1484 modules)
 
 › Assets (52):
 assets/ankara101/ankara-castle-hero.jpg (355KB)
@@ -61,7 +59,7 @@ node_modules/@expo-google-fonts/source-sans-3/700Bold/SourceSans3_700Bold.ttf (3
 node_modules/@expo-google-fonts/source-sans-3/800ExtraBold/SourceSans3_800ExtraBold.ttf (381KB)
 
 › android bundles (1):
-_expo/static/js/android/index-46f66ff52cb4c9ce80f138332d915e3d.js (5.2MB)
+_expo/static/js/android/index-b19aab95204213c1bf54c4c4cf7e8310.js (5.2MB)
 
 › Files (1):
 metadata.json (3.4KB)

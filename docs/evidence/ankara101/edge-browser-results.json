@@ -14,6 +14,14 @@
       "pass": true
     },
     {
+      "name": "changed current-catalog standfirst is preserved without historical emphasis substitution",
+      "pass": true
+    },
+    {
+      "name": "fixed navigation selects Index, Home and Saved from readers independently of Back/Close origin",
+      "pass": true
+    },
+    {
       "name": "failed font gate exits directly to Home without rendering editorial fallback",
       "mode": "fontFail",
       "pass": true

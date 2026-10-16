@@ -786,7 +786,7 @@ function AppContent() {
       backgroundColor={isAnkara101 ? '#E6EDF6' : undefined}
       active={step === 'saved' ? 'saved' : step === 'guides' ? 'guides' : 'home'}
       onHome={() => { setReaderSession(undefined); setEditorialOrigin(undefined); setStep('results'); }} onSaved={() => { setReaderSession(undefined); setEditorialOrigin(undefined); setStep('saved'); }}
-      onGuides={() => { if (readerSession) { leaveEditorial(); return; } if (step === 'guides' && guideView === 'landing') return; setIndexReturn(undefined); setEditorialOrigin(undefined); setInsiderRouteId(undefined); setReaderSession(undefined); setGuideView('landing'); setStep('guides'); }}
+      onGuides={() => { if (readerSession?.origin.screen === 'guides') { leaveEditorial(); return; } if (step === 'guides' && guideView === 'landing') return; setIndexReturn(undefined); setEditorialOrigin(undefined); setInsiderRouteId(undefined); setReaderSession(undefined); setGuideView('landing'); setStep('guides'); }}
     />}
     </KeyboardAvoidingView></View>
     {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}

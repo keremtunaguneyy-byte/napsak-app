@@ -2,97 +2,97 @@
   {
     "command": "npm ci",
     "exitCode": 0,
-    "seconds": 19.49,
+    "seconds": 103.5,
     "log": "npm-ci.log"
   },
   {
     "command": "git diff --check",
     "exitCode": 0,
-    "seconds": 0.03,
+    "seconds": 0.04,
     "log": "git-diff-check.log"
   },
   {
     "command": "npm run typecheck",
     "exitCode": 0,
-    "seconds": 3.93,
+    "seconds": 4.12,
     "log": "typecheck.log"
   },
   {
     "command": "npm test",
     "exitCode": 0,
-    "seconds": 12.25,
+    "seconds": 12.52,
     "log": "test.log"
   },
   {
     "command": "npm run test:catalog",
     "exitCode": 0,
-    "seconds": 0.45,
+    "seconds": 0.77,
     "log": "catalog.log"
   },
   {
     "command": "npm run check:assets",
     "exitCode": 0,
-    "seconds": 0.24,
+    "seconds": 0.45,
     "log": "assets.log"
   },
   {
     "command": "npm run check:build -- --profile=preview",
     "exitCode": 0,
-    "seconds": 0.21,
+    "seconds": 0.49,
     "log": "build-preview.log"
   },
   {
     "command": "npm run check:accessibility",
     "exitCode": 0,
-    "seconds": 0.24,
+    "seconds": 0.5,
     "log": "accessibility.log"
   },
   {
     "command": "npm run check:events",
     "exitCode": 0,
-    "seconds": 0.21,
+    "seconds": 0.36,
     "log": "events.log"
   },
   {
     "command": "npm run test:stress",
     "exitCode": 0,
-    "seconds": 56.84,
+    "seconds": 55.2,
     "log": "stress.log"
   },
   {
     "command": "npm run check:performance",
     "exitCode": 0,
-    "seconds": 13.51,
+    "seconds": 13.99,
     "log": "performance.log"
   },
   {
     "command": "npm run check:recommendations",
     "exitCode": 0,
-    "seconds": 0.97,
+    "seconds": 1.14,
     "log": "recommendations.log"
   },
   {
     "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-ankara101-final-android",
     "exitCode": 0,
-    "seconds": 10.74,
+    "seconds": 12.83,
     "log": "android-export.log"
   },
   {
     "command": "CI=1 npx expo export --platform android --no-bytecode --output-dir /private/tmp/gezek-ankara101-final-android-readable",
     "exitCode": 0,
-    "seconds": 2.04,
+    "seconds": 2.61,
     "log": "android-readable-export.log"
   },
   {
     "command": "npm run check:assets:android -- /private/tmp/gezek-ankara101-final-android-readable",
     "exitCode": 0,
-    "seconds": 0.23,
+    "seconds": 0.43,
     "log": "assets-android.log"
   },
   {
     "command": "node --import tsx scripts/checkAnkara101Export.ts /private/tmp/gezek-ankara101-final-android-readable",
     "exitCode": 0,
-    "seconds": 0.15,
+    "seconds": 0.16,
     "log": "ankara101-export.log"
   },
   {
@@ -102,7 +102,7 @@
   {
     "command": "git diff --cached --check",
     "exitCode": 0,
-    "seconds": 0.02,
+    "seconds": 0.01,
     "log": "git-diff-cached-check.log"
   }
 ]

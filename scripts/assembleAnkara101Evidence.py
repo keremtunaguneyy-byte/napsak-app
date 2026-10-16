@@ -19,6 +19,8 @@ assert args.out.resolve() not in [args.raw.resolve(), args.references.resolve()]
 args.out.mkdir(parents=True, exist_ok=True)
 result = json.loads((args.raw / 'browser-results.json').read_text())
 assert len(result['checks']) == 73 and not result['errors']
+edge_result = json.loads((args.raw / 'edge-browser-results.json').read_text())
+assert len(edge_result['checks']) == 7 and not edge_result['errors']
 commands = json.loads((args.raw / 'browser-commands.json').read_text())
 assert len(commands) == 2 and all(r['exitCode'] == 0 for r in commands)
 configs = json.loads(Path('src/design/ankara101Presentation.json').read_text())

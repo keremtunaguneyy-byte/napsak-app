@@ -2,11 +2,11 @@
   {
     "command": "node tests/ankara101-browser.cjs",
     "exitCode": 0,
-    "seconds": 81.64
+    "seconds": 163.25
   },
   {
     "command": "node tests/ankara101-edge-browser.cjs",
     "exitCode": 0,
-    "seconds": 13.87
+    "seconds": 20.64
   }
 ]

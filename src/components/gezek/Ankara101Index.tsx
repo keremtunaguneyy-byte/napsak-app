@@ -53,7 +53,7 @@ export function Ankara101Index(p: Props) {
             <View pointerEvents="box-none" style={s.coverLabels}><View style={s.chapterTab}><Text style={s.chapterTabText}>01 / TARİH · ALTINDAĞ</Text></View><Ankara101Bookmark guide={lead.guide} saved={p.saved.includes(lead.guide.id)} onSave={() => p.onSaveGuide(lead.guide)} /></View>
             <Pressable accessibilityRole="button" accessibilityLabel={`${lead.guide.title}: Rehberi aç`} onPress={() => open(lead.guide.id)} style={[s.coverCopy, large && { paddingTop: 100 }]}>
               <Text style={s.coverEyebrow}>ŞEHRİN KATMANLARI</Text>
-              <Text style={s.coverTitle}>Ankara Kalesi{'\n'}ve çevresi</Text>
+              <Text style={s.coverTitle}>{lead.config.title}</Text>
               <View style={s.readAction}><View style={s.readLabels}><Text style={s.readTitle}>REHBERİ AÇ</Text><Text style={s.readMeta}>{lead.guide.readMinutes} dk okuma · {(lead.guide.routeStops?.length ?? 0)} durak</Text></View><View style={s.turnArrow}><Ankara101Vector name="imgReadArrow" width={26} /></View><View style={{ position: 'absolute', right: 58, top: 0 }}><Ankara101Vector name="imgPageTurnIntersection" width={20} /></View></View>
             </Pressable>
           </View>

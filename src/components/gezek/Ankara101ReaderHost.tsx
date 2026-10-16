@@ -126,7 +126,7 @@ function ReaderBody({ guide, config: c, titleRef, saved, onSave, onSource }: { g
 
 function castleIntroduction(summary: string) {
   const start = 'Kale surlarından başlayıp ';
-  if (!summary.startsWith(start)) return summary;
+  if (!summary.startsWith(start + 'eski Ankara')) return summary;
   return <><Text style={{ fontFamily: 'A101Fraunces600' }}>{start.trimEnd()}{'\n'}</Text><Text style={{ fontFamily: 'A101Fraunces400Italic', color: '#3F65FC' }}>eski Ankara</Text>{summary.slice(start.length + 'eski Ankara'.length)}</>;
 }
 function castleParagraphs(paragraph: string) {

@@ -1,9 +1,9 @@
 [33m› [1m[@sentry/react-native/expo][22m Missing config for [1morganization, project[22m. Environment variables will be used as a fallback during the build. https://docs.sentry.io/platforms/react-native/manual-setup/[0m
 Starting Metro Bundler
 
-| (node:95464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (node:1763) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 | (Use `node --trace-warnings ...` to show where the warning was created)
-Android Bundled 9058ms index.ts (1484 modules)
+Android Bundled 10059ms index.ts (1484 modules)
 
 › Assets (52):
 assets/ankara101/ankara-castle-hero.jpg (355KB)
@@ -60,7 +60,7 @@ node_modules/@expo-google-fonts/source-sans-3/700Bold/SourceSans3_700Bold.ttf (3
 node_modules/@expo-google-fonts/source-sans-3/800ExtraBold/SourceSans3_800ExtraBold.ttf (381KB)
 
 › android bundles (1):
-_expo/static/js/android/index-e819ba59fc5d10158afd80bd252f9ad2.hbc (6.9MB)
+_expo/static/js/android/index-dac84744510ede1cec3c5fd0cddb1f0a.hbc (6.9MB)
 
 › Files (1):
 metadata.json (3.4KB)
