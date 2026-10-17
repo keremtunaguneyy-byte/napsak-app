@@ -272,7 +272,7 @@ test('Home inspects every family internally; Saved always includes internal insp
   const entry = app.slice(app.indexOf('const openRecommendation'), app.indexOf('const openHomeSettings'));
   assert.match(entry, /openDetail\(\{ kind: item.kind, id: item.id, reasons: item.reasons \}, node\)/);
   assert.doesNotMatch(entry, /openEvent|openIdea|Alert|Linking|setRecommendationRun|setResultFilter/);
-  const saved = app.slice(app.indexOf('  const openSavedEntry'), app.indexOf('  const togglePersistentGuideContents'));
+  const saved = app.slice(app.indexOf('  const openSavedEntry'), app.indexOf('  const openInsiderMap'));
   assert.match(saved, /kind: 'name' in entry.item \? 'place' : entry.item.kind/);
   assert.doesNotMatch(saved, /openEvent|openIdea/);
   const host = readFileSync('src/components/gezek/DetailHost.tsx', 'utf8');

@@ -1,0 +1,1133 @@
+{
+  "protection": [
+    {
+      "id": "288:3",
+      "before": "f394dcee",
+      "after": "f394dcee",
+      "equal": true
+    },
+    {
+      "id": "927:1769",
+      "before": "6b5d19c0",
+      "after": "6b5d19c0",
+      "equal": true
+    },
+    {
+      "id": "1026:5886",
+      "before": "115b5d90",
+      "after": "115b5d90",
+      "equal": true
+    },
+    {
+      "id": "974:4267",
+      "before": "a7962caf",
+      "after": "a7962caf",
+      "equal": true
+    },
+    {
+      "id": "1313:21222",
+      "before": "3ccc9bd1",
+      "after": "3ccc9bd1",
+      "equal": true
+    },
+    {
+      "id": "1313:21323",
+      "before": "371f8f1e",
+      "after": "371f8f1e",
+      "equal": true
+    },
+    {
+      "id": "1297:20977",
+      "before": "fc63cb4b",
+      "after": "fc63cb4b",
+      "equal": true
+    }
+  ],
+  "views": [
+    {
+      "guideId": "guide-anadolu-medeniyetleri",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:30932",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:30994;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:30994;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:31015",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31077;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:31077;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://muze.gov.tr/muze-detay?DistId=AMM&SectionId=AMM01"
+      ]
+    },
+    {
+      "guideId": "guide-aslanhane",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:31968",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:32045;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:32045;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:32066",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:32143;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:32143;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://ankara.ktb.gov.tr/TR-359166/-aslanhane-camii-ahi-serafettin-unesco-dunya-miras-list-.html"
+      ]
+    },
+    {
+      "guideId": "guide-cumhuriyet-muzesi",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:31191",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31268;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:31268;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:31289",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31366;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:31366;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=CUM01"
+      ]
+    },
+    {
+      "guideId": "guide-etnografya-muzesi",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:31461",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31520;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:31520;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:31541",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31600;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:31600;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=AET01"
+      ]
+    },
+    {
+      "guideId": "guide-eymir",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:32916",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:33000;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:33000;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:33021",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:33105;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:33105;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0="
+      ]
+    },
+    {
+      "guideId": "guide-gordion",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:32626",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:32700;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:32700;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:32721",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:32795;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:32795;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=GOR01"
+      ]
+    },
+    {
+      "guideId": "guide-hamamonu",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1340:30954",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1340:31038;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1340:31038;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1340:31059",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1340:31143;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1340:31143;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://ankara.ktb.gov.tr/TR-391154/tarih--kultur-turizmi.html"
+      ]
+    },
+    {
+      "guideId": "guide-mogan",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:33200",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:33259;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:33259;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:33280",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:33339;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:33339;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0="
+      ]
+    },
+    {
+      "guideId": "guide-resim-heykel",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:31703",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31768;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:31768;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:31789",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:31854;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:31854;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=ARE01"
+      ]
+    },
+    {
+      "guideId": "guide-tunali-kugulu",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:33453",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:33530;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:33530;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:33551",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:33628;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:33628;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html"
+      ]
+    },
+    {
+      "guideId": "guide-ulus-kultur-hatti",
+      "bad": [],
+      "hosts": [
+        {
+          "id": "1342:32288",
+          "w": 393,
+          "h": 852,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 778,
+          "navY": 778,
+          "navBottom": 852,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:32391;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            },
+            {
+              "id": "I1342:32391;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:23875"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1342:32412",
+          "w": 412,
+          "h": 915,
+          "headerBottom": 80,
+          "viewportY": 80,
+          "viewportBottom": 841,
+          "navY": 841,
+          "navBottom": 915,
+          "scroll": "VERTICAL",
+          "buttons": [
+            {
+              "id": "I1342:32515;1337:21604",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            },
+            {
+              "id": "I1342:32515;1337:21606",
+              "w": 44,
+              "h": 44,
+              "destinations": [
+                "1345:24166"
+              ]
+            }
+          ]
+        }
+      ],
+      "sourceUrl": [
+        "https://www.ankara.bel.tr/haberler/402-numarali-baskent-kultur-turu-bayramda-da-yollarda-18275"
+      ]
+    }
+  ],
+  "indexLinks": [
+    {
+      "id": "1345:23875",
+      "links": [
+        {
+          "id": "I1345:23878;1345:23724",
+          "name": "B / Kale Cover / Connected Editorial v11",
+          "destinations": [
+            "1345:24044"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23724;1297:20864",
+          "name": "Open guide-ankara-kalesi",
+          "destinations": [
+            "1345:24044"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23825",
+          "name": "Guide entry / guide-hamamonu",
+          "destinations": [
+            "1340:30954"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23825;1340:30951",
+          "name": "Rehberi aç / guide-hamamonu",
+          "destinations": [
+            "1340:30954"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23765",
+          "name": "Guide entry / guide-anadolu-medeniyetleri",
+          "destinations": [
+            "1342:30932"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23765;1342:30929",
+          "name": "Rehberi aç / guide-anadolu-medeniyetleri",
+          "destinations": [
+            "1342:30932"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23785",
+          "name": "Guide entry / guide-cumhuriyet-muzesi",
+          "destinations": [
+            "1342:31191"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23785;1342:31188",
+          "name": "Rehberi aç / guide-cumhuriyet-muzesi",
+          "destinations": [
+            "1342:31191"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23795",
+          "name": "Guide entry / guide-etnografya-muzesi",
+          "destinations": [
+            "1342:31461"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23795;1342:31458",
+          "name": "Rehberi aç / guide-etnografya-muzesi",
+          "destinations": [
+            "1342:31461"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23845",
+          "name": "Guide entry / guide-resim-heykel",
+          "destinations": [
+            "1342:31703"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23845;1342:31700",
+          "name": "Rehberi aç / guide-resim-heykel",
+          "destinations": [
+            "1342:31703"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23775",
+          "name": "Guide entry / guide-aslanhane",
+          "destinations": [
+            "1342:31968"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23775;1342:31965",
+          "name": "Rehberi aç / guide-aslanhane",
+          "destinations": [
+            "1342:31968"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23865",
+          "name": "Guide entry / guide-ulus-kultur-hatti",
+          "destinations": [
+            "1342:32288"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23865;1342:32285",
+          "name": "Rehberi aç / guide-ulus-kultur-hatti",
+          "destinations": [
+            "1342:32288"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23815",
+          "name": "Guide entry / guide-gordion",
+          "destinations": [
+            "1342:32626"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23815;1342:32623",
+          "name": "Rehberi aç / guide-gordion",
+          "destinations": [
+            "1342:32626"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23805",
+          "name": "Guide entry / guide-eymir",
+          "destinations": [
+            "1342:32916"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23805;1342:32913",
+          "name": "Rehberi aç / guide-eymir",
+          "destinations": [
+            "1342:32916"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23835",
+          "name": "Guide entry / guide-mogan",
+          "destinations": [
+            "1342:33200"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23835;1342:33197",
+          "name": "Rehberi aç / guide-mogan",
+          "destinations": [
+            "1342:33200"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23855",
+          "name": "Guide entry / guide-tunali-kugulu",
+          "destinations": [
+            "1342:33453"
+          ]
+        },
+        {
+          "id": "I1345:23878;1345:23855;1342:33450",
+          "name": "Rehberi aç / guide-tunali-kugulu",
+          "destinations": [
+            "1342:33453"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1345:24166",
+      "links": [
+        {
+          "id": "I1345:24169;1345:23724",
+          "name": "B / Kale Cover / Connected Editorial v11",
+          "destinations": [
+            "1345:24335"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23724;1297:20864",
+          "name": "Open guide-ankara-kalesi",
+          "destinations": [
+            "1345:24335"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23825",
+          "name": "Guide entry / guide-hamamonu",
+          "destinations": [
+            "1340:31059"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23825;1340:30951",
+          "name": "Rehberi aç / guide-hamamonu",
+          "destinations": [
+            "1340:31059"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23765",
+          "name": "Guide entry / guide-anadolu-medeniyetleri",
+          "destinations": [
+            "1342:31015"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23765;1342:30929",
+          "name": "Rehberi aç / guide-anadolu-medeniyetleri",
+          "destinations": [
+            "1342:31015"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23785",
+          "name": "Guide entry / guide-cumhuriyet-muzesi",
+          "destinations": [
+            "1342:31289"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23785;1342:31188",
+          "name": "Rehberi aç / guide-cumhuriyet-muzesi",
+          "destinations": [
+            "1342:31289"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23795",
+          "name": "Guide entry / guide-etnografya-muzesi",
+          "destinations": [
+            "1342:31541"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23795;1342:31458",
+          "name": "Rehberi aç / guide-etnografya-muzesi",
+          "destinations": [
+            "1342:31541"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23845",
+          "name": "Guide entry / guide-resim-heykel",
+          "destinations": [
+            "1342:31789"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23845;1342:31700",
+          "name": "Rehberi aç / guide-resim-heykel",
+          "destinations": [
+            "1342:31789"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23775",
+          "name": "Guide entry / guide-aslanhane",
+          "destinations": [
+            "1342:32066"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23775;1342:31965",
+          "name": "Rehberi aç / guide-aslanhane",
+          "destinations": [
+            "1342:32066"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23865",
+          "name": "Guide entry / guide-ulus-kultur-hatti",
+          "destinations": [
+            "1342:32412"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23865;1342:32285",
+          "name": "Rehberi aç / guide-ulus-kultur-hatti",
+          "destinations": [
+            "1342:32412"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23815",
+          "name": "Guide entry / guide-gordion",
+          "destinations": [
+            "1342:32721"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23815;1342:32623",
+          "name": "Rehberi aç / guide-gordion",
+          "destinations": [
+            "1342:32721"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23805",
+          "name": "Guide entry / guide-eymir",
+          "destinations": [
+            "1342:33021"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23805;1342:32913",
+          "name": "Rehberi aç / guide-eymir",
+          "destinations": [
+            "1342:33021"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23835",
+          "name": "Guide entry / guide-mogan",
+          "destinations": [
+            "1342:33280"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23835;1342:33197",
+          "name": "Rehberi aç / guide-mogan",
+          "destinations": [
+            "1342:33280"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23855",
+          "name": "Guide entry / guide-tunali-kugulu",
+          "destinations": [
+            "1342:33551"
+          ]
+        },
+        {
+          "id": "I1345:24169;1345:23855;1342:33450",
+          "name": "Rehberi aç / guide-tunali-kugulu",
+          "destinations": [
+            "1342:33551"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+  "note": "Canonical final correction evidence; PNGs are review composites/captures, never runtime media.",
+  "records": [
+    {
+      "file": "docs/evidence/ankara101/cold-loaded.png",
+      "sha256": "478f0386777f03b22562a732428e55c12aa3646a6fb96338fe34ff6657da59ec"
+    },
+    {
+      "file": "docs/evidence/ankara101/cold-placeholder.png",
+      "sha256": "22aee98acd2151eaff393610f6783a6a8f01e9523cc19e42879e7b67cedf997c"
+    },
+    {
+      "file": "docs/evidence/ankara101/fontFail.png",
+      "sha256": "4b0dd4478a6d94c2c9a4f4ef62df3ed067156f5191128360a6e01175a1ed01c9"
+    },
+    {
+      "file": "docs/evidence/ankara101/fontHold.png",
+      "sha256": "4b0dd4478a6d94c2c9a4f4ef62df3ed067156f5191128360a6e01175a1ed01c9"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-anadolu-medeniyetleri-393-1.8.png",
+      "sha256": "2bd144f49db78202cb50a48bf2ba7c345e2081f268d2c924c2614d3a90cd12b9"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-anadolu-medeniyetleri-393-1.png",
+      "sha256": "099df1838d550cad0767f5705eac47b302991575fbb053c04fa6a2cda3d5c71a"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-anadolu-medeniyetleri-412-1.8.png",
+      "sha256": "bd2bcb4eb1e05a79f23169c4e5e68432f9bbb39b849bf798c70e41ca7b2af0b7"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-anadolu-medeniyetleri-412-1.png",
+      "sha256": "9b22c42766f1b7f37ae9b629d63b6f1ed85c9265a6a02040f8936babfd0b71c5"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-anadolu-medeniyetleri-full-comparison.png",
+      "sha256": "2b3ebd1afa4b5d85afa61683b83576af829f8203ceba70f170c6fd405c5208d9"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ankara-kalesi-393-1.8.png",
+      "sha256": "5164bb2798e77dd2a4336b8cf3af693beb957a3380c16dfc6521d23a5807f5b0"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ankara-kalesi-393-1.png",
+      "sha256": "4532cb95832c87d17ca751cbcc45f732618c7c153eaa97603117868fbb3ba36a"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ankara-kalesi-412-1.8.png",
+      "sha256": "d8621ba81004184a785d3667f64508583ab8333ae59d62b85b82395211ba9fa2"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ankara-kalesi-412-1.png",
+      "sha256": "2d98ba350e211f5a05aac514201f3e959cd67c6efccd1063a8b7aa41a914d6ae"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ankara-kalesi-full-comparison.png",
+      "sha256": "e6938527e0f6d2977f8c543510d532b0da551106c244dc8b8552f1f74daefb4c"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ankara-kalesi-saved-origin.png",
+      "sha256": "5a59f007db85da9fee5461ee7fdfee21033cda16781790d27bd3d5bc8981e8df"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-aslanhane-393-1.8.png",
+      "sha256": "bc57ecfa8ce42e2acd5ba245e05353ea767bc8699598da782067bcf76df95dc9"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-aslanhane-393-1.png",
+      "sha256": "a11d551febba9dd949ad47a8d59a76874f9ff68ac6ffa899460bbd044259e2a3"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-aslanhane-412-1.8.png",
+      "sha256": "25ffd255998d1e1257a015911fdc1280b5d00df6e1b3c86a51c368aecc56f3e2"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-aslanhane-412-1.png",
+      "sha256": "851ddb2e616b69e03bac70683d815acacf86fc83fa41c697adb2bea00a8d3f00"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-aslanhane-full-comparison.png",
+      "sha256": "51f5a8ec35aab91abaee1bb396add773e0e18da913403ab856b7a76958ae3ae1"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-cumhuriyet-muzesi-393-1.8.png",
+      "sha256": "72eb762b4e5b3fe14a3b5d04ba75647c22b0405b0e07ee9ac7521b332bea1186"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-cumhuriyet-muzesi-393-1.png",
+      "sha256": "c3d69cc04efa85eb9398072fb2a9d500e6eb2b297f8e1f3cf9ad2d651a7faf40"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-cumhuriyet-muzesi-412-1.8.png",
+      "sha256": "958b92d7522db8c04e0edb1f03e4c1148a209bc24c2af019b66a8010162a1b09"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-cumhuriyet-muzesi-412-1.png",
+      "sha256": "4e4550e4227af98895825ae941a12f31f59c65ac8af4393cd7df7f58c9a422e5"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-cumhuriyet-muzesi-full-comparison.png",
+      "sha256": "b92a9f679a6c087d75cd00dfc2a0e8ca79e299ee1df35257b4369881990dc5c6"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-etnografya-muzesi-393-1.8.png",
+      "sha256": "0d80328e37ef453782270821e3d850d82b86a1d6098d2d56c4f3ca9cff173798"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-etnografya-muzesi-393-1.png",
+      "sha256": "e5081b6d18c6f165f87a06d8655abd66e5ce22475377941bfb453847c367ba0d"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-etnografya-muzesi-412-1.8.png",
+      "sha256": "48610ee1003047edc7a13a3e8e78abcb9dbe79eebf67591687a2fa2ec159b768"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-etnografya-muzesi-412-1.png",
+      "sha256": "9291944c199fe8ac0dca4f95688c6ee91a5a1fdde77ac46824a0004df6bf9afd"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-etnografya-muzesi-full-comparison.png",
+      "sha256": "9c63f596514366e73f11888458aff2a37f4ecef85f7c4db25df3c8b13a9297f2"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-eymir-393-1.8.png",
+      "sha256": "d54ccc19a88290111acbd037257ff657386fe9463c47abba1ae3b8045c49b314"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-eymir-393-1.png",
+      "sha256": "b6942c3da3f5fcd5433687560b141188fc1e7ecc1800547492f2cf3ca3dfecc4"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-eymir-412-1.8.png",
+      "sha256": "87bdaed4c0a986856c58e05ec99667a229fcefb125947ed77e24a0791b234b67"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-eymir-412-1.png",
+      "sha256": "833f439e5207f23baf62e88ccf0621dff24b5aea6eaf6ea8c496ad86c2c31364"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-eymir-full-comparison.png",
+      "sha256": "00a4a497c407a1f97117e33a4dd45d2cd8d25dcca48369aa9395689ef8592067"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-gordion-393-1.8.png",
+      "sha256": "4510cae6a6a9f3d4a9a69e06b98b0083a5d00ecdf92196574a64167c143011aa"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-gordion-393-1.png",
+      "sha256": "4d07d748ea618ee94488e973eecc3e3097e3f16031616dfe9069af51d2b7def6"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-gordion-412-1.8.png",
+      "sha256": "da6280c24f879b9558e8e5c60456ff9be1dcd12ec7eccee0a26c400fb4e8434e"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-gordion-412-1.png",
+      "sha256": "a62bc51f406e077e7f3f7d7ab1cea37fb3b88f0ab01270b9a4ac979751ef37f6"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-gordion-full-comparison.png",
+      "sha256": "cc0f88f81b7a30cad39c2febfa034c2c2160dc7b68e6499adf35abc77d71ef0d"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-hamamonu-393-1.8.png",
+      "sha256": "bfb91971bc40af267f2b77f38627a676b5e6c791d59f6c4ff4bc8f00af005517"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-hamamonu-393-1.png",
+      "sha256": "dde0ae2db742b1dada0378a12fc88c5aabbcd0cbd5fc78f4a56b19bf2f7b8b96"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-hamamonu-412-1.8.png",
+      "sha256": "9b6c2c514be26ce0263c35625ad8862061c2f14f967c6ec09ef678af7d9c2e65"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-hamamonu-412-1.png",
+      "sha256": "074baad5547b0d7f1b9ccbc40fce9f570c5b55638e510edf4de09af883206bc5"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-hamamonu-full-comparison.png",
+      "sha256": "b5121176230f08660ec6e6edb18a47625311ca40f6570fc8315f8662cef623ec"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-mogan-393-1.8.png",
+      "sha256": "355322e4a6823e6a3d11a1f2dcfeb656c554a6b735a3e5aee5776f1568e99836"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-mogan-393-1.png",
+      "sha256": "03f1c9e9cb23012a3095c245591a7a08a89533955e3e925e3d704f0539e49051"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-mogan-412-1.8.png",
+      "sha256": "dc4268c3adf0dbd3e0e7287ff7301bf7fd9a81f28490f8d46f4277610ee68285"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-mogan-412-1.png",
+      "sha256": "39477770502860c9b0bb6c45e89e5793be9fce9632b9228c77fd6c3fe45deeed"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-mogan-full-comparison.png",
+      "sha256": "c57ae5d0341233391bee9c64b6ed01983a5890253c59733bc5972a633294556c"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-resim-heykel-393-1.8.png",
+      "sha256": "44051f004f9f2607318f8b007f6cd623b070fc615a0eafd48b3a2e50ceb980c6"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-resim-heykel-393-1.png",
+      "sha256": "c4ed43d2e18516618d96de4ba8502dfdb33efab143c9aa49dcb0f41b3c2b7fdd"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-resim-heykel-412-1.8.png",
+      "sha256": "2a15ef7ab4e5be7d6d9856cd28633a071287b03beb11eeda496d3b174973d0e2"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-resim-heykel-412-1.png",
+      "sha256": "d51d1a603a777042538d85294de17c4024135aa0efe8e90382c398a91d3a7134"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-resim-heykel-full-comparison.png",
+      "sha256": "aa75ae62f3d1e1b56b42e3fe9a5240284ffe76a61d60e2ecec718320a39ed0c9"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-tunali-kugulu-393-1.8.png",
+      "sha256": "9fca2dbb6b466da5878db157c540024719861171fab43b9c14aef0b62cbab3fe"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-tunali-kugulu-393-1.png",
+      "sha256": "176fe16db9c59a738b383d262aee29bc4931b3615541f89d65d923bc33c1b4f8"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-tunali-kugulu-412-1.8.png",
+      "sha256": "ab1f7dd1fe3e0710b08edf820227ac4be1eefdb6bf33f0d0ab29df74f4f1884d"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-tunali-kugulu-412-1.png",
+      "sha256": "fde978d70f8f6682f0b5a2435ee3be3bf08088c2bb42974cf7241d65e9f9e3be"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-tunali-kugulu-full-comparison.png",
+      "sha256": "c9c7d03517bf71a78a8012711cdb21190313ef3aa620220c13930c7aa70c7e8a"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ulus-kultur-hatti-393-1.8.png",
+      "sha256": "0a4aeb16d23590cc06197cc26b1be04394e3dd026620ab4324a96b062b389f4b"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ulus-kultur-hatti-393-1.png",
+      "sha256": "a093d58ac0c682a9aca896775befa7505fe2aa523dd367433d0d235ce78e1baa"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ulus-kultur-hatti-412-1.8.png",
+      "sha256": "fa860fcf5b072901f45f412dc77a2c6638b5ce69f07edc27081d79d26f620741"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ulus-kultur-hatti-412-1.png",
+      "sha256": "a988e52f64059daf031f30d21d0d4025de39d1bd026b6494f7c1315c6024d4ba"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-ulus-kultur-hatti-full-comparison.png",
+      "sha256": "c23ae4160b05eeb473a17506f394b66e5af0266ea0bbe9158af1fc340bb9d478"
+    },
+    {
+      "file": "docs/evidence/ankara101/guide-unavailable.png",
+      "sha256": "b56915d2fd3dd632cd57fe8201a3d62ee2319dee254d8d2ce88251af174282d6"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-393-1.8.png",
+      "sha256": "d4c5df09bdb1c93f08a7d5bd2c63a9a685a9e2f0b40bbfcac7997c67ae79f34b"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-393-1.png",
+      "sha256": "5a25e352f9e19bbfee5e7e640872f1e1ccd590ef51509a4f175974b3e8e0e746"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-412-1.8.png",
+      "sha256": "8c3607d9445b8c47ad0c6f568cfd8637f410f64b474ca7f3d06fdd6d3f573e28"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-412-1.png",
+      "sha256": "0b7b98f1e66773ce3b03c099c036e24d43f0dfa262f5bdd2bd9265fa0e134084"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-all-cards-393-1.8.png",
+      "sha256": "d6cbbd0c21cbd44b4389a3043b5546f3656aab43e98d0037ed2c8ec8d2cd6ac3"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-all-cards-393-1.png",
+      "sha256": "f2947292d4f364c2eeb22b8d2b8444a6d4a426aab1b3c1c2e0958953704353d0"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-all-cards-412-1.8.png",
+      "sha256": "d9117f885067593ab254ff84b28cf749efc394edcde128ef55de529a03cee005"
+    },
+    {
+      "file": "docs/evidence/ankara101/index-all-cards-412-1.png",
+      "sha256": "715c93e2de93c647ca2f836ed70b8914beec29c7e8c4361ecbc892b250e45459"
+    },
+    {
+      "file": "docs/evidence/ankara101/long-16-paragraphs-1.8-footer.png",
+      "sha256": "1bbe9ba61a9f4835a0336c2fcc74949d4588ae2a93a2cc9d99ac194a4fd2f934"
+    },
+    {
+      "file": "docs/evidence/ankara101/media-unavailable.png",
+      "sha256": "2b76857330c7d4372cda4c2737918906e8700cd7b9efd1190ba7cd05c41a4000"
+    },
+    {
+      "file": "docs/evidence/ankara101/native-entry-cold-warm.png",
+      "sha256": "3ace1e85f42341dcb912b58e1d2cee8303f170a99de212befbd5be535529558f"
+    },
+    {
+      "file": "docs/evidence/ankara101/native-index-393-normal.png",
+      "sha256": "ef0298704f6d3f6fb8364f3c0f4e1214a3b5f41ba98a190839b291780d0f835d"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-393-1.8.png",
+      "sha256": "1a3e9c5b073e9b33efc812038e325681d716c621df3fb16129bffdba1ed0b6ae"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-393-1.png",
+      "sha256": "b67b1674b4d5b08837f4e71b679410bf2be1812ea1ead83a963d3f68b22bdbe5"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-412-1.8.png",
+      "sha256": "851320944905168b3fbd59cc70104c95942d1ff5497f6d672c7697daf6b66c6f"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-412-1.png",
+      "sha256": "b80fc47cc9a393eb519f9013b5e3ed90d8b12319b12c776625080cee5fda5527"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-393-1.8.png",
+      "sha256": "df6f0f84d435dd7bae868dccc052fffa92f58ab5b7f7b174568019b8623c68c1"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-393-1.png",
+      "sha256": "04a1a55505683eb82c009e06c5823b2abb0b161aa08eb6e8e75e8d1a9ea9f12c"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-412-1.8.png",
+      "sha256": "9e7aa35a18629e20e3a6db7618d018274ad86d70e216247efae8b966e1b38bf1"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-412-1.png",
+      "sha256": "64a623505d296a2dbf8c39b93de4c3c7f0ebde98ef61bcd0ea8cb4330f3f41b3"
+    }
+  ]
+}

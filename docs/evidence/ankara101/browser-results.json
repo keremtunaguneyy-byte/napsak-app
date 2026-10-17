@@ -1,0 +1,831 @@
+{
+  "checks": [
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ankara-kalesi",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1345:24044",
+      "bodyHeight": 1732,
+      "sourceBottom": 708,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-hamamonu",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1340:30954",
+      "bodyHeight": 1666,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-anadolu-medeniyetleri",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:30932",
+      "bodyHeight": 1530,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-cumhuriyet-muzesi",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:31191",
+      "bodyHeight": 1666,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-etnografya-muzesi",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:31461",
+      "bodyHeight": 1515,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-resim-heykel",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:31703",
+      "bodyHeight": 1525,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-aslanhane",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:31968",
+      "bodyHeight": 1664,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ulus-kultur-hatti",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:32288",
+      "bodyHeight": 1722,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-gordion",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:32626",
+      "bodyHeight": 1641,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-eymir",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:32916",
+      "bodyHeight": 1687,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-mogan",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:33200",
+      "bodyHeight": 1504,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-tunali-kugulu",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "node": "1342:33453",
+      "bodyHeight": 1651,
+      "sourceBottom": 700,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "cover Settings visible and hardware Back restore index viewport",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "twelve-guide discovery and unchanged Home batch",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ankara-kalesi",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1345:24044",
+      "bodyHeight": 3895,
+      "sourceBottom": 693.203125,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-hamamonu",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1340:30954",
+      "bodyHeight": 3393,
+      "sourceBottom": 685.265625,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-anadolu-medeniyetleri",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:30932",
+      "bodyHeight": 3090,
+      "sourceBottom": 685.75,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-cumhuriyet-muzesi",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:31191",
+      "bodyHeight": 3361,
+      "sourceBottom": 685.265625,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-etnografya-muzesi",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:31461",
+      "bodyHeight": 2940,
+      "sourceBottom": 685.859375,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-resim-heykel",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:31703",
+      "bodyHeight": 2813,
+      "sourceBottom": 685.6875,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-aslanhane",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:31968",
+      "bodyHeight": 3105,
+      "sourceBottom": 684.953125,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ulus-kultur-hatti",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:32288",
+      "bodyHeight": 3560,
+      "sourceBottom": 685.875,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-gordion",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:32626",
+      "bodyHeight": 3402,
+      "sourceBottom": 685.234375,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-eymir",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:32916",
+      "bodyHeight": 3256,
+      "sourceBottom": 685.6875,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-mogan",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:33200",
+      "bodyHeight": 2794,
+      "sourceBottom": 685.546875,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-tunali-kugulu",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "node": "1342:33453",
+      "bodyHeight": 3449,
+      "sourceBottom": 685.484375,
+      "navTop": 778,
+      "pass": true
+    },
+    {
+      "name": "cover Settings visible and hardware Back restore index viewport",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "twelve-guide discovery and unchanged Home batch",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ankara-kalesi",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1345:24335",
+      "bodyHeight": 1732,
+      "sourceBottom": 771,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-hamamonu",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1340:31059",
+      "bodyHeight": 1666,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-anadolu-medeniyetleri",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:31015",
+      "bodyHeight": 1530,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-cumhuriyet-muzesi",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:31289",
+      "bodyHeight": 1666,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-etnografya-muzesi",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:31541",
+      "bodyHeight": 1515,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-resim-heykel",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:31789",
+      "bodyHeight": 1525,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-aslanhane",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:32066",
+      "bodyHeight": 1664,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ulus-kultur-hatti",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:32412",
+      "bodyHeight": 1722,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-gordion",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:32721",
+      "bodyHeight": 1641,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-eymir",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:33021",
+      "bodyHeight": 1687,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-mogan",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:33280",
+      "bodyHeight": 1504,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-tunali-kugulu",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "node": "1342:33551",
+      "bodyHeight": 1651,
+      "sourceBottom": 763,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "cover Settings visible and hardware Back restore index viewport",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "twelve-guide discovery and unchanged Home batch",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ankara-kalesi",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1345:24335",
+      "bodyHeight": 3895,
+      "sourceBottom": 756.203125,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-hamamonu",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1340:31059",
+      "bodyHeight": 3393,
+      "sourceBottom": 748.265625,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-anadolu-medeniyetleri",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:31015",
+      "bodyHeight": 3090,
+      "sourceBottom": 748.75,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-cumhuriyet-muzesi",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:31289",
+      "bodyHeight": 3361,
+      "sourceBottom": 748.265625,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-etnografya-muzesi",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:31541",
+      "bodyHeight": 2940,
+      "sourceBottom": 748.859375,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-resim-heykel",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:31789",
+      "bodyHeight": 2813,
+      "sourceBottom": 748.6875,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-aslanhane",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:32066",
+      "bodyHeight": 3105,
+      "sourceBottom": 747.953125,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-ulus-kultur-hatti",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:32412",
+      "bodyHeight": 3560,
+      "sourceBottom": 748.875,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-gordion",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:32721",
+      "bodyHeight": 3402,
+      "sourceBottom": 748.234375,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-eymir",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:33021",
+      "bodyHeight": 3256,
+      "sourceBottom": 748.6875,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-mogan",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:33280",
+      "bodyHeight": 2794,
+      "sourceBottom": 748.546875,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "exact route/content/source/bookmark/origin/clearance",
+      "id": "guide-tunali-kugulu",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "node": "1342:33551",
+      "bodyHeight": 3449,
+      "sourceBottom": 748.484375,
+      "navTop": 841,
+      "pass": true
+    },
+    {
+      "name": "cover Settings visible and hardware Back restore index viewport",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "twelve-guide discovery and unchanged Home batch",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-ankara-kalesi",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-hamamonu",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-anadolu-medeniyetleri",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-cumhuriyet-muzesi",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-etnografya-muzesi",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-resim-heykel",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-aslanhane",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-ulus-kultur-hatti",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-gordion",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-eymir",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-mogan",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin exact Guide, Close, scroll and focus",
+      "id": "guide-tunali-kugulu",
+      "pass": true
+    },
+    {
+      "name": "legacy collection opens index and hardware Back returns Saved",
+      "pass": true
+    },
+    {
+      "name": "Saved-origin Unsave never traps reader and survives actual fixture restart",
+      "pass": true
+    },
+    {
+      "name": "source open failure retains exact reader and scroll",
+      "pass": true
+    },
+    {
+      "name": "bounded font failure and safe exit",
+      "mode": "fontFail",
+      "pass": true
+    },
+    {
+      "name": "bounded font failure and safe exit",
+      "mode": "fontHold",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.05,
+    "log": "diff.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 5.23,
+    "log": "typecheck.log"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 12.67,
+    "log": "test.log"
+  },
+  {
+    "command": "node --import tsx --test tests/ankara101-reader.test.ts tests/saved.test.ts",
+    "exitCode": 0,
+    "seconds": 0.23,
+    "log": "focused-saved.log"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.25,
+    "log": "accessibility.log"
+  },
+  {
+    "command": "npm run check:assets",
+    "exitCode": 0,
+    "seconds": 0.22,
+    "log": "assets.log"
+  },
+  {
+    "command": "npm run test:catalog",
+    "exitCode": 0,
+    "seconds": 0.41,
+    "log": "catalog.log"
+  },
+  {
+    "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-ankara101-discovery-android",
+    "exitCode": 0,
+    "seconds": 17.32,
+    "log": "android-export.log"
+  },
+  {
+    "command": "npm run check",
+    "status": "absent; not run"
+  },
+  {
+    "command": "npm ci",
+    "status": "not rerun",
+    "reason": "Dependencies/lockfile unchanged."
+  },
+  {
+    "command": "git diff --cached --check",
+    "exitCode": 0,
+    "log": "cached-diff.log",
+    "note": "Passed staged final correction before normal commit; repeated after recording this result."
+  }
+]

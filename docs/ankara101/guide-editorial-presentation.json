@@ -1,0 +1,799 @@
+[
+  {
+    "guide_id": "guide-ankara-kalesi",
+    "media_key": "ankara101/c2/guide-ankara-kalesi/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-ankara-kalesi.png",
+    "motif_file": null,
+    "existing_kale_layer_files": [
+      "assets/motifs/kale-stone-layers.svg",
+      "assets/motifs/kale-reading-continuity.svg"
+    ],
+    "approved_figma": {
+      "reading_master": "1313:21222",
+      "mobile_393": "1345:24044",
+      "mobile_412": "1345:24335",
+      "entry_card": "1297:20854",
+      "existing_media_node": "1121:12870"
+    },
+    "editorial_direction": null,
+    "legacy_crop_plan": {
+      "id": "guide-ankara-kalesi",
+      "target": "1121:12870",
+      "focal": [
+        0.42,
+        0.55
+      ],
+      "crops": {
+        "hero": [
+          0,
+          0,
+          1437,
+          1024
+        ],
+        "contents": [
+          133,
+          0,
+          1157,
+          1024
+        ],
+        "saved": [
+          12,
+          0,
+          1278,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-hamamonu",
+    "media_key": "ankara101/c2/guide-hamamonu/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-hamamonu.png",
+    "motif_file": "assets/motifs/guide-hamamonu.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1340:30862",
+      "mobile_393": "1340:30954",
+      "mobile_412": "1340:31059",
+      "entry_card": "1340:30944",
+      "existing_media_node": "1121:12873"
+    },
+    "editorial_direction": {
+      "id": "guide-hamamonu",
+      "direction": "Avludan sokağa",
+      "layout": "walk",
+      "font": "Fraunces",
+      "style": "Bold",
+      "titleSize": 39,
+      "title": "Hamamönü\nsokakları",
+      "headings": [
+        "Mahallenin ritmi",
+        "Hafızanın izinde"
+      ],
+      "ink": "#352B38",
+      "accent": "#8D4056",
+      "secondary": "#B78357",
+      "top": "#F5E4E8",
+      "middle": "#F3E7D8",
+      "end": "#E8E8DE",
+      "motif": "courtyard",
+      "photoCaption": "SOKAK VE\nAVLU RİTMİ",
+      "routeAt": "split",
+      "interlude": "photo"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-hamamonu",
+      "target": "1121:12873",
+      "focal": [
+        0.48,
+        0.55
+      ],
+      "crops": {
+        "hero": [
+          19,
+          0,
+          1456,
+          1024
+        ],
+        "contents": [
+          225,
+          0,
+          1249,
+          1024
+        ],
+        "saved": [
+          104,
+          0,
+          1370,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "media_key": "ankara101/c2/guide-anadolu-medeniyetleri/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-anadolu-medeniyetleri.png",
+    "motif_file": "assets/motifs/guide-anadolu-medeniyetleri.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:30862",
+      "mobile_393": "1342:30932",
+      "mobile_412": "1342:31015",
+      "entry_card": "1342:30922",
+      "existing_media_node": "1121:12876"
+    },
+    "editorial_direction": {
+      "id": "guide-anadolu-medeniyetleri",
+      "direction": "Zamanın galerisi",
+      "layout": "vault",
+      "font": "Instrument Serif",
+      "style": "Regular",
+      "titleSize": 47,
+      "title": "Anadolu\nMedeniyetleri\nMüzesi",
+      "headings": [
+        "Zamanın katmanları",
+        "Kendi keşfini kur"
+      ],
+      "ink": "#302D43",
+      "accent": "#665788",
+      "secondary": "#AA8251",
+      "top": "#EAE4F0",
+      "middle": "#EFE5D5",
+      "end": "#E1E7E7",
+      "motif": "chronology",
+      "photoCaption": "DÖNEMLER\nARASINDA",
+      "routeAt": "none",
+      "interlude": "vector"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-anadolu-medeniyetleri",
+      "target": "1121:12876",
+      "focal": [
+        0.57,
+        0.5
+      ],
+      "crops": {
+        "hero": [
+          99,
+          0,
+          1536,
+          1024
+        ],
+        "contents": [
+          364,
+          0,
+          1388,
+          1024
+        ],
+        "saved": [
+          243,
+          0,
+          1509,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "media_key": "ankara101/c2/guide-cumhuriyet-muzesi/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-cumhuriyet-muzesi.png",
+    "motif_file": "assets/motifs/guide-cumhuriyet-muzesi.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:31106",
+      "mobile_393": "1342:31191",
+      "mobile_412": "1342:31289",
+      "entry_card": "1342:31181",
+      "existing_media_node": "1121:12879"
+    },
+    "editorial_direction": {
+      "id": "guide-cumhuriyet-muzesi",
+      "direction": "Başkent arşivi",
+      "layout": "archive",
+      "font": "Bricolage Grotesque",
+      "style": "ExtraBold",
+      "titleSize": 39,
+      "title": "II. Meclis:\nCumhuriyet Müzesi",
+      "headings": [
+        "Mekânın hafızası",
+        "Ulus’a açılan hat"
+      ],
+      "ink": "#3D2938",
+      "accent": "#963F4C",
+      "secondary": "#6D7088",
+      "top": "#F1E1E5",
+      "middle": "#F3E9DC",
+      "end": "#E2E7EE",
+      "motif": "archive",
+      "photoCaption": "MEKÂN VE\nKENT HAFIZASI",
+      "routeAt": "afterIntro",
+      "interlude": "vector"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-cumhuriyet-muzesi",
+      "target": "1121:12879",
+      "focal": [
+        0.5,
+        0.56
+      ],
+      "crops": {
+        "hero": [
+          50,
+          0,
+          1487,
+          1024
+        ],
+        "contents": [
+          256,
+          0,
+          1280,
+          1024
+        ],
+        "saved": [
+          135,
+          0,
+          1401,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-etnografya-muzesi",
+    "media_key": "ankara101/c2/guide-etnografya-muzesi/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-etnografya-muzesi.png",
+    "motif_file": "assets/motifs/guide-etnografya-muzesi.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:31394",
+      "mobile_393": "1342:31461",
+      "mobile_412": "1342:31541",
+      "entry_card": "1342:31451",
+      "existing_media_node": "1121:12882"
+    },
+    "editorial_direction": {
+      "id": "guide-etnografya-muzesi",
+      "direction": "Dokunan hafıza",
+      "layout": "material",
+      "font": "Fraunces",
+      "style": "SemiBold",
+      "titleSize": 41,
+      "title": "Etnografya\nMüzesi",
+      "headings": [
+        "Gündelik hayatın izi",
+        "Koleksiyondan yapıya"
+      ],
+      "ink": "#30382E",
+      "accent": "#536436",
+      "secondary": "#AB7251",
+      "top": "#EEEBD7",
+      "middle": "#EEE0CE",
+      "end": "#E4E9DF",
+      "motif": "weave",
+      "photoCaption": "MALZEME VE\nGÜNDELİK HAYAT",
+      "routeAt": "none",
+      "interlude": "photo"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-etnografya-muzesi",
+      "target": "1121:12882",
+      "focal": [
+        0.5,
+        0.6
+      ],
+      "crops": {
+        "hero": [
+          50,
+          0,
+          1487,
+          1024
+        ],
+        "contents": [
+          256,
+          0,
+          1280,
+          1024
+        ],
+        "saved": [
+          135,
+          0,
+          1401,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-resim-heykel",
+    "media_key": "ankara101/c2/guide-resim-heykel/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-resim-heykel.png",
+    "motif_file": "assets/motifs/guide-resim-heykel.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:31630",
+      "mobile_393": "1342:31703",
+      "mobile_412": "1342:31789",
+      "entry_card": "1342:31693",
+      "existing_media_node": "1121:12885"
+    },
+    "editorial_direction": {
+      "id": "guide-resim-heykel",
+      "direction": "Açık galeri",
+      "layout": "gallery",
+      "font": "Bricolage Grotesque",
+      "style": "ExtraBold",
+      "titleSize": 39,
+      "title": "Resim ve\nHeykel Müzesi",
+      "headings": [
+        "Sanatın mekânı",
+        "Yavaş bak"
+      ],
+      "ink": "#342B4A",
+      "accent": "#7550A2",
+      "secondary": "#C17460",
+      "top": "#EAE3F5",
+      "middle": "#F4E2DA",
+      "end": "#E2EAF5",
+      "motif": "gallery",
+      "photoCaption": "BAKIŞ VE\nMEKÂN",
+      "routeAt": "none",
+      "interlude": "vector"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-resim-heykel",
+      "target": "1121:12885",
+      "focal": [
+        0.55,
+        0.52
+      ],
+      "crops": {
+        "hero": [
+          99,
+          0,
+          1536,
+          1024
+        ],
+        "contents": [
+          333,
+          0,
+          1357,
+          1024
+        ],
+        "saved": [
+          212,
+          0,
+          1478,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-aslanhane",
+    "media_key": "ankara101/c2/guide-aslanhane/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-aslanhane.png",
+    "motif_file": "assets/motifs/guide-aslanhane.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:31883",
+      "mobile_393": "1342:31968",
+      "mobile_412": "1342:32066",
+      "entry_card": "1342:31958",
+      "existing_media_node": "1121:12888"
+    },
+    "editorial_direction": {
+      "id": "guide-aslanhane",
+      "direction": "Ahşabın sessiz ritmi",
+      "layout": "vault",
+      "font": "Instrument Serif",
+      "style": "Regular",
+      "titleSize": 49,
+      "title": "Aslanhane\nCamii",
+      "headings": [
+        "Ahşabın ritmi",
+        "Çevresiyle birlikte"
+      ],
+      "ink": "#2B3B35",
+      "accent": "#4E6B5C",
+      "secondary": "#A37954",
+      "top": "#E4EBDD",
+      "middle": "#EFE2D0",
+      "end": "#E1E9E4",
+      "motif": "timber",
+      "photoCaption": "AHŞAP VE\nMEKÂNSAL RİTİM",
+      "routeAt": "afterStory",
+      "interlude": "photo"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-aslanhane",
+      "target": "1121:12888",
+      "focal": [
+        0.55,
+        0.52
+      ],
+      "crops": {
+        "hero": [
+          99,
+          0,
+          1536,
+          1024
+        ],
+        "contents": [
+          333,
+          0,
+          1357,
+          1024
+        ],
+        "saved": [
+          212,
+          0,
+          1478,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-ulus-kultur-hatti",
+    "media_key": "ankara101/c2/guide-ulus-kultur-hatti/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-ulus-kultur-hatti.png",
+    "motif_file": "assets/motifs/guide-ulus-kultur-hatti.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:32177",
+      "mobile_393": "1342:32288",
+      "mobile_412": "1342:32412",
+      "entry_card": "1342:32278",
+      "existing_media_node": "1121:12891"
+    },
+    "editorial_direction": {
+      "id": "guide-ulus-kultur-hatti",
+      "direction": "Bir kentin bağlantıları",
+      "layout": "transit",
+      "font": "Bricolage Grotesque",
+      "style": "ExtraBold",
+      "titleSize": 43,
+      "title": "Başkent\nKültür Turu",
+      "headings": [
+        "Bir kültür omurgası",
+        "Keşfi zamana yay"
+      ],
+      "ink": "#23344E",
+      "accent": "#3151D5",
+      "secondary": "#89729E",
+      "top": "#E1E9F7",
+      "middle": "#E9E2F0",
+      "end": "#F1E6D9",
+      "motif": "transit",
+      "photoCaption": "BİRBİRİNE\nBAĞLANAN KENT",
+      "routeAt": "index",
+      "interlude": "vector"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-ulus-kultur-hatti",
+      "target": "1121:12891",
+      "focal": [
+        0.36,
+        0.52
+      ],
+      "crops": {
+        "hero": [
+          0,
+          0,
+          1437,
+          1024
+        ],
+        "contents": [
+          41,
+          0,
+          1065,
+          1024
+        ],
+        "saved": [
+          0,
+          0,
+          1266,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-gordion",
+    "media_key": "ankara101/c2/guide-gordion/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-gordion.png",
+    "motif_file": "assets/motifs/guide-gordion.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:32544",
+      "mobile_393": "1342:32626",
+      "mobile_412": "1342:32721",
+      "entry_card": "1342:32616",
+      "existing_media_node": "1121:12894"
+    },
+    "editorial_direction": {
+      "id": "guide-gordion",
+      "direction": "Bozkırın katmanları",
+      "layout": "horizon",
+      "font": "Fraunces",
+      "style": "Bold",
+      "titleSize": 36,
+      "title": "Gordion Müzesi\nve antik kent",
+      "headings": [
+        "Bozkırdaki katmanlar",
+        "Bir günü buraya ayır"
+      ],
+      "ink": "#44372D",
+      "accent": "#7A4E32",
+      "secondary": "#9E745F",
+      "top": "#F0E3C9",
+      "middle": "#ECD6BF",
+      "end": "#E8E4D9",
+      "motif": "strata",
+      "photoCaption": "BOZKIR VE\nYERLEŞİM İZLERİ",
+      "routeAt": "afterStory",
+      "interlude": "vector"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-gordion",
+      "target": "1121:12894",
+      "focal": [
+        0.52,
+        0.58
+      ],
+      "crops": {
+        "hero": [
+          80,
+          0,
+          1517,
+          1024
+        ],
+        "contents": [
+          287,
+          0,
+          1311,
+          1024
+        ],
+        "saved": [
+          166,
+          0,
+          1432,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-eymir",
+    "media_key": "ankara101/c2/guide-eymir/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-eymir.png",
+    "motif_file": "assets/motifs/guide-eymir.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:32824",
+      "mobile_393": "1342:32916",
+      "mobile_412": "1342:33021",
+      "entry_card": "1342:32906",
+      "existing_media_node": "1121:12897"
+    },
+    "editorial_direction": {
+      "id": "guide-eymir",
+      "direction": "Kıyının izinde",
+      "layout": "shore",
+      "font": "Bricolage Grotesque",
+      "style": "SemiBold",
+      "titleSize": 43,
+      "title": "Eymir Gölü\nçevresi",
+      "headings": [
+        "Kıyının ritmi",
+        "Mesafeni sen seç"
+      ],
+      "ink": "#243C3C",
+      "accent": "#28685F",
+      "secondary": "#4F8294",
+      "top": "#DDEDE6",
+      "middle": "#DCEAF0",
+      "end": "#EDE6D4",
+      "motif": "shore",
+      "photoCaption": "KIYI, SAZLIK\nVE AÇIK ALAN",
+      "routeAt": "split",
+      "interlude": "photo"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-eymir",
+      "target": "1121:12897",
+      "focal": [
+        0.37,
+        0.57
+      ],
+      "crops": {
+        "hero": [
+          0,
+          0,
+          1437,
+          1024
+        ],
+        "contents": [
+          56,
+          0,
+          1080,
+          1024
+        ],
+        "saved": [
+          0,
+          0,
+          1266,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-mogan",
+    "media_key": "ankara101/c2/guide-mogan/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-mogan.png",
+    "motif_file": "assets/motifs/guide-mogan.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:33133",
+      "mobile_393": "1342:33200",
+      "mobile_412": "1342:33280",
+      "entry_card": "1342:33190",
+      "existing_media_node": "1121:12900"
+    },
+    "editorial_direction": {
+      "id": "guide-mogan",
+      "direction": "Ufukta bir mola",
+      "layout": "horizon",
+      "font": "Instrument Serif",
+      "style": "Regular",
+      "titleSize": 49,
+      "title": "Mogan Gölü\nve Gölbaşı",
+      "headings": [
+        "Kıyıda yavaşla",
+        "Günün ışığını izle"
+      ],
+      "ink": "#3D3442",
+      "accent": "#835038",
+      "secondary": "#687FA1",
+      "top": "#E2E9F2",
+      "middle": "#F2DDCB",
+      "end": "#E7E8D9",
+      "motif": "sunset",
+      "photoCaption": "SU VE\nGÜNÜN IŞIĞI",
+      "routeAt": "none",
+      "interlude": "photo"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-mogan",
+      "target": "1121:12900",
+      "focal": [
+        0.67,
+        0.61
+      ],
+      "crops": {
+        "hero": [
+          99,
+          0,
+          1536,
+          1024
+        ],
+        "contents": [
+          512,
+          0,
+          1536,
+          1024
+        ],
+        "saved": [
+          270,
+          0,
+          1536,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  },
+  {
+    "guide_id": "guide-tunali-kugulu",
+    "media_key": "ankara101/c2/guide-tunali-kugulu/editorial-v2",
+    "media_kind": "ai_editorial",
+    "media_master": "assets/masters/guide-tunali-kugulu.png",
+    "motif_file": "assets/motifs/guide-tunali-kugulu.svg",
+    "existing_kale_layer_files": [],
+    "approved_figma": {
+      "reading_master": "1342:33368",
+      "mobile_393": "1342:33453",
+      "mobile_412": "1342:33551",
+      "entry_card": "1342:33443",
+      "existing_media_node": "1121:12903"
+    },
+    "editorial_direction": {
+      "id": "guide-tunali-kugulu",
+      "direction": "Parktan caddeye",
+      "layout": "city",
+      "font": "Bricolage Grotesque",
+      "style": "ExtraBold",
+      "titleSize": 37,
+      "title": "Tunalı ve Kuğulu\nPark hattı",
+      "headings": [
+        "Parktan caddeye",
+        "Ara sokaklara sap"
+      ],
+      "ink": "#2F3246",
+      "accent": "#705098",
+      "secondary": "#3F7355",
+      "top": "#E1ECDE",
+      "middle": "#EAE2F1",
+      "end": "#F2E2D7",
+      "motif": "city",
+      "photoCaption": "PARK VE\nGÜNDELİK KENT",
+      "routeAt": "afterIntro",
+      "interlude": "photo"
+    },
+    "legacy_crop_plan": {
+      "id": "guide-tunali-kugulu",
+      "target": "1121:12903",
+      "focal": [
+        0.61,
+        0.55
+      ],
+      "crops": {
+        "hero": [
+          99,
+          0,
+          1536,
+          1024
+        ],
+        "contents": [
+          425,
+          0,
+          1449,
+          1024
+        ],
+        "saved": [
+          270,
+          0,
+          1536,
+          1024
+        ]
+      }
+    },
+    "crop_authority": "contracts/authoritative-media-slot-geometry.json; old crop plan remains source/focal context, not an override of current Figma slot geometry",
+    "content_source": "current catalog via stable guide.id; packaged source is verification snapshot, never replace live catalog from snapshot"
+  }
+]

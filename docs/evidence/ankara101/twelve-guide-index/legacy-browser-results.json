@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "name": "exactly twelve approved IDs; no Insider subtree; final card and original 48px clearance",
+      "width": 393,
+      "scale": 1,
+      "end": {
+        "lastSection": "ankara101-contents",
+        "lastEntry": "index-guide-tunali-kugulu",
+        "clearance": 48
+      },
+      "pass": true
+    },
+    {
+      "name": "pre-existing Insider record opens unchanged Reader; Back/Close/Android Back restore Saved scroll/focus",
+      "width": 393,
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "legacy Reader and Saved-row Unsave persist across restart without removing other Guide records",
+      "width": 393,
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "exactly twelve approved IDs; no Insider subtree; final card and original 48px clearance",
+      "width": 393,
+      "scale": 1.8,
+      "end": {
+        "lastSection": "ankara101-contents",
+        "lastEntry": "index-guide-tunali-kugulu",
+        "clearance": 48
+      },
+      "pass": true
+    },
+    {
+      "name": "pre-existing Insider record opens unchanged Reader; Back/Close/Android Back restore Saved scroll/focus",
+      "width": 393,
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "legacy Reader and Saved-row Unsave persist across restart without removing other Guide records",
+      "width": 393,
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "exactly twelve approved IDs; no Insider subtree; final card and original 48px clearance",
+      "width": 412,
+      "scale": 1,
+      "end": {
+        "lastSection": "ankara101-contents",
+        "lastEntry": "index-guide-tunali-kugulu",
+        "clearance": 48
+      },
+      "pass": true
+    },
+    {
+      "name": "pre-existing Insider record opens unchanged Reader; Back/Close/Android Back restore Saved scroll/focus",
+      "width": 412,
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "legacy Reader and Saved-row Unsave persist across restart without removing other Guide records",
+      "width": 412,
+      "scale": 1,
+      "pass": true
+    },
+    {
+      "name": "exactly twelve approved IDs; no Insider subtree; final card and original 48px clearance",
+      "width": 412,
+      "scale": 1.8,
+      "end": {
+        "lastSection": "ankara101-contents",
+        "lastEntry": "index-guide-tunali-kugulu",
+        "clearance": 48
+      },
+      "pass": true
+    },
+    {
+      "name": "pre-existing Insider record opens unchanged Reader; Back/Close/Android Back restore Saved scroll/focus",
+      "width": 412,
+      "scale": 1.8,
+      "pass": true
+    },
+    {
+      "name": "legacy Reader and Saved-row Unsave persist across restart without removing other Guide records",
+      "width": 412,
+      "scale": 1.8,
+      "pass": true
+    }
+  ],
+  "errors": []
+}

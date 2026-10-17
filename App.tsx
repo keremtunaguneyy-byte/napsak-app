@@ -5,6 +5,10 @@ import { createHomeFilterRuns, homeCatalogKeys, homeDismissalKeys, homeSnapshotK
 import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
 import { experienceStartDistanceLabel } from './src/experienceStartDistance';
 import { createLocationRequestGuard } from './src/locationRequestGuard';
+import { Ankara101Index } from './src/components/gezek/Ankara101Index';
+import { Ankara101ImageWarmup, useAnkara101ImageOpening } from './src/components/gezek/Ankara101Media';
+import { Ankara101FontGate, Ankara101ReaderHost } from './src/components/gezek/Ankara101ReaderHost';
+import { ankara101Return, openAnkara101Reader, resolveAnkara101Reader, Ankara101Session } from './src/ankara101Reader';
 import { SavedScreen } from './src/components/gezek/SavedScreen';
 import { resolveSavedEntries, SavedEntry, SavedReturnRequest } from './src/saved';
 import { BrandLogo } from './src/components/gezek/BrandLogo';
@@ -39,7 +43,7 @@ import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
 import { recordHomeFilterPress, recordHomeRecommendation } from './src/components/gezek/homePerformance';
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
-import { CLASSICS_COLLECTION_ID, guideCollectionMetadata, resolveFeaturedGuides, resolveGuideById, resolvePrimaryInsiderRoute } from './src/ankara101';
+import { CLASSICS_COLLECTION_ID, resolvePrimaryInsiderRoute } from './src/ankara101';
 
 import { PreferenceEditor } from './src/components/gezek/PreferenceEditor';
 import { applyPreferenceEditor, preferenceEditorReducer, preferenceReturnFocus, PreferenceEditorAction, PreferenceEditorSession, PreferenceReturnFocus } from './src/preferenceEditor';
@@ -118,26 +122,32 @@ function AppContent() {
   const [guideScrollProgress, setGuideScrollProgress] = useState(0);
   const [guideView, setGuideView] = useState<GuideView>('landing');
   const [guideContentsOpen, setGuideContentsOpen] = useState(false);
-  const [pendingGuideId, setPendingGuideId] = useState<string>();
-  const guidePaperY = useRef(0);
-  const guideAnchors = useRef<Record<string, number>>({});
-  const guideNodes = useRef<Record<string, Text | null>>({});
+  const [readerSession, setReaderSession] = useState<Ankara101Session>();
+  const [indexReturn, setIndexReturn] = useState<{ id?: string; scrollY: number; sequence: number }>();
+  const indexScrollY = useRef(0);
   const [detailSession, setDetailSession] = useState<DetailSession>();
+  const { request: imageWarmup, opening: imageOpening } = useAnkara101ImageOpening(`${step}/${guideView}/${!!detailSession}/${!!preferenceSession}`);
   const originControl = useRef<View | null>(null);
   const originFallback = useRef<View>(null);
   const originScrollY = useRef(0);
   const savedScrollY = useRef(0);
+  const settingsOrigin = useRef<'results' | 'guides'>('results');
   const [savedReturn, setSavedReturn] = useState<SavedReturnRequest>();
   const [editorialOrigin, setEditorialOrigin] = useState<{ id: string; scrollY: number }>();
   const [insiderRouteId, setInsiderRouteId] = useState<string>();
   const returnToSaved = (origin: { id?: string; scrollY: number }) => {
-    setGuideContentsOpen(false); setPendingGuideId(undefined); setEditorialOrigin(undefined);
+    setGuideContentsOpen(false); setReaderSession(undefined); setEditorialOrigin(undefined);
     setStep('saved');
     setSavedReturn(current => ({ ...origin, sequence: (current?.sequence ?? 0) + 1 }));
   };
-  const leaveEditorial = () => {
-    if (editorialOrigin) returnToSaved(editorialOrigin);
-    else { setGuideContentsOpen(false); setPendingGuideId(undefined); setGuideView('landing'); }
+  const leaveEditorial = (action: 'back' | 'close' = 'back') => {
+    if (readerSession) {
+      const origin = ankara101Return(readerSession, action);
+      setReaderSession(undefined);
+      if (origin.screen === 'saved') returnToSaved(origin);
+      else { setGuideView('landing'); setIndexReturn(current => ({ ...origin, sequence: (current?.sequence ?? 0) + 1 })); }
+    } else if (editorialOrigin) returnToSaved(editorialOrigin);
+    else { setGuideContentsOpen(false); setGuideView('landing'); }
   };
   const locationRequests = useMemo(createLocationRequestGuard, []);
   useEffect(() => {
@@ -222,8 +232,6 @@ function AppContent() {
   }, [experiences, places, ideas, events]);
   const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
   const savedEntries = useMemo(() => resolveSavedEntries(saved, catalogItems, guides, insiderRoutes), [catalogItems, guides, saved]);
-  const guideMetadata = useMemo(() => guideCollectionMetadata(guides), [guides]);
-  const featuredGuides = useMemo(() => resolveFeaturedGuides(guides), [guides]);
   const primaryInsiderRoute = insiderRouteId ? insiderRoutes.find(route => route.id === insiderRouteId) : resolvePrimaryInsiderRoute(insiderRoutes);
 
   useEffect(() => {
@@ -323,7 +331,7 @@ function AppContent() {
   useEffect(() => {
     if (step !== 'guides') return;
     setGuideScrollProgress(0);
-    if (guideView === 'classics' && pendingGuideId) return;
+    if (guideView !== 'insider') return;
     requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
   }, [guideView, step]);
   useEffect(() => {
@@ -342,7 +350,9 @@ function AppContent() {
         leaveEditorial();
         return true;
       }
-      if (step === 'guides' || step === 'saved' || step === 'hidden' || step === 'settings') {
+      if (step === 'guides' && editorialOrigin) { returnToSaved(editorialOrigin); return true; }
+      if (step === 'settings') { setStep(settingsOrigin.current); return true; }
+      if (step === 'guides' || step === 'saved' || step === 'hidden') {
         setStep('results');
         requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
         return true;
@@ -350,7 +360,7 @@ function AppContent() {
       return false;
     });
     return () => subscription.remove();
-  }, [guideContentsOpen, guideView, step, onboardingSession, onboardingCompleted, editorialOrigin]);
+  }, [guideContentsOpen, guideView, step, onboardingSession, onboardingCompleted, editorialOrigin, readerSession]);
 
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
@@ -579,7 +589,13 @@ function AppContent() {
   const openRecommendation = useCallback((item: RecommendationItem, node?: View | null) => {
     openDetail({ kind: item.kind, id: item.id, reasons: item.reasons }, node);
   }, [openDetail]);
-  const openHomeSettings = useCallback(() => setStep('settings'), []);
+  const openHomeSettings = useCallback(() => { settingsOrigin.current = 'results'; setStep('settings'); }, []);
+  const openAnkara101Settings = () => {
+    settingsOrigin.current = 'guides';
+    const scrollY = indexScrollY.current;
+    setIndexReturn(current => ({ id: 'settings', scrollY, sequence: (current?.sequence ?? 0) + 1 }));
+    setStep('settings');
+  };
   const requestHomeFocus = (target: PreferenceReturnFocus) => setHomeFocus(current => ({ id: (current?.id ?? 0) + 1, target }));
   const openPreferenceEditor = useCallback((budgetOnly = false) => {
     setPreferenceSession(preferenceEditorReducer(undefined, { type: 'open', budgetOnly,
@@ -665,23 +681,15 @@ function AppContent() {
       Alert.alert('Bağlantı açılamadı', 'Rehberin resmî kaynağı şu anda açılamıyor. Lütfen tekrar dene.');
     }
   };
-  const focusGuideChapter = (guideId: string): boolean => {
-    if (!resolveGuideById(guides, guideId)) return false;
-    const anchor = guideAnchors.current[guideId];
-    if (anchor === undefined) return false;
-    scrollRef.current?.scrollTo({ y: Math.max(0, guidePaperY.current + anchor - 20), animated: true });
-    const nodeHandle = findNodeHandle(guideNodes.current[guideId]);
-    if (nodeHandle) requestAnimationFrame(() => AccessibilityInfo.setAccessibilityFocus(nodeHandle));
-    setPendingGuideId(undefined);
-    return true;
-  };
   const openGuideChapter = (guideId: string): boolean => {
-    if (!resolveGuideById(guides, guideId)) return false;
-    setGuideContentsOpen(false);
-    setPendingGuideId(guideId);
-    setGuideView('classics');
-    setStep('guides');
-    requestAnimationFrame(() => requestAnimationFrame(() => focusGuideChapter(guideId)));
+    const session = openAnkara101Reader(guides, guideId,
+      { screen: 'guides', id: guideId, scrollY: indexScrollY.current },
+      editorialOrigin ? { screen: 'saved', ...editorialOrigin } : undefined);
+    if (!session) return false;
+    const resolved = resolveAnkara101Reader(guides, guideId)!;
+    imageOpening.start(resolved.config.mediaKey, resolved.config.hero.width, resolved.config.hero.height, () => {
+      setReaderSession(session); setGuideView('classics'); setStep('guides');
+    });
     return true;
   };
   const openSavedEntry = (entry: SavedEntry, node: View | null) => {
@@ -689,19 +697,22 @@ function AppContent() {
       openDetail({ kind: 'name' in entry.item ? 'place' : entry.item.kind, id: entry.id }, node);
       return;
     }
-    setEditorialOrigin({ id: entry.id, scrollY: savedScrollY.current });
-    setGuideContentsOpen(false); setPendingGuideId(undefined);
-    if (entry.type === 'guide') openGuideChapter(entry.id);
+    const origin = { id: entry.id, scrollY: savedScrollY.current };
+    if (entry.type === 'guide') {
+      const session = openAnkara101Reader(guides, entry.id, { screen: 'saved', ...origin });
+      const resolved = resolveAnkara101Reader(guides, entry.id);
+      if (!session || !resolved) return;
+      imageOpening.start(resolved.config.mediaKey, resolved.config.hero.width, resolved.config.hero.height, () => {
+        setEditorialOrigin(origin); setGuideContentsOpen(false); setReaderSession(session);
+        setGuideView('classics'); setStep('guides');
+      });
+    }
     else {
-      setGuideView(entry.type === 'classics' ? 'classics' : 'insider');
+      setEditorialOrigin(origin); setGuideContentsOpen(false); setReaderSession(undefined);
+      setGuideView(entry.type === 'classics' ? 'landing' : 'insider');
       if (entry.type === 'route') setInsiderRouteId(entry.id);
       setStep('guides');
     }
-  };
-  const togglePersistentGuideContents = () => {
-    const opening = !guideContentsOpen;
-    setGuideContentsOpen(opening);
-    if (opening) requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, guidePaperY.current), animated: true }));
   };
   const openInsiderMap = async () => {
     try {
@@ -719,24 +730,25 @@ function AppContent() {
   if (!hydrated || (!fontsLoaded && !fontError)) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekTransparent]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView></View>;
 
   if (onboardingSession && !onboardingCompleted) return <OnboardingHost session={onboardingSession} onAction={navigateOnboarding} onComplete={finishOnboarding} />;
-  const isGuideArticle = step === 'guides' && guideView !== 'landing';
+  const isGuideArticle = step === 'guides' && guideView === 'insider';
+  const isAnkara101 = step === 'guides' && guideView !== 'insider';
   const isHome = step === 'results';
   const isSaved = step === 'saved';
-  const isProductionSurface = isHome || isSaved;
+  const isProductionSurface = isHome || isSaved || isAnkara101;
   const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
-  return <SafeAreaView edges={isProductionSurface ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isProductionSurface && s.gezekSafe]}>
+  return <SafeAreaView edges={isProductionSurface ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isProductionSurface && s.gezekSafe, isAnkara101 && { backgroundColor: '#E6EDF6' }]}>
     <StatusBar style={isProductionSurface ? 'dark' : 'light'} />{!isProductionSurface && <View style={s.orb} />}
     <View accessibilityElementsHidden={!!preferenceSession || !!detailSession} importantForAccessibility={preferenceSession || detailSession ? 'no-hide-descendants' : 'auto'} ref={originFallback} focusable tabIndex={-1} accessibilityLabel={step === 'saved' ? 'Kaydedilenler' : 'Ana Sayfa'} style={s.safe}><KeyboardAvoidingView style={[s.safe, isProductionSurface && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-    {isGuideArticle && <EditorialTopBar title={guideView === 'classics' ? 'ANKARA 101' : 'BİR ANKARALI GİBİ'} saved={guideView === 'classics' ? saved.includes(CLASSICS_COLLECTION_ID) : !!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel={guideView === 'classics' ? 'Ankara Klasikleri koleksiyonu' : 'Bir Ankaralı Gibi rotası'} onBack={leaveEditorial} backLabel={editorialOrigin ? 'Kaydedilenlere dön' : undefined} onOpenContents={guideView === 'classics' ? togglePersistentGuideContents : undefined} contentsOpen={guideContentsOpen} onSave={guideView === 'classics' ? () => toggleSaved(CLASSICS_COLLECTION_ID, 'guide') : primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
+    {isGuideArticle && <EditorialTopBar title="BİR ANKARALI GİBİ" saved={!!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel="Bir Ankaralı Gibi rotası" onBack={leaveEditorial} onClose={() => leaveEditorial('close')} backLabel={editorialOrigin ? 'Kaydedilenlere dön' : undefined} onSave={primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
-    <ScrollView style={isSaved ? { display: 'none' } : undefined} testID="production-home-scroll" ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+    <ScrollView style={isSaved || isAnkara101 ? { display: 'none' } : undefined} testID="production-home-scroll" ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       originScrollY.current = event.nativeEvent.contentOffset.y;
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && !isProductionSurface && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={() => setStep('settings')} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" onPress={() => setStep('results')} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
+      {!isGuideArticle && !isProductionSurface && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={openHomeSettings} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={settingsOrigin.current === 'guides' ? 'Ankara 101’e dön' : 'Önerilere dön'} onPress={() => setStep(settingsOrigin.current)} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
       {step === 'results' && <GezekHome
         safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
@@ -754,8 +766,6 @@ function AppContent() {
         onRotate={rotateRecommendations} onShowHidden={showHomeHidden} onReset={editHomePreferences}
         onRecommendationsLayout={measureHomeRecommendations}
       />}
-      {step === 'guides' && guideView === 'landing' && <Ankara101Landing guides={featuredGuides} chapterCount={guideMetadata.chapterCount} totalMinutes={guideMetadata.totalReadMinutes} route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenClassics={() => setGuideView('classics')} onOpenGuide={openGuideChapter} onOpenInsider={() => setGuideView('insider')} />}
-      {step === 'guides' && guideView === 'classics' && <ClassicsGuide guides={guides} totalMinutes={guideMetadata.totalReadMinutes} saved={saved} contentsOpen={guideContentsOpen} onToggleContents={() => setGuideContentsOpen(open => !open)} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onOpenSource={openGuideSource} onPaperLayout={y => { guidePaperY.current = y; }} onChapterLayout={(id, y, node) => { guideAnchors.current[id] = y; guideNodes.current[id] = node; if (pendingGuideId === id) requestAnimationFrame(() => focusGuideChapter(id)); }} onOpenContents={openGuideChapter} />}
       {step === 'guides' && guideView === 'insider' && (primaryInsiderRoute ? <InsiderGuide route={primaryInsiderRoute} saved={saved.includes(primaryInsiderRoute.id)} onBack={leaveEditorial} onSave={() => toggleSaved(primaryInsiderRoute.id, 'route')} onOpenMap={openInsiderMap} /> : <InsiderUnavailable onBack={leaveEditorial} />)}
       {step === 'hidden' && <View>
         <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
@@ -771,13 +781,23 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>
+    <View style={isAnkara101 ? { flex: 1, backgroundColor: '#E8ECF9' } : { display: 'none' }} accessibilityElementsHidden={!isAnkara101} importantForAccessibility={isAnkara101 ? 'auto' : 'no-hide-descendants'}>
+      {isAnkara101 && <Ankara101FontGate onExit={() => { if (readerSession || editorialOrigin) leaveEditorial(); else setStep('results'); }}>
+        <View style={readerSession ? { display: 'none' } : { flex: 1 }}>
+          <Ankara101Index active={!readerSession} guides={guides} saved={saved} safeTopInset={safeInsets.top} initialScrollY={indexScrollY.current} returnRequest={indexReturn} onScroll={y => { indexScrollY.current = y; }} onOpenGuide={openGuideChapter} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onSettings={openAnkara101Settings} />
+        </View>
+        {readerSession && <Ankara101ReaderHost guideId={readerSession.guideId} guides={guides} saved={saved} safeTopInset={safeInsets.top} fromSaved={readerSession.origin.screen === 'saved'} onBack={leaveEditorial} onClose={() => leaveEditorial('close')} onSave={guide => toggleSaved(guide.id, 'guide')} onSource={openGuideSource} onHeroReady={imageOpening.remember} />}
+      </Ankara101FontGate>}
+    </View>
     {(isSaved || !!editorialOrigin) && <SavedScreen entries={savedEntries} now={eligibilityNow} safeTopInset={safeInsets.top} hidden={!isSaved} returnRequest={savedReturn} onOpen={openSavedEntry} onUnsave={id => toggleSaved(id)} onScroll={y => { savedScrollY.current = y; }} onHome={() => setStep('results')} onSettings={openHomeSettings} />}
     {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <GezekBottomNavigation
+      backgroundColor={isAnkara101 ? '#E6EDF6' : undefined}
       active={step === 'saved' ? 'saved' : step === 'guides' ? 'guides' : 'home'}
-      onHome={() => setStep('results')} onSaved={() => setStep('saved')}
-      onGuides={() => { setEditorialOrigin(undefined); setInsiderRouteId(undefined); setGuideView('landing'); setStep('guides'); }}
+      onHome={() => { setReaderSession(undefined); setEditorialOrigin(undefined); setStep('results'); }} onSaved={() => { setReaderSession(undefined); setEditorialOrigin(undefined); setStep('saved'); }}
+      onGuides={() => { if (readerSession?.origin.screen === 'guides') { leaveEditorial(); return; } if (step === 'guides' && guideView === 'landing') return; setIndexReturn(undefined); setEditorialOrigin(undefined); setInsiderRouteId(undefined); setReaderSession(undefined); setGuideView('landing'); setStep('guides'); }}
     />}
     </KeyboardAvoidingView></View>
+    {imageWarmup && <Ankara101ImageWarmup key={imageWarmup.token} request={imageWarmup} onFinish={imageOpening.finish} />}
     {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: recommendationRun, now: eligibilityNow }}
@@ -805,65 +825,11 @@ function Button({ label, onPress, disabled = false }: { label: string; onPress: 
 function Action({ label, onPress, text, muted, remove, selected }: { label: string; onPress: (node?: View | null) => void; text: string; muted?: boolean; remove?: boolean; selected?: boolean }) { const node = useRef<View>(null); return <TouchableOpacity ref={node} accessibilityRole="button" accessibilityLabel={label} accessibilityState={selected === undefined ? undefined : { selected }} hitSlop={6} onPress={() => onPress(node.current)} style={s.actionHit}><Text style={remove ? s.removeAction : muted ? s.mutedAction : s.action}>{text}</Text></TouchableOpacity>; }
 function NavTab({ label, selected, editorial, onPress }: { label: string; selected: boolean; editorial?: boolean; onPress: () => void }) { return <TouchableOpacity accessibilityRole="tab" accessibilityState={{ selected }} onPress={onPress} style={s.navTab}><Text numberOfLines={1} style={[s.navText, editorial && s.navTextEditorial, selected && s.navTextSelected, editorial && selected && s.navTextEditorialSelected]}>{label}</Text></TouchableOpacity>; }
 
-function EditorialTopBar({ title, saved, saveLabel, backLabel, contentsOpen, onBack, onOpenContents, onSave }: { title: string; saved: boolean; saveLabel: string; backLabel?: string; contentsOpen?: boolean; onBack: () => void; onOpenContents?: () => void; onSave?: () => void }) {
+function EditorialTopBar({ title, saved, saveLabel, backLabel, contentsOpen, onBack, onClose, onOpenContents, onSave }: { title: string; saved: boolean; saveLabel: string; backLabel?: string; contentsOpen?: boolean; onBack: () => void; onClose?: () => void; onOpenContents?: () => void; onSave?: () => void }) {
   return <View style={s.editorialTopBar}>
     <TouchableOpacity accessibilityRole="button" accessibilityLabel={backLabel ?? "Ankara 101 seçimine dön"} hitSlop={12} onPress={onBack} style={s.editorialTopAction}><Text style={s.editorialBack}>‹</Text></TouchableOpacity>
     <Text accessibilityRole="header" numberOfLines={1} style={s.editorialTopTitle}>{title}</Text>
-    <View style={s.editorialTopActions}>{onOpenContents && <TouchableOpacity accessibilityRole="button" accessibilityLabel={contentsOpen ? 'Bölüm listesini kapat' : 'Bölüm listesini aç'} accessibilityState={{ expanded: contentsOpen }} hitSlop={8} onPress={onOpenContents} style={s.editorialContentsAction}><Text style={s.editorialContentsActionText}>İçindekiler</Text></TouchableOpacity>}{onSave && <TouchableOpacity accessibilityRole="button" accessibilityLabel={saved ? `${saveLabel} kaydını kaldır` : `${saveLabel} olarak kaydet`} accessibilityState={{ selected: saved }} hitSlop={12} onPress={onSave} style={s.editorialTopAction}><Text style={[s.editorialBookmark, saved && s.editorialBookmarkSaved]}>{saved ? '♥' : '♡'}</Text></TouchableOpacity>}</View>
-  </View>;
-}
-
-function Ankara101Landing({ guides, chapterCount, totalMinutes, route, routeCount, onOpenClassics, onOpenGuide, onOpenInsider }: { guides: Guide[]; chapterCount: number; totalMinutes: number; route?: InsiderRoute; routeCount: number; onOpenClassics: () => void; onOpenGuide: (guideId: string) => void; onOpenInsider: () => void }) {
-  return <View style={s.editorialLanding}>
-    <Text style={s.editorialEyebrow}>ANKARA 101</Text>
-    <View style={s.editorialAccent} />
-    <Text accessibilityRole="header" style={s.editorialLandingTitle}>Şehri iki farklı şekilde keşfet.</Text>
-    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ankara Klasikleri rehberini aç" activeOpacity={.9} onPress={onOpenClassics} style={s.editorialChoice}>
-      <View style={s.editorialChoiceCopy}><Text numberOfLines={2} adjustsFontSizeToFit minimumFontScale={.88} style={s.editorialChoiceTitle}>Ankara Klasikleri</Text><View style={s.choiceRule} /><Text style={s.editorialChoiceText}>Tarih, kültür ve şehrin simge durakları</Text><Text style={s.editorialChoiceMeta}>{chapterCount} bölüm · yaklaşık {totalMinutes} dk</Text></View>
-      <Image accessible={false} source={ANKARA_CASTLE_HERO} resizeMode="cover" style={s.editorialChoiceImage} />
-    </TouchableOpacity>
-    <TouchableOpacity accessibilityRole="button" accessibilityLabel="Bir Ankaralı Gibi rotalarını aç" activeOpacity={.9} onPress={onOpenInsider} style={s.editorialChoice}>
-      <Image accessible={false} source={KUGULU_TUNALI_HERO} resizeMode="cover" style={s.editorialChoiceImage} />
-      <View style={s.editorialChoiceCopy}><Text numberOfLines={3} adjustsFontSizeToFit minimumFontScale={.88} style={s.editorialChoiceTitle}>Bir Ankaralı Gibi</Text><View style={s.choiceRule} /><Text style={s.editorialChoiceText}>{route ? route.title : 'Yerel rota şu anda kullanılamıyor'}</Text><Text style={s.editorialChoiceMeta}>{route ? `${routeCount} rota · ${route.durationLabel}` : 'Yeni rota eklenince burada görünecek'}</Text></View>
-    </TouchableOpacity>
-    <View style={s.featuredGuides}>
-      <Text style={s.featuredEyebrow}>KLASİKLERDEN SEÇMELER</Text>
-      <Text accessibilityRole="header" style={s.featuredTitle}>Şehre açılan dört bölüm</Text>
-      {guides.map(guide => <TouchableOpacity key={guide.id} accessibilityRole="link" accessibilityLabel={`${guide.title} bölümünü aç`} onPress={() => onOpenGuide(guide.id)} style={s.featuredGuideRow}><View style={s.featuredGuideCopy}><Text style={s.featuredGuideTitle}>{guide.title}</Text><Text style={s.featuredGuideMeta}>{guide.category} · {guide.district} · {guide.readMinutes} dk</Text></View><Text accessible={false} style={s.featuredGuideArrow}>→</Text></TouchableOpacity>)}
-      <TouchableOpacity accessibilityRole="button" accessibilityLabel={`${chapterCount} bölümün tümünü gör`} onPress={onOpenClassics} style={s.featuredAllAction}><Text style={s.featuredAllActionText}>{chapterCount} bölümün tümünü gör →</Text></TouchableOpacity>
-    </View>
-  </View>;
-}
-
-function ClassicsGuide({ guides, totalMinutes, saved, contentsOpen, onToggleContents, onSaveGuide, onOpenSource, onPaperLayout, onChapterLayout, onOpenContents }: { guides: Guide[]; totalMinutes: number; saved: string[]; contentsOpen: boolean; onToggleContents: () => void; onSaveGuide: (guide: Guide) => void; onOpenSource: (guide: Guide) => void; onPaperLayout: (y: number) => void; onChapterLayout: (id: string, y: number, node: Text | null) => void; onOpenContents: (id: string) => void }) {
-  return <View>
-    <ImageBackground accessible={false} source={ANKARA_CASTLE_HERO} resizeMode="cover" style={s.classicsHero}>
-      <LinearGradient colors={['transparent', 'rgba(10,10,8,.12)', 'rgba(10,10,8,.92)']} locations={[0, .45, 1]} style={s.heroGradient}>
-        <Text accessibilityRole="header" style={s.classicsHeroTitle}>ANKARA KLASİKLERİ</Text>
-        <Text style={s.classicsHeroDeck}>Şehrin tarihini okumaya nereden başlamalı?</Text>
-      </LinearGradient>
-    </ImageBackground>
-    <View onLayout={event => onPaperLayout(event.nativeEvent.layout.y)} style={s.classicsPaper}>
-      <View style={s.classicsMetaRow}><Text style={s.classicsMeta}>{guides.length} BÖLÜM</Text><Text style={s.classicsMeta}>YAKLAŞIK {totalMinutes} DK</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel={contentsOpen ? 'İçindekileri kapat' : 'İçindekileri aç'} accessibilityState={{ expanded: contentsOpen }} onPress={onToggleContents} style={s.classicsContentsHit}><Text style={s.classicsContentsButton}>{contentsOpen ? 'KAPAT' : 'İÇİNDEKİLER'}</Text></TouchableOpacity></View>
-      {contentsOpen && <View style={s.classicsContents}>{guides.map((guide, index) => <TouchableOpacity key={guide.id} accessibilityRole="link" accessibilityLabel={`${guide.title} bölümüne git`} onPress={() => onOpenContents(guide.id)} style={s.classicsContentsRow}><Text style={s.classicsContentsNumber}>{String(index + 1).padStart(2, '0')}</Text><Text style={s.classicsContentsTitle}>{index === 0 ? 'Kale’den Ulus’a: Şehrin ilk katmanı' : guide.title}</Text><Text style={s.classicsContentsArrow}>↓</Text></TouchableOpacity>)}</View>}
-      {guides.map((guide, index) => <ClassicChapter key={guide.id} guide={guide} index={index} saved={saved.includes(guide.id)} onLayout={(y, node) => onChapterLayout(guide.id, y, node)} onSave={() => onSaveGuide(guide)} onOpenSource={() => onOpenSource(guide)} />)}
-      <View style={s.classicsEnd}><Text style={s.classicsEndMark}>✦</Text><Text style={s.classicsEndTitle}>Ankara, bakmasını bilene konuşur.</Text><Text style={s.classicsEndText}>Ziyaret saatleri ve koşullar değişebilir. Yola çıkmadan bölüm sonundaki resmî kaynağı kontrol et.</Text></View>
-    </View>
-  </View>;
-}
-
-function ClassicChapter({ guide, index, saved, onSave, onOpenSource, onLayout }: { guide: Guide; index: number; saved: boolean; onSave: () => void; onOpenSource: () => void; onLayout: (y: number, node: Text | null) => void }) {
-  const displayTitle = index === 0 ? 'Kale’den Ulus’a: Şehrin ilk katmanı' : guide.title;
-  const chapterTitleRef = useRef<Text>(null);
-  return <View onLayout={event => onLayout(event.nativeEvent.layout.y, chapterTitleRef.current)} style={s.classicChapter}>
-    <Text style={s.classicChapterEyebrow}>{String(index + 1).padStart(2, '0')} · {guide.category.toLocaleUpperCase('tr-TR')}</Text>
-    <Text ref={chapterTitleRef} accessible accessibilityRole="header" accessibilityLabel={`${displayTitle} bölümü`} style={s.classicChapterTitle}>{displayTitle}</Text>
-    <View style={s.classicOrnament}><View style={s.classicOrnamentLine} /><Text style={s.classicOrnamentMark}>✦</Text><View style={s.classicOrnamentLine} /></View>
-    <Text style={s.classicStandfirst}>{guide.summary}</Text>
-    {guide.paragraphs.map((paragraph, paragraphIndex) => <Text key={paragraphIndex} style={s.classicParagraph}>{paragraph}</Text>)}
-    {!!guide.routeStops?.length && <View style={s.classicRouteStrip}><Text style={s.classicRouteLabel}>BU BÖLÜMDE</Text><Text style={s.classicRouteText}>{guide.routeStops.join('  ·  ')}</Text></View>}
-    {guide.practicalNote && <View style={s.classicTip}><Text style={s.classicTipLabel}>KISA NOT</Text><Text style={s.classicTipText}>{guide.practicalNote}</Text></View>}
-    <View style={s.classicActions}><TouchableOpacity accessibilityRole="button" accessibilityLabel={saved ? `${displayTitle} bölümünü kayıttan çıkar` : `${displayTitle} bölümünü kaydet`} accessibilityState={{ selected: saved }} onPress={onSave} style={s.classicActionHit}><Text style={s.classicAction}>{saved ? '♥ Kaydedildi' : '♡ Bölümü kaydet'}</Text></TouchableOpacity><TouchableOpacity accessibilityRole="link" accessibilityLabel={`${displayTitle} kaynaklarını aç`} onPress={onOpenSource} style={s.classicActionHit}><Text style={s.classicSource}>Kaynaklar ↗</Text></TouchableOpacity></View>
+    <View style={s.editorialTopActions}>{onOpenContents && <TouchableOpacity accessibilityRole="button" accessibilityLabel={contentsOpen ? 'Bölüm listesini kapat' : 'Bölüm listesini aç'} accessibilityState={{ expanded: contentsOpen }} hitSlop={8} onPress={onOpenContents} style={s.editorialContentsAction}><Text style={s.editorialContentsActionText}>İçindekiler</Text></TouchableOpacity>}{onSave && <TouchableOpacity accessibilityRole="button" accessibilityLabel={saved ? `${saveLabel} kaydını kaldır` : `${saveLabel} olarak kaydet`} accessibilityState={{ selected: saved }} hitSlop={12} onPress={onSave} style={s.editorialTopAction}><Text style={[s.editorialBookmark, saved && s.editorialBookmarkSaved]}>{saved ? '♥' : '♡'}</Text></TouchableOpacity>}{onClose && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Rehberi kapat" onPress={onClose} style={s.editorialTopAction}><Text style={s.editorialBack}>×</Text></TouchableOpacity>}</View>
   </View>;
 }
 
@@ -921,7 +887,6 @@ const s = StyleSheet.create({
   guideLandingPage: { paddingHorizontal: 18, paddingBottom: 24 }, guideArticlePage: { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 0 },
   editorialTopBar: { minHeight: 61, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0E100E' }, editorialTopAction: { width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center' }, editorialBack: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_400Regular', fontSize: 46, lineHeight: 48 }, editorialTopTitle: { flex: 1, color: '#F2E7CF', fontFamily: 'SourceSans3_600SemiBold', fontSize: 12, letterSpacing: 1.8, textAlign: 'center' }, editorialTopActions: { flexDirection: 'row', alignItems: 'center' }, editorialContentsAction: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 7 }, editorialContentsActionText: { color: '#D8C8AB', fontFamily: 'SourceSans3_700Bold', fontSize: 10 }, editorialBookmark: { color: '#F2E7CF', fontFamily: 'SourceSans3_400Regular', fontSize: 27 }, editorialBookmarkSaved: { color: '#A73343' },
   editorialLanding: { paddingBottom: 8 }, editorialEyebrow: { color: '#BD6B63', fontFamily: 'SourceSans3_800ExtraBold', fontSize: 12, letterSpacing: 4 }, editorialAccent: { width: 45, height: 3, backgroundColor: '#A73343', marginTop: 13, marginBottom: 18 }, editorialLandingTitle: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_400Regular', fontSize: 39, lineHeight: 43, marginBottom: 24 },
-  editorialChoice: { minHeight: ANKARA101_LAYOUT.secimKartiYuksekligi, flexDirection: 'row', backgroundColor: '#F2E7CF', borderRadius: ANKARA101_LAYOUT.secimKartiKoseYuvarlakligi, overflow: 'hidden', marginBottom: 14 }, editorialChoiceCopy: { width: ANKARA101_LAYOUT.secimKartiYaziOrani, paddingHorizontal: ANKARA101_LAYOUT.secimKartiIcBosluk, paddingVertical: 15, justifyContent: 'center' }, editorialChoiceImage: { flex: 1, minHeight: ANKARA101_LAYOUT.secimKartiYuksekligi }, editorialChoiceTitle: { color: '#2F2022', fontFamily: 'CormorantGaramond_600SemiBold', fontSize: ANKARA101_LAYOUT.secimKartiBaslikBoyutu, lineHeight: ANKARA101_LAYOUT.secimKartiBaslikSatirYuksekligi }, choiceRule: { width: 36, height: 3, backgroundColor: '#A73343', marginTop: 10, marginBottom: 8 }, editorialChoiceText: { color: '#493B35', fontFamily: 'SourceSans3_400Regular', fontSize: 12, lineHeight: 16 }, editorialChoiceMeta: { color: '#7A2635', fontFamily: 'SourceSans3_700Bold', fontSize: 10, lineHeight: 14, marginTop: 7 },
   featuredGuides: { marginTop: 18, borderTopWidth: 1, borderTopColor: '#51463A', paddingTop: 24 }, featuredEyebrow: { color: '#BD6B63', fontFamily: 'SourceSans3_800ExtraBold', fontSize: 10, letterSpacing: 2.2 }, featuredTitle: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_600SemiBold', fontSize: 29, lineHeight: 34, marginTop: 7, marginBottom: 10 }, featuredGuideRow: { minHeight: 66, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#403A32', paddingVertical: 10 }, featuredGuideCopy: { flex: 1, paddingRight: 12 }, featuredGuideTitle: { color: '#F2E7CF', fontFamily: 'SourceSans3_600SemiBold', fontSize: 15, lineHeight: 19 }, featuredGuideMeta: { color: '#AFA18B', fontFamily: 'SourceSans3_400Regular', fontSize: 11, lineHeight: 15, marginTop: 4 }, featuredGuideArrow: { color: '#BD6B63', fontSize: 18 }, featuredAllAction: { minHeight: 48, justifyContent: 'center', alignItems: 'flex-start', marginTop: 6 }, featuredAllActionText: { color: '#E2C67B', fontFamily: 'SourceSans3_700Bold', fontSize: 12 },
   classicsHero: { height: 430, backgroundColor: '#302820' }, heroGradient: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 22, paddingBottom: 28 }, classicsHeroTitle: { color: '#F7ECD7', fontFamily: 'CormorantGaramond_400Regular', fontSize: 42, lineHeight: 45, letterSpacing: .2 }, classicsHeroDeck: { color: '#F7ECD7', fontFamily: 'SourceSans3_400Regular', fontSize: 18, lineHeight: 24, marginTop: 6 },
   classicsPaper: { backgroundColor: '#F2E7CF' }, classicsMetaRow: { minHeight: 55, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12, borderBottomWidth: 1, borderBottomColor: '#CDBE9F', paddingHorizontal: 22 }, classicsMeta: { color: '#80675D', fontFamily: 'SourceSans3_700Bold', fontSize: 9, letterSpacing: 1.25 }, classicsContentsHit: { minHeight: 44, justifyContent: 'center' }, classicsContentsButton: { color: '#7A2635', fontFamily: 'SourceSans3_800ExtraBold', fontSize: 10, letterSpacing: 1.1 }, classicsContents: { paddingHorizontal: 22, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: '#CDBE9F' }, classicsContentsRow: { minHeight: 46, flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: '#DDCFB4' }, classicsContentsNumber: { width: 31, color: '#8F2938', fontFamily: 'SourceSans3_700Bold', fontSize: 10 }, classicsContentsTitle: { flex: 1, color: '#3B2C28', fontFamily: 'SourceSans3_600SemiBold', fontSize: 13, lineHeight: 17 }, classicsContentsArrow: { color: '#8F2938', fontSize: 15 },

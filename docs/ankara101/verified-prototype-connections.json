@@ -1,0 +1,674 @@
+[
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23724",
+    "label": "B / Kale Cover / Connected Editorial v11",
+    "target": "1345:24044",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23724;1297:20864",
+    "label": "Open guide-ankara-kalesi",
+    "target": "1345:24044",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23825",
+    "label": "Guide entry / guide-hamamonu",
+    "target": "1340:30954",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23825;1340:30951",
+    "label": "Rehberi aç / guide-hamamonu",
+    "target": "1340:30954",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23765",
+    "label": "Guide entry / guide-anadolu-medeniyetleri",
+    "target": "1342:30932",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23765;1342:30929",
+    "label": "Rehberi aç / guide-anadolu-medeniyetleri",
+    "target": "1342:30932",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23785",
+    "label": "Guide entry / guide-cumhuriyet-muzesi",
+    "target": "1342:31191",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23785;1342:31188",
+    "label": "Rehberi aç / guide-cumhuriyet-muzesi",
+    "target": "1342:31191",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23795",
+    "label": "Guide entry / guide-etnografya-muzesi",
+    "target": "1342:31461",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23795;1342:31458",
+    "label": "Rehberi aç / guide-etnografya-muzesi",
+    "target": "1342:31461",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23845",
+    "label": "Guide entry / guide-resim-heykel",
+    "target": "1342:31703",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23845;1342:31700",
+    "label": "Rehberi aç / guide-resim-heykel",
+    "target": "1342:31703",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23775",
+    "label": "Guide entry / guide-aslanhane",
+    "target": "1342:31968",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23775;1342:31965",
+    "label": "Rehberi aç / guide-aslanhane",
+    "target": "1342:31968",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23865",
+    "label": "Guide entry / guide-ulus-kultur-hatti",
+    "target": "1342:32288",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23865;1342:32285",
+    "label": "Rehberi aç / guide-ulus-kultur-hatti",
+    "target": "1342:32288",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23815",
+    "label": "Guide entry / guide-gordion",
+    "target": "1342:32626",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23815;1342:32623",
+    "label": "Rehberi aç / guide-gordion",
+    "target": "1342:32626",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23805",
+    "label": "Guide entry / guide-eymir",
+    "target": "1342:32916",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23805;1342:32913",
+    "label": "Rehberi aç / guide-eymir",
+    "target": "1342:32916",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23835",
+    "label": "Guide entry / guide-mogan",
+    "target": "1342:33200",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23835;1342:33197",
+    "label": "Rehberi aç / guide-mogan",
+    "target": "1342:33200",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23855",
+    "label": "Guide entry / guide-tunali-kugulu",
+    "target": "1342:33453",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:23875",
+    "action_node": "I1345:23878;1345:23855;1342:33450",
+    "label": "Rehberi aç / guide-tunali-kugulu",
+    "target": "1342:33453",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23724",
+    "label": "B / Kale Cover / Connected Editorial v11",
+    "target": "1345:24335",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23724;1297:20864",
+    "label": "Open guide-ankara-kalesi",
+    "target": "1345:24335",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23825",
+    "label": "Guide entry / guide-hamamonu",
+    "target": "1340:31059",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23825;1340:30951",
+    "label": "Rehberi aç / guide-hamamonu",
+    "target": "1340:31059",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23765",
+    "label": "Guide entry / guide-anadolu-medeniyetleri",
+    "target": "1342:31015",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23765;1342:30929",
+    "label": "Rehberi aç / guide-anadolu-medeniyetleri",
+    "target": "1342:31015",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23785",
+    "label": "Guide entry / guide-cumhuriyet-muzesi",
+    "target": "1342:31289",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23785;1342:31188",
+    "label": "Rehberi aç / guide-cumhuriyet-muzesi",
+    "target": "1342:31289",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23795",
+    "label": "Guide entry / guide-etnografya-muzesi",
+    "target": "1342:31541",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23795;1342:31458",
+    "label": "Rehberi aç / guide-etnografya-muzesi",
+    "target": "1342:31541",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23845",
+    "label": "Guide entry / guide-resim-heykel",
+    "target": "1342:31789",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23845;1342:31700",
+    "label": "Rehberi aç / guide-resim-heykel",
+    "target": "1342:31789",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23775",
+    "label": "Guide entry / guide-aslanhane",
+    "target": "1342:32066",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23775;1342:31965",
+    "label": "Rehberi aç / guide-aslanhane",
+    "target": "1342:32066",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23865",
+    "label": "Guide entry / guide-ulus-kultur-hatti",
+    "target": "1342:32412",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23865;1342:32285",
+    "label": "Rehberi aç / guide-ulus-kultur-hatti",
+    "target": "1342:32412",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23815",
+    "label": "Guide entry / guide-gordion",
+    "target": "1342:32721",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23815;1342:32623",
+    "label": "Rehberi aç / guide-gordion",
+    "target": "1342:32721",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23805",
+    "label": "Guide entry / guide-eymir",
+    "target": "1342:33021",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23805;1342:32913",
+    "label": "Rehberi aç / guide-eymir",
+    "target": "1342:33021",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23835",
+    "label": "Guide entry / guide-mogan",
+    "target": "1342:33280",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23835;1342:33197",
+    "label": "Rehberi aç / guide-mogan",
+    "target": "1342:33280",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23855",
+    "label": "Guide entry / guide-tunali-kugulu",
+    "target": "1342:33551",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24166",
+    "action_node": "I1345:24169;1345:23855;1342:33450",
+    "label": "Rehberi aç / guide-tunali-kugulu",
+    "target": "1342:33551",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:30932",
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "action_node": "I1342:30994;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:30932",
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "action_node": "I1342:30994;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31015",
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "action_node": "I1342:31077;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31015",
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "action_node": "I1342:31077;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31968",
+    "guide_id": "guide-aslanhane",
+    "action_node": "I1342:32045;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31968",
+    "guide_id": "guide-aslanhane",
+    "action_node": "I1342:32045;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32066",
+    "guide_id": "guide-aslanhane",
+    "action_node": "I1342:32143;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32066",
+    "guide_id": "guide-aslanhane",
+    "action_node": "I1342:32143;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31191",
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "action_node": "I1342:31268;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31191",
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "action_node": "I1342:31268;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31289",
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "action_node": "I1342:31366;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31289",
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "action_node": "I1342:31366;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31461",
+    "guide_id": "guide-etnografya-muzesi",
+    "action_node": "I1342:31520;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31461",
+    "guide_id": "guide-etnografya-muzesi",
+    "action_node": "I1342:31520;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31541",
+    "guide_id": "guide-etnografya-muzesi",
+    "action_node": "I1342:31600;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31541",
+    "guide_id": "guide-etnografya-muzesi",
+    "action_node": "I1342:31600;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32916",
+    "guide_id": "guide-eymir",
+    "action_node": "I1342:33000;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32916",
+    "guide_id": "guide-eymir",
+    "action_node": "I1342:33000;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33021",
+    "guide_id": "guide-eymir",
+    "action_node": "I1342:33105;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33021",
+    "guide_id": "guide-eymir",
+    "action_node": "I1342:33105;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32626",
+    "guide_id": "guide-gordion",
+    "action_node": "I1342:32700;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32626",
+    "guide_id": "guide-gordion",
+    "action_node": "I1342:32700;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32721",
+    "guide_id": "guide-gordion",
+    "action_node": "I1342:32795;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32721",
+    "guide_id": "guide-gordion",
+    "action_node": "I1342:32795;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1340:30954",
+    "guide_id": "guide-hamamonu",
+    "action_node": "I1340:31038;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1340:30954",
+    "guide_id": "guide-hamamonu",
+    "action_node": "I1340:31038;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1340:31059",
+    "guide_id": "guide-hamamonu",
+    "action_node": "I1340:31143;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1340:31059",
+    "guide_id": "guide-hamamonu",
+    "action_node": "I1340:31143;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33200",
+    "guide_id": "guide-mogan",
+    "action_node": "I1342:33259;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33200",
+    "guide_id": "guide-mogan",
+    "action_node": "I1342:33259;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33280",
+    "guide_id": "guide-mogan",
+    "action_node": "I1342:33339;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33280",
+    "guide_id": "guide-mogan",
+    "action_node": "I1342:33339;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31703",
+    "guide_id": "guide-resim-heykel",
+    "action_node": "I1342:31768;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31703",
+    "guide_id": "guide-resim-heykel",
+    "action_node": "I1342:31768;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31789",
+    "guide_id": "guide-resim-heykel",
+    "action_node": "I1342:31854;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:31789",
+    "guide_id": "guide-resim-heykel",
+    "action_node": "I1342:31854;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33453",
+    "guide_id": "guide-tunali-kugulu",
+    "action_node": "I1342:33530;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33453",
+    "guide_id": "guide-tunali-kugulu",
+    "action_node": "I1342:33530;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33551",
+    "guide_id": "guide-tunali-kugulu",
+    "action_node": "I1342:33628;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:33551",
+    "guide_id": "guide-tunali-kugulu",
+    "action_node": "I1342:33628;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32288",
+    "guide_id": "guide-ulus-kultur-hatti",
+    "action_node": "I1342:32391;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32288",
+    "guide_id": "guide-ulus-kultur-hatti",
+    "action_node": "I1342:32391;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32412",
+    "guide_id": "guide-ulus-kultur-hatti",
+    "action_node": "I1342:32515;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1342:32412",
+    "guide_id": "guide-ulus-kultur-hatti",
+    "action_node": "I1342:32515;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24044",
+    "guide_id": "guide-ankara-kalesi",
+    "action_node": "I1345:24145;1337:21604",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24044",
+    "guide_id": "guide-ankara-kalesi",
+    "action_node": "I1345:24145;1337:21606",
+    "target": "1345:23875",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24335",
+    "guide_id": "guide-ankara-kalesi",
+    "action_node": "I1345:24436;1337:21604",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  },
+  {
+    "origin": "1345:24335",
+    "guide_id": "guide-ankara-kalesi",
+    "action_node": "I1345:24436;1337:21606",
+    "target": "1345:24166",
+    "resetScrollPosition": false
+  }
+]

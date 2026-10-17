@@ -312,13 +312,13 @@ export function GezekHomeLoading() {
   </View>;
 }
 
-export function GezekBottomNavigation({ active, onHome, onSaved, onGuides }: { active: 'home' | 'saved' | 'guides'; onHome: () => void; onSaved: () => void; onGuides: () => void }) {
+export function GezekBottomNavigation({ active, onHome, onSaved, onGuides, backgroundColor }: { active: 'home' | 'saved' | 'guides'; onHome: () => void; onSaved: () => void; onGuides: () => void; backgroundColor?: string }) {
   const destinations: { id: 'home' | 'saved' | 'guides'; label: string; onPress: () => void; icons: [GezekAssetName, GezekAssetName] }[] = [
     { id: 'home', label: 'Ana Sayfa', onPress: onHome, icons: ['homeInactive', 'homeActive'] },
     { id: 'saved', label: 'Kaydedilenler', onPress: onSaved, icons: ['savedInactive', 'savedActive'] },
     { id: 'guides', label: 'Ankara 101', onPress: onGuides, icons: ['guideInactive', 'guideActive'] },
   ];
-  return <View accessibilityRole="tablist" style={s.bottom}>
+  return <View accessibilityRole="tablist" style={[s.bottom, backgroundColor ? { backgroundColor } : undefined]}>
     {destinations.map(tab => <TouchableOpacity key={tab.id} accessibilityRole="tab" accessibilityLabel={tab.label}
       accessibilityState={{ selected: active === tab.id }} onPress={tab.onPress} style={s.bottomTab}>
       <GezekAsset name={tab.icons[active === tab.id ? 1 : 0]} />

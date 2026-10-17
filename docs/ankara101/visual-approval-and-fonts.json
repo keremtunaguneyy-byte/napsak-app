@@ -1,0 +1,141 @@
+{
+  "mutatedNodeIds": [
+    "1350:24398",
+    "1350:24399",
+    "1342:30862",
+    "1342:31883",
+    "1342:31106",
+    "1342:31394",
+    "1342:32824",
+    "1342:32544",
+    "1340:30862",
+    "1342:33133",
+    "1342:31630",
+    "1342:33368",
+    "1342:32177",
+    "1345:23708"
+  ],
+  "fonts": [
+    {
+      "family": "Plus Jakarta Sans",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700
+      }
+    },
+    {
+      "family": "Bricolage Grotesque",
+      "style": "ExtraBold",
+      "variationSettings": {
+        "wght": 800,
+        "wdth": 100,
+        "opsz": 14
+      }
+    },
+    {
+      "family": "Bricolage Grotesque",
+      "style": "Medium",
+      "variationSettings": {
+        "wght": 500,
+        "wdth": 100,
+        "opsz": 14
+      }
+    },
+    {
+      "family": "Plus Jakarta Sans",
+      "style": "Medium",
+      "variationSettings": {
+        "wght": 500
+      }
+    },
+    {
+      "family": "Fraunces",
+      "style": "SemiBold",
+      "variationSettings": {
+        "wght": 600,
+        "WONK": 1,
+        "SOFT": 0
+      }
+    },
+    {
+      "family": "Fraunces",
+      "style": "Italic",
+      "variationSettings": {
+        "wght": 400,
+        "WONK": 1,
+        "SOFT": 0
+      }
+    },
+    {
+      "family": "Fraunces",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400,
+        "WONK": 1,
+        "SOFT": 0
+      }
+    },
+    {
+      "family": "Bricolage Grotesque",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700,
+        "wdth": 100,
+        "opsz": 14
+      }
+    },
+    {
+      "family": "Plus Jakarta Sans",
+      "style": "SemiBold",
+      "variationSettings": {
+        "wght": 600
+      }
+    },
+    {
+      "family": "Plus Jakarta Sans",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400
+      }
+    },
+    {
+      "family": "Instrument Serif",
+      "style": "Regular"
+    },
+    {
+      "family": "Instrument Serif",
+      "style": "Italic"
+    },
+    {
+      "family": "Bricolage Grotesque",
+      "style": "Regular",
+      "variationSettings": {
+        "wght": 400,
+        "wdth": 100,
+        "opsz": 14
+      }
+    },
+    {
+      "family": "Bricolage Grotesque",
+      "style": "SemiBold",
+      "variationSettings": {
+        "wght": 600,
+        "wdth": 100,
+        "opsz": 14
+      }
+    },
+    {
+      "family": "Fraunces",
+      "style": "Bold",
+      "variationSettings": {
+        "wght": 700,
+        "WONK": 1,
+        "SOFT": 0
+      }
+    }
+  ],
+  "approval": "VISUAL_APPROVED_IMPLEMENTATION_AND_DEVICE_ACCEPTANCE_PENDING",
+  "ledger": "1350:24397",
+  "scope": "12-guide cover/index/readers and selected visual treatment only; app/device acceptance pending",
+  "user_approved_on": "2026-10-16 Europe/Istanbul"
+}

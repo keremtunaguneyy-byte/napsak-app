@@ -1,0 +1,262 @@
+[
+  {
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "figma_node_id": "1342:30861",
+    "file": "assets/motifs/guide-anadolu-medeniyetleri.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "0192d8f79e19b2f0552fa45c944534edccdccef3a46a16df14828de709bfdde0",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-aslanhane",
+    "figma_node_id": "1342:31882",
+    "file": "assets/motifs/guide-aslanhane.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "7ef04f84f08e1a25addfb5b5afc5c9e4c14e94b0a6a0953434bc26157246a824",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "figma_node_id": "1342:31105",
+    "file": "assets/motifs/guide-cumhuriyet-muzesi.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "401251e0751d7c6805ddf606009832fe6f8e23eb3403bdab242a2dd1c31e13cc",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-etnografya-muzesi",
+    "figma_node_id": "1342:31393",
+    "file": "assets/motifs/guide-etnografya-muzesi.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "4b325406622dd7f45949b31475f564b9e1f201a0f2ec27527de7cd7fb0e789c0",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-eymir",
+    "figma_node_id": "1342:32823",
+    "file": "assets/motifs/guide-eymir.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "ee5ba40eb0fef7763e9363298da8dea73fec36f715ba85e6a9fd49200099996a",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-gordion",
+    "figma_node_id": "1342:32543",
+    "file": "assets/motifs/guide-gordion.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "f066c29944393106cbd8c1ee03797aee586ce9ffab2be877bd9587d9b0f7aa89",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-hamamonu",
+    "figma_node_id": "1340:30861",
+    "file": "assets/motifs/guide-hamamonu.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "e9713bfef476a52420f7e00c74735d160254b92b86049e0220017ccae7d0017b",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-mogan",
+    "figma_node_id": "1342:33132",
+    "file": "assets/motifs/guide-mogan.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "1112570c1e088ed44ff2c842410a8a3ff19ac1908dc78b719125107ab17655c4",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-resim-heykel",
+    "figma_node_id": "1342:31629",
+    "file": "assets/motifs/guide-resim-heykel.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "12cf7c56d5b7d37a058a9c136d9a16b675da0c0936525612d988402307239389",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-tunali-kugulu",
+    "figma_node_id": "1342:33367",
+    "file": "assets/motifs/guide-tunali-kugulu.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "a356a045838296cadc0f886cb5bbfbfd0e612cf20683ded2b79fd5f25028a597",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "guide_id": "guide-ulus-kultur-hatti",
+    "figma_node_id": "1342:32176",
+    "file": "assets/motifs/guide-ulus-kultur-hatti.svg",
+    "width": 180,
+    "height": 180,
+    "sha256": "dd0dbaebed5e0e865a1be3be830cd991f6c81191cf8382c4cc2a52cca9ec4b6f",
+    "origin": "authoritative_figma_export",
+    "role": "guide_semantic_motif"
+  },
+  {
+    "key": "kale-stone-layers",
+    "figma_node_id": "1313:21225",
+    "file": "assets/motifs/kale-stone-layers.svg",
+    "width": 393,
+    "height": 1732,
+    "sha256": "9273c96c3b0fb0528e760ec5cc57533ead448e0d0523fada4514b35dd6cd5ef6",
+    "origin": "authoritative_figma_export",
+    "role": "approved_existing_editorial_layer"
+  },
+  {
+    "key": "kale-reading-continuity",
+    "figma_node_id": "1313:21236",
+    "file": "assets/motifs/kale-reading-continuity.svg",
+    "width": 393,
+    "height": 1732,
+    "sha256": "715ed9afb635ba49e6af55865afbba6346c77f8db019f2467d898e1bd6dd8b74",
+    "origin": "authoritative_figma_export",
+    "role": "approved_existing_editorial_layer"
+  },
+  {
+    "key": "cover-publication-binding",
+    "figma_node_id": "1345:23711",
+    "file": "assets/motifs/cover-publication-binding.svg",
+    "width": 393,
+    "height": 132,
+    "sha256": "9209062860fabc9a772bda4fe6cf65bf7fa104eed73fed495a5a36f3760ff2d1",
+    "origin": "authoritative_figma_export",
+    "role": "approved_existing_editorial_layer"
+  },
+  {
+    "guide_id": "guide-ankara-kalesi",
+    "file": "assets/masters/guide-ankara-kalesi.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "d20c51531ca76184daba240ab28c48654c2fa92b3f190282182add868db177de",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-hamamonu",
+    "file": "assets/masters/guide-hamamonu.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "ea0d5899b8c154df91c4c6488e60baf1412cab93b7db3f7d16be9e2921ce31db",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-anadolu-medeniyetleri",
+    "file": "assets/masters/guide-anadolu-medeniyetleri.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "b48a574f52fc3cf1a466dd432d9c37ac3b70b43bb467a21cca5531f53d6c3f26",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-cumhuriyet-muzesi",
+    "file": "assets/masters/guide-cumhuriyet-muzesi.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "8b750260ed2590557619ad9f3a1e4963c7c988805b1f015160004fd97c21f2e8",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-etnografya-muzesi",
+    "file": "assets/masters/guide-etnografya-muzesi.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "1b77757335ec9fe9848338a1fa92f507f48dc52e7eaaabefd7fcdb984afd5189",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-resim-heykel",
+    "file": "assets/masters/guide-resim-heykel.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "3f5a8bf90d43c71a972aec6608192ebf17bb3a0339d6ea07c1dbec24c33d3b2c",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-aslanhane",
+    "file": "assets/masters/guide-aslanhane.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "1ced5f6fdf9288c64e8d1390e18d481afeeefea45ca77078ddd3dddf5704522d",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-ulus-kultur-hatti",
+    "file": "assets/masters/guide-ulus-kultur-hatti.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "be099ff6ea3f5d3ce3e1e2fb17c3eafc7047c01bf598abb04deef5a5d7020dae",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-gordion",
+    "file": "assets/masters/guide-gordion.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "e866b3143726f65de4edfcb743c86a8f3f0995e2b15dcc6de6817ccf627c3cdf",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-eymir",
+    "file": "assets/masters/guide-eymir.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "bbefd314cd89c7d5188c4de7ebd6c4794c8583c539605d6e11ef04c987364edd",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-mogan",
+    "file": "assets/masters/guide-mogan.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "0f69375e37d624a9aedaf408325965f147a91806e3bd1b69ba1ab12d26099865",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  },
+  {
+    "guide_id": "guide-tunali-kugulu",
+    "file": "assets/masters/guide-tunali-kugulu.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "0e4b35b3829168cf54b0528ef04cebfb7e35395b09dc21637d2e6788e8186487",
+    "role": "editorial_media_master",
+    "media_kind": "ai_editorial",
+    "regenerated": false
+  }
+]

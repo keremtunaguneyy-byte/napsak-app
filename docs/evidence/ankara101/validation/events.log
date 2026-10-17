@@ -1,0 +1,11 @@
+
+> napsak-app@0.1.0 check:events
+> node --import tsx scripts/checkEventOperations.ts
+
+Etkinlik katalog sağlığı: SAĞLIKLI
+Toplam: 9
+Yaklaşan: 7
+Süresi geçmiş: 2
+Katalog ufku: 24.23 gün
+Eski doğrulama: 0
+Sorunlar: yok

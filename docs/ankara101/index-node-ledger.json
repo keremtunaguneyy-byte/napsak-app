@@ -1,0 +1,680 @@
+{
+  "createdNodeIds": [
+    "1345:23708",
+    "1345:23709",
+    "1345:23710",
+    "1345:23711",
+    "1345:23712",
+    "1345:23713",
+    "1345:23714",
+    "1345:23715",
+    "1345:23716",
+    "1345:23717",
+    "1345:23718",
+    "1345:23719",
+    "1345:23720",
+    "1345:23721",
+    "1345:23722",
+    "1345:23723",
+    "1345:23724",
+    "1345:23725",
+    "1345:23726",
+    "1345:23727",
+    "1345:23728",
+    "1345:23765",
+    "1345:23775",
+    "1345:23785",
+    "1345:23795",
+    "1345:23805",
+    "1345:23815",
+    "1345:23825",
+    "1345:23835",
+    "1345:23845",
+    "1345:23855",
+    "1345:23865",
+    "1345:23875",
+    "1345:23876",
+    "1345:23877",
+    "1345:23878",
+    "1345:24029",
+    "1345:24030",
+    "1345:24031",
+    "1345:24166",
+    "1345:24167",
+    "1345:24168",
+    "1345:24169",
+    "1345:24320",
+    "1345:24321",
+    "1345:24322",
+    "1345:24044",
+    "1345:24045",
+    "1345:24046",
+    "1345:24047",
+    "1345:24145",
+    "1345:24153",
+    "1345:24335",
+    "1345:24336",
+    "1345:24337",
+    "1345:24338",
+    "1345:24436",
+    "1345:24444",
+    "1345:24551"
+  ],
+  "mutatedNodeIds": [
+    "1337:21533",
+    "I1345:24145;1337:21604",
+    "I1345:24145;1337:21606",
+    "I1342:30994;1337:21604",
+    "I1342:30994;1337:21606",
+    "I1342:32045;1337:21604",
+    "I1342:32045;1337:21606",
+    "I1342:31268;1337:21604",
+    "I1342:31268;1337:21606",
+    "I1342:31520;1337:21604",
+    "I1342:31520;1337:21606",
+    "I1342:33000;1337:21604",
+    "I1342:33000;1337:21606",
+    "I1342:32700;1337:21604",
+    "I1342:32700;1337:21606",
+    "I1340:31038;1337:21604",
+    "I1340:31038;1337:21606",
+    "I1342:33259;1337:21604",
+    "I1342:33259;1337:21606",
+    "I1342:31768;1337:21604",
+    "I1342:31768;1337:21606",
+    "I1342:33530;1337:21604",
+    "I1342:33530;1337:21606",
+    "I1342:32391;1337:21604",
+    "I1342:32391;1337:21606",
+    "I1345:24436;1337:21604",
+    "I1345:24436;1337:21606",
+    "I1342:31077;1337:21604",
+    "I1342:31077;1337:21606",
+    "I1342:32143;1337:21604",
+    "I1342:32143;1337:21606",
+    "I1342:31366;1337:21604",
+    "I1342:31366;1337:21606",
+    "I1342:31600;1337:21604",
+    "I1342:31600;1337:21606",
+    "I1342:33105;1337:21604",
+    "I1342:33105;1337:21606",
+    "I1342:32795;1337:21604",
+    "I1342:32795;1337:21606",
+    "I1340:31143;1337:21604",
+    "I1340:31143;1337:21606",
+    "I1342:33339;1337:21604",
+    "I1342:33339;1337:21606",
+    "I1342:31854;1337:21604",
+    "I1342:31854;1337:21606",
+    "I1342:33628;1337:21604",
+    "I1342:33628;1337:21606",
+    "I1342:32515;1337:21604",
+    "I1342:32515;1337:21606"
+  ],
+  "removedNodeIds": [
+    "1345:23729",
+    "I1345:23729;1297:20866",
+    "I1345:23729;1297:20867",
+    "I1345:23729;1297:20875",
+    "I1345:23729;1297:20876",
+    "I1345:23729;1297:20877",
+    "I1345:23729;1297:20868",
+    "I1345:23729;1297:20869",
+    "I1345:23729;1297:20870",
+    "I1345:23729;1297:20871",
+    "I1345:23729;1297:20872",
+    "I1345:23729;1297:20873",
+    "I1345:23729;1297:20874",
+    "1345:23730",
+    "1345:23731",
+    "1345:23732"
+  ],
+  "indexMaster": "1345:23708",
+  "indexHeight": 2878,
+  "index393": "1345:23875",
+  "index412": "1345:24166",
+  "kale393": "1345:24044",
+  "kale412": "1345:24335",
+  "entryMap": {
+    "guide-anadolu-medeniyetleri": "1345:23765",
+    "guide-aslanhane": "1345:23775",
+    "guide-cumhuriyet-muzesi": "1345:23785",
+    "guide-etnografya-muzesi": "1345:23795",
+    "guide-eymir": "1345:23805",
+    "guide-gordion": "1345:23815",
+    "guide-hamamonu": "1345:23825",
+    "guide-mogan": "1345:23835",
+    "guide-resim-heykel": "1345:23845",
+    "guide-tunali-kugulu": "1345:23855",
+    "guide-ulus-kultur-hatti": "1345:23865"
+  },
+  "connections": [
+    {
+      "from": "I1345:23878;1345:23724",
+      "to": "1345:24044",
+      "guideId": "guide-ankara-kalesi",
+      "size": 393,
+      "action": "Open internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23765",
+      "actionNode": "I1345:23878;1345:23765;1342:30929",
+      "to": "1342:30932",
+      "guideId": "guide-anadolu-medeniyetleri",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23775",
+      "actionNode": "I1345:23878;1345:23775;1342:31965",
+      "to": "1342:31968",
+      "guideId": "guide-aslanhane",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23785",
+      "actionNode": "I1345:23878;1345:23785;1342:31188",
+      "to": "1342:31191",
+      "guideId": "guide-cumhuriyet-muzesi",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23795",
+      "actionNode": "I1345:23878;1345:23795;1342:31458",
+      "to": "1342:31461",
+      "guideId": "guide-etnografya-muzesi",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23805",
+      "actionNode": "I1345:23878;1345:23805;1342:32913",
+      "to": "1342:32916",
+      "guideId": "guide-eymir",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23815",
+      "actionNode": "I1345:23878;1345:23815;1342:32623",
+      "to": "1342:32626",
+      "guideId": "guide-gordion",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23825",
+      "actionNode": "I1345:23878;1345:23825;1340:30951",
+      "to": "1340:30954",
+      "guideId": "guide-hamamonu",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23835",
+      "actionNode": "I1345:23878;1345:23835;1342:33197",
+      "to": "1342:33200",
+      "guideId": "guide-mogan",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23845",
+      "actionNode": "I1345:23878;1345:23845;1342:31700",
+      "to": "1342:31703",
+      "guideId": "guide-resim-heykel",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23855",
+      "actionNode": "I1345:23878;1345:23855;1342:33450",
+      "to": "1342:33453",
+      "guideId": "guide-tunali-kugulu",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:23878;1345:23865",
+      "actionNode": "I1345:23878;1345:23865;1342:32285",
+      "to": "1342:32288",
+      "guideId": "guide-ulus-kultur-hatti",
+      "size": 393,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24145;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1345:24145;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:30994;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:30994;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32045;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32045;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31268;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31268;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31520;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31520;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33000;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33000;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32700;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32700;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1340:31038;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1340:31038;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33259;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33259;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31768;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31768;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33530;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33530;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32391;1337:21604",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32391;1337:21606",
+      "to": "1345:23875",
+      "size": 393,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1345:24169;1345:23724",
+      "to": "1345:24335",
+      "guideId": "guide-ankara-kalesi",
+      "size": 412,
+      "action": "Open internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23765",
+      "actionNode": "I1345:24169;1345:23765;1342:30929",
+      "to": "1342:31015",
+      "guideId": "guide-anadolu-medeniyetleri",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23775",
+      "actionNode": "I1345:24169;1345:23775;1342:31965",
+      "to": "1342:32066",
+      "guideId": "guide-aslanhane",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23785",
+      "actionNode": "I1345:24169;1345:23785;1342:31188",
+      "to": "1342:31289",
+      "guideId": "guide-cumhuriyet-muzesi",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23795",
+      "actionNode": "I1345:24169;1345:23795;1342:31458",
+      "to": "1342:31541",
+      "guideId": "guide-etnografya-muzesi",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23805",
+      "actionNode": "I1345:24169;1345:23805;1342:32913",
+      "to": "1342:33021",
+      "guideId": "guide-eymir",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23815",
+      "actionNode": "I1345:24169;1345:23815;1342:32623",
+      "to": "1342:32721",
+      "guideId": "guide-gordion",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23825",
+      "actionNode": "I1345:24169;1345:23825;1340:30951",
+      "to": "1340:31059",
+      "guideId": "guide-hamamonu",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23835",
+      "actionNode": "I1345:24169;1345:23835;1342:33197",
+      "to": "1342:33280",
+      "guideId": "guide-mogan",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23845",
+      "actionNode": "I1345:24169;1345:23845;1342:31700",
+      "to": "1342:31789",
+      "guideId": "guide-resim-heykel",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23855",
+      "actionNode": "I1345:24169;1345:23855;1342:33450",
+      "to": "1342:33551",
+      "guideId": "guide-tunali-kugulu",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24169;1345:23865",
+      "actionNode": "I1345:24169;1345:23865;1342:32285",
+      "to": "1342:32412",
+      "guideId": "guide-ulus-kultur-hatti",
+      "size": 412,
+      "action": "Card body and explicit arrow open same internal guide"
+    },
+    {
+      "from": "I1345:24436;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1345:24436;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31077;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31077;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32143;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32143;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31366;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31366;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31600;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31600;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33105;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33105;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32795;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32795;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1340:31143;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1340:31143;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33339;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33339;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31854;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:31854;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33628;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:33628;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32515;1337:21604",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Back to unchanged contents scroll",
+      "resetScrollPosition": false
+    },
+    {
+      "from": "I1342:32515;1337:21606",
+      "to": "1345:24166",
+      "size": 412,
+      "action": "Close to originating contents",
+      "resetScrollPosition": false
+    }
+  ],
+  "status": "REVIEW_CANDIDATE_NOT_APPROVED"
+}

@@ -1,0 +1,15 @@
+{
+  "acceptedHead": "0751414c33a978a0148e9851ed0fc2fb74f907e8",
+  "readerViewportCases": 48,
+  "unchangedReaderFields": [
+    "id",
+    "viewport",
+    "scale",
+    "bodyHeight",
+    "sourceBottom",
+    "navTop"
+  ],
+  "nonfeaturedCardCases": 44,
+  "unchangedCardFields": "card/media/panel/title/arrow/image width and height; overflow, background, opacity, title overflow and corner radius",
+  "pass": true
+}

@@ -1,0 +1,5003 @@
+{
+  "authorityFileKey": "yTdAWr92ETyurlQQHNNqpi",
+  "evidence": "docs/evidence/ankara101",
+  "guides": [
+    {
+      "guideId": "guide-ankara-kalesi",
+      "title": "Ankara Kalesi\nve çevresi",
+      "nodes": {
+        "reading_master": "1313:21222",
+        "mobile_393": "1345:24044",
+        "mobile_412": "1345:24335",
+        "entry_card": "1297:20854",
+        "existing_media_node": "1121:12870"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 43,
+        "lineHeight": 44
+      },
+      "palette": {
+        "top": "#E8ECF9",
+        "middle": "#F2EDE2",
+        "end": "#DFF3E8",
+        "ink": "#102452",
+        "accent": "#3F65FC"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-ankara-kalesi/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 42,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "",
+        "background": "",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Kaleden başla",
+          "Sokağa karış"
+        ],
+        "stopPlacement": "split",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 70,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1345:24044",
+          "bodyHeight": 1732,
+          "sourceBottom": 708,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1345:24044",
+          "bodyHeight": 3895,
+          "sourceBottom": 693.203125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1345:24335",
+          "bodyHeight": 1732,
+          "sourceBottom": 771,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1345:24335",
+          "bodyHeight": 3895,
+          "sourceBottom": 756.203125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Mixed-weight title and flow corrected; exact source stone opacity 0.24 preserved despite stronger Figma host raster strokes.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1345:24044",
+          "bodyHeight": 1732,
+          "sourceBottom": 708,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1345:24044",
+          "bodyHeight": 3895,
+          "sourceBottom": 693.203125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1345:24335",
+          "bodyHeight": 1732,
+          "sourceBottom": 771,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1345:24335",
+          "bodyHeight": 3895,
+          "sourceBottom": 756.203125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [],
+      "correctionVisualResult": "PASS browser: re-inspected exact Figma full master/body, title/palette/motif, both widths, normal/180% title/footer. Featured cover retains approved structure."
+    },
+    {
+      "guideId": "guide-hamamonu",
+      "title": "Hamamönü\nsokakları",
+      "nodes": {
+        "reading_master": "1340:30862",
+        "mobile_393": "1340:30954",
+        "mobile_412": "1340:31059",
+        "entry_card": "1340:30944",
+        "existing_media_node": "1121:12873"
+      },
+      "titleTypography": {
+        "family": "Fraunces",
+        "style": "Bold",
+        "size": 39,
+        "lineHeight": 40
+      },
+      "palette": {
+        "top": "#F5E4E8",
+        "middle": "#F3E7D8",
+        "end": "#E8E8DE",
+        "ink": "#352B38",
+        "accent": "#8D4056"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-hamamonu/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-hamamonu-interlude",
+        "background": "guide-hamamonu-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Mahallenin ritmi",
+          "Hafızanın izinde"
+        ],
+        "stopPlacement": "split",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-391154/tarih--kultur-turizmi.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1340:30954",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1340:30954",
+          "bodyHeight": 3393,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1340:31059",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1340:31059",
+          "bodyHeight": 3393,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1340:30954",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1340:30954",
+          "bodyHeight": 3393,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1340:31059",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1340:31059",
+          "bodyHeight": 3393,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-hamamonu",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 677
+            },
+            "arrow": {
+              "x": 315,
+              "y": 684,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 728
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        },
+        {
+          "id": "guide-hamamonu",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 332.984375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.1875
+            },
+            "media": {
+              "x": 20,
+              "y": 332.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.1875
+            },
+            "panel": {
+              "x": 132,
+              "y": 332.984375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.1875
+            },
+            "title": {
+              "x": 146,
+              "y": 377.1875,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 467.1875
+            },
+            "arrow": {
+              "x": 315,
+              "y": 474.1875,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 518.1875
+            },
+            "image": {
+              "x": 20,
+              "y": 332.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.1875
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        },
+        {
+          "id": "guide-hamamonu",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 740
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 747,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 791
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        },
+        {
+          "id": "guide-hamamonu",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 364.984375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.1875
+            },
+            "media": {
+              "x": 29.5,
+              "y": 364.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.1875
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 364.984375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.1875
+            },
+            "title": {
+              "x": 155.5,
+              "y": 409.1875,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 499.1875
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 506.1875,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 550.1875
+            },
+            "image": {
+              "x": 29.5,
+              "y": 364.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.1875
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-anadolu-medeniyetleri",
+      "title": "Anadolu\nMedeniyetleri\nMüzesi",
+      "nodes": {
+        "reading_master": "1342:30862",
+        "mobile_393": "1342:30932",
+        "mobile_412": "1342:31015",
+        "entry_card": "1342:30922",
+        "existing_media_node": "1121:12876"
+      },
+      "titleTypography": {
+        "family": "Instrument Serif",
+        "style": "Regular",
+        "size": 47,
+        "lineHeight": 48
+      },
+      "palette": {
+        "top": "#EAE4F0",
+        "middle": "#EFE5D5",
+        "end": "#E1E7E7",
+        "ink": "#302D43",
+        "accent": "#665788"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-anadolu-medeniyetleri/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 230,
+          "x": 24,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 76,
+            "topRight": 76,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-anadolu-medeniyetleri-interlude",
+        "background": "guide-anadolu-medeniyetleri-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Zamanın katmanları",
+          "Kendi keşfini kur"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=AMM&SectionId=AMM01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:30932",
+          "bodyHeight": 1530,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:30932",
+          "bodyHeight": 3090,
+          "sourceBottom": 685.75,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31015",
+          "bodyHeight": 1530,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31015",
+          "bodyHeight": 3090,
+          "sourceBottom": 748.75,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:30932",
+          "bodyHeight": 1530,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:30932",
+          "bodyHeight": 3090,
+          "sourceBottom": 685.75,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31015",
+          "bodyHeight": 1530,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31015",
+          "bodyHeight": 3090,
+          "sourceBottom": 748.75,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        },
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 536.1875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.390625
+            },
+            "media": {
+              "x": 20,
+              "y": 536.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.390625
+            },
+            "panel": {
+              "x": 132,
+              "y": 536.1875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.390625
+            },
+            "title": {
+              "x": 146,
+              "y": 580.390625,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 715.390625
+            },
+            "arrow": {
+              "x": 315,
+              "y": 722.390625,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 766.390625
+            },
+            "image": {
+              "x": 20,
+              "y": 536.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.390625
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        },
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        },
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 578.1875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.390625
+            },
+            "media": {
+              "x": 29.5,
+              "y": 578.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.390625
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 578.1875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.390625
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622.390625,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757.390625
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764.390625,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808.390625
+            },
+            "image": {
+              "x": 29.5,
+              "y": 578.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.390625
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-cumhuriyet-muzesi",
+      "title": "II. Meclis:\nCumhuriyet Müzesi",
+      "nodes": {
+        "reading_master": "1342:31106",
+        "mobile_393": "1342:31191",
+        "mobile_412": "1342:31289",
+        "entry_card": "1342:31181",
+        "existing_media_node": "1121:12879"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 39,
+        "lineHeight": 40
+      },
+      "palette": {
+        "top": "#F1E1E5",
+        "middle": "#F3E9DC",
+        "end": "#E2E7EE",
+        "ink": "#3D2938",
+        "accent": "#963F4C"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-cumhuriyet-muzesi/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 210,
+          "x": 24,
+          "slotHeight": 226,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-cumhuriyet-muzesi-interlude",
+        "background": "guide-cumhuriyet-muzesi-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Mekânın hafızası",
+          "Ulus’a açılan hat"
+        ],
+        "stopPlacement": "afterIntro",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=CUM01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31191",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31191",
+          "bodyHeight": 3361,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31289",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31289",
+          "bodyHeight": 3361,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31191",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31191",
+          "bodyHeight": 3361,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31289",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31289",
+          "bodyHeight": 3361,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 537,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "media": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "panel": {
+              "x": 132,
+              "y": 537,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "title": {
+              "x": 146,
+              "y": 570,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 620
+            },
+            "arrow": {
+              "x": 315,
+              "y": 627,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 671
+            },
+            "image": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 311.390625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553.59375
+            },
+            "media": {
+              "x": 20,
+              "y": 311.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553.59375
+            },
+            "panel": {
+              "x": 132,
+              "y": 311.390625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553.59375
+            },
+            "title": {
+              "x": 146,
+              "y": 355.59375,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 490.59375
+            },
+            "arrow": {
+              "x": 315,
+              "y": 497.59375,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 541.59375
+            },
+            "image": {
+              "x": 20,
+              "y": 311.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553.59375
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 568,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "media": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 568,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "title": {
+              "x": 155.5,
+              "y": 601,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 651
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 658,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 702
+            },
+            "image": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 598.390625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 840.59375
+            },
+            "media": {
+              "x": 29.5,
+              "y": 598.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 840.59375
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 598.390625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 840.59375
+            },
+            "title": {
+              "x": 155.5,
+              "y": 642.59375,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 777.59375
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 784.59375,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 828.59375
+            },
+            "image": {
+              "x": 29.5,
+              "y": 598.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 840.59375
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-etnografya-muzesi",
+      "title": "Etnografya\nMüzesi",
+      "nodes": {
+        "reading_master": "1342:31394",
+        "mobile_393": "1342:31461",
+        "mobile_412": "1342:31541",
+        "entry_card": "1342:31451",
+        "existing_media_node": "1121:12882"
+      },
+      "titleTypography": {
+        "family": "Fraunces",
+        "style": "SemiBold",
+        "size": 41,
+        "lineHeight": 42
+      },
+      "palette": {
+        "top": "#EEEBD7",
+        "middle": "#EEE0CE",
+        "end": "#E4E9DF",
+        "ink": "#30382E",
+        "accent": "#536436"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-etnografya-muzesi/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 234,
+          "x": 24,
+          "slotHeight": 252,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 48,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-etnografya-muzesi-interlude",
+        "background": "guide-etnografya-muzesi-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Gündelik hayatın izi",
+          "Koleksiyondan yapıya"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=AET01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31461",
+          "bodyHeight": 1515,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31461",
+          "bodyHeight": 2940,
+          "sourceBottom": 685.859375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31541",
+          "bodyHeight": 1515,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31541",
+          "bodyHeight": 2940,
+          "sourceBottom": 748.859375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31461",
+          "bodyHeight": 1515,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31461",
+          "bodyHeight": 2940,
+          "sourceBottom": 685.859375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31541",
+          "bodyHeight": 1515,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31541",
+          "bodyHeight": 2940,
+          "sourceBottom": 748.859375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 652
+            },
+            "arrow": {
+              "x": 315,
+              "y": 659,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 703
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 569.59375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.796875
+            },
+            "media": {
+              "x": 20,
+              "y": 569.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.796875
+            },
+            "panel": {
+              "x": 132,
+              "y": 569.59375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.796875
+            },
+            "title": {
+              "x": 146,
+              "y": 613.796875,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 703.796875
+            },
+            "arrow": {
+              "x": 315,
+              "y": 710.796875,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 754.796875
+            },
+            "image": {
+              "x": 20,
+              "y": 569.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.796875
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 715
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 722,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 766
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 364.59375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 561.796875
+            },
+            "media": {
+              "x": 29.5,
+              "y": 364.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 561.796875
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 364.59375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 561.796875
+            },
+            "title": {
+              "x": 155.5,
+              "y": 408.796875,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 498.796875
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 505.796875,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 549.796875
+            },
+            "image": {
+              "x": 29.5,
+              "y": 364.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 561.796875
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-resim-heykel",
+      "title": "Resim ve\nHeykel Müzesi",
+      "nodes": {
+        "reading_master": "1342:31630",
+        "mobile_393": "1342:31703",
+        "mobile_412": "1342:31789",
+        "entry_card": "1342:31693",
+        "existing_media_node": "1121:12885"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 39,
+        "lineHeight": 40
+      },
+      "palette": {
+        "top": "#EAE3F5",
+        "middle": "#F4E2DA",
+        "end": "#E2EAF5",
+        "ink": "#342B4A",
+        "accent": "#7550A2"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-resim-heykel/editorial-v2",
+        "hero": {
+          "width": 329,
+          "height": 236,
+          "x": 44,
+          "slotHeight": 258,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 54,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-resim-heykel-interlude",
+        "background": "guide-resim-heykel-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Sanatın mekânı",
+          "Yavaş bak"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=ARE01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31703",
+          "bodyHeight": 1525,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31703",
+          "bodyHeight": 2813,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31789",
+          "bodyHeight": 1525,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31789",
+          "bodyHeight": 2813,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31703",
+          "bodyHeight": 1525,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31703",
+          "bodyHeight": 2813,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31789",
+          "bodyHeight": 1525,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31789",
+          "bodyHeight": 2813,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-resim-heykel",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        },
+        {
+          "id": "guide-resim-heykel",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 310.796875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553
+            },
+            "media": {
+              "x": 20,
+              "y": 310.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553
+            },
+            "panel": {
+              "x": 132,
+              "y": 310.796875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553
+            },
+            "title": {
+              "x": 146,
+              "y": 355,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 490
+            },
+            "arrow": {
+              "x": 315,
+              "y": 497,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 541
+            },
+            "image": {
+              "x": 20,
+              "y": 310.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        },
+        {
+          "id": "guide-resim-heykel",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        },
+        {
+          "id": "guide-resim-heykel",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 577.796875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820
+            },
+            "media": {
+              "x": 29.5,
+              "y": 577.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 577.796875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808
+            },
+            "image": {
+              "x": 29.5,
+              "y": 577.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-aslanhane",
+      "title": "Aslanhane\nCamii",
+      "nodes": {
+        "reading_master": "1342:31883",
+        "mobile_393": "1342:31968",
+        "mobile_412": "1342:32066",
+        "entry_card": "1342:31958",
+        "existing_media_node": "1121:12888"
+      },
+      "titleTypography": {
+        "family": "Instrument Serif",
+        "style": "Regular",
+        "size": 49,
+        "lineHeight": 50
+      },
+      "palette": {
+        "top": "#E4EBDD",
+        "middle": "#EFE2D0",
+        "end": "#E1E9E4",
+        "ink": "#2B3B35",
+        "accent": "#4E6B5C"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-aslanhane/editorial-v2",
+        "hero": {
+          "width": 345,
+          "height": 230,
+          "x": 24,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 76,
+            "topRight": 76,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-aslanhane-interlude",
+        "background": "guide-aslanhane-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Ahşabın ritmi",
+          "Çevresiyle birlikte"
+        ],
+        "stopPlacement": "afterStory",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-359166/-aslanhane-camii-ahi-serafettin-unesco-dunya-miras-list-.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31968",
+          "bodyHeight": 1664,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31968",
+          "bodyHeight": 3105,
+          "sourceBottom": 684.953125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32066",
+          "bodyHeight": 1664,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32066",
+          "bodyHeight": 3105,
+          "sourceBottom": 747.953125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31968",
+          "bodyHeight": 1664,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31968",
+          "bodyHeight": 3105,
+          "sourceBottom": 684.953125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32066",
+          "bodyHeight": 1664,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32066",
+          "bodyHeight": 3105,
+          "sourceBottom": 747.953125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-aslanhane",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 537,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "media": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "panel": {
+              "x": 132,
+              "y": 537,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "title": {
+              "x": 146,
+              "y": 570,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 595
+            },
+            "arrow": {
+              "x": 315,
+              "y": 602,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 646
+            },
+            "image": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        },
+        {
+          "id": "guide-aslanhane",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 569,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.203125
+            },
+            "media": {
+              "x": 20,
+              "y": 569,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.203125
+            },
+            "panel": {
+              "x": 132,
+              "y": 569,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.203125
+            },
+            "title": {
+              "x": 146,
+              "y": 613.203125,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 703.203125
+            },
+            "arrow": {
+              "x": 315,
+              "y": 710.203125,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 754.203125
+            },
+            "image": {
+              "x": 20,
+              "y": 569,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.203125
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        },
+        {
+          "id": "guide-aslanhane",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 568,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "media": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 568,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "title": {
+              "x": 155.5,
+              "y": 601,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 626
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 633,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 677
+            },
+            "image": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        },
+        {
+          "id": "guide-aslanhane",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 644,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 841.203125
+            },
+            "media": {
+              "x": 29.5,
+              "y": 644,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 841.203125
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 644,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 841.203125
+            },
+            "title": {
+              "x": 155.5,
+              "y": 688.203125,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 778.203125
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 785.203125,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 829.203125
+            },
+            "image": {
+              "x": 29.5,
+              "y": 644,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 841.203125
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-ulus-kultur-hatti",
+      "title": "Başkent\nKültür Turu",
+      "nodes": {
+        "reading_master": "1342:32177",
+        "mobile_393": "1342:32288",
+        "mobile_412": "1342:32412",
+        "entry_card": "1342:32278",
+        "existing_media_node": "1121:12891"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 43,
+        "lineHeight": 44
+      },
+      "palette": {
+        "top": "#E1E9F7",
+        "middle": "#E9E2F0",
+        "end": "#F1E6D9",
+        "ink": "#23344E",
+        "accent": "#3151D5"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-ulus-kultur-hatti/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-ulus-kultur-hatti-interlude",
+        "background": "guide-ulus-kultur-hatti-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Bir kültür omurgası",
+          "Keşfi zamana yay"
+        ],
+        "stopPlacement": "index",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara Büyükşehir Belediyesi",
+        "url": "https://www.ankara.bel.tr/haberler/402-numarali-baskent-kultur-turu-bayramda-da-yollarda-18275",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32288",
+          "bodyHeight": 1722,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32288",
+          "bodyHeight": 3560,
+          "sourceBottom": 685.875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32412",
+          "bodyHeight": 1722,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32412",
+          "bodyHeight": 3560,
+          "sourceBottom": 748.875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32288",
+          "bodyHeight": 1722,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32288",
+          "bodyHeight": 3560,
+          "sourceBottom": 685.875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32412",
+          "bodyHeight": 1722,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32412",
+          "bodyHeight": 3560,
+          "sourceBottom": 748.875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 652
+            },
+            "arrow": {
+              "x": 315,
+              "y": 659,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 703
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 333.203125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.40625
+            },
+            "media": {
+              "x": 20,
+              "y": 333.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.40625
+            },
+            "panel": {
+              "x": 132,
+              "y": 333.203125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.40625
+            },
+            "title": {
+              "x": 146,
+              "y": 377.40625,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 467.40625
+            },
+            "arrow": {
+              "x": 315,
+              "y": 474.40625,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 518.40625
+            },
+            "image": {
+              "x": 20,
+              "y": 333.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.40625
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 715
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 722,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 766
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 365.203125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.40625
+            },
+            "media": {
+              "x": 29.5,
+              "y": 365.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.40625
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 365.203125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.40625
+            },
+            "title": {
+              "x": 155.5,
+              "y": 409.40625,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 499.40625
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 506.40625,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 550.40625
+            },
+            "image": {
+              "x": 29.5,
+              "y": 365.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.40625
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-gordion",
+      "title": "Gordion Müzesi\nve antik kent",
+      "nodes": {
+        "reading_master": "1342:32544",
+        "mobile_393": "1342:32626",
+        "mobile_412": "1342:32721",
+        "entry_card": "1342:32616",
+        "existing_media_node": "1121:12894"
+      },
+      "titleTypography": {
+        "family": "Fraunces",
+        "style": "Bold",
+        "size": 36,
+        "lineHeight": 37
+      },
+      "palette": {
+        "top": "#F0E3C9",
+        "middle": "#ECD6BF",
+        "end": "#E8E4D9",
+        "ink": "#44372D",
+        "accent": "#7A4E32"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-gordion/editorial-v2",
+        "hero": {
+          "width": 393,
+          "height": 234,
+          "x": 0,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-gordion-interlude",
+        "background": "guide-gordion-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Bozkırdaki katmanlar",
+          "Bir günü buraya ayır"
+        ],
+        "stopPlacement": "afterStory",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "T.C. Kültür ve Turizm Bakanlığı",
+        "url": "https://muze.gov.tr/muze-detay?DistId=MRK&SectionId=GOR01",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32626",
+          "bodyHeight": 1641,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32626",
+          "bodyHeight": 3402,
+          "sourceBottom": 685.234375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32721",
+          "bodyHeight": 1641,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32721",
+          "bodyHeight": 3402,
+          "sourceBottom": 748.234375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32626",
+          "bodyHeight": 1641,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32626",
+          "bodyHeight": 3402,
+          "sourceBottom": 685.234375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32721",
+          "bodyHeight": 1641,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32721",
+          "bodyHeight": 3402,
+          "sourceBottom": 748.234375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-gordion",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        },
+        {
+          "id": "guide-gordion",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 535.40625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 777.609375
+            },
+            "media": {
+              "x": 20,
+              "y": 535.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 777.609375
+            },
+            "panel": {
+              "x": 132,
+              "y": 535.40625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 777.609375
+            },
+            "title": {
+              "x": 146,
+              "y": 579.609375,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 714.609375
+            },
+            "arrow": {
+              "x": 315,
+              "y": 721.609375,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 765.609375
+            },
+            "image": {
+              "x": 20,
+              "y": 535.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 777.609375
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        },
+        {
+          "id": "guide-gordion",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        },
+        {
+          "id": "guide-gordion",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 578.40625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.609375
+            },
+            "media": {
+              "x": 29.5,
+              "y": 578.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.609375
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 578.40625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.609375
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622.609375,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757.609375
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764.609375,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808.609375
+            },
+            "image": {
+              "x": 29.5,
+              "y": 578.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.609375
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-eymir",
+      "title": "Eymir Gölü\nçevresi",
+      "nodes": {
+        "reading_master": "1342:32824",
+        "mobile_393": "1342:32916",
+        "mobile_412": "1342:33021",
+        "entry_card": "1342:32906",
+        "existing_media_node": "1121:12897"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "SemiBold",
+        "size": 43,
+        "lineHeight": 44
+      },
+      "palette": {
+        "top": "#DDEDE6",
+        "middle": "#DCEAF0",
+        "end": "#EDE6D4",
+        "ink": "#243C3C",
+        "accent": "#28685F"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-eymir/editorial-v2",
+        "hero": {
+          "width": 393,
+          "height": 256,
+          "x": 0,
+          "slotHeight": 274,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 74
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-eymir-interlude",
+        "background": "guide-eymir-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Kıyının ritmi",
+          "Mesafeni sen seç"
+        ],
+        "stopPlacement": "split",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0=",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32916",
+          "bodyHeight": 1687,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32916",
+          "bodyHeight": 3256,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33021",
+          "bodyHeight": 1687,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33021",
+          "bodyHeight": 3256,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32916",
+          "bodyHeight": 1687,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32916",
+          "bodyHeight": 3256,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33021",
+          "bodyHeight": 1687,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33021",
+          "bodyHeight": 3256,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-eymir",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 537,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "media": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "panel": {
+              "x": 132,
+              "y": 537,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "title": {
+              "x": 146,
+              "y": 570,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 595
+            },
+            "arrow": {
+              "x": 315,
+              "y": 602,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 646
+            },
+            "image": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        },
+        {
+          "id": "guide-eymir",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 333.609375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.8125
+            },
+            "media": {
+              "x": 20,
+              "y": 333.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.8125
+            },
+            "panel": {
+              "x": 132,
+              "y": 333.609375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.8125
+            },
+            "title": {
+              "x": 146,
+              "y": 377.8125,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 467.8125
+            },
+            "arrow": {
+              "x": 315,
+              "y": 474.8125,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 518.8125
+            },
+            "image": {
+              "x": 20,
+              "y": 333.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.8125
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        },
+        {
+          "id": "guide-eymir",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 568,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "media": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 568,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "title": {
+              "x": 155.5,
+              "y": 601,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 626
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 633,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 677
+            },
+            "image": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        },
+        {
+          "id": "guide-eymir",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 643.609375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 840.8125
+            },
+            "media": {
+              "x": 29.5,
+              "y": 643.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 840.8125
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 643.609375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 840.8125
+            },
+            "title": {
+              "x": 155.5,
+              "y": 687.8125,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 777.8125
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 784.8125,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 828.8125
+            },
+            "image": {
+              "x": 29.5,
+              "y": 643.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 840.8125
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-mogan",
+      "title": "Mogan Gölü\nve Gölbaşı",
+      "nodes": {
+        "reading_master": "1342:33133",
+        "mobile_393": "1342:33200",
+        "mobile_412": "1342:33280",
+        "entry_card": "1342:33190",
+        "existing_media_node": "1121:12900"
+      },
+      "titleTypography": {
+        "family": "Instrument Serif",
+        "style": "Regular",
+        "size": 49,
+        "lineHeight": 50
+      },
+      "palette": {
+        "top": "#E2E9F2",
+        "middle": "#F2DDCB",
+        "end": "#E7E8D9",
+        "ink": "#3D3442",
+        "accent": "#835038"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-mogan/editorial-v2",
+        "hero": {
+          "width": 393,
+          "height": 234,
+          "x": 0,
+          "slotHeight": 246,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 0
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-mogan-interlude",
+        "background": "guide-mogan-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Kıyıda yavaşla",
+          "Günün ışığını izle"
+        ],
+        "stopPlacement": "none",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/Eklenti/48859%2Cankararehberi2016pdf.pdf?0=",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33200",
+          "bodyHeight": 1504,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33200",
+          "bodyHeight": 2794,
+          "sourceBottom": 685.546875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33280",
+          "bodyHeight": 1504,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33280",
+          "bodyHeight": 2794,
+          "sourceBottom": 748.546875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33200",
+          "bodyHeight": 1504,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33200",
+          "bodyHeight": 2794,
+          "sourceBottom": 685.546875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33280",
+          "bodyHeight": 1504,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33280",
+          "bodyHeight": 2794,
+          "sourceBottom": 748.546875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-mogan",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 652
+            },
+            "arrow": {
+              "x": 315,
+              "y": 659,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 703
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        },
+        {
+          "id": "guide-mogan",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 546.8125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 744.015625
+            },
+            "media": {
+              "x": 20,
+              "y": 546.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 744.015625
+            },
+            "panel": {
+              "x": 132,
+              "y": 546.8125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 744.015625
+            },
+            "title": {
+              "x": 146,
+              "y": 591.015625,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 681.015625
+            },
+            "arrow": {
+              "x": 315,
+              "y": 688.015625,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 732.015625
+            },
+            "image": {
+              "x": 20,
+              "y": 546.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 744.015625
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        },
+        {
+          "id": "guide-mogan",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 715
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 722,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 766
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        },
+        {
+          "id": "guide-mogan",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 364.8125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.015625
+            },
+            "media": {
+              "x": 29.5,
+              "y": 364.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.015625
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 364.8125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.015625
+            },
+            "title": {
+              "x": 155.5,
+              "y": 409.015625,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 499.015625
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 506.015625,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 550.015625
+            },
+            "image": {
+              "x": 29.5,
+              "y": 364.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.015625
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    },
+    {
+      "guideId": "guide-tunali-kugulu",
+      "title": "Tunalı ve Kuğulu\nPark hattı",
+      "nodes": {
+        "reading_master": "1342:33368",
+        "mobile_393": "1342:33453",
+        "mobile_412": "1342:33551",
+        "entry_card": "1342:33443",
+        "existing_media_node": "1121:12903"
+      },
+      "titleTypography": {
+        "family": "Bricolage Grotesque",
+        "style": "ExtraBold",
+        "size": 37,
+        "lineHeight": 38
+      },
+      "palette": {
+        "top": "#E1ECDE",
+        "middle": "#EAE2F1",
+        "end": "#F2E2D7",
+        "ink": "#2F3246",
+        "accent": "#705098"
+      },
+      "image": {
+        "mediaKey": "ankara101/c2/guide-tunali-kugulu/editorial-v2",
+        "hero": {
+          "width": 369,
+          "height": 218,
+          "x": 24,
+          "slotHeight": 236,
+          "corners": {
+            "topLeft": 0,
+            "topRight": 0,
+            "bottomLeft": 0,
+            "bottomRight": 52
+          }
+        },
+        "result": "PASS: unchanged approved local master, approved slot/corners and cover crop"
+      },
+      "motif": {
+        "interlude": "guide-tunali-kugulu-interlude",
+        "background": "guide-tunali-kugulu-ground",
+        "result": "PASS: exact native-size instances; approved masters unchanged"
+      },
+      "header": "PASS: shared native Back/Close; one safe-area inset; full-width device header",
+      "metadata": "PASS: current catalog readMinutes and stop count",
+      "chapters": {
+        "headings": [
+          "Parktan caddeye",
+          "Ara sokaklara sap"
+        ],
+        "stopPlacement": "afterIntro",
+        "result": "PASS: complete current paragraph/stop order; guide-specific treatment"
+      },
+      "bodyFlow": "PASS: manually inspected complete body beside exact Figma master; native text-shaping variations retained",
+      "source": {
+        "label": "Ankara İl Kültür ve Turizm Müdürlüğü",
+        "url": "https://ankara.ktb.gov.tr/TR-391180/sehir--alisveris-turizmi.html",
+        "result": "PASS: browser interceptor receives this exact current catalog URL"
+      },
+      "bottomNavClearance": {
+        "minimumSourceGap": 78,
+        "result": "PASS: final source and disclosure reachable above fixed navigation"
+      },
+      "viewportChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33453",
+          "bodyHeight": 1651,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33453",
+          "bodyHeight": 3449,
+          "sourceBottom": 685.484375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33551",
+          "bodyHeight": 1651,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33551",
+          "bodyHeight": 3449,
+          "sourceBottom": 748.484375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "result393": "PASS normal and 180% browser text",
+      "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
+      "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
+      "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33453",
+          "bodyHeight": 1651,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33453",
+          "bodyHeight": 3449,
+          "sourceBottom": 685.484375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33551",
+          "bodyHeight": 1651,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33551",
+          "bodyHeight": 3449,
+          "sourceBottom": 748.484375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 536.015625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.21875
+            },
+            "media": {
+              "x": 20,
+              "y": 536.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.21875
+            },
+            "panel": {
+              "x": 132,
+              "y": 536.015625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.21875
+            },
+            "title": {
+              "x": 146,
+              "y": 580.21875,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 715.21875
+            },
+            "arrow": {
+              "x": 315,
+              "y": 722.21875,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 766.21875
+            },
+            "image": {
+              "x": 20,
+              "y": 536.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.21875
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 578.015625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.21875
+            },
+            "media": {
+              "x": 29.5,
+              "y": 578.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.21875
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 578.015625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.21875
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622.21875,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757.21875
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764.21875,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808.21875
+            },
+            "image": {
+              "x": 29.5,
+              "y": 578.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.21875
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
+    }
+  ],
+  "correctionBaseline": "7c5e362e764a5817bc189b9aa78688e498b67618",
+  "verification": "Fresh corrected application: 316 npm tests; 73 main + 7 edge + 48 media browser checks; native selected 393 normal evidence only. Physical Redmi pending."
+}

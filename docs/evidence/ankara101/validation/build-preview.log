@@ -1,0 +1,5 @@
+
+> napsak-app@0.1.0 check:build
+> node --import tsx scripts/checkBuildConfig.ts --profile=preview
+
+Build config preflight passed { profile: 'preview', runtime: 'development', mode: 'local' }
