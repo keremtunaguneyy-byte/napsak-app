@@ -298,22 +298,6 @@
       "sha256": "715c93e2de93c647ca2f836ed70b8914beec29c7e8c4361ecbc892b250e45459"
     },
     {
-      "file": "docs/evidence/ankara101/insider-393-1.8.png",
-      "sha256": "aaccfb1ef78bc5e2d620fb89f45b2e6c233036910f1ba0cbd3ef8756a9253b1c"
-    },
-    {
-      "file": "docs/evidence/ankara101/insider-393-1.png",
-      "sha256": "1f65a1e26e7236204eb7badc63efeb3729b99e5bbbe4d7786351bffce88718a2"
-    },
-    {
-      "file": "docs/evidence/ankara101/insider-412-1.8.png",
-      "sha256": "30cdbfeaddaadbf8bc2faf535118c933e560e1f885f151591af51b40cedd0a9b"
-    },
-    {
-      "file": "docs/evidence/ankara101/insider-412-1.png",
-      "sha256": "942f9417a77c900e59424858c45d298ff02baf178c6bb1cd5e890f523501d784"
-    },
-    {
       "file": "docs/evidence/ankara101/long-16-paragraphs-1.8-footer.png",
       "sha256": "1bbe9ba61a9f4835a0336c2fcc74949d4588ae2a93a2cc9d99ac194a4fd2f934"
     },
@@ -328,6 +312,38 @@
     {
       "file": "docs/evidence/ankara101/native-index-393-normal.png",
       "sha256": "ef0298704f6d3f6fb8364f3c0f4e1214a3b5f41ba98a190839b291780d0f835d"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-393-1.8.png",
+      "sha256": "1a3e9c5b073e9b33efc812038e325681d716c621df3fb16129bffdba1ed0b6ae"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-393-1.png",
+      "sha256": "b67b1674b4d5b08837f4e71b679410bf2be1812ea1ead83a963d3f68b22bdbe5"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-412-1.8.png",
+      "sha256": "851320944905168b3fbd59cc70104c95942d1ff5497f6d672c7697daf6b66c6f"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/index-end-412-1.png",
+      "sha256": "b80fc47cc9a393eb519f9013b5e3ed90d8b12319b12c776625080cee5fda5527"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-393-1.8.png",
+      "sha256": "df6f0f84d435dd7bae868dccc052fffa92f58ab5b7f7b174568019b8623c68c1"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-393-1.png",
+      "sha256": "04a1a55505683eb82c009e06c5823b2abb0b161aa08eb6e8e75e8d1a9ea9f12c"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-412-1.8.png",
+      "sha256": "9e7aa35a18629e20e3a6db7618d018274ad86d70e216247efae8b966e1b38bf1"
+    },
+    {
+      "file": "docs/evidence/ankara101/twelve-guide-index/legacy-saved-reader-412-1.png",
+      "sha256": "64a623505d296a2dbf8c39b93de4c3c7f0ebde98ef61bcd0ea8cb4330f3f41b3"
     }
   ]
 }

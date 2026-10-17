@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Guide } from '../../types';
@@ -11,7 +11,7 @@ import { Ankara101Image } from './Ankara101Media';
 import { visibleAnkara101Media } from '../../ankara101Media';
 import { focusDetailControl } from './detailFocus';
 
-type Props = { active: boolean; guides: readonly Guide[]; saved: readonly string[]; safeTopInset: number; initialScrollY?: number; returnRequest?: { id?: string; scrollY: number; sequence: number }; onScroll: (y: number) => void; onOpenGuide: (id: string) => void; onSaveGuide: (guide: Guide) => void; onSettings: () => void; children: ReactNode };
+type Props = { active: boolean; guides: readonly Guide[]; saved: readonly string[]; safeTopInset: number; initialScrollY?: number; returnRequest?: { id?: string; scrollY: number; sequence: number }; onScroll: (y: number) => void; onOpenGuide: (id: string) => void; onSaveGuide: (guide: Guide) => void; onSettings: () => void };
 /** All native content flows; the 393 px lane is centered, never scaled at 412. */
 export function Ankara101Index(p: Props) {
   const scroll = useRef<ScrollView>(null);
@@ -47,7 +47,7 @@ export function Ankara101Index(p: Props) {
   return <View style={s.flex} testID="ankara101-index">
     <View style={[s.header, { paddingTop: p.safeTopInset, minHeight: p.safeTopInset + 56 }]}><BrandLogo /><Pressable ref={node => { nodes.current.settings = node; }} accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}><GezekAsset name="settings" /></Pressable></View>
     <ScrollView ref={scroll} testID="ankara101-index-scroll" style={s.flex} contentContainerStyle={s.center} showsVerticalScrollIndicator={false} onLayout={e => { viewport.current = e.nativeEvent.layout.height; updateVisible(); }} scrollEventThrottle={32} onScroll={e => { if (!active.current) return; scrollY.current = e.nativeEvent.contentOffset.y; p.onScroll(scrollY.current); updateVisible(); }}>
-      <View style={{ width: lane }}>
+      <View testID="ankara101-index-lane" style={{ width: lane }}>
         <LinearGradient pointerEvents="none" colors={['#E8ECF9', '#EDEDEB', '#F2EDE2', '#E9F0E4', '#DFF3E8']} locations={[0, .25, .48, .66, 1]} style={StyleSheet.absoluteFill} />
         <View style={s.masthead}>
           <View pointerEvents="none" style={StyleSheet.absoluteFill}><Ankara101Vector name="cover-publication-binding" width={lane} /></View>
@@ -69,7 +69,7 @@ export function Ankara101Index(p: Props) {
             </Pressable>
           </View>
         </View>}
-        <View style={s.contents} onLayout={e => { contentsY.current = e.nativeEvent.layout.y; updateVisible(); }}>
+        <View testID="ankara101-contents" style={s.contents} onLayout={e => { contentsY.current = e.nativeEvent.layout.y; updateVisible(); }}>
           <View ref={heading} focusable tabIndex={-1} accessibilityRole="header" style={s.contentsHeading}><Text style={s.contentsTitle}>İçindekiler</Text><Text style={s.contentsCount}>{PRODUCTION_GUIDE_IDS.filter(id => resolveAnkara101Reader(p.guides, id)).length} REHBER</Text></View>
           {PRODUCTION_GUIDE_IDS.filter(id => id !== 'guide-ankara-kalesi').map(id => {
             const resolved = resolveAnkara101Reader(p.guides, id);
@@ -85,7 +85,6 @@ export function Ankara101Index(p: Props) {
             </Pressable>;
           })}
         </View>
-        {p.children}
       </View>
     </ScrollView>
   </View>;

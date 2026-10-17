@@ -52,7 +52,12 @@ test('legacy saved collection and Insider identities survive exact-ID reader int
   assert.ok(rows.some(r => r.type === 'classics'));
   assert.ok(rows.some(r => r.type === 'route'));
   const app = readFileSync('App.tsx', 'utf8');
-  assert.match(app, /<LegacyInsiderEntry/);
+  assert.doesNotMatch(app, /LegacyInsiderEntry|ankara101-insider-continuation/);
+  const persisted = deserializePreferences(serializePreferences(migratePreferences({ saved: [insiderRoutes[0].id], interests: ['Doğa'], onboardingCompleted: true })))!;
+  const legacy = resolveSavedEntries(persisted.saved, [], catalog.guides, insiderRoutes);
+  assert.equal(legacy.length, 1);
+  assert.equal(legacy[0].type, 'route');
+  assert.equal(legacy[0].id, insiderRoutes[0].id);
   assert.match(app, /entry.type === 'classics' \? 'landing' : 'insider'/);
 });
 test('Saved collection has nested Back to index and Close to its Saved origin', () => {

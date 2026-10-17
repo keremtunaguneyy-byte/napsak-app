@@ -41,10 +41,8 @@ const contrast = (a, b) => { const x = rgb(a), y = rgb(b); return (Math.max(x, y
     }
     await card.screenshot({ path: `${output}/card-${id}-${width}-${scale}.png` });
    }
-   const insider = page.getByTestId('ankara101-insider-continuation'); await insider.scrollIntoViewIfNeeded();
-   const position = await insider.evaluate(el => ({ follows: !!(el.previousElementSibling?.querySelector('[data-testid="index-guide-tunali-kugulu"]')), label: el.textContent }));
-   assert.ok(position.follows && position.label.includes('REHBERLERDEN SONRA'));
-   await page.screenshot({ path: `${output}/insider-${width}-${scale}.png` });
+   assert.equal(await page.getByTestId('ankara101-insider-continuation').count(), 0);
+   assert.equal(await page.getByTestId('ankara101-index').getByText('Bir Ankaralı Gibi', { exact: true }).count(), 0);
    await context.close();
   }
   // A cold selected decode exceeds the bounded hold: palette/motif remains until onLoad.

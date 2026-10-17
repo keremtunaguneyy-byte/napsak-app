@@ -91,7 +91,7 @@ const setScroll = async (locator, y) => { await locator.evaluate((el, offset) =>
         assert.equal(await entry.evaluate(el => el === document.activeElement), true, `${id} restored index focus`);
         record('exact route/content/source/bookmark/origin/clearance', { id, viewport, scale, node: config.nodes[`mobile_${viewport.width}`], bodyHeight: total.height, sourceBottom: sourceBox.y + sourceBox.height, navTop: nav.y });
       }
-      // Existing Insider continuation stays reachable after all approved contents.
+      // The production index ends after its twelve approved Guides; Home stays stable.
       const indexScroll = page.getByTestId('ankara101-index-scroll');
       await setScroll(indexScroll, 940);
       const settingsY = await indexScroll.evaluate(el => el.scrollTop);
@@ -104,11 +104,11 @@ const setScroll = async (locator, y) => { await locator.evaluate((el, offset) =>
       await page.getByRole('button', { name: 'Ankara 101’e dön', exact: true }).click();
       await page.waitForFunction(y => Math.abs(document.querySelector('[data-testid="ankara101-index-scroll"]').scrollTop - y) < 2, settingsY);
       record('cover Settings visible and hardware Back restore index viewport', { viewport, scale });
-      await page.getByRole('button', { name: 'Bir Ankaralı Gibi rotalarını aç' }).click();
-      await page.getByRole('button', { name: 'Ankara 101 girişine dön', exact: true }).count().then(async count => { if (count) await page.getByRole('button', { name: 'Ankara 101 girişine dön', exact: true }).click(); else await page.evaluate(() => window.__hardwareBack()); });
+      assert.equal(await page.getByRole('button', { name: 'Bir Ankaralı Gibi rotalarını aç' }).count(), 0);
+      assert.equal(await page.locator('[data-testid^="index-guide-"]').count(), 12);
       await page.getByRole('tab', { name: 'Ana Sayfa', exact: true }).click();
       assert.deepEqual(await page.evaluate(() => ({ ids: window.__savedState.ids, seed: window.__savedState.seed, filter: window.__savedState.filter })), initialHome);
-      record('Insider discoverability and unchanged Home batch', { viewport, scale });
+      record('twelve-guide discovery and unchanged Home batch', { viewport, scale });
       await context.close();
     }
     const context = await browser.newContext({ viewport: { width: 393, height: 852 } });

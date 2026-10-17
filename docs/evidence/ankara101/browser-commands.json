@@ -10,5 +10,9 @@
   {
     "command": "node tests/ankara101-media-browser.cjs",
     "exitCode": 0
+  },
+  {
+    "command": "node tests/ankara101-legacy-browser.cjs",
+    "exitCode": 0
   }
 ]

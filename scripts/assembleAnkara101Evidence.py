@@ -22,7 +22,7 @@ assert len(result['checks']) == 73 and not result['errors']
 edge_result = json.loads((args.raw / 'edge-browser-results.json').read_text())
 assert len(edge_result['checks']) == 7 and not edge_result['errors']
 commands = json.loads((args.raw / 'browser-commands.json').read_text())
-assert len(commands) == 3 and all(r['exitCode'] == 0 for r in commands)
+assert len(commands) == 4 and all(r['exitCode'] == 0 for r in commands)
 configs = json.loads(Path('src/design/ankara101Presentation.json').read_text())
 names = dict(zip(configs, ['castle', 'hamamonu', 'anadolu', 'cumhuriyet', 'etnografya', 'resim-heykel', 'aslanhane', 'ulus', 'gordion', 'eymir', 'mogan', 'tunali']))
 
@@ -89,6 +89,13 @@ for width in [393, 412]:
                 grid.paste(im, (col * cell, y + 24))
             y += max(im.height for _, im in row) + 36
         grid.save(args.out / f'index-all-cards-{width}-{scale}.png', optimize=True)
-        shutil.copyfile(args.raw / f'insider-{width}-{scale}.png', args.out / f'insider-{width}-{scale}.png')
+        discovery = args.out / 'twelve-guide-index'
+        discovery.mkdir(exist_ok=True)
+        for prefix in ['index-end', 'legacy-saved-reader']:
+            shutil.copyfile(args.raw / f'{prefix}-{width}-{scale}.png', discovery / f'{prefix}-{width}-{scale}.png')
 for name in ['cold-placeholder.png', 'cold-loaded.png', 'media-browser-results.json']:
     shutil.copyfile(args.raw / name, args.out / name)
+
+legacy_result = json.loads((args.raw / 'legacy-browser-results.json').read_text())
+assert len(legacy_result['checks']) == 12 and not legacy_result['errors']
+shutil.copyfile(args.raw / 'legacy-browser-results.json', args.out / 'twelve-guide-index/legacy-browser-results.json')

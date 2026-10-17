@@ -1,5 +1,9 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-17 — Twelve-guide-only Ankara 101 discovery; retained saved Insider compatibility
+
+Status: explicitly user-approved and implemented on the existing branch/Draft #79. The user accepted the focused Redmi checklist at `0751414c33a978a0148e9851ed0fc2fb74f907e8`, then directed removal of the visible Insider continuation only. This supersedes the previous instruction to keep “Bir Ankaralı Gibi” discoverable after the twelve Guides. Keep its stable ID/content/media/Reader and persisted Saved records; no migration or data deletion. Previously saved content remains openable/unsavable with correct Saved return, including explicit Close. Production cover, twelve Guides, loading, Home/recommendations, schemas and other flows remain unchanged. Verification/evidence and minimal final-SHA recheck: [ANKARA101_IMPLEMENTATION_REPORT.md](ANKARA101_IMPLEMENTATION_REPORT.md). TalkBack/real OS text/reduced motion/signed release remain deferred; normal commit/push, same Draft PR, no merge.
+
 ## 2026-10-17 — Approved Ankara 101 implementation authority
 
 Status: user-approved visual implementation; physical acceptance pending. Exact live production Figma nodes govern the cover/index and twelve guide compositions, while the current catalog governs content and stable IDs. Historical candidate labels in retained ledgers are superseded by the approval contract. The user explicitly approved scoped DM Serif Display Regular/Italic for live cover roles omitted from the package font list; Bricolage, Fraunces, Instrument Serif and existing Plus Jakarta roles remain intact. Exact local SVG instance exports solve Figma/native stroke scaling without changing approved masters. See [ANKARA101_IMPLEMENTATION_REPORT.md](ANKARA101_IMPLEMENTATION_REPORT.md). One Draft PR, normal commit/push, no merge; Redmi/TalkBack/OS large text/reduced motion/signed-release evidence remains pending.

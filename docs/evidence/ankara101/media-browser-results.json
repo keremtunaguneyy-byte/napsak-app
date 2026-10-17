@@ -627,51 +627,51 @@
       "geometry": {
         "card": {
           "x": 20,
-          "y": 337,
+          "y": 546,
           "width": 353,
           "height": 184,
           "right": 373,
-          "bottom": 521
+          "bottom": 730
         },
         "media": {
           "x": 20,
-          "y": 337,
+          "y": 546,
           "width": 112,
           "height": 184,
           "right": 132,
-          "bottom": 521
+          "bottom": 730
         },
         "panel": {
           "x": 132,
-          "y": 337,
+          "y": 546,
           "width": 241,
           "height": 184,
           "right": 373,
-          "bottom": 521
+          "bottom": 730
         },
         "title": {
           "x": 146,
-          "y": 370,
+          "y": 579,
           "width": 213,
           "height": 50,
           "right": 359,
-          "bottom": 420
+          "bottom": 629
         },
         "arrow": {
           "x": 315,
-          "y": 427,
+          "y": 636,
           "width": 44,
           "height": 44,
           "right": 359,
-          "bottom": 471
+          "bottom": 680
         },
         "image": {
           "x": 20,
-          "y": 337,
+          "y": 546,
           "width": 112,
           "height": 184,
           "right": 132,
-          "bottom": 521
+          "bottom": 730
         },
         "overflow": "hidden",
         "background": "rgb(225, 236, 222)",
@@ -1991,51 +1991,51 @@
       "geometry": {
         "card": {
           "x": 29.5,
-          "y": 368,
+          "y": 609,
           "width": 353,
           "height": 184,
           "right": 382.5,
-          "bottom": 552
+          "bottom": 793
         },
         "media": {
           "x": 29.5,
-          "y": 368,
+          "y": 609,
           "width": 112,
           "height": 184,
           "right": 141.5,
-          "bottom": 552
+          "bottom": 793
         },
         "panel": {
           "x": 141.5,
-          "y": 368,
+          "y": 609,
           "width": 241,
           "height": 184,
           "right": 382.5,
-          "bottom": 552
+          "bottom": 793
         },
         "title": {
           "x": 155.5,
-          "y": 401,
+          "y": 642,
           "width": 213,
           "height": 50,
           "right": 368.5,
-          "bottom": 451
+          "bottom": 692
         },
         "arrow": {
           "x": 324.5,
-          "y": 458,
+          "y": 699,
           "width": 44,
           "height": 44,
           "right": 368.5,
-          "bottom": 502
+          "bottom": 743
         },
         "image": {
           "x": 29.5,
-          "y": 368,
+          "y": 609,
           "width": 112,
           "height": 184,
           "right": 141.5,
-          "bottom": 552
+          "bottom": 793
         },
         "overflow": "hidden",
         "background": "rgb(225, 236, 222)",
@@ -2730,7 +2730,7 @@
     },
     {
       "name": "cold placeholder is motif-backed, fixed geometry, atomic; recent warm entry",
-      "warmMs": 139,
+      "warmMs": 141.09999990463257,
       "pass": true
     },
     {
