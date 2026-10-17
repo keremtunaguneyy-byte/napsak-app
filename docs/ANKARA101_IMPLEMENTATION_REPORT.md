@@ -1,7 +1,17 @@
 # Production Ankara 101 implementation
 
-Implementation delivery: 2026-10-17, Europe/Istanbul. Visual approval: 2026-10-16. **VISUAL_APPROVED; focused Redmi checklist accepted by the user at `0751414c33a978a0148e9851ed0fc2fb74f907e8`; TalkBack, real OS large text/reduced motion and signed-release acceptance remain deferred.** Keep the single pull request Draft and unmerged.
+Implementation delivery: 2026-10-17, Europe/Istanbul. Visual approval: 2026-10-16. **VISUAL_APPROVED; focused Redmi checklist accepted by the user at `0751414c33a978a0148e9851ed0fc2fb74f907e8`; TalkBack, real OS large text/reduced motion and signed-release acceptance remain deferred.** Final implementation-head Redmi recheck is accepted at `df43f3eb749179b029d951ada83f359f2c617d92`; the user now authorizes ready-for-review and a normal protected merge after documentation-head CI and review/thread checks.
 
+
+## Final physical Redmi acceptance and merge authorization
+
+The user reports final physical Redmi acceptance for exact implementation head `df43f3eb749179b029d951ada83f359f2c617d92`. The final recheck passed: (1) the index ends cleanly after the twelfth approved Guide; (2) no “Bir Ankaralı Gibi” discovery heading/card, empty section or incorrect footer gap remains; (3) the final Guide opens correctly; (4) Android hardware Back returns correctly to Ankara 101.
+
+There was **no pre-existing saved Insider record on this physical device**. Its legacy Saved → Reader → Back/Close/Unsave path was not recreated manually and is **not claimed as physically tested**. Existing automated compatibility evidence (including scroll/focus, hardware Back, Reader/row Unsave and restart) remains valid. The legacy ID/content/media/Reader/persistence stay retained and hidden from index discovery; no card exposure, fixture injection, migration or silent record deletion is authorized for device testing.
+
+The earlier full focused Redmi matrix at `0751414c33a978a0148e9851ed0fc2fb74f907e8` remains accepted: all twelve readable cards, approved media/opaque editorial panels, long titles, acceptable cold/warm loading, exact routes, scrolling/footer clearance, Save/Unsave, Saved-origin return, stable Home and no remaining overflow. These are user-reported physical observations, not instrumented timing/FPS measurements. Deferred separately and explicitly: **real TalkBack**, **actual OS large text**, **actual OS Reduced Motion**, and **signed-release acceptance**. These cross-cutting checks do not invalidate the accepted Ankara 101 scope.
+
+The user now authorizes reconciling acceptance documentation, marking existing PR #79 ready and merging with a **normal merge commit** through the repository's protected PR workflow after exact-head App Quality/Security Rules and a clean review/thread/conflict recheck. This supersedes earlier Draft/no-merge instructions and final-recheck requests in this report. A documentation-only follow-up commit does not change the accepted implementation bytes; its exact head still requires fresh CI. Merge completion, merge SHA and synchronized main must be verified from live Git/GitHub, not inferred from this authorization. No product code or next-phase implementation is changed; protected Verilog remains untouched.
 
 ## Focused Redmi acceptance and twelve-guide-only discovery
 
@@ -13,7 +23,7 @@ Legacy compatibility is retained: stable ID `insider-kugulu-ayranci`, its underl
 
 Current local results: **316 npm tests**, **18 focused Ankara/Saved tests**, **73 main + 7 edge + 48 media + 12 legacy/index browser checks**, typecheck, accessibility, assets, catalog parity and Android Expo export all pass. Browser coverage spans 393×852 / 412×915, normal / simulated 180% text. It checks exact twelve IDs/order, absence of the complete Insider subtree/text, last child identity, precisely the original 48px end padding and final-card clearance, all existing Guide routes/cards/loading, pre-existing Saved Insider Back/Close/hardware Back with scroll/focus, and Reader/row Unsave/restart without losing other Guides. `npm run check` is absent; dependencies/lockfile did not change and npm ci was not rerun. Current commands/exits/logs and accepted-baseline parity (48 Reader viewport cases and 44 card geometry cases unchanged) plus eight fresh visually inspected captures are under [twelve-guide-index evidence](evidence/ankara101/twelve-guide-index/README.md). [Exact change inventory](ANKARA101_DISCOVERY_CHANGED_FILES.txt); [complete PR inventory](ANKARA101_CHANGED_FILES.txt).
 
-Current physical scope: the accepted twelve-guide behavior above remains accepted at `0751414`. Only the final discovery removal and legacy header Close need the minimal recheck below on the new pushed SHA. Real TalkBack, actual OS large text/reduced motion and signed-release acceptance remain deferred; browser text scaling is not those acceptances. Keep existing Draft PR #79 unmerged; exact-head CI and final SHA are reported in the live PR/delivery after normal push. Protected untracked `src/firebase/BA_4bit.sv/` is untouched. Earlier implementation/results sections below describe the accepted historical checkpoint; their visible Insider continuation and pending-Redmi wording are superseded by this section.
+Current physical scope: final implementation-head Redmi recheck is accepted as recorded above. Legacy Saved compatibility was automated-only on the final device because no pre-existing saved record existed. Real TalkBack, actual OS large text/Reduced Motion and signed-release acceptance remain deferred. Current merge authorization above supersedes earlier Draft/no-merge language. Earlier sections below preserve historical checkpoint evidence, not outstanding final-SHA recheck requirements.
 
 ## 2026-10-17 index/media correction on Draft #79
 
@@ -143,11 +153,10 @@ Index comparisons: [393 normal](evidence/ankara101/index-393-1.png), [412 normal
 
 The [exact changed-file inventory](ANKARA101_CHANGED_FILES.txt) is generated from the staged delivery and includes itself. The unrelated untracked Verilog directory is excluded. Package/license and canonical evidence files are included; raw captures, intermediate Figma downloads and failed/superseded logs are excluded.
 
-## Final minimal Redmi recheck and deferred acceptance
+## Final recheck outcome and deferred cross-cutting acceptance
 
-Use the new pushed implementation SHA, not the accepted baseline SHA, for this narrow recheck:
+The user completed the final minimal physical Redmi recheck at `df43f3eb749179b029d951ada83f359f2c617d92`: clean twelve-Guide ending, no Insider discovery subtree or incorrect gap, correct final Guide opening and correct hardware Back. The earlier full focused twelve-Guide matrix remains accepted at `0751414c33a978a0148e9851ed0fc2fb74f907e8`.
 
-1. Scroll Ankara 101 to the bottom: the twelfth Tunalı–Kuğulu Guide is the final item; no Insider heading/card, separator, empty section or extra gap remains; its action clears bottom navigation and still opens the correct Guide.
-2. With an already-saved `insider-kugulu-ayranci` record, open from Saved; check Back, new Close and hardware Back return to Saved. Unsave once and confirm safe return and absence after restart. Do not fabricate or migrate production records to run this check.
+No pre-existing saved Insider record existed on the device; the legacy Saved path was not manually recreated. Preserve its automated compatibility evidence without claiming physical completion or exposing the card for testing.
 
-The full focused twelve-guide Redmi checklist is already accepted at `0751414c33a978a0148e9851ed0fc2fb74f907e8`; this presentation-only change does not require repeating it wholesale. Deferred separately: real TalkBack reading order/actions/focus, actual OS large-text flow, actual OS reduced-motion behavior, and correctly identified signed-release device acceptance. No signed-release or deferred native acceptance is claimed. Merge still requires a separate user decision; Draft #79 remains unmerged.
+Still deferred: real TalkBack; actual OS large text; actual OS Reduced Motion; signed-release acceptance. They remain separate cross-cutting gates and do not invalidate accepted Ankara 101 scope. The user has explicitly authorized ready-for-review and normal protected merge of #79 after documentation-head CI/review/thread checks. No further implementation phase is started.
