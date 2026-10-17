@@ -6,667 +6,667 @@ TAP version 13
 # Subtest: Firestore export plans are deterministic and scope the backup by project
 ok 1 - Firestore export plans are deterministic and scope the backup by project
   ---
-  duration_ms: 1.798042
+  duration_ms: 1.914291
   type: 'test'
   ...
 # Subtest: Firestore export apply requires exact project and bucket confirmations
 ok 2 - Firestore export apply requires exact project and bucket confirmations
   ---
-  duration_ms: 0.224167
+  duration_ms: 0.248167
   type: 'test'
   ...
 # Subtest: Firestore restore only targets a distinct recovery project
 ok 3 - Firestore restore only targets a distinct recovery project
   ---
-  duration_ms: 0.207
+  duration_ms: 0.215375
   type: 'test'
   ...
 # Subtest: Firestore restore apply requires exact target and empty-target phrase
 ok 4 - Firestore restore apply requires exact target and empty-target phrase
   ---
-  duration_ms: 0.090542
+  duration_ms: 0.089917
   type: 'test'
   ...
 # Subtest: Firestore backup plans reject unsafe identifiers and paths
 ok 5 - Firestore backup plans reject unsafe identifiers and paths
   ---
-  duration_ms: 0.1995
+  duration_ms: 0.199125
   type: 'test'
   ...
 # Subtest: current event catalog has a complete fresh batch and a safe horizon
 ok 6 - current event catalog has a complete fresh batch and a safe horizon
   ---
-  duration_ms: 0.213
+  duration_ms: 0.217667
   type: 'test'
   ...
 # Subtest: event catalog health accepts exact count, horizon and verification boundaries
 ok 7 - event catalog health accepts exact count, horizon and verification boundaries
   ---
-  duration_ms: 0.157958
+  duration_ms: 0.168
   type: 'test'
   ...
 # Subtest: event catalog health reports depleted inventory, short horizon and stale sources
 ok 8 - event catalog health reports depleted inventory, short horizon and stale sources
   ---
-  duration_ms: 0.084375
+  duration_ms: 0.087292
   type: 'test'
   ...
 # Subtest: event catalog health fails closed for invalid and future dates
 ok 9 - event catalog health fails closed for invalid and future dates
   ---
-  duration_ms: 0.341459
+  duration_ms: 0.35725
   type: 'test'
   ...
 # Subtest: distanceInKm returns zero for the same point
 ok 10 - distanceInKm returns zero for the same point
   ---
-  duration_ms: 0.341542
+  duration_ms: 0.433375
   type: 'test'
   ...
 # Subtest: distanceInKm calculates a realistic Ankara distance
 ok 11 - distanceInKm calculates a realistic Ankara distance
   ---
-  duration_ms: 0.105334
+  duration_ms: 0.12075
   type: 'test'
   ...
 # Subtest: formatDurationRange renders mixed hour/minute bounds naturally
 ok 12 - formatDurationRange renders mixed hour/minute bounds naturally
   ---
-  duration_ms: 0.060334
+  duration_ms: 0.066625
   type: 'test'
   ...
 # Subtest: uniqueIds removes invalid and duplicate values
 ok 13 - uniqueIds removes invalid and duplicate values
   ---
-  duration_ms: 0.049916
+  duration_ms: 0.053833
   type: 'test'
   ...
 # Subtest: resolveSavedPlaces preserves save order and ignores stale or duplicate ids
 ok 14 - resolveSavedPlaces preserves save order and ignores stale or duplicate ids
   ---
-  duration_ms: 0.064208
+  duration_ms: 0.0665
   type: 'test'
   ...
 # Subtest: newestFirstIds presents the last saved item first without duplicates
 ok 15 - newestFirstIds presents the last saved item first without duplicates
   ---
-  duration_ms: 0.103667
+  duration_ms: 0.117459
   type: 'test'
   ...
 # Subtest: experience map links preserve ordered walking stops
 ok 16 - experience map links preserve ordered walking stops
   ---
-  duration_ms: 0.167208
+  duration_ms: 0.176875
   type: 'test'
   ...
 # Subtest: single-stop experience opens a map search and invalid coordinates fail closed
 ok 17 - single-stop experience opens a map search and invalid coordinates fail closed
   ---
-  duration_ms: 0.052083
+  duration_ms: 0.055375
   type: 'test'
   ...
 # Subtest: toggleId adds and removes saved ids without carrying duplicate state forward
 ok 18 - toggleId adds and removes saved ids without carrying duplicate state forward
   ---
-  duration_ms: 0.051208
+  duration_ms: 0.050833
   type: 'test'
   ...
 # Subtest: dismissId persists hidden places and restoreId supports undo
 ok 19 - dismissId persists hidden places and restoreId supports undo
   ---
-  duration_ms: 0.051625
+  duration_ms: 0.0515
   type: 'test'
   ...
 # Subtest: Place eligibility status and hard exclusion are enforced before scoring
 ok 20 - Place eligibility status and hard exclusion are enforced before scoring
   ---
-  duration_ms: 0.555834
+  duration_ms: 1.6715
   type: 'test'
   ...
 # Subtest: hard exclusion normalization matches canonical id and Turkish aliases
 ok 21 - hard exclusion normalization matches canonical id and Turkish aliases
   ---
-  duration_ms: 0.10275
+  duration_ms: 0.108
   type: 'test'
   ...
 # Subtest: eligibility clock schedules the nearest future Event boundary and ignores stale dates
 ok 22 - eligibility clock schedules the nearest future Event boundary and ignores stale dates
   ---
-  duration_ms: 0.070666
+  duration_ms: 0.075125
   type: 'test'
   ...
 # Subtest: unified feed inherits Place hard exclusion without changing direct ranking
 ok 23 - unified feed inherits Place hard exclusion without changing direct ranking
   ---
-  duration_ms: 0.18975
+  duration_ms: 0.18675
   type: 'test'
   ...
 # Subtest: deprecated Places remain saved-resolvable while hard-excluded Places do not publicly resolve
 ok 24 - deprecated Places remain saved-resolvable while hard-excluded Places do not publicly resolve
   ---
-  duration_ms: 0.089084
+  duration_ms: 0.0925
   type: 'test'
   ...
 # Subtest: recommendPlaces prioritizes preference matches and explains the score
 ok 25 - recommendPlaces prioritizes preference matches and explains the score
   ---
-  duration_ms: 0.117875
+  duration_ms: 0.11525
   type: 'test'
   ...
 # Subtest: explicit Lezzet selection excludes unrelated pure parks
 ok 26 - explicit Lezzet selection excludes unrelated pure parks
   ---
-  duration_ms: 0.143375
+  duration_ms: 0.15075
   type: 'test'
   ...
 # Subtest: paid budget bands change ranking without hard filtering
 ok 27 - paid budget bands change ranking without hard filtering
   ---
-  duration_ms: 0.091542
+  duration_ms: 0.093584
   type: 'test'
   ...
 # Subtest: group size preference changes ranking from safe metadata signals
 ok 28 - group size preference changes ranking from safe metadata signals
   ---
-  duration_ms: 0.198417
+  duration_ms: 0.205042
   type: 'test'
   ...
 # Subtest: recommendPlaces excludes dismissed places and uses live proximity
 ok 29 - recommendPlaces excludes dismissed places and uses live proximity
   ---
-  duration_ms: 0.075709
+  duration_ms: 0.076375
   type: 'test'
   ...
 # Subtest: related plans match stable stop and city IDs, never a matching display name
 ok 30 - related plans match stable stop and city IDs, never a matching display name
   ---
-  duration_ms: 0.990542
+  duration_ms: 0.933375
   type: 'test'
   ...
 # Subtest: related plans filter before limit and match a later stop without duplicating a plan
 ok 31 - related plans filter before limit and match a later stop without duplicating a plan
   ---
-  duration_ms: 0.182375
+  duration_ms: 0.182917
   type: 'test'
   ...
 # Subtest: related plans preserve hiding, lifecycle, duration and interest eligibility
 ok 32 - related plans preserve hiding, lifecycle, duration and interest eligibility
   ---
-  duration_ms: 0.30975
+  duration_ms: 0.302791
   type: 'test'
   ...
 # Subtest: related plans preserve personalized ranking and reasons without mutating the catalogue
 ok 33 - related plans preserve personalized ranking and reasons without mutating the catalogue
   ---
-  duration_ms: 1.444375
+  duration_ms: 1.468541
   type: 'test'
   ...
 # Subtest: related event-linked plans refresh at the linked Event boundary
 ok 34 - related event-linked plans refresh at the linked Event boundary
   ---
-  duration_ms: 0.32675
+  duration_ms: 0.362083
   type: 'test'
   ...
 # Subtest: real catalog fixtures validate and recommend an event-linked Experience only before Event start
 ok 35 - real catalog fixtures validate and recommend an event-linked Experience only before Event start
   ---
-  duration_ms: 8.000375
+  duration_ms: 7.530541
   type: 'test'
   ...
 # Subtest: expired event-linked Experiences remain saved and hidden resolvable but not recommendable
 ok 36 - expired event-linked Experiences remain saved and hidden resolvable but not recommendable
   ---
-  duration_ms: 0.270625
+  duration_ms: 0.18025
   type: 'test'
   ...
 # Subtest: result tabs default to Planlar and preserve the established content order
 ok 37 - result tabs default to Planlar and preserve the established content order
   ---
-  duration_ms: 0.121792
+  duration_ms: 0.05
   type: 'test'
   ...
 # Subtest: Ankara 101 contains 12 sourced, unique and city-scoped evergreen guides
 ok 38 - Ankara 101 contains 12 sourced, unique and city-scoped evergreen guides
   ---
-  duration_ms: 0.253834
+  duration_ms: 0.227791
   type: 'test'
   ...
 # Subtest: Ankara 101 editorial metadata and featured Guides derive from the current catalogue
 ok 39 - Ankara 101 editorial metadata and featured Guides derive from the current catalogue
   ---
-  duration_ms: 0.114708
+  duration_ms: 0.093709
   type: 'test'
   ...
 # Subtest: Ankara 101 Guide deep links and saved Guide targets resolve safely by stable ID
 ok 40 - Ankara 101 Guide deep links and saved Guide targets resolve safely by stable ID
   ---
-  duration_ms: 0.035791
+  duration_ms: 0.031375
   type: 'test'
   ...
 # Subtest: Bir Ankaralı Gibi safely handles an empty route catalogue
 ok 41 - Bir Ankaralı Gibi safely handles an empty route catalogue
   ---
-  duration_ms: 0.034
+  duration_ms: 0.030542
   type: 'test'
   ...
 # Subtest: Bir Ankaralı Gibi routes are complete, ordered and map-ready
 ok 42 - Bir Ankaralı Gibi routes are complete, ordered and map-ready
   ---
-  duration_ms: 0.053375
+  duration_ms: 0.04675
   type: 'test'
   ...
 # Subtest: experience catalogue contains 52 complete, sourced and honestly scoped plans
 ok 43 - experience catalogue contains 52 complete, sourced and honestly scoped plans
   ---
-  duration_ms: 0.540416
+  duration_ms: 0.315584
   type: 'test'
   ...
 # Subtest: evergreen content batch 1 preserves its approved single-anchor scope
 ok 44 - evergreen content batch 1 preserves its approved single-anchor scope
   ---
-  duration_ms: 0.312042
+  duration_ms: 0.235709
   type: 'test'
   ...
 # Subtest: Ankara content batch 2 keeps only lifecycle-safe Experiences
 ok 45 - Ankara content batch 2 keeps only lifecycle-safe Experiences
   ---
-  duration_ms: 0.108208
+  duration_ms: 0.091625
   type: 'test'
   ...
 # Subtest: Ankara content batch 3 keeps the approved Places and lifecycle-safe Experiences
 ok 46 - Ankara content batch 3 keeps the approved Places and lifecycle-safe Experiences
   ---
-  duration_ms: 0.839
+  duration_ms: 0.233041
   type: 'test'
   ...
 # Subtest: Ankara Experience batch 4 adds only supported plans and removes the Yılmaz Güney raw record
 ok 47 - Ankara Experience batch 4 adds only supported plans and removes the Yılmaz Güney raw record
   ---
-  duration_ms: 0.263667
+  duration_ms: 0.223583
   type: 'test'
   ...
 # Subtest: catalog correctness defers lifecycle-unsafe records and preserves audited controls
 ok 48 - catalog correctness defers lifecycle-unsafe records and preserves audited controls
   ---
-  duration_ms: 0.065917
+  duration_ms: 0.082292
   type: 'test'
   ...
 # Subtest: final Ankara Experience batch adds the eight approved evergreen plans and defers unsupported lifecycle candidates
 ok 49 - final Ankara Experience batch adds the eight approved evergreen plans and defers unsupported lifecycle candidates
   ---
-  duration_ms: 0.296583
+  duration_ms: 0.272292
   type: 'test'
   ...
 # Subtest: Ankara Place completeness batch 1 adds only the 13 approved Place anchors
 ok 50 - Ankara Place completeness batch 1 adds only the 13 approved Place anchors
   ---
-  duration_ms: 0.319292
+  duration_ms: 0.275375
   type: 'test'
   ...
 # Subtest: Ankara Place completeness batch 2 adds only the 8 approved evergreen Place anchors
 ok 51 - Ankara Place completeness batch 2 adds only the 8 approved evergreen Place anchors
   ---
-  duration_ms: 0.353542
+  duration_ms: 0.315042
   type: 'test'
   ...
 # Subtest: Ankara Place completeness batch 3 publishes only candidates that clear current operation evidence
 ok 52 - Ankara Place completeness batch 3 publishes only candidates that clear current operation evidence
   ---
-  duration_ms: 0.2575
+  duration_ms: 0.23725
   type: 'test'
   ...
 # Subtest: every experience produces a safe Google Maps action
 ok 53 - every experience produces a safe Google Maps action
   ---
-  duration_ms: 0.430833
+  duration_ms: 0.388792
   type: 'test'
   ...
 # Subtest: duration is a hard eligibility gate and Fark etmez leaves the catalogue open
 ok 54 - duration is a hard eligibility gate and Fark etmez leaves the catalogue open
   ---
-  duration_ms: 12.807709
+  duration_ms: 11.363708
   type: 'test'
   ...
 # Subtest: unsupported conditional and invalid event-linked Experiences fail closed
 ok 55 - unsupported conditional and invalid event-linked Experiences fail closed
   ---
-  duration_ms: 0.412042
+  duration_ms: 0.311041
   type: 'test'
   ...
 # Subtest: Experience recommendations fail closed for missing, ineligible, or hard-excluded stops
 ok 56 - Experience recommendations fail closed for missing, ineligible, or hard-excluded stops
   ---
-  duration_ms: 0.370709
+  duration_ms: 0.252959
   type: 'test'
   ...
 # Subtest: experience interest, dismissal and rotation gates stay intact
 ok 57 - experience interest, dismissal and rotation gates stay intact
   ---
-  duration_ms: 6.001542
+  duration_ms: 5.905375
   type: 'test'
   ...
 # Subtest: public Experience feed preserves primary tiers, helper parity, diversity and rotation
 ok 58 - public Experience feed preserves primary tiers, helper parity, diversity and rotation
   ---
-  duration_ms: 8.826875
+  duration_ms: 8.2195
   type: 'test'
   ...
 # Subtest: public Experience feed uses secondary-only matches only after primary supply is exhausted
 ok 59 - public Experience feed uses secondary-only matches only after primary supply is exhausted
   ---
-  duration_ms: 1.9135
+  duration_ms: 1.852709
   type: 'test'
   ...
 # Subtest: filtered Place, Idea and Event feeds are isolated from Experience candidates
 ok 60 - filtered Place, Idea and Event feeds are isolated from Experience candidates
   ---
-  duration_ms: 16.071625
+  duration_ms: 16.064542
   type: 'test'
   ...
 # Subtest: each duration keeps at least one honest match for every explicit interest
 ok 61 - each duration keeps at least one honest match for every explicit interest
   ---
-  duration_ms: 25.520792
+  duration_ms: 23.23975
   type: 'test'
   ...
 # Subtest: verified event catalogue has explicit Ankara time zones and trustworthy metadata
 ok 62 - verified event catalogue has explicit Ankara time zones and trustworthy metadata
   ---
-  duration_ms: 0.266333
+  duration_ms: 0.26275
   type: 'test'
   ...
 # Subtest: refreshed event supply has no duplicate sessions or reused expired IDs
 ok 63 - refreshed event supply has no duplicate sessions or reused expired IDs
   ---
-  duration_ms: 0.488667
+  duration_ms: 0.456959
   type: 'test'
   ...
 # Subtest: event feed excludes expired events and admits future events regardless of general interests
 ok 64 - event feed excludes expired events and admits future events regardless of general interests
   ---
-  duration_ms: 0.069416
+  duration_ms: 0.065291
   type: 'test'
   ...
 # Subtest: empty and fully expired event catalogues are safe
 ok 65 - empty and fully expired event catalogues are safe
   ---
-  duration_ms: 0.053375
+  duration_ms: 0.055792
   type: 'test'
   ...
 # Subtest: event rotation fills two batches with only the overlap required by current supply
 ok 66 - event rotation fills two batches with only the overlap required by current supply
   ---
-  duration_ms: 0.123459
+  duration_ms: 0.115833
   type: 'test'
   ...
 # Subtest: catalog has 120–180 complete, uniquely identified Ankara entries
 ok 67 - catalog has 120–180 complete, uniquely identified Ankara entries
   ---
-  duration_ms: 0.449583
+  duration_ms: 0.436625
   type: 'test'
   ...
 # Subtest: Ankara content batch 2 removes Kartaltepe and preserves evidence boundaries
 ok 68 - Ankara content batch 2 removes Kartaltepe and preserves evidence boundaries
   ---
-  duration_ms: 0.139916
+  duration_ms: 0.125292
   type: 'test'
   ...
 # Subtest: every explicit interest has enough places for two fresh five-item batches
 ok 69 - every explicit interest has enough places for two fresh five-item batches
   ---
-  duration_ms: 0.101875
+  duration_ms: 0.092292
   type: 'test'
   ...
 # Subtest: coffee place rotation can produce a completely fresh second batch
 ok 70 - coffee place rotation can produce a completely fresh second batch
   ---
-  duration_ms: 6.376459
+  duration_ms: 5.942208
   type: 'test'
   ...
 # Subtest: catalog coordinates, official URL shapes, categories and tags are valid
 ok 71 - catalog coordinates, official URL shapes, categories and tags are valid
   ---
-  duration_ms: 0.418
+  duration_ms: 0.381084
   type: 'test'
   ...
 # Subtest: timeless idea catalog is curated, complete and uniquely identified
 ok 72 - timeless idea catalog is curated, complete and uniquely identified
   ---
-  duration_ms: 0.350917
+  duration_ms: 0.288458
   type: 'test'
   ...
 # Subtest: Idea Batches A, B and C add 88 fully structured records and preserve 52 legacy records
 ok 73 - Idea Batches A, B and C add 88 fully structured records and preserve 52 legacy records
   ---
-  duration_ms: 0.61075
+  duration_ms: 0.418792
   type: 'test'
   ...
 # Subtest: Idea validation accepts legacy and URL-free records but rejects malformed structured metadata
 ok 74 - Idea validation accepts legacy and URL-free records but rejects malformed structured metadata
   ---
-  duration_ms: 0.226083
+  duration_ms: 0.098292
   type: 'test'
   ...
 # Subtest: embedded content repository preserves exact local catalogue parity
 ok 75 - embedded content repository preserves exact local catalogue parity
   ---
-  duration_ms: 7.554625
+  duration_ms: 7.571875
   type: 'test'
   ...
 # Subtest: runtime catalogue validation rejects malformed remote data
 ok 76 - runtime catalogue validation rejects malformed remote data
   ---
-  duration_ms: 31.818208
+  duration_ms: 30.592917
   type: 'test'
   ...
 # Subtest: Experience lifecycle validation rejects malformed and illegally mixed states
 ok 77 - Experience lifecycle validation rejects malformed and illegally mixed states
   ---
-  duration_ms: 0.10375
+  duration_ms: 0.116708
   type: 'test'
   ...
 # Subtest: catalog snapshots reject wrong-city event linkage
 ok 78 - catalog snapshots reject wrong-city event linkage
   ---
-  duration_ms: 0.25025
+  duration_ms: 0.272083
   type: 'test'
   ...
 # Subtest: unified feed mixes places and ideas while preserving hard interest eligibility
 ok 79 - unified feed mixes places and ideas while preserving hard interest eligibility
   ---
-  duration_ms: 4.202875
+  duration_ms: 4.162375
   type: 'test'
   ...
 # Subtest: content filters isolate place and idea feeds without fabricating events
 ok 80 - content filters isolate place and idea feeds without fabricating events
   ---
-  duration_ms: 5.003459
+  duration_ms: 4.640625
   type: 'test'
   ...
 # Subtest: idea tab uses one selected-interest idea plus four independent discoveries
 ok 81 - idea tab uses one selected-interest idea plus four independent discoveries
   ---
-  duration_ms: 0.582541
+  duration_ms: 0.331708
   type: 'test'
   ...
 # Subtest: idea discovery quota excludes every selected interest from the four discovery slots
 ok 82 - idea discovery quota excludes every selected interest from the four discovery slots
   ---
-  duration_ms: 0.272792
+  duration_ms: 0.258833
   type: 'test'
   ...
 # Subtest: place-only unified feed preserves PR \#8 place ranking and diversity order
 ok 83 - place-only unified feed preserves PR \#8 place ranking and diversity order
   ---
-  duration_ms: 8.101041
+  duration_ms: 7.444417
   type: 'test'
   ...
 # Subtest: unified rotation avoids the previous mixed batch when enough candidates remain
 ok 84 - unified rotation avoids the previous mixed batch when enough candidates remain
   ---
-  duration_ms: 9.527875
+  duration_ms: 9.263125
   type: 'test'
   ...
 # Subtest: dismissed idea ids stay out and idea-only recommendations are deterministic
 ok 85 - dismissed idea ids stay out and idea-only recommendations are deterministic
   ---
-  duration_ms: 1.166417
+  duration_ms: 0.967209
   type: 'test'
   ...
 # Subtest: different-things rotation produces a fresh idea batch
 ok 86 - different-things rotation produces a fresh idea batch
   ---
-  duration_ms: 0.526584
+  duration_ms: 0.467
   type: 'test'
   ...
 # Subtest: recommendations are deterministic for a seed and injectable random source
 ok 87 - recommendations are deterministic for a seed and injectable random source
   ---
-  duration_ms: 14.2845
+  duration_ms: 13.257209
   type: 'test'
   ...
 # Subtest: recommendations preserve dismissals and promote category and district variety
 ok 88 - recommendations preserve dismissals and promote category and district variety
   ---
-  duration_ms: 4.332542
+  duration_ms: 3.854125
   type: 'test'
   ...
 # Subtest: rotation avoids the previous batch and safely falls back for a small pool
 ok 89 - rotation avoids the previous batch and safely falls back for a small pool
   ---
-  duration_ms: 8.498375
+  duration_ms: 8.447958
   type: 'test'
   ...
 # Subtest: migration reads legacy preference data while adding new optional fields safely
 ok 90 - migration reads legacy preference data while adding new optional fields safely
   ---
-  duration_ms: 0.152042
+  duration_ms: 0.18275
   type: 'test'
   ...
 # Subtest: duration survives the exact preference serialization round trip
 ok 91 - duration survives the exact preference serialization round trip
   ---
-  duration_ms: 0.096041
+  duration_ms: 0.117375
   type: 'test'
   ...
 # Subtest: context refresh is due after six hours, on a new day, or for legacy users
 ok 92 - context refresh is due after six hours, on a new day, or for legacy users
   ---
-  duration_ms: 0.060375
+  duration_ms: 0.069291
   type: 'test'
   ...
 # Subtest: firebase config permits intentional local development and parses a complete dev setup
 ok 93 - firebase config permits intentional local development and parses a complete dev setup
   ---
-  duration_ms: 0.310625
+  duration_ms: 0.344083
   type: 'test'
   ...
 # Subtest: firebase config rejects partial, placeholder and invalid environment values
 ok 94 - firebase config rejects partial, placeholder and invalid environment values
   ---
-  duration_ms: 0.1855
+  duration_ms: 0.20425
   type: 'test'
   ...
 # Subtest: production preflight requires real production Firebase config and forbids emulator wiring
 ok 95 - production preflight requires real production Firebase config and forbids emulator wiring
   ---
-  duration_ms: 0.268916
+  duration_ms: 0.277916
   type: 'test'
   ...
 # Subtest: user data deletion runs remote, local and anonymous Auth steps in privacy-safe order
 ok 96 - user data deletion runs remote, local and anonymous Auth steps in privacy-safe order
   ---
-  duration_ms: 0.105625
+  duration_ms: 0.091666
   type: 'test'
   ...
 # Subtest: remote deletion failure preserves retryable local state and stops later steps
 ok 97 - remote deletion failure preserves retryable local state and stops later steps
   ---
-  duration_ms: 0.1135
+  duration_ms: 0.152333
   type: 'test'
   ...
 # Subtest: anonymous Auth deletion failure is reported after user state is cleared
 ok 98 - anonymous Auth deletion failure is reported after user state is cleared
   ---
-  duration_ms: 0.065208
+  duration_ms: 0.069458
   type: 'test'
   ...
 # Subtest: observability stays disabled without a DSN and validates Sentry destinations
 ok 99 - observability stays disabled without a DSN and validates Sentry destinations
   ---
-  duration_ms: 0.164083
+  duration_ms: 0.176208
   type: 'test'
   ...
 # Subtest: observability strips personal and free-form fields before sending
 ok 100 - observability strips personal and free-form fields before sending
   ---
-  duration_ms: 0.1635
+  duration_ms: 0.168625
   type: 'test'
   ...
 # Subtest: operational errors keep useful stack frames without retaining raw messages
 ok 101 - operational errors keep useful stack frames without retaining raw messages
   ---
-  duration_ms: 0.194042
+  duration_ms: 0.201375
   type: 'test'
   ...
 # Subtest: screen tags accept only stable non-personal identifiers
 ok 102 - screen tags accept only stable non-personal identifiers
   ---
-  duration_ms: 0.045083
+  duration_ms: 0.046666
   type: 'test'
   ...
 # Subtest: product analytics accepts only versioned aggregate events
 ok 103 - product analytics accepts only versioned aggregate events
   ---
-  duration_ms: 0.109959
+  duration_ms: 0.116292
   type: 'test'
   ...
 # Subtest: product analytics rejects personal, content-identifying and unknown fields
 ok 104 - product analytics rejects personal, content-identifying and unknown fields
   ---
-  duration_ms: 0.107
+  duration_ms: 0.114208
   type: 'test'
   ...
 # Subtest: product analytics rejects invalid counts, ranks and enum values
 ok 105 - product analytics rejects invalid counts, ranks and enum values
   ---
-  duration_ms: 0.123917
+  duration_ms: 0.184708
   type: 'test'
   ...
 # Subtest: performance durations use coarse privacy-safe buckets
 ok 106 - performance durations use coarse privacy-safe buckets
   ---
-  duration_ms: 0.056708
+  duration_ms: 0.075667
   type: 'test'
   ...
 # Subtest: Android accepts valid two- and three-segment application IDs
 ok 107 - Android accepts valid two- and three-segment application IDs
   ---
-  duration_ms: 0.597167
+  duration_ms: 0.661375
   type: 'test'
   ...
 # Subtest: Android rejects one-segment, malformed, uppercase, and placeholder IDs
 ok 108 - Android rejects one-segment, malformed, uppercase, and placeholder IDs
   ---
-  duration_ms: 0.129833
+  duration_ms: 0.179458
   type: 'test'
   ...
 # Subtest: iOS accepts valid two- and three-segment bundle identifiers
 ok 109 - iOS accepts valid two- and three-segment bundle identifiers
   ---
-  duration_ms: 0.091583
+  duration_ms: 0.114083
   type: 'test'
   ...
 # Subtest: iOS rejects one-segment, malformed, and placeholder identifiers
 ok 110 - iOS rejects one-segment, malformed, and placeholder identifiers
   ---
-  duration_ms: 0.055292
+  duration_ms: 0.063917
   type: 'test'
   ...
 # Subtest: external evidence remains independent from syntax validity
 ok 111 - external evidence remains independent from syntax validity
   ---
-  duration_ms: 0.053834
+  duration_ms: 0.057292
   type: 'test'
   ...
 1..111
@@ -677,1232 +677,1244 @@ ok 111 - external evidence remains independent from syntax validity
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 271.75275
+# duration_ms 258.912417
 TAP version 13
 # Subtest: every approved ID resolves current catalog content, exact sources, native presentation and static media independent of title
 ok 1 - every approved ID resolves current catalog content, exact sources, native presentation and static media independent of title
   ---
-  duration_ms: 1.844708
+  duration_ms: 3.801709
   type: 'test'
   ...
 # Subtest: unavailable or title-only records cannot resolve or open another Guide
 ok 2 - unavailable or title-only records cannot resolve or open another Guide
   ---
-  duration_ms: 0.132625
+  duration_ms: 0.150042
   type: 'test'
   ...
 # Subtest: all twelve sessions return the exact index or Saved scroll/focus origin on Back, Close and Android Back, even after unsave/restart
 ok 3 - all twelve sessions return the exact index or Saved scroll/focus origin on Back, Close and Android Back, even after unsave/restart
   ---
-  duration_ms: 0.835791
+  duration_ms: 0.847916
   type: 'test'
   ...
 # Subtest: legacy saved collection and Insider identities survive exact-ID reader integration
 ok 4 - legacy saved collection and Insider identities survive exact-ID reader integration
   ---
-  duration_ms: 0.448166
+  duration_ms: 0.450292
   type: 'test'
   ...
 # Subtest: Saved collection has nested Back to index and Close to its Saved origin
 ok 5 - Saved collection has nested Back to index and Close to its Saved origin
   ---
-  duration_ms: 0.068417
+  duration_ms: 0.066334
   type: 'test'
   ...
 # Subtest: approved files retain exact checksums, source dimensions and nonempty XML; all slots are mapped
 ok 6 - approved files retain exact checksums, source dimensions and nonempty XML; all slots are mapped
   ---
-  duration_ms: 43.633791
+  duration_ms: 43.3115
   type: 'test'
   ...
 # Subtest: exact-size motif exports preserve Figma stroke weights and the already-clipped background bounds
 ok 7 - exact-size motif exports preserve Figma stroke weights and the already-clipped background bounds
   ---
-  duration_ms: 9.873625
+  duration_ms: 15.402208
   type: 'test'
   ...
 # Subtest: font loading is bounded, failure has no late typography swap, and official font roles remain scoped
 ok 8 - font loading is bounded, failure has no late typography swap, and official font roles remain scoped
   ---
-  duration_ms: 18.820333
+  duration_ms: 30.577
+  type: 'test'
+  ...
+# Subtest: selected hero warming is single, bounded, cancels stale navigation and retains only three recent hints
+ok 9 - selected hero warming is single, bounded, cancels stale navigation and retains only three recent hints
+  ---
+  duration_ms: 52.058583
+  type: 'test'
+  ...
+# Subtest: index decode work follows the viewport, caps four thumbnails, and never warms all twelve
+ok 10 - index decode work follows the viewport, caps four thumbnails, and never warms all twelve
+  ---
+  duration_ms: 13.94675
   type: 'test'
   ...
 # Subtest: development and preview are explicitly bound to local development runtime
-ok 9 - development and preview are explicitly bound to local development runtime
+ok 11 - development and preview are explicitly bound to local development runtime
   ---
-  duration_ms: 4.208584
+  duration_ms: 3.455375
   type: 'test'
   ...
 # Subtest: connected beta requires its explicit profile and non-production services
-ok 10 - connected beta requires its explicit profile and non-production services
+ok 12 - connected beta requires its explicit profile and non-production services
   ---
-  duration_ms: 0.852667
+  duration_ms: 1.888292
   type: 'test'
   ...
 # Subtest: production requires complete Firebase and Sentry build settings
-ok 11 - production requires complete Firebase and Sentry build settings
+ok 13 - production requires complete Firebase and Sentry build settings
   ---
-  duration_ms: 0.484875
+  duration_ms: 0.542084
   type: 'test'
   ...
 # Subtest: missing, unsupported and mismatched runtime identity fail closed
-ok 12 - missing, unsupported and mismatched runtime identity fail closed
+ok 14 - missing, unsupported and mismatched runtime identity fail closed
   ---
-  duration_ms: 0.131875
+  duration_ms: 0.138417
   type: 'test'
   ...
 # Subtest: Gezek display name and preserved technical identities are fixed
-ok 13 - Gezek display name and preserved technical identities are fixed
+ok 15 - Gezek display name and preserved technical identities are fixed
   ---
-  duration_ms: 0.1825
+  duration_ms: 0.1805
   type: 'test'
   ...
 # Subtest: profile bindings and the standard internal build expectation are checked
-ok 14 - profile bindings and the standard internal build expectation are checked
+ok 16 - profile bindings and the standard internal build expectation are checked
   ---
-  duration_ms: 0.100708
+  duration_ms: 0.107791
   type: 'test'
   ...
 # Subtest: preflight output never includes supplied public keys or build tokens
-ok 15 - preflight output never includes supplied public keys or build tokens
+ok 17 - preflight output never includes supplied public keys or build tokens
   ---
-  duration_ms: 253.981541
+  duration_ms: 272.727708
   type: 'test'
   ...
 # Subtest: EAS worker fails when profile identity was not injected into its environment
-ok 16 - EAS worker fails when profile identity was not injected into its environment
+ok 18 - EAS worker fails when profile identity was not injected into its environment
   ---
-  duration_ms: 139.353084
+  duration_ms: 161.868875
   type: 'test'
   ...
 # Subtest: release baseline retains eight externally unverified blockers despite valid config shape
-ok 17 - release baseline retains eight externally unverified blockers despite valid config shape
+ok 19 - release baseline retains eight externally unverified blockers despite valid config shape
   ---
-  duration_ms: 280.355916
+  duration_ms: 225.104042
   type: 'test'
   ...
 # Subtest: Auth failure and a stalled Auth state resolve within a bounded wait
-ok 18 - Auth failure and a stalled Auth state resolve within a bounded wait
+ok 20 - Auth failure and a stalled Auth state resolve within a bounded wait
   ---
-  duration_ms: 12.515167
+  duration_ms: 11.977125
   type: 'test'
   ...
 # Subtest: failed or malformed remote catalog preserves the embedded catalog
-ok 19 - failed or malformed remote catalog preserves the embedded catalog
+ok 21 - failed or malformed remote catalog preserves the embedded catalog
   ---
-  duration_ms: 2.033666
+  duration_ms: 1.219125
   type: 'test'
   ...
 # Subtest: deleted UID is blocked before remote deletion and Auth failure remains explicit
-ok 20 - deleted UID is blocked before remote deletion and Auth failure remains explicit
+ok 22 - deleted UID is blocked before remote deletion and Auth failure remains explicit
   ---
-  duration_ms: 0.8165
+  duration_ms: 0.686209
   type: 'test'
   ...
 # Subtest: deletion clears the pending sync snapshot and blocks stale UID writes
-ok 21 - deletion clears the pending sync snapshot and blocks stale UID writes
+ok 23 - deletion clears the pending sync snapshot and blocks stale UID writes
   ---
-  duration_ms: 1.233375
+  duration_ms: 0.450834
   type: 'test'
   ...
 # Subtest: owned queue uploads only for its authenticated owner
-ok 22 - owned queue uploads only for its authenticated owner
+ok 24 - owned queue uploads only for its authenticated owner
   ---
-  duration_ms: 0.962166
+  duration_ms: 0.416542
   type: 'test'
   ...
 # Subtest: overlapping local state keeps dismissal precedence in a flushable owned queue
-ok 23 - overlapping local state keeps dismissal precedence in a flushable owned queue
+ok 25 - overlapping local state keeps dismissal precedence in a flushable owned queue
   ---
-  duration_ms: 0.378333
+  duration_ms: 0.817542
   type: 'test'
   ...
 # Subtest: queue owned by a different UID is discarded without upload
-ok 24 - queue owned by a different UID is discarded without upload
+ok 26 - queue owned by a different UID is discarded without upload
   ---
-  duration_ms: 0.173792
+  duration_ms: 0.177583
   type: 'test'
   ...
 # Subtest: legacy unowned queue is discarded and never attached to the current UID
-ok 25 - legacy unowned queue is discarded and never attached to the current UID
+ok 27 - legacy unowned queue is discarded and never attached to the current UID
   ---
-  duration_ms: 0.195459
+  duration_ms: 0.192708
   type: 'test'
   ...
 # Subtest: owner-known migration uses current local state instead of an unowned legacy snapshot
-ok 26 - owner-known migration uses current local state instead of an unowned legacy snapshot
+ok 28 - owner-known migration uses current local state instead of an unowned legacy snapshot
   ---
-  duration_ms: 0.460125
+  duration_ms: 0.341917
   type: 'test'
   ...
 # Subtest: malformed queue ownership and payload metadata fail closed
-ok 27 - malformed queue ownership and payload metadata fail closed
+ok 29 - malformed queue ownership and payload metadata fail closed
   ---
-  duration_ms: 0.553
+  duration_ms: 0.474125
   type: 'test'
   ...
 # Subtest: a stale old-user write cannot reach a replacement anonymous UID
-ok 28 - a stale old-user write cannot reach a replacement anonymous UID
+ok 30 - a stale old-user write cannot reach a replacement anonymous UID
   ---
-  duration_ms: 0.513167
+  duration_ms: 0.113375
   type: 'test'
   ...
 # Subtest: queue ownership survives app restart and replays for the same UID
-ok 29 - queue ownership survives app restart and replays for the same UID
+ok 31 - queue ownership survives app restart and replays for the same UID
   ---
-  duration_ms: 0.693583
+  duration_ms: 0.187417
   type: 'test'
   ...
 # Subtest: offline queue remains retryable and reconnects for the same UID
-ok 30 - offline queue remains retryable and reconnects for the same UID
+ok 32 - offline queue remains retryable and reconnects for the same UID
   ---
-  duration_ms: 0.559708
+  duration_ms: 0.145542
   type: 'test'
   ...
 # Subtest: compare-before-remove preserves a newer owned snapshot queued during upload
-ok 31 - compare-before-remove preserves a newer owned snapshot queued during upload
+ok 33 - compare-before-remove preserves a newer owned snapshot queued during upload
   ---
-  duration_ms: 0.30725
+  duration_ms: 0.137209
   type: 'test'
   ...
 # Subtest: queued remote payload remains minimized to the Firestore allowlist
-ok 32 - queued remote payload remains minimized to the Firestore allowlist
+ok 34 - queued remote payload remains minimized to the Firestore allowlist
   ---
-  duration_ms: 0.200875
+  duration_ms: 0.150791
   type: 'test'
   ...
 # Subtest: beta observability label remains distinct from production
-ok 33 - beta observability label remains distinct from production
+ok 35 - beta observability label remains distinct from production
   ---
-  duration_ms: 0.323541
+  duration_ms: 0.28225
   type: 'test'
   ...
 # Subtest: catalog versions compare calendar dates and numeric revisions, rejecting malformed values
-ok 34 - catalog versions compare calendar dates and numeric revisions, rejecting malformed values
+ok 36 - catalog versions compare calendar dates and numeric revisions, rejecting malformed values
   ---
-  duration_ms: 0.188458
+  duration_ms: 0.179458
   type: 'test'
   ...
 # Subtest: new embedded catalog wins over older valid cache without deleting existing app data
-ok 35 - new embedded catalog wins over older valid cache without deleting existing app data
+ok 37 - new embedded catalog wins over older valid cache without deleting existing app data
   ---
-  duration_ms: 37.269542
+  duration_ms: 31.954542
   type: 'test'
   ...
 # Subtest: equal-version cache reuse avoids remote collection reads and cache writes
-ok 36 - equal-version cache reuse avoids remote collection reads and cache writes
+ok 38 - equal-version cache reuse avoids remote collection reads and cache writes
   ---
-  duration_ms: 9.128875
+  duration_ms: 9.324625
   type: 'test'
   ...
 # Subtest: newer compatible cache wins over embedded and older remote metadata is not fetched
-ok 37 - newer compatible cache wins over embedded and older remote metadata is not fetched
+ok 39 - newer compatible cache wins over embedded and older remote metadata is not fetched
   ---
-  duration_ms: 56.58475
+  duration_ms: 44.85825
   type: 'test'
   ...
 # Subtest: newer compatible remote wins, is cached and is reused offline
-ok 38 - newer compatible remote wins, is cached and is reused offline
+ok 40 - newer compatible remote wins, is cached and is reused offline
   ---
-  duration_ms: 49.216042
+  duration_ms: 42.01425
   type: 'test'
   ...
 # Subtest: older remote snapshot behind newer metadata cannot downgrade the newest local catalog
-ok 39 - older remote snapshot behind newer metadata cannot downgrade the newest local catalog
+ok 41 - older remote snapshot behind newer metadata cannot downgrade the newest local catalog
   ---
-  duration_ms: 33.822083
+  duration_ms: 23.568
   type: 'test'
   ...
 # Subtest: remote errors retain the newest safe local catalog
-ok 40 - remote errors retain the newest safe local catalog
+ok 42 - remote errors retain the newest safe local catalog
   ---
-  duration_ms: 38.091833
+  duration_ms: 34.117792
   type: 'test'
   ...
 # Subtest: metadata and snapshot timeouts retain the newest local catalog; late results are not cached
-ok 41 - metadata and snapshot timeouts retain the newest local catalog; late results are not cached
+ok 43 - metadata and snapshot timeouts retain the newest local catalog; late results are not cached
   ---
-  duration_ms: 10019.596792
+  duration_ms: 10026.786625
   type: 'test'
   ...
 # Subtest: malformed, incompatible and wrong-city caches and remote snapshots fail closed
-ok 42 - malformed, incompatible and wrong-city caches and remote snapshots fail closed
+ok 44 - malformed, incompatible and wrong-city caches and remote snapshots fail closed
   ---
-  duration_ms: 50.255042
+  duration_ms: 66.261333
   type: 'test'
   ...
 # Subtest: invalid, incompatible and wrong-city remote metadata is rejected before snapshot reads
-ok 43 - invalid, incompatible and wrong-city remote metadata is rejected before snapshot reads
+ok 45 - invalid, incompatible and wrong-city remote metadata is rejected before snapshot reads
   ---
-  duration_ms: 0.493375
+  duration_ms: 0.386708
   type: 'test'
   ...
 # Subtest: Home and Saved snapshots survive nested Plan → Place → Back, root Back and Close
-ok 44 - Home and Saved snapshots survive nested Plan → Place → Back, root Back and Close
+ok 46 - Home and Saved snapshots survive nested Plan → Place → Back, root Back and Close
   ---
-  duration_ms: 1.037625
+  duration_ms: 1.328542
   type: 'test'
   ...
 # Subtest: exact IDs resolve even when titles collide, rank changes or item is dismissed; stops retain catalog order
-ok 45 - exact IDs resolve even when titles collide, rank changes or item is dismissed; stops retain catalog order
+ok 47 - exact IDs resolve even when titles collide, rank changes or item is dismissed; stops retain catalog order
   ---
-  duration_ms: 0.598042
+  duration_ms: 0.634417
   type: 'test'
   ...
 # Subtest: atomic save/dismiss transitions reject saving a dismissed ID and restore to unsaved
-ok 46 - atomic save/dismiss transitions reject saving a dismissed ID and restore to unsaved
+ok 48 - atomic save/dismiss transitions reject saving a dismissed ID and restore to unsaved
   ---
-  duration_ms: 0.441667
+  duration_ms: 0.480458
   type: 'test'
   ...
 # Subtest: dismiss → local write/reload → remote queue keeps v5, chronology and existing allowlist
-ok 47 - dismiss → local write/reload → remote queue keeps v5, chronology and existing allowlist
+ok 49 - dismiss → local write/reload → remote queue keeps v5, chronology and existing allowlist
   ---
-  duration_ms: 0.615042
+  duration_ms: 0.64775
   type: 'test'
   ...
 # Subtest: eight-second latest dismissal resets timer, consumes undo once, ignores stale expiry and clears on exit/unmount
-ok 48 - eight-second latest dismissal resets timer, consumes undo once, ignores stale expiry and clears on exit/unmount
+ok 50 - eight-second latest dismissal resets timer, consumes undo once, ignores stale expiry and clears on exit/unmount
   ---
-  duration_ms: 0.202292
+  duration_ms: 0.217583
   type: 'test'
   ...
 # Subtest: Maps uses ordered coordinates, source is conditional and artwork ignores visible title
-ok 49 - Maps uses ordered coordinates, source is conditional and artwork ignores visible title
+ok 51 - Maps uses ordered coordinates, source is conditional and artwork ignores visible title
   ---
-  duration_ms: 0.399916
+  duration_ms: 0.419459
   type: 'test'
   ...
 # Subtest: actual host wires Android Back, modal focus, decorative artwork, wrapped content and measured footer clearance
-ok 50 - actual host wires Android Back, modal focus, decorative artwork, wrapped content and measured footer clearance
+ok 52 - actual host wires Android Back, modal focus, decorative artwork, wrapped content and measured footer clearance
   ---
-  duration_ms: 0.551584
+  duration_ms: 0.535917
   type: 'test'
   ...
 # Subtest: detail controls retain local manifest hashes and intrinsic geometry
-ok 51 - detail controls retain local manifest hashes and intrinsic geometry
+ok 53 - detail controls retain local manifest hashes and intrinsic geometry
   ---
-  duration_ms: 1.226167
+  duration_ms: 1.185417
   type: 'test'
   ...
 # Subtest: revisiting Plan A truncates Plan–Place cycles and preserves the surviving scroll, focus and reasons
-ok 52 - revisiting Plan A truncates Plan–Place cycles and preserves the surviving scroll, focus and reasons
+ok 54 - revisiting Plan A truncates Plan–Place cycles and preserves the surviving scroll, focus and reasons
   ---
-  duration_ms: 0.34775
+  duration_ms: 0.355375
   type: 'test'
   ...
 # Subtest: Plan metadata never renders the stable Experience ID and bookmarks use approved tokens
-ok 53 - Plan metadata never renders the stable Experience ID and bookmarks use approved tokens
+ok 55 - Plan metadata never renders the stable Experience ID and bookmarks use approved tokens
   ---
-  duration_ms: 0.473333
+  duration_ms: 0.506875
   type: 'test'
   ...
 # Subtest: native snackbar exit honors reduced motion and stops animations on replacement and unmount
-ok 54 - native snackbar exit honors reduced motion and stops animations on replacement and unmount
+ok 56 - native snackbar exit honors reduced motion and stops animations on replacement and unmount
   ---
-  duration_ms: 0.147542
+  duration_ms: 0.172209
   type: 'test'
   ...
 # Subtest: expiry ends undo at 8000 ms and removes presentation 180 ms later without restoring
-ok 55 - expiry ends undo at 8000 ms and removes presentation 180 ms later without restoring
+ok 57 - expiry ends undo at 8000 ms and removes presentation 180 ms later without restoring
   ---
-  duration_ms: 0.088833
+  duration_ms: 0.094458
   type: 'test'
   ...
 # Subtest: Detail chips read Plan and Place category/district from their own records and retain free-price formatting and wrap
-ok 56 - Detail chips read Plan and Place category/district from their own records and retain free-price formatting and wrap
+ok 58 - Detail chips read Plan and Place category/district from their own records and retain free-price formatting and wrap
   ---
-  duration_ms: 0.136042
+  duration_ms: 0.15275
   type: 'test'
   ...
 # Subtest: Event/Idea exact kind + ID resolution is independent of duplicate titles, time and URLs
-ok 57 - Event/Idea exact kind + ID resolution is independent of duplicate titles, time and URLs
+ok 59 - Event/Idea exact kind + ID resolution is independent of duplicate titles, time and URLs
   ---
-  duration_ms: 0.480958
+  duration_ms: 0.544375
   type: 'test'
   ...
 # Subtest: Event Maps requires structured data and exact city-matched Place; Idea never searches Maps
-ok 58 - Event Maps requires structured data and exact city-matched Place; Idea never searches Maps
+ok 60 - Event Maps requires structured data and exact city-matched Place; Idea never searches Maps
   ---
-  duration_ms: 21.261917
+  duration_ms: 37.797208
   type: 'test'
   ...
 # Subtest: Home inspects every family internally; Saved always includes internal inspection, no legacy Idea Alert
-ok 59 - Home inspects every family internally; Saved always includes internal inspection, no legacy Idea Alert
+ok 61 - Home inspects every family internally; Saved always includes internal inspection, no legacy Idea Alert
   ---
-  duration_ms: 0.640417
+  duration_ms: 0.975542
   type: 'test'
   ...
 # Subtest: all 52 ordered starts resolve uniquely and pass the full coordinate audit
-ok 60 - all 52 ordered starts resolve uniquely and pass the full coordinate audit
+ok 62 - all 52 ordered starts resolve uniquely and pass the full coordinate audit
   ---
-  duration_ms: 2.531541
+  duration_ms: 1.817459
   type: 'test'
   ...
 # Subtest: audit diagnoses mismatches, absent/ambiguous links, no stops and invalid coordinates
-ok 61 - audit diagnoses mismatches, absent/ambiguous links, no stops and invalid coordinates
+ok 63 - audit diagnoses mismatches, absent/ambiguous links, no stops and invalid coordinates
   ---
-  duration_ms: 0.278959
+  duration_ms: 0.217334
   type: 'test'
   ...
 # Subtest: one-decimal distance boundaries preserve Place formatting and use Turkish decimal for starts
-ok 62 - one-decimal distance boundaries preserve Place formatting and use Turkish decimal for starts
+ok 64 - one-decimal distance boundaries preserve Place formatting and use Turkish decimal for starts
   ---
-  duration_ms: 1.069833
+  duration_ms: 0.11275
   type: 'test'
   ...
 # Subtest: distance targets only the first ordered point, ignoring route anchor and other stops
-ok 63 - distance targets only the first ordered point, ignoring route anchor and other stops
+ok 65 - distance targets only the first ordered point, ignoring route anchor and other stops
   ---
-  duration_ms: 0.243458
+  duration_ms: 1.285416
   type: 'test'
   ...
 # Subtest: unavailable and invalid user/start coordinates omit the label
-ok 64 - unavailable and invalid user/start coordinates omit the label
+ok 66 - unavailable and invalid user/start coordinates omit the label
   ---
-  duration_ms: 0.845083
+  duration_ms: 0.095916
   type: 'test'
   ...
 # Subtest: display-only location cannot mutate the recommendation batch, seed or previous IDs
-ok 65 - display-only location cannot mutate the recommendation batch, seed or previous IDs
+ok 67 - display-only location cannot mutate the recommendation batch, seed or previous IDs
   ---
-  duration_ms: 12.866959
+  duration_ms: 33.735209
   type: 'test'
   ...
 # Subtest: existing Experience eligibility is location-independent but scoring and explanations consume it
-ok 66 - existing Experience eligibility is location-independent but scoring and explanations consume it
+ok 68 - existing Experience eligibility is location-independent but scoring and explanations consume it
   ---
-  duration_ms: 20.440166
+  duration_ms: 80.725042
   type: 'test'
   ...
 # Subtest: existing Place numeric precision and Home output are unchanged
-ok 67 - existing Place numeric precision and Home output are unchanged
+ok 69 - existing Place numeric precision and Home output are unchanged
   ---
-  duration_ms: 0.225958
+  duration_ms: 0.703
   type: 'test'
   ...
 # Subtest: request generations reject superseded, obsolete and unmounted callbacks
-ok 68 - request generations reject superseded, obsolete and unmounted callbacks
+ok 70 - request generations reject superseded, obsolete and unmounted callbacks
   ---
-  duration_ms: 0.688834
+  duration_ms: 12.698459
   type: 'test'
   ...
 # Subtest: read-only active/focus checks debounce a burst and preserve valid location
-ok 69 - read-only active/focus checks debounce a burst and preserve valid location
+ok 71 - read-only active/focus checks debounce a burst and preserve valid location
   ---
-  duration_ms: 9.714625
+  duration_ms: 15.127208
   type: 'test'
   ...
 # Subtest: disabled services and revoked/undetermined permissions fail closed on return
-ok 70 - disabled services and revoked/undetermined permissions fail closed on return
+ok 72 - disabled services and revoked/undetermined permissions fail closed on return
   ---
-  duration_ms: 16.688209
+  duration_ms: 8.926
   type: 'test'
   ...
 # Subtest: either failed status read fails closed, including synchronous native errors
-ok 71 - either failed status read fails closed, including synchronous native errors
+ok 73 - either failed status read fails closed, including synchronous native errors
   ---
-  duration_ms: 2.75225
+  duration_ms: 0.92175
   type: 'test'
   ...
 # Subtest: a status check cannot clear an explicit location acquired after that check began
-ok 72 - a status check cannot clear an explicit location acquired after that check began
+ok 74 - a status check cannot clear an explicit location acquired after that check began
   ---
-  duration_ms: 2.619459
+  duration_ms: 2.510584
   type: 'test'
   ...
 # Subtest: duplicate in-flight signals share a single native check without a trailing duplicate
-ok 73 - duplicate in-flight signals share a single native check without a trailing duplicate
+ok 75 - duplicate in-flight signals share a single native check without a trailing duplicate
   ---
-  duration_ms: 11.296042
+  duration_ms: 5.16775
   type: 'test'
   ...
 # Subtest: rapid departure/return ignores the old response and serializes the newest check
-ok 74 - rapid departure/return ignores the old response and serializes the newest check
+ok 76 - rapid departure/return ignores the old response and serializes the newest check
   ---
-  duration_ms: 0.993667
+  duration_ms: 4.556
   type: 'test'
   ...
 # Subtest: one failed read cannot release the serial gate before the other native read settles
-ok 75 - one failed read cannot release the serial gate before the other native read settles
+ok 77 - one failed read cannot release the serial gate before the other native read settles
   ---
-  duration_ms: 2.904625
+  duration_ms: 1.596292
   type: 'test'
   ...
 # Subtest: pause cancels a scheduled check; unmount cancels timers and rejects late updates
-ok 76 - pause cancels a scheduled check; unmount cancels timers and rejects late updates
+ok 78 - pause cancels a scheduled check; unmount cancels timers and rejects late updates
   ---
-  duration_ms: 5.128625
+  duration_ms: 0.956917
   type: 'test'
   ...
 # Subtest: Place presentation clears cached distance without changing the scored batch or its ordering
-ok 77 - Place presentation clears cached distance without changing the scored batch or its ordering
+ok 79 - Place presentation clears cached distance without changing the scored batch or its ordering
   ---
-  duration_ms: 25.836375
+  duration_ms: 39.759792
   type: 'test'
   ...
 # Subtest: batch preflight skips native APIs/deadlines when there is no cached fix
-ok 78 - batch preflight skips native APIs/deadlines when there is no cached fix
+ok 80 - batch preflight skips native APIs/deadlines when there is no cached fix
   ---
-  duration_ms: 0.644875
+  duration_ms: 0.238208
   type: 'test'
   ...
 # Subtest: every successive located batch reads both services and permission again
-ok 79 - every successive located batch reads both services and permission again
+ok 81 - every successive located batch reads both services and permission again
   ---
-  duration_ms: 1.150542
+  duration_ms: 0.167708
   type: 'test'
   ...
 # Subtest: batch preflight fails closed on disabled, denied, malformed and failed native reads
-ok 80 - batch preflight fails closed on disabled, denied, malformed and failed native reads
+ok 82 - batch preflight fails closed on disabled, denied, malformed and failed native reads
   ---
-  duration_ms: 0.836
+  duration_ms: 0.42475
   type: 'test'
   ...
 # Subtest: hung services or permission hits one deadline, clears cache and ignores late success/rejection
-ok 81 - hung services or permission hits one deadline, clears cache and ignores late success/rejection
+ok 83 - hung services or permission hits one deadline, clears cache and ignores late success/rejection
   ---
-  duration_ms: 5.909667
+  duration_ms: 3.098041
   type: 'test'
   ...
 # Subtest: each concurrent batch starts fresh reads without reusing pending or completed results
-ok 82 - each concurrent batch starts fresh reads without reusing pending or completed results
+ok 84 - each concurrent batch starts fresh reads without reusing pending or completed results
   ---
-  duration_ms: 0.986
+  duration_ms: 1.201083
   type: 'test'
   ...
 # Subtest: a new action cannot reuse an older pair with services already settled before a silent disable
-ok 83 - a new action cannot reuse an older pair with services already settled before a silent disable
+ok 85 - a new action cannot reuse an older pair with services already settled before a silent disable
   ---
-  duration_ms: 0.939667
+  duration_ms: 0.467666
   type: 'test'
   ...
 # Subtest: an old negative pair cannot clear a fix freshly validated by a later batch
-ok 84 - an old negative pair cannot clear a fix freshly validated by a later batch
+ok 86 - an old negative pair cannot clear a fix freshly validated by a later batch
   ---
-  duration_ms: 2.913667
+  duration_ms: 0.485125
   type: 'test'
   ...
 # Subtest: superseding/unmounting cancels the deadline and prevents old preflight clearing a newer fix
-ok 85 - superseding/unmounting cancels the deadline and prevents old preflight clearing a newer fix
+ok 87 - superseding/unmounting cancels the deadline and prevents old preflight clearing a newer fix
   ---
-  duration_ms: 1.296417
+  duration_ms: 1.007167
   type: 'test'
   ...
 # Subtest: status recovery alone cannot restore discarded location or proximity scores
-ok 86 - status recovery alone cannot restore discarded location or proximity scores
+ok 88 - status recovery alone cannot restore discarded location or proximity scores
   ---
-  duration_ms: 15.133125
+  duration_ms: 10.19775
   type: 'test'
   ...
 # Subtest: filter diagnostics separate cold/warm commits and discard superseded frame opportunities
-ok 87 - filter diagnostics separate cold/warm commits and discard superseded frame opportunities
+ok 89 - filter diagnostics separate cold/warm commits and discard superseded frame opportunities
   ---
-  duration_ms: 6.556917
+  duration_ms: 2.266125
   type: 'test'
   ...
 # Subtest: Home artwork uses stable content identity independent of title or mutable categories
-ok 88 - Home artwork uses stable content identity independent of title or mutable categories
+ok 90 - Home artwork uses stable content identity independent of title or mutable categories
   ---
-  duration_ms: 0.330041
+  duration_ms: 1.049667
   type: 'test'
   ...
 # Subtest: Home metadata uses actual distances, durations, stop counts and prices
-ok 89 - Home metadata uses actual distances, durations, stop counts and prices
+ok 91 - Home metadata uses actual distances, durations, stop counts and prices
   ---
-  duration_ms: 3.161625
+  duration_ms: 1.133667
   type: 'test'
   ...
 # Subtest: Home action copy preserves each content kind and optional Idea action
-ok 90 - Home action copy preserves each content kind and optional Idea action
+ok 92 - Home action copy preserves each content kind and optional Idea action
   ---
-  duration_ms: 0.588041
+  duration_ms: 0.112167
   type: 'test'
   ...
 # Subtest: Planı incele opens the exact selected internal plan rather than an external action
-ok 91 - Planı incele opens the exact selected internal plan rather than an external action
+ok 93 - Planı incele opens the exact selected internal plan rather than an external action
   ---
-  duration_ms: 7.795833
+  duration_ms: 1.944834
   type: 'test'
   ...
 # Subtest: plans sharing a place keep distinct selected IDs; titles are not navigation keys
-ok 92 - plans sharing a place keep distinct selected IDs; titles are not navigation keys
+ok 94 - plans sharing a place keep distinct selected IDs; titles are not navigation keys
   ---
-  duration_ms: 0.202583
+  duration_ms: 0.104875
   type: 'test'
   ...
 # Subtest: real catalog plan URLs preserve the selected point IDs, coordinates and order
-ok 93 - real catalog plan URLs preserve the selected point IDs, coordinates and order
+ok 95 - real catalog plan URLs preserve the selected point IDs, coordinates and order
   ---
-  duration_ms: 0.950458
+  duration_ms: 0.851292
   type: 'test'
   ...
 # Subtest: every package record and live recommendation item resolves with intact responsive geometry
-ok 94 - every package record and live recommendation item resolves with intact responsive geometry
+ok 96 - every package record and live recommendation item resolves with intact responsive geometry
   ---
-  duration_ms: 8.64075
+  duration_ms: 6.930125
   type: 'test'
   ...
 # Subtest: generated assets equal local files and recorded checksums, including verified proof exports
-ok 95 - generated assets equal local files and recorded checksums, including verified proof exports
+ok 97 - generated assets equal local files and recorded checksums, including verified proof exports
   ---
-  duration_ms: 57.582042
+  duration_ms: 69.499625
   type: 'test'
   ...
 # Subtest: fallback order rejects unverified media and never guesses from titles
-ok 96 - fallback order rejects unverified media and never guesses from titles
+ok 98 - fallback order rejects unverified media and never guesses from titles
   ---
-  duration_ms: 0.512666
+  duration_ms: 0.78075
   type: 'test'
   ...
 # Subtest: current Events carry reviewed structured mappings and unknown Events fail closed without title reads
-ok 97 - current Events carry reviewed structured mappings and unknown Events fail closed without title reads
+ok 99 - current Events carry reviewed structured mappings and unknown Events fail closed without title reads
   ---
-  duration_ms: 29.143292
+  duration_ms: 50.514958
   type: 'test'
   ...
 # Subtest: asset generation is byte-identical and acoustic export authority stays intact
-ok 98 - asset generation is byte-identical and acoustic export authority stays intact
+ok 100 - asset generation is byte-identical and acoustic export authority stays intact
   ---
-  duration_ms: 220.076084
+  duration_ms: 207.286667
   type: 'test'
   ...
 # Subtest: Experience, Place and Idea inventory remains unchanged from audited main
-ok 99 - Experience, Place and Idea inventory remains unchanged from audited main
+ok 101 - Experience, Place and Idea inventory remains unchanged from audited main
   ---
-  duration_ms: 1.259875
+  duration_ms: 1.216542
   type: 'test'
   ...
 # Subtest: Event facts remain byte-identical to audited current catalog
-ok 100 - Event facts remain byte-identical to audited current catalog
+ok 102 - Event facts remain byte-identical to audited current catalog
   ---
-  duration_ms: 0.577625
+  duration_ms: 0.155417
   type: 'test'
   ...
 # Subtest: recommendation golden output equals audited main, including ordering and reasons
-ok 101 - recommendation golden output equals audited main, including ordering and reasons
+ok 103 - recommendation golden output equals audited main, including ordering and reasons
   ---
-  duration_ms: 264.910666
+  duration_ms: 211.207375
   type: 'test'
   ...
 # Subtest: approved acoustic SVG bytes are preserved from the authoritative export
-ok 102 - approved acoustic SVG bytes are preserved from the authoritative export
+ok 104 - approved acoustic SVG bytes are preserved from the authoritative export
   ---
-  duration_ms: 0.411416
+  duration_ms: 0.389
   type: 'test'
   ...
 # Subtest: four first visits compute once; 20 warm cycles preserve exact batch objects, IDs and ordering
-ok 103 - four first visits compute once; 20 warm cycles preserve exact batch objects, IDs and ordering
+ok 105 - four first visits compute once; 20 warm cycles preserve exact batch objects, IDs and ordering
   ---
-  duration_ms: 84.6545
+  duration_ms: 113.214667
   type: 'test'
   ...
 # Subtest: explicit refresh advances only active seed and records that filter’s ordered previous batch
-ok 104 - explicit refresh advances only active seed and records that filter’s ordered previous batch
+ok 106 - explicit refresh advances only active seed and records that filter’s ordered previous batch
   ---
-  duration_ms: 0.11775
+  duration_ms: 0.341542
   type: 'test'
   ...
 # Subtest: Preference Apply invalidates all four without rotating; Cancel leaves all keys valid
-ok 105 - Preference Apply invalidates all four without rotating; Cancel leaves all keys valid
+ok 107 - Preference Apply invalidates all four without rotating; Cancel leaves all keys valid
   ---
-  duration_ms: 0.167416
+  duration_ms: 0.444875
   type: 'test'
   ...
 # Subtest: equivalent selected catalogs/fetchedAt do not invalidate; payload changes invalidate affected kinds
-ok 106 - equivalent selected catalogs/fetchedAt do not invalidate; payload changes invalidate affected kinds
+ok 108 - equivalent selected catalogs/fetchedAt do not invalidate; payload changes invalidate affected kinds
   ---
-  duration_ms: 18.027417
+  duration_ms: 14.329333
   type: 'test'
   ...
 # Subtest: dismiss/Undo affect only the owning surface; restored content is unsaved
-ok 107 - dismiss/Undo affect only the owning surface; restored content is unsaved
+ok 109 - dismiss/Undo affect only the owning surface; restored content is unsaved
   ---
-  duration_ms: 0.244583
+  duration_ms: 0.236042
   type: 'test'
   ...
 # Subtest: Saved and location presentation are absent from snapshot identity
-ok 108 - Saved and location presentation are absent from snapshot identity
+ok 110 - Saved and location presentation are absent from snapshot identity
   ---
-  duration_ms: 0.13125
+  duration_ms: 0.096792
   type: 'test'
   ...
 # Subtest: known eligibility boundary invalidates Event/Experience only; Event retry invalidates Event only
-ok 109 - known eligibility boundary invalidates Event/Experience only; Event retry invalidates Event only
+ok 111 - known eligibility boundary invalidates Event/Experience only; Event retry invalidates Event only
   ---
-  duration_ms: 0.095125
+  duration_ms: 0.086917
   type: 'test'
   ...
 # Subtest: identical direct inputs retain deterministic scoring and output through cache and explicit rotation
-ok 110 - identical direct inputs retain deterministic scoring and output through cache and explicit rotation
+ok 112 - identical direct inputs retain deterministic scoring and output through cache and explicit rotation
   ---
-  duration_ms: 167.0555
+  duration_ms: 141.03475
   type: 'test'
   ...
 # Subtest: fresh empty storage opens Welcome; completed legacy users with empty interests bypass first run
-ok 111 - fresh empty storage opens Welcome; completed legacy users with empty interests bypass first run
+ok 113 - fresh empty storage opens Welcome; completed legacy users with empty interests bypass first run
   ---
-  duration_ms: 1.808792
+  duration_ms: 3.0825
   type: 'test'
   ...
 # Subtest: incomplete legacy snapshot with zero interests resumes Interests and cannot continue
-ok 112 - incomplete legacy snapshot with zero interests resumes Interests and cannot continue
+ok 114 - incomplete legacy snapshot with zero interests resumes Interests and cannot continue
   ---
-  duration_ms: 0.135
+  duration_ms: 0.297917
   type: 'test'
   ...
 # Subtest: zero disables, one enables, deselecting the last disables, with no maximum
-ok 113 - zero disables, one enables, deselecting the last disables, with no maximum
+ok 115 - zero disables, one enables, deselecting the last disables, with no maximum
   ---
-  duration_ms: 0.122666
+  duration_ms: 0.276042
   type: 'test'
   ...
 # Subtest: exact ordered flow and complete Back chain preserve every draft selection
-ok 114 - exact ordered flow and complete Back chain preserve every draft selection
+ok 116 - exact ordered flow and complete Back chain preserve every draft selection
   ---
-  duration_ms: 0.984833
+  duration_ms: 1.051875
   type: 'test'
   ...
 # Subtest: back/forward through Interests preserves multiple choices and session-local changes
-ok 115 - back/forward through Interests preserves multiple choices and session-local changes
+ok 117 - back/forward through Interests preserves multiple choices and session-local changes
   ---
-  duration_ms: 0.172042
+  duration_ms: 0.179458
   type: 'test'
   ...
 # Subtest: answers cannot mutate other fields and preparation ignores answer/navigation actions
-ok 116 - answers cannot mutate other fields and preparation ignores answer/navigation actions
+ok 118 - answers cannot mutate other fields and preparation ignores answer/navigation actions
   ---
-  duration_ms: 0.202375
+  duration_ms: 0.166166
   type: 'test'
   ...
 # Subtest: atomic commit writes once, preserves interactions, and publishes success only after the promise
-ok 117 - atomic commit writes once, preserves interactions, and publishes success only after the promise
+ok 119 - atomic commit writes once, preserves interactions, and publishes success only after the promise
   ---
-  duration_ms: 2.72575
+  duration_ms: 4.174667
   type: 'test'
   ...
 # Subtest: write failure leaves completion false and Ready can safely retry without losing drafts
-ok 118 - write failure leaves completion false and Ready can safely retry without losing drafts
+ok 120 - write failure leaves completion false and Ready can safely retry without losing drafts
   ---
-  duration_ms: 0.294583
+  duration_ms: 0.3035
   type: 'test'
   ...
 # Subtest: invalid final state cannot write; completing/restarting remains compatible with v5
-ok 119 - invalid final state cannot write; completing/restarting remains compatible with v5
+ok 121 - invalid final state cannot write; completing/restarting remains compatible with v5
   ---
-  duration_ms: 0.442833
+  duration_ms: 0.427375
   type: 'test'
   ...
 # Subtest: Bedava is presentation-only; identical domain selections produce identical recommendation inputs/results
-ok 120 - Bedava is presentation-only; identical domain selections produce identical recommendation inputs/results
+ok 122 - Bedava is presentation-only; identical domain selections produce identical recommendation inputs/results
   ---
-  duration_ms: 56.470583
+  duration_ms: 46.285792
   type: 'test'
   ...
 # Subtest: PR \#74 editor continues accepting empty interests independently of the first-run guard
-ok 121 - PR \#74 editor continues accepting empty interests independently of the first-run guard
+ok 123 - PR \#74 editor continues accepting empty interests independently of the first-run guard
   ---
-  duration_ms: 0.62725
+  duration_ms: 0.561584
   type: 'test'
   ...
 # Subtest: runtime uses separate draft host, shared Android Back reducer, guarded write, and existing editor destinations
-ok 122 - runtime uses separate draft host, shared Android Back reducer, guarded write, and existing editor destinations
+ok 124 - runtime uses separate draft host, shared Android Back reducer, guarded write, and existing editor destinations
   ---
-  duration_ms: 1.549791
+  duration_ms: 18.543292
   type: 'test'
   ...
 # Subtest: scalable layout/44 px targets, explicit selected/busy/disabled semantics, local art and OS motion fallback
-ok 123 - scalable layout/44 px targets, explicit selected/busy/disabled semantics, local art and OS motion fallback
+ok 125 - scalable layout/44 px targets, explicit selected/busy/disabled semantics, local art and OS motion fallback
   ---
-  duration_ms: 0.657
+  duration_ms: 1.371417
   type: 'test'
   ...
 # Subtest: exact local asset manifest/registry preserve every nonempty export and root geometry
-ok 124 - exact local asset manifest/registry preserve every nonempty export and root geometry
+ok 126 - exact local asset manifest/registry preserve every nonempty export and root geometry
   ---
-  duration_ms: 68.605584
+  duration_ms: 124.118667
   type: 'test'
   ...
 # Subtest: incoming translation is constructed on the correct side; committed layout starts motion and only success focuses
-ok 125 - incoming translation is constructed on the correct side; committed layout starts motion and only success focuses
+ok 127 - incoming translation is constructed on the correct side; committed layout starts motion and only success focuses
   ---
-  duration_ms: 1.111667
+  duration_ms: 0.333542
   type: 'test'
   ...
 # Subtest: rapid replacement cancels stale completions and queued focus, including late callbacks after stop
-ok 126 - rapid replacement cancels stale completions and queued focus, including late callbacks after stop
+ok 128 - rapid replacement cancels stale completions and queued focus, including late callbacks after stop
   ---
-  duration_ms: 0.377875
+  duration_ms: 0.117542
   type: 'test'
   ...
 # Subtest: Reduced Motion never starts a slide; live reduction settles once and suppresses stale animation completion
-ok 127 - Reduced Motion never starts a slide; live reduction settles once and suppresses stale animation completion
+ok 129 - Reduced Motion never starts a slide; live reduction settles once and suppresses stale animation completion
   ---
-  duration_ms: 0.121209
+  duration_ms: 0.085
   type: 'test'
   ...
 # Subtest: scene commits its own initial Animated.Value; revision key/layout lifecycle and immutable asset cache stay onboarding-only
-ok 128 - scene commits its own initial Animated.Value; revision key/layout lifecycle and immutable asset cache stay onboarding-only
+ok 130 - scene commits its own initial Animated.Value; revision key/layout lifecycle and immutable asset cache stay onboarding-only
   ---
-  duration_ms: 0.345
+  duration_ms: 0.310166
   type: 'test'
   ...
 # Subtest: fast-start native slide stays within forward/Back motion budgets without adding staging delay
-ok 129 - fast-start native slide stays within forward/Back motion budgets without adding staging delay
+ok 131 - fast-start native slide stays within forward/Back motion budgets without adding staging delay
   ---
-  duration_ms: 0.172542
+  duration_ms: 0.361875
   type: 'test'
   ...
 # Subtest: only the surviving settled slide can enable its decorative lifecycle
-ok 130 - only the surviving settled slide can enable its decorative lifecycle
+ok 132 - only the surviving settled slide can enable its decorative lifecycle
   ---
-  duration_ms: 0.333167
+  duration_ms: 0.077125
   type: 'test'
   ...
 # Subtest: mid-slide Reduced Motion publishes one settled state and discards the old callback
-ok 131 - mid-slide Reduced Motion publishes one settled state and discards the old callback
+ok 133 - mid-slide Reduced Motion publishes one settled state and discards the old callback
   ---
-  duration_ms: 0.087792
+  duration_ms: 0.0565
   type: 'test'
   ...
 # Subtest: decorative clocks are finite, memoized, gated after slide and detach on completion/unmount
-ok 132 - decorative clocks are finite, memoized, gated after slide and detach on completion/unmount
+ok 134 - decorative clocks are finite, memoized, gated after slide and detach on completion/unmount
   ---
-  duration_ms: 0.477167
+  duration_ms: 0.343167
   type: 'test'
   ...
 # Subtest: Ready has a separate keyed static host using the unchanged approved check; spinner cleans up at layout replacement
-ok 133 - Ready has a separate keyed static host using the unchanged approved check; spinner cleans up at layout replacement
+ok 135 - Ready has a separate keyed static host using the unchanged approved check; spinner cleans up at layout replacement
   ---
-  duration_ms: 0.724833
+  duration_ms: 0.590333
   type: 'test'
   ...
 # Subtest: every route leaf begins at settlement without a second entry delay and retains its approved trim duration
-ok 134 - every route leaf begins at settlement without a second entry delay and retains its approved trim duration
+ok 136 - every route leaf begins at settlement without a second entry delay and retains its approved trim duration
   ---
-  duration_ms: 0.16725
+  duration_ms: 0.136375
   type: 'test'
   ...
 # Subtest: canonical v5 remains authoritative and stale legacy copies are cleaned
-ok 135 - canonical v5 remains authoritative and stale legacy copies are cleaned
+ok 137 - canonical v5 remains authoritative and stale legacy copies are cleaned
   ---
-  duration_ms: 1.174
+  duration_ms: 1.112375
   type: 'test'
   ...
 # Subtest: v4 is persisted to v5 before any legacy key is removed
-ok 136 - v4 is persisted to v5 before any legacy key is removed
+ok 138 - v4 is persisted to v5 before any legacy key is removed
   ---
-  duration_ms: 0.709458
+  duration_ms: 0.31925
   type: 'test'
   ...
 # Subtest: multiple legacy copies preserve newest-supported precedence before cleanup
-ok 137 - multiple legacy copies preserve newest-supported precedence before cleanup
+ok 139 - multiple legacy copies preserve newest-supported precedence before cleanup
   ---
-  duration_ms: 0.236792
+  duration_ms: 0.211791
   type: 'test'
   ...
 # Subtest: a failed canonical write returns migrated preferences and preserves every legacy copy
-ok 138 - a failed canonical write returns migrated preferences and preserves every legacy copy
+ok 140 - a failed canonical write returns migrated preferences and preserves every legacy copy
   ---
-  duration_ms: 0.486875
+  duration_ms: 0.114417
   type: 'test'
   ...
 # Subtest: legacy cleanup failure after a successful write does not hide usable v5 state
-ok 139 - legacy cleanup failure after a successful write does not hide usable v5 state
+ok 141 - legacy cleanup failure after a successful write does not hide usable v5 state
   ---
-  duration_ms: 0.593875
+  duration_ms: 0.132542
   type: 'test'
   ...
 # Subtest: repeated legacy migration is idempotent
-ok 140 - repeated legacy migration is idempotent
+ok 142 - repeated legacy migration is idempotent
   ---
-  duration_ms: 4.047291
+  duration_ms: 1.284375
   type: 'test'
   ...
 # Subtest: clearPreferences still removes canonical and every legacy key
-ok 141 - clearPreferences still removes canonical and every legacy key
+ok 143 - clearPreferences still removes canonical and every legacy key
   ---
-  duration_ms: 0.135375
+  duration_ms: 0.223292
   type: 'test'
   ...
 # Subtest: legacy canonicalization preserves current field migration and sanitization
-ok 142 - legacy canonicalization preserves current field migration and sanitization
+ok 144 - legacy canonicalization preserves current field migration and sanitization
   ---
-  duration_ms: 0.2615
+  duration_ms: 0.245834
   type: 'test'
   ...
 # Subtest: malformed legacy JSON remains retryable and is not promoted or cleaned
-ok 143 - malformed legacy JSON remains retryable and is not promoted or cleaned
+ok 145 - malformed legacy JSON remains retryable and is not promoted or cleaned
   ---
-  duration_ms: 0.322708
+  duration_ms: 0.290542
   type: 'test'
   ...
 # Subtest: malformed v5 keeps current no-fallback behavior without deleting legacy data
-ok 144 - malformed v5 keeps current no-fallback behavior without deleting legacy data
+ok 146 - malformed v5 keeps current no-fallback behavior without deleting legacy data
   ---
-  duration_ms: 0.828166
+  duration_ms: 0.329
   type: 'test'
   ...
 # Subtest: truthful precedence covers failure, real busy, empty, dismissal, budget and populated
-ok 145 - truthful precedence covers failure, real busy, empty, dismissal, budget and populated
+ok 147 - truthful precedence covers failure, real busy, empty, dismissal, budget and populated
   ---
-  duration_ms: 2.173541
+  duration_ms: 2.658375
   type: 'test'
   ...
 # Subtest: exhaustive valid preferences × current/empty/expired/free/mixed catalogs × dismissal scenarios
-ok 146 - exhaustive valid preferences × current/empty/expired/free/mixed catalogs × dismissal scenarios
+ok 148 - exhaustive valid preferences × current/empty/expired/free/mixed catalogs × dismissal scenarios
   ---
-  duration_ms: 1125.564791
+  duration_ms: 1104.971292
   type: 'test'
   ...
 # Subtest: all nine production Event dismissal subsets, budgets, and rotation fallback classify without leakage
-ok 147 - all nine production Event dismissal subsets, budgets, and rotation fallback classify without leakage
+ok 149 - all nine production Event dismissal subsets, budgets, and rotation fallback classify without leakage
   ---
-  duration_ms: 35.800917
+  duration_ms: 34.593792
   type: 'test'
   ...
 # Subtest: budget-relaxed diagnostics are isolated from visible free results and input state
-ok 148 - budget-relaxed diagnostics are isolated from visible free results and input state
+ok 150 - budget-relaxed diagnostics are isolated from visible free results and input state
   ---
-  duration_ms: 1.012208
+  duration_ms: 0.926083
   type: 'test'
   ...
 # Subtest: Event restore uses the full eligible set beyond five ranked cards and preserves saved and non-Event dismissals
-ok 149 - Event restore uses the full eligible set beyond five ranked cards and preserves saved and non-Event dismissals
+ok 151 - Event restore uses the full eligible set beyond five ranked cards and preserves saved and non-Event dismissals
   ---
-  duration_ms: 0.22125
+  duration_ms: 0.211875
   type: 'test'
   ...
 # Subtest: failed remote refresh with usable embedded/cache fallback never becomes total load error
-ok 150 - failed remote refresh with usable embedded/cache fallback never becomes total load error
+ok 152 - failed remote refresh with usable embedded/cache fallback never becomes total load error
   ---
-  duration_ms: 11.317792
+  duration_ms: 11.231542
   type: 'test'
   ...
 # Subtest: retry busy settles immediately with success, failure or safe fallback; no prototype delay
-ok 151 - retry busy settles immediately with success, failure or safe fallback; no prototype delay
+ok 153 - retry busy settles immediately with success, failure or safe fallback; no prototype delay
   ---
-  duration_ms: 0.357666
+  duration_ms: 0.349875
   type: 'test'
   ...
 # Subtest: editor Cancel, Back and Close never mutate persisted preferences or the actual Home context
-ok 152 - editor Cancel, Back and Close never mutate persisted preferences or the actual Home context
+ok 154 - editor Cancel, Back and Close never mutate persisted preferences or the actual Home context
   ---
-  duration_ms: 0.266375
+  duration_ms: 0.290875
   type: 'test'
   ...
 # Subtest: overview Apply stores the approved draft atomically; onboarding and interactions remain true/preserved
-ok 153 - overview Apply stores the approved draft atomically; onboarding and interactions remain true/preserved
+ok 155 - overview Apply stores the approved draft atomically; onboarding and interactions remain true/preserved
   ---
-  duration_ms: 0.322166
+  duration_ms: 0.322125
   type: 'test'
   ...
 # Subtest: budget-only Apply mutates budget only, even if a multi-field update is attempted
-ok 154 - budget-only Apply mutates budget only, even if a multi-field update is attempted
+ok 156 - budget-only Apply mutates budget only, even if a multi-field update is attempted
   ---
-  duration_ms: 0.360125
+  duration_ms: 0.333125
   type: 'test'
   ...
 # Subtest: presentation uses instant modal replacement for normal/reduced motion and never adds decorative date controls
-ok 155 - presentation uses instant modal replacement for normal/reduced motion and never adds decorative date controls
+ok 157 - presentation uses instant modal replacement for normal/reduced motion and never adds decorative date controls
   ---
-  duration_ms: 0.255
+  duration_ms: 0.251792
   type: 'test'
   ...
 # Subtest: downloaded Figma assets retain bytes, root dimensions and complete local registries
-ok 156 - downloaded Figma assets retain bytes, root dimensions and complete local registries
+ok 158 - downloaded Figma assets retain bytes, root dimensions and complete local registries
   ---
-  duration_ms: 10.374792
+  duration_ms: 9.896292
   type: 'test'
   ...
 # Subtest: all Preference Editor close controls reuse the approved SVG, never a baseline-dependent text glyph
-ok 157 - all Preference Editor close controls reuse the approved SVG, never a baseline-dependent text glyph
+ok 159 - all Preference Editor close controls reuse the approved SVG, never a baseline-dependent text glyph
   ---
-  duration_ms: 1.787375
+  duration_ms: 1.529709
   type: 'test'
   ...
 # Subtest: all 52 Experiences match the duration oracle through direct and public paths
-ok 158 - all 52 Experiences match the duration oracle through direct and public paths
+ok 160 - all 52 Experiences match the duration oracle through direct and public paths
   ---
-  duration_ms: 42.741166
+  duration_ms: 34.102
   type: 'test'
   ...
 # Subtest: generated duration boundary matrix matches independent available-time oracle
-ok 159 - generated duration boundary matrix matches independent available-time oracle
+ok 161 - generated duration boundary matrix matches independent available-time oracle
   ---
-  duration_ms: 0.781416
+  duration_ms: 0.759292
   type: 'test'
   ...
 # Subtest: approved crossing ranges fit their maximum without optimistic minimum fallback
-ok 160 - approved crossing ranges fit their maximum without optimistic minimum fallback
+ok 162 - approved crossing ranges fit their maximum without optimistic minimum fallback
   ---
-  duration_ms: 0.071041
+  duration_ms: 0.072875
   type: 'test'
   ...
 # Subtest: duration fit is bounded at 16, targets the displayed midpoint and is absent when unrestricted
-ok 161 - duration fit is bounded at 16, targets the displayed midpoint and is absent when unrestricted
+ok 163 - duration fit is bounded at 16, targets the displayed midpoint and is absent when unrestricted
   ---
-  duration_ms: 9.677166
+  duration_ms: 9.345583
   type: 'test'
   ...
 # Subtest: better duration fit wins among equivalent plans across seeds; shorter fallback stays available
-ok 162 - better duration fit wins among equivalent plans across seeds; shorter fallback stays available
+ok 164 - better duration fit wins among equivalent plans across seeds; shorter fallback stays available
   ---
-  duration_ms: 8.982584
+  duration_ms: 7.890458
   type: 'test'
   ...
 # Subtest: primary-interest priority beats duration fit and higher secondary raw scores
-ok 163 - primary-interest priority beats duration fit and higher secondary raw scores
+ok 165 - primary-interest priority beats duration fit and higher secondary raw scores
   ---
-  duration_ms: 0.673833
+  duration_ms: 0.30175
   type: 'test'
   ...
 # Subtest: free is hard on every surface, including empty/partial and previous-batch fallback
-ok 164 - free is hard on every surface, including empty/partial and previous-batch fallback
+ok 166 - free is hard on every surface, including empty/partial and previous-batch fallback
   ---
-  duration_ms: 1.488042
+  duration_ms: 2.457208
   type: 'test'
   ...
 # Subtest: embedded free-budget supply remains paid-free across interests, duration, seeds and rotations
-ok 165 - embedded free-budget supply remains paid-free across interests, duration, seeds and rotations
+ok 167 - embedded free-budget supply remains paid-free across interests, duration, seeds and rotations
   ---
-  duration_ms: 4415.729916
+  duration_ms: 4514.777917
   type: 'test'
   ...
 # Subtest: budget explanations use exact structured prices on all scoring paths
-ok 166 - budget explanations use exact structured prices on all scoring paths
+ok 168 - budget explanations use exact structured prices on all scoring paths
   ---
-  duration_ms: 1030.042667
+  duration_ms: 1019.819333
   type: 'test'
   ...
 # Subtest: Experience validation rejects non-finite, negative and inverted duration ranges
-ok 167 - Experience validation rejects non-finite, negative and inverted duration ranges
+ok 169 - Experience validation rejects non-finite, negative and inverted duration ranges
   ---
-  duration_ms: 11.718083
+  duration_ms: 12.049375
   type: 'test'
   ...
 # Subtest: new time/free constraints preserve dismissals, dependencies, lifecycle and saved independence
-ok 168 - new time/free constraints preserve dismissals, dependencies, lifecycle and saved independence
+ok 170 - new time/free constraints preserve dismissals, dependencies, lifecycle and saved independence
   ---
-  duration_ms: 1.231334
+  duration_ms: 1.341333
   type: 'test'
   ...
 # Subtest: quality baseline output is deterministic
-ok 169 - quality baseline output is deterministic
+ok 171 - quality baseline output is deterministic
   ---
-  duration_ms: 349.557917
+  duration_ms: 343.341042
   type: 'test'
   ...
 # Subtest: quality analysis never leaks dismissed results
-ok 170 - quality analysis never leaks dismissed results
+ok 172 - quality analysis never leaks dismissed results
   ---
-  duration_ms: 51.100375
+  duration_ms: 51.399041
   type: 'test'
   ...
 # Subtest: expired and invalid-start events remain visible as supply loss but never leak
-ok 171 - expired and invalid-start events remain visible as supply loss but never leak
+ok 173 - expired and invalid-start events remain visible as supply loss but never leak
   ---
-  duration_ms: 0.236667
+  duration_ms: 0.343667
   type: 'test'
   ...
 # Subtest: unsupported conditional and invalid Event-linked lifecycle entries never leak
-ok 172 - unsupported conditional and invalid Event-linked lifecycle entries never leak
+ok 174 - unsupported conditional and invalid Event-linked lifecycle entries never leak
   ---
-  duration_ms: 0.961625
+  duration_ms: 1.162583
   type: 'test'
   ...
 # Subtest: quality harness candidate counts reuse production Place dependency eligibility
-ok 173 - quality harness candidate counts reuse production Place dependency eligibility
+ok 175 - quality harness candidate counts reuse production Place dependency eligibility
   ---
-  duration_ms: 0.326875
+  duration_ms: 0.311333
   type: 'test'
   ...
 # Subtest: Firestore assembled snapshots use full catalog validation
-ok 174 - Firestore assembled snapshots use full catalog validation
+ok 176 - Firestore assembled snapshots use full catalog validation
   ---
-  duration_ms: 7.351
+  duration_ms: 7.735875
   type: 'test'
   ...
 # Subtest: every measured recommendation has an explanation
-ok 175 - every measured recommendation has an explanation
+ok 177 - every measured recommendation has an explanation
   ---
-  duration_ms: 174.280833
+  duration_ms: 195.027125
   type: 'test'
   ...
 # Subtest: three-batch repetition is reported from consecutive seeded refreshes
-ok 176 - three-batch repetition is reported from consecutive seeded refreshes
+ok 178 - three-batch repetition is reported from consecutive seeded refreshes
   ---
-  duration_ms: 9.114375
+  duration_ms: 8.623875
   type: 'test'
   ...
 # Subtest: candidate and final result counts are reported without filling weak supply
-ok 177 - candidate and final result counts are reported without filling weak supply
+ok 179 - candidate and final result counts are reported without filling weak supply
   ---
-  duration_ms: 170.704167
+  duration_ms: 168.2505
   type: 'test'
   ...
 # Subtest: Experience reports distinguish primary from secondary-only matches
-ok 178 - Experience reports distinguish primary from secondary-only matches
+ok 180 - Experience reports distinguish primary from secondary-only matches
   ---
-  duration_ms: 8.294375
+  duration_ms: 8.158708
   type: 'test'
   ...
 # Subtest: cold start remains deterministic and returns an explained batch
-ok 179 - cold start remains deterministic and returns an explained batch
+ok 181 - cold start remains deterministic and returns an explained batch
   ---
-  duration_ms: 7.177292
+  duration_ms: 6.611458
   type: 'test'
   ...
 # Subtest: location-off replay uses no coordinates and reports changed slots without changing eligibility
-ok 180 - location-off replay uses no coordinates and reports changed slots without changing eligibility
+ok 182 - location-off replay uses no coordinates and reports changed slots without changing eligibility
   ---
-  duration_ms: 20.5855
+  duration_ms: 21.8755
   type: 'test'
   ...
 # Subtest: location aggregate uses changed-slot and membership-difference terminology
-ok 181 - location aggregate uses changed-slot and membership-difference terminology
+ok 183 - location aggregate uses changed-slot and membership-difference terminology
   ---
-  duration_ms: 169.248667
+  duration_ms: 164.328208
   type: 'test'
   ...
 # Subtest: quality fixture preserves Idea 1+4 controlled discovery
-ok 182 - quality fixture preserves Idea 1+4 controlled discovery
+ok 184 - quality fixture preserves Idea 1+4 controlled discovery
   ---
-  duration_ms: 1.415791
+  duration_ms: 1.184416
   type: 'test'
   ...
 # Subtest: all seven Saved shapes resolve in mixed newest-first order; unknown IDs are omitted
-ok 183 - all seven Saved shapes resolve in mixed newest-first order; unknown IDs are omitted
+ok 185 - all seven Saved shapes resolve in mixed newest-first order; unknown IDs are omitted
   ---
-  duration_ms: 2.517458
+  duration_ms: 1.017375
   type: 'test'
   ...
 # Subtest: remove/resave moves to top; dismiss removes saved and Restore is unsaved
-ok 184 - remove/resave moves to top; dismiss removes saved and Restore is unsaved
+ok 186 - remove/resave moves to top; dismiss removes saved and Restore is unsaved
   ---
-  duration_ms: 0.345708
+  duration_ms: 0.208125
   type: 'test'
   ...
 # Subtest: last-item Unsave resolves Empty; next logical focus prefers next then previous
-ok 185 - last-item Unsave resolves Empty; next logical focus prefers next then previous
+ok 187 - last-item Unsave resolves Empty; next logical focus prefers next then previous
   ---
-  duration_ms: 0.339583
+  duration_ms: 0.107208
   type: 'test'
   ...
 # Subtest: Unsave survives existing serialization/restart with no schema addition
-ok 186 - Unsave survives existing serialization/restart with no schema addition
+ok 188 - Unsave survives existing serialization/restart with no schema addition
   ---
-  duration_ms: 0.454875
+  duration_ms: 0.2905
   type: 'test'
   ...
 # Subtest: Saved Event timing matches unavailable Detail while retaining the expired row and catalog metadata
-ok 187 - Saved Event timing matches unavailable Detail while retaining the expired row and catalog metadata
+ok 189 - Saved Event timing matches unavailable Detail while retaining the expired row and catalog metadata
   ---
-  duration_ms: 17.821666
+  duration_ms: 33.901042
   type: 'test'
   ...
 # Subtest: Saved presentation uses current catalog fields without title matching, reasons, or saved dates
-ok 188 - Saved presentation uses current catalog fields without title matching, reasons, or saved dates
+ok 190 - Saved presentation uses current catalog fields without title matching, reasons, or saved dates
   ---
-  duration_ms: 0.532458
+  duration_ms: 0.556833
   type: 'test'
   ...
 # Subtest: each recommendation kind preserves Saved origin through Back/Close; nested Place pops Plan
-ok 189 - each recommendation kind preserves Saved origin through Back/Close; nested Place pops Plan
+ok 191 - each recommendation kind preserves Saved origin through Back/Close; nested Place pops Plan
   ---
-  duration_ms: 0.33175
+  duration_ms: 0.446916
   type: 'test'
   ...
 # Subtest: Saved count removed from navigation contract and App; layout uses wrapping, independent actions and end clearance
-ok 190 - Saved count removed from navigation contract and App; layout uses wrapping, independent actions and end clearance
+ok 192 - Saved count removed from navigation contract and App; layout uses wrapping, independent actions and end clearance
   ---
-  duration_ms: 0.986208
+  duration_ms: 0.753208
   type: 'test'
   ...
 # Subtest: happy path persists tombstone before remote delete, clears local state, and deletes Auth
-ok 191 - happy path persists tombstone before remote delete, clears local state, and deletes Auth
+ok 193 - happy path persists tombstone before remote delete, clears local state, and deletes Auth
   ---
-  duration_ms: 1.7505
+  duration_ms: 1.686458
   type: 'test'
   ...
 # Subtest: tombstone persistence failure stops remote deletion and preserves retryable local state
-ok 192 - tombstone persistence failure stops remote deletion and preserves retryable local state
+ok 194 - tombstone persistence failure stops remote deletion and preserves retryable local state
   ---
-  duration_ms: 0.330542
+  duration_ms: 0.326083
   type: 'test'
   ...
 # Subtest: remote deletion failure stops local cleanup and Auth while tombstone keeps retry safe
-ok 193 - remote deletion failure stops local cleanup and Auth while tombstone keeps retry safe
+ok 195 - remote deletion failure stops local cleanup and Auth while tombstone keeps retry safe
   ---
-  duration_ms: 0.2465
+  duration_ms: 0.2405
   type: 'test'
   ...
 # Subtest: queue clear failure stops preference and Auth cleanup, and surviving queue cannot replay
-ok 194 - queue clear failure stops preference and Auth cleanup, and surviving queue cannot replay
+ok 196 - queue clear failure stops preference and Auth cleanup, and surviving queue cannot replay
   ---
-  duration_ms: 0.255667
+  duration_ms: 0.247208
   type: 'test'
   ...
 # Subtest: preference clear failure stops Auth and same-UID restart cannot load, migrate, queue, or save
-ok 195 - preference clear failure stops Auth and same-UID restart cannot load, migrate, queue, or save
+ok 197 - preference clear failure stops Auth and same-UID restart cannot load, migrate, queue, or save
   ---
-  duration_ms: 0.323334
+  duration_ms: 0.318666
   type: 'test'
   ...
 # Subtest: Auth deletion failure reports an explicit partial result and same UID remains blocked after restart
-ok 196 - Auth deletion failure reports an explicit partial result and same UID remains blocked after restart
+ok 198 - Auth deletion failure reports an explicit partial result and same UID remains blocked after restart
   ---
-  duration_ms: 0.286084
+  duration_ms: 0.278417
   type: 'test'
   ...
 # Subtest: Auth timeout is an unconfirmed partial result and does not cancel or remove the tombstone
-ok 197 - Auth timeout is an unconfirmed partial result and does not cancel or remove the tombstone
+ok 199 - Auth timeout is an unconfirmed partial result and does not cancel or remove the tombstone
   ---
-  duration_ms: 0.338
+  duration_ms: 0.337083
   type: 'test'
   ...
 # Subtest: delayed preference persistence finishes before deletion clear and cannot repopulate v5
-ok 198 - delayed preference persistence finishes before deletion clear and cannot repopulate v5
+ok 200 - delayed preference persistence finishes before deletion clear and cannot repopulate v5
   ---
-  duration_ms: 0.449333
+  duration_ms: 0.332792
   type: 'test'
   ...
 # Subtest: surviving device-scoped v5 can migrate to UID B only after deletion failed explicitly
-ok 199 - surviving device-scoped v5 can migrate to UID B only after deletion failed explicitly
+ok 201 - surviving device-scoped v5 can migrate to UID B only after deletion failed explicitly
   ---
-  duration_ms: 0.511084
+  duration_ms: 0.513125
   type: 'test'
   ...
 # Subtest: A to B to delete B replaces the single tombstone while old A queue cannot upload as B
-ok 200 - A to B to delete B replaces the single tombstone while old A queue cannot upload as B
+ok 202 - A to B to delete B replaces the single tombstone while old A queue cannot upload as B
   ---
-  duration_ms: 3.088958
+  duration_ms: 0.621
   type: 'test'
   ...
 # Subtest: retrying an already tombstoned UID reruns deletion safely
-ok 201 - retrying an already tombstoned UID reruns deletion safely
+ok 203 - retrying an already tombstoned UID reruns deletion safely
   ---
-  duration_ms: 0.31025
+  duration_ms: 0.267791
   type: 'test'
   ...
 # Subtest: old serialized remote save must settle before deletion and no queued work saves afterward
-ok 202 - old serialized remote save must settle before deletion and no queued work saves afterward
+ok 204 - old serialized remote save must settle before deletion and no queued work saves afterward
   ---
-  duration_ms: 0.273208
+  duration_ms: 0.234833
   type: 'test'
   ...
 # Subtest: location-like local input is excluded from the owned remote queue payload
-ok 203 - location-like local input is excluded from the owned remote queue payload
+ok 205 - location-like local input is excluded from the owned remote queue payload
   ---
-  duration_ms: 0.079875
+  duration_ms: 0.071083
   type: 'test'
   ...
-1..203
-# tests 203
+1..205
+# tests 205
 # suites 0
-# pass 203
+# pass 205
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 11082.866042
+# duration_ms 11020.21975

@@ -6,8 +6,9 @@ import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
 import { experienceStartDistanceLabel } from './src/experienceStartDistance';
 import { createLocationRequestGuard } from './src/locationRequestGuard';
 import { Ankara101Index } from './src/components/gezek/Ankara101Index';
+import { Ankara101ImageWarmup, useAnkara101ImageOpening } from './src/components/gezek/Ankara101Media';
 import { Ankara101FontGate, Ankara101ReaderHost } from './src/components/gezek/Ankara101ReaderHost';
-import { ankara101Return, openAnkara101Reader, Ankara101Session } from './src/ankara101Reader';
+import { ankara101Return, openAnkara101Reader, resolveAnkara101Reader, Ankara101Session } from './src/ankara101Reader';
 import { SavedScreen } from './src/components/gezek/SavedScreen';
 import { resolveSavedEntries, SavedEntry, SavedReturnRequest } from './src/saved';
 import { BrandLogo } from './src/components/gezek/BrandLogo';
@@ -125,6 +126,7 @@ function AppContent() {
   const [indexReturn, setIndexReturn] = useState<{ id?: string; scrollY: number; sequence: number }>();
   const indexScrollY = useRef(0);
   const [detailSession, setDetailSession] = useState<DetailSession>();
+  const { request: imageWarmup, opening: imageOpening } = useAnkara101ImageOpening(`${step}/${guideView}/${!!detailSession}/${!!preferenceSession}`);
   const originControl = useRef<View | null>(null);
   const originFallback = useRef<View>(null);
   const originScrollY = useRef(0);
@@ -684,7 +686,10 @@ function AppContent() {
       { screen: 'guides', id: guideId, scrollY: indexScrollY.current },
       editorialOrigin ? { screen: 'saved', ...editorialOrigin } : undefined);
     if (!session) return false;
-    setReaderSession(session); setGuideView('classics'); setStep('guides');
+    const resolved = resolveAnkara101Reader(guides, guideId)!;
+    imageOpening.start(resolved.config.mediaKey, resolved.config.hero.width, resolved.config.hero.height, () => {
+      setReaderSession(session); setGuideView('classics'); setStep('guides');
+    });
     return true;
   };
   const openSavedEntry = (entry: SavedEntry, node: View | null) => {
@@ -692,13 +697,18 @@ function AppContent() {
       openDetail({ kind: 'name' in entry.item ? 'place' : entry.item.kind, id: entry.id }, node);
       return;
     }
-    setEditorialOrigin({ id: entry.id, scrollY: savedScrollY.current });
-    setGuideContentsOpen(false); setReaderSession(undefined);
+    const origin = { id: entry.id, scrollY: savedScrollY.current };
     if (entry.type === 'guide') {
-      setReaderSession(openAnkara101Reader(guides, entry.id, { screen: 'saved', id: entry.id, scrollY: savedScrollY.current }));
-      setGuideView('classics'); setStep('guides');
+      const session = openAnkara101Reader(guides, entry.id, { screen: 'saved', ...origin });
+      const resolved = resolveAnkara101Reader(guides, entry.id);
+      if (!session || !resolved) return;
+      imageOpening.start(resolved.config.mediaKey, resolved.config.hero.width, resolved.config.hero.height, () => {
+        setEditorialOrigin(origin); setGuideContentsOpen(false); setReaderSession(session);
+        setGuideView('classics'); setStep('guides');
+      });
     }
     else {
+      setEditorialOrigin(origin); setGuideContentsOpen(false); setReaderSession(undefined);
       setGuideView(entry.type === 'classics' ? 'landing' : 'insider');
       if (entry.type === 'route') setInsiderRouteId(entry.id);
       setStep('guides');
@@ -778,7 +788,7 @@ function AppContent() {
             <LegacyInsiderEntry route={primaryInsiderRoute} routeCount={insiderRoutes.length} onOpenInsider={() => setGuideView('insider')} />
           </Ankara101Index>
         </View>
-        {readerSession && <Ankara101ReaderHost guideId={readerSession.guideId} guides={guides} saved={saved} safeTopInset={safeInsets.top} fromSaved={readerSession.origin.screen === 'saved'} onBack={leaveEditorial} onClose={() => leaveEditorial('close')} onSave={guide => toggleSaved(guide.id, 'guide')} onSource={openGuideSource} />}
+        {readerSession && <Ankara101ReaderHost guideId={readerSession.guideId} guides={guides} saved={saved} safeTopInset={safeInsets.top} fromSaved={readerSession.origin.screen === 'saved'} onBack={leaveEditorial} onClose={() => leaveEditorial('close')} onSave={guide => toggleSaved(guide.id, 'guide')} onSource={openGuideSource} onHeroReady={imageOpening.remember} />}
       </Ankara101FontGate>}
     </View>
     {(isSaved || !!editorialOrigin) && <SavedScreen entries={savedEntries} now={eligibilityNow} safeTopInset={safeInsets.top} hidden={!isSaved} returnRequest={savedReturn} onOpen={openSavedEntry} onUnsave={id => toggleSaved(id)} onScroll={y => { savedScrollY.current = y; }} onHome={() => setStep('results')} onSettings={openHomeSettings} />}
@@ -789,6 +799,7 @@ function AppContent() {
       onGuides={() => { if (readerSession?.origin.screen === 'guides') { leaveEditorial(); return; } if (step === 'guides' && guideView === 'landing') return; setIndexReturn(undefined); setEditorialOrigin(undefined); setInsiderRouteId(undefined); setReaderSession(undefined); setGuideView('landing'); setStep('guides'); }}
     />}
     </KeyboardAvoidingView></View>
+    {imageWarmup && <Ankara101ImageWarmup key={imageWarmup.token} request={imageWarmup} onFinish={imageOpening.finish} />}
     {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: recommendationRun, now: eligibilityNow }}
@@ -825,9 +836,10 @@ function EditorialTopBar({ title, saved, saveLabel, backLabel, contentsOpen, onB
 }
 
 function LegacyInsiderEntry({ route, routeCount, onOpenInsider }: { route?: InsiderRoute; routeCount: number; onOpenInsider: () => void }) {
-  return <View style={{ backgroundColor: '#0E100E', padding: 20 }}>
+  return <View testID="ankara101-insider-continuation" style={{ backgroundColor: '#F2EDE2', padding: 20, borderTopWidth: 1, borderTopColor: '#CCD3E4' }}>
+    <Text accessibilityRole="header" style={{ fontFamily: 'PlusJakartaSans_700Bold', fontSize: 11, lineHeight: 18, color: '#102452', marginBottom: 14 }}>REHBERLERDEN SONRA · YEREL ROTALAR</Text>
     <TouchableOpacity accessibilityRole="button" accessibilityLabel="Bir Ankaralı Gibi rotalarını aç" activeOpacity={.9} onPress={onOpenInsider} style={s.editorialChoice}>
-      <Image accessible={false} source={KUGULU_TUNALI_HERO} resizeMode="cover" style={s.editorialChoiceImage} />
+      <View style={[s.editorialChoiceImage, { overflow: 'hidden' }]}><Image accessible={false} source={KUGULU_TUNALI_HERO} resizeMode="cover" style={[StyleSheet.absoluteFill, { width: '100%', height: '100%' }]} /></View>
       <View style={s.editorialChoiceCopy}><Text numberOfLines={3} adjustsFontSizeToFit minimumFontScale={.88} style={s.editorialChoiceTitle}>Bir Ankaralı Gibi</Text><View style={s.choiceRule} /><Text style={s.editorialChoiceText}>{route ? route.title : 'Yerel rota şu anda kullanılamıyor'}</Text><Text style={s.editorialChoiceMeta}>{route ? `${routeCount} rota · ${route.durationLabel}` : 'Yeni rota eklenince burada görünecek'}</Text></View>
     </TouchableOpacity>
   </View>;

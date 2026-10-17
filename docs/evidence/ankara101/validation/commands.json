@@ -1,108 +1,119 @@
 [
   {
-    "command": "npm ci",
-    "exitCode": 0,
-    "seconds": 103.5,
-    "log": "npm-ci.log"
-  },
-  {
     "command": "git diff --check",
     "exitCode": 0,
-    "seconds": 0.04,
+    "seconds": 0.25,
     "log": "git-diff-check.log"
   },
   {
     "command": "npm run typecheck",
     "exitCode": 0,
-    "seconds": 4.12,
+    "seconds": 3.23,
     "log": "typecheck.log"
   },
   {
     "command": "npm test",
     "exitCode": 0,
-    "seconds": 12.52,
+    "seconds": 12.18,
     "log": "test.log"
+  },
+  {
+    "command": "node --import tsx --test tests/ankara101-reader.test.ts",
+    "exitCode": 0,
+    "seconds": 0.22,
+    "log": "reader-tests.log"
   },
   {
     "command": "npm run test:catalog",
     "exitCode": 0,
-    "seconds": 0.77,
+    "seconds": 0.38,
     "log": "catalog.log"
   },
   {
     "command": "npm run check:assets",
     "exitCode": 0,
-    "seconds": 0.45,
+    "seconds": 0.21,
     "log": "assets.log"
-  },
-  {
-    "command": "npm run check:build -- --profile=preview",
-    "exitCode": 0,
-    "seconds": 0.49,
-    "log": "build-preview.log"
   },
   {
     "command": "npm run check:accessibility",
     "exitCode": 0,
-    "seconds": 0.5,
+    "seconds": 0.18,
     "log": "accessibility.log"
+  },
+  {
+    "command": "npm run check:build",
+    "exitCode": 1,
+    "seconds": 0.21,
+    "log": "build-usage.log"
+  },
+  {
+    "command": "npm run check:build -- --profile=preview",
+    "exitCode": 0,
+    "seconds": 0.19,
+    "log": "build-preview.log"
   },
   {
     "command": "npm run check:events",
     "exitCode": 0,
-    "seconds": 0.36,
+    "seconds": 0.2,
     "log": "events.log"
   },
   {
     "command": "npm run test:stress",
     "exitCode": 0,
-    "seconds": 55.2,
+    "seconds": 52.49,
     "log": "stress.log"
   },
   {
     "command": "npm run check:performance",
     "exitCode": 0,
-    "seconds": 13.99,
+    "seconds": 13.17,
     "log": "performance.log"
   },
   {
     "command": "npm run check:recommendations",
     "exitCode": 0,
-    "seconds": 1.14,
+    "seconds": 0.99,
     "log": "recommendations.log"
   },
   {
-    "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-ankara101-final-android",
+    "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-ankara101-correction-final-android",
     "exitCode": 0,
-    "seconds": 12.83,
+    "seconds": 10.24,
     "log": "android-export.log"
   },
   {
-    "command": "CI=1 npx expo export --platform android --no-bytecode --output-dir /private/tmp/gezek-ankara101-final-android-readable",
+    "command": "CI=1 npx expo export --platform android --no-bytecode --output-dir /private/tmp/gezek-ankara101-correction-final-android-readable",
     "exitCode": 0,
-    "seconds": 2.61,
+    "seconds": 2.45,
     "log": "android-readable-export.log"
   },
   {
-    "command": "npm run check:assets:android -- /private/tmp/gezek-ankara101-final-android-readable",
+    "command": "npm run check:assets:android -- /private/tmp/gezek-ankara101-correction-final-android-readable",
     "exitCode": 0,
-    "seconds": 0.43,
+    "seconds": 0.2,
     "log": "assets-android.log"
   },
   {
-    "command": "node --import tsx scripts/checkAnkara101Export.ts /private/tmp/gezek-ankara101-final-android-readable",
+    "command": "node --import tsx scripts/checkAnkara101Export.ts /private/tmp/gezek-ankara101-correction-final-android-readable",
     "exitCode": 0,
-    "seconds": 0.16,
+    "seconds": 0.14,
     "log": "ankara101-export.log"
   },
   {
+    "command": "npm ci",
+    "status": "not rerun",
+    "reason": "No dependency/lockfile changes; continuation instruction."
+  },
+  {
     "command": "npm run check",
-    "result": "ABSENT; not run"
+    "status": "absent; not run"
   },
   {
     "command": "git diff --cached --check",
     "exitCode": 0,
-    "seconds": 0.01,
-    "log": "git-diff-cached-check.log"
+    "log": "git-diff-cached-check.log",
+    "note": "Passed on staged correction before normal commit; repeated after adding this record."
   }
 ]

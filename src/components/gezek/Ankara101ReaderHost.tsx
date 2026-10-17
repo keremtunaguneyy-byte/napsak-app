@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Image, ImageStyle, Pressable, ScrollView, StyleProp, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { parse, SvgAst } from 'react-native-svg';
@@ -8,7 +8,8 @@ import { Guide } from '../../types';
 import { ankara101EditorialFont as editorialFont, GUIDE_PRESENTATIONS, ankara101Chapters, ankara101FontState, GuidePresentation, resolveAnkara101Reader } from '../../ankara101Reader';
 import { GEZEK_FONT_FAMILIES as F } from '../../design/gezekTheme';
 import { ANKARA101_FONTS } from './ankara101Fonts';
-import { ANKARA101_MEDIA, ANKARA101_SVG } from './ankara101Assets';
+import { ANKARA101_SVG } from './ankara101Assets';
+import { Ankara101Image } from './Ankara101Media';
 import { ANKARA101_INSTANCES } from './ankara101InstanceAssets';
 import { ANKARA101_CUES } from './ankara101CueAssets';
 import { ANKARA101_BINDINGS } from './ankara101BindingAssets';
@@ -43,17 +44,11 @@ function FontAttempt({ children, onRetry, onExit }: { children: ReactNode; onRet
   </View>;
 }
 
-/** A local decode failure keeps a neutral decorative slot, never a title-based substitute. */
-export function Ankara101Image({ mediaKey, style }: { mediaKey: string; style: StyleProp<ImageStyle> }) {
-  const [failed, setFailed] = useState(false);
-  const source = ANKARA101_MEDIA[mediaKey];
-  return source && !failed ? <Image accessible={false} source={source} resizeMode="cover" style={style} onError={() => setFailed(true)} /> : <View accessible={false} testID="ankara101-media-unavailable" style={[style, { backgroundColor: '#E8ECF9' }]} />;
-}
 export function Ankara101Bookmark({ guide, saved, onSave }: { guide: Guide; saved: boolean; onSave: () => void }) {
   return <Pressable accessibilityRole="button" accessibilityLabel={`${guide.title}: ${saved ? 'Kaydı kaldır' : 'Kaydet'}`} accessibilityState={{ selected: saved }} onPress={event => { event.stopPropagation(); onSave(); }} style={[s.bookmark, saved && { backgroundColor: '#3F65FC' }]}><Ankara101Vector name="imgBookmarkConsistentGeometry" width={20} /></Pressable>;
 }
 
-type Props = { guides: readonly Guide[]; guideId: string; saved: readonly string[]; safeTopInset: number; fromSaved: boolean; onBack: () => void; onClose: () => void; onSave: (guide: Guide) => void; onSource: (guide: Guide) => Promise<void> };
+type Props = { guides: readonly Guide[]; guideId: string; saved: readonly string[]; safeTopInset: number; fromSaved: boolean; onBack: () => void; onClose: () => void; onSave: (guide: Guide) => void; onSource: (guide: Guide) => Promise<void>; onHeroReady: (mediaKey: string) => void };
 export function Ankara101ReaderHost(p: Props) {
   const resolved = resolveAnkara101Reader(p.guides, p.guideId);
   const title = useRef<View>(null);
@@ -66,12 +61,12 @@ export function Ankara101ReaderHost(p: Props) {
       <Pressable accessibilityRole="button" accessibilityLabel="Rehberi kapat" onPress={p.onClose} style={s.hit}><Ankara101Vector name="close" /></Pressable>
     </View>
     {resolved ? <ScrollView key={p.guideId} testID="ankara101-reader-scroll" style={s.flex} contentContainerStyle={s.center} showsVerticalScrollIndicator={false}>
-      <ReaderBody guide={resolved.guide} config={resolved.config} titleRef={title} saved={p.saved.includes(p.guideId)} onSave={() => p.onSave(resolved.guide)} onSource={() => p.onSource(resolved.guide)} />
+      <ReaderBody guide={resolved.guide} config={resolved.config} titleRef={title} saved={p.saved.includes(p.guideId)} onSave={() => p.onSave(resolved.guide)} onSource={() => p.onSource(resolved.guide)} onHeroReady={() => p.onHeroReady(resolved.config.mediaKey)} />
     </ScrollView> : <View style={s.loading}><Text accessibilityRole="alert" style={s.body}>Bu rehber şu anda kullanılamıyor.</Text><Pressable accessibilityRole="button" onPress={p.onBack} style={s.hit}><Text style={s.body}>Geri dön</Text></Pressable></View>}
   </View>;
 }
 
-function ReaderBody({ guide, config: c, titleRef, saved, onSave, onSource }: { guide: Guide; config: GuidePresentation; titleRef: React.RefObject<View | null>; saved: boolean; onSave: () => void; onSource: () => Promise<void> }) {
+function ReaderBody({ guide, config: c, titleRef, saved, onSave, onSource, onHeroReady }: { guide: Guide; config: GuidePresentation; titleRef: React.RefObject<View | null>; saved: boolean; onSave: () => void; onSource: () => Promise<void>; onHeroReady: () => void }) {
   const { width } = useWindowDimensions();
   const lane = Math.min(393, width);
   const factor = lane / 393;
@@ -88,7 +83,7 @@ function ReaderBody({ guide, config: c, titleRef, saved, onSave, onSource }: { g
   </View>;
   const hero = <View testID="ankara101-hero" style={{ height: c.hero.slotHeight * factor }}>
     {castle ? <Ankara101Vector name="imgPhotoBindingSteppedCityEdge" width={lane} /> : <View style={{ position: 'absolute', left: c.layout === 'gallery' ? 20 * factor : 0, right: c.layout === 'gallery' ? 20 * factor : 0, top: c.layout === 'gallery' ? 12 : 0, bottom: 0, backgroundColor: c.accent, opacity: horizon ? .15 : .19 }} />}
-    <Ankara101Image mediaKey={c.mediaKey} style={{ position: 'absolute', left: c.hero.x * factor, width: c.hero.width * factor, height: c.hero.height * factor, borderTopLeftRadius: c.hero.corners.topLeft, borderTopRightRadius: c.hero.corners.topRight, borderBottomLeftRadius: c.hero.corners.bottomLeft, borderBottomRightRadius: c.hero.corners.bottomRight }} />
+    <Ankara101Image mediaKey={c.mediaKey} placeholderColor={c.top} placeholder={<Ankara101Vector name={c.interludeMotif || 'imgSteppedCaptionMarkMatchesTitleStoneCourses'} />} onReady={onHeroReady} style={{ position: 'absolute', left: c.hero.x * factor, width: c.hero.width * factor, height: c.hero.height * factor, borderTopLeftRadius: c.hero.corners.topLeft, borderTopRightRadius: c.hero.corners.topRight, borderBottomLeftRadius: c.hero.corners.bottomLeft, borderBottomRightRadius: c.hero.corners.bottomRight }} />
   </View>;
   const hasCue = ['castle', 'walk', 'shore', 'transit'].includes(c.layout);
   const splitStops = c.routeAt === 'split';

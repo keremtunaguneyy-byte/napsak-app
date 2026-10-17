@@ -22,7 +22,7 @@ assert len(result['checks']) == 73 and not result['errors']
 edge_result = json.loads((args.raw / 'edge-browser-results.json').read_text())
 assert len(edge_result['checks']) == 7 and not edge_result['errors']
 commands = json.loads((args.raw / 'browser-commands.json').read_text())
-assert len(commands) == 2 and all(r['exitCode'] == 0 for r in commands)
+assert len(commands) == 3 and all(r['exitCode'] == 0 for r in commands)
 configs = json.loads(Path('src/design/ankara101Presentation.json').read_text())
 names = dict(zip(configs, ['castle', 'hamamonu', 'anadolu', 'cumhuriyet', 'etnografya', 'resim-heykel', 'aslanhane', 'ulus', 'gordion', 'eymir', 'mogan', 'tunali']))
 
@@ -70,3 +70,25 @@ for width in [393, 412]:
 for name in ['guide-ankara-kalesi-saved-origin.png', 'fontFail.png', 'fontHold.png', 'long-16-paragraphs-1.8-footer.png', 'media-unavailable.png', 'guide-unavailable.png', 'browser-results.json', 'edge-browser-results.json', 'browser-commands.json']:
     shutil.copyfile(args.raw / name, args.out / name)
 print('Canonical panels: 48 guide viewport comparisons, 12 complete bodies, 4 indexes, 6 edge/state captures, 3 result ledgers.')
+
+# Index correction: all twelve entries, never just the first viewport.
+media_result = json.loads((args.raw / 'media-browser-results.json').read_text())
+assert len(media_result['checks']) == 48 and not media_result['errors']
+for width in [393, 412]:
+    for scale in [1, 1.8]:
+        tiles = [(guide, Image.open(args.raw / f'card-{guide}-{width}-{scale}.png').convert('RGB')) for guide in configs]
+        cell = max(im.width for _, im in tiles) + 12
+        rows = [tiles[i:i+3] for i in range(0, len(tiles), 3)]
+        height = sum(max(im.height for _, im in row) + 36 for row in rows)
+        grid = Image.new('RGB', (cell * 3, height), 'white')
+        draw = ImageDraw.Draw(grid)
+        y = 0
+        for row in rows:
+            for col, (guide, im) in enumerate(row):
+                draw.text((col * cell + 4, y + 4), f'{guide} / {width} / {scale}', fill='black')
+                grid.paste(im, (col * cell, y + 24))
+            y += max(im.height for _, im in row) + 36
+        grid.save(args.out / f'index-all-cards-{width}-{scale}.png', optimize=True)
+        shutil.copyfile(args.raw / f'insider-{width}-{scale}.png', args.out / f'insider-{width}-{scale}.png')
+for name in ['cold-placeholder.png', 'cold-loaded.png', 'media-browser-results.json']:
+    shutil.copyfile(args.raw / name, args.out / name)

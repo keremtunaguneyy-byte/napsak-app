@@ -116,3 +116,37 @@ test('font loading is bounded, failure has no late typography swap, and official
   assert.doesNotMatch(reader, /allowFontScaling=\{false\}|maxHeight|maximumHeight/);
   assert.match(reader, /paddingBottom: castle \? 40 : 48/);
 });
+
+test('selected hero warming is single, bounded, cancels stale navigation and retains only three recent hints', async () => {
+  const { createAnkara101ImageOpening, ANKARA101_IMAGE_HOLD_MS } = await import('../src/ankara101Media');
+  const requests: any[] = [], timers: { callback: () => void; stopped: boolean; ms: number }[] = [], commits: string[] = [];
+  const opening = createAnkara101ImageOpening(r => requests.push(r), (callback, ms) => {
+    const timer = { callback, ms, stopped: false }; timers.push(timer); return () => { timer.stopped = true; };
+  });
+  const start = (id: string) => opening.start(id, 353, 232, () => commits.push(id));
+  start('a'); const first = requests.at(-1);
+  assert.deepEqual([first.width, first.height, timers[0].ms], [353, 232, ANKARA101_IMAGE_HOLD_MS]);
+  start('b'); const second = requests.at(-1);
+  assert.ok(timers[0].stopped);
+  opening.finish(first.token, true); assert.deepEqual(commits, []);
+  opening.finish(second.token, true); assert.deepEqual(commits, ['b']);
+  start('b'); assert.deepEqual(commits, ['b', 'b']); // warm hint: no new decode request
+  assert.equal(timers.length, 2);
+  start('c'); timers.at(-1)!.callback(); assert.equal(commits.at(-1), 'c'); // 200 ms maximum hold
+  opening.finish(requests.findLast(r => r?.mediaKey === 'c').token, true);
+  assert.equal(commits.length, 3); // late decode cannot route twice
+  start('d'); const cancelled = requests.at(-1); opening.cancel();
+  opening.finish(cancelled.token, true); timers.at(-1)!.callback(); assert.equal(commits.length, 3);
+  for (const id of ['e', 'f', 'g']) opening.remember(id);
+  start('b'); assert.equal(requests.at(-1).mediaKey, 'b'); // fourth hint was evicted
+  opening.cancel(); assert.ok(timers.every(t => t.stopped));
+});
+test('index decode work follows the viewport, caps four thumbnails, and never warms all twelve', async () => {
+  const { visibleAnkara101Media } = await import('../src/ankara101Media');
+  const frames = Object.fromEntries(PRODUCTION_GUIDE_IDS.map((id, i) => [id, { y: i * 200, height: 184 }]));
+  assert.deepEqual(visibleAnkara101Media(frames, -600, 450), []);
+  const nearby = visibleAnkara101Media(frames, 600, 700);
+  assert.ok(nearby.length <= 4);
+  assert.ok(!nearby.includes(PRODUCTION_GUIDE_IDS[0]) && !nearby.includes(PRODUCTION_GUIDE_IDS[11]));
+  assert.equal(visibleAnkara101Media(frames, 0, 99999).length, 4);
+});

@@ -1,6 +1,6 @@
 
 > napsak-app@0.1.0 check:assets:android
-> node --import tsx scripts/checkEventArtworkExport.ts /private/tmp/gezek-ankara101-final-android-readable
+> node --import tsx scripts/checkEventArtworkExport.ts /private/tmp/gezek-ankara101-correction-final-android-readable
 
 {
   events: 9,

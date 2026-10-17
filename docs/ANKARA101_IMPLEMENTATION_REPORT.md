@@ -2,6 +2,25 @@
 
 Implementation delivery: 2026-10-17, Europe/Istanbul. Visual approval: 2026-10-16. **VISUAL_APPROVED; implementation verification recorded below; physical Redmi and signed-release acceptance remain pending.** Keep the single pull request Draft and unmerged.
 
+
+## 2026-10-17 index/media correction on Draft #79
+
+Continued the existing checkout `/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app`, branch `codex/gezek-production-ankara101`, from `7c5e362e764a5817bc189b9aa78688e498b67618`. The interrupted changes in `src/ankara101Media.ts`, `src/components/gezek/Ankara101Media.tsx` and `src/components/gezek/Ankara101ReaderHost.tsx` were inspected and completed in place. No new branch/worktree/PR, reset, restore, stash, clean, force-push or merge. Untracked `src/firebase/BA_4bit.sv/` was never opened, modified or staged.
+
+**Root cause:** installed React Native `Image.android.js` prepends a static source's intrinsic width/height (1536×1024). Absolute edges did not override those dimensions; the index media wrapper was not clipped and its adjacent text panel was transparent. The native image therefore painted behind the text. The previous RN Web fixture did not model this Android default, so its index visual PASS was insufficient and is superseded by the correction evidence.
+
+The approved index master `1345:23708` and hosts `1345:23875` / `1345:24166` were read through the Figma design-to-code workflow. Each nonfeatured card now owns a **112px nonshrinking clipped media region**, an adjacent **opaque guide-specific palette panel**, natural-height copy with 14px horizontal/12px vertical padding and 7px gaps, 184px minimum height, 28px bottom-right corner, approved title families and a 44×44 arrow. Each child Image explicitly fills its owner with `width/height: 100%`, overriding native source dimensions. Center-cover crops, approved masters, title assignments and stable-ID mapping remain intact. Long words can wrap under 180% text; no scaling disable or height cap was introduced.
+
+`Ankara101Media.tsx` is shared by index and Reader. Index text and focus targets remain mounted; only the cover plus at most four nearby thumbnail Image views are enabled (80px lookahead), and hidden index images are disabled. A single selected hero may warm at its own slot dimensions before navigation, with a **200ms maximum input hold**. Timeout/error opens the exact Reader with its palette/motif placeholder; onLoad reveals the image atomically, with Android fade disabled (`fadeDuration=0`) and no geometry change or motion. Three recent media-key hints avoid repeated holds; they are strings, not an application bitmap cache or a guarantee of native cache retention. The native image pipeline owns caching/downsampling (`resizeMethod=resize`); no claim is made that disk prefetch decodes images. The Reader may render that Guide's hero/interlude, never twelve Guide masters together. Tokens, cleared timers and origin/Detail-overlay/unmount cleanup reject stale completion. Even warm entry may briefly show the designed placeholder.
+
+**Insider audit:** only one production index is rendered. `LegacyInsiderEntry` retains its unique route/Saved responsibility and current reader; no identity, saved record or migration was deleted. It follows all twelve guides under “REHBERLERDEN SONRA · YEREL ROTALAR”. Its existing JPEG is also bounded inside its media wrapper. The grey Tools control is an `android.widget.ImageView` outside the Gezek accessibility root; application code does not remove it.
+
+**Accepted behavior versus new evidence:** the user already accepted correct Guide selection, physical Android Back, Reader/end scrolling, Save/Unsave, Saved routing and Home/persistence continuity in the supplied device/emulator report. These are user-reported functional observations, not new physical Redmi visual acceptance. Fresh tests below preserve those behaviors. New native evidence is an Expo Go emulator at logical 393×852, normal OS text: bounded cards, separate Insider continuation, selected-size cold/repeat hero and hardware Back. Recorded placeholder→loaded state gaps were 236.00ms first selected-size entry and 207.31ms repeat; screenrecord encodes changed frames, so these are observed state intervals, not exact tap latency or FPS benchmarks. The selected thumbnail was already visible. See `native-observations.json` and the labeled native panels.
+
+Additional emulator width/OS-font recreation attempts captured loading screens and an Expo Go focus-input ANR (5041ms timeout); they are **not passes** and their raw frames are excluded. The underlying cause of that configuration-recreation ANR is not established. Expo Go recovered after a process restart without clearing app data. Size/density/font were restored to physical 1080×2400 / 420 / 1.0. The complete 393/412 normal/180% matrix is browser evidence; native OS large text and the full physical Redmi matrix remain pending. No change to Home, recommendations, catalogs, Firebase/persistence/release, PNG/SVG/font bytes or licenses was made in this correction.
+
+Fresh canonical evidence replaces previous generated panels rather than retaining duplicate runs: 48 Reader top/footer comparisons, 12 full bodies beside exact Figma masters, four full index card grids, index hosts, Insider states, cold placeholder/loaded and two selected native panels. All twelve full-body comparisons and normal/large title/footer panels were visually inspected. The [per-guide ledger](ankara101/final-guide-comparison.json), [media checks](evidence/ankara101/media-browser-results.json), [complete PR inventory](ANKARA101_CHANGED_FILES.txt) and [correction inventory](ANKARA101_CORRECTION_CHANGED_FILES.txt) identify exact nodes, results and files. Temporary recordings, 3,061 original diagnostic video frames, raw test captures, loading/ANR screenshots and superseded logs are not committed.
+
 ## Repository and ownership
 
 - Existing repository: `/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app`; no clone or additional worktree was created.
@@ -51,38 +70,43 @@ The final post-motif runtime and tests are validated independently of historical
 
 Bare `check:assets:android` requires an inspectable export directory, and bare `check:build` requires an EAS profile. Earlier argument-less invocations failed with those explicit usage messages; the final verification uses the supported export-directory argument and `--profile=preview`. `npm run check` is absent and is not run. No production profile, release configuration or external environment was changed to satisfy checks.
 
-The Android export checker additionally verifies exact bytes for all 12 PNGs and 19 static fonts, all 57 local SVG registry records, and twelve stable-ID/media-key mappings in the actual Android JS graph. Browser service adapters are test-only; no real Firebase writes, source browsing, device testing or production acceptance is claimed.
+The Android export checker additionally verifies exact bytes for all 12 PNGs and 19 static fonts, all 57 local SVG registry records, and twelve stable-ID/media-key mappings in the actual Android JS graph. Browser service adapters are test-only; no production Firebase writes, real source browsing or physical-device acceptance is claimed. Selected native emulator evidence is identified separately below.
 
 Canonical guide panels contain the exact Figma host, actual App top and actual App footer at normal text; large-text panels contain actual top/footer at 180%. Full-body comparisons stitch consecutive real scroll captures beside the exact full Figma master. Panel labels distinguish these composites from a single device viewport. Superseded raw tiles, repeated Saved captures, failed-run screenshots and old verification logs are excluded from the commit. No approved production PNG was edited or recompressed.
 
-## Final post-motif results
+## Final correction verification
 
-All final commands below ran again after the Settings-origin fix, 180% masthead correction and final catalog/footer guards. The cover title now reads the stable-ID presentation registry. Castle emphasis applies only to its exact expected prefix, preserving changed current-catalog summaries. Footer tabs select their named destinations: Ankara 101 from a direct Saved reader opens the index, while Back/Close still restore Saved. These branches are exercised in the seven edge checks. No historical 200/201 result is used. `npm test`: **314 tests passed (111 CJS + 203 TypeScript), zero failed/skipped**; eight focused Ankara 101 tests exercise resolution, session returns, persistence compatibility, exact assets/instances and font policy. Browser: **73 main + 7 edge checks passed**, zero page errors. The two browser commands have their genuine zero exits recorded separately. Normal full-body heights match the twelve approved geometry records; 180% and sixteen-paragraph content expand naturally (the long-content body is 10,463px).
+Current application tree: **316 npm tests passed (111 CJS + 205 TypeScript), zero failed/skipped**; ten focused Ankara 101 tests include the new bounded warming/cancellation and viewport selection tests. Browser suites: **73 main + 7 edge + 48 media checks**, zero page errors, including all twelve entries/readers, exact source actions, Back/Close/Android Back, Saved/scroll/focus/Unsave/restart, Home state, legacy collection, separate Insider, failed/held fonts, changed/unavailable content, long prose, source failure, selected cold/warm decode, navigation, Saved→Detail overlay and unmount races. The Android source-size default is modeled in the browser adapter. Test-only services never contact production.
 
-The 180% masthead now places the badge on a separate natural-flow row to prevent title/badge overlap; normal approved composition is unchanged. Long Turkish words can wrap across lines under browser text scaling. Physical Android shaping, OS text scale and TalkBack still need the checklist below.
+All commands below ran on the corrected implementation; historical 200/201/314 results are not final validation. The complete command and browser matrix was repeated after the final Saved→Detail overlay cancellation guard. Later changes are evidence/documentation only. No dependency/lockfile changed, so `npm ci` was **not rerun**, per the continuation instruction; its old log has been removed from current canonical results. `npm run check` is absent.
 
-| Final command | Genuine result |
+| Command | Genuine result |
 |---|---|
-| `npm ci` | PASS (exit 0) |
-| `git diff --check` | PASS (exit 0) |
-| `npm run typecheck` | PASS (exit 0) |
-| `npm test` | PASS (exit 0) |
-| `npm run test:catalog` | PASS (exit 0) |
-| `npm run check:assets` | PASS (exit 0) |
-| `npm run check:build -- --profile=preview` | PASS (exit 0) |
-| `npm run check:accessibility` | PASS (exit 0) |
-| `npm run check:events` | PASS (exit 0) |
-| `npm run test:stress` | PASS (exit 0) |
-| `npm run check:performance` | PASS (exit 0) |
-| `npm run check:recommendations` | PASS (exit 0) |
-| `CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-ankara101-final-android` | PASS (exit 0) |
-| `CI=1 npx expo export --platform android --no-bytecode --output-dir /private/tmp/gezek-ankara101-final-android-readable` | PASS (exit 0) |
-| `npm run check:assets:android -- /private/tmp/gezek-ankara101-final-android-readable` | PASS (exit 0) |
-| `node --import tsx scripts/checkAnkara101Export.ts /private/tmp/gezek-ankara101-final-android-readable` | PASS (exit 0) |
+| `git diff --check` | PASS |
+| `npm run typecheck` | PASS |
+| `npm test` | PASS, 316 tests |
+| `node --import tsx --test tests/ankara101-reader.test.ts` | PASS, 10 focused tests |
+| `npm run test:catalog` | PASS |
+| `npm run check:assets` | PASS |
+| `npm run check:accessibility` | PASS |
+| `npm run check:build` | Usage failure: supported EAS profile required |
+| `npm run check:build -- --profile=preview` | PASS |
+| `npm run check:events` | PASS |
+| `npm run test:stress` | PASS |
+| `npm run check:performance` | PASS |
+| `npm run check:recommendations` | PASS |
+| `CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-ankara101-correction-final-android` | PASS |
+| `CI=1 npx expo export --platform android --no-bytecode --output-dir /private/tmp/gezek-ankara101-correction-final-android-readable` | PASS |
+| `npm run check:assets:android -- /private/tmp/gezek-ankara101-correction-final-android-readable` | PASS |
+| `node --import tsx scripts/checkAnkara101Export.ts /private/tmp/gezek-ankara101-correction-final-android-readable` | PASS: 12 exact PNGs, 19 fonts, 57 SVG records |
+| `node tests/ankara101-browser.cjs` | PASS, 73 checks |
+| `node tests/ankara101-edge-browser.cjs` | PASS, 7 checks |
+| `node tests/ankara101-media-browser.cjs` | PASS, 48 checks |
+| `npm ci` | NOT RERUN: no dependency/lockfile changes |
 | `npm run check` | ABSENT; not run |
-| `git diff --cached --check` | PASS (exit 0), immediately before normal commit |
+| `git diff --cached --check` | PASS, staged correction immediately before normal commit |
 
-Earlier transient failures were corrected before these runs: a redundant narrowed Settings comparison failed TypeScript; a newly exercised Settings return lost index scroll; and 180% masthead text touched the badge. Superseded runs are excluded from canonical evidence. Staging also exposed upstream license trailing whitespace/CRLF and an empty final log line; only textual whitespace was normalized, with upstream/local license hashes retained. Canonical log formatting trims trailing whitespace without changing command output wording or exit status. There is no unresolved implementation/test failure recorded here. Exact-head GitHub CI is reported in the delivery/PR once it completes.
+The partial code initially failed typecheck because RN 0.86 removed `absoluteFillObject`; it was corrected to the existing `absoluteFill` convention before final runs. An initial media test counted placeholders as Image views; its selector was corrected to count native Image views. These superseded attempts are not represented as passing runs. No unresolved automated failure remains. Exact-head GitHub CI and the pushed SHA are recorded in the live Draft PR/delivery after completion; old `7c5e362` CI is historical.
 
 ## Per-guide Figma comparison
 

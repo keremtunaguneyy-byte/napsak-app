@@ -1,0 +1,23 @@
+{
+  "device": "Android emulator-5554 / Expo Go",
+  "logicalViewport": "393x852",
+  "physicalCapture": "786x1704 / density320 / font_scale1.0",
+  "firstSelectedSizeHero": {
+    "placeholderFrame": 1.1907666666666668,
+    "loadedFrame": 1.4267666666666667,
+    "recordedGapMs": 236.0
+  },
+  "warmRepeat": {
+    "placeholderFrame": 4.342211111111111,
+    "loadedFrame": 4.5495222222222225,
+    "recordedGapMs": 207.31
+  },
+  "limits": "Variable-rate screenrecord: gaps between encoded states, not exact tap latency/FPS or physical Redmi acceptance. Thumbnail was already visible; first selected-size hero had not been opened. Brief motif placeholder remains possible even on repeat.",
+  "nativeMatrix": "Additional width/OS-scale configuration-recreation captures were invalid: loading/Expo Go ANR. Excluded. Both browser widths/scales pass; physical matrix pending. No data was cleared.",
+  "restored": {
+    "size": "1080x2400 physical; no override",
+    "density": 420,
+    "fontScale": 1.0
+  },
+  "toolsOverlay": "android.widget.ImageView Tools outside the Gezek accessibility root; no application removal"
+}

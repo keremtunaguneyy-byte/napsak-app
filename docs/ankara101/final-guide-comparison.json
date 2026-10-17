@@ -128,7 +128,67 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Mixed-weight title and flow corrected; exact source stone opacity 0.24 preserved despite stronger Figma host raster strokes.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1345:24044",
+          "bodyHeight": 1732,
+          "sourceBottom": 708,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1345:24044",
+          "bodyHeight": 3895,
+          "sourceBottom": 693.203125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1345:24335",
+          "bodyHeight": 1732,
+          "sourceBottom": 771,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ankara-kalesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1345:24335",
+          "bodyHeight": 3895,
+          "sourceBottom": 756.203125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [],
+      "correctionVisualResult": "PASS browser: re-inspected exact Figma full master/body, title/palette/motif, both widths, normal/180% title/footer. Featured cover retains approved structure."
     },
     {
       "guideId": "guide-hamamonu",
@@ -256,7 +316,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1340:30954",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1340:30954",
+          "bodyHeight": 3393,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1340:31059",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-hamamonu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1340:31059",
+          "bodyHeight": 3393,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-hamamonu",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 677
+            },
+            "arrow": {
+              "x": 315,
+              "y": 684,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 728
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        },
+        {
+          "id": "guide-hamamonu",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 332.984375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.1875
+            },
+            "media": {
+              "x": 20,
+              "y": 332.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.1875
+            },
+            "panel": {
+              "x": 132,
+              "y": 332.984375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.1875
+            },
+            "title": {
+              "x": 146,
+              "y": 377.1875,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 467.1875
+            },
+            "arrow": {
+              "x": 315,
+              "y": 474.1875,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 518.1875
+            },
+            "image": {
+              "x": 20,
+              "y": 332.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.1875
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        },
+        {
+          "id": "guide-hamamonu",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 740
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 747,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 791
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        },
+        {
+          "id": "guide-hamamonu",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 364.984375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.1875
+            },
+            "media": {
+              "x": 29.5,
+              "y": 364.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.1875
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 364.984375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.1875
+            },
+            "title": {
+              "x": 155.5,
+              "y": 409.1875,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 499.1875
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 506.1875,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 550.1875
+            },
+            "image": {
+              "x": 29.5,
+              "y": 364.984375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.1875
+            },
+            "overflow": "hidden",
+            "background": "rgb(245, 228, 232)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 11.03265049054236,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-anadolu-medeniyetleri",
@@ -384,7 +753,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:30932",
+          "bodyHeight": 1530,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:30932",
+          "bodyHeight": 3090,
+          "sourceBottom": 685.75,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31015",
+          "bodyHeight": 1530,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-anadolu-medeniyetleri",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31015",
+          "bodyHeight": 3090,
+          "sourceBottom": 748.75,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        },
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 536.1875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.390625
+            },
+            "media": {
+              "x": 20,
+              "y": 536.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.390625
+            },
+            "panel": {
+              "x": 132,
+              "y": 536.1875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.390625
+            },
+            "title": {
+              "x": 146,
+              "y": 580.390625,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 715.390625
+            },
+            "arrow": {
+              "x": 315,
+              "y": 722.390625,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 766.390625
+            },
+            "image": {
+              "x": 20,
+              "y": 536.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.390625
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        },
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        },
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 578.1875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.390625
+            },
+            "media": {
+              "x": 29.5,
+              "y": 578.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.390625
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 578.1875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.390625
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622.390625,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757.390625
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764.390625,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808.390625
+            },
+            "image": {
+              "x": 29.5,
+              "y": 578.1875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.390625
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 228, 240)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.653130068544051,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-cumhuriyet-muzesi",
@@ -512,7 +1190,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31191",
+          "bodyHeight": 1666,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31191",
+          "bodyHeight": 3361,
+          "sourceBottom": 685.265625,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31289",
+          "bodyHeight": 1666,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-cumhuriyet-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31289",
+          "bodyHeight": 3361,
+          "sourceBottom": 748.265625,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 537,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "media": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "panel": {
+              "x": 132,
+              "y": 537,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "title": {
+              "x": 146,
+              "y": 570,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 620
+            },
+            "arrow": {
+              "x": 315,
+              "y": 627,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 671
+            },
+            "image": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 311.390625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553.59375
+            },
+            "media": {
+              "x": 20,
+              "y": 311.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553.59375
+            },
+            "panel": {
+              "x": 132,
+              "y": 311.390625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553.59375
+            },
+            "title": {
+              "x": 146,
+              "y": 355.59375,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 490.59375
+            },
+            "arrow": {
+              "x": 315,
+              "y": 497.59375,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 541.59375
+            },
+            "image": {
+              "x": 20,
+              "y": 311.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553.59375
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 568,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "media": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 568,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "title": {
+              "x": 155.5,
+              "y": 601,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 651
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 658,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 702
+            },
+            "image": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 598.390625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 840.59375
+            },
+            "media": {
+              "x": 29.5,
+              "y": 598.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 840.59375
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 598.390625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 840.59375
+            },
+            "title": {
+              "x": 155.5,
+              "y": 642.59375,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 777.59375
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 784.59375,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 828.59375
+            },
+            "image": {
+              "x": 29.5,
+              "y": 598.390625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 840.59375
+            },
+            "overflow": "hidden",
+            "background": "rgb(241, 225, 229)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.58159147065325,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-etnografya-muzesi",
@@ -640,7 +1627,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31461",
+          "bodyHeight": 1515,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31461",
+          "bodyHeight": 2940,
+          "sourceBottom": 685.859375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31541",
+          "bodyHeight": 1515,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-etnografya-muzesi",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31541",
+          "bodyHeight": 2940,
+          "sourceBottom": 748.859375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 652
+            },
+            "arrow": {
+              "x": 315,
+              "y": 659,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 703
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 569.59375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.796875
+            },
+            "media": {
+              "x": 20,
+              "y": 569.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.796875
+            },
+            "panel": {
+              "x": 132,
+              "y": 569.59375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.796875
+            },
+            "title": {
+              "x": 146,
+              "y": 613.796875,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 703.796875
+            },
+            "arrow": {
+              "x": 315,
+              "y": 710.796875,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 754.796875
+            },
+            "image": {
+              "x": 20,
+              "y": 569.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.796875
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 715
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 722,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 766
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 364.59375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 561.796875
+            },
+            "media": {
+              "x": 29.5,
+              "y": 364.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 561.796875
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 364.59375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 561.796875
+            },
+            "title": {
+              "x": 155.5,
+              "y": 408.796875,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 498.796875
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 505.796875,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 549.796875
+            },
+            "image": {
+              "x": 29.5,
+              "y": 364.59375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 561.796875
+            },
+            "overflow": "hidden",
+            "background": "rgb(238, 235, 215)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.110964204853065,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-resim-heykel",
@@ -768,7 +2064,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31703",
+          "bodyHeight": 1525,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31703",
+          "bodyHeight": 2813,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:31789",
+          "bodyHeight": 1525,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-resim-heykel",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:31789",
+          "bodyHeight": 2813,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-resim-heykel",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        },
+        {
+          "id": "guide-resim-heykel",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 310.796875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553
+            },
+            "media": {
+              "x": 20,
+              "y": 310.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553
+            },
+            "panel": {
+              "x": 132,
+              "y": 310.796875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 553
+            },
+            "title": {
+              "x": 146,
+              "y": 355,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 490
+            },
+            "arrow": {
+              "x": 315,
+              "y": 497,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 541
+            },
+            "image": {
+              "x": 20,
+              "y": 310.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 553
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        },
+        {
+          "id": "guide-resim-heykel",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        },
+        {
+          "id": "guide-resim-heykel",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 577.796875,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820
+            },
+            "media": {
+              "x": 29.5,
+              "y": 577.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 577.796875,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808
+            },
+            "image": {
+              "x": 29.5,
+              "y": 577.796875,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820
+            },
+            "overflow": "hidden",
+            "background": "rgb(234, 227, 245)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.565987355221324,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-aslanhane",
@@ -896,7 +2501,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:31968",
+          "bodyHeight": 1664,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:31968",
+          "bodyHeight": 3105,
+          "sourceBottom": 684.953125,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32066",
+          "bodyHeight": 1664,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-aslanhane",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32066",
+          "bodyHeight": 3105,
+          "sourceBottom": 747.953125,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-aslanhane",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 537,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "media": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "panel": {
+              "x": 132,
+              "y": 537,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "title": {
+              "x": 146,
+              "y": 570,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 595
+            },
+            "arrow": {
+              "x": 315,
+              "y": 602,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 646
+            },
+            "image": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        },
+        {
+          "id": "guide-aslanhane",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 569,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.203125
+            },
+            "media": {
+              "x": 20,
+              "y": 569,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.203125
+            },
+            "panel": {
+              "x": 132,
+              "y": 569,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 766.203125
+            },
+            "title": {
+              "x": 146,
+              "y": 613.203125,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 703.203125
+            },
+            "arrow": {
+              "x": 315,
+              "y": 710.203125,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 754.203125
+            },
+            "image": {
+              "x": 20,
+              "y": 569,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 766.203125
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        },
+        {
+          "id": "guide-aslanhane",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 568,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "media": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 568,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "title": {
+              "x": 155.5,
+              "y": 601,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 626
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 633,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 677
+            },
+            "image": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        },
+        {
+          "id": "guide-aslanhane",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 644,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 841.203125
+            },
+            "media": {
+              "x": 29.5,
+              "y": 644,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 841.203125
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 644,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 841.203125
+            },
+            "title": {
+              "x": 155.5,
+              "y": 688.203125,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 778.203125
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 785.203125,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 829.203125
+            },
+            "image": {
+              "x": 29.5,
+              "y": 644,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 841.203125
+            },
+            "overflow": "hidden",
+            "background": "rgb(228, 235, 221)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.679215527030168,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-ulus-kultur-hatti",
@@ -1024,7 +2938,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32288",
+          "bodyHeight": 1722,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32288",
+          "bodyHeight": 3560,
+          "sourceBottom": 685.875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32412",
+          "bodyHeight": 1722,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-ulus-kultur-hatti",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32412",
+          "bodyHeight": 3560,
+          "sourceBottom": 748.875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 652
+            },
+            "arrow": {
+              "x": 315,
+              "y": 659,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 703
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 333.203125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.40625
+            },
+            "media": {
+              "x": 20,
+              "y": 333.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.40625
+            },
+            "panel": {
+              "x": 132,
+              "y": 333.203125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.40625
+            },
+            "title": {
+              "x": 146,
+              "y": 377.40625,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 467.40625
+            },
+            "arrow": {
+              "x": 315,
+              "y": 474.40625,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 518.40625
+            },
+            "image": {
+              "x": 20,
+              "y": 333.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.40625
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 715
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 722,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 766
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 365.203125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.40625
+            },
+            "media": {
+              "x": 29.5,
+              "y": 365.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.40625
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 365.203125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.40625
+            },
+            "title": {
+              "x": 155.5,
+              "y": 409.40625,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 499.40625
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 506.40625,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 550.40625
+            },
+            "image": {
+              "x": 29.5,
+              "y": 365.203125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.40625
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 233, 247)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.283033917669488,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-gordion",
@@ -1152,7 +3375,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32626",
+          "bodyHeight": 1641,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32626",
+          "bodyHeight": 3402,
+          "sourceBottom": 685.234375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:32721",
+          "bodyHeight": 1641,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-gordion",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:32721",
+          "bodyHeight": 3402,
+          "sourceBottom": 748.234375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-gordion",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        },
+        {
+          "id": "guide-gordion",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 535.40625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 777.609375
+            },
+            "media": {
+              "x": 20,
+              "y": 535.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 777.609375
+            },
+            "panel": {
+              "x": 132,
+              "y": 535.40625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 777.609375
+            },
+            "title": {
+              "x": 146,
+              "y": 579.609375,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 714.609375
+            },
+            "arrow": {
+              "x": 315,
+              "y": 721.609375,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 765.609375
+            },
+            "image": {
+              "x": 20,
+              "y": 535.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 777.609375
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        },
+        {
+          "id": "guide-gordion",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        },
+        {
+          "id": "guide-gordion",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 578.40625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.609375
+            },
+            "media": {
+              "x": 29.5,
+              "y": 578.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.609375
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 578.40625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.609375
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622.609375,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757.609375
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764.609375,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808.609375
+            },
+            "image": {
+              "x": 29.5,
+              "y": 578.40625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.609375
+            },
+            "overflow": "hidden",
+            "background": "rgb(240, 227, 201)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.035346232949653,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-eymir",
@@ -1280,7 +3812,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:32916",
+          "bodyHeight": 1687,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:32916",
+          "bodyHeight": 3256,
+          "sourceBottom": 685.6875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33021",
+          "bodyHeight": 1687,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-eymir",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33021",
+          "bodyHeight": 3256,
+          "sourceBottom": 748.6875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-eymir",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 537,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "media": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "panel": {
+              "x": 132,
+              "y": 537,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 721
+            },
+            "title": {
+              "x": 146,
+              "y": 570,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 595
+            },
+            "arrow": {
+              "x": 315,
+              "y": 602,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 646
+            },
+            "image": {
+              "x": 20,
+              "y": 537,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 721
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        },
+        {
+          "id": "guide-eymir",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 333.609375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.8125
+            },
+            "media": {
+              "x": 20,
+              "y": 333.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.8125
+            },
+            "panel": {
+              "x": 132,
+              "y": 333.609375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 530.8125
+            },
+            "title": {
+              "x": 146,
+              "y": 377.8125,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 467.8125
+            },
+            "arrow": {
+              "x": 315,
+              "y": 474.8125,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 518.8125
+            },
+            "image": {
+              "x": 20,
+              "y": 333.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 530.8125
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        },
+        {
+          "id": "guide-eymir",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 568,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "media": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 568,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 752
+            },
+            "title": {
+              "x": 155.5,
+              "y": 601,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 626
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 633,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 677
+            },
+            "image": {
+              "x": 29.5,
+              "y": 568,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 752
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        },
+        {
+          "id": "guide-eymir",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 643.609375,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 840.8125
+            },
+            "media": {
+              "x": 29.5,
+              "y": 643.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 840.8125
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 643.609375,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 840.8125
+            },
+            "title": {
+              "x": 155.5,
+              "y": 687.8125,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 777.8125
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 784.8125,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 828.8125
+            },
+            "image": {
+              "x": 29.5,
+              "y": 643.609375,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 840.8125
+            },
+            "overflow": "hidden",
+            "background": "rgb(221, 237, 230)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.700370393472099,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-mogan",
@@ -1408,7 +4249,316 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33200",
+          "bodyHeight": 1504,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33200",
+          "bodyHeight": 2794,
+          "sourceBottom": 685.546875,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33280",
+          "bodyHeight": 1504,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-mogan",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33280",
+          "bodyHeight": 2794,
+          "sourceBottom": 748.546875,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-mogan",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 594,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "media": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "panel": {
+              "x": 132,
+              "y": 594,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 778
+            },
+            "title": {
+              "x": 146,
+              "y": 627,
+              "width": 213,
+              "height": 25,
+              "right": 359,
+              "bottom": 652
+            },
+            "arrow": {
+              "x": 315,
+              "y": 659,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 703
+            },
+            "image": {
+              "x": 20,
+              "y": 594,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 778
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        },
+        {
+          "id": "guide-mogan",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 546.8125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 744.015625
+            },
+            "media": {
+              "x": 20,
+              "y": 546.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 744.015625
+            },
+            "panel": {
+              "x": 132,
+              "y": 546.8125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 373,
+              "bottom": 744.015625
+            },
+            "title": {
+              "x": 146,
+              "y": 591.015625,
+              "width": 213,
+              "height": 90,
+              "right": 359,
+              "bottom": 681.015625
+            },
+            "arrow": {
+              "x": 315,
+              "y": 688.015625,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 732.015625
+            },
+            "image": {
+              "x": 20,
+              "y": 546.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 132,
+              "bottom": 744.015625
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        },
+        {
+          "id": "guide-mogan",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 657,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "media": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 657,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 841
+            },
+            "title": {
+              "x": 155.5,
+              "y": 690,
+              "width": 213,
+              "height": 25,
+              "right": 368.5,
+              "bottom": 715
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 722,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 766
+            },
+            "image": {
+              "x": 29.5,
+              "y": 657,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 841
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        },
+        {
+          "id": "guide-mogan",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 364.8125,
+              "width": 353,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.015625
+            },
+            "media": {
+              "x": 29.5,
+              "y": 364.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.015625
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 364.8125,
+              "width": 241,
+              "height": 197.203125,
+              "right": 382.5,
+              "bottom": 562.015625
+            },
+            "title": {
+              "x": 155.5,
+              "y": 409.015625,
+              "width": 213,
+              "height": 90,
+              "right": 368.5,
+              "bottom": 499.015625
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 506.015625,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 550.015625
+            },
+            "image": {
+              "x": 29.5,
+              "y": 364.8125,
+              "width": 112,
+              "height": 197.203125,
+              "right": 141.5,
+              "bottom": 562.015625
+            },
+            "overflow": "hidden",
+            "background": "rgb(226, 233, 242)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 9.710802401012886,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     },
     {
       "guideId": "guide-tunali-kugulu",
@@ -1536,7 +4686,318 @@
       "result412": "PASS centered 393px lane / 9.5px gutters, normal and 180%",
       "largeText": "PASS browser simulation with natural content height; actual Android OS large text pending",
       "correctedMismatch": "Exact 54/132px motif strokes and already-clipped 160px background export replace scaled master instances.",
-      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed."
+      "limitations": "Browser/native glyph shaping and antialiasing vary; no pixel-identity or physical-device acceptance claimed.",
+      "correctionReaderChecks": [
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1,
+          "node": "1342:33453",
+          "bodyHeight": 1651,
+          "sourceBottom": 700,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 393,
+            "height": 852
+          },
+          "scale": 1.8,
+          "node": "1342:33453",
+          "bodyHeight": 3449,
+          "sourceBottom": 685.484375,
+          "navTop": 778,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1,
+          "node": "1342:33551",
+          "bodyHeight": 1651,
+          "sourceBottom": 763,
+          "navTop": 841,
+          "pass": true
+        },
+        {
+          "name": "exact route/content/source/bookmark/origin/clearance",
+          "id": "guide-tunali-kugulu",
+          "viewport": {
+            "width": 412,
+            "height": 915
+          },
+          "scale": 1.8,
+          "node": "1342:33551",
+          "bodyHeight": 3449,
+          "sourceBottom": 748.484375,
+          "navTop": 841,
+          "pass": true
+        }
+      ],
+      "indexCardChecks": [
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 393,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 337,
+              "width": 353,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "media": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "panel": {
+              "x": 132,
+              "y": 337,
+              "width": 241,
+              "height": 184,
+              "right": 373,
+              "bottom": 521
+            },
+            "title": {
+              "x": 146,
+              "y": 370,
+              "width": 213,
+              "height": 50,
+              "right": 359,
+              "bottom": 420
+            },
+            "arrow": {
+              "x": 315,
+              "y": 427,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 471
+            },
+            "image": {
+              "x": 20,
+              "y": 337,
+              "width": 112,
+              "height": 184,
+              "right": 132,
+              "bottom": 521
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 393,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 20,
+              "y": 536.015625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.21875
+            },
+            "media": {
+              "x": 20,
+              "y": 536.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.21875
+            },
+            "panel": {
+              "x": 132,
+              "y": 536.015625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 373,
+              "bottom": 778.21875
+            },
+            "title": {
+              "x": 146,
+              "y": 580.21875,
+              "width": 213,
+              "height": 135,
+              "right": 359,
+              "bottom": 715.21875
+            },
+            "arrow": {
+              "x": 315,
+              "y": 722.21875,
+              "width": 44,
+              "height": 44,
+              "right": 359,
+              "bottom": 766.21875
+            },
+            "image": {
+              "x": 20,
+              "y": 536.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 132,
+              "bottom": 778.21875
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 412,
+          "scale": 1,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 368,
+              "width": 353,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "media": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 368,
+              "width": 241,
+              "height": 184,
+              "right": 382.5,
+              "bottom": 552
+            },
+            "title": {
+              "x": 155.5,
+              "y": 401,
+              "width": 213,
+              "height": 50,
+              "right": 368.5,
+              "bottom": 451
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 458,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 502
+            },
+            "image": {
+              "x": 29.5,
+              "y": 368,
+              "width": 112,
+              "height": 184,
+              "right": 141.5,
+              "bottom": 552
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "width": 412,
+          "scale": 1.8,
+          "geometry": {
+            "card": {
+              "x": 29.5,
+              "y": 578.015625,
+              "width": 353,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.21875
+            },
+            "media": {
+              "x": 29.5,
+              "y": 578.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.21875
+            },
+            "panel": {
+              "x": 141.5,
+              "y": 578.015625,
+              "width": 241,
+              "height": 242.203125,
+              "right": 382.5,
+              "bottom": 820.21875
+            },
+            "title": {
+              "x": 155.5,
+              "y": 622.21875,
+              "width": 213,
+              "height": 135,
+              "right": 368.5,
+              "bottom": 757.21875
+            },
+            "arrow": {
+              "x": 324.5,
+              "y": 764.21875,
+              "width": 44,
+              "height": 44,
+              "right": 368.5,
+              "bottom": 808.21875
+            },
+            "image": {
+              "x": 29.5,
+              "y": 578.015625,
+              "width": 112,
+              "height": 242.203125,
+              "right": 141.5,
+              "bottom": 820.21875
+            },
+            "overflow": "hidden",
+            "background": "rgb(225, 236, 222)",
+            "opacity": "1",
+            "titleOverflow": false,
+            "radius": "28px"
+          },
+          "contrast": 10.359641391350685,
+          "pass": true
+        }
+      ],
+      "correctionVisualResult": "PASS browser: approved index component with clipped 112px media and opaque palette; title/metadata wrap, 44px arrow, normal/180%; reader exact Figma full master/body and both-width title/footer re-inspected."
     }
-  ]
+  ],
+  "correctionBaseline": "7c5e362e764a5817bc189b9aa78688e498b67618",
+  "verification": "Fresh corrected application: 316 npm tests; 73 main + 7 edge + 48 media browser checks; native selected 393 normal evidence only. Physical Redmi pending."
 }
