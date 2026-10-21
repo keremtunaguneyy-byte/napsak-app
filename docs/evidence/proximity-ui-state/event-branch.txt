@@ -1,0 +1,11 @@
+
+> napsak-app@0.1.0 check:events
+> node --import tsx scripts/checkEventOperations.ts
+
+Etkinlik katalog sağlığı: GÜNCELLEME GEREKİYOR
+Toplam: 9
+Yaklaşan: 7
+Süresi geçmiş: 2
+Katalog ufku: 19.89 gün
+Eski doğrulama: 9
+Sorunlar: stale_verification

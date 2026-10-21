@@ -1,7 +1,9 @@
+import { createProximitySession, ProximityFailure, ProximityState } from './src/proximitySession';
+import { ProximityFeedback } from './src/components/gezek/ProximityControl';
 import { createLocationValidityMonitor } from './src/locationValidity';
 import { createRecommendationLocationResolver } from './src/recommendationLocation';
 import { useHomeRecommendationSnapshot } from './src/useHomeRecommendationSnapshot';
-import { createHomeFilterRuns, homeCatalogKeys, homeDismissalKeys, homeSnapshotKey, invalidateHomeFilters, rotateHomeFilter } from './src/homeFilterSnapshots';
+import { createHomeFilterRuns, homeCatalogKeys, homeDismissalKeys, homeSnapshotKey, homeSnapshotSlot, invalidateHomeFilters, rotateHomeFilter } from './src/homeFilterSnapshots';
 import { homeDisplayItems } from './src/components/gezek/gezekHomePresentation';
 import { experienceStartDistanceLabel } from './src/experienceStartDistance';
 import { createLocationRequestGuard } from './src/locationRequestGuard';
@@ -105,8 +107,16 @@ function AppContent() {
   const restoreFromUndo = useRef<(id: string) => void>(() => {});
   const undo = useMemo(() => createDismissUndo(setUndoNotice, id => restoreFromUndo.current(id)), []);
   const [filterRuns, setFilterRuns] = useState(createHomeFilterRuns);
+  const [nearbyRuns, setNearbyRuns] = useState(createHomeFilterRuns);
+  const [proximity, setProximity] = useState<ProximityState>({ status: 'off', generation: 0 });
+  const proximityOwner = useRef<ReturnType<typeof createProximitySession> | undefined>(undefined);
+  const [proximityFeedback, setProximityFeedback] = useState<{ id: number; failure: ProximityFailure }>();
+  const [proximityFocus, setProximityFocus] = useState(0);
+  const safeDefaultFallback = useRef(false);
   const [resultFilter, setResultFilter] = useState<ResultFilter>(DEFAULT_RESULT_FILTER);
-  const { run: recommendationRun, previousBatch } = filterRuns[resultFilter];
+  const proximityMode = proximity.status === 'active' && (resultFilter === 'experience' || resultFilter === 'place') ? 'nearby' : 'default';
+  const activeRuns = proximityMode === 'nearby' ? nearbyRuns : filterRuns;
+  const { run: recommendationRun, previousBatch } = activeRuns[resultFilter];
   const [eligibilityNow, setEligibilityNow] = useState(() => new Date());
   const scrollRef = useRef<ScrollView>(null);
   const recommendationsY = useRef(0);
@@ -160,6 +170,7 @@ function AppContent() {
   // changes. Only a genuinely new batch reads the latest validated location.
   const latestLocation = useRef(coordinates);
   const invalidateLocation = useCallback(() => {
+    proximityOwner.current?.invalidate();
     locationRequests.invalidate();
     latestLocation.current = undefined;
     setCoordinates(undefined);
@@ -177,8 +188,49 @@ function AppContent() {
     locationValidity.current?.locationChanged();
     recommendationLocation.locationChanged();
     latestLocation.current = next;
+    if (next) safeDefaultFallback.current = false;
     setCoordinates(next);
   }, [recommendationLocation]);
+  const proximitySession = useMemo(() => createProximitySession({
+    servicesEnabled: Location.hasServicesEnabledAsync,
+    requestPermission: Location.requestForegroundPermissionsAsync,
+    currentPosition: () => Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
+    acquired: publishExplicitLocation,
+    changed: (next, failure) => {
+      scrollAfterRotation.current = false;
+      setProximity(next);
+      if (next.status === 'off') safeDefaultFallback.current = true;
+      setProximityFeedback(failure ? { id: Date.now(), failure } : undefined);
+      if (next.status !== 'acquiring') setProximityFocus(value => value + 1);
+    },
+  }), [publishExplicitLocation]);
+  proximityOwner.current = proximitySession;
+  useEffect(() => () => proximitySession.dispose(), [proximitySession]);
+  useEffect(() => {
+    // A departed Home cancels a pending request, but keeps an already active
+    // session for Detail/Back and other Home filters. No new GPS on return.
+    if (step !== 'results' || detailSession || preferenceSession || deletionBusy) proximitySession.cancel();
+    setProximityFeedback(undefined);
+  }, [step, !!detailSession, !!preferenceSession, deletionBusy, resultFilter, proximitySession]);
+  useEffect(() => {
+    if (!proximityFeedback) return;
+    const timer = setTimeout(() => setProximityFeedback(undefined), 8000);
+    return () => clearTimeout(timer);
+  }, [proximityFeedback]);
+  useEffect(() => {
+    if (step === 'results' && !detailSession && !preferenceSession && proximitySession.state().status === 'active') {
+      void recommendationLocation.resolve();
+    }
+  }, [step, !!detailSession, !!preferenceSession, resultFilter, proximitySession, recommendationLocation]);
+  const toggleProximity = useCallback(() => {
+    scrollAfterRotation.current = false;
+    if (proximitySession.state().status === 'active') proximitySession.off();
+    else if (proximitySession.state().status === 'off') {
+      locationRequests.invalidate(); setLocating(false);
+      locationValidity.current?.locationChanged(); recommendationLocation.locationChanged();
+      void proximitySession.activate();
+    }
+  }, [proximitySession, locationRequests, recommendationLocation]);
   useEffect(() => {
     const monitor = createLocationValidityMonitor({
       servicesEnabled: Location.hasServicesEnabledAsync,
@@ -188,7 +240,7 @@ function AppContent() {
     locationValidity.current = monitor;
     const change = AppState.addEventListener('change', state => {
       if (state === 'active') monitor.resume();
-      else monitor.pause();
+      else { proximitySession.cancel(); monitor.pause(); }
     });
     const focus = Platform.OS === 'android' ? AppState.addEventListener('focus', () => monitor.resume()) : undefined;
     const blur = Platform.OS === 'android' ? AppState.addEventListener('blur', () => monitor.pause()) : undefined;
@@ -197,23 +249,24 @@ function AppContent() {
       change.remove(); focus?.remove(); blur?.remove();
       if (locationValidity.current === monitor) locationValidity.current = undefined;
     };
-  }, [invalidateLocation]);
+  }, [invalidateLocation, proximitySession]);
   const catalogKeys = useMemo(() => homeCatalogKeys(catalog), [catalog]);
   const dismissalKeys = useMemo(() => homeDismissalKeys(catalog, dismissed), [catalog, dismissed]);
   const preferenceKey = JSON.stringify([mood, chosen, budget, groupSize, duration]);
-  const snapshotKey = homeSnapshotKey(resultFilter, filterRuns[resultFilter], catalogKeys[resultFilter], preferenceKey, dismissalKeys[resultFilter], eligibilityNow);
+  const nearbyCoordinates = proximity.status === 'active' && proximityMode === 'nearby' ? proximity.coordinates : undefined;
+  const snapshotKey = homeSnapshotKey(resultFilter, activeRuns[resultFilter], catalogKeys[resultFilter], preferenceKey, dismissalKeys[resultFilter], eligibilityNow, nearbyCoordinates);
   const displayCoordinates = locating ? undefined : coordinates;
   const computeRecommendations = useCallback((safeCoordinates?: Coordinates) => {
     const startedAt = Date.now();
-    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: safeCoordinates, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
+    const items = recommendAll({ places, ideas, events, experiences, filter: resultFilter, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: safeCoordinates, proximityPolicy: proximityMode, limit: 5, seed: recommendationRun, previousBatch, now: eligibilityNow });
     const elapsed = Date.now() - startedAt;
     recordHomeRecommendation(elapsed);
     return { items, durationBucket: performanceDurationBucket(elapsed), run: recommendationRun, filter: resultFilter,
       eventDiagnostics: resultFilter === 'event' ? eventDiagnostics({ places: [], ideas: [], events, mood, interests: chosen, budget, groupSize, duration, dismissed, seed: recommendationRun, previousBatch, now: eligibilityNow }) : undefined };
-  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, previousBatch, resultFilter, eligibilityNow]);
-  const homeSnapshot = useHomeRecommendationSnapshot(resultFilter, snapshotKey, hydrated && onboardingCompleted && step === 'results', computeRecommendations,
-    resultFilter === 'experience' || resultFilter === 'place' ? recommendationLocation : undefined,
-    { items: [] as RecommendationItem[], durationBucket: performanceDurationBucket(0), run: recommendationRun, filter: resultFilter, eventDiagnostics: undefined });
+  }, [places, ideas, events, experiences, mood, chosen, dismissed, budget, groupSize, duration, recommendationRun, previousBatch, resultFilter, eligibilityNow, proximityMode]);
+  const homeSnapshot = useHomeRecommendationSnapshot(homeSnapshotSlot(resultFilter, proximityMode), snapshotKey, hydrated && onboardingCompleted && step === 'results', computeRecommendations,
+    (resultFilter === 'experience' || resultFilter === 'place') && (proximityMode === 'nearby' || !safeDefaultFallback.current) ? recommendationLocation : undefined,
+    { items: [] as RecommendationItem[], durationBucket: performanceDurationBucket(0), run: recommendationRun, filter: resultFilter, eventDiagnostics: undefined }, nearbyCoordinates);
   // A pending real replacement can show its prior same-filter snapshot, but a
   // newly dismissed record must disappear immediately, before preflight settles.
   const recommendationMeasurement = useMemo(() => homeSnapshot.items.some(item => dismissed.includes(item.id))
@@ -365,6 +418,8 @@ function AppContent() {
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
   const requestLocation = useCallback(async () => {
+    proximityOwner.current?.off();
+    proximityOwner.current?.cancel();
     locationValidity.current?.locationChanged();
     recommendationLocation.locationChanged();
     const request = locationRequests.begin();
@@ -446,6 +501,8 @@ function AppContent() {
     completedSnapshot.current = undefined;
     publishExplicitLocation(undefined);
     setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
+    proximitySession.off(); proximitySession.cancel();
+    setNearbyRuns(createHomeFilterRuns());
     setFilterRuns(createHomeFilterRuns());
     setResultFilter(DEFAULT_RESULT_FILTER);
     setStep('welcome');
@@ -480,8 +537,10 @@ function AppContent() {
     const filter = recommendationMeasurement.filter;
     if (filter !== resultFilter) setResultFilter(filter);
     scrollAfterRotation.current = true;
-    setFilterRuns(current => rotateHomeFilter(current, filter, results.map(item => item.id)));
-  }, [results, resultFilter, recommendationMeasurement.filter, undo]);
+    safeDefaultFallback.current = false;
+    const setRuns = proximityMode === 'nearby' ? setNearbyRuns : setFilterRuns;
+    setRuns(current => rotateHomeFilter(current, filter, results.map(item => item.id)));
+  }, [results, resultFilter, recommendationMeasurement.filter, undo, proximityMode]);
   const analyticsKindForId = useCallback((id: string): AnalyticsItemKind | undefined => {
     const item = catalogItems.find(candidate => candidate.id === id);
     if (item) return itemAnalyticsKind(item);
@@ -622,6 +681,8 @@ function AppContent() {
     const current = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
     const next = applyPreferenceEditor(current, preferenceSession);
     setFilterRuns(current => invalidateHomeFilters(current));
+    setNearbyRuns(current => invalidateHomeFilters(current));
+    proximitySession.cancel();
     // React batches this approved draft into one compatible persistence snapshot.
     setMood(next.mood); setChosen(next.interests); setBudget(next.budget ?? 'Fark etmez'); setGroupSize(next.groupSize); setDuration(next.duration ?? 'Fark etmez');
     if (contextRefreshDue && preferenceSession.mode !== 'budget_only') {
@@ -750,6 +811,7 @@ function AppContent() {
     }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
       {!isGuideArticle && !isProductionSurface && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={openHomeSettings} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={settingsOrigin.current === 'guides' ? 'Ankara 101’e dön' : 'Önerilere dön'} onPress={() => setStep(settingsOrigin.current)} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
       {step === 'results' && <GezekHome
+        proximity={proximity} onToggleProximity={toggleProximity} proximityFocus={proximityFocus}
         safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={recommendationMeasurement.filter} contextRefreshDue={contextRefreshDue}
@@ -781,6 +843,7 @@ function AppContent() {
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
       </View>}
     </ScrollView>
+    {isHome && !detailSession && !preferenceSession && proximityFeedback && <ProximityFeedback failure={proximityFeedback.failure} />}
     <View style={isAnkara101 ? { flex: 1, backgroundColor: '#E8ECF9' } : { display: 'none' }} accessibilityElementsHidden={!isAnkara101} importantForAccessibility={isAnkara101 ? 'auto' : 'no-hide-descendants'}>
       {isAnkara101 && <Ankara101FontGate onExit={() => { if (readerSession || editorialOrigin) leaveEditorial(); else setStep('results'); }}>
         <View style={readerSession ? { display: 'none' } : { flex: 1 }}>
@@ -800,7 +863,7 @@ function AppContent() {
     {imageWarmup && <Ankara101ImageWarmup key={imageWarmup.token} request={imageWarmup} onFinish={imageOpening.finish} />}
     {preferenceSession && <PreferenceEditor session={preferenceSession} onAction={navigatePreferenceEditor} onApply={applyEditor} />}
     {detailSession && <DetailHost session={detailSession}
-      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: recommendationRun, now: eligibilityNow }}
+      context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: filterRuns[resultFilter].run, now: eligibilityNow }}
       recommendationLocation={recommendationLocation}
       ideas={ideas} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
       onOpenEventMap={async url => { if (!(await Linking.canOpenURL(url))) throw new Error('unsupported map URL'); trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'event' } }); await Linking.openURL(url); }}

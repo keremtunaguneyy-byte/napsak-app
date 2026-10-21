@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-21 — Approved proximity control UI/state integration
+
+Session-only Gezek/Mekân control uses merged PR #80 B2 with fresh activation, shared session fix, independent A/B2 snapshots and histories, safe A restoration and existing lifecycle validity checks. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records live Figma, Git audit, validation, canonical evidence and the complete pending Redmi checklist. One Draft PR only; no merge. Engine/catalog/Firebase/persistence/Details policy/release and protected Verilog unchanged. Browser/export evidence does not close native acceptance.
+
 ## 2026-10-21 — Engine-only optional proximity policy
 
 A remains default. Optional B2 replaces the Place/Experience proximity contribution with `-2 * distanceKm`; no production UI caller opts in. See [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md) for the pre-edit parity reference, 16-batch comparison, validation and scope. UI/location/session/snapshot integration is a later separate PR. Current stale Event verification is reproduced on source main and remains out of scope. Draft PR only, no merge; protected Verilog untouched.

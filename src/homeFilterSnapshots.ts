@@ -2,6 +2,11 @@ import type { CatalogSnapshot } from './data/catalog';
 import type { ResultFilter } from './resultFilters';
 
 export const HOME_FILTERS: readonly ResultFilter[] = ['experience', 'place', 'event', 'idea'];
+export type HomeProximityMode = 'default' | 'nearby';
+export type HomeSnapshotSlot = ResultFilter | 'experience:nearby' | 'place:nearby';
+export function homeSnapshotSlot(filter: ResultFilter, mode: HomeProximityMode = 'default'): HomeSnapshotSlot {
+  return mode === 'nearby' && (filter === 'experience' || filter === 'place') ? `${filter}:nearby` : filter;
+}
 export type HomeFilterRun = { run: number; previousBatch: string[]; revision: number };
 export type HomeFilterRuns = Record<ResultFilter, HomeFilterRun>;
 export function createHomeFilterRuns(): HomeFilterRuns {
@@ -35,24 +40,27 @@ export function homeDismissalKeys(catalog: CatalogSnapshot, dismissed: readonly 
   const key = (items: readonly { id: string }[]) => JSON.stringify(items.filter(item => selected.has(item.id)).map(item => item.id).sort());
   return { experience: key(catalog.experiences), place: key(catalog.places), event: key(catalog.events), idea: key(catalog.ideas) };
 }
-export type HomeSnapshotKey = readonly [catalog: string, preferences: string, dismissed: string, run: number, previousBatch: readonly string[], revision: number, eligibility: number];
-export function homeSnapshotKey(filter: ResultFilter, state: HomeFilterRun, catalog: string, preferences: string, dismissed: string, now: Date): HomeSnapshotKey {
-  return [catalog, preferences, dismissed, state.run, state.previousBatch, state.revision, filter === 'event' || filter === 'experience' ? now.getTime() : 0];
+export type HomeSnapshotKey = readonly [catalog: string, preferences: string, dismissed: string, run: number, previousBatch: readonly string[], revision: number, eligibility: number, provenance?: object];
+export function homeSnapshotKey(filter: ResultFilter, state: HomeFilterRun, catalog: string, preferences: string, dismissed: string, now: Date, provenance?: object): HomeSnapshotKey {
+  return [catalog, preferences, dismissed, state.run, state.previousBatch, state.revision, filter === 'event' || filter === 'experience' ? now.getTime() : 0, provenance];
 }
 export function sameHomeSnapshotKey(a: HomeSnapshotKey, b: HomeSnapshotKey): boolean {
-  return a.every((value, index) => Object.is(value, b[index]));
+  return a.length === b.length && a.every((value, index) => Object.is(value, b[index]));
 }
-/** At most four entries. Old keys are invalid even while their rows provide a
+/** At most six entries (four A plus Gezek/Mekân B2). Old keys are invalid even while their rows provide a
  * same-filter presentation fallback during a real new batch's location preflight.
  */
 export function createHomeSnapshotCache<T>() {
-  const entries = new Map<ResultFilter, { key: HomeSnapshotKey; value: T }>();
+  const entries = new Map<HomeSnapshotSlot, { key: HomeSnapshotKey; value: T }>();
   return {
-    read(filter: ResultFilter, key: HomeSnapshotKey): T | undefined {
+    read(filter: HomeSnapshotSlot, key: HomeSnapshotKey): T | undefined {
       const entry = entries.get(filter);
       return entry && sameHomeSnapshotKey(entry.key, key) ? entry.value : undefined;
     },
-    previous: (filter: ResultFilter) => entries.get(filter)?.value,
-    write(filter: ResultFilter, key: HomeSnapshotKey, value: T) { entries.set(filter, { key, value }); },
+    previous(filter: HomeSnapshotSlot, provenance?: object): T | undefined {
+      const entry = entries.get(filter);
+      return provenance && entry?.key[7] !== provenance ? undefined : entry?.value;
+    },
+    write(filter: HomeSnapshotSlot, key: HomeSnapshotKey, value: T) { entries.set(filter, { key, value }); },
   };
 }
