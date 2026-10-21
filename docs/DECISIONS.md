@@ -1,5 +1,9 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-21 — Optional engine-only B2 proximity policy
+
+Status: explicitly user-approved for implementation in the self-contained 21 October engine handoff. A remains default with unchanged valid/locationless results. Optional `nearby` replaces A's Place/Experience proximity bonus with `-2 * distanceKm`, without a radius gate or eligibility change. Experience primary precedence, Place soft scoring, all other terms, rotation, reasons and Event/Idea scoring remain intact. Related-detail recommendations stay on A. Invalid numeric coordinates use locationless scoring in the pure engine; no location acquisition/freshness/UI behavior changes. No current production caller enables B2. UI/session/snapshot integration is a separate PR. Implementation, exact pre-edit parity, measurements and remaining verification limits: [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md). One Draft PR, normal commit/push, no merge.
+
 ## 2026-10-17 — Twelve-guide-only Ankara 101 discovery; retained saved Insider compatibility
 
 Status: explicitly user-approved and implemented on the existing branch/Draft #79. The user accepted the focused Redmi checklist at `0751414c33a978a0148e9851ed0fc2fb74f907e8`, then directed removal of the visible Insider continuation only. This supersedes the previous instruction to keep “Bir Ankaralı Gibi” discoverable after the twelve Guides. Keep its stable ID/content/media/Reader and persisted Saved records; no migration or data deletion. Previously saved content remains openable/unsavable with correct Saved return, including explicit Close. Production cover, twelve Guides, loading, Home/recommendations, schemas and other flows remain unchanged. Verification/evidence and minimal final-SHA recheck: [ANKARA101_IMPLEMENTATION_REPORT.md](ANKARA101_IMPLEMENTATION_REPORT.md). TalkBack/real OS text/reduced motion/signed release remain deferred; normal commit/push, same Draft PR, no merge.

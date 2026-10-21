@@ -1,4 +1,6 @@
-import { Coordinates, distanceInKm } from './domain';
+import { Coordinates } from './domain';
+import { recommendationDistance, recommendationProximityScore, RecommendationProximityPolicy } from './recommendationProximity';
+export type { RecommendationProximityPolicy } from './recommendationProximity';
 import {
   createExperienceEligibilityContext,
   isEventRecommendationEligible,
@@ -129,6 +131,7 @@ export function recommendExperiences(options: {
   groupSize?: GroupSizePreference;
   duration?: DurationPreference;
   coordinates?: Coordinates;
+  proximityPolicy?: RecommendationProximityPolicy;
   limit?: number;
   seed?: number;
   previousBatch?: string[];
@@ -136,7 +139,7 @@ export function recommendExperiences(options: {
 }): ExperienceRecommendation[] {
   const {
     experiences, places, events = [], mood, interests, dismissed, budget, groupSize, duration,
-    coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
+    coordinates, proximityPolicy = 'default', limit = 5, seed = 0, previousBatch = [], now = new Date(),
   } = options;
   const random = seededRandom(seed ^ 0xE7E11E);
   const previous = new Set(previousBatch);
@@ -148,7 +151,7 @@ export function recommendExperiences(options: {
     .filter(item => budgetEligible(item.priceLevel, budget))
     .filter(item => !interests.length || interests.some(interest => item.primaryInterests.includes(interest) || item.secondaryInterests.includes(interest)))
     .map(item => {
-      const distance = coordinates ? distanceInKm(coordinates, item) : undefined;
+      const distance = recommendationDistance(coordinates, item);
       const moodMatch = Boolean(mood && item.moods.includes(mood));
       const primaryMatches = interests.filter(interest => item.primaryInterests.includes(interest));
       const secondaryMatches = interests.filter(interest => item.secondaryInterests.includes(interest));
@@ -156,7 +159,7 @@ export function recommendExperiences(options: {
       const budgetScore = priceSignal(item.priceLevel, budget);
       const groupMatch = !groupSize || item.groupSizes.includes(groupSize);
       const groupScore = !groupSize ? 0 : groupMatch ? 10 : -8;
-      const proximityScore = distance === undefined ? 0 : Math.max(0, 14 - distance * 1.25);
+      const proximityScore = recommendationProximityScore('experience', distance, proximityPolicy);
       const verifiedAt = Date.parse(`${item.lastVerifiedAt}T00:00:00Z`);
       const ageDays = Number.isFinite(verifiedAt) ? Math.max(0, (now.getTime() - verifiedAt) / 86_400_000) : 365;
       const freshnessScore = Math.max(-8, 8 - ageDays / 45);
@@ -201,12 +204,14 @@ export function recommendExperiences(options: {
 /** Match stable stop IDs before ranking so unrelated top results cannot crowd out a linked plan. */
 export function recommendExperiencesForPlace(
   place: Pick<Place, 'id' | 'cityId'>,
-  options: Parameters<typeof recommendExperiences>[0],
+  options: Omit<Parameters<typeof recommendExperiences>[0], 'proximityPolicy'>,
 ): ExperienceRecommendation[] {
   const catalogPlace = options.places.find(item => item.id === place.id && item.cityId === place.cityId);
   if (!catalogPlace || !isPlaceRecommendationEligible(catalogPlace)) return [];
   return recommendExperiences({
     ...options,
+    // Related-detail recommendations stay on A even if a caller spreads Home options.
+    proximityPolicy: 'default',
     experiences: options.experiences.filter(experience => experience.cityId === place.cityId
       && experience.points.some(point => point.placeId === place.id)),
   });
@@ -220,24 +225,25 @@ export function recommendPlaces(options: {
   budget?: BudgetPreference;
   groupSize?: GroupSizePreference;
   coordinates?: Coordinates;
+  proximityPolicy?: RecommendationProximityPolicy;
   limit?: number;
   seed?: number;
   random?: () => number;
   /** IDs from the immediately preceding batch. Avoided while enough fresh matches exist. */
   previousBatch?: string[];
 }): Recommendation[] {
-  const { places, mood, interests, dismissed, budget, groupSize, coordinates, limit = 5, seed = 0, random = seededRandom(seed), previousBatch = [] } = options;
+  const { places, mood, interests, dismissed, budget, groupSize, coordinates, proximityPolicy = 'default', limit = 5, seed = 0, random = seededRandom(seed), previousBatch = [] } = options;
   const candidates = places
     .filter(place => !dismissed.includes(place.id))
     .filter(isPlaceRecommendationEligible)
     .filter(place => budgetEligible(place.priceLevel, budget))
     .filter(place => placeInterestEligible(place, interests))
     .map(place => {
-      const distance = coordinates ? distanceInKm(coordinates, place) : undefined;
+      const distance = recommendationDistance(coordinates, place);
       const moodMatch = Boolean(mood && place.moods.includes(mood));
       const matchedInterests = interests.filter(interest => place.category === interest || place.interests.includes(interest));
       const interestMatch = matchedInterests.length > 0;
-      const proximityScore = distance === undefined ? 0 : Math.max(0, 14 - distance * 1.75);
+      const proximityScore = recommendationProximityScore('place', distance, proximityPolicy);
       const budgetScore = budgetSignal(place, budget);
       const groupScore = placeGroupSignal(place, groupSize);
       const surprise = random() * 8;
@@ -372,7 +378,7 @@ function recommendIdeas(options: {
 
 /**
  * Unified recommendation entry point for the results feed.
- * Places keep the PR #8 scorer unchanged; ideas use equivalent preference signals.
+ * A remains the default; an explicit proximity policy affects only spatial scorers.
  * Events intentionally remain data-driven: no fabricated dated events are generated.
  */
 export function recommendAll(options: {
@@ -388,6 +394,7 @@ export function recommendAll(options: {
   groupSize?: GroupSizePreference;
   duration?: DurationPreference;
   coordinates?: Coordinates;
+  proximityPolicy?: RecommendationProximityPolicy;
   limit?: number;
   seed?: number;
   previousBatch?: string[];
@@ -396,15 +403,15 @@ export function recommendAll(options: {
 }): RecommendationItem[] {
   const {
     places, ideas, events = [], experiences = [], filter = 'all', mood, interests, dismissed, budget,
-    groupSize, duration, coordinates, limit = 5, seed = 0, previousBatch = [], now = new Date(),
+    groupSize, duration, coordinates, proximityPolicy = 'default', limit = 5, seed = 0, previousBatch = [], now = new Date(),
   } = options;
   const candidateLimit = Math.max(limit * 3, 15);
   const experienceItems: RecommendationItem[] = filter === 'experience' || filter === 'all' ? recommendExperiences({
-    experiences, places, events, mood, interests, dismissed, budget, groupSize, duration, coordinates,
+    experiences, places, events, mood, interests, dismissed, budget, groupSize, duration, coordinates, proximityPolicy,
     limit: filter === 'experience' ? limit : candidateLimit, seed, previousBatch, now,
   }) : [];
   const placeItems: RecommendationItem[] = filter === 'place' || filter === 'all' ? recommendPlaces({
-    places, mood, interests, dismissed, budget, groupSize, coordinates,
+    places, mood, interests, dismissed, budget, groupSize, coordinates, proximityPolicy,
     limit: candidateLimit, seed, previousBatch,
   }).map(item => ({ ...item, kind: 'place' as const })) : [];
   const ideaItems: RecommendationItem[] = filter === 'idea' || filter === 'all' ? recommendIdeas({

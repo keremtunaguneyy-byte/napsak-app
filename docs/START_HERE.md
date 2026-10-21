@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-21 — Engine-only optional proximity policy
+
+A remains default. Optional B2 replaces the Place/Experience proximity contribution with `-2 * distanceKm`; no production UI caller opts in. See [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md) for the pre-edit parity reference, 16-batch comparison, validation and scope. UI/location/session/snapshot integration is a later separate PR. Current stale Event verification is reproduced on source main and remains out of scope. Draft PR only, no merge; protected Verilog untouched.
+
 ## 2026-10-17 — Final Ankara 101 Redmi acceptance and authorized PR #79 merge
 
 The user reports that the final minimal physical Redmi recheck passed on exact implementation head `df43f3eb749179b029d951ada83f359f2c617d92`: the index ends cleanly after the twelfth approved Guide; no “Bir Ankaralı Gibi” discovery heading/card, empty section or incorrect footer gap remains; the final Guide opens correctly; hardware Back returns to Ankara 101. There was **no pre-existing saved Insider record on that device**: the legacy Saved compatibility path was not manually recreated or physically accepted. Retain the automated compatibility evidence and hidden legacy identity/Reader/media/persistence; do not expose the card for testing.

@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-21 — Proximity engine A/B2 boundary
+
+Engine-only work on `codex/gezek-proximity-engine-b2`, based on fetched main `6244fa49b35669a04e5e5578f8b8a3dd0ec5eb41`. Optional `nearby` replaces only Place/Experience distance contribution with `-2 * distanceKm`; A stays the default. Full-result pre-edit parity, focused regressions, 16 sequential batch measurements and validation outcomes are in [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md). No UI caller opts in; UI/state/location/snapshot work remains separate. Related-detail stays A; Event/Idea paths, catalog, Firebase, persistence, artwork and release configuration remain unchanged. Current Event health reports stale verification, also reproduced on source main; no catalog fix is included. Draft PR only; no merge or device/release acceptance claim. Protected Verilog work remains untouched.
+
 ## 2026-10-17 — Final Ankara 101 Redmi acceptance and authorized PR #79 merge
 
 The user reports that the final minimal physical Redmi recheck passed on exact implementation head `df43f3eb749179b029d951ada83f359f2c617d92`: the index ends cleanly after the twelfth approved Guide; no “Bir Ankaralı Gibi” discovery heading/card, empty section or incorrect footer gap remains; the final Guide opens correctly; hardware Back returns to Ankara 101. There was **no pre-existing saved Insider record on that device**: the legacy Saved compatibility path was not manually recreated or physically accepted. Retain the automated compatibility evidence and hidden legacy identity/Reader/media/persistence; do not expose the card for testing.
