@@ -31,6 +31,16 @@ Event başlangıcı zaman tabanlı uygunluğun sınırıdır. Uygulama en yakın
 
 `reservation`, `weather` ve `availabilityNote` kullanıcıya açıklama sağlayan alanlardır; runtime uygunluk kontrolü değildir. Yaş, mevsim, haftanın günü, program ve envanter/müsaitlik de runtime tarafından uygulanmaz. Bu nedenle bu koşullardan birine bağlı Experience, uygun bir gelecek Event'e bağlanamıyorsa `evergreen` olarak yayımlanmaz. `event_linked` uygunluğu Event'in `startsAt` anında sona erer; `endsAt` bu yaşam döngüsü sınırını uzatmaz. Genelleştirilmiş bir zamanlama/koşul motoru, katalog ihtiyacı ayrıca haklı çıkarmadıkça beta sonrasına ertelenmiştir.
 
+## Opsiyonel proximity policy sınırı — 21 Ekim 2026
+
+`recommendAll`, `recommendExperiences` ve `recommendPlaces`, saf `proximityPolicy?: RecommendationProximityPolicy` girdisini kabul eder (`'default' | 'nearby'`). Eksik veya `default` değer A yoludur: Place `max(0, 14 - 1.75 * distanceKm)`, Experience `max(0, 14 - 1.25 * distanceKm)`. Geçerli koordinat ve konumsuz A çıktıları, değişiklik öncesi tam JSON referansıyla birebir korunur.
+
+`nearby` (B2) yalnız mesafe katkısını `-2 * distanceKm` ile **değiştirir**; A bonusuyla toplanmaz, clamp/yarıçap kapısı/nearest-first sıralama eklenmez. Uzak adaylar uygundur. Experience ana-ilgi önceliği seçili havuzda skordan önce kalır; Place'e yeni hard interest tier eklenmez. Diğer skorlar, uygunluk, seed, önceki batch, fallback, çeşitlilik ve gerekçeler korunur. Event/Fikir skor yolları policy tüketmez; açık Event/Fikir sonuçları aynıdır. Karma akışta Experience/Place skorlarının değişmesi türlerin görünür dağılımını değiştirebilir.
+
+Geçersiz/eksik origin veya aday koordinatı motor içinde konumsuz değerlendirilir; mesafe alanı `undefined`, mesafe katkısı 0'dır. Bu skor güvenlik sınırı GPS/izin/tazelik davranışı veya uygunluk kapısı değildir. Önceden uygulama preflight'ı origin'i koruyordu; doğrudan geçersiz engine girdileri artık NaN skoru üretemez. Geçerli hesaplamada mevcut great-circle formülü aynen kullanılır.
+
+`recommendExperiencesForPlace` policy girdisini public tipinden çıkarır ve runtime'da A'yı zorlar; detail'e Home policy yayılmaz. Mevcut uygulama çağrıları değiştirilmemiştir; B2 production UI'dan erişilemez. UI, konum edinimi ve A/B2 Home snapshot sahipliği ayrı PR kapsamıdır. Ölçüm tanımları, 16-batch ödünleşimleri ve doğrulama: [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md).
+
 ## Çağrı ve sunum sınırı
 
 App.tsx mevcut sonuç çağrısı `recommendAll(... limit: 5)` kullanır. `recommendExperiences` ve `recommendPlaces` ayrı export edilir. Fikir yardımcı fonksiyonu dosya içindedir; etkinlik sıralaması recommendAll içindedir. Eski sohbetlerde geçen bağımsız `recommendEvents()` çağrısı mevcut public API değildir.

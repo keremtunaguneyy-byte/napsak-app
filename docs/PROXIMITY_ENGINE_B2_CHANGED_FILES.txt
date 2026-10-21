@@ -1,0 +1,14 @@
+docs/ALGORITHM_SPEC.md
+docs/DECISIONS.md
+docs/PROXIMITY_ENGINE_B2_CHANGED_FILES.txt
+docs/PROXIMITY_ENGINE_B2_REPORT.md
+docs/START_HERE.md
+docs/STATUS.md
+docs/evidence/proximity-engine-b2/default-baseline.json
+docs/evidence/proximity-engine-b2/sequence-measurements.json
+package.json
+scripts/auditProximityEngine.ts
+src/recommendationProximity.ts
+src/recommendations.ts
+tests/helpers/proximityScenarios.ts
+tests/proximity-engine.test.ts
