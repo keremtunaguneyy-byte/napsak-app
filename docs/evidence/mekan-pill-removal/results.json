@@ -1,0 +1,2179 @@
+{
+  "checks": [
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "off",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "pending",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "active",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "fallback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Save/unsave, dismiss/Undo, Detail/Back scroll, filters, refresh and footer",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "off",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "pending",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "active",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "fallback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Save/unsave, dismiss/Undo, Detail/Back scroll, filters, refresh and footer",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "off",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "pending",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "active",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "fallback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "name": "Save/unsave, dismiss/Undo, Detail/Back scroll, filters, refresh and footer",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "off",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "pending",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "active",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "fallback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "name": "Save/unsave, dismiss/Undo, Detail/Back scroll, filters, refresh and footer",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "off",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "pending",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "active",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "fallback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "name": "Save/unsave, dismiss/Undo, Detail/Back scroll, filters, refresh and footer",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "off",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "pending",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "active",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "fallback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "name": "Save/unsave, dismiss/Undo, Detail/Back scroll, filters, refresh and footer",
+      "pass": true
+    }
+  ],
+  "measurements": [
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "off",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "pending",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "active",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "1bf51f86c1f449d10586c9ae31401f829784c1be8b170ea80f9b84eaa0ed9fc7",
+        "2a67f9581e156735600eec7b6d1bd9171e053422518deb135688f5c2939a4376",
+        "79798b63b79b65f564dba2638401070f91ae90f852a38cc3100c11b73bf55220",
+        "246ad507cde59c26bdffa4f0b20df7936a075169772d8ac694a61889573032d2",
+        "681c4a58e20cec6681a9fb4f0330ebc049c476ec23944fc4adc935ac5d89354e"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "state": "fallback",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "off",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "pending",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "active",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "1bf51f86c1f449d10586c9ae31401f829784c1be8b170ea80f9b84eaa0ed9fc7",
+        "2a67f9581e156735600eec7b6d1bd9171e053422518deb135688f5c2939a4376",
+        "79798b63b79b65f564dba2638401070f91ae90f852a38cc3100c11b73bf55220",
+        "246ad507cde59c26bdffa4f0b20df7936a075169772d8ac694a61889573032d2",
+        "681c4a58e20cec6681a9fb4f0330ebc049c476ec23944fc4adc935ac5d89354e"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "state": "fallback",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 44
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 374,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 643.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 793.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 943.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1093.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 400,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 669.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 819.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 969.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1119.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "off",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "pending",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "active",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "1bf51f86c1f449d10586c9ae31401f829784c1be8b170ea80f9b84eaa0ed9fc7",
+        "2a67f9581e156735600eec7b6d1bd9171e053422518deb135688f5c2939a4376",
+        "79798b63b79b65f564dba2638401070f91ae90f852a38cc3100c11b73bf55220",
+        "246ad507cde59c26bdffa4f0b20df7936a075169772d8ac694a61889573032d2",
+        "681c4a58e20cec6681a9fb4f0330ebc049c476ec23944fc4adc935ac5d89354e"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "fallback",
+      "control": {
+        "x": 184,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 20,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 20,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "off",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "pending",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "active",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "1bf51f86c1f449d10586c9ae31401f829784c1be8b170ea80f9b84eaa0ed9fc7",
+        "2a67f9581e156735600eec7b6d1bd9171e053422518deb135688f5c2939a4376",
+        "79798b63b79b65f564dba2638401070f91ae90f852a38cc3100c11b73bf55220",
+        "246ad507cde59c26bdffa4f0b20df7936a075169772d8ac694a61889573032d2",
+        "681c4a58e20cec6681a9fb4f0330ebc049c476ec23944fc4adc935ac5d89354e"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "controlOnly": true,
+      "state": "fallback",
+      "control": {
+        "x": 193.5,
+        "y": 318,
+        "width": 189,
+        "height": 64
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 394,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 663.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 813.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 963.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1113.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 420,
+          "width": 353,
+          "height": 231.390625
+        },
+        {
+          "x": 29.5,
+          "y": 689.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 839.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 989.390625,
+          "width": 353,
+          "height": 138
+        },
+        {
+          "x": 29.5,
+          "y": 1139.390625,
+          "width": 353,
+          "height": 138
+        }
+      ],
+      "cardHashes": [
+        "2ed990634bf1fa51c179eecf2702e446e37393a48549008837668f3566945b44",
+        "559bcbf83f32d0c2d17fa0c32921ceda565357268e34587bb4805b0491f2beb0",
+        "4cc24dffd652c9f030d5603308a775573f3c8d953c49a04a3d4ff0c2ba68d530",
+        "1e25f86e9c1bf994bb3b72ddecc0438718092f31031a5bf8a2da2e04b4ca9d14",
+        "12ff9c34416e2203620a3872d5b8d3d31a46b838d8f70325e55af0ad93e5ccef"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "off",
+      "control": {
+        "x": 184,
+        "y": 497.1875,
+        "width": 189,
+        "height": 73.59375
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 582.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 960.359375,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1114.5625,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1297.5625,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1451.765625,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1160.171875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1343.171875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1497.375,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "cardHashes": [
+        "053810151d38f6a68a0c0607507c521c9a02dc377d5fe609ba0ac67cfadfcce3",
+        "a59bb56d7d53168a0d74312bdb3cb6d81638c414fb6d8a4b8bf5e8dfb8a0b797",
+        "8bf36db415adca9458f27bd7dbdf2291a737c0b19cdb50ea261fb4f5340f9fcd",
+        "c543f2d245c5d5952d8011c0f0233267f7d4061a4f4d5f133d87242e7060331c",
+        "791c2c967e2ff7b7098d7cf6ca7c918e13dc07e4fb4f0602c70deb004a591a6a"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "pending",
+      "control": {
+        "x": 184,
+        "y": 497.1875,
+        "width": 189,
+        "height": 73.59375
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 582.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 960.359375,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1114.5625,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1297.5625,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1451.765625,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1160.171875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1343.171875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1497.375,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "cardHashes": [
+        "053810151d38f6a68a0c0607507c521c9a02dc377d5fe609ba0ac67cfadfcce3",
+        "a59bb56d7d53168a0d74312bdb3cb6d81638c414fb6d8a4b8bf5e8dfb8a0b797",
+        "8bf36db415adca9458f27bd7dbdf2291a737c0b19cdb50ea261fb4f5340f9fcd",
+        "c543f2d245c5d5952d8011c0f0233267f7d4061a4f4d5f133d87242e7060331c",
+        "791c2c967e2ff7b7098d7cf6ca7c918e13dc07e4fb4f0602c70deb004a591a6a"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "active",
+      "control": {
+        "x": 184,
+        "y": 497.1875,
+        "width": 189,
+        "height": 72.59375
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 581.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 959.359375,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1142.359375,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1325.359375,
+          "width": 353,
+          "height": 198
+        },
+        {
+          "x": 20,
+          "y": 1535.359375,
+          "width": 353,
+          "height": 198
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1188.96875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1371.96875,
+          "width": 353,
+          "height": 198
+        },
+        {
+          "x": 20,
+          "y": 1581.96875,
+          "width": 353,
+          "height": 198
+        }
+      ],
+      "cardHashes": [
+        "0657f1a2603fe641c2253310e49d6f132e6bc4bc91ef28869eccffab4a01f680",
+        "e2506b36393d7344b360145a626dac16fc988d99ccacf650b8caeabfbcfa8b46",
+        "068f632078d26b68fa6c31563e78a4270362131a300976a4d61da0b942a076e3",
+        "ee478cde906ca5863f320721764269835514074d7d7f02e885c969fb278e87e2",
+        "a17dd7df585a678e6861ce2472fff0b4cacc5eb63f9ff8b2c23254a76df68ab8"
+      ]
+    },
+    {
+      "width": 393,
+      "scale": 1.8,
+      "state": "fallback",
+      "control": {
+        "x": 184,
+        "y": 497.1875,
+        "width": 189,
+        "height": 73.59375
+      },
+      "cards": [
+        {
+          "x": 20,
+          "y": 582.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 960.359375,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1114.5625,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1297.5625,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1451.765625,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 20,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 20,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1160.171875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 20,
+          "y": 1343.171875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 20,
+          "y": 1497.375,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "cardHashes": [
+        "053810151d38f6a68a0c0607507c521c9a02dc377d5fe609ba0ac67cfadfcce3",
+        "a59bb56d7d53168a0d74312bdb3cb6d81638c414fb6d8a4b8bf5e8dfb8a0b797",
+        "8bf36db415adca9458f27bd7dbdf2291a737c0b19cdb50ea261fb4f5340f9fcd",
+        "c543f2d245c5d5952d8011c0f0233267f7d4061a4f4d5f133d87242e7060331c",
+        "791c2c967e2ff7b7098d7cf6ca7c918e13dc07e4fb4f0602c70deb004a591a6a"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "off",
+      "control": {
+        "x": 193.5,
+        "y": 497.1875,
+        "width": 189,
+        "height": 73.59375
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 582.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 960.359375,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1114.5625,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1297.5625,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1451.765625,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1160.171875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1343.171875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1497.375,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "cardHashes": [
+        "053810151d38f6a68a0c0607507c521c9a02dc377d5fe609ba0ac67cfadfcce3",
+        "a59bb56d7d53168a0d74312bdb3cb6d81638c414fb6d8a4b8bf5e8dfb8a0b797",
+        "8bf36db415adca9458f27bd7dbdf2291a737c0b19cdb50ea261fb4f5340f9fcd",
+        "c543f2d245c5d5952d8011c0f0233267f7d4061a4f4d5f133d87242e7060331c",
+        "791c2c967e2ff7b7098d7cf6ca7c918e13dc07e4fb4f0602c70deb004a591a6a"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "pending",
+      "control": {
+        "x": 193.5,
+        "y": 497.1875,
+        "width": 189,
+        "height": 73.59375
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 582.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 960.359375,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1114.5625,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1297.5625,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1451.765625,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1160.171875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1343.171875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1497.375,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "cardHashes": [
+        "053810151d38f6a68a0c0607507c521c9a02dc377d5fe609ba0ac67cfadfcce3",
+        "a59bb56d7d53168a0d74312bdb3cb6d81638c414fb6d8a4b8bf5e8dfb8a0b797",
+        "8bf36db415adca9458f27bd7dbdf2291a737c0b19cdb50ea261fb4f5340f9fcd",
+        "c543f2d245c5d5952d8011c0f0233267f7d4061a4f4d5f133d87242e7060331c",
+        "791c2c967e2ff7b7098d7cf6ca7c918e13dc07e4fb4f0602c70deb004a591a6a"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "active",
+      "control": {
+        "x": 193.5,
+        "y": 497.1875,
+        "width": 189,
+        "height": 72.59375
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 581.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 959.359375,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1142.359375,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1325.359375,
+          "width": 353,
+          "height": 198
+        },
+        {
+          "x": 29.5,
+          "y": 1535.359375,
+          "width": 353,
+          "height": 198
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1188.96875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1371.96875,
+          "width": 353,
+          "height": 198
+        },
+        {
+          "x": 29.5,
+          "y": 1581.96875,
+          "width": 353,
+          "height": 198
+        }
+      ],
+      "cardHashes": [
+        "0657f1a2603fe641c2253310e49d6f132e6bc4bc91ef28869eccffab4a01f680",
+        "e2506b36393d7344b360145a626dac16fc988d99ccacf650b8caeabfbcfa8b46",
+        "068f632078d26b68fa6c31563e78a4270362131a300976a4d61da0b942a076e3",
+        "ee478cde906ca5863f320721764269835514074d7d7f02e885c969fb278e87e2",
+        "a17dd7df585a678e6861ce2472fff0b4cacc5eb63f9ff8b2c23254a76df68ab8"
+      ]
+    },
+    {
+      "width": 412,
+      "scale": 1.8,
+      "state": "fallback",
+      "control": {
+        "x": 193.5,
+        "y": 497.1875,
+        "width": 189,
+        "height": 73.59375
+      },
+      "cards": [
+        {
+          "x": 29.5,
+          "y": 582.78125,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 960.359375,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1114.5625,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1297.5625,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1451.765625,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "baselineCards": [
+        {
+          "x": 29.5,
+          "y": 628.390625,
+          "width": 353,
+          "height": 328.375
+        },
+        {
+          "x": 29.5,
+          "y": 1005.96875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1160.171875,
+          "width": 353,
+          "height": 171
+        },
+        {
+          "x": 29.5,
+          "y": 1343.171875,
+          "width": 353,
+          "height": 142.203125
+        },
+        {
+          "x": 29.5,
+          "y": 1497.375,
+          "width": 353,
+          "height": 142.203125
+        }
+      ],
+      "cardHashes": [
+        "053810151d38f6a68a0c0607507c521c9a02dc377d5fe609ba0ac67cfadfcce3",
+        "a59bb56d7d53168a0d74312bdb3cb6d81638c414fb6d8a4b8bf5e8dfb8a0b797",
+        "8bf36db415adca9458f27bd7dbdf2291a737c0b19cdb50ea261fb4f5340f9fcd",
+        "c543f2d245c5d5952d8011c0f0233267f7d4061a4f4d5f133d87242e7060331c",
+        "791c2c967e2ff7b7098d7cf6ca7c918e13dc07e4fb4f0602c70deb004a591a6a"
+      ]
+    }
+  ],
+  "evidence": [
+    "393-normal-off.png",
+    "393-normal-active.png",
+    "412-normal-off.png",
+    "393-large-off.png"
+  ],
+  "errors": []
+}

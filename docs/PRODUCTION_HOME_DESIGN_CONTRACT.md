@@ -1,5 +1,9 @@
 # Gezek — Production Home design contract
 
+## Narrow Mekân successor — 22 October 2026
+
+For the Mekân recommendation intro only, approved closure section `1419:15195`, ledger `1453:22737`, and corrected masters `1426:15361` / `1426:15584` / `1426:15807` / `1426:16030` supersede the earlier decorative Kahve/Sanat row. Remove those two decorative Text nodes and their wrapper/styles; place the existing `BUGÜNÜN MEKÂNI` heading in the vacated left slot. Normal cards move 400→374, large-control proofs 420→394. Proximity stays x184/y318 at 393px and x193.5/y318 at 412px. This approves no category interaction, taxonomy, engine, App/router, Settings or Hidden implementation. Current evidence and native limits: [MEKAN_PILL_REMOVAL_REPORT.md](MEKAN_PILL_REMOVAL_REPORT.md).
+
 Updated 2026-10-08 from the approved 2026-10-07 command-center package and live Figma. This supersedes the 2026-10-06 category fallback contract. Implementation remains on `codex/gezek-ui-foundation`, existing Draft PR #67. This is not Redmi or release acceptance.
 
 ## Authority

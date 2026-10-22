@@ -1,11 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { RecommendationItem } from '../src/recommendations';
 import { homeActionLabel, homeArtwork, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
 import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
 import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
 import { createFilterTimingRecorder, FilterTiming } from '../src/components/gezek/homeFilterDiagnostics';
+
+test('Mekân reuses its static heading beside proximity without category nodes, handlers or state', () => {
+  const source = readFileSync(new URL('../src/components/gezek/GezekHome.tsx', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /contextChips?|>Kahve<|>Sanat</);
+  const row = source.slice(source.indexOf('<View style={s.proximityRow}>'), source.indexOf('</> : <Heading'));
+  assert.match(row, /<Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI<\/Text>/);
+  assert.equal(source.match(/BUGÜNÜN MEKÂNI/g)?.length, 1);
+  assert.equal((row.match(/onPress=/g) ?? []).length, 1);
+  assert.match(row, /<ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus \?\? 0}/);
+  assert.doesNotMatch(source, /(?:set|selected|onSelect|onChange)(?:Place)?Category/);
+});
 
 test('filter diagnostics separate cold/warm commits and discard superseded frame opportunities', () => {
   let now = 0;
