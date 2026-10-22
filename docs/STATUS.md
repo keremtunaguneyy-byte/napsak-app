@@ -1,5 +1,11 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-23 — Mekân Redmi accepted; authorized PR #82 closeout
+
+The user accepts implementation `01b724876c85245d585c3b6d358656cbf748d8bc` on base `4fd7fd672e63884a1d13b5d7cfa81867141d3606`: pills absent, gap/main-card position corrected, proximity placement/action and nearby cards correct, refresh/Save/dismiss/Undo working, Detail→Android Back preserving batch/scroll, large system text without overlap and final content clear of fixed navigation. All nine user-reported Redmi results are recorded in [MEKAN_PILL_REMOVAL_REPORT.md](MEKAN_PILL_REMOVAL_REPORT.md). Real TalkBack is deferred to the consolidated accessibility pass and does not block this narrow correction; signed-release acceptance remains unverified. The main-baseline `check:events` `stale_verification` failure is unchanged.
+
+This supersedes PR #82's earlier pending-Redmi and Draft/no-merge instructions: make one documentation-only commit/push, require exact new-head CI and clean reviews/threads/mergeability, mark ready, merge with a normal protected merge commit and safely fast-forward canonical main. Verify completion and final main SHA live. No product/test changes or new implementation; Home background polish and Settings/Hidden remain unstarted. Protected untracked Verilog remains untouched.
+
 ## 2026-10-22 — Narrow Mekân decorative-pill removal
 
 `codex/gezek-mekan-pill-removal` starts from verified main/origin-main `4fd7fd672e63884a1d13b5d7cfa81867141d3606`. Only the Home presentation removes decorative Kahve/Sanat Text nodes and reuses `BUGÜNÜN MEKÂNI` beside the existing proximity control. Normal/control-only large cards move exactly −26px; all five card trees remain intact. Browser evidence, local checks, baseline Event-health failure and remaining Redmi checks are in [MEKAN_PILL_REMOVAL_REPORT.md](MEKAN_PILL_REMOVAL_REPORT.md). One Draft PR; no merge. Settings/Hidden PR 2 was not started. Engine, catalog, Firebase, persistence, proximity/session/snapshot contracts and protected untracked Verilog remain unchanged.

@@ -1,10 +1,28 @@
 # Narrow Mekân Home category-pill removal — 22 October 2026
 
+## 23 October — Redmi acceptance and authorized PR #82 closeout
+
+The user reports all nine focused Redmi checks passed on exact implementation head `01b724876c85245d585c3b6d358656cbf748d8bc`, based on `4fd7fd672e63884a1d13b5d7cfa81867141d3606`:
+
+1. Decorative Kahve and Sanat pills are absent.
+2. The unnecessary space is gone and the main card position is correct.
+3. Yakına öncelik ver remains correctly positioned and works.
+4. Nearby activation changes the cards correctly.
+5. Başka mekânlar göster works.
+6. Save, dismiss and Undo work.
+7. Place Detail → Android Back preserves the card batch and scroll position.
+8. Large system text creates no overlap.
+9. Fixed bottom navigation does not cover the final content.
+
+These are user-reported physical Redmi observations, separate from the browser evidence below. Real TalkBack remains deferred to the consolidated accessibility acceptance pass and is not a blocker for this narrow visual correction. Signed-release acceptance remains unverified; this acceptance is not signed-release evidence.
+
+This instruction supersedes the earlier Draft/no-merge and pending-Redmi notes below for PR #82 only. The user authorizes one documentation-only commit and normal push, successful required CI on that exact new head, a final review/thread/mergeability audit, ready status and a normal protected merge commit, followed by safe canonical-main fast-forward and SHA equality verification. Merge completion and final main identity must be verified live; this document does not pre-claim them. No product/test code or additional implementation is authorized. Home background polish and Settings/Hidden PR 2 remain unstarted. The unchanged main-baseline `check:events` failure is still `stale_verification`; no Event data is changed.
+
 ## Scope and repository audit
 
 Repository: `keremtunaguneyy-byte/napsak-app`. Canonical checkout: `/Users/kerem/Documents/ChatGPT/Napsak codex/napsak-app`. Implementation worktree: `/Users/kerem/.codex/worktrees/ba3b/napsak-app`, initially clean and detached. Initial HEAD, local `main`, and fetched `origin/main` all equal `4fd7fd672e63884a1d13b5d7cfa81867141d3606` (PR #81 merge). Existing worktrees were inspected; GitHub returned no open PRs. The fresh `codex/gezek-mekan-pill-removal` branch was created from fetched `origin/main` in this clean worktree; the interrupted work continued on that same branch without resetting, recreating or overwriting its partial edit.
 
-The user's pasted request authorizes PR 1 only. The complete 1,042-line attached closure was read as design/reference material; its Settings/Hidden implementation instructions were not executed. The continuation request preserved that boundary. Normal commit, push and one Draft PR targeting main are authorized; merge is prohibited. Final commit/PR/exact-head CI identities are reported from live Git/GitHub at delivery instead of embedding a self-referential commit SHA.
+The original implementation request authorized PR 1 only. The complete 1,042-line attached closure was read as design/reference material; its Settings/Hidden implementation instructions were not executed. The continuation request preserved that boundary. Its original Draft/no-merge restriction is historical and superseded only by the 23 October closeout authorization above. Final commit/PR/exact-head CI identities are reported from live Git/GitHub at delivery instead of embedding a self-referential commit SHA.
 
 ## Design authority and exact edit
 
@@ -93,4 +111,4 @@ The canonical checkout's unrelated `src/firebase/BA_4bit.sv/` remains untracked 
 - `docs/evidence/mekan-pill-removal/results.json`
 - `docs/evidence/mekan-pill-removal/lease-results.json`
 
-Remaining Redmi checks on the exact pushed commit: normal and real OS large-text wrapping/insets at the device's actual width; all off/pending/selected/fallback presentations and focus; no Kahve/Sanat controls in TalkBack traversal; first alternative visibility; scroll-to-end/footer clearance; save/unsave, dismiss/Undo, Detail→hardware Back scroll; warm filter/mode stability and location lease behavior. No fresh physical-device, TalkBack, real OS fontScale/reduced-motion or signed-release evidence was produced in this task. Those remain distinct from RN Web tests and Expo export. Event freshness remains an unchanged baseline issue. Recommended next step: review the Draft and run this focused Redmi acceptance; do not merge automatically.
+The historical pending-Redmi checklist is superseded by the nine user-reported accepted checks above. Do not infer additional device coverage beyond those observations. Real TalkBack remains deferred to the consolidated accessibility acceptance pass; signed-release acceptance remains separate and unverified. Existing reduced-motion acceptance limits are not changed. No new device/browser evidence was generated during this documentation-only closeout. Event freshness remains an unchanged baseline issue. Proceed only through the authorized protected workflow above; Home background polish and Settings/Hidden implementation are outside this closeout.
