@@ -1,5 +1,11 @@
 # Gezek — Yeni karar kayıtları
 
+## 2026-10-22 — Final proximity acceptance and authorized PR #81 merge
+
+The user accepts proximity implementation `e36d1aeee1758ab6517c141cc5a14b3c11c916ed` on base `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. The strict 60-second RAM lease and pending-filter correction passed the final Redmi checks; the user confirms the Figma behavior/accessibility contract synchronized with no visual/prototype changes. Opening Ankara 101 during pending intentionally cancels Home acquisition and returns default/off. The [final report](PROXIMITY_UI_STATE_REPORT.md) records all 14 acceptance items and Figma nodes. Real TalkBack and signed-release acceptance remain deferred.
+
+This supersedes earlier pending-retest, unsynchronized-Figma and Draft/no-merge notes for #81. The user authorizes documentation-only reconciliation, exact new-head App Quality/Security Rules, final review/thread/diff audit, ready status and a normal protected merge commit, followed by safe canonical-main fast-forward and live SHA equality verification. No product changes or next feature; retain branch/worktree and unrelated untracked Verilog. Mekân category-chip functionality/taxonomy/recommendation semantics and legacy Ayarlar/Gizlediklerim production design are separate deferred, non-blocking work.
+
 ## 2026-10-21 — Optional engine-only B2 proximity policy
 
 Status: explicitly user-approved for implementation in the self-contained 21 October engine handoff. A remains default with unchanged valid/locationless results. Optional `nearby` replaces A's Place/Experience proximity bonus with `-2 * distanceKm`, without a radius gate or eligibility change. Experience primary precedence, Place soft scoring, all other terms, rotation, reasons and Event/Idea scoring remain intact. Related-detail recommendations stay on A. Invalid numeric coordinates use locationless scoring in the pure engine; no location acquisition/freshness/UI behavior changes. No current production caller enables B2. UI/session/snapshot integration is a separate PR. Implementation, exact pre-edit parity, measurements and remaining verification limits: [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md). One Draft PR, normal commit/push, no merge.

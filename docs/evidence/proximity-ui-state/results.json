@@ -1,0 +1,467 @@
+{
+  "checks": [
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Figma control geometry, large-text growth and no duplicate proximity control",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Pending locks rapid taps; default cards and seed remain intact",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Shared activation fix, separate warm B2 snapshots, no repeated GPS/prompts or computation",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Off restores exact A IDs/order/history without seed rotation or scroll jump",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Reactivation inside the lease restores the same B2 snapshot without GPS or seed consumption",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Save/unsave preserves active B2 order",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Dismiss cannot leak hidden items by switching A/B2",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Undo restores eligibility without saving, across modes",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Refresh rotates only active filter/mode; A and Mekân B2 histories remain independent",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Event/Idea have no control and receive default policy",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Detail → Back preserves active session; Home mode never propagates into Detail context",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Foreground service invalidation disables B2, restores A, announces once and clears nav by 12px",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Permission denial retains A and shows exact approved Turkish feedback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Services unavailable returns off without GPS/permission prompt or clearing A",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Acquisition failure preserves A and exact approved feedback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Filter change during acquisition settles only into the current filter",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Reduced Motion updates during presentation; mode changes introduce no card animation",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1,
+      "name": "Background during pending rejects late permission results and avoids stuck busy state",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Figma control geometry, large-text growth and no duplicate proximity control",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Pending locks rapid taps; default cards and seed remain intact",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Shared activation fix, separate warm B2 snapshots, no repeated GPS/prompts or computation",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Off restores exact A IDs/order/history without seed rotation or scroll jump",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Reactivation inside the lease restores the same B2 snapshot without GPS or seed consumption",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Save/unsave preserves active B2 order",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Dismiss cannot leak hidden items by switching A/B2",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Undo restores eligibility without saving, across modes",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Refresh rotates only active filter/mode; A and Mekân B2 histories remain independent",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Event/Idea have no control and receive default policy",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Detail → Back preserves active session; Home mode never propagates into Detail context",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Foreground service invalidation disables B2, restores A, announces once and clears nav by 12px",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Permission denial retains A and shows exact approved Turkish feedback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Services unavailable returns off without GPS/permission prompt or clearing A",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Acquisition failure preserves A and exact approved feedback",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Filter change during acquisition settles only into the current filter",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Reduced Motion updates during presentation; mode changes introduce no card animation",
+      "pass": true
+    },
+    {
+      "width": 393,
+      "scale": 1.5,
+      "name": "Background during pending rejects late permission results and avoids stuck busy state",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Figma control geometry, large-text growth and no duplicate proximity control",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Pending locks rapid taps; default cards and seed remain intact",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Shared activation fix, separate warm B2 snapshots, no repeated GPS/prompts or computation",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Off restores exact A IDs/order/history without seed rotation or scroll jump",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Reactivation inside the lease restores the same B2 snapshot without GPS or seed consumption",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Save/unsave preserves active B2 order",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Dismiss cannot leak hidden items by switching A/B2",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Undo restores eligibility without saving, across modes",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Refresh rotates only active filter/mode; A and Mekân B2 histories remain independent",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Event/Idea have no control and receive default policy",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Detail → Back preserves active session; Home mode never propagates into Detail context",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Foreground service invalidation disables B2, restores A, announces once and clears nav by 12px",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Permission denial retains A and shows exact approved Turkish feedback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Services unavailable returns off without GPS/permission prompt or clearing A",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Acquisition failure preserves A and exact approved feedback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Filter change during acquisition settles only into the current filter",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Reduced Motion updates during presentation; mode changes introduce no card animation",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1,
+      "name": "Background during pending rejects late permission results and avoids stuck busy state",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Figma control geometry, large-text growth and no duplicate proximity control",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Pending locks rapid taps; default cards and seed remain intact",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Shared activation fix, separate warm B2 snapshots, no repeated GPS/prompts or computation",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Off restores exact A IDs/order/history without seed rotation or scroll jump",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Reactivation inside the lease restores the same B2 snapshot without GPS or seed consumption",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Save/unsave preserves active B2 order",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Dismiss cannot leak hidden items by switching A/B2",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Undo restores eligibility without saving, across modes",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Refresh rotates only active filter/mode; A and Mekân B2 histories remain independent",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Event/Idea have no control and receive default policy",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Detail → Back preserves active session; Home mode never propagates into Detail context",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Foreground service invalidation disables B2, restores A, announces once and clears nav by 12px",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Permission denial retains A and shows exact approved Turkish feedback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Services unavailable returns off without GPS/permission prompt or clearing A",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Acquisition failure preserves A and exact approved feedback",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Filter change during acquisition settles only into the current filter",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Reduced Motion updates during presentation; mode changes introduce no card animation",
+      "pass": true
+    },
+    {
+      "width": 412,
+      "scale": 1.5,
+      "name": "Background during pending rejects late permission results and avoids stuck busy state",
+      "pass": true
+    }
+  ],
+  "evidence": [
+    "393-1-gezek-off.png",
+    "393-1-gezek-pending.png",
+    "393-1-gezek-selected.png",
+    "393-1-mekan-selected.png",
+    "393-1-gezek-fallback.png",
+    "393-1-reduced-motion-off.png",
+    "393-1-reduced-motion-selected.png",
+    "393-1.5-gezek-off.png",
+    "393-1.5-gezek-pending.png",
+    "393-1.5-gezek-selected.png",
+    "393-1.5-mekan-selected.png",
+    "393-1.5-gezek-fallback.png",
+    "393-1.5-reduced-motion-off.png",
+    "393-1.5-reduced-motion-selected.png",
+    "412-1-gezek-off.png",
+    "412-1-gezek-pending.png",
+    "412-1-gezek-selected.png",
+    "412-1-mekan-selected.png",
+    "412-1-gezek-fallback.png",
+    "412-1-reduced-motion-off.png",
+    "412-1-reduced-motion-selected.png",
+    "412-1.5-gezek-off.png",
+    "412-1.5-gezek-pending.png",
+    "412-1.5-gezek-selected.png",
+    "412-1.5-mekan-selected.png",
+    "412-1.5-gezek-fallback.png",
+    "412-1.5-reduced-motion-off.png",
+    "412-1.5-reduced-motion-selected.png"
+  ],
+  "errors": []
+}

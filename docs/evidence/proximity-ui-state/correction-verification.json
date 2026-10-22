@@ -1,0 +1,142 @@
+[
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.05,
+    "log": "/private/tmp/gezek-lease-validation/00.log"
+  },
+  {
+    "command": "git diff --cached --check",
+    "exitCode": 0,
+    "seconds": 0.01,
+    "log": "/private/tmp/gezek-lease-validation/01.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 3.72,
+    "log": "/private/tmp/gezek-lease-validation/02.log"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 241.2,
+    "log": "/private/tmp/gezek-lease-validation/03.log"
+  },
+  {
+    "command": "node --import tsx --test tests/proximity-session.test.ts tests/home-filter-snapshots.test.ts tests/experience-distance.test.ts",
+    "exitCode": 0,
+    "seconds": 0.3,
+    "log": "/private/tmp/gezek-lease-validation/04.log"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.25,
+    "log": "/private/tmp/gezek-lease-validation/05.log"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "seconds": 13.16,
+    "log": "/private/tmp/gezek-lease-validation/06.log"
+  },
+  {
+    "command": "npm run check:recommendations",
+    "exitCode": 0,
+    "seconds": 0.97,
+    "log": "/private/tmp/gezek-lease-validation/07.log"
+  },
+  {
+    "command": "npm run check:assets",
+    "exitCode": 0,
+    "seconds": 0.21,
+    "log": "/private/tmp/gezek-lease-validation/08.log"
+  },
+  {
+    "command": "npm run check:events",
+    "exitCode": 1,
+    "seconds": 0.17,
+    "log": "/private/tmp/gezek-lease-validation/09.log"
+  },
+  {
+    "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-lease-android-export",
+    "exitCode": 0,
+    "seconds": 15.79,
+    "log": "/private/tmp/gezek-lease-validation/10.log"
+  },
+  {
+    "command": "npm ls --depth=0",
+    "exitCode": 0,
+    "note": "Dependency declarations, lockfile and installed top-level packages unchanged; npm ci not repeated."
+  },
+  {
+    "command": "node --import tsx --test tests/proximity-session.test.ts tests/home-filter-snapshots.test.ts tests/experience-distance.test.ts (final)",
+    "exitCode": 0,
+    "tests": 67,
+    "proximityTests": 32,
+    "log": "/private/tmp/gezek-lease-focused-final.log"
+  },
+  {
+    "command": "npm run typecheck (final)",
+    "exitCode": 0,
+    "log": "/private/tmp/gezek-lease-typecheck-final.log"
+  },
+  {
+    "command": "node tests/proximity-browser.cjs",
+    "exitCode": 0,
+    "checks": 72,
+    "errors": [],
+    "log": "/private/tmp/gezek-lease-matrix.log"
+  },
+  {
+    "command": "node tests/proximity-browser-edges.cjs",
+    "exitCode": 0,
+    "checks": 14,
+    "errors": [],
+    "log": "/private/tmp/gezek-lease-edges.log"
+  },
+  {
+    "command": "node tests/proximity-lease-browser.cjs",
+    "exitCode": 0,
+    "checks": 21,
+    "errors": [],
+    "log": "/private/tmp/gezek-lease-browser.log"
+  },
+  {
+    "command": "node tests/home-filter-snapshots-browser.cjs",
+    "exitCode": 0,
+    "checks": 52,
+    "pageErrors": 0,
+    "log": "/private/tmp/gezek-lease-regressions/home-filter-snapshots-browser.log"
+  },
+  {
+    "command": "node tests/location-preflight-browser.cjs",
+    "exitCode": 0,
+    "checks": 80,
+    "pageErrors": 0,
+    "log": "/private/tmp/gezek-lease-regressions/location-preflight-browser.log"
+  },
+  {
+    "command": "node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "checks": 56,
+    "pageErrors": 0,
+    "log": "/private/tmp/gezek-lease-regressions/experience-distance-browser.log"
+  },
+  {
+    "command": "node tests/preference-event-browser.cjs",
+    "exitCode": 0,
+    "checks": 38,
+    "pageErrors": 0,
+    "log": "/private/tmp/gezek-lease-regressions/preference-event-browser.log"
+  },
+  {
+    "command": "npm test (final rerun)",
+    "exitCode": 0,
+    "tests": 362,
+    "compiledTests": 111,
+    "typescriptTests": 251,
+    "log": "/private/tmp/gezek-lease-full-final.log"
+  }
+]

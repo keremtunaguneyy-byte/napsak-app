@@ -1,5 +1,19 @@
 # Gezek — önce burayı oku
 
+## 2026-10-22 — Final proximity acceptance and authorized PR #81 merge
+
+The user accepts proximity implementation `e36d1aeee1758ab6517c141cc5a14b3c11c916ed` on base `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. The strict 60-second RAM lease and pending-filter correction passed the final Redmi checks; the user confirms the Figma behavior/accessibility contract synchronized with no visual/prototype changes. Opening Ankara 101 during pending intentionally cancels Home acquisition and returns default/off. The [final report](PROXIMITY_UI_STATE_REPORT.md) records all 14 acceptance items and Figma nodes. Real TalkBack and signed-release acceptance remain deferred.
+
+This supersedes earlier pending-retest, unsynchronized-Figma and Draft/no-merge notes for #81. The user authorizes documentation-only reconciliation, exact new-head App Quality/Security Rules, final review/thread/diff audit, ready status and a normal protected merge commit, followed by safe canonical-main fast-forward and live SHA equality verification. No product changes or next feature; retain branch/worktree and unrelated untracked Verilog. Mekân category-chip functionality/taxonomy/recommendation semantics and legacy Ayarlar/Gizlediklerim production design are separate deferred, non-blocking work.
+
+## 2026-10-22 — Historical PR #81 lease and pending-filter checkpoint
+
+The user reports Redmi checks 1–12 and restart passed on `1143e7e`. The approved amendment adds a strict device-memory-only 60-second location reuse lease with fresh services/permission validation; explicit location update still forces GPS. Cold A-cache invalidation no longer cancels a newer shared Home acquisition across supported/unsupported filter switches. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records privacy boundaries and verification. At this historical checkpoint Figma synchronization and two Redmi correction retests were pending; both are superseded by the final acceptance above. No broader product/compliance changes.
+
+## 2026-10-21 — Approved proximity control UI/state integration
+
+Session-only Gezek/Mekân control uses merged PR #80 B2 with fresh activation, shared session fix, independent A/B2 snapshots and histories, safe A restoration and existing lifecycle validity checks. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records live Figma, Git audit, validation, canonical evidence and the complete pending Redmi checklist. One Draft PR only; no merge. Engine/catalog/Firebase/persistence/Details policy/release and protected Verilog unchanged. Browser/export evidence does not close native acceptance.
+
 ## 2026-10-21 — Engine-only optional proximity policy
 
 A remains default. Optional B2 replaces the Place/Experience proximity contribution with `-2 * distanceKm`; no production UI caller opts in. See [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md) for the pre-edit parity reference, 16-batch comparison, validation and scope. UI/location/session/snapshot integration is a later separate PR. Current stale Event verification is reproduced on source main and remains out of scope. Draft PR only, no merge; protected Verilog untouched.

@@ -1,0 +1,61 @@
+{
+  "checks": [
+    {
+      "name": "Preference Cancel preserves A/B2 cache, active session and history",
+      "pass": true
+    },
+    {
+      "name": "Preference Save invalidates both A/B2 modes, regenerates active only and leaves other filters lazy",
+      "pass": true
+    },
+    {
+      "name": "Missing/invalid A snapshot restores safe locationless A without seed consumption",
+      "pass": true
+    },
+    {
+      "name": "Actual Place related recommendations receive no Home nearby policy; Back preserves B2 snapshot",
+      "pass": true
+    },
+    {
+      "name": "Permission revocation at native focus boundary invalidates active session",
+      "pass": true
+    },
+    {
+      "name": "Navigation away during pending rejects late permission without GPS or card overwrite",
+      "pass": true
+    },
+    {
+      "name": "Explicit location update supersedes pending activation; out-of-order GPS cannot overwrite newer fix",
+      "pass": true
+    },
+    {
+      "name": "Unmount ignores late GPS success and cleans the pending owner",
+      "pass": true
+    },
+    {
+      "name": "Opening preferences during pending cancels acquisition and rejects late permissions",
+      "pass": true
+    },
+    {
+      "name": "Idle active session does not poll services or GPS",
+      "pass": true
+    },
+    {
+      "name": "Returning from another Home filter validates session before leaving nearby selected",
+      "pass": true
+    },
+    {
+      "name": "Reload starts off; proximity state is absent from persistence",
+      "pass": true
+    },
+    {
+      "name": "New activation provenance cannot restore the previous fix’s B2 cards during held preflight",
+      "pass": true
+    },
+    {
+      "name": "Isolated 150% control proof matches 189×64 off/pending/selected at both widths",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

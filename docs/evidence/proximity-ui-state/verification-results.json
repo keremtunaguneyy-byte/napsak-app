@@ -1,0 +1,167 @@
+[
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "seconds": 0.07,
+    "log": "/private/tmp/gezek-proximity-validation/00.log"
+  },
+  {
+    "command": "git diff --cached --check",
+    "exitCode": 0,
+    "seconds": 0.02,
+    "log": "/private/tmp/gezek-proximity-validation/01.log"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 4.0,
+    "log": "/private/tmp/gezek-proximity-validation/02.log"
+  },
+  {
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 280.16,
+    "log": "/private/tmp/gezek-proximity-validation/03.log"
+  },
+  {
+    "command": "npm run test:catalog",
+    "exitCode": 0,
+    "seconds": 0.53,
+    "log": "/private/tmp/gezek-proximity-validation/04.log"
+  },
+  {
+    "command": "npm run check:events",
+    "exitCode": 1,
+    "seconds": 0.28,
+    "log": "/private/tmp/gezek-proximity-validation/05.log"
+  },
+  {
+    "command": "npm run check:accessibility",
+    "exitCode": 0,
+    "seconds": 0.27,
+    "log": "/private/tmp/gezek-proximity-validation/06.log"
+  },
+  {
+    "command": "npm run test:stress",
+    "exitCode": 0,
+    "seconds": 66.62,
+    "log": "/private/tmp/gezek-proximity-validation/07.log"
+  },
+  {
+    "command": "npm run check:performance",
+    "exitCode": 0,
+    "seconds": 16.85,
+    "log": "/private/tmp/gezek-proximity-validation/08.log"
+  },
+  {
+    "command": "npm run check:recommendations",
+    "exitCode": 0,
+    "seconds": 1.34,
+    "log": "/private/tmp/gezek-proximity-validation/09.log"
+  },
+  {
+    "command": "npm run check:assets",
+    "exitCode": 0,
+    "seconds": 0.25,
+    "log": "/private/tmp/gezek-proximity-validation/10.log"
+  },
+  {
+    "command": "npm run check:build -- --profile=preview",
+    "exitCode": 0,
+    "seconds": 0.28,
+    "log": "/private/tmp/gezek-proximity-validation/11.log"
+  },
+  {
+    "command": "npm run check:observability",
+    "exitCode": 0,
+    "seconds": 0.3,
+    "log": "/private/tmp/gezek-proximity-validation/12.log"
+  },
+  {
+    "command": "npm run check:release",
+    "exitCode": 0,
+    "seconds": 0.33,
+    "log": "/private/tmp/gezek-proximity-validation/13.log"
+  },
+  {
+    "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-proximity-android-export",
+    "exitCode": 0,
+    "seconds": 16.59,
+    "log": "/private/tmp/gezek-proximity-validation/14.log"
+  },
+  {
+    "command": "npm ci",
+    "exitCode": 0,
+    "log": "/private/tmp/gezek-proximity-npm-ci.log"
+  },
+  {
+    "command": "npm run typecheck (final)",
+    "exitCode": 0,
+    "log": "/private/tmp/gezek-proximity-typecheck-final.log"
+  },
+  {
+    "command": "node --import tsx --test tests/proximity-session.test.ts",
+    "exitCode": 0,
+    "tests": 14,
+    "log": "/private/tmp/gezek-proximity-focused.log"
+  },
+  {
+    "command": "node --import tsx --test tests/proximity-session.test.ts tests/home-filter-snapshots.test.ts tests/experience-distance.test.ts",
+    "exitCode": 0,
+    "tests": 49,
+    "log": "/private/tmp/gezek-proximity-focused-final.log"
+  },
+  {
+    "command": "node tests/proximity-browser.cjs",
+    "exitCode": 0,
+    "checks": 72,
+    "errors": [],
+    "log": "/private/tmp/gezek-proximity-browser.log"
+  },
+  {
+    "command": "node tests/proximity-browser-edges.cjs",
+    "exitCode": 0,
+    "checks": 14,
+    "errors": [],
+    "log": "/private/tmp/gezek-proximity-browser-edges-final.log"
+  },
+  {
+    "command": "node tests/home-filter-snapshots-browser.cjs",
+    "exitCode": 0,
+    "checks": 52,
+    "errors": [],
+    "log": "/private/tmp/gezek-proximity-regressions/home-filter-snapshots-browser.log"
+  },
+  {
+    "command": "node tests/location-preflight-browser.cjs",
+    "exitCode": 0,
+    "checks": 80,
+    "errors": [],
+    "log": "/private/tmp/gezek-proximity-regressions/location-preflight-browser-final.log"
+  },
+  {
+    "command": "node tests/experience-distance-browser.cjs",
+    "exitCode": 0,
+    "checks": 56,
+    "errors": [],
+    "log": "/private/tmp/gezek-proximity-regressions/experience-distance-browser.log"
+  },
+  {
+    "command": "node tests/preference-event-browser.cjs",
+    "exitCode": 0,
+    "checks": 38,
+    "errors": [],
+    "log": "/private/tmp/gezek-proximity-regressions/preference-event-browser.log"
+  },
+  {
+    "command": "npm test (final rerun)",
+    "exitCode": 0,
+    "tests": 344,
+    "log": "/private/tmp/gezek-proximity-test-final.log"
+  },
+  {
+    "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-proximity-final-android-export",
+    "exitCode": 0,
+    "log": "/private/tmp/gezek-proximity-export-final.log"
+  }
+]

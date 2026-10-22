@@ -1,0 +1,89 @@
+{
+  "checks": [
+    {
+      "name": "strict 0ms boundary: validated reuse or fresh GPS, no seed rotation",
+      "pass": true
+    },
+    {
+      "name": "strict 59999ms boundary: validated reuse or fresh GPS, no seed rotation",
+      "pass": true
+    },
+    {
+      "name": "strict 60000ms boundary: validated reuse or fresh GPS, no seed rotation",
+      "pass": true
+    },
+    {
+      "name": "strict 60001ms boundary: validated reuse or fresh GPS, no seed rotation",
+      "pass": true
+    },
+    {
+      "name": "valid lease without a Mekân B2 snapshot computes once without GPS or seed consumption",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Gezek → Mekân; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Mekân → Gezek; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Gezek → Etkinlik → Gezek; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Mekân → Fikir → Mekân; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Gezek → Mekân → Etkinlik → Fikir → Gezek → Etkinlik → Mekân; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Mekân → Etkinlik; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "one pending acquisition survives Gezek → Fikir; success and subsequent off preserve seeds",
+      "pass": true
+    },
+    {
+      "name": "cold A preflight invalidates only its older cache, preserving pending shared Home acquisition",
+      "pass": true
+    },
+    {
+      "name": "GPS failure after an unsupported filter switch safely returns off",
+      "pass": true
+    },
+    {
+      "name": "permission invalidation within lease cannot restore selected B2",
+      "pass": true
+    },
+    {
+      "name": "services invalidation within lease cannot restore selected B2",
+      "pass": true
+    },
+    {
+      "name": "explicit Konumu güncelle forces fresh GPS inside lease and renews the strict boundary",
+      "pass": true
+    },
+    {
+      "name": "leaving complete Home cancels pending ownership and rejects late success",
+      "pass": true
+    },
+    {
+      "name": "newest explicit action wins; stale earlier callbacks cannot overwrite or renew newer provenance",
+      "pass": true
+    },
+    {
+      "name": "Home unmount rejects a late native fix",
+      "pass": true
+    },
+    {
+      "name": "restart has no reusable lease; ordinary persistence contains no location or lease timestamp",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

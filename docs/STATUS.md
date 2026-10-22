@@ -1,5 +1,11 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-22 — Final proximity acceptance and authorized PR #81 merge
+
+The user accepts proximity implementation `e36d1aeee1758ab6517c141cc5a14b3c11c916ed` on base `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. The strict 60-second RAM lease and pending-filter correction passed the final Redmi checks; the user confirms the Figma behavior/accessibility contract synchronized with no visual/prototype changes. Opening Ankara 101 during pending intentionally cancels Home acquisition and returns default/off. The [final report](PROXIMITY_UI_STATE_REPORT.md) records all 14 acceptance items and Figma nodes. Real TalkBack and signed-release acceptance remain deferred.
+
+This supersedes earlier pending-retest, unsynchronized-Figma and Draft/no-merge notes for #81. The user authorizes documentation-only reconciliation, exact new-head App Quality/Security Rules, final review/thread/diff audit, ready status and a normal protected merge commit, followed by safe canonical-main fast-forward and live SHA equality verification. No product changes or next feature; retain branch/worktree and unrelated untracked Verilog. Mekân category-chip functionality/taxonomy/recommendation semantics and legacy Ayarlar/Gizlediklerim production design are separate deferred, non-blocking work.
+
 ## 2026-10-21 — Proximity engine A/B2 boundary
 
 Engine-only work on `codex/gezek-proximity-engine-b2`, based on fetched main `6244fa49b35669a04e5e5578f8b8a3dd0ec5eb41`. Optional `nearby` replaces only Place/Experience distance contribution with `-2 * distanceKm`; A stays the default. Full-result pre-edit parity, focused regressions, 16 sequential batch measurements and validation outcomes are in [PROXIMITY_ENGINE_B2_REPORT.md](PROXIMITY_ENGINE_B2_REPORT.md). No UI caller opts in; UI/state/location/snapshot work remains separate. Related-detail stays A; Event/Idea paths, catalog, Firebase, persistence, artwork and release configuration remain unchanged. Current Event health reports stale verification, also reproduced on source main; no catalog fix is included. Draft PR only; no merge or device/release acceptance claim. Protected Verilog work remains untouched.

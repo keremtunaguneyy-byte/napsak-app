@@ -1,3 +1,5 @@
+import { ProximityState } from '../../proximitySession';
+import { ProximityControl } from './ProximityControl';
 import { Coordinates } from '../../domain';
 import { experienceStartDistanceLabel } from '../../experienceStartDistance';
 import { Component, ErrorInfo, memo, Profiler, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -41,6 +43,7 @@ const copy: Record<ResultFilter, { main: string; alternatives: string; refresh: 
 };
 
 export type GezekHomeProps = {
+  proximity?: ProximityState; onToggleProximity?: () => void; proximityFocus?: number;
   safeTopInset?: number;
   mood?: Mood; interests: Interest[]; budget: BudgetPreference; groupSize?: GroupSizePreference; duration: DurationPreference;
   results: RecommendationItem[]; savedIds: string[]; selectedFilter: ResultFilter; contextRefreshDue: boolean;
@@ -71,6 +74,7 @@ function HomeContent(p: GezekHomeProps) {
   const [contentWidth, setContentWidth] = useState(353);
   const [main, ...alternatives] = p.results;
   const labels = copy[p.selectedFilter];
+  const hasProximity = !!p.proximity && (p.selectedFilter === 'experience' || p.selectedFilter === 'place');
   const preferenceNode = useRef<View>(null);
   const eventFilterNode = useRef<View>(null);
   const firstCardNode = useRef<View>(null);
@@ -89,7 +93,7 @@ function HomeContent(p: GezekHomeProps) {
     if (nextWidth !== contentWidth) setContentWidth(nextWidth);
   }} style={s.screen}>
     <HomeAtmosphere width={contentWidth + 2 * L.screenHorizontalInset} topInset={L.homeTopInset + (p.safeTopInset ?? 0)} />
-    <View style={s.content}>
+    <View style={[s.content, hasProximity && { maxWidth: 353 }]}>
     <View style={s.top}>
       <BrandLogo />
       <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}>
@@ -120,7 +124,7 @@ function HomeContent(p: GezekHomeProps) {
         </TouchableOpacity>;
       })}
     </View>
-    {(!p.hasCoordinates || p.locating) && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konum izni iste"
+    {!hasProximity && (!p.hasCoordinates || p.locating) && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konum izni iste"
       accessibilityState={{ busy: p.locating, disabled: p.locating }} disabled={p.locating} onPress={p.onRequestLocation} style={[s.location, p.locating && s.disabled]}>
       <GezekAsset name="locationOff" /><Text style={s.noticeText}>{p.locating ? 'Konumun bulunuyor…' : p.locationMessage}</Text><Text style={s.edit}>Aç</Text>
     </TouchableOpacity>}
@@ -129,7 +133,14 @@ function HomeContent(p: GezekHomeProps) {
       <TouchableOpacity accessibilityRole="button" accessibilityLabel="Son gizlenen öneriyi geri al" disabled={!!p.undoNotice.exiting} accessibilityState={{ disabled: !!p.undoNotice.exiting }} onPress={p.onUndoDismiss} style={s.utilityHit}><Text style={s.undoAction}>Geri al</Text></TouchableOpacity>
     </UndoNoticeTransition>}
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
-      <Heading title={labels.main} />
+      {hasProximity ? <>
+        <View style={s.proximityRow}>
+          {p.selectedFilter === 'experience' ? <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.proximityHeading}>{labels.main}</Text> :
+            <View style={s.contextChips} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={s.contextChip}>Kahve</Text><Text style={s.contextChip}>Sanat</Text></View>}
+          <ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus ?? 0} />
+        </View>
+        {p.selectedFilter === 'place' && <Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI</Text>}
+      </> : <Heading title={labels.main} />}
       {eventEmpty ? <EventEmptyStatePanel state={eventEmpty} onAction={p.onEventEmptyAction ?? (() => {})} focusAction={p.focusRequest?.target === 'event_action' ? p.focusRequest.id : undefined} /> : main ? <MainCard key={main.id} focusRef={firstCardNode} coordinates={p.coordinates} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
         onSave={p.onToggleSaved} onDismiss={p.onDismiss} /> :
         <EmptyCard filter={p.selectedFilter} onEdit={p.onEditPreferences} onHidden={p.onShowHidden} />}
@@ -349,6 +360,10 @@ const s = StyleSheet.create({
   noticeText: { ...T.body, color: C.navy, fontFamily: F.regular, flex: 1, minWidth: 0 }, disabled: { opacity: 0.6 },
   undo: { marginTop: S.section, minHeight: 48, borderRadius: R.image, backgroundColor: C.navy, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12 },
   undoText: { ...T.label, fontFamily: F.semiBold, color: C.surface }, undoAction: { ...T.label, fontFamily: F.semiBold, color: C.yellow },
+  proximityRow: { marginTop: 12, marginBottom: 12, minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' },
+  proximityHeading: { ...T.section, color: C.navy, fontFamily: F.bold, flexShrink: 1 },
+  contextChips: { flexDirection: 'row', gap: 8 }, contextChip: { ...T.label, color: C.navy, fontFamily: F.semiBold, backgroundColor: C.surface, borderColor: C.border, borderWidth: 1, borderRadius: 999, width: 74, minHeight: 44, textAlign: 'center', paddingHorizontal: 14, paddingVertical: 13 },
+  placeHeading: { fontSize: 10, lineHeight: 14, letterSpacing: 0.6, color: C.venue, fontFamily: F.semiBold, marginBottom: 12 },
   heading: { ...T.section, color: C.navy, fontFamily: F.bold, marginTop: S.section, marginBottom: S.section },
   mainCard: { ...shadow, padding: 12, borderWidth: 1, borderColor: C.border, backgroundColor: C.surface, borderRadius: R.surfaceLarge },
   mainContent: { gap: 6 },
