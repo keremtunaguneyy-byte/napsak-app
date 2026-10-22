@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-22 — Narrow Mekân decorative-pill removal
+
+`codex/gezek-mekan-pill-removal` starts from verified main/origin-main `4fd7fd672e63884a1d13b5d7cfa81867141d3606`. Only the Home presentation removes decorative Kahve/Sanat Text nodes and reuses `BUGÜNÜN MEKÂNI` beside the existing proximity control. Normal/control-only large cards move exactly −26px; all five card trees remain intact. Browser evidence, local checks, baseline Event-health failure and remaining Redmi checks are in [MEKAN_PILL_REMOVAL_REPORT.md](MEKAN_PILL_REMOVAL_REPORT.md). One Draft PR; no merge. Settings/Hidden PR 2 was not started. Engine, catalog, Firebase, persistence, proximity/session/snapshot contracts and protected untracked Verilog remain unchanged.
+
 ## 2026-10-22 — Final proximity acceptance and authorized PR #81 merge
 
 The user accepts proximity implementation `e36d1aeee1758ab6517c141cc5a14b3c11c916ed` on base `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. The strict 60-second RAM lease and pending-filter correction passed the final Redmi checks; the user confirms the Figma behavior/accessibility contract synchronized with no visual/prototype changes. Opening Ankara 101 during pending intentionally cancels Home acquisition and returns default/off. The [final report](PROXIMITY_UI_STATE_REPORT.md) records all 14 acceptance items and Figma nodes. Real TalkBack and signed-release acceptance remain deferred.

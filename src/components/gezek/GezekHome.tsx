@@ -136,10 +136,9 @@ function HomeContent(p: GezekHomeProps) {
       {hasProximity ? <>
         <View style={s.proximityRow}>
           {p.selectedFilter === 'experience' ? <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.proximityHeading}>{labels.main}</Text> :
-            <View style={s.contextChips} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={s.contextChip}>Kahve</Text><Text style={s.contextChip}>Sanat</Text></View>}
+            <Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI</Text>}
           <ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus ?? 0} />
         </View>
-        {p.selectedFilter === 'place' && <Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI</Text>}
       </> : <Heading title={labels.main} />}
       {eventEmpty ? <EventEmptyStatePanel state={eventEmpty} onAction={p.onEventEmptyAction ?? (() => {})} focusAction={p.focusRequest?.target === 'event_action' ? p.focusRequest.id : undefined} /> : main ? <MainCard key={main.id} focusRef={firstCardNode} coordinates={p.coordinates} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
         onSave={p.onToggleSaved} onDismiss={p.onDismiss} /> :
@@ -362,8 +361,7 @@ const s = StyleSheet.create({
   undoText: { ...T.label, fontFamily: F.semiBold, color: C.surface }, undoAction: { ...T.label, fontFamily: F.semiBold, color: C.yellow },
   proximityRow: { marginTop: 12, marginBottom: 12, minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' },
   proximityHeading: { ...T.section, color: C.navy, fontFamily: F.bold, flexShrink: 1 },
-  contextChips: { flexDirection: 'row', gap: 8 }, contextChip: { ...T.label, color: C.navy, fontFamily: F.semiBold, backgroundColor: C.surface, borderColor: C.border, borderWidth: 1, borderRadius: 999, width: 74, minHeight: 44, textAlign: 'center', paddingHorizontal: 14, paddingVertical: 13 },
-  placeHeading: { fontSize: 10, lineHeight: 14, letterSpacing: 0.6, color: C.venue, fontFamily: F.semiBold, marginBottom: 12 },
+  placeHeading: { fontSize: 10, lineHeight: 14, letterSpacing: 0.6, color: C.venue, fontFamily: F.semiBold, width: 128, alignSelf: 'stretch' },
   heading: { ...T.section, color: C.navy, fontFamily: F.bold, marginTop: S.section, marginBottom: S.section },
   mainCard: { ...shadow, padding: 12, borderWidth: 1, borderColor: C.border, backgroundColor: C.surface, borderRadius: R.surfaceLarge },
   mainContent: { gap: 6 },
