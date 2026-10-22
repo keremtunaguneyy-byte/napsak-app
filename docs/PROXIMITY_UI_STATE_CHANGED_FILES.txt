@@ -14,9 +14,11 @@ docs/evidence/proximity-ui-state/412-1-gezek-selected.png
 docs/evidence/proximity-ui-state/412-1-mekan-selected.png
 docs/evidence/proximity-ui-state/412-1.5-gezek-fallback.png
 docs/evidence/proximity-ui-state/412-isolated-large-selected.png
+docs/evidence/proximity-ui-state/correction-verification.json
 docs/evidence/proximity-ui-state/edge-results.json
 docs/evidence/proximity-ui-state/event-branch.txt
 docs/evidence/proximity-ui-state/event-main-baseline.txt
+docs/evidence/proximity-ui-state/lease-results.json
 docs/evidence/proximity-ui-state/results.json
 docs/evidence/proximity-ui-state/verification-results.json
 package.json
@@ -28,4 +30,5 @@ src/proximitySession.ts
 src/useHomeRecommendationSnapshot.ts
 tests/proximity-browser-edges.cjs
 tests/proximity-browser.cjs
+tests/proximity-lease-browser.cjs
 tests/proximity-session.test.ts

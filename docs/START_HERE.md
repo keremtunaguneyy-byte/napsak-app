@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-22 — PR #81 lease and pending-filter corrections
+
+The user reports Redmi checks 1–12 and restart passed on `1143e7e`. The approved amendment adds a strict device-memory-only 60-second location reuse lease with fresh services/permission validation; explicit location update still forces GPS. Cold A-cache invalidation no longer cancels a newer shared Home acquisition across supported/unsupported filter switches. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records privacy boundaries, the still-unsynchronized Figma ledger, verification and two focused Redmi correction retests. Same branch/worktree/Draft #81; no merge or broader product/compliance changes.
+
 ## 2026-10-21 — Approved proximity control UI/state integration
 
 Session-only Gezek/Mekân control uses merged PR #80 B2 with fresh activation, shared session fix, independent A/B2 snapshots and histories, safe A restoration and existing lifecycle validity checks. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records live Figma, Git audit, validation, canonical evidence and the complete pending Redmi checklist. One Draft PR only; no merge. Engine/catalog/Firebase/persistence/Details policy/release and protected Verilog unchanged. Browser/export evidence does not close native acceptance.

@@ -170,7 +170,7 @@ function AppContent() {
   // changes. Only a genuinely new batch reads the latest validated location.
   const latestLocation = useRef(coordinates);
   const invalidateLocation = useCallback(() => {
-    proximityOwner.current?.invalidate();
+    proximityOwner.current?.invalidateCachedLocation();
     locationRequests.invalidate();
     latestLocation.current = undefined;
     setCoordinates(undefined);
@@ -193,6 +193,7 @@ function AppContent() {
   }, [recommendationLocation]);
   const proximitySession = useMemo(() => createProximitySession({
     servicesEnabled: Location.hasServicesEnabledAsync,
+    foregroundPermission: Location.getForegroundPermissionsAsync,
     requestPermission: Location.requestForegroundPermissionsAsync,
     currentPosition: () => Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
     acquired: publishExplicitLocation,
@@ -211,7 +212,8 @@ function AppContent() {
     // session for Detail/Back and other Home filters. No new GPS on return.
     if (step !== 'results' || detailSession || preferenceSession || deletionBusy) proximitySession.cancel();
     setProximityFeedback(undefined);
-  }, [step, !!detailSession, !!preferenceSession, deletionBusy, resultFilter, proximitySession]);
+  }, [step, !!detailSession, !!preferenceSession, deletionBusy, proximitySession]);
+  useEffect(() => setProximityFeedback(undefined), [resultFilter]);
   useEffect(() => {
     if (!proximityFeedback) return;
     const timer = setTimeout(() => setProximityFeedback(undefined), 8000);
@@ -418,8 +420,7 @@ function AppContent() {
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
   const requestLocation = useCallback(async () => {
-    proximityOwner.current?.off();
-    proximityOwner.current?.cancel();
+    proximityOwner.current?.beginExplicitRefresh();
     locationValidity.current?.locationChanged();
     recommendationLocation.locationChanged();
     const request = locationRequests.begin();
@@ -438,7 +439,8 @@ function AppContent() {
       if (!locationRequests.isCurrent(request)) return;
       if (!isValidCoordinates(current.coords)) throw new Error('Invalid location');
       trackProductEvent({ name: 'location_permission_result', properties: { result: 'granted' } });
-      publishExplicitLocation(current.coords);
+      const accepted = proximityOwner.current?.acceptExplicitLocation(current.coords);
+      publishExplicitLocation(accepted ?? current.coords);
       setLocationMessage('Canlı konumuna göre mesafeler güncellendi.');
     } catch {
       if (!locationRequests.isCurrent(request)) return;
@@ -501,7 +503,7 @@ function AppContent() {
     completedSnapshot.current = undefined;
     publishExplicitLocation(undefined);
     setLocationMessage('Mesafeleri görmek için konumunu paylaş.');
-    proximitySession.off(); proximitySession.cancel();
+    proximitySession.invalidate();
     setNearbyRuns(createHomeFilterRuns());
     setFilterRuns(createHomeFilterRuns());
     setResultFilter(DEFAULT_RESULT_FILTER);

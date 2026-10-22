@@ -6,6 +6,6 @@ Etkinlik katalog sağlığı: GÜNCELLEME GEREKİYOR
 Toplam: 9
 Yaklaşan: 7
 Süresi geçmiş: 2
-Katalog ufku: 19.9 gün
+Katalog ufku: 19.61 gün
 Eski doğrulama: 9
 Sorunlar: stale_verification
