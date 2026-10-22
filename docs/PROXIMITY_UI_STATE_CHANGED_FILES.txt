@@ -1,7 +1,9 @@
 App.tsx
+docs/DECISIONS.md
 docs/PROXIMITY_UI_STATE_CHANGED_FILES.txt
 docs/PROXIMITY_UI_STATE_REPORT.md
 docs/START_HERE.md
+docs/STATUS.md
 docs/evidence/proximity-ui-state/393-1-gezek-fallback.png
 docs/evidence/proximity-ui-state/393-1-gezek-off.png
 docs/evidence/proximity-ui-state/393-1-gezek-pending.png

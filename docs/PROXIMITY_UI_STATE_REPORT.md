@@ -1,10 +1,18 @@
 # Proximity control UI and session state — 21 October 2026
 
-## 22 October amendment — same Draft PR #81
+## 22 October final acceptance and authorized protected merge
 
-Continued the existing clean worktree/branch at `1143e7ed9fca1923c9c44fe53d2e30f6c0113561`; fetched main is still `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. Both GitHub App Quality and Security Rules passed on that previous head. No new branch/worktree/PR; no merge. The user reports Redmi checks 1–12 passed on that implementation and explicitly confirms restart behavior. The two correction retests below remain pending.
+The user accepts implementation head `e36d1aeee1758ab6517c141cc5a14b3c11c916ed`, based on PR #80 merge `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`, and explicitly authorizes final documentation reconciliation and a normal protected merge of existing PR #81. This supersedes the earlier Draft/no-merge instructions and pending correction-retest/Figma notes below. No product code changes are part of this closeout. Merge completion, final exact-head checks and canonical-main equality must be verified live; this document does not pre-claim them.
 
-The user now approves a **strict 60-second device-memory reuse lease** in place of fresh GPS on every activation. Figma ledger `1400:15195` still specifies fresh acquisition on every activation; it has **not** been updated. Synchronize that behavior ledger only after correction acceptance. Visuals/copy/control dimensions remain unchanged; no Figma operation was performed.
+The user reports the final Figma contract synchronized in file [`yTdAWr92ETyurlQQHNNqpi`](https://www.figma.com/design/yTdAWr92ETyurlQQHNNqpi?node-id=1390-2834), approved section `1390:2834`, behavior/accessibility ledger `1400:15195`. Annotation nodes `1400:15204`, `1400:15207`, `1400:15210`, `1400:15225`, `1400:15228` and `1390:2960`, plus component descriptions, now record the strict 60-second process-memory lease, fresh permission/service validation, forced explicit refresh, no polling, pending-filter survival, Home-departure cancellation and safe default restoration. The user confirms unchanged fingerprints for all 58 visual roots, 44 state/screen frames and 15 protected sections, with unchanged prototype connections/timings. This is user-provided synchronization evidence; the closing agent made no Figma edits or new independent fingerprint claim. There is no remaining Figma blocker.
+
+Final user-reported Redmi acceptance and the separate deferred work are recorded at the end of this report. In particular, opening Ankara 101 during pending leaves Home, cancels acquisition and returns to default/off; this is accepted intended behavior. Real TalkBack and signed-release acceptance remain deferred release checks.
+
+## 22 October amendment — historical implementation record
+
+Continued the existing clean worktree/branch at `1143e7ed9fca1923c9c44fe53d2e30f6c0113561`; fetched main is still `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. Both GitHub App Quality and Security Rules passed on that previous head. No new branch/worktree/PR; no merge. The user reports Redmi checks 1–12 passed on that implementation and explicitly confirms restart behavior. The two correction retests were pending at that checkpoint and are now accepted in the final record above.
+
+The user now approves a **strict 60-second device-memory reuse lease** in place of fresh GPS on every activation. At that checkpoint, Figma ledger `1400:15195` still specified fresh acquisition on every activation and was not yet synchronized. The final user-confirmed synchronization above supersedes that mismatch. Visuals/copy/control dimensions remain unchanged; no Figma operation was performed.
 
 ### Lease lifecycle and personal-data boundary
 
@@ -26,7 +34,7 @@ Current correction commands/results are in `docs/evidence/proximity-ui-state/cor
 
 Full final `npm test`: **362/362** (111 compiled domain/release + 251 TypeScript tests). Final focused tests: **67/67**, including **32 proximity tests** (18 added in this correction). Browser matrix **72/72**, async edge suite **14/14**, new lease/filter suite **21/21**, zero page/console errors. Existing Home/location/distance/Preference regressions: **52/80/56/38**, zero page errors. TypeScript, accessibility, performance, recommendation quality, asset checks and Android export pass. `check:events` still fails identically to main: 9 total, 7 upcoming, 2 expired, 19.61-day horizon, all 9 verification dates stale; sole issue `stale_verification`. No Event edits. Eleven of twelve canonical PNGs are byte-identical; only the Reduced Motion scene changes its synthetic recommendation because reuse correctly retains that fix rather than reacquiring. Control dimensions remain 189×44 / 189×64.
 
-The focused unit/state/location tests cover all four boundary ages, invalid coordinates/statuses, no renewal on comparison, forced explicit refresh, restart, clock invalidity, held lease validation, stale GPS/final-status responses and the cold-A invalidation path. The App browser suite covers both supported directions, both unsupported round trips, repeated switching, unsupported success/failure, later deactivation, full Home departure/unmount, exactly one native request and newest-action ownership. Full verification and exact-head CI are recorded at delivery; no local/browser claim substitutes for the two pending physical correction retests.
+The focused unit/state/location tests cover all four boundary ages, invalid coordinates/statuses, no renewal on comparison, forced explicit refresh, restart, clock invalidity, held lease validation, stale GPS/final-status responses and the cold-A invalidation path. The App browser suite covers both supported directions, both unsupported round trips, repeated switching, unsupported success/failure, later deactivation, full Home departure/unmount, exactly one native request and newest-action ownership. Full verification and exact-head CI are recorded at delivery; no local/browser claim substitutes for physical acceptance, now separately reported by the user below.
 
 
 ## Authority and Git audit
@@ -114,15 +122,30 @@ Rules-specific local emulator tests were not run because Firebase/Rules are unch
 
 Exact inventory: [PROXIMITY_UI_STATE_CHANGED_FILES.txt](PROXIMITY_UI_STATE_CHANGED_FILES.txt). Engine math, eligibility, catalog/stable IDs, Firebase and persistence schemas, Event/Idea behavior, Detail policy, onboarding/Preference Editor UI, Saved/Ankara 101, artwork mappings and release configuration are unchanged. App-level Preference Save only extends its existing invalidation to both Home modes. Package change only includes the focused tests in normal CI.
 
-Normal commit/push and one Draft PR to main are explicitly authorized. The PR must remain Draft, open and unmerged; do not merge. Exact pushed-head CI is checked independently of PR #80's merge checks. Recommended next action: review this Draft and perform the complete Redmi checklist on its exact final SHA before any later merge authorization.
+The final 22 October user instruction authorizes one normal documentation commit/push on the existing branch, exact new-head App Quality and Security Rules checks, final diff/review/thread/mergeability audit, marking PR #81 ready, and a normal merge commit through main's active ruleset without bypass. Then fetch and safely fast-forward canonical main, verifying local main = origin/main = GitHub merge commit. Retain the feature branch/worktree and protected Verilog directory. Earlier Draft/no-merge instructions are superseded for #81 only. No further feature implementation is authorized.
 
-## Redmi acceptance record and remaining correction retests
+## Final Redmi acceptance — user report on `e36d1ae`
 
-User-reported at `1143e7ed9fca1923c9c44fe53d2e30f6c0113561`: checks 1–12 passed, with core activation, A restoration, reactivation, Gezek/Mekân snapshots, Event/Fikir absence, active-mode refresh, save/dismiss/Undo, Detail/Back, location invalidation/recovery and rapid interaction explicitly confirmed. Restart is also explicitly reported passed. This records the human report, not an agent-performed or signed-release test. Original check 13 (status/navigation safe areas) was not separately confirmed in the correction request; no new result is invented.
+These are the user's physical Redmi acceptance results on `e36d1aeee1758ab6517c141cc5a14b3c11c916ed`, not agent-performed device tests. They supersede the earlier ambiguous checks-1–12 shorthand and both pending correction retests.
 
-Only the following two **correction** retests remain before considering this change accepted:
+1. **Passed:** fresh proximity activation, pending state and nearby results.
+2. **Passed:** off restores the original default-A snapshot without seed rotation or scroll jump.
+3. **Passed:** re-enabling within the valid lease reuses the recent location with acceptable perceived latency.
+4. **Passed:** re-enabling at or after lease expiry requires fresh acquisition.
+5. **Passed:** permission/location-service invalidation blocks cached reuse and safely restores default A.
+6. **Passed:** explicit “Konumu güncelle” forces fresh acquisition and renews the lease.
+7. **Passed:** restart clears the proximity lease and starts off; ordinary preferences and saves remain intact.
+8. **Passed:** Gezek → Mekân and Mekân → Gezek switching during pending.
+9. **Passed:** Event/Fikir round trips and rapid switching cause no crash, stale overwrite or stuck pending.
+10. **Accepted intended behavior:** opening Ankara 101 during pending leaves Home and cancels acquisition; returning shows default/off. This is not an unresolved bug.
+11. **Passed:** Gezek and Mekân controls behave consistently.
+12. **Accepted for beta:** card changes and perceived activation latency.
+13. **Remain accepted:** previously tested save/unsave, dismiss/Undo, details/Back, scroll restoration, location invalidation, large text and Reduced Motion.
+14. **Deferred release checks:** real TalkBack and signed-release acceptance. Browser ARIA/focus and export/CI evidence do not close these checks.
 
-1. **60-second lease:** activate once, compare A ↔ B2 immediately and just before expiry with no second GPS flow and stable B2 cards/seed/scroll; at or after 60 seconds expect fresh acquisition. Within the lease, revoke permission/disable services and verify off/A fallback; restore and retry. “Konumu güncelle” must always obtain a fresh fix and renew the window. Restart must still start off without reuse.
-2. **Pending filter lifecycle:** hold a real acquisition and switch Gezek → Mekân, Mekân → Gezek, Gezek → Etkinlik → Gezek and Mekân → Fikir → Mekân, including rapid mixed switches. Supported filters retain the same pending/busy state; unsupported filters hide the control. One acquisition succeeds into the current/returning supported filter without seed changes. Check failure after a switch, subsequent off/A restoration, departure/Back/background, and a newer action superseding a late callback; no stuck pending or stale overwrite.
+## Separate deferred follow-ups — not merge blockers
 
-Keep PR #81 Draft and unmerged. Wait for exact-head App Quality and Security Rules, then perform these two retests on that exact head. Synchronize the Figma behavior ledger after acceptance; signed-release gates remain independent.
+- Mekân's “Kahve”, “Sanat” and similar category chips are presentation only, not functional filters. Product semantics, catalog taxonomy and recommendation behavior require a separate audit and implementation.
+- Ayarlar and Gizlediklerim/dismissed-management still use legacy visual designs and require separate production design closure.
+
+Neither follow-up is implemented in PR #81. No Settings, Hidden Items, category-filter, catalog, Firebase or data-collection work starts as part of this closeout. Existing Event stale-verification health remains a separately evidenced baseline issue, not a scoped proximity regression. No remaining scoped acceptance or Figma blocker is reported; live CI/review/protected-merge gates still apply.

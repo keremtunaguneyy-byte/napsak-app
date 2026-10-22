@@ -1,8 +1,14 @@
 # Gezek — önce burayı oku
 
-## 2026-10-22 — PR #81 lease and pending-filter corrections
+## 2026-10-22 — Final proximity acceptance and authorized PR #81 merge
 
-The user reports Redmi checks 1–12 and restart passed on `1143e7e`. The approved amendment adds a strict device-memory-only 60-second location reuse lease with fresh services/permission validation; explicit location update still forces GPS. Cold A-cache invalidation no longer cancels a newer shared Home acquisition across supported/unsupported filter switches. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records privacy boundaries, the still-unsynchronized Figma ledger, verification and two focused Redmi correction retests. Same branch/worktree/Draft #81; no merge or broader product/compliance changes.
+The user accepts proximity implementation `e36d1aeee1758ab6517c141cc5a14b3c11c916ed` on base `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. The strict 60-second RAM lease and pending-filter correction passed the final Redmi checks; the user confirms the Figma behavior/accessibility contract synchronized with no visual/prototype changes. Opening Ankara 101 during pending intentionally cancels Home acquisition and returns default/off. The [final report](PROXIMITY_UI_STATE_REPORT.md) records all 14 acceptance items and Figma nodes. Real TalkBack and signed-release acceptance remain deferred.
+
+This supersedes earlier pending-retest, unsynchronized-Figma and Draft/no-merge notes for #81. The user authorizes documentation-only reconciliation, exact new-head App Quality/Security Rules, final review/thread/diff audit, ready status and a normal protected merge commit, followed by safe canonical-main fast-forward and live SHA equality verification. No product changes or next feature; retain branch/worktree and unrelated untracked Verilog. Mekân category-chip functionality/taxonomy/recommendation semantics and legacy Ayarlar/Gizlediklerim production design are separate deferred, non-blocking work.
+
+## 2026-10-22 — Historical PR #81 lease and pending-filter checkpoint
+
+The user reports Redmi checks 1–12 and restart passed on `1143e7e`. The approved amendment adds a strict device-memory-only 60-second location reuse lease with fresh services/permission validation; explicit location update still forces GPS. Cold A-cache invalidation no longer cancels a newer shared Home acquisition across supported/unsupported filter switches. [PROXIMITY_UI_STATE_REPORT.md](PROXIMITY_UI_STATE_REPORT.md) records privacy boundaries and verification. At this historical checkpoint Figma synchronization and two Redmi correction retests were pending; both are superseded by the final acceptance above. No broader product/compliance changes.
 
 ## 2026-10-21 — Approved proximity control UI/state integration
 
