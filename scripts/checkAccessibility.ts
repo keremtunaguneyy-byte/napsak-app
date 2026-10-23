@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 const sources = [
+  'src/components/gezek/SettingsScreen.tsx', 'src/components/gezek/HiddenScreen.tsx', 'src/components/gezek/ManagementShell.tsx',
   'src/components/gezek/OnboardingHost.tsx', 'src/components/gezek/SavedScreen.tsx',
   'src/components/gezek/PreferenceEditor.tsx', 'src/components/gezek/PreferenceControls.tsx', 'src/components/gezek/EventEmptyStatePanel.tsx',
   'App.tsx', 'src/components/gezek/DetailHost.tsx', 'src/components/gezek/UndoNoticeTransition.tsx', 'src/components/AppErrorBoundary.tsx',

@@ -1,5 +1,9 @@
 # Gezek — önce burayı oku
 
+## 2026-10-23 — Production Settings and Hidden Items
+
+The approved Settings/Hidden closure is implemented on `codex/gezek-production-settings-hidden` for one Draft PR; no merge or physical-device acceptance. Typed Home/Saved/Ankara origins, existing draft editor, truthful native deletion outcomes and four-kind restore-only management reuse current persistence and A/B2 dismissal keys. [Implementation report](SETTINGS_HIDDEN_IMPLEMENTATION_REPORT.md) records exact scope, validation, unchanged baseline failures and the pending Redmi checklist. This supersedes historical notes deferring these two production surfaces; proximity/Mekân correction and engine/catalog/schema/release contracts remain unchanged.
+
 ## 2026-10-22 — Final proximity acceptance and authorized PR #81 merge
 
 The user accepts proximity implementation `e36d1aeee1758ab6517c141cc5a14b3c11c916ed` on base `a4f5326fac4bf619ed6662cfa3f12a66d30bcf24`. The strict 60-second RAM lease and pending-filter correction passed the final Redmi checks; the user confirms the Figma behavior/accessibility contract synchronized with no visual/prototype changes. Opening Ankara 101 during pending intentionally cancels Home acquisition and returns default/off. The [final report](PROXIMITY_UI_STATE_REPORT.md) records all 14 acceptance items and Figma nodes. Real TalkBack and signed-release acceptance remain deferred.

@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-23 — Production Settings and Hidden Items
+
+The approved Settings/Hidden closure is implemented on `codex/gezek-production-settings-hidden` for one Draft PR; no merge or physical-device acceptance. Typed Home/Saved/Ankara origins, existing draft editor, truthful native deletion outcomes and four-kind restore-only management reuse current persistence and A/B2 dismissal keys. [Implementation report](SETTINGS_HIDDEN_IMPLEMENTATION_REPORT.md) records exact scope, validation, unchanged baseline failures and the pending Redmi checklist. This supersedes historical notes deferring these two production surfaces; proximity/Mekân correction and engine/catalog/schema/release contracts remain unchanged.
+
 ## 2026-10-23 — Mekân Redmi accepted; authorized PR #82 closeout
 
 The user accepts implementation `01b724876c85245d585c3b6d358656cbf748d8bc` on base `4fd7fd672e63884a1d13b5d7cfa81867141d3606`: pills absent, gap/main-card position corrected, proximity placement/action and nearby cards correct, refresh/Save/dismiss/Undo working, Detail→Android Back preserving batch/scroll, large system text without overlap and final content clear of fixed navigation. All nine user-reported Redmi results are recorded in [MEKAN_PILL_REMOVAL_REPORT.md](MEKAN_PILL_REMOVAL_REPORT.md). Real TalkBack is deferred to the consolidated accessibility pass and does not block this narrow correction; signed-release acceptance remains unverified. The main-baseline `check:events` `stale_verification` failure is unchanged.
