@@ -3,7 +3,7 @@ import type { ResultFilter } from './resultFilters';
 
 export type PreferenceField = 'mood' | 'interests' | 'budget' | 'groupSize' | 'duration';
 export type PreferenceDraft = Pick<PersistedPreferences, PreferenceField>;
-export type PreferenceEditorOrigin = 'home' | 'event_empty';
+export type PreferenceEditorOrigin = 'home' | 'event_empty' | 'settings';
 export type PreferenceEditorMode = 'overview' | 'field' | 'budget_only';
 export type PreferenceEditorSession = {
   origin: { source: PreferenceEditorOrigin; filter: ResultFilter; seed: number; previousBatch: string[]; scrollY: number };
@@ -43,9 +43,9 @@ export function applyPreferenceEditor(current: PersistedPreferences, session: Pr
   return { ...current, ...update };
 }
 
-export type PreferenceReturnFocus = 'preference' | 'event_action' | 'event_result';
+export type PreferenceReturnFocus = 'preference' | 'event_action' | 'event_result' | 'settings' | 'hidden';
 export function preferenceReturnFocus(origin: PreferenceEditorOrigin, applied: boolean): PreferenceReturnFocus {
-  return origin === 'home' ? 'preference' : applied ? 'event_result' : 'event_action';
+  return origin === 'settings' ? 'settings' : origin === 'home' ? 'preference' : applied ? 'event_result' : 'event_action';
 }
 
 export const preferenceContentClearance = (footerHeight: number) => Math.max(112, footerHeight + 16);
