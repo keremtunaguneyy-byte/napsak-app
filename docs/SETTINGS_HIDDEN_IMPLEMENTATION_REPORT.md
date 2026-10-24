@@ -1,6 +1,32 @@
 # Production Settings and Hidden Items
 
-Implemented 23 October 2026, Europe/Istanbul. Delivery is one Draft PR, not merged. Physical-device acceptance belongs to the user.
+Implemented 23 October 2026, Europe/Istanbul. The 24 October closeout below records user-reported practical Redmi acceptance and supersedes historical Draft/no-merge and pending-practical-device notes. Protected merge completion is verified separately from live Git/GitHub.
+
+## 24 October 2026 — PR #83 practical Redmi acceptance and protected closeout
+
+Accepted corrected implementation head: `212a5b958499d287115d2f45cb6d2eecc5e609a3`; verified pre-merge main/base: `3bc0e9631d059d4ef0bdf573cdf8263e674a1e91`. Before edits, the feature worktree was clean at exactly that local/remote/PR head; PR #83 was OPEN/Draft, CLEAN/MERGEABLE, with no reviews or unresolved review threads. Its complete diff matched the documented 32-path inventory. The active main ruleset requires PR merge, resolved review threads and `app-quality`; no bypass is authorized or used.
+
+The user completed practical Redmi checks on that exact corrected head and reports all tested behavior works:
+
+- Settings entry and return; Preference Editor Save and Cancel; no unintended onboarding replay.
+- Hidden Items across supported kinds; card bodies remain non-navigable; individual restore leaves items unsaved; bulk restore preserves Saved records; restart persistence.
+- Android Back and Close; correct Home/Saved/Ankara origin return, navigation and scroll behavior.
+- Normal large-text/layout checks; ordinary deletion confirmation/cancellation and the accepted device behavior.
+
+This is user-reported practical device acceptance. It does not establish controlled connected Firebase failure injection, Auth-partial failure injection, persistence-write failure injection, real TalkBack or signed-release acceptance; those five remain explicitly deferred. No maximum OS font-scale or OS Reduced Motion result is inferred from the reported normal large-text checks. Browser/native-service fixtures remain automated evidence rather than physical failure-injection evidence. Existing release blockers and Event/legacy-browser baselines remain unchanged.
+
+F01 was corrected without production-code changes: four actual historical callbacks are retained in one document across 12 caller/outcome lifecycles and four phases (**192 checked invocations**); four independently bypassed guards each fail on real state mutation, and the original source was immediately restored. The corrected full browser suite passes 30 groups; relevant units 77/77, Preference/Event browser 38 checks and full `npm test` 380/380. Exact corrected-head CI passed:
+
+| Accepted-head check | Result |
+|---|---|
+| [App Quality](https://github.com/keremtunaguneyy-byte/napsak-app/actions/runs/40075203226) | PASS on `212a5b958499d287115d2f45cb6d2eecc5e609a3` |
+| [Security / Firestore Rules](https://github.com/keremtunaguneyy-byte/napsak-app/actions/runs/40075203193) | PASS on `212a5b958499d287115d2f45cb6d2eecc5e609a3` |
+
+**Non-blocking visual backlog:** the bottom-navigation Fikir icon is functional and needs a small visual refinement. It does not block PR #83 or the focused beta. Defer implementation to a future narrow Home background/visual-polish PR; its route, touch target, selected/unselected semantics, accessibility label and navigation geometry must remain unchanged. No Home or icon implementation is included here.
+
+The user now authorizes one documentation-only closeout commit/push on the existing branch/PR, exact new-head App Quality and Security/Firestore Rules, then ready status and a protected normal merge commit only after clean reviews/threads/mergeability are rechecked. Earlier PR #83 Draft/no-merge restrictions and pending-practical-Redmi notes below are historical and superseded by this authorization. No squash, rebase, amend, force-push, branch/worktree deletion or next feature. Merge completion, documentation/final head, terminal CI links and canonical-main reconciliation are recorded in the PR/chat from live results after execution; this pre-merge record does not assert an already completed merge.
+
+Closeout files are only this report, `docs/STATUS.md` and `docs/START_HERE.md`. The complete PR still has the same 32 paths, so its inventory needs no content change. No product code, test, asset, Firebase, Figma, recommendation, catalog or release configuration changed. Closeout validation: `git diff --check` and `git diff --cached --check` before commit exit 0; `python3 /private/tmp/gezek-settings-hidden-closeout/check-docs.py` exits 0, checking documentation-only scope, the complete 32-path PR inventory and 40 relative Markdown links/anchors in the three edited documents. No dedicated documentation-link/inventory script exists in package/scripts; the existing manual inventory/link validation pattern is used. The accepted product suite is not rerun locally for this documentation-only closeout, as instructed; exact new-head CI is required. Canonical tracked main was clean; existing untracked `.codex-attachments/` and protected `src/firebase/BA_4bit.sv/` remain untouched, with protected contents uninspected and unstaged.
 
 ## Repository and authority
 
@@ -71,7 +97,7 @@ Three unchanged browser baselines, reproduced against `3bc0e9631d059d4ef0bdf573c
 
 No requested script is missing. `test:rules` was not run locally because Rules/Firebase were unchanged; exact-head Security Rules CI is required. Physical device, TalkBack, real OS font scale, connected/offline Firebase and signed-release checks were not run because the user explicitly deferred device acceptance and no connected test environment was authorized.
 
-## Pending Redmi acceptance
+## Historical initial Redmi checklist — superseded by the closeout above
 
 Record exact commit/build and test with disposable local/test-account data:
 
