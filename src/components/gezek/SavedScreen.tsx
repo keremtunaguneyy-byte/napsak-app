@@ -73,7 +73,7 @@ export function SavedScreen(p: Props) {
     <View style={[s.header, { paddingTop: 94 + p.safeTopInset, paddingBottom: large ? 56 : 16 }]}>
       <View ref={heading} accessible focusable tabIndex={-1} accessibilityRole="header" accessibilityLabel="Kaydedilenler"><Text accessible={false} style={s.title}>Kaydedilenler</Text></View>
       <Text style={s.summary}>Son kaydettiklerin en üstte.</Text>
-      <View style={[s.top, { top: L.homeTopInset + p.safeTopInset }]}><BrandLogo allowFontScaling={false} /><TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}><GezekAsset name="settings" /></TouchableOpacity></View>
+      <View style={[s.top, { top: L.homeTopInset + p.safeTopInset }]}><BrandLogo allowFontScaling={false} /><TouchableOpacity accessibilityRole="button" ref={node => { if (node) nodes.current.set('settings', node); else nodes.current.delete('settings'); }} accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}><GezekAsset name="settings" /></TouchableOpacity></View>
     </View>
     <ScrollView testID="production-saved-scroll" ref={scroll} contentContainerStyle={s.list} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScroll={event => { if (p.hidden) return; y.current = event.nativeEvent.contentOffset.y; p.onScroll(y.current); }} onContentSizeChange={restore}>
       {p.entries.length ? p.entries.map(entry => {

@@ -76,12 +76,13 @@ function HomeContent(p: GezekHomeProps) {
   const labels = copy[p.selectedFilter];
   const hasProximity = !!p.proximity && (p.selectedFilter === 'experience' || p.selectedFilter === 'place');
   const preferenceNode = useRef<View>(null);
+  const settingsNode = useRef<View>(null), hiddenNode = useRef<View>(null);
   const eventFilterNode = useRef<View>(null);
   const firstCardNode = useRef<View>(null);
   const eventEmpty = p.selectedFilter === 'event' && p.eventState && p.eventState !== 'populated' ? p.eventState : undefined;
   useEffect(() => {
     if (!p.focusRequest || p.focusRequest.target === 'event_action') return;
-    const frame = requestAnimationFrame(() => focusDetailControl(p.focusRequest?.target === 'preference' ? preferenceNode.current : firstCardNode.current ?? eventFilterNode.current));
+    const frame = requestAnimationFrame(() => focusDetailControl(p.focusRequest?.target === 'settings' ? settingsNode.current : p.focusRequest?.target === 'hidden' ? hiddenNode.current : p.focusRequest?.target === 'preference' ? preferenceNode.current : firstCardNode.current ?? eventFilterNode.current, true));
     return () => cancelAnimationFrame(frame);
   }, [p.focusRequest]);
   const preference = [
@@ -96,7 +97,7 @@ function HomeContent(p: GezekHomeProps) {
     <View style={[s.content, hasProximity && { maxWidth: 353 }]}>
     <View style={s.top}>
       <BrandLogo />
-      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}>
+      <TouchableOpacity ref={settingsNode} accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={p.onSettings} style={s.settings}>
         <GezekAsset name="settings" />
       </TouchableOpacity>
     </View>
@@ -165,7 +166,7 @@ function HomeContent(p: GezekHomeProps) {
     </View>
     <View style={s.utilities}>
       {p.hasCoordinates && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konumu yeniden güncelle" onPress={p.onRequestLocation} style={s.utilityHit}><Text style={s.utilityText}>Konumu güncelle</Text></TouchableOpacity>}
-      <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Gizlediğim ${p.hiddenCount} öneriyi göster`} onPress={p.onShowHidden} style={s.utilityHit}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity>
+      <TouchableOpacity ref={hiddenNode} accessibilityRole="button" accessibilityLabel={`Gizlediğim ${p.hiddenCount} öneriyi göster`} onPress={p.onShowHidden} style={s.utilityHit}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity>
       <TouchableOpacity accessibilityRole="button" accessibilityLabel="Plan tercihlerini baştan seç" onPress={p.onReset} style={s.utilityHit}><Text style={s.utilityText}>Baştan başla</Text></TouchableOpacity>
     </View>
     </View>

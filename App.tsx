@@ -27,7 +27,7 @@ import { emptyPreferences, loadPreferences, shouldRefreshContext } from './src/p
 import { RecommendationItem, recommendAll } from './src/recommendations';
 import { DEFAULT_RESULT_FILTER, ResultFilter } from './src/resultFilters';
 import { BudgetPreference, DurationPreference, Event, Experience, GroupSizePreference, Guide, Idea, Interest, Mood, Place } from './src/types';
-import { Coordinates, formatDistanceInKm, formatDurationRange, isValidCoordinates, resolveSavedPlaces } from './src/domain';
+import { Coordinates, formatDistanceInKm, formatDurationRange, isValidCoordinates } from './src/domain';
 import { InsiderRoute, insiderRoutes } from './src/data/insiderRoutes';
 import { ANKARA101_LAYOUT } from './src/design/ankara101Theme';
 import { GEZEK_COLORS, GEZEK_FONT_FAMILIES, GEZEK_LAYOUT } from './src/design/gezekTheme';
@@ -48,6 +48,11 @@ import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentE
 import { CLASSICS_COLLECTION_ID, resolvePrimaryInsiderRoute } from './src/ankara101';
 
 import { PreferenceEditor } from './src/components/gezek/PreferenceEditor';
+import { SettingsScreen, SettingsFocus } from './src/components/gezek/SettingsScreen';
+import { HiddenScreen } from './src/components/gezek/HiddenScreen';
+import { HiddenEntry, resolveHiddenItems } from './src/hiddenItems';
+import { ManagementCaller, ManagementSession, managementBack, managementTab } from './src/managementNavigation';
+import { createSettingsDeletion } from './src/settingsDeletion';
 import { applyPreferenceEditor, preferenceEditorReducer, preferenceReturnFocus, PreferenceEditorAction, PreferenceEditorSession, PreferenceReturnFocus } from './src/preferenceEditor';
 import { CatalogLoadState, eventDiagnostics, resolveEventPresentation, runCatalogLoad } from './src/eventPresentation';
 import { parseCatalogSnapshot } from './src/data/catalogValidation';
@@ -90,6 +95,8 @@ function AppContent() {
   const [preferenceSession, setPreferenceSession] = useState<PreferenceEditorSession>();
   const [homeFocus, setHomeFocus] = useState<{ id: number; target: PreferenceReturnFocus }>();
   const [step, setStep] = useState<Step>('welcome');
+  const currentStep = useRef(step); currentStep.current = step;
+  const [hiddenFocus, setHiddenFocus] = useState(0);
   const [mood, setMood] = useState<Mood>();
   const [chosen, setChosen] = useState<Interest[]>([]);
   const [budget, setBudget] = useState<BudgetPreference>('Fark etmez');
@@ -141,7 +148,16 @@ function AppContent() {
   const originFallback = useRef<View>(null);
   const originScrollY = useRef(0);
   const savedScrollY = useRef(0);
-  const settingsOrigin = useRef<'results' | 'guides'>('results');
+  const management = useRef<ManagementSession>({ origin: { screen: 'results', filter: DEFAULT_RESULT_FILTER, scrollY: 0, focus: 'settings' }, hiddenFrom: 'settings' });
+  const settingsScrollY = useRef(0);
+  const [settingsFocus, setSettingsFocus] = useState<{ target: SettingsFocus; sequence: number }>();
+  const editorOwner = useRef<PreferenceEditorSession | undefined>(undefined);
+  editorOwner.current = preferenceSession;
+  const restoredIds = useRef(new Set<string>());
+  const latestDismissed = useRef(dismissed);
+  latestDismissed.current = dismissed;
+  const managementGeneration = useRef(0);
+  const managementToken = managementGeneration.current;
   const [savedReturn, setSavedReturn] = useState<SavedReturnRequest>();
   const [editorialOrigin, setEditorialOrigin] = useState<{ id: string; scrollY: number }>();
   const [insiderRouteId, setInsiderRouteId] = useState<string>();
@@ -285,7 +301,8 @@ function AppContent() {
       ...events,
     ];
   }, [experiences, places, ideas, events]);
-  const hiddenItems = useMemo(() => resolveSavedPlaces<Place | Idea | Event | Experience>(catalogItems, dismissed), [catalogItems, dismissed]);
+  const hiddenItems = useMemo(() => resolveHiddenItems(catalogItems, dismissed), [catalogItems, dismissed]);
+  useEffect(() => { restoredIds.current.clear(); }, [dismissed]);
   const savedEntries = useMemo(() => resolveSavedEntries(saved, catalogItems, guides, insiderRoutes), [catalogItems, guides, saved]);
   const primaryInsiderRoute = insiderRouteId ? insiderRoutes.find(route => route.id === insiderRouteId) : resolvePrimaryInsiderRoute(insiderRoutes);
 
@@ -332,9 +349,13 @@ function AppContent() {
     // The first-run transaction already wrote this exact coherent snapshot.
     const alreadyCommitted = completedSnapshot.current === JSON.stringify(preferences);
     completedSnapshot.current = undefined;
+    const generation = onboardingGeneration.current;
     if (!alreadyCommitted) persistPreferences(preferences).catch(error => {
+      if (generation !== onboardingGeneration.current) return;
       captureOperationalError(error, 'local_persistence', 'preference_save_failed');
-      Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.');
+      Alert.alert('Kayıt yapılamadı', 'Tercihlerin bu kez cihazına kaydedilemedi.', [{ text: 'Tamam', onPress: () => {
+        if (generation === onboardingGeneration.current && currentStep.current === 'hidden') setHiddenFocus(value => value + 1);
+      } }]);
     });
     queuePreferencesForRemoteSync(preferences).catch(() => {
       // Local persistence remains authoritative while offline.
@@ -406,8 +427,9 @@ function AppContent() {
         return true;
       }
       if (step === 'guides' && editorialOrigin) { returnToSaved(editorialOrigin); return true; }
-      if (step === 'settings') { setStep(settingsOrigin.current); return true; }
-      if (step === 'guides' || step === 'saved' || step === 'hidden') {
+      if (preferenceSession) return true; // Native Modal owns its nested onRequestClose.
+      if (step === 'settings' || step === 'hidden') { leaveManagement('back'); return true; }
+      if (step === 'guides' || step === 'saved') {
         setStep('results');
         requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
         return true;
@@ -415,7 +437,7 @@ function AppContent() {
       return false;
     });
     return () => subscription.remove();
-  }, [guideContentsOpen, guideView, step, onboardingSession, onboardingCompleted, editorialOrigin, readerSession]);
+  }, [guideContentsOpen, guideView, step, onboardingSession, onboardingCompleted, editorialOrigin, readerSession, preferenceSession]);
 
   if (observabilityTestRequested) throw new Error('controlled_observability_test');
 
@@ -489,6 +511,12 @@ function AppContent() {
   const resetAfterDataDeletion = () => {
     onboardingGeneration.current += 1;
     onboardingCommitBusy.current = false;
+    managementGeneration.current += 1;
+    editorOwner.current = undefined;
+    setPreferenceSession(undefined); setDetailSession(undefined);
+    setReaderSession(undefined); setEditorialOrigin(undefined); setGuideView('landing');
+    setSettingsFocus(undefined); settingsScrollY.current = 0;
+    originScrollY.current = 0; savedScrollY.current = 0; indexScrollY.current = 0;
     interact({ type: 'clear' });
     undo.clear();
     setMood(undefined);
@@ -509,28 +537,16 @@ function AppContent() {
     setResultFilter(DEFAULT_RESULT_FILTER);
     setStep('welcome');
   };
-  const deleteMyData = () => Alert.alert(
-    'Tüm verilerini sil?',
-    'Tercihlerin, kaydettiklerin ve gizlediklerin bu cihazdan; bağlıysa anonim hesabından silinir. Bu işlem geri alınamaz.',
-    [
-      { text: 'Vazgeç', style: 'cancel' },
-      { text: 'Verilerimi sil', style: 'destructive', onPress: async () => {
-        setDeletionBusy(true);
-        try {
-          const result = await deleteCurrentUserData();
-          resetAfterDataDeletion();
-          Alert.alert('Verilerin silindi', result.anonymousAccountDeletionFailed
-            ? 'Cihaz ve Firestore kullanıcı verilerin silindi. Anonim Authentication kaydı silinemedi; bu sonuç ayrı olarak kaydedildi.'
-            : 'Cihazındaki ve bağlı anonim hesabındaki kullanıcı verileri temizlendi.');
-        } catch (error) {
-          captureOperationalError(error, 'user_data_deletion', 'user_data_deletion_failed');
-          Alert.alert('Silme tamamlanamadı', 'Silmenin tüm adımları doğrulanamadı. Bağlantını kontrol edip işlemi yeniden dene; bağlı hesap ve cihaz verilerini kontrol et.');
-        } finally {
-          setDeletionBusy(false);
-        }
-      } },
-    ],
-  );
+  const focusSettings = (target: SettingsFocus) => setSettingsFocus(current => ({ target, sequence: (current?.sequence ?? 0) + 1 }));
+  const deletionCallbacks = useRef({ reset: resetAfterDataDeletion, focus: () => focusSettings('delete') });
+  deletionCallbacks.current = { reset: resetAfterDataDeletion, focus: () => focusSettings('delete') };
+  const deletion = useMemo(() => createSettingsDeletion({
+    alert: Alert.alert, deleteData: deleteCurrentUserData, busy: setDeletionBusy,
+    reset: () => deletionCallbacks.current.reset(), focusDelete: () => deletionCallbacks.current.focus(),
+    failed: error => captureOperationalError(error, 'user_data_deletion', 'user_data_deletion_failed'),
+  }), []);
+  useEffect(() => () => deletion.dispose(), [deletion]);
+  const deleteMyData = () => deletion.request();
   const rotateRecommendations = useCallback(() => {
     undo.clear();
     batchTrigger.current = 'rotate';
@@ -650,36 +666,57 @@ function AppContent() {
   const openRecommendation = useCallback((item: RecommendationItem, node?: View | null) => {
     openDetail({ kind: item.kind, id: item.id, reasons: item.reasons }, node);
   }, [openDetail]);
-  const openHomeSettings = useCallback(() => { settingsOrigin.current = 'results'; setStep('settings'); }, []);
-  const openAnkara101Settings = () => {
-    settingsOrigin.current = 'guides';
-    const scrollY = indexScrollY.current;
-    setIndexReturn(current => ({ id: 'settings', scrollY, sequence: (current?.sequence ?? 0) + 1 }));
-    setStep('settings');
+  const openManagement = (screen: ManagementCaller, directHidden = false) => {
+    managementGeneration.current += 1;
+    management.current = { origin: { screen, filter: resultFilter, scrollY: screen === 'saved' ? savedScrollY.current : screen === 'guides' ? indexScrollY.current : originScrollY.current, focus: directHidden ? 'hidden' : 'settings' }, hiddenFrom: directHidden ? 'results' : 'settings' };
+    settingsScrollY.current = 0; setSettingsFocus(undefined);
+    setStep(directHidden ? 'hidden' : 'settings');
+  };
+  const openHomeSettings = () => openManagement('results');
+  const openAnkara101Settings = () => openManagement('guides');
+  const leaveManagement = (action: 'back' | 'close' | 'home') => {
+    if (action === 'back' && step === 'hidden' && managementBack('hidden', management.current) === 'settings') {
+      focusSettings('hidden'); setStep('settings'); return;
+    }
+    const origin = management.current.origin;
+    managementGeneration.current += 1;
+    const destination = action === 'home' ? 'results' : origin.screen;
+    setStep(destination);
+    if (destination === 'saved') setSavedReturn(current => ({ id: 'settings', scrollY: origin.scrollY, sequence: (current?.sequence ?? 0) + 1 }));
+    else if (destination === 'guides') setIndexReturn(current => ({ id: 'settings', scrollY: origin.scrollY, sequence: (current?.sequence ?? 0) + 1 }));
+    else requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ y: origin.screen === 'results' ? origin.scrollY : 0, animated: false });
+      requestHomeFocus(origin.screen === 'results' ? origin.focus : 'settings');
+    });
   };
   const requestHomeFocus = (target: PreferenceReturnFocus) => setHomeFocus(current => ({ id: (current?.id ?? 0) + 1, target }));
-  const openPreferenceEditor = useCallback((budgetOnly = false) => {
+  const openPreferenceEditor = useCallback((budgetOnly = false, fromSettings = false) => {
+    if (deletion.busy()) return;
     setPreferenceSession(preferenceEditorReducer(undefined, { type: 'open', budgetOnly,
-      origin: { source: budgetOnly ? 'event_empty' : 'home', filter: resultFilter, seed: recommendationRun, previousBatch, scrollY: originScrollY.current },
+      origin: { source: fromSettings ? 'settings' : budgetOnly ? 'event_empty' : 'home', filter: resultFilter, seed: recommendationRun, previousBatch, scrollY: fromSettings ? settingsScrollY.current : originScrollY.current },
       preferences: { mood, interests: chosen, budget, groupSize, duration },
     }));
-  }, [resultFilter, recommendationRun, previousBatch, mood, chosen, budget, groupSize, duration]);
+  }, [resultFilter, recommendationRun, previousBatch, mood, chosen, budget, groupSize, duration, deletion]);
   const editHomePreferences = useCallback(() => openPreferenceEditor(), [openPreferenceEditor]);
   const finishPreferenceEditor = (applied: boolean) => {
     if (!preferenceSession) return;
     const origin = preferenceSession.origin;
+    editorOwner.current = undefined;
     setPreferenceSession(undefined);
+    if (origin.source === 'settings') { focusSettings('preferences'); return; }
     requestAnimationFrame(() => {
       scrollRef.current?.scrollTo({ y: origin.scrollY, animated: false });
       requestHomeFocus(preferenceReturnFocus(origin.source, applied));
     });
   };
   const navigatePreferenceEditor = (action: PreferenceEditorAction) => {
+    if (!preferenceSession || editorOwner.current !== preferenceSession || deletion.busy()) return;
     const next = preferenceEditorReducer(preferenceSession, action);
+    editorOwner.current = next;
     if (next) setPreferenceSession(next); else finishPreferenceEditor(false);
   };
   const applyEditor = () => {
-    if (!preferenceSession) return;
+    if (!preferenceSession || editorOwner.current !== preferenceSession || deletion.busy()) return;
     const current = { saved, dismissed, mood, interests: chosen, budget, groupSize, duration, contextConfirmedAt, onboardingCompleted };
     const next = applyPreferenceEditor(current, preferenceSession);
     setFilterRuns(current => invalidateHomeFilters(current));
@@ -715,7 +752,16 @@ function AppContent() {
   const undoHomeDismiss = useCallback(() => undo.undo(), [undo]);
   const saveHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => toggleSaved(item.id, item.kind, rank), [toggleSaved]);
   const dismissHomeRecommendation = useCallback((item: RecommendationItem, rank: number) => dismissPlace(item.id, item.kind, rank), [dismissPlace]);
-  const showHomeHidden = useCallback(() => setStep('hidden'), []);
+  const showHomeHidden = () => openManagement('results', true);
+  const restoreHidden = (entry: HiddenEntry) => {
+    if (currentStep.current !== 'hidden' || managementToken !== managementGeneration.current || deletion.busy() || restoredIds.current.has(entry.id) || !latestDismissed.current.includes(entry.id)) return false;
+    restoredIds.current.add(entry.id); restorePlace(entry.id, entry.kind); return true;
+  };
+  const restoreAllHidden = () => {
+    if (currentStep.current !== 'hidden' || managementToken !== managementGeneration.current || deletion.busy() || !hiddenItems.length || latestDismissed.current.every(id => restoredIds.current.has(id))) return false;
+    dismissed.forEach(id => restoredIds.current.add(id));
+    interact({ type: 'restoreAll' }); undo.clear(); return true;
+  };
   const measureHomeRecommendations = useCallback((y: number) => { recommendationsY.current = y + GEZEK_LAYOUT.homeTopInset; }, []);
   const navigateDetails = (action: DetailNavigationAction) => {
     undo.clear();
@@ -797,21 +843,24 @@ function AppContent() {
   const isAnkara101 = step === 'guides' && guideView !== 'insider';
   const isHome = step === 'results';
   const isSaved = step === 'saved';
-  const isProductionSurface = isHome || isSaved || isAnkara101;
-  const logoReturnsHome = ['saved', 'hidden', 'guides', 'settings'].includes(step);
+  const isManagement = step === 'settings' || step === 'hidden';
+  const managementCaller = isManagement ? management.current.origin.screen : undefined;
+  const keepSaved = isSaved || !!editorialOrigin || managementCaller === 'saved';
+  const keepAnkara = isAnkara101 || managementCaller === 'guides';
+  const isProductionSurface = isHome || isSaved || isAnkara101 || isManagement;
   return <SafeAreaView edges={isProductionSurface ? ['right', 'bottom', 'left'] : ['top', 'right', 'bottom', 'left']} style={[s.safe, isProductionSurface && s.gezekSafe, isAnkara101 && { backgroundColor: '#E6EDF6' }]}>
     <StatusBar style={isProductionSurface ? 'dark' : 'light'} />{!isProductionSurface && <View style={s.orb} />}
     <View accessibilityElementsHidden={!!preferenceSession || !!detailSession} importantForAccessibility={preferenceSession || detailSession ? 'no-hide-descendants' : 'auto'} ref={originFallback} focusable tabIndex={-1} accessibilityLabel={step === 'saved' ? 'Kaydedilenler' : 'Ana Sayfa'} style={s.safe}><KeyboardAvoidingView style={[s.safe, isProductionSurface && s.gezekSafe]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     {isGuideArticle && <EditorialTopBar title="BİR ANKARALI GİBİ" saved={!!primaryInsiderRoute && saved.includes(primaryInsiderRoute.id)} saveLabel="Bir Ankaralı Gibi rotası" onBack={leaveEditorial} onClose={() => leaveEditorial('close')} backLabel={editorialOrigin ? 'Kaydedilenlere dön' : undefined} onSave={primaryInsiderRoute ? () => toggleSaved(primaryInsiderRoute.id, 'route') : undefined} />}
     {isGuideArticle && <View accessibilityRole="progressbar" accessibilityLabel="Ankara 101 okuma ilerlemesi" accessibilityValue={{ min: 0, max: 100, now: Math.round(guideScrollProgress) }} style={s.readingProgressTrack}><View style={[s.readingProgressFill, { width: `${guideScrollProgress}%` }]} /></View>}
-    <ScrollView style={isSaved || isAnkara101 ? { display: 'none' } : undefined} testID="production-home-scroll" ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
+    <ScrollView style={isSaved || isAnkara101 || isManagement ? { display: 'none' } : undefined} testID="production-home-scroll" ref={scrollRef} contentContainerStyle={[s.page, width >= 700 && !isGuideArticle && !isHome && s.pageWide, isHome && s.gezekHomePage, isHome && { paddingTop: GEZEK_LAYOUT.homeTopInset + safeInsets.top }, step === 'guides' && guideView === 'landing' && s.guideLandingPage, isGuideArticle && s.guideArticlePage]} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} scrollEventThrottle={32} onScroll={event => {
       originScrollY.current = event.nativeEvent.contentOffset.y;
       if (!isGuideArticle) return;
       const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {!isGuideArticle && !isProductionSurface && <View style={s.header}>{logoReturnsHome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ana sayfaya dön" onPress={() => setStep('results')} style={s.headerHit}><BrandLogo color={c.ink} /></TouchableOpacity> : <BrandLogo color={c.ink} />}{step !== 'guides' && <View style={s.headerActions}>{['saved', 'hidden'].includes(step) ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Ayarları aç" onPress={openHomeSettings} style={s.headerHit}><Text style={s.savedLink}>Ayarlar</Text></TouchableOpacity> : step === 'settings' ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={settingsOrigin.current === 'guides' ? 'Ankara 101’e dön' : 'Önerilere dön'} onPress={() => setStep(settingsOrigin.current)} style={s.headerHit}><Text style={s.savedLink}>← Geri</Text></TouchableOpacity> : null}</View>}</View>}
+      {!isGuideArticle && !isProductionSurface && <View style={s.header}><BrandLogo color={c.ink} /></View>}
       {step === 'results' && <GezekHome
         proximity={proximity} onToggleProximity={toggleProximity} proximityFocus={proximityFocus}
         safeTopInset={safeInsets.top}
@@ -831,33 +880,22 @@ function AppContent() {
         onRecommendationsLayout={measureHomeRecommendations}
       />}
       {step === 'guides' && guideView === 'insider' && (primaryInsiderRoute ? <InsiderGuide route={primaryInsiderRoute} saved={saved.includes(primaryInsiderRoute.id)} onBack={leaveEditorial} onSave={() => toggleSaved(primaryInsiderRoute.id, 'route')} onOpenMap={openInsiderMap} /> : <InsiderUnavailable onBack={leaveEditorial} />)}
-      {step === 'hidden' && <View>
-        <Lead eyebrow="GİZLEDİKLERİN" title="Gizlediğim öneriler" subtitle="Bana göre değil dediğin planları ve diğer önerileri tek tek veya topluca geri getirebilirsin." />
-        {!hiddenItems.length && <View style={s.empty}><Text accessible={false} style={s.emptyIcon}>✓</Text><Text accessibilityRole="header" style={s.emptyTitle}>Gizli önerin yok</Text><Text style={s.emptyText}>Bir öneriyi gizlediğinde burada görünür.</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Önerilere dön" style={s.emptyAction} onPress={() => setStep('results')}><Text style={s.emptyActionText}>Önerilere dön</Text></TouchableOpacity></View>}
-        {hiddenItems.map(item => <View key={item.id} style={s.result}><Text accessibilityRole="header" style={s.resultName}>{itemTitle(item)}</Text><Text style={s.meta}>{itemMeta(item)}</Text>{!('name' in item) && item.kind === 'experience' && experienceStartDistanceLabel(item, displayCoordinates) && <Text accessibilityRole="text" style={s.meta}>{experienceStartDistanceLabel(item, displayCoordinates)}</Text>}{'address' in item && <Text style={s.address}>{item.address}</Text>}<Text style={s.note}>{item.note}</Text><View style={s.actions}><Action label={`${itemTitle(item)} önerisini geri getir`} onPress={() => restorePlace(item.id)} text="Geri getir" /></View></View>)}
-        {!!hiddenItems.length && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm gizlenen önerileri geri getir" style={s.secondaryButton} onPress={() => interact({ type: 'restoreAll' })}><Text style={s.secondaryButtonText}>Tüm gizlenenleri geri getir</Text></TouchableOpacity>}
-        <Button label="Önerilere dön" onPress={() => setStep('results')} />
-      </View>}
-      {step === 'settings' && <View>
-        <Lead eyebrow="AYARLAR" title="Verilerin senin kontrolünde." subtitle="Gezek, tercihlerini, kaydettiklerini ve gizlediklerini cihazında; Firebase bağlıysa anonim kullanıcı belgesinde tutar." />
-        <View style={s.dataCard}><Text style={s.dataCardTitle}>Silinecek kullanıcı verileri</Text><Text style={s.dataCardText}>Mod, ilgi, bütçe, kişi sayısı, süre, kaydedilenler, gizlenenler ve bekleyen senkronizasyon kaydı. Uygulamanın herkese açık Ankara kataloğu kişisel veri değildir.</Text></View>
-        {OBSERVABILITY_TEST_MODE && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Kontrollü hata ekranını dene" onPress={() => setObservabilityTestRequested(true)} style={s.secondaryButton}><Text style={s.secondaryButtonText}>Hata ekranını dene</Text></TouchableOpacity>}
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Tüm kullanıcı verilerimi kalıcı olarak sil" accessibilityState={{ disabled: deletionBusy, busy: deletionBusy }} disabled={deletionBusy} onPress={deleteMyData} style={[s.dangerButton, deletionBusy && s.controlDisabled]}>{deletionBusy ? <ActivityIndicator color="#FF9A8D" /> : <Text style={s.dangerButtonText}>Tüm verilerimi sil</Text>}</TouchableOpacity>
-      </View>}
     </ScrollView>
+    {step === 'settings' && <SettingsScreen safeTopInset={safeInsets.top} onBack={() => leaveManagement('back')} onClose={() => leaveManagement('close')} onHome={() => leaveManagement('home')} backLabel={management.current.origin.screen === 'saved' ? 'Kaydedilenlere dön' : management.current.origin.screen === 'guides' ? 'Ankara 101’e dön' : 'Önerilere dön'} closeLabel="Ayarları kapat" deletionBusy={deletionBusy} obscured={!!preferenceSession} focusRequest={settingsFocus} initialScrollY={settingsScrollY.current} onScroll={y => { settingsScrollY.current = y; }} onPreferences={() => openPreferenceEditor(false, true)} onHidden={() => { if (!deletion.busy()) { management.current.hiddenFrom = 'settings'; setStep('hidden'); } }} onDelete={deleteMyData} onDiagnostic={OBSERVABILITY_TEST_MODE ? () => setObservabilityTestRequested(true) : undefined} />}
+    {step === 'hidden' && <HiddenScreen focusRequest={hiddenFocus} safeTopInset={safeInsets.top} entries={hiddenItems} now={eligibilityNow} deletionBusy={deletionBusy} onBack={() => leaveManagement('back')} onClose={() => leaveManagement('close')} onHome={() => leaveManagement('home')} backLabel={management.current.hiddenFrom === 'settings' ? 'Ayarlara dön' : 'Önerilere dön'} closeLabel="Gizlediğim önerileri kapat" onRestore={restoreHidden} onRestoreAll={restoreAllHidden} />}
     {isHome && !detailSession && !preferenceSession && proximityFeedback && <ProximityFeedback failure={proximityFeedback.failure} />}
     <View style={isAnkara101 ? { flex: 1, backgroundColor: '#E8ECF9' } : { display: 'none' }} accessibilityElementsHidden={!isAnkara101} importantForAccessibility={isAnkara101 ? 'auto' : 'no-hide-descendants'}>
-      {isAnkara101 && <Ankara101FontGate onExit={() => { if (readerSession || editorialOrigin) leaveEditorial(); else setStep('results'); }}>
+      {keepAnkara && <Ankara101FontGate onExit={() => { if (readerSession || editorialOrigin) leaveEditorial(); else setStep('results'); }}>
         <View style={readerSession ? { display: 'none' } : { flex: 1 }}>
-          <Ankara101Index active={!readerSession} guides={guides} saved={saved} safeTopInset={safeInsets.top} initialScrollY={indexScrollY.current} returnRequest={indexReturn} onScroll={y => { indexScrollY.current = y; }} onOpenGuide={openGuideChapter} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onSettings={openAnkara101Settings} />
+          <Ankara101Index active={isAnkara101 && !readerSession} guides={guides} saved={saved} safeTopInset={safeInsets.top} initialScrollY={indexScrollY.current} returnRequest={indexReturn} onScroll={y => { indexScrollY.current = y; }} onOpenGuide={openGuideChapter} onSaveGuide={guide => toggleSaved(guide.id, 'guide')} onSettings={openAnkara101Settings} />
         </View>
         {readerSession && <Ankara101ReaderHost guideId={readerSession.guideId} guides={guides} saved={saved} safeTopInset={safeInsets.top} fromSaved={readerSession.origin.screen === 'saved'} onBack={leaveEditorial} onClose={() => leaveEditorial('close')} onSave={guide => toggleSaved(guide.id, 'guide')} onSource={openGuideSource} onHeroReady={imageOpening.remember} />}
       </Ankara101FontGate>}
     </View>
-    {(isSaved || !!editorialOrigin) && <SavedScreen entries={savedEntries} now={eligibilityNow} safeTopInset={safeInsets.top} hidden={!isSaved} returnRequest={savedReturn} onOpen={openSavedEntry} onUnsave={id => toggleSaved(id)} onScroll={y => { savedScrollY.current = y; }} onHome={() => setStep('results')} onSettings={openHomeSettings} />}
+    {keepSaved && <SavedScreen entries={savedEntries} now={eligibilityNow} safeTopInset={safeInsets.top} hidden={!isSaved} returnRequest={savedReturn} onOpen={openSavedEntry} onUnsave={id => toggleSaved(id)} onScroll={y => { savedScrollY.current = y; }} onHome={() => setStep('results')} onSettings={() => openManagement('saved')} />}
     {['results', 'saved', 'hidden', 'guides'].includes(step) && !isGuideArticle && <GezekBottomNavigation
-      backgroundColor={isAnkara101 ? '#E6EDF6' : undefined}
-      active={step === 'saved' ? 'saved' : step === 'guides' ? 'guides' : 'home'}
+      backgroundColor={isAnkara101 || step === 'hidden' ? '#E6EDF6' : undefined}
+      active={step === 'hidden' ? managementTab(management.current.origin) : step === 'saved' ? 'saved' : step === 'guides' ? 'guides' : 'home'}
       onHome={() => { setReaderSession(undefined); setEditorialOrigin(undefined); setStep('results'); }} onSaved={() => { setReaderSession(undefined); setEditorialOrigin(undefined); setStep('saved'); }}
       onGuides={() => { if (readerSession?.origin.screen === 'guides') { leaveEditorial(); return; } if (step === 'guides' && guideView === 'landing') return; setIndexReturn(undefined); setEditorialOrigin(undefined); setInsiderRouteId(undefined); setReaderSession(undefined); setGuideView('landing'); setStep('guides'); }}
     />}

@@ -1,0 +1,219 @@
+{
+  "base": "3bc0e9631d059d4ef0bdf573cdf8263e674a1e91",
+  "commands": [
+    {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "seconds": 0.02,
+      "log": "00.log"
+    },
+    {
+      "command": "git diff --cached --check",
+      "exitCode": 0,
+      "seconds": 0.01,
+      "log": "01.log"
+    },
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "result": "locked install; 47 existing audit findings (20 moderate,25 high,2 critical); dependencies unchanged"
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "seconds": 3.6,
+      "log": "02.log"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "log": "final-tests.log",
+      "result": "PASS on final tree after correction"
+    },
+    {
+      "command": "npm run test:catalog",
+      "exitCode": 0,
+      "seconds": 0.48,
+      "log": "04.log"
+    },
+    {
+      "command": "npm run check:events",
+      "exitCode": 1,
+      "seconds": 0.24,
+      "log": "05.log"
+    },
+    {
+      "command": "npm run check:accessibility",
+      "exitCode": 0,
+      "log": "rerun source check (16 files)",
+      "result": "PASS on final tree after correction"
+    },
+    {
+      "command": "npm run test:stress",
+      "exitCode": 0,
+      "seconds": 60.96,
+      "log": "07.log"
+    },
+    {
+      "command": "npm run check:performance",
+      "exitCode": 0,
+      "seconds": 14.44,
+      "log": "08.log"
+    },
+    {
+      "command": "npm run check:recommendations",
+      "exitCode": 0,
+      "seconds": 1.12,
+      "log": "09.log"
+    },
+    {
+      "command": "npm run check:assets",
+      "exitCode": 0,
+      "seconds": 0.37,
+      "log": "10.log"
+    },
+    {
+      "command": "npm run check:build -- --profile=preview",
+      "exitCode": 0,
+      "seconds": 0.28,
+      "log": "11.log"
+    },
+    {
+      "command": "npm run check:observability",
+      "exitCode": 0,
+      "seconds": 0.27,
+      "log": "12.log"
+    },
+    {
+      "command": "npm run check:release",
+      "exitCode": 0,
+      "seconds": 0.27,
+      "log": "13.log"
+    },
+    {
+      "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-settings-hidden-android",
+      "exitCode": 0,
+      "seconds": 21.89,
+      "log": "14.log"
+    },
+    {
+      "command": "CI=1 npx expo export --platform android --output-dir /private/tmp/gezek-settings-hidden-android-final",
+      "exitCode": 0,
+      "result": "PASS after final production code changes"
+    }
+  ],
+  "testTotals": {
+    "cjs": 111,
+    "typescript": 269,
+    "failed": 0
+  },
+  "focusedBrowser": {
+    "checks": 21,
+    "pageErrors": 0,
+    "screenshots": 8
+  },
+  "legacyBrowserSuites": [
+    {
+      "group": "snapshots",
+      "suite": "home-filter-snapshots-browser",
+      "exitCode": 0,
+      "seconds": 63.1
+    },
+    {
+      "group": "snapshots",
+      "suite": "location-preflight-browser",
+      "exitCode": 0,
+      "seconds": 76.3
+    },
+    {
+      "group": "snapshots",
+      "suite": "location-validity-browser",
+      "exitCode": 1,
+      "seconds": 33.9
+    },
+    {
+      "group": "snapshots",
+      "suite": "experience-distance-browser",
+      "exitCode": 0,
+      "seconds": 9.7
+    },
+    {
+      "group": "proximity",
+      "suite": "proximity-browser",
+      "exitCode": 0,
+      "seconds": 13.9
+    },
+    {
+      "group": "proximity",
+      "suite": "proximity-browser-edges",
+      "exitCode": 0,
+      "seconds": 10.0
+    },
+    {
+      "group": "proximity",
+      "suite": "proximity-lease-browser",
+      "exitCode": 0,
+      "seconds": 20.3
+    },
+    {
+      "group": "saved-ankara",
+      "suite": "saved-browser",
+      "exitCode": 1,
+      "seconds": 6.1
+    },
+    {
+      "group": "saved-ankara",
+      "suite": "ankara101-browser",
+      "exitCode": 0,
+      "seconds": 122.2
+    },
+    {
+      "group": "preferences",
+      "suite": "preference-event-browser",
+      "exitCode": 0,
+      "seconds": 10.0
+    },
+    {
+      "group": "details",
+      "suite": "detail-browser-regressions",
+      "exitCode": 0,
+      "seconds": 7.1
+    },
+    {
+      "group": "details",
+      "suite": "detail-event-idea-browser",
+      "exitCode": 1,
+      "seconds": 32.7
+    }
+  ],
+  "sameFailuresOnOriginMain": [
+    {
+      "suite": "saved-browser",
+      "exitCode": 1,
+      "baseline": "3bc0e9631d059d4ef0bdf573cdf8263e674a1e91"
+    },
+    {
+      "suite": "location-validity-browser",
+      "exitCode": 1,
+      "baseline": "3bc0e9631d059d4ef0bdf573cdf8263e674a1e91"
+    },
+    {
+      "suite": "detail-event-idea-browser",
+      "exitCode": 1,
+      "baseline": "3bc0e9631d059d4ef0bdf573cdf8263e674a1e91"
+    }
+  ],
+  "eventBaseline": {
+    "exitCode": 1,
+    "issue": "stale_verification",
+    "total": 9,
+    "upcoming": 6,
+    "expired": 3,
+    "stale": 9
+  },
+  "limits": [
+    "service-adapter browser tests only",
+    "no physical Redmi/TalkBack/OS font-scale/connected Firebase/signed release acceptance"
+  ],
+  "changedFileCount": 32
+}

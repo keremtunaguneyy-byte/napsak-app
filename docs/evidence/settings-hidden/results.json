@@ -1,0 +1,100 @@
+{
+  "checks": [
+    {
+      "name": "Settings exact actions / editor Cancel and coherent Save / completion / duplicate Save",
+      "width": 393,
+      "scale": 1
+    },
+    {
+      "name": "Four kinds / static bodies / stale omission / individual and bulk / once-only focus / restart / hardware Back",
+      "width": 393,
+      "scale": 1
+    },
+    {
+      "name": "Stale-only / inactive fixture / long Turkish title / reachable footer / no clipping",
+      "width": 393,
+      "scale": 1
+    },
+    {
+      "name": "Settings exact actions / editor Cancel and coherent Save / completion / duplicate Save",
+      "width": 393,
+      "scale": 1.8
+    },
+    {
+      "name": "Four kinds / static bodies / stale omission / individual and bulk / once-only focus / restart / hardware Back",
+      "width": 393,
+      "scale": 1.8
+    },
+    {
+      "name": "Stale-only / inactive fixture / long Turkish title / reachable footer / no clipping",
+      "width": 393,
+      "scale": 1.8
+    },
+    {
+      "name": "Settings exact actions / editor Cancel and coherent Save / completion / duplicate Save",
+      "width": 412,
+      "scale": 1
+    },
+    {
+      "name": "Four kinds / static bodies / stale omission / individual and bulk / once-only focus / restart / hardware Back",
+      "width": 412,
+      "scale": 1
+    },
+    {
+      "name": "Stale-only / inactive fixture / long Turkish title / reachable footer / no clipping",
+      "width": 412,
+      "scale": 1
+    },
+    {
+      "name": "Settings exact actions / editor Cancel and coherent Save / completion / duplicate Save",
+      "width": 412,
+      "scale": 1.8
+    },
+    {
+      "name": "Four kinds / static bodies / stale omission / individual and bulk / once-only focus / restart / hardware Back",
+      "width": 412,
+      "scale": 1.8
+    },
+    {
+      "name": "Stale-only / inactive fixture / long Turkish title / reachable footer / no clipping",
+      "width": 412,
+      "scale": 1.8
+    },
+    {
+      "name": "Typed caller / Hidden Back to Settings / full Close and gear focus",
+      "origin": "results"
+    },
+    {
+      "name": "Typed caller / Hidden Back to Settings / full Close and gear focus",
+      "origin": "saved"
+    },
+    {
+      "name": "Typed caller / Hidden Back to Settings / full Close and gear focus",
+      "origin": "guides"
+    },
+    {
+      "name": "Direct Home Hidden entry / hardware Back / no seed or history consumption"
+    },
+    {
+      "name": "Actual failed persistence adapter: optimistic empty remains, Alert acknowledgement restores focus"
+    },
+    {
+      "name": "Native Alert contract / real busy / duplicate and late callbacks / root completes after Back",
+      "outcome": "failure"
+    },
+    {
+      "name": "Native Alert contract / real busy / duplicate and late callbacks / root completes after Back",
+      "outcome": "local"
+    },
+    {
+      "name": "Native Alert contract / real busy / duplicate and late callbacks / root completes after Back",
+      "outcome": "connected"
+    },
+    {
+      "name": "Native Alert contract / real busy / duplicate and late callbacks / root completes after Back",
+      "outcome": "partial"
+    }
+  ],
+  "errors": [],
+  "evidence": "RN Web with native/service adapters; no physical Android/TalkBack/system-font acceptance"
+}
