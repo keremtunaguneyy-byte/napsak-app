@@ -89,3 +89,52 @@ Record exact commit/build and test with disposable local/test-account data:
 Home atmosphere/background, the merged Mekân pill correction, recommendation engine/eligibility/scoring/diversity/rotation, A/B2 math and lease, catalog/IDs/relationships, Saved semantics, Event/Idea external behavior, Firebase/Auth/persistence schemas, analytics and release configuration are unchanged. Only management navigation/focus, presentation and truthful operation handling changed. No new dependency or global store.
 
 Three normal logical commits: Settings/shared foundation; Hidden and shared App integration; tests/evidence/documentation. Draft PR and exact-head required CI state are recorded in the PR/current chat delivery after push; no ready/merge operation is authorized. Recommended next step: the user's Redmi checklist, followed by review of the Draft PR. Existing release blockers and baseline browser/Event failures remain open.
+
+## 24 October 2026 — F01 stale-callback coverage correction
+
+Continuation starts from clean `codex/gezek-production-settings-hidden` / Draft PR #83 at `91e69aa970bc3dcf5350df53dd6e0222a0a37144`, fetched main/base `3bc0e9631d059d4ef0bdf573cdf8263e674a1e91`. Remote, worktree, branch, local/remote/PR heads and Draft status were verified before editing. No new branch/worktree/PR, amend, rebase, force-push or merge. Protected untracked Verilog remains untouched and uninspected.
+
+F01 was a false-positive **test coverage defect**, not demonstrated production failure. The original test assigned `window.__lateEditor` / `window.__lateRestore` in earlier scenarios, called `fresh(page)` before deletion, then used optional invocation after those globals had been erased. Its restore wrapper also looked up `window.__managementCallbacks.restoreHidden` when invoked, so it did not retain the historical function object. The earlier 21-group browser result does not establish that missing stale-callback claim; this follow-up supersedes it for that purpose.
+
+The corrected test captures the actual `applyEditor` and `navigatePreferenceEditor` functions while an unapplied changed budget draft exists, closes that editor, then captures actual `restoreHidden` and `restoreAllHidden` functions while real dismissed rows remain. It freezes those function references and stores the restore argument separately. Before destructive confirmation it asserts all four are callable, differ from the newly rendered current callbacks, retain object identity and belong to the same document UUID. There is no reload or callback replacement between capture, busy state, completion and result acknowledgement; no optional callback invocation can hide missing setup.
+
+The matrix covers Home, Saved and Ankara101 callers × local success, connected success, Auth partial and failure: **12 lifecycle scenarios × four phases × four historical functions = 192 checked invocations**. Phases are busy in Settings, busy after returning to caller, completed reset (or failed deletion without reset), and result acknowledgement. The approved failure harness has **no failure/reset path**: it preserves completion/state/caller and is asserted as such. Success/partial explicitly reaches Welcome with saved/dismissed empty. Saved/Ankara start from nonzero scroll and retain caller origin/viewport during busy return and failure.
+
+Each historical invocation is compared against its own settled phase baseline, permitting the legitimate deletion reset while rejecting callback-induced changes. Checks cover every preference field, saved/dismissed IDs, onboarding, editor/route/origin/focus/scroll state, A/B2 run/seed/history/revisions, current recommendation snapshot/key and the actual existing six-slot cache, local/remote write arrays/counts, durable fixture storage and deletion call count. Added fixture probes only observe existing state/cache in the temporary browser bundle; production state and cache implementations are untouched. The entire corrected browser suite retains the original visual/restore/navigation/persistence/deletion checks; screenshots are disabled for this non-visual follow-up.
+
+### Sensitivity check
+
+Four independent temporary mutants bypassed the first guard in one real App callback at a time. Only a temporary bundle retained each mutation. `App.tsx` was restored byte-for-byte immediately after each mutant build, **before** running its browser negative control, using `try/finally`; no intentionally broken code was staged or committed. Restored SHA256: `67d36b7cbfff6fb07ab65ec982cdeabe7f568604f58ecea0891dc27a9c25a99e`.
+
+| Bypassed production guard | Corrected test result (expected exit 1) |
+|---|---|
+| `applyEditor` | Detected `results/local/busy-settings/applyEditor changed state.filterRuns` |
+| `navigatePreferenceEditor` | Detected `results/local/busy-settings/navigatePreferenceEditor changed state.preferenceSession` |
+| `restoreHidden` | Detected `results/local/busy-settings/restoreHidden changed state.dismissed` |
+| `restoreAllHidden` | Detected `results/local/busy-settings/restoreAllHidden changed state.dismissed` |
+
+The guarded implementation passes; all four mutants fail on real state differences, rather than missing callbacks or fixture setup. **Production-code changed: no.** `git diff 91e69aa -- App.tsx src assets package.json package-lock.json` is empty. The correction changes only `tests/settings-hidden-browser.cjs`, `scripts/buildDetailBrowserFixture.cjs`, this report and `docs/STATUS.md`. The canonical 32-path PR inventory remains exact: no new path was added, so `SETTINGS_HIDDEN_CHANGED_FILES.txt` needs no content change. START_HERE's product-state summary remains accurate.
+
+### Follow-up validation
+
+Commands use existing external browser tooling `GEZEK_BROWSER_MODULES=/private/tmp/gezek-proximity-web-deps/node_modules`. Temporary logs, bundles, mutant results and compact JSON remain under `/private/tmp/gezek-settings-hidden-f01`; **zero new screenshots** and no evidence collection was committed.
+
+| Exact command / scope | Exit / result |
+|---|---|
+| `git fetch origin` plus Git/PR identity verification | 0; expected head/base, clean worktree and Draft #83 confirmed |
+| `node --check tests/settings-hidden-browser.cjs` | 0 |
+| `GEZEK_MANAGEMENT_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-proximity-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-settings-hidden-f01/guarded node scripts/buildDetailBrowserFixture.cjs` | 0 |
+| `GEZEK_BROWSER_MODULES=/private/tmp/gezek-proximity-web-deps/node_modules GEZEK_BROWSER_URL=http://127.0.0.1:8810/guarded GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-settings-hidden-f01/guarded-results GEZEK_BROWSER_SCREENSHOTS=false GEZEK_SETTINGS_HIDDEN_CASE=stale node tests/settings-hidden-browser.cjs` | 0; 12 same-document lifecycle scenarios |
+| `python3 /private/tmp/gezek-settings-hidden-f01/sensitivity.py` | 0; all four negative controls exit 1 at the expected state-mutation assertion; source restored |
+| `GEZEK_BROWSER_MODULES=/private/tmp/gezek-proximity-web-deps/node_modules GEZEK_BROWSER_URL=http://127.0.0.1:8810/guarded GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-settings-hidden-f01/full-browser-results GEZEK_BROWSER_SCREENSHOTS=false node tests/settings-hidden-browser.cjs` | 0; 30 scenario groups, zero page errors, 192 historical invocations, zero PNGs |
+| `node --import tsx --test tests/settings-hidden.test.ts tests/user-data-boundary.test.ts tests/persistence.test.ts tests/detail-flow.test.ts tests/preference-event.test.ts tests/home-filter-snapshots.test.ts` | 0; 77/77 tests |
+| `GEZEK_PREFERENCE_FIXTURE=true GEZEK_BROWSER_MODULES=/private/tmp/gezek-proximity-web-deps/node_modules GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-settings-hidden-f01/preferences node scripts/buildDetailBrowserFixture.cjs` | 0 |
+| `GEZEK_BROWSER_MODULES=/private/tmp/gezek-proximity-web-deps/node_modules GEZEK_BROWSER_URL=http://127.0.0.1:8810/preferences GEZEK_BROWSER_OUTPUT=/private/tmp/gezek-settings-hidden-f01/preferences-results NODE_OPTIONS=--require=/private/tmp/gezek-settings-hidden-regression/no-screenshots.cjs node tests/preference-event-browser.cjs` | 0; 38 checks, zero page errors; screenshot-only suppression |
+| `npm run typecheck` | 0 |
+| `npm run check:accessibility` | 0; 16 sources |
+| `npm test` | 0; 111 CJS + 269 TypeScript tests, zero failures |
+| `git diff --check`; `git diff --cached --check` before commit | 0; checked before the normal follow-up commit |
+
+No `npm run check` was invented; package scripts were inspected. No production code changed, so local Android Expo export and broad unrelated browser/native runs were not repeated. No Event/legacy-browser baseline failure was encountered by these targeted runs; the initial-delivery baseline findings above remain historical and separate. Existing Settings/Hidden copy/design, Figma, Home, recommendation/catalog/Event, Firebase/Rules/persistence schemas, proximity/lease/acquisition, onboarding, Saved, Ankara, artwork and release configuration are preserved. All Redmi/TalkBack/real OS text/Reduced Motion/connected-test-data/signed-release acceptance above remains pending; this test correction supplies no new native or Android behavior claim.
+
+Normal follow-up commit/push targets the same Draft PR #83. Exact new SHA and terminal App Quality/Security Rules CI links are recorded in the PR and chat after push. Keep Draft and unmerged; next step remains the user's existing Redmi checklist.

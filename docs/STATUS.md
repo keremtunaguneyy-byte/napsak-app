@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-10-24 — Draft #83 F01 test coverage correction
+
+F01's stale-callback browser claim was a false positive: page reload erased captures and optional invocation hid it; one wrapper retrieved the latest restore function. The corrected same-document matrix retains four historical function objects across busy/result/acknowledgement for Home/Saved/Ankara × four deletion outcomes. Existing production guards pass; four independently bypassed guards each cause an observed state-mutation failure and were immediately restored. Production code is unchanged. [The report](SETTINGS_HIDDEN_IMPLEMENTATION_REPORT.md#24-october-2026--f01-stale-callback-coverage-correction) records commands, sensitivity and pending device acceptance. Same branch/Draft #83 only; no merge, visual change or Home work.
+
 ## 2026-10-23 — Production Settings and Hidden Items
 
 The approved Settings/Hidden closure is implemented on `codex/gezek-production-settings-hidden` for one Draft PR; no merge or physical-device acceptance. Typed Home/Saved/Ankara origins, existing draft editor, truthful native deletion outcomes and four-kind restore-only management reuse current persistence and A/B2 dismissal keys. [Implementation report](SETTINGS_HIDDEN_IMPLEMENTATION_REPORT.md) records exact scope, validation, unchanged baseline failures and the pending Redmi checklist. This supersedes historical notes deferring these two production surfaces; proximity/Mekân correction and engine/catalog/schema/release contracts remain unchanged.
