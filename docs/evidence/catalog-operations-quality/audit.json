@@ -1,0 +1,1506 @@
+{
+  "reportSchema": 1,
+  "asOf": "2026-11-17T21:00:00.000Z",
+  "inventory": {
+    "event": {
+      "total": 9,
+      "eligible": 0,
+      "states": {
+        "expired": 9
+      },
+      "flagged": []
+    },
+    "experience": {
+      "total": 52,
+      "eligible": 52,
+      "states": {
+        "active": 52
+      },
+      "declared": {
+        "evergreen": 52
+      },
+      "flagged": []
+    },
+    "guide": {
+      "total": 12,
+      "eligible": null,
+      "states": {
+        "editorial": 12
+      },
+      "flagged": []
+    },
+    "idea": {
+      "total": 140,
+      "eligible": 140,
+      "states": {
+        "active": 140
+      },
+      "flagged": []
+    },
+    "place": {
+      "total": 178,
+      "eligible": 175,
+      "states": {
+        "active": 175,
+        "deprecated": 2,
+        "verification_required": 1
+      },
+      "declared": {
+        "active": 175,
+        "deprecated": 2,
+        "verification_required": 1
+      },
+      "flagged": []
+    }
+  },
+  "events": {
+    "checkedAt": "2026-11-17T21:00:00.000Z",
+    "totalCount": 9,
+    "upcomingCount": 0,
+    "expiredCount": 9,
+    "horizonDays": null,
+    "latestUpcomingAt": null,
+    "staleVerificationCount": 9,
+    "healthy": false,
+    "issues": [
+      {
+        "code": "no_upcoming_events"
+      },
+      {
+        "code": "stale_verification",
+        "eventIds": [
+          "event-amadeus-congresium-2026-10-16",
+          "event-ankara-kadin-orkestrasi-csoada-2026-11-02",
+          "event-ataturke-saygi-csoada-tarihi-2026-11-10",
+          "event-bir-aile-provasi-ataturk-sanat-2026-11-01",
+          "event-cso-iki-keman-bir-miras-2026-10-16",
+          "event-falda-carmen-xl-ataturk-sanat-2026-10-31",
+          "event-magic-bubbles-csoada-2026-10-24",
+          "event-satonun-altinda-ataturk-sanat-2026-11-07",
+          "event-sempre-mozart-ankara-dob-2026-10-23"
+        ]
+      }
+    ],
+    "records": [
+      {
+        "id": "event-amadeus-congresium-2026-10-16",
+        "start": "2026-10-16T20:30:00+03:00",
+        "end": "2026-10-16T23:00:00+03:00",
+        "endState": "ended",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-ankara-kadin-orkestrasi-csoada-2026-11-02",
+        "start": "2026-11-02T19:30:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-ataturke-saygi-csoada-tarihi-2026-11-10",
+        "start": "2026-11-10T20:00:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-bir-aile-provasi-ataturk-sanat-2026-11-01",
+        "start": "2026-11-01T20:30:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-cso-iki-keman-bir-miras-2026-10-16",
+        "start": "2026-10-16T20:00:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-falda-carmen-xl-ataturk-sanat-2026-10-31",
+        "start": "2026-10-31T20:30:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-magic-bubbles-csoada-2026-10-24",
+        "start": "2026-10-24T17:00:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-satonun-altinda-ataturk-sanat-2026-11-07",
+        "start": "2026-11-07T20:00:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      },
+      {
+        "id": "event-sempre-mozart-ankara-dob-2026-10-23",
+        "start": "2026-10-23T20:00:00+03:00",
+        "end": null,
+        "endState": "unspecified",
+        "verifiedAt": "2026-10-12",
+        "verification": ">30-90d"
+      }
+    ]
+  },
+  "geography": {
+    "coordinatesChecked": 230,
+    "invalid": [],
+    "outsideAnkara": [],
+    "identicalPlaceCoordinates": [
+      {
+        "value": "39.887,32.855",
+        "keys": [
+          "big-chefs-atakule",
+          "starbucks-arnold"
+        ]
+      },
+      {
+        "value": "39.892,32.782",
+        "keys": [
+          "odtu-arkeoloji",
+          "odtu-devir-yolu"
+        ]
+      },
+      {
+        "value": "39.938,32.864",
+        "keys": [
+          "cengelhan-rahmi-koc",
+          "divan-cukurhan"
+        ]
+      }
+    ],
+    "plansChecked": 52,
+    "stopsChecked": 71,
+    "failures": [],
+    "districts": {
+      "event": {
+        "unmodeled": 9
+      },
+      "experience": {
+        "altindag": 18,
+        "beypazari": 1,
+        "cankaya": 17,
+        "etimesgut": 3,
+        "golbasi": 3,
+        "kecioren": 2,
+        "kizilcahamam": 1,
+        "mamak": 2,
+        "polatli": 2,
+        "yenimahalle": 3
+      },
+      "guide": {
+        "altindag": 7,
+        "cankaya": 1,
+        "golbasi": 2,
+        "merkez": 1,
+        "polatli": 1
+      },
+      "idea": {
+        "unmodeled": 140
+      },
+      "place": {
+        "altindag": 39,
+        "ayas": 1,
+        "bala": 1,
+        "beypazari": 7,
+        "beytepe": 1,
+        "camlidere": 4,
+        "cankaya": 77,
+        "cebeci": 1,
+        "cubuk": 2,
+        "elmadag": 1,
+        "etimesgut": 4,
+        "golbasi": 2,
+        "gudul": 1,
+        "haymana": 1,
+        "kahramankazan": 1,
+        "kalecik": 1,
+        "kecioren": 8,
+        "kizilcahamam": 3,
+        "mamak": 5,
+        "nallihan": 2,
+        "polatli": 4,
+        "sereflikochisar": 1,
+        "sincan": 3,
+        "yenimahalle": 8
+      }
+    }
+  },
+  "identities": {
+    "duplicateIds": [],
+    "exactTitles": [
+      {
+        "value": "anadolu medeniyetleri muzesi",
+        "keys": [
+          "guide:guide-anadolu-medeniyetleri",
+          "place:anadolu-medeniyetleri"
+        ]
+      }
+    ],
+    "nearTitles": [
+      [
+        "guide:guide-resim-heykel",
+        "place:resim-heykel"
+      ],
+      [
+        "place:arabica-cayyolu-dogan-tasdelen",
+        "place:arabica-cayyolu-dorapark"
+      ]
+    ]
+  },
+  "interestColumns": [
+    "Doğa",
+    "Etkinlik",
+    "Kahve",
+    "Lezzet",
+    "Sanat"
+  ],
+  "taxonomy": {
+    "event": {
+      "categories": {
+        "Etkinlik": 1,
+        "Sanat": 8
+      },
+      "interests": {
+        "Etkinlik": 9,
+        "Sanat": 9
+      },
+      "moods": {
+        "Enerjik": 1,
+        "Meraklı": 8,
+        "Sakin": 8,
+        "Sosyal": 9
+      },
+      "groups": {
+        "2 kişi": 9,
+        "3–4 kişi": 9,
+        "5+": 9,
+        "Tek": 9
+      },
+      "priceLevels": {
+        "1": 4,
+        "2": 3,
+        "3": 2
+      },
+      "durationMaximums": {
+        "unmodeled": 9
+      },
+      "districtInterest": {},
+      "priceInterest": {
+        "1": [
+          0,
+          4,
+          0,
+          0,
+          4
+        ],
+        "2": [
+          0,
+          3,
+          0,
+          0,
+          3
+        ],
+        "3": [
+          0,
+          2,
+          0,
+          0,
+          2
+        ]
+      },
+      "durationInterest": {}
+    },
+    "experience": {
+      "categories": {
+        "Doğa": 12,
+        "Etkinlik": 2,
+        "Kahve": 4,
+        "Lezzet": 10,
+        "Sanat": 24
+      },
+      "interests": {
+        "Doğa": 19,
+        "Etkinlik": 12,
+        "Kahve": 8,
+        "Lezzet": 17,
+        "Sanat": 27
+      },
+      "moods": {
+        "Enerjik": 17,
+        "Meraklı": 38,
+        "Sakin": 32,
+        "Sosyal": 23
+      },
+      "groups": {
+        "2 kişi": 51,
+        "3–4 kişi": 51,
+        "5+": 33,
+        "Tek": 48
+      },
+      "priceLevels": {
+        "0": 17,
+        "1": 14,
+        "2": 17,
+        "3": 4
+      },
+      "durationMaximums": {
+        "121-240": 20,
+        "241-360": 6,
+        "61-120": 21,
+        "<=60": 5
+      },
+      "districtInterest": {
+        "altindag": [
+          5,
+          2,
+          2,
+          4,
+          15
+        ],
+        "beypazari": [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        "cankaya": [
+          4,
+          3,
+          5,
+          9,
+          4
+        ],
+        "etimesgut": [
+          1,
+          2,
+          0,
+          1,
+          1
+        ],
+        "golbasi": [
+          3,
+          2,
+          0,
+          0,
+          0
+        ],
+        "kecioren": [
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "kizilcahamam": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "mamak": [
+          2,
+          1,
+          0,
+          0,
+          0
+        ],
+        "polatli": [
+          2,
+          0,
+          0,
+          0,
+          2
+        ],
+        "yenimahalle": [
+          1,
+          1,
+          0,
+          1,
+          2
+        ]
+      },
+      "priceInterest": {
+        "0": [
+          11,
+          5,
+          1,
+          1,
+          8
+        ],
+        "1": [
+          5,
+          2,
+          1,
+          2,
+          14
+        ],
+        "2": [
+          2,
+          3,
+          6,
+          12,
+          5
+        ],
+        "3": [
+          1,
+          2,
+          0,
+          2,
+          0
+        ]
+      },
+      "durationInterest": {
+        "121-240": [
+          9,
+          6,
+          1,
+          4,
+          13
+        ],
+        "241-360": [
+          5,
+          1,
+          1,
+          1,
+          4
+        ],
+        "61-120": [
+          3,
+          4,
+          5,
+          11,
+          8
+        ],
+        "<=60": [
+          2,
+          1,
+          1,
+          1,
+          2
+        ]
+      }
+    },
+    "guide": {
+      "categories": {
+        "Doğa": 2,
+        "Mahalle": 2,
+        "Müze": 4,
+        "Tarih": 3,
+        "Şehir Rotası": 1
+      },
+      "interests": {},
+      "moods": {},
+      "groups": {},
+      "priceLevels": {
+        "unmodeled": 12
+      },
+      "durationMaximums": {
+        "unmodeled": 12
+      },
+      "districtInterest": {},
+      "priceInterest": {},
+      "durationInterest": {}
+    },
+    "idea": {
+      "categories": {
+        "Doğa": 22,
+        "Etkinlik": 25,
+        "Kahve": 13,
+        "Lezzet": 30,
+        "Sanat": 50
+      },
+      "interests": {
+        "Doğa": 38,
+        "Etkinlik": 48,
+        "Kahve": 13,
+        "Lezzet": 36,
+        "Sanat": 67
+      },
+      "moods": {
+        "Enerjik": 21,
+        "Meraklı": 110,
+        "Sakin": 95,
+        "Sosyal": 53
+      },
+      "groups": {
+        "2 kişi": 131,
+        "3–4 kişi": 76,
+        "5+": 76,
+        "Tek": 103
+      },
+      "priceLevels": {
+        "0": 102,
+        "1": 35,
+        "2": 3
+      },
+      "durationMaximums": {
+        "121-240": 7,
+        "241-360": 1,
+        "61-120": 28,
+        "<=60": 52,
+        "unmodeled": 52
+      },
+      "districtInterest": {},
+      "priceInterest": {
+        "0": [
+          35,
+          42,
+          4,
+          10,
+          59
+        ],
+        "1": [
+          3,
+          5,
+          9,
+          23,
+          7
+        ],
+        "2": [
+          0,
+          1,
+          0,
+          3,
+          1
+        ]
+      },
+      "durationInterest": {
+        "121-240": [
+          2,
+          4,
+          0,
+          7,
+          0
+        ],
+        "241-360": [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "61-120": [
+          7,
+          12,
+          0,
+          10,
+          16
+        ],
+        "<=60": [
+          17,
+          14,
+          7,
+          10,
+          32
+        ]
+      }
+    },
+    "place": {
+      "categories": {
+        "Doğa": 42,
+        "Etkinlik": 28,
+        "Kahve": 22,
+        "Lezzet": 24,
+        "Sanat": 62
+      },
+      "interests": {
+        "Doğa": 57,
+        "Etkinlik": 52,
+        "Kahve": 26,
+        "Lezzet": 34,
+        "Sanat": 88
+      },
+      "moods": {
+        "Enerjik": 48,
+        "Meraklı": 116,
+        "Sakin": 104,
+        "Sosyal": 106
+      },
+      "groups": {},
+      "priceLevels": {
+        "0": 68,
+        "1": 45,
+        "2": 50,
+        "3": 15
+      },
+      "durationMaximums": {
+        "unmodeled": 178
+      },
+      "districtInterest": {
+        "altindag": [
+          6,
+          9,
+          2,
+          7,
+          34
+        ],
+        "ayas": [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "bala": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "beypazari": [
+          2,
+          1,
+          1,
+          2,
+          5
+        ],
+        "beytepe": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "camlidere": [
+          3,
+          0,
+          0,
+          0,
+          2
+        ],
+        "cankaya": [
+          15,
+          26,
+          22,
+          18,
+          24
+        ],
+        "cebeci": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "cubuk": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "elmadag": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "etimesgut": [
+          1,
+          2,
+          0,
+          2,
+          2
+        ],
+        "golbasi": [
+          2,
+          0,
+          0,
+          1,
+          0
+        ],
+        "gudul": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "haymana": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "kahramankazan": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "kalecik": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "kecioren": [
+          5,
+          3,
+          0,
+          1,
+          2
+        ],
+        "kizilcahamam": [
+          3,
+          0,
+          0,
+          0,
+          1
+        ],
+        "mamak": [
+          2,
+          5,
+          0,
+          0,
+          2
+        ],
+        "nallihan": [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        "polatli": [
+          4,
+          0,
+          0,
+          0,
+          4
+        ],
+        "sereflikochisar": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sincan": [
+          1,
+          3,
+          0,
+          0,
+          1
+        ],
+        "yenimahalle": [
+          3,
+          2,
+          1,
+          2,
+          4
+        ]
+      },
+      "priceInterest": {
+        "0": [
+          43,
+          18,
+          0,
+          4,
+          37
+        ],
+        "1": [
+          12,
+          12,
+          1,
+          3,
+          32
+        ],
+        "2": [
+          1,
+          17,
+          22,
+          15,
+          18
+        ],
+        "3": [
+          1,
+          5,
+          3,
+          12,
+          1
+        ]
+      },
+      "durationInterest": {}
+    }
+  },
+  "scenarios": [
+    {
+      "filter": "event",
+      "scenarios": 25,
+      "empty": 25,
+      "partial": 0,
+      "full": 0,
+      "gapsByInterest": {
+        "Doğa": 5,
+        "Etkinlik": 5,
+        "Kahve": 5,
+        "Lezzet": 5,
+        "Sanat": 5
+      },
+      "underfilledBudgets": {
+        "Doğa | 0/5": [
+          "Fark etmez",
+          "Ücretsiz",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Etkinlik | 0/5": [
+          "Fark etmez",
+          "Ücretsiz",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Kahve | 0/5": [
+          "Fark etmez",
+          "Ücretsiz",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Lezzet | 0/5": [
+          "Fark etmez",
+          "Ücretsiz",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Sanat | 0/5": [
+          "Fark etmez",
+          "Ücretsiz",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ]
+      }
+    },
+    {
+      "filter": "experience",
+      "scenarios": 125,
+      "empty": 2,
+      "partial": 35,
+      "full": 88,
+      "gapsByInterest": {
+        "Doğa": 6,
+        "Etkinlik": 7,
+        "Kahve": 9,
+        "Lezzet": 9,
+        "Sanat": 6
+      },
+      "underfilledBudgets": {
+        "Doğa | 1–2 saat | 3/5": [
+          "Ücretsiz"
+        ],
+        "Doğa | 30–60 dk | 1/5": [
+          "Ücretsiz"
+        ],
+        "Doğa | 30–60 dk | 2/5": [
+          "Fark etmez",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Etkinlik | 1–2 saat | 2/5": [
+          "Ücretsiz"
+        ],
+        "Etkinlik | 30–60 dk | 0/5": [
+          "Ücretsiz"
+        ],
+        "Etkinlik | 30–60 dk | 1/5": [
+          "Fark etmez",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Etkinlik | 3–4 saat | 4/5": [
+          "Ücretsiz"
+        ],
+        "Kahve | 1–2 saat | 1/5": [
+          "Ücretsiz"
+        ],
+        "Kahve | 30–60 dk | 0/5": [
+          "Ücretsiz"
+        ],
+        "Kahve | 30–60 dk | 1/5": [
+          "Fark etmez",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Kahve | 3–4 saat | 1/5": [
+          "Ücretsiz"
+        ],
+        "Kahve | Fark etmez | 1/5": [
+          "Ücretsiz"
+        ],
+        "Kahve | Yarım gün | 1/5": [
+          "Ücretsiz"
+        ],
+        "Lezzet | 1–2 saat | 1/5": [
+          "Ücretsiz"
+        ],
+        "Lezzet | 30–60 dk | 1/5": [
+          "Fark etmez",
+          "Ücretsiz",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ],
+        "Lezzet | 3–4 saat | 1/5": [
+          "Ücretsiz"
+        ],
+        "Lezzet | Fark etmez | 1/5": [
+          "Ücretsiz"
+        ],
+        "Lezzet | Yarım gün | 1/5": [
+          "Ücretsiz"
+        ],
+        "Sanat | 1–2 saat | 4/5": [
+          "Ücretsiz"
+        ],
+        "Sanat | 30–60 dk | 1/5": [
+          "Ücretsiz"
+        ],
+        "Sanat | 30–60 dk | 2/5": [
+          "Fark etmez",
+          "₺",
+          "₺₺",
+          "₺₺₺"
+        ]
+      }
+    },
+    {
+      "filter": "idea",
+      "scenarios": 25,
+      "empty": 0,
+      "partial": 0,
+      "full": 25,
+      "gapsByInterest": {},
+      "underfilledBudgets": {}
+    },
+    {
+      "filter": "place",
+      "scenarios": 25,
+      "empty": 1,
+      "partial": 1,
+      "full": 23,
+      "gapsByInterest": {
+        "Kahve": 1,
+        "Lezzet": 1
+      },
+      "underfilledBudgets": {
+        "Kahve | 0/5": [
+          "Ücretsiz"
+        ],
+        "Lezzet | 4/5": [
+          "Ücretsiz"
+        ]
+      }
+    }
+  ],
+  "sources": {
+    "sourceBearingRecords": 251,
+    "validUrlOccurrences": 363,
+    "hosts": {
+      "anfa.com.tr": 1,
+      "ankara.ktb.gov.tr": 18,
+      "ankarakelimemuzesi.com": 2,
+      "arabicacoffee.com.tr": 13,
+      "arhm.ktb.gov.tr": 2,
+      "atakule.com.tr": 2,
+      "basvuru.ifturquie.org": 1,
+      "biletinial.com": 5,
+      "bilim.mamak.bel.tr": 1,
+      "bogazicilokantasi.com.tr": 2,
+      "bolge9.tarimorman.gov.tr": 10,
+      "bso.bilkent.edu.tr": 1,
+      "cocuksanatmuzesi.kecioren.bel.tr": 3,
+      "coffeelab.com.tr": 3,
+      "csoadaankara.ktb.gov.tr": 1,
+      "denizdunyasi.kecioren.bel.tr": 2,
+      "dostkitabevi.com": 3,
+      "dt.biletinial.com": 1,
+      "duveroglu.com.tr": 3,
+      "federal.coffee": 2,
+      "galerisiyahbeyaz.com": 2,
+      "gazi.edu.tr": 1,
+      "goldenchef.com.tr": 3,
+      "jollyjoker.com.tr": 1,
+      "kitirpilic.com": 3,
+      "lavare.com.tr": 3,
+      "mk.gov.tr": 3,
+      "mulkiye.org.tr": 3,
+      "muze.gov.tr": 19,
+      "muze.isbank.com.tr": 1,
+      "muze.metu.edu.tr": 3,
+      "ockb.csb.gov.tr": 1,
+      "okuldisiogrenme-cdn-large.eba.gov.tr": 1,
+      "tatbikatsahnesi.com": 1,
+      "tavacirecepusta.com.tr": 1,
+      "tragosboulder.com": 4,
+      "turkishmuseums.kprod.kultur.gov.tr": 1,
+      "urumciuygurrestltdsti.eatbu.com": 3,
+      "www.altindag.bel.tr": 9,
+      "www.anitkabir.tsk.tr": 2,
+      "www.ankara.bel.tr": 30,
+      "www.ankara.edu.tr": 2,
+      "www.aoc.gov.tr": 3,
+      "www.aquavega.com.tr": 4,
+      "www.ast.com.tr": 3,
+      "www.ayas.bel.tr": 1,
+      "www.beypazari.bel.tr": 7,
+      "www.bigchefs.com.tr": 1,
+      "www.biletix.com": 2,
+      "www.bilkent.edu.tr": 1,
+      "www.bilkentcenter.com.tr": 1,
+      "www.boluakinlokantasi.com.tr": 4,
+      "www.bubilet.com.tr": 1,
+      "www.buyulufener.com.tr": 2,
+      "www.camlidere.bel.tr": 2,
+      "www.cankaya.bel.tr": 11,
+      "www.cermodern.org": 2,
+      "www.cinali.com.tr": 3,
+      "www.cubuk.bel.tr": 1,
+      "www.davinciboardgame.com": 3,
+      "www.devtiyatro.gov.tr": 5,
+      "www.divan.com.tr": 2,
+      "www.erimtanmuseum.org": 3,
+      "www.etimesgut.bel.tr": 1,
+      "www.goethe.de": 3,
+      "www.gokyaysatrancvakfi.org.tr": 3,
+      "www.google.com": 16,
+      "www.gudul.bel.tr": 1,
+      "www.hanemfirin.com": 3,
+      "www.hvkk.tsk.tr": 2,
+      "www.ifturquie.org": 2,
+      "www.instagram.com": 4,
+      "www.ismetinonu.org.tr": 1,
+      "www.jandarma.gov.tr": 1,
+      "www.kalecik.bel.tr": 1,
+      "www.kebap49.com.tr": 3,
+      "www.kecioren.bel.tr": 4,
+      "www.kizilcahamam.bel.tr": 2,
+      "www.kronotrop.com.tr": 1,
+      "www.louise.com.tr": 3,
+      "www.mamak.bel.tr": 4,
+      "www.metu.edu.tr": 1,
+      "www.mgm.gov.tr": 1,
+      "www.midpoint.com.tr": 1,
+      "www.millisaraylar.gov.tr": 3,
+      "www.mta.gov.tr": 1,
+      "www.no24studio.com": 2,
+      "www.nusr-et.com.tr": 1,
+      "www.odtu.edu.tr": 3,
+      "www.oldschooltr.com": 5,
+      "www.openstreetmap.org": 17,
+      "www.operabale.gov.tr": 1,
+      "www.pecenekdoner.com.tr": 4,
+      "www.polatli.bel.tr": 3,
+      "www.ptt.gov.tr": 2,
+      "www.quickchina.com.tr": 2,
+      "www.rmk-museum.org.tr": 2,
+      "www.sincan.bel.tr": 2,
+      "www.starbucks.com.tr": 2,
+      "www.tarimorman.gov.tr": 2,
+      "www.tccb.gov.tr": 1,
+      "www.thisiska.com": 2,
+      "www.toki.gov.tr": 3,
+      "www.trilye.com.tr": 2,
+      "www.turkiye.gov.tr": 1,
+      "www.vgm.gov.tr": 1,
+      "www.yenimahalle.bel.tr": 2,
+      "www.ziraatbank.com.tr": 1,
+      "yandex.com.tr": 5
+    },
+    "issues": [],
+    "rootOnlyCount": 141,
+    "rootOnlyExamples": [
+      "experience:xp-altinpark-uzun-ogleden-sonra",
+      "experience:xp-anitkabir-maltepe",
+      "experience:xp-aoc-kurulus-hikayesi",
+      "experience:xp-aqua-vega-uc-yasam-alani",
+      "experience:xp-arslanhane-alaaddin-selcuklu",
+      "experience:xp-aspava-ikram-ritueli",
+      "experience:xp-beypazari-halfday",
+      "experience:xp-bogazici-ulus-ogle-ritueli"
+    ],
+    "referenceDateBands": {
+      ">30-90d": 170,
+      ">90d": 198
+    },
+    "recordDateBands": {
+      "event": {
+        ">30-90d": 9
+      },
+      "experience": {
+        ">30-90d": 17,
+        ">90d": 35
+      },
+      "guide": {
+        ">90d": 12
+      },
+      "place": {
+        ">30-90d": 40,
+        ">90d": 138
+      }
+    },
+    "repeatedWithinRecord": [
+      "place:ahlatlibel-ataturk-parki https://www.cankaya.bel.tr/rehber/parklarimiz/ahlatlibel-ataturk-parki",
+      "place:altinkoy-acik-hava-muzesi https://www.altindag.bel.tr/tr/haber/altink%C3%B6y-artik-resmen-m%C3%BCze",
+      "place:ankara-palas-muzesi https://www.millisaraylar.gov.tr/Lokasyon/17/Ankara-Palas",
+      "place:aqua-vega-akvaryum https://www.aquavega.com.tr/",
+      "place:ast-bilkent-sahne https://www.ast.com.tr/iletisim/",
+      "place:ataturk-kultur-merkezi-millet-bahcesi https://www.toki.gov.tr/haber/baskent-millet-bahcesi-acildi",
+      "place:belpa-buz-pateni https://www.ankara.bel.tr/haberler/buz-pateni-keyfi-bayramda-da-devam-edecek-18269",
+      "place:bolu-akin-lokantasi-etlik https://www.boluakinlokantasi.com.tr/",
+      "place:cin-ali-muzesi https://www.cinali.com.tr/sayfa/muze-ziyareti",
+      "place:cubuk-1-baraji-rekreasyon-alani https://www.ankara.bel.tr/proje/cubuk-1-baraji-ve-rekreasyon-alani-263",
+      "place:cumhurbaskanligi-millet-kutuphanesi https://mk.gov.tr/",
+      "place:da-vinci-board-game-neorama https://www.davinciboardgame.com/",
+      "place:galeri-siyah-beyaz https://galerisiyahbeyaz.com/",
+      "place:goethe-institut-ankara https://www.goethe.de/ins/tr/tr/sta/ank/bib.html",
+      "place:gokyay-vakfi-satranc-muzesi https://www.gokyaysatrancvakfi.org.tr/",
+      "place:golden-chef-mutfak-akademisi-cayyolu https://goldenchef.com.tr/iletisim/",
+      "place:guvenpark-kizilay https://www.ankara.bel.tr/haberler/guvenpark-modern-yuzuyle-ankaralilarla-yeniden-bulustu-17509",
+      "place:hanem-firin-eryaman https://www.hanemfirin.com/",
+      "place:institut-francais-ankara https://www.ifturquie.org/fr/ankara/",
+      "place:ka-cinnah https://www.thisiska.com/",
+      "place:kebap-49-tunali https://www.kebap49.com.tr/Kebap49-Tunali",
+      "place:kecioren-cocuk-sanat-muzesi https://cocuksanatmuzesi.kecioren.bel.tr/",
+      "place:kecioren-deniz-dunyasi https://denizdunyasi.kecioren.bel.tr/kurumsal.php",
+      "place:kitir-tunali https://kitirpilic.com/",
+      "place:lavare-sokak https://lavare.com.tr/etkinlikler",
+      "place:louise-brasserie-lounge https://www.louise.com.tr/",
+      "place:mamak-fuzyon-bilim-merkezi https://www.mamak.bel.tr/proje/mamak-bilim-merkezi/?filter=tamamlanan-projeler+mamak-bilim-merkezi",
+      "place:mulkiyeliler-birligi-kafe-restoran https://mulkiye.org.tr/iletisim/",
+      "place:niki-restaurant-ankara https://www.instagram.com/nikirestaurant/",
+      "place:no24-studio-umitkoy https://www.no24studio.com/sube",
+      "place:old-school-roastery-bahcelievler https://www.oldschooltr.com/",
+      "place:pecenek-doner-iskitler https://www.pecenekdoner.com.tr/",
+      "place:quick-china-cayyolu https://www.quickchina.com.tr/",
+      "place:tragos-boulder-outdoor https://tragosboulder.com/pages/tanitim-dersi",
+      "place:urumci-uygur-restaurant-on-cebeci https://urumciuygurrestltdsti.eatbu.com/?lang=tr"
+    ],
+    "reusedAcrossRecords": 64,
+    "topReused": [
+      {
+        "url": "https://www.ankara.bel.tr/",
+        "records": 22,
+        "examples": [
+          "experience:xp-altinpark-uzun-ogleden-sonra",
+          "experience:xp-botanik-atakule-short",
+          "experience:xp-dikmen-vadisi-kot-yuruyusu",
+          "experience:xp-goksu-loop"
+        ]
+      },
+      {
+        "url": "https://bolge9.tarimorman.gov.tr/",
+        "records": 10,
+        "examples": [
+          "experience:xp-kizilcahamam-halfday",
+          "place:alucdagi-tabiat",
+          "place:beynam-ormanlari",
+          "place:camkoru-tabiat"
+        ]
+      },
+      {
+        "url": "https://www.cankaya.bel.tr/",
+        "records": 9,
+        "examples": [
+          "experience:xp-aspava-ikram-ritueli",
+          "place:ahmet-taner-kislali-parki",
+          "place:ansera-parki",
+          "place:aspava-yildizevler"
+        ]
+      },
+      {
+        "url": "https://ankara.ktb.gov.tr/",
+        "records": 7,
+        "examples": [
+          "experience:xp-arslanhane-alaaddin-selcuklu",
+          "experience:xp-hacibayram-augustus",
+          "place:alaaddin-camii",
+          "place:aslanhane-camii"
+        ]
+      },
+      {
+        "url": "https://www.beypazari.bel.tr/",
+        "records": 7,
+        "examples": [
+          "experience:xp-beypazari-halfday",
+          "place:beypazari-kent-tarihi",
+          "place:beypazari-tarihi-carsi",
+          "place:beypazari-yasayan-muze"
+        ]
+      },
+      {
+        "url": "https://www.altindag.bel.tr/",
+        "records": 6,
+        "examples": [
+          "experience:xp-ulucanlar-hamamonu",
+          "place:hacibayram-kebap",
+          "place:hamamonu",
+          "place:sulu-han"
+        ]
+      },
+      {
+        "url": "https://ankara.ktb.gov.tr/TR-152389/ankara-kalesi.html",
+        "records": 3,
+        "examples": [
+          "experience:xp-erimtan-kale",
+          "experience:xp-kelime-erimtan-kale",
+          "place:ankara-kalesi"
+        ]
+      },
+      {
+        "url": "https://coffeelab.com.tr/",
+        "records": 3,
+        "examples": [
+          "experience:xp-tunali-kugulu-short",
+          "place:coffee-lab-bilkent",
+          "place:coffee-lab-tunali"
+        ]
+      }
+    ],
+    "plansWithReservations": 12,
+    "olderReservationEvidence": [
+      "xp-anitkabir-maltepe",
+      "xp-beypazari-halfday",
+      "xp-duveroglu-lahmacun",
+      "xp-eymir-bisikletle-dolas",
+      "xp-eymir-halfday",
+      "xp-gordion-halfday",
+      "xp-hava-kuvvetleri-iki-saat",
+      "xp-kelime-erimtan-kale",
+      "xp-kizilcahamam-halfday",
+      "xp-odtu-double-museum",
+      "xp-trilye-balik"
+    ]
+  },
+  "artwork": {
+    "byKind": {
+      "event": {
+        "Compact": {
+          "explicit": 0,
+          "family": 9,
+          "media": 0,
+          "neutral": 0
+        },
+        "Hero": {
+          "explicit": 0,
+          "family": 9,
+          "media": 0,
+          "neutral": 0
+        },
+        "Square": {
+          "explicit": 0,
+          "family": 9,
+          "media": 0,
+          "neutral": 0
+        }
+      },
+      "experience": {
+        "Compact": {
+          "explicit": 52,
+          "family": 0,
+          "media": 0,
+          "neutral": 0
+        },
+        "Hero": {
+          "explicit": 52,
+          "family": 0,
+          "media": 0,
+          "neutral": 0
+        },
+        "Square": {
+          "explicit": 52,
+          "family": 0,
+          "media": 0,
+          "neutral": 0
+        }
+      },
+      "idea": {
+        "Compact": {
+          "explicit": 0,
+          "family": 140,
+          "media": 0,
+          "neutral": 0
+        },
+        "Hero": {
+          "explicit": 0,
+          "family": 140,
+          "media": 0,
+          "neutral": 0
+        },
+        "Square": {
+          "explicit": 0,
+          "family": 140,
+          "media": 0,
+          "neutral": 0
+        }
+      },
+      "place": {
+        "Compact": {
+          "explicit": 0,
+          "family": 178,
+          "media": 0,
+          "neutral": 0
+        },
+        "Hero": {
+          "explicit": 0,
+          "family": 178,
+          "media": 0,
+          "neutral": 0
+        },
+        "Square": {
+          "explicit": 0,
+          "family": 178,
+          "media": 0,
+          "neutral": 0
+        }
+      }
+    },
+    "missingMappings": [],
+    "unresolved": [],
+    "neutralByKindLayout": {},
+    "mappedIdsOutsideInventory": [
+      "event:event-ajda-pekkan-oran-2026-09-30",
+      "event:event-ankara-cocktail-festival-2026-09-27",
+      "event:event-ankara-open-wta-125-2026-09-22",
+      "event:event-bubble-show-cukurambar-2026-10-03",
+      "event:event-candles-echoes-meb-sura-2026-09-26",
+      "event:event-golden-chef-el-yapimi-makarnalar-2026-09-29",
+      "event:event-happy-pigs-cayyolu-2026-09-27",
+      "event:event-masumiyet-demirkubuz-visnelik-2026-09-23",
+      "event:event-one-more-atilim-2026-09-24",
+      "event:event-sami-yusuf-congresium-2026-09-24",
+      "event:event-tastydays-visnelik-2026-10-11",
+      "event:event-tca-burger-fries-workshop-2026-09-24",
+      "event:event-trivia-night-alti-ustu-2026-09-26"
+    ],
+    "guides": {
+      "total": 12,
+      "resolved": 12,
+      "missingGuideMedia": []
+    }
+  },
+  "compatibility": {
+    "city": "ankara",
+    "version": "2026-10-12.1",
+    "versionValid": true,
+    "schema": 3,
+    "schemaCompatible": true,
+    "namespace": 3,
+    "cacheKey": "@napsak/catalog/v3/ankara",
+    "cacheRoundTrip": true,
+    "snapshotValid": true,
+    "orphanCityRecords": [],
+    "sourceCityOrphans": [],
+    "metadataCompatible": true,
+    "comparator": {
+      "equal": 0,
+      "revision10After2": 1,
+      "previousDay": -1,
+      "invalidDay": null,
+      "paddedRevision": null
+    }
+  },
+  "gaps": [
+    {
+      "tier": 1,
+      "area": "event",
+      "metric": "expired at start",
+      "affected": 9,
+      "total": 9,
+      "followUp": "Event freshness"
+    },
+    {
+      "tier": 1,
+      "area": "event",
+      "metric": "source verification older than 7 days",
+      "affected": 9,
+      "total": 9,
+      "followUp": "Event freshness"
+    },
+    {
+      "tier": 2,
+      "area": "event",
+      "metric": "empty preference scenarios",
+      "affected": 25,
+      "total": 25,
+      "followUp": "Event freshness"
+    },
+    {
+      "tier": 2,
+      "area": "place",
+      "metric": "empty preference scenarios",
+      "affected": 1,
+      "total": 25,
+      "followUp": "catalog expansion"
+    },
+    {
+      "tier": 2,
+      "area": "experience",
+      "metric": "empty preference scenarios",
+      "affected": 2,
+      "total": 125,
+      "followUp": "catalog expansion"
+    },
+    {
+      "tier": 3,
+      "area": "reservation-bearing plans",
+      "metric": "oldest linked evidence over 90 days",
+      "affected": 11,
+      "total": 12,
+      "followUp": "source verification"
+    },
+    {
+      "tier": 3,
+      "area": "source-bearing records",
+      "metric": "all valid source URLs point to host roots",
+      "affected": 141,
+      "total": 251,
+      "followUp": "source verification"
+    },
+    {
+      "tier": 3,
+      "area": "experience",
+      "metric": "partial preference scenarios",
+      "affected": 35,
+      "total": 125,
+      "followUp": "catalog expansion"
+    },
+    {
+      "tier": 3,
+      "area": "place",
+      "metric": "partial preference scenarios",
+      "affected": 1,
+      "total": 25,
+      "followUp": "catalog expansion"
+    }
+  ]
+}

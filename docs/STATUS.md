@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-11-18 — Catalog operations audit
+
+At the November 18 Istanbul reference instant, 0/9 embedded Events were upcoming and 9/9 had stale verification. All 52 Experience routes passed their ordered Place checks. The measured supply gaps and five follow-up workstreams are recorded in the [catalog operations quality report](CATALOG_OPERATIONS_QUALITY_FOUNDATION_REPORT.md).
+
 ## 2026-10-24 — PR #83 practical Redmi acceptance and authorized protected merge
 
 The user reports practical Redmi acceptance on corrected head `212a5b958499d287115d2f45cb6d2eecc5e609a3`: Settings entry/return, Preference Editor Save/Cancel without onboarding replay, supported Hidden kinds and non-navigable card bodies, individual restore remaining unsaved, bulk restore preserving Saved, restart persistence, Android Back/Close, Home/Saved/Ankara origin/scroll/navigation, normal large-text/layout and ordinary deletion confirmation/cancellation all work. These are user-reported practical device observations, not controlled fault-injection or signed-release evidence. [The report](SETTINGS_HIDDEN_IMPLEMENTATION_REPORT.md#24-october-2026--pr-83-practical-redmi-acceptance-and-protected-closeout) records accepted scope, F01 coverage and successful corrected-head CI.
