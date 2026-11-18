@@ -25,9 +25,15 @@ export function sources(rows: Row[], now: Date) {
     if ('kind' in item && item.kind === 'idea') continue; // Optional action links are not evidence.
     sourceBearingRecords++;
     const isPlan = isExperienceItem(item);
-    const refs: { url?: string; date: string; optional: boolean }[] = isPlan ? (item.sources ?? []).map(s => ({ url: s.url, date: s.verifiedAt, optional: false }))
+    const refs: { url?: string; date?: string; optional: boolean }[] = isPlan ? []
       : [{ url: item.sourceUrl, date: item.verifiedAt, optional: false }];
-    if ('provenance' in item) for (const p of item.provenance ?? []) refs.push({ url: p.url, date: p.verifiedAt, optional: true });
+    const extra = isPlan ? item.sources : 'provenance' in item ? item.provenance : undefined;
+    if (Array.isArray(extra)) {
+      for (const [i, entry] of extra.entries()) {
+        if (entry && typeof entry === 'object') refs.push({ url: entry.url, date: entry.verifiedAt, optional: !isPlan });
+        else issues.push(key + ':invalid-source-entry-' + (i + 1));
+      }
+    } else if (extra !== undefined) issues.push(key + ':invalid-source-list');
     const date = verificationBand(isPlan ? item.lastVerifiedAt : item.verifiedAt, now);
     recordDates.push([kind, date]);
     if (['missing', 'invalid', 'future'].includes(date)) issues.push(key + ':record-date-' + date);

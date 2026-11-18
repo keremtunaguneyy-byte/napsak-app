@@ -1,4 +1,5 @@
 import { writeFileSync } from 'node:fs';
+import { normalizeContentIdentity } from '../src/contentPolicy';
 import { distanceInKm } from '../src/domain';
 import { experiences } from '../src/data/experiences';
 import { places } from '../src/data/places';
@@ -25,6 +26,8 @@ export function auditExperienceStarts(catalog: readonly Experience[], linkedPlac
       if (!inBounds(point)) reasons.push(`stop ${index + 1}: invalid/outside Ankara bounds`);
       if (matches.length === 1) {
         if (!inBounds(matches[0])) reasons.push(`stop ${index + 1}: Place coordinates invalid/outside Ankara bounds`);
+        const labels = [matches[0].name, ...(matches[0].aliases ?? [])].map(normalizeContentIdentity);
+        if (!labels.includes(normalizeContentIdentity(point.name))) reasons.push(`stop ${index + 1}: label differs from linked Place and aliases`);
         if (!same(point, matches[0])) reasons.push(`stop ${index + 1}: coordinates differ from linked Place`);
         if (matches[0].cityId !== experience.cityId) reasons.push(`stop ${index + 1}: cityId mismatch`);
       }

@@ -4,16 +4,16 @@ import { isValidCoordinates } from '../../src/domain';
 import { CatalogSnapshot } from '../../src/data/catalog';
 import { resolveAnkara101Reader } from '../../src/ankara101Reader';
 import { auditExperienceStarts } from '../auditExperienceStartCoordinates';
-import { collisions, compare, counts, instant, kinds, Row, verificationBand } from './records';
+import { collisions, compare, counts, instant, occurrenceTime, kinds, Row, verificationBand } from './records';
 
 export function lifecycle(c: CatalogSnapshot, rows: Row[], now: Date) {
   const valid = new Set(rows.filter(r => r.valid).map(r => r.item));
-  const context = createExperienceEligibilityContext(c.places.filter(p => valid.has(p)), c.events.filter(e => valid.has(e) && Number.isFinite(instant(e.startsAt))));
+  const context = createExperienceEligibilityContext(c.places.filter(p => valid.has(p)), c.events.filter(e => valid.has(e) && Number.isFinite(occurrenceTime(e.startsAt))));
   function eligible({ item, valid }: Row) {
     if (!valid) return false;
     if (!('kind' in item)) return isPlaceRecommendationEligible(item);
     if (item.kind === 'experience') return isExperienceRecommendationEligible(item, context, now);
-    if (item.kind === 'event') return instant(item.startsAt) > now.getTime();
+    if (item.kind === 'event') return occurrenceTime(item.startsAt) > now.getTime();
     return item.kind === 'idea';
   }
   function state({ item, valid }: Row) {
@@ -32,8 +32,8 @@ export function lifecycle(c: CatalogSnapshot, rows: Row[], now: Date) {
         if (item.lifecycle === 'event_linked') {
           const event = context.eventsById.get(item.eventId);
           if (!event || event.cityId !== item.cityId) return 'unresolved';
-          if (!Number.isFinite(instant(event.startsAt))) return 'invalid';
-          if (instant(event.startsAt) <= now.getTime()) return 'expired';
+          if (!Number.isFinite(occurrenceTime(event.startsAt))) return 'invalid';
+          if (occurrenceTime(event.startsAt) <= now.getTime()) return 'expired';
         }
         if (item.lifecycle === 'conditional') return 'conditional';
         return isExperienceRecommendationEligible(item, context, now) ? 'active' : 'linked-place-ineligible';
@@ -53,10 +53,12 @@ export function lifecycle(c: CatalogSnapshot, rows: Row[], now: Date) {
 export function eventHealth(c: CatalogSnapshot, now: Date) {
   const events = [...c.events].sort((a, b) => compare(a.id, b.id));
   // The production health check uses Date.parse. Ambiguous or invalid local times cannot depend on host TZ here.
-  const health = analyzeEventCatalog(events.map(e => Number.isFinite(instant(e.startsAt)) ? e : { ...e, startsAt: '' }), now);
+  const health = analyzeEventCatalog(events.map(e => Number.isFinite(occurrenceTime(e.startsAt)) ? e : { ...e, startsAt: '' }), now);
   return { ...health, issues: health.issues.sort((a, b) => compare(a.code, b.code)),
     records: events.map(e => ({ id: e.id, start: e.startsAt ?? null, end: e.endsAt ?? null,
-      endState: e.endsAt === undefined ? 'unspecified' : !Number.isFinite(instant(e.endsAt)) || instant(e.endsAt) < instant(e.startsAt)
+      startQuality: Number.isFinite(instant(e.startsAt)) ? 'zoned_iso'
+        : Number.isFinite(occurrenceTime(e.startsAt)) ? 'runtime_parseable_noncanonical' : 'invalid_or_unzoned',
+      endState: e.endsAt === undefined ? 'unspecified' : !Number.isFinite(instant(e.endsAt)) || instant(e.endsAt) < occurrenceTime(e.startsAt)
         ? 'invalid' : instant(e.endsAt) <= now.getTime() ? 'ended' : 'future', verifiedAt: e.verifiedAt ?? null,
       verification: verificationBand(e.verifiedAt, now) })) };
 }

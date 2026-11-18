@@ -15,6 +15,7 @@ async function main() {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, 'audit.json'), JSON.stringify(report, null, 2) + '\n');
   writeFileSync(join(out, 'summary.md'), markdown(report));
+  if (!report.savedDestinations.passed || !report.artwork.guides.passed) process.exitCode = 1;
   console.log('Wrote catalog audit for ' + report.asOf + ' to ' + out);
 }
 main().catch(error => { console.error(error.message); process.exitCode = 1; });

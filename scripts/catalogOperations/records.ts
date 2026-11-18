@@ -59,9 +59,13 @@ function calendarDay(value: string) {
   return dateOnly.test(value) && Number.isFinite(millis) && new Date(millis).toISOString().slice(0, 10) === value;
 }
 export function instant(value: string | undefined) {
-  if (!value || !/^\d{4}-\d\d-\d\dT(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d{1,3})?)?(?:Z|[+-]\d\d:\d\d)$/.test(value)
+  if (!value || !/^\d{4}-\d\d-\d\dT(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-]\d\d:\d\d)$/.test(value)
     || !calendarDay(value.slice(0, 10))) return NaN;
   return Date.parse(value);
+}
+// For occurrence metrics use the same parser as production wherever the input specifies its zone.
+export function occurrenceTime(value: string | undefined) {
+  return typeof value === 'string' && /(?:Z|[+-]\d{2}:?\d{2}|\bGMT|\bUTC)$/i.test(value.trim()) ? Date.parse(value) : NaN;
 }
 export function verificationBand(value: string | undefined, now: Date) {
   if (value == null || value === '') return 'missing';

@@ -1,5 +1,5 @@
 {
-  "reportSchema": 1,
+  "reportSchema": 2,
   "asOf": "2026-11-17T21:00:00.000Z",
   "inventory": {
     "event": {
@@ -86,6 +86,7 @@
         "id": "event-amadeus-congresium-2026-10-16",
         "start": "2026-10-16T20:30:00+03:00",
         "end": "2026-10-16T23:00:00+03:00",
+        "startQuality": "zoned_iso",
         "endState": "ended",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -94,6 +95,7 @@
         "id": "event-ankara-kadin-orkestrasi-csoada-2026-11-02",
         "start": "2026-11-02T19:30:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -102,6 +104,7 @@
         "id": "event-ataturke-saygi-csoada-tarihi-2026-11-10",
         "start": "2026-11-10T20:00:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -110,6 +113,7 @@
         "id": "event-bir-aile-provasi-ataturk-sanat-2026-11-01",
         "start": "2026-11-01T20:30:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -118,6 +122,7 @@
         "id": "event-cso-iki-keman-bir-miras-2026-10-16",
         "start": "2026-10-16T20:00:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -126,6 +131,7 @@
         "id": "event-falda-carmen-xl-ataturk-sanat-2026-10-31",
         "start": "2026-10-31T20:30:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -134,6 +140,7 @@
         "id": "event-magic-bubbles-csoada-2026-10-24",
         "start": "2026-10-24T17:00:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -142,6 +149,7 @@
         "id": "event-satonun-altinda-ataturk-sanat-2026-11-07",
         "start": "2026-11-07T20:00:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -150,6 +158,7 @@
         "id": "event-sempre-mozart-ankara-dob-2026-10-23",
         "start": "2026-10-23T20:00:00+03:00",
         "end": null,
+        "startQuality": "zoned_iso",
         "endState": "unspecified",
         "verifiedAt": "2026-10-12",
         "verification": ">30-90d"
@@ -261,6 +270,12 @@
         "place:arabica-cayyolu-dorapark"
       ]
     ]
+  },
+  "savedDestinations": {
+    "passed": true,
+    "totalDestinations": 393,
+    "distinctIds": 393,
+    "issues": []
   },
   "interestColumns": [
     "Doğa",
@@ -1403,9 +1418,122 @@
       "event:event-trivia-night-alti-ustu-2026-09-26"
     ],
     "guides": {
+      "passed": true,
       "total": 12,
       "resolved": 12,
-      "missingGuideMedia": []
+      "missingGuideMedia": [],
+      "records": [
+        {
+          "id": "guide-anadolu-medeniyetleri",
+          "key": "ankara101/c2/guide-anadolu-medeniyetleri/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-anadolu-medeniyetleri.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-ankara-kalesi",
+          "key": "ankara101/c2/guide-ankara-kalesi/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-ankara-kalesi.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-aslanhane",
+          "key": "ankara101/c2/guide-aslanhane/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-aslanhane.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-cumhuriyet-muzesi",
+          "key": "ankara101/c2/guide-cumhuriyet-muzesi/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-cumhuriyet-muzesi.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-etnografya-muzesi",
+          "key": "ankara101/c2/guide-etnografya-muzesi/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-etnografya-muzesi.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-eymir",
+          "key": "ankara101/c2/guide-eymir/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-eymir.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-gordion",
+          "key": "ankara101/c2/guide-gordion/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-gordion.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-hamamonu",
+          "key": "ankara101/c2/guide-hamamonu/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-hamamonu.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-mogan",
+          "key": "ankara101/c2/guide-mogan/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-mogan.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-resim-heykel",
+          "key": "ankara101/c2/guide-resim-heykel/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-resim-heykel.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-tunali-kugulu",
+          "key": "ankara101/c2/guide-tunali-kugulu/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-tunali-kugulu.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        },
+        {
+          "id": "guide-ulus-kultur-hatti",
+          "key": "ankara101/c2/guide-ulus-kultur-hatti/editorial-v2",
+          "catalogPresent": true,
+          "binding": "../../../assets/ankara101/production/masters/guide-ulus-kultur-hatti.png",
+          "media": "guide_media_explicit",
+          "fallback": false,
+          "issues": []
+        }
+      ],
+      "unexpectedCatalogIds": [],
+      "unexpectedBindingKeys": []
     }
   },
   "compatibility": {

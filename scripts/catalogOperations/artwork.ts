@@ -1,6 +1,6 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { resolveAnkara101Reader } from '../../src/ankara101Reader';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { guideMedia } from './guideMedia';
 import { ArtworkResolver, ARTWORK_DIMENSIONS, ArtworkLayout, contentVisual } from '../../src/components/gezek/ArtworkResolver';
 import { ContextualIconResolver, itemIconKey } from '../../src/components/gezek/ContextualIconResolver';
 import { PRODUCTION_ASSET_INDEX } from '../../src/components/gezek/productionAssetIndex';
@@ -40,18 +40,9 @@ export function artwork(c: CatalogSnapshot, rows: Row[], assetExists = (path: st
       return [layout, modes];
     }))];
   }));
-  // Metro resolves literal require() calls. Inspect the bindings without loading PNGs into Node.
-  const registry = 'src/components/gezek/ankara101Assets.ts';
-  const bindings = new Map([...readFileSync(registry, 'utf8').matchAll(/"([^"]+)":\s*require\('([^']+)'\)/g)]
-    .map(m => [m[1], resolve(dirname(registry), m[2])]));
-  const missingGuideMedia = c.guides.filter(g => {
-    const config = resolveAnkara101Reader(c.guides, g.id)?.config;
-    const path = config && bindings.get(config.mediaKey);
-    return !path || !existsSync(path);
-  }).map(g => g.id).sort();
   const keys = new Set(rows.map(r => r.key));
   const unmapped = unique(missingMappings);
   return { byKind, missingMappings: unmapped, unresolved: unique(unresolved), neutralByKindLayout: counts(fallback),
     mappedIdsOutsideInventory: Object.keys(PRODUCTION_ASSET_INDEX.content).filter(k => !keys.has(k)).sort(),
-    guides: { total: c.guides.length, resolved: c.guides.length - missingGuideMedia.length, missingGuideMedia } };
+    guides: guideMedia(c.guides) };
 }

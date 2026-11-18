@@ -24,6 +24,11 @@ Reference instant `2026-11-17T21:00:00.000Z`. Embedded version `2026-10-12.1`.
 | 3 | experience | partial preference scenarios | 35 / 125 | catalog expansion |
 | 3 | place | partial preference scenarios | 1 / 25 | catalog expansion |
 
+## Event operations
+
+- `no_upcoming_events`
+- `stale_verification`
+
 ## Preference supply
 
 | Surface | Scenarios | Empty | Partial (1–4) | Full (5) |
@@ -36,6 +41,7 @@ Reference instant `2026-11-17T21:00:00.000Z`. Embedded version `2026-10-12.1`.
 ## Integrity and evidence
 
 - 52/52 routes passed ordered linkage and anchor checks across 71 stops.
+- 0 ambiguous Saved IDs across 393 destinations.
 - 0 stable-ID collision groups, 1 groups share a normalized title, 2 near-title pairs.
 - 64 distinct URLs appear on multiple records. 0 source field issues.
 - 0 unresolved recommendation artwork references. 12/12 Guide media bindings resolve.
