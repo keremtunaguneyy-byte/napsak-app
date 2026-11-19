@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { CLASSICS_COLLECTION_ID } from '../src/ankara101';
-import { GUIDE_PRESENTATIONS, PRODUCTION_GUIDE_IDS } from '../src/ankara101Reader';
+import { GUIDE_PRESENTATIONS } from '../src/ankara101Reader';
+import guideApproval from '../docs/ankara101/final-guide-comparison.json';
 import { insiderRoutes } from '../src/data/insiderRoutes';
 import { parseCatalogSnapshot } from '../src/data/catalogValidation';
 import { resolveSavedEntries } from '../src/saved';
 import { savedDestinations } from '../scripts/catalogOperations/savedDestinations';
-import { guideMedia, guideRegistry } from '../scripts/catalogOperations/guideMedia';
+import { guideMedia } from '../scripts/catalogOperations/guideMedia';
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -176,39 +177,81 @@ test('Saved reports the effective destination for both reserved keys and normal 
   assert.equal(savedDestinations(independent).issues[0].destinations.find(d => d.selected)?.family, 'place');
 });
 
-test('Guide contract detects absent approved IDs, missing literal bindings, unresolved assets and alternate artwork', () => {
-  const c = fresh(), id = PRODUCTION_GUIDE_IDS[0], key = GUIDE_PRESENTATIONS[id].mediaKey;
-  const registry = readFileSync(guideRegistry, 'utf8');
-  const intact = guideMedia(c.guides, registry);
+test('Guide completeness uses the approved inventory even when a reader presentation is missing', () => {
+  const { guides } = fresh();
+  const [castle, hamamonu] = guideApproval.guides;
+  const id = castle.guideId;
+  const intact = guideMedia(guides);
   assert.equal(intact.passed, true);
-  assert.equal(intact.resolved, PRODUCTION_GUIDE_IDS.length);
+  assert.equal(intact.total, guideApproval.guides.length);
+  assert.equal(intact.resolved, intact.total);
   assert.deepEqual(intact.missingGuideMedia, []);
-  const target = intact.records.find(r => r.id === id)!;
+
+  const absent = guideMedia(guides.filter(guide => guide.id !== id));
+  assert.equal(absent.passed, false);
+  assert.equal(absent.total, intact.total);
+  assert.equal(absent.resolved, intact.total - 1);
+  assert.deepEqual(absent.missingGuideMedia, [id]);
+  assert.deepEqual(absent.records.find(record => record.id === id)?.issues, ['guide_catalog_missing']);
+
+  const { [id]: omitted, ...presentations } = GUIDE_PRESENTATIONS;
+  assert.ok(omitted);
+  const missingPresentation = guideMedia(guides, undefined, presentations);
+  assert.equal(missingPresentation.passed, false);
+  assert.equal(missingPresentation.total, intact.total);
+  assert.equal(missingPresentation.resolved, intact.total - 1);
+  assert.deepEqual(missingPresentation.missingGuideMedia, [id]);
+  assert.deepEqual(missingPresentation.records.find(record => record.id === id)?.issues, ['guide_presentation_missing']);
+
+  const wrongKey = guideMedia(guides, undefined, { ...presentations, [id]: { mediaKey: hamamonu.image.mediaKey } });
+  assert.equal(wrongKey.passed, false);
+  const wrongRecord = wrongKey.records.find(record => record.id === id);
+  assert.equal(wrongRecord?.presentationKey, hamamonu.image.mediaKey);
+  assert.deepEqual(wrongRecord?.issues, ['guide_presentation_media_key_mismatch', 'guide_media_alternate_asset', 'guide_media_fallback']);
+});
+
+test('Guide audit compares the initialized export with each approved master', () => {
+  const { guides } = fresh();
+  const [castle, hamamonu] = guideApproval.guides;
+  const intact = guideMedia(guides);
+  const target = intact.records.find(record => record.id === castle.guideId)!;
+  const other = intact.records.find(record => record.id === hamamonu.guideId)!;
   assert.equal(target.media, 'guide_media_explicit');
   assert.equal(target.fallback, false);
-  const absent = guideMedia(c.guides.filter(g => g.id !== id), registry);
-  assert.equal(absent.passed, false);
-  assert.equal(absent.total, PRODUCTION_GUIDE_IDS.length);
-  assert.equal(absent.resolved, absent.total - 1);
-  assert.deepEqual(absent.missingGuideMedia, [id]);
-  assert.deepEqual(absent.records.find(r => r.id === id)?.issues, ['guide_catalog_missing']);
-
-  const line = registry.split('\n').find(l => l.includes(JSON.stringify(key)) && l.includes('require('))!;
-  assert.ok(line);
-  const revised = (replacement: string) => guideMedia(c.guides, registry.replace(line, replacement));
-  for (const replacement of ['', '// ' + line]) {
-    const report = revised(replacement);
+  const property = JSON.stringify(target.key);
+  const otherProperty = JSON.stringify(other.key);
+  const binding = JSON.stringify(target.binding);
+  const rest = intact.records.filter(record => record !== target)
+    .map(record => JSON.stringify(record.key) + ': require(' + JSON.stringify(record.binding) + '),').join('\n');
+  const fixture = (entry: string, after = '') => `const registry = {
+    ${entry}
+    ${rest}
+  };
+  ${after}
+  export { registry as ANKARA101_MEDIA };`;
+  const declaration = `${property}: require(${binding}),`;
+  const check = (source: string, issue: string) => {
+    const report = guideMedia(guides, source);
     assert.equal(report.passed, false);
-    assert.deepEqual(report.missingGuideMedia, [id]);
-    assert.deepEqual(report.records.find(r => r.id === id)?.issues, ['guide_media_binding_missing', 'guide_media_fallback']);
-  }
-  assert.deepEqual(revised(line.replaceAll("'", '"')), intact);
-  const unresolved = revised(line.replace(target.binding!, './missing.png'));
-  assert.equal(unresolved.passed, false);
-  assert.equal(unresolved.resolved, intact.total - 1);
-  assert.equal(unresolved.records.find(r => r.id === id)?.media, 'guide_media_unresolved');
-  const alternate = revised(line.replace(target.binding!, intact.records.find(r => r.id !== id)!.binding!));
-  assert.deepEqual(alternate.records.find(r => r.id === id)?.issues, ['guide_media_alternate_asset', 'guide_media_fallback']);
+    assert.equal(report.total, intact.total);
+    assert.equal(report.resolved, intact.total - 1);
+    assert.deepEqual(report.missingGuideMedia, [target.id]);
+    assert.deepEqual(report.records.find(record => record.id === target.id)?.issues, [issue, 'guide_media_fallback']);
+  };
+
+  check(fixture(''), 'guide_media_binding_missing');
+  check(fixture('/* ' + declaration + ' */'), 'guide_media_binding_missing');
+  check(fixture(`${property}: require('./missing.png'),`), 'guide_media_unresolved');
+  check(fixture(`${property}: require(${JSON.stringify(other.binding)}),`), 'guide_media_alternate_asset');
+  check(fixture(declaration, `registry[${property}] = registry[${otherProperty}];`), 'guide_media_alternate_asset');
+  check(fixture(declaration, `delete registry[${property}];`), 'guide_media_binding_missing');
+
+  const equivalent = fixture(`[${property}]: /* local master */ (
+    require(
+      ${binding}
+    )
+  ),`);
+  assert.deepEqual(guideMedia(guides, equivalent), intact);
 });
 
 test('public Event supply follows the supplied clock across the exact start with a fixed wall clock', async t => {

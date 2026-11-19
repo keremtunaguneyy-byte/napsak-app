@@ -44,7 +44,7 @@ Reference instant `2026-11-17T21:00:00.000Z`. Embedded version `2026-10-12.1`.
 - 0 ambiguous Saved IDs across 393 destinations.
 - 0 stable-ID collision groups, 1 groups share a normalized title, 2 near-title pairs.
 - 64 distinct URLs appear on multiple records. 0 source field issues.
-- 0 unresolved recommendation artwork references. 12/12 Guide media bindings resolve.
+- 0 unresolved recommendation artwork references. 12/12 approved Guides have the expected reader presentation and media.
 - Runtime snapshot validation passed. In-memory cache round-trip passed.
 
 The [JSON evidence](audit.json) contains district and interest counts, all Event dates, source-host counts and resolver outcomes by layout. The [implementation report](../../CATALOG_OPERATIONS_QUALITY_FOUNDATION_REPORT.md) defines the denominators, severity and follow-up work.

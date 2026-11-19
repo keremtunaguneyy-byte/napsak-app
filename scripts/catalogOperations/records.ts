@@ -63,7 +63,7 @@ export function instant(value: string | undefined) {
     || !calendarDay(value.slice(0, 10))) return NaN;
   return Date.parse(value);
 }
-// For occurrence metrics use the same parser as production wherever the input specifies its zone.
+// For occurrence metrics use production parsing with a recognized terminal zone marker.
 export function occurrenceTime(value: string | undefined) {
   return typeof value === 'string' && /(?:Z|[+-]\d{2}:?\d{2}|\bGMT|\bUTC)$/i.test(value.trim()) ? Date.parse(value) : NaN;
 }

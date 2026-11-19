@@ -41,12 +41,12 @@ export async function audit(c: CatalogSnapshot, now: Date, meta: CatalogMeta) {
     add(2, s.filter, 'empty preference scenarios', s.empty, s.scenarios, followUp);
     add(3, s.filter, 'partial preference scenarios', s.partial, s.scenarios, followUp);
   }
-  add(2, 'media', 'unresolved Guide media', media.guides.missingGuideMedia.length, media.guides.total, 'media/artwork');
+  add(2, 'media', 'approved Guides failing presentation or media checks', media.guides.missingGuideMedia.length, media.guides.total, 'media/artwork');
   add(3, 'recommendation artwork', 'records without semantic mapping', media.missingMappings.length, rows.length - c.guides.length, 'media/artwork');
   add(3, 'source-bearing records', 'all valid source URLs point to host roots', evidence.rootOnlyCount, evidence.sourceBearingRecords, 'source verification');
   add(3, 'reservation-bearing plans', 'oldest linked evidence over 90 days', olderReservationEvidence.length, plansWithReservations.length, 'source verification');
   gaps.sort((a, b) => a.tier - b.tier || b.affected / b.total - a.affected / a.total || compare(a.area, b.area) || compare(a.metric, b.metric));
-  return { reportSchema: 2, asOf: now.toISOString(), inventory, events, geography: { ...geo, districts: districtInventory(rows) }, identities: identity, savedDestinations: saved,
+  return { reportSchema: 3, asOf: now.toISOString(), inventory, events, geography: { ...geo, districts: districtInventory(rows) }, identities: identity, savedDestinations: saved,
     interestColumns: [...KNOWN_INTERESTS].sort(), taxonomy: taxonomy(rows.filter(r => r.valid)), scenarios,
     sources: { ...evidence, plansWithReservations: plansWithReservations.length, olderReservationEvidence },
     artwork: media, compatibility: version, gaps };
@@ -75,11 +75,12 @@ export function markdown(r: Awaited<ReturnType<typeof audit>>) {
     '- ' + r.savedDestinations.issues.length + ' ambiguous Saved IDs across ' + r.savedDestinations.totalDestinations + ' destinations.',
     '- ' + r.identities.duplicateIds.length + ' stable-ID collision groups, ' + r.identities.exactTitles.length + ' groups share a normalized title, ' + r.identities.nearTitles.length + ' near-title pairs.',
     '- ' + r.sources.reusedAcrossRecords + ' distinct URLs appear on multiple records. ' + r.sources.issues.length + ' source field issues.',
-    '- ' + r.artwork.unresolved.length + ' unresolved recommendation artwork references. ' + r.artwork.guides.resolved + '/' + r.artwork.guides.total + ' Guide media bindings resolve.',
+    '- ' + r.artwork.unresolved.length + ' unresolved recommendation artwork references. ' + r.artwork.guides.resolved + '/' + r.artwork.guides.total + ' approved Guides have the expected reader presentation and media.',
     '- Runtime snapshot validation ' + (r.compatibility.snapshotValid ? 'passed' : 'failed') + '. In-memory cache round-trip ' + (r.compatibility.cacheRoundTrip ? 'passed' : 'failed') + '.');
   for (const issue of r.savedDestinations.issues) lines.push('- `' + issue.code + '` ' + issue.id + ' — ' +
     issue.destinations.map(d => d.family + ' ' + d.title + (d.selected ? ' (opens)' : '')).join(', '));
   for (const guide of r.artwork.guides.records.filter(g => g.issues.length)) lines.push('- ' + guide.id + ' — ' + guide.issues.join(', '));
+  for (const id of r.artwork.guides.unexpectedPresentationIds) lines.push('- ' + id + ' — guide_presentation_unapproved');
   lines.push('', 'The [JSON evidence](audit.json) contains district and interest counts, all Event dates, source-host counts and resolver outcomes by layout. The [implementation report](../../CATALOG_OPERATIONS_QUALITY_FOUNDATION_REPORT.md) defines the denominators, severity and follow-up work.', '');
   return lines.join('\n');
 }
