@@ -1,4 +1,5 @@
 import { writeFileSync } from 'node:fs';
+import { normalizeContentIdentity } from '../src/contentPolicy';
 import { distanceInKm } from '../src/domain';
 import { experiences } from '../src/data/experiences';
 import { places } from '../src/data/places';
@@ -25,6 +26,8 @@ export function auditExperienceStarts(catalog: readonly Experience[], linkedPlac
       if (!inBounds(point)) reasons.push(`stop ${index + 1}: invalid/outside Ankara bounds`);
       if (matches.length === 1) {
         if (!inBounds(matches[0])) reasons.push(`stop ${index + 1}: Place coordinates invalid/outside Ankara bounds`);
+        const labels = [matches[0].name, ...(matches[0].aliases ?? [])].map(normalizeContentIdentity);
+        if (!labels.includes(normalizeContentIdentity(point.name))) reasons.push(`stop ${index + 1}: label differs from linked Place and aliases`);
         if (!same(point, matches[0])) reasons.push(`stop ${index + 1}: coordinates differ from linked Place`);
         if (matches[0].cityId !== experience.cityId) reasons.push(`stop ${index + 1}: cityId mismatch`);
       }
@@ -38,7 +41,7 @@ export function auditExperienceStarts(catalog: readonly Experience[], linkedPlac
       pass: reasons.length === 0, reason: reasons.join('; ') || 'Exact first-stop match; all ordered links/coordinates valid' };
   });
 }
-if (process.argv.includes('--write')) {
+if (require.main === module && process.argv.includes('--write')) {
   const rows = auditExperienceStarts(experiences, places);
   const clean = (s: unknown) => String(s ?? 'missing').replaceAll('|', '\\|');
   const report = '# Experience start coordinate audit\n\nBaseline: `746aad3a19b78d0e0da5fb286898758b0cbba0a0`; 2026-10-14. Stable-ID resolution only. Ordered `points[]` array is the route order; the schema has no separate stop ID or numeric order field. First stop ID below is its `placeId` at index 0. Bounds: latitude [38,41], longitude [30.5,34.5], matching existing Ankara catalog tests. All stops and linked Places were checked, including finite coordinates, exact equality and city linkage. This checks internal catalog integrity, not external coordinate/geocoding accuracy.\n\n'
