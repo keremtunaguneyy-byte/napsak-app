@@ -1,5 +1,9 @@
 # Gezek — Durum ve sıradaki iş
 
+## 2026-11-21 — PR #84 catalog audit acceptance
+
+The independent review accepted `afb0e00986379ecbc74212c53240293924e7c54c` with a **SAFE TO MERGE** verdict. All 15 focused tests and both CI checks passed on that implementation head. The Event baseline remains nine expired and stale, zero upcoming, with identical `check:events` failures on base and head. Event refresh is a separate future PR. [Acceptance evidence and audit limits](CATALOG_OPERATIONS_QUALITY_FOUNDATION_REPORT.md#2026-11-21--final-acceptance-for-pr-84)
+
 ## 2026-11-18 — Catalog operations audit
 
 At the November 18 Istanbul reference instant, 0/9 embedded Events were upcoming and 9/9 had stale verification. All 52 Experience routes passed their ordered Place checks. The measured supply gaps and five follow-up workstreams are recorded in the [catalog operations quality report](CATALOG_OPERATIONS_QUALITY_FOUNDATION_REPORT.md).

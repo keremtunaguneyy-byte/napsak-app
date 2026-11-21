@@ -1,5 +1,20 @@
 # Catalog operations quality foundation
 
+## 2026-11-21 — Final acceptance for PR #84
+
+The final independent review returned **SAFE TO MERGE** for `afb0e00986379ecbc74212c53240293924e7c54c`. All 15 focused catalog-operations tests passed. The intact audit resolved 12/12 Guides and regenerated both committed evidence files byte-for-byte. App Quality and Firestore Rules passed on that exact implementation commit. [App Quality](https://github.com/keremtunaguneyy-byte/napsak-app/actions/runs/44490923387/job/135446021661) · [Firestore Rules](https://github.com/keremtunaguneyy-byte/napsak-app/actions/runs/44490923451/job/135446021635)
+
+The accepted comparison ledger defines the 12 approved Guide IDs and media keys. The companion asset manifest defines each master path and SHA-256. The audit compares these independent approvals with the catalog, reader presentation registry, and initialized image export.
+
+| Independent mutation | Observed result |
+|---|---|
+| Redirect Ankara Kalesi to Hamamönü’s valid image after initialization | Exit 1 at 11/12. Both temporary outputs changed and identified `guide-ankara-kalesi` with `guide_media_alternate_asset`. |
+| Remove Ankara Kalesi’s presentation entry | Exit 1 at 11/12. The audit kept the approved denominator and identified `guide-ankara-kalesi` with `guide_presentation_missing`. |
+
+All nine embedded Events were expired and stale, with zero upcoming. `check:events` returned the same exit 1 and byte-identical output on base and the accepted head, reporting `stale_verification` and `no_upcoming_events`. Refreshing the Event catalog belongs in a separate future PR.
+
+The offline audit verifies media paths and bytes. Native image decoding requires device verification, and source accuracy requires editorial verification. Legacy timestamp forms outside the documented deterministic parser remain excluded from the Event supply measure.
+
 On 18 November 2026, all nine embedded Ankara Events had passed their start time and exceeded the seven-day verification window. A user selecting Events could receive zero results across all 25 measured budget and interest combinations. The clearest evergreen gap was the short, free Experience selection. Both Kahve and Etkinlik produced zero results.
 
 The feature branch started from freshly fetched `origin/main` at `c4ec5892401bab9f53fe8b1fe78f09939762de97`. The selected worktree was clean and detached at that SHA, the canonical checkout was on the same main, and GitHub returned zero open PRs. The protected paths were excluded from the canonical status check. Changes are confined to Node tooling, tests and documentation.
