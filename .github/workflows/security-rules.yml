@@ -8,6 +8,12 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'tests/firestore.rules.test.cjs'
+      - 'tests/catalog-publishing.test.ts'
+      - 'scripts/catalogPublishing*.ts'
+      - 'scripts/publishCatalog.ts'
+      - 'scripts/catalogOperations/**'
+      - 'src/data/**'
+      - 'src/firebase/firestoreContentRepository.ts'
       - '.github/workflows/security-rules.yml'
   push:
     branches: [main]
@@ -17,6 +23,12 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'tests/firestore.rules.test.cjs'
+      - 'tests/catalog-publishing.test.ts'
+      - 'scripts/catalogPublishing*.ts'
+      - 'scripts/publishCatalog.ts'
+      - 'scripts/catalogOperations/**'
+      - 'src/data/**'
+      - 'src/firebase/firestoreContentRepository.ts'
       - '.github/workflows/security-rules.yml'
   workflow_dispatch:
 
@@ -48,3 +60,5 @@ jobs:
         run: npm ci
       - name: Test Firestore Security Rules
         run: npm run test:rules
+      - name: Rehearse catalog publish and rollback
+        run: npm run test:catalog-publishing

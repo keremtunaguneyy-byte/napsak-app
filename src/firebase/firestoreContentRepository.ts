@@ -2,16 +2,11 @@ import { Firestore, collection, doc, getDoc, getDocs, limit, query, where } from
 
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from '../data/catalog';
 import { isCity, isEvent, isExperience, isGuide, isIdea, isPlace, parseCatalogMeta, parseCatalogSnapshot } from '../data/catalogValidation';
+import { publicationHeadPath, releasePath, MAX_CATALOG_PAYLOAD_BYTES, FIRESTORE_READ_LIMITS } from '../data/catalogPublication';
 import { ContentRepository } from '../data/contentRepository';
 import { CityId } from '../types';
 
-export const FIRESTORE_READ_LIMITS = {
-  placesPerCity: 1500,
-  experiencesPerCity: 500,
-  eventsPerCity: 500,
-  globalIdeas: 250,
-  guidesPerCity: 250,
-} as const;
+export { FIRESTORE_READ_LIMITS } from '../data/catalogPublication';
 
 type Validator<T> = (value: unknown) => value is T;
 
@@ -25,11 +20,17 @@ export class FirestoreContentRepository implements ContentRepository {
   constructor(private readonly db: Firestore) {}
 
   async getCatalogMeta(cityId: CityId): Promise<CatalogMeta | undefined> {
+    const published = await getDoc(doc(this.db, publicationHeadPath(cityId)));
+    if (published.exists()) {
+      const head = parseCatalogMeta(published.data());
+      if (!head || head.cityId !== cityId) throw new Error('Invalid catalog publication head.');
+      return { ...head, publishedRelease: true };
+    }
     const snapshot = await getDoc(doc(this.db, 'catalogMeta', cityId));
     if (!snapshot.exists()) return undefined;
     const meta = parseCatalogMeta(snapshot.data());
     if (!meta || meta.cityId !== cityId) throw new Error(`Invalid catalog metadata for ${cityId}.`);
-    return meta;
+    return { ...meta, publishedRelease: undefined };
   }
 
   private async readBounded<T extends { id: string }>(name: string, maximum: number, validate: Validator<T>, cityId?: CityId): Promise<T[]> {
@@ -50,6 +51,15 @@ export class FirestoreContentRepository implements ContentRepository {
     const meta = expectedMeta ?? await this.getCatalogMeta(cityId);
     if (!meta) throw new Error(`Catalog metadata not found for ${cityId}.`);
     if (meta.schemaVersion !== CATALOG_SCHEMA_VERSION) throw new Error(`Unsupported remote catalog schema ${meta.schemaVersion}.`);
+
+    if (meta.publishedRelease) {
+      const release = await getDoc(doc(this.db, releasePath(cityId, meta.catalogVersion)));
+      const payload: unknown = release.get('payload');
+      if (typeof payload !== 'string' || payload.length > MAX_CATALOG_PAYLOAD_BYTES) throw new Error('Missing or oversized catalog release.');
+      const snapshot = validateFirestoreCatalogSnapshot(JSON.parse(payload));
+      if (snapshot.cityId !== cityId || snapshot.catalogVersion !== meta.catalogVersion) throw new Error('Catalog release identity mismatch.');
+      return snapshot;
+    }
 
     const [citySnapshot, places, experiences, events, ideas, guides] = await Promise.all([
       getDoc(doc(this.db, 'cities', cityId)),

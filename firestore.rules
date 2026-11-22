@@ -39,6 +39,10 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    match /catalogMeta/{head}/releases/{version} {
+      allow get: if signedIn();
+    }
+
     match /places/{documentId} {
       allow read: if signedIn();
       allow write: if false;
