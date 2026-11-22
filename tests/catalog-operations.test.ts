@@ -13,6 +13,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { embeddedCatalog } from '../src/data/catalog';
+import { retiredEvents } from '../src/data/retiredEvents';
 import { EmbeddedContentRepository } from '../src/data/contentRepository';
 import { recommendAll } from '../src/recommendations';
 import { artwork } from '../scripts/catalogOperations/artwork';
@@ -28,12 +29,22 @@ const fresh = () => structuredClone(embeddedCatalog());
 const meta = () => new EmbeddedContentRepository().getCatalogMeta('ankara');
 
 test('committed evidence regenerates byte-for-byte and top-level catalog ordering does not affect measurements', async () => {
-  const c = fresh(), m = await meta();
+  const c = { ...fresh(), events: [...retiredEvents], catalogVersion: '2026-10-12.1', fetchedAt: '2026-10-12T19:16:13.000Z' };
+  const m = { ...await meta(), catalogVersion: c.catalogVersion, updatedAt: c.fetchedAt };
   const expected = await audit(c, now, m);
   const root = 'docs/evidence/catalog-operations-quality/';
+  const currentEventArtwork = new Set(embeddedCatalog().events.map(event => `event:${event.id}`));
+  assert.equal(expected.artwork.mappedIdsOutsideInventory.filter(id => currentEventArtwork.has(id)).length, currentEventArtwork.size);
+  const historical = {
+    ...expected,
+    artwork: {
+      ...expected.artwork,
+      mappedIdsOutsideInventory: expected.artwork.mappedIdsOutsideInventory.filter(id => !currentEventArtwork.has(id)),
+    },
+  };
   const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n';
-  assert.equal(json(expected), readFileSync(root + 'audit.json', 'utf8'));
-  assert.equal(markdown(expected), readFileSync(root + 'summary.md', 'utf8'));
+  assert.equal(json(historical), readFileSync(root + 'audit.json', 'utf8'));
+  assert.equal(markdown(historical), readFileSync(root + 'summary.md', 'utf8'));
   for (const group of [c.events, c.experiences, c.guides, c.ideas, c.places]) group.reverse();
   const reversed = await audit(c, now, m);
   assert.equal(json(reversed), json(expected));
@@ -177,6 +188,15 @@ test('Saved reports the effective destination for both reserved keys and normal 
   assert.equal(savedDestinations(independent).issues[0].destinations.find(d => d.selected)?.family, 'place');
 });
 
+test('Saved rejects a competing occurrence for a retired Event ID', () => {
+  const c = fresh(), retired = retiredEvents[0];
+  c.events[0].id = retired.id;
+  const result = savedDestinations(c);
+  assert.equal(result.passed, false);
+  assert.equal(result.issues[0].id, retired.id);
+  assert.equal(result.issues[0].destinations.find(item => item.selected)?.title, retired.title);
+});
+
 test('Guide completeness uses the approved inventory even when a reader presentation is missing', () => {
   const { guides } = fresh();
   const [castle, hamamonu] = guideApproval.guides;
@@ -286,15 +306,18 @@ test('route label and malformed source diagnostics preserve the rest of the repo
   assert.equal(result.compatibility.snapshotValid, false);
 });
 
-test('CLI replays both canonical files in independent processes and host time zones', t => {
+test('CLI produces identical output in independent processes and host time zones', async t => {
   const out = mkdtempSync(join(tmpdir(), 'gezek-audit-'));
   t.after(() => rmSync(out, { recursive: true, force: true }));
+  const reference = new Date('2026-11-22T02:36:00+03:00');
+  const report = await audit(fresh(), reference, await meta());
+  const expected = { 'audit.json': JSON.stringify(report, null, 2) + '\n', 'summary.md': markdown(report) };
   for (const [index, zone] of ['UTC', 'UTC', 'America/Los_Angeles', 'Europe/Istanbul'].entries()) {
     const runDir = join(out, String(index));
-    execFileSync(process.execPath, ['--import', 'tsx', 'scripts/auditCatalogOperations.ts', now.toISOString(), runDir],
+    execFileSync(process.execPath, ['--import', 'tsx', 'scripts/auditCatalogOperations.ts', reference.toISOString(), runDir],
       { env: { ...process.env, TZ: zone } });
-    for (const name of ['audit.json', 'summary.md']) {
-      assert.deepEqual(readFileSync(join(runDir, name)), readFileSync(join('docs/evidence/catalog-operations-quality', name)), zone + ' ' + name);
+    for (const [name, content] of Object.entries(expected)) {
+      assert.equal(readFileSync(join(runDir, name), 'utf8'), content, zone + ' ' + name);
     }
   }
 });

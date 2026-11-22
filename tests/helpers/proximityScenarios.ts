@@ -14,33 +14,33 @@ export const origins = ['kugulu-park', 'cer-modern', 'goksu-parki', 'ahmet-taner
 });
 
 // Fixed matrices: no clock, GPS, remote catalog or mutable random source.
-export function* parityOptions() {
+export function* parityOptions(events = catalog.events) {
   const interests: Interest[][] = [[], ...KNOWN_INTERESTS.map(interest => [interest]), ['Sanat', 'Doğa'], ['Kahve', 'Lezzet']];
   let index = 0;
   for (const mood of KNOWN_MOODS) for (const chosen of interests) for (const budget of KNOWN_BUDGETS) {
     for (const duration of [undefined, ...KNOWN_DURATIONS]) for (const seed of [0, 37]) {
       const i = index++;
       yield {
-        ...catalog, mood, interests: chosen, budget, duration, seed,
+        ...catalog, events, mood, interests: chosen, budget, duration, seed,
         groupSize: [undefined, ...KNOWN_GROUP_SIZES][i % 5],
         coordinates: i % 6 === 5 ? undefined : origins[i % 6],
         now: i % 2 ? auditNow : new Date('2026-10-13T12:00:00+03:00'),
-        dismissed: i % 3 ? [] : [catalog.places[0].id, catalog.experiences[0].id, catalog.events[0].id, catalog.ideas[0].id],
-        previousBatch: i % 4 ? [] : [...catalog.places.slice(0, 5), ...catalog.experiences.slice(0, 5), ...catalog.events.slice(0, 5), ...catalog.ideas.slice(0, 5)].map(item => item.id),
+        dismissed: i % 3 ? [] : [catalog.places[0].id, catalog.experiences[0].id, events[0].id, catalog.ideas[0].id],
+        previousBatch: i % 4 ? [] : [...catalog.places.slice(0, 5), ...catalog.experiences.slice(0, 5), ...events.slice(0, 5), ...catalog.ideas.slice(0, 5)].map(item => item.id),
       };
     }
   }
 }
 
 /** Hash full JSON results, including order, distance, raw scores, reasons and data. */
-export function defaultFingerprint(engine: typeof Engine, proximityPolicy?: 'default') {
+export function defaultFingerprint(engine: typeof Engine, proximityPolicy?: 'default', events = catalog.events) {
   const hash = createHash('sha256');
   let cases = 0;
   let calls = 0;
   let eligiblePlaces = 0;
   let eligibleExperiences = 0;
   const capture = (value: unknown) => { calls++; hash.update(JSON.stringify(value)); hash.update('\n'); };
-  for (const base of parityOptions()) {
+  for (const base of parityOptions(events)) {
     const options = { ...base, ...(proximityPolicy ? { proximityPolicy } : {}) };
     cases++;
     const places = engine.recommendPlaces({ ...options, limit: 1000 });

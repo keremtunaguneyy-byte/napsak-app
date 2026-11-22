@@ -689,6 +689,66 @@ export const PRODUCTION_ASSET_INDEX = {
     "discoveryExperience": "svg/ui/discoveryExperience.svg"
   },
   "content": {
+    "event:event-kerem-gorsev-quartet-2026-11-29": {
+      "artwork_key": "event/concert-live/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-live",
+      "photo_family": "concert-stage"
+    },
+    "event:event-kesanli-ali-destani-kayseri-dt-2026-12-02": {
+      "artwork_key": "event/theatre-play/v01",
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
+    },
+    "event:event-storytellers-forcione-cenk-erdogan-2026-12-05": {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-classical-acoustic",
+      "photo_family": "concert-stage"
+    },
+    "event:event-cso-sostakovic-sovyet-yuzyili-2026-12-11": {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-classical-acoustic",
+      "photo_family": "concert-stage"
+    },
+    "event:event-ankara-turkuleri-ve-segmenler-2026-12-13": {
+      "artwork_key": "event/concert-live/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-live",
+      "photo_family": "concert-stage"
+    },
+    "event:event-hisseli-harikalar-kumpanyasi-yenimahalle-2026-12-19": {
+      "artwork_key": "event/theatre-play/v01",
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
+    },
+    "event:event-iki-kiyi-bir-kadin-bir-hayal-etimesgut-2026-12-20": {
+      "artwork_key": "event/theatre-play/v01",
+      "icon_key": "icon/event/stage",
+      "visual_subtype": "theatre-play",
+      "photo_family": "theatre-stage"
+    },
+    "event:event-vuslatin-753-yilinda-sema-mukabelesi-2026-12-21": {
+      "artwork_key": "event/concert-live/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-live",
+      "photo_family": "concert-stage"
+    },
+    "event:event-trioism-haydn-sostakovic-jalbert-cso-2026-12-23": {
+      "artwork_key": "event/concert-classical-acoustic/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-classical-acoustic",
+      "photo_family": "concert-stage"
+    },
+    "event:event-hos-gelisler-ola-mustafa-kemal-pasa-2026-12-27": {
+      "artwork_key": "event/concert-live/v01",
+      "icon_key": "icon/event/music",
+      "visual_subtype": "concert-live",
+      "photo_family": "concert-stage"
+    },
     "event:event-ajda-pekkan-oran-2026-09-30": {
       "artwork_key": "event/concert-live/v01",
       "icon_key": "icon/event/music"

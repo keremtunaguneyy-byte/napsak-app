@@ -11,7 +11,7 @@ import { embeddedCatalog, catalogCacheKey } from '../src/data/catalog';
 import { serializePreferences } from '../src/persistence';
 import { KNOWN_BUDGETS, KNOWN_DURATIONS, KNOWN_GROUP_SIZES, KNOWN_INTERESTS, KNOWN_MOODS } from '../src/types';
 import type { Event, Interest } from '../src/types';
-const now = new Date('2026-10-13T12:00:00+03:00');
+const now = new Date('2026-11-22T02:36:00+03:00');
 const safe = { loading: false, totalFailure: false, usable: true };
 const base = { places: [], ideas: [], events, interests: [] as Interest[], filter: 'event' as const, dismissed: [] as string[], now, seed: 17, previousBatch: events.map(event => event.id), budget: 'Fark etmez' as const };
 const state = (options: Parameters<typeof recommendAll>[0], loading = safe) => resolveEventPresentation({ ...loading, ...eventDiagnostics(options), dismissed: options.dismissed, visibleIds: recommendAll(options).map(event => event.id) });
@@ -26,6 +26,17 @@ test('truthful precedence covers failure, real busy, empty, dismissal, budget an
   assert.equal(state({ ...base, budget: 'Ücretsiz' }), 'budget_no_match');
   assert.equal(state(base), 'populated');
   assert.throws(() => resolveEventPresentation({ ...safe, currentIds: ['a'], preDismissIds: ['a'], budgetRelaxedIds: ['a'], dismissed: [], visibleIds: [] }), /Unmapped/);
+});
+
+test('the November Event inventory fills paid and flexible budgets and keeps the free empty state', () => {
+  assert.ok(events.length >= 8);
+  assert.ok(events.every((event, index) => event.priceLevel > 0 && (index === 0 || events[index - 1].startsAt < event.startsAt)));
+  for (const budget of ['₺', '₺₺', '₺₺₺', 'Fark etmez'] as const) {
+    assert.equal(state({ ...base, budget }), 'populated');
+    assert.equal(recommendAll({ ...base, budget }).length, 5);
+  }
+  assert.equal(state({ ...base, budget: 'Ücretsiz' }), 'budget_no_match');
+  assert.deepEqual(recommendAll({ ...base, budget: 'Ücretsiz' }), []);
 });
 
 test('exhaustive valid preferences × current/empty/expired/free/mixed catalogs × dismissal scenarios', () => {
@@ -53,14 +64,15 @@ test('exhaustive valid preferences × current/empty/expired/free/mixed catalogs 
   assert.deepEqual(realCounts, { budget_no_match: 2560, populated: 10240 });
 });
 
-test('all nine production Event dismissal subsets, budgets, and rotation fallback classify without leakage', () => {
-  for (const budget of KNOWN_BUDGETS) for (let mask = 0; mask < 512; mask++) {
+test('all production Event dismissal subsets, budgets, and rotation fallback classify without leakage', () => {
+  const lastMask = (1 << events.length) - 1;
+  for (const budget of KNOWN_BUDGETS) for (let mask = 0; mask <= lastMask; mask++) {
     const dismissed = events.filter((_, index) => mask & (1 << index)).map(event => event.id);
     const options = { ...base, budget, dismissed };
     const reason = state(options);
     const visible = recommendAll(options);
     if (budget === 'Ücretsiz') assert.equal(visible.length, 0);
-    else assert.equal(reason, mask === 511 ? 'all_dismissed' : 'populated');
+    else assert.equal(reason, mask === lastMask ? 'all_dismissed' : 'populated');
   }
 });
 
@@ -69,7 +81,7 @@ test('budget-relaxed diagnostics are isolated from visible free results and inpu
   const before = JSON.stringify(options);
   const diagnosis = eventDiagnostics(options);
   assert.equal(diagnosis.preDismissIds.length, 0);
-  assert.equal(diagnosis.budgetRelaxedIds.length, 9);
+  assert.equal(diagnosis.budgetRelaxedIds.length, events.length);
   assert.equal(recommendAll(options).length, 0);
   assert.equal(JSON.stringify(options), before);
 });
@@ -78,7 +90,7 @@ test('Event restore uses the full eligible set beyond five ranked cards and pres
   const unrelated = ['place-id', 'experience-id', 'idea-id', 'expired-event'];
   const initial = { saved: ['saved-place', 'saved-idea'], dismissed: [...unrelated, ...events.map(event => event.id)] };
   const eligible = eventDiagnostics(base).preDismissIds;
-  assert.equal(eligible.length, 9);
+  assert.equal(eligible.length, events.length);
   const restored = contentInteractionReducer(initial, { type: 'restoreEvents', ids: eligible });
   assert.equal(restored.saved, initial.saved);
   assert.deepEqual(restored.dismissed, unrelated);
@@ -90,7 +102,7 @@ test('failed remote refresh with usable embedded/cache fallback never becomes to
   const embedded = await loadBestCatalog('ankara', remote);
   assert.equal(embedded.source, 'embedded');
   assert.equal(state({ ...base, events: embedded.snapshot.events }, { ...safe, totalFailure: true }), 'populated');
-  const snapshot = { ...embeddedCatalog('ankara'), catalogVersion: '2026-10-13.1' };
+  const snapshot = { ...embeddedCatalog('ankara'), catalogVersion: '2026-11-23.1' };
   const cache = await loadBestCatalog('ankara', remote, { getItem: async key => key === catalogCacheKey('ankara') ? JSON.stringify(snapshot) : null, setItem: async () => {} });
   assert.equal(cache.source, 'cache');
   assert.equal(state({ ...base, events: cache.snapshot.events }), 'populated');
