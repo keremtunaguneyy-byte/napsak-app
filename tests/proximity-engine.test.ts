@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as engine from '../src/recommendations';
+import { retiredEvents } from '../src/data/retiredEvents';
 import { recommendationProximityScore } from '../src/recommendationProximity';
 import { auditNow, catalog, defaultFingerprint, origins, parityOptions } from './helpers/proximityScenarios';
 import type { Experience, Place } from '../src/types';
@@ -34,7 +35,7 @@ test('pure contribution returns finite locationless zero for absent or invalid d
 for (const policy of [undefined, 'default'] as const) {
   test(`${policy ?? 'omitted'} policy matches the pre-edit full JSON baseline across 1,920 cases / 28,800 calls`, () => {
     const { baselineCommit: _base, ...expected } = JSON.parse(readFileSync(new URL('../docs/evidence/proximity-engine-b2/default-baseline.json', import.meta.url), 'utf8'));
-    assert.deepEqual(defaultFingerprint(engine, policy), expected);
+    assert.deepEqual(defaultFingerprint(engine, policy, [...retiredEvents]), expected);
   });
 }
 

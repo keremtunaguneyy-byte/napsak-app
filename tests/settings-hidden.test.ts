@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { embeddedCatalog } from '../src/data/catalog';
+import { eventsForPersonalHistory } from '../src/data/retiredEvents';
 import { resolveHiddenItems, hiddenPresentation, hiddenFocusAfterRemoval } from '../src/hiddenItems';
 import { contentInteractionReducer } from '../src/contentInteractions';
 import { managementBack, managementTab, ManagementSession } from '../src/managementNavigation';
@@ -12,7 +13,7 @@ import { createHomeFilterRuns, createHomeSnapshotCache, homeSnapshotSlot, homeSn
 import type { UserDataDeletionResult } from '../src/userDataDeletion';
 
 const catalog = embeddedCatalog();
-const items = [...catalog.experiences, ...catalog.places, ...catalog.events, ...catalog.ideas];
+const items = [...catalog.experiences, ...catalog.places, ...eventsForPersonalHistory(catalog.events, catalog.cityId), ...catalog.ideas];
 const ids = ['xp-kugulu-segmenler', 'erimtan', 'event-cso-iki-keman-bir-miras-2026-10-16', 'idea-stromae-racine-carree'];
 const now = new Date('2026-10-23T12:00:00+03:00');
 
@@ -58,11 +59,12 @@ test('focus follows next, previous, then empty; no dismissal timestamp is invent
   assert.equal(hiddenFocusAfterRemoval([ids[0]], ids[0]), undefined);
 });
 test('each restore invalidates only its owning A/B2 slots, without seed/history changes', () => {
-  for (const [index, id] of ids.entries()) {
+  const activeIds = ids.map((id, index) => index === 2 ? catalog.events[0].id : id);
+  for (const [index, id] of activeIds.entries()) {
     const affected = HOME_FILTERS[index];
     const runs = createHomeFilterRuns();
     runs[affected] = { run: 7, revision: 3, previousBatch: ['previous'] };
-    const before = homeDismissalKeys(catalog, ids), after = homeDismissalKeys(catalog, ids.filter(value => value !== id));
+    const before = homeDismissalKeys(catalog, activeIds), after = homeDismissalKeys(catalog, activeIds.filter(value => value !== id));
     const catalogKeys = homeCatalogKeys(catalog), cache = createHomeSnapshotCache<object>();
     for (const filter of HOME_FILTERS) for (const mode of ['default', 'nearby'] as const) {
       const slot = homeSnapshotSlot(filter, mode);
@@ -72,6 +74,7 @@ test('each restore invalidates only its owning A/B2 slots, without seed/history 
     }
     assert.deepEqual(runs[affected], { run: 7, revision: 3, previousBatch: ['previous'] });
   }
+  assert.deepEqual(homeDismissalKeys(catalog, [...activeIds, ids[2]]), homeDismissalKeys(catalog, activeIds));
 });
 test('restore persists across restart; failed local write leaves immediate reducer state without rollback', async () => {
   const data = new Map<string, string>();

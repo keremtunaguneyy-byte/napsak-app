@@ -3,6 +3,8 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { embeddedCatalog } from '../src/data/catalog';
 import { insiderRoutes } from '../src/data/insiderRoutes';
+import { eventsForPersonalHistory, retiredEvents } from '../src/data/retiredEvents';
+import { resolveHiddenItems, hiddenPresentation } from '../src/hiddenItems';
 import { CLASSICS_COLLECTION_ID } from '../src/ankara101';
 import { contentInteractionReducer } from '../src/contentInteractions';
 import { detailNavigationReducer, eventDetailTiming, resolveDetail } from '../src/detailFlow';
@@ -13,6 +15,42 @@ const catalog = embeddedCatalog('ankara');
 const items = [...catalog.experiences, ...catalog.places, ...catalog.events, ...catalog.ideas];
 const ids = [catalog.experiences[0].id, catalog.places[0].id, catalog.events[0].id, catalog.ideas[0].id, catalog.guides[0].id, CLASSICS_COLLECTION_ID, insiderRoutes[0].id];
 const resolve = (saved: string[]) => resolveSavedEntries(saved, items, catalog.guides, insiderRoutes);
+
+test('all nine retired Event IDs retain exact Saved, Hidden and expired Detail destinations after restart', () => {
+  const now = new Date('2026-11-22T02:36:00+03:00');
+  const unknown = 'unrecognized-event';
+  const legacyIds = retiredEvents.map(event => event.id);
+  assert.equal(legacyIds.length, 9);
+  assert.ok(legacyIds.every(id => !catalog.events.some(event => event.id === id)));
+  const history = eventsForPersonalHistory(catalog.events, catalog.cityId);
+  const restart = (state: { saved: string[]; dismissed: string[] }) =>
+    deserializePreferences(serializePreferences(migratePreferences({ ...state, onboardingCompleted: true })));
+  const savedState = restart({ saved: [...legacyIds, unknown], dismissed: [] });
+  const savedRows = resolveSavedEntries(savedState.saved, history, catalog.guides, insiderRoutes);
+  assert.deepEqual(savedRows.map(row => row.id), [...legacyIds].reverse());
+  const hiddenState = restart({ saved: [catalog.events[0].id], dismissed: [...legacyIds, unknown] });
+  const hiddenRows = resolveHiddenItems(history, hiddenState.dismissed);
+  assert.deepEqual(hiddenRows.map(row => row.id), legacyIds);
+
+  for (const [index, event] of retiredEvents.entries()) {
+    const row = savedRows[savedRows.length - 1 - index];
+    assert.deepEqual(row, { type: 'catalog', id: event.id, item: event });
+    assert.equal(savedPresentation(row, now).status, 'Başlangıç zamanı geçti');
+    assert.equal(resolveDetail({ kind: 'event', id: event.id }, [], [], history), event);
+    assert.equal(eventDetailTiming(event, now).expired, true);
+    assert.equal(hiddenRows[index].item, event);
+    assert.ok(hiddenPresentation(hiddenRows[index], now).status);
+    const unsaved = restart(contentInteractionReducer(savedState, { type: 'toggleSave', id: event.id }));
+    assert.deepEqual(unsaved.saved, savedState.saved.filter(id => id !== event.id));
+    const restored = restart(contentInteractionReducer(hiddenState, { type: 'restore', id: event.id }));
+    assert.deepEqual(restored.dismissed, hiddenState.dismissed.filter(id => id !== event.id));
+    assert.deepEqual(restored.saved, hiddenState.saved);
+  }
+  const bulk = restart(contentInteractionReducer(hiddenState, { type: 'restoreAll' }));
+  assert.deepEqual(bulk.dismissed, []);
+  assert.deepEqual(bulk.saved, hiddenState.saved);
+  assert.equal(resolveDetail({ kind: 'event', id: unknown }, [], [], history), undefined);
+});
 
 test('all seven Saved shapes resolve in mixed newest-first order; unknown IDs are omitted', () => {
   const saved = [...ids, 'deleted-id'];

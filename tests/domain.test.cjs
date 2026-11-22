@@ -98,7 +98,7 @@ const eventFixture = (overrides = {}) => ({
 });
 
 test('current event catalog has a complete fresh batch and a safe horizon', () => {
-  const health = analyzeEventCatalog(catalogEvents, new Date('2026-10-12T23:59:59+03:00'));
+  const health = analyzeEventCatalog(catalogEvents, new Date('2026-11-22T02:36:00+03:00'));
   assert.equal(health.healthy, true);
   assert.ok(health.upcomingCount >= EVENT_MINIMUM_UPCOMING_COUNT);
   assert.equal(health.upcomingCount, catalogEvents.length);
@@ -976,7 +976,7 @@ test('each duration keeps at least one honest match for every explicit interest'
 test('verified event catalogue has explicit Ankara time zones and trustworthy metadata', () => {
   assert.ok(events.length >= EVENT_MINIMUM_UPCOMING_COUNT);
   assert.equal(new Set(events.map(event => event.id)).size, events.length);
-  const verifiedOn = new Date('2026-10-12T23:59:59+03:00');
+  const verifiedOn = new Date('2026-11-22T02:36:00+03:00');
   for (const event of events) {
     assert.equal(event.kind, 'event');
     assert.equal(event.cityId, 'ankara');
@@ -989,7 +989,7 @@ test('verified event catalogue has explicit Ankara time zones and trustworthy me
       assert.ok(Date.parse(event.endsAt) > Date.parse(event.startsAt), `${event.id}: invalid end time`);
     }
     assert.equal(new URL(event.sourceUrl).protocol, 'https:');
-    assert.equal(event.verifiedAt, '2026-10-12');
+    assert.equal(event.verifiedAt, '2026-11-22');
     assert.equal(new Date(`${event.verifiedAt}T00:00:00Z`).toISOString().slice(0, 10), event.verifiedAt);
     assert.ok(event.sourceLabel && event.note);
   }
@@ -1015,12 +1015,12 @@ test('refreshed event supply has no duplicate sessions or reused expired IDs', (
   ];
   const ids = new Set(events.map(event => event.id));
   for (const id of expiredIds) assert.ok(!ids.has(id), `${id}: expired ID reused`);
-  assert.ok(ids.has('event-amadeus-congresium-2026-10-16'));
+  assert.ok(!ids.has('event-amadeus-congresium-2026-10-16'));
   const eventFeedAt = now => recommendAll({
     places: [], ideas: [], events, filter: 'event', interests: [], dismissed: [],
     limit: 100, now: new Date(now),
   }).map(event => event.id);
-  assert.deepEqual(new Set(eventFeedAt('2026-10-12T23:59:59+03:00')), ids);
+  assert.deepEqual(new Set(eventFeedAt('2026-11-22T02:36:00+03:00')), ids);
   for (const event of events) {
     const start = Date.parse(event.startsAt);
     assert.ok(eventFeedAt(new Date(start - 1)).includes(event.id), `${event.id}: missing before start`);
@@ -1044,7 +1044,7 @@ test('empty and fully expired event catalogues are safe', () => {
 test('event rotation fills two batches with only the overlap required by current supply', () => {
   const common = {
     places: [], ideas: [], events, filter: 'event', mood: 'Sosyal', interests: ['Kahve'],
-    dismissed: [], limit: 5, now: new Date('2026-10-12T23:59:59+03:00'), seed: 60,
+    dismissed: [], limit: 5, now: new Date('2026-11-22T02:36:00+03:00'), seed: 60,
   };
   const first = recommendAll(common);
   const second = recommendAll({ ...common, seed: 61, previousBatch: first.map(item => item.id) });

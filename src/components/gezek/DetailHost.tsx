@@ -21,6 +21,7 @@ type Props = {
   context: Parameters<typeof recommendExperiencesForPlace>[1];
   recommendationLocation?: RecommendationLocationResolver;
   ideas?: readonly Idea[];
+  detailEvents?: readonly Event[];
   onOpenEventSource: (event: Event) => Promise<void>;
   onOpenIdeaAction: (idea: Idea) => Promise<void>;
   onOpenEventMap: (url: string) => Promise<void>;
@@ -41,7 +42,7 @@ type Props = {
 /** One modal above the still-mounted origin; no recommendation rotation on entry or return. */
 export function DetailHost(p: Props) {
   const frame = p.session.history[p.session.history.length - 1];
-  const item = resolveDetail(frame, p.context.experiences, p.context.places, p.context.events, p.ideas);
+  const item = resolveDetail(frame, p.context.experiences, p.context.places, p.detailEvents ?? p.context.events, p.ideas);
   const place = item && 'name' in item ? item : undefined;
   const plan = item && 'kind' in item && item.kind === 'experience' ? item : undefined;
   const event = item && 'kind' in item && item.kind === 'event' ? item : undefined;

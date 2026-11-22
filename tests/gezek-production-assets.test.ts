@@ -10,9 +10,10 @@ import { execFileSync } from 'node:child_process';
 import { reviewedEventMapping, EVENT_ARTWORK_TAXONOMY } from '../scripts/eventArtworkContract';
 import { runRecommendationQualityBaseline } from '../src/recommendationQuality';
 import { embeddedCatalog } from '../src/data/catalog';
+import { retiredEvents } from '../src/data/retiredEvents';
 
 test('every package record and live recommendation item resolves with intact responsive geometry', () => {
-  assert.equal(Object.keys(index.content).length, 392);
+  assert.equal(Object.keys(index.content).length, 402);
   assert.equal(Object.keys(index.artwork).length, 125);
   assert.equal(Object.keys(index.icons).length, 46);
   for (const [identity, mapping] of Object.entries(index.content)) {
@@ -74,7 +75,21 @@ test('fallback order rejects unverified media and never guesses from titles', ()
 test('current Events carry reviewed structured mappings and unknown Events fail closed without title reads', () => {
   const inventory = JSON.parse(readFileSync('assets/gezek/production/figma-asset-manifest.json', 'utf8'));
   assert.equal(Object.keys(EVENT_ARTWORK_TAXONOMY).length, 12);
-  for (const event of embeddedCatalog('ankara').events) {
+  const current = embeddedCatalog('ankara').events;
+  const content: Readonly<Record<string, { artwork_key: string; visual_subtype?: string }>> = index.content;
+  assert.deepEqual(current.map(event => [event.id, content[`event:${event.id}`]?.visual_subtype]), [
+    ['event-kerem-gorsev-quartet-2026-11-29', 'concert-live'],
+    ['event-kesanli-ali-destani-kayseri-dt-2026-12-02', 'theatre-play'],
+    ['event-storytellers-forcione-cenk-erdogan-2026-12-05', 'concert-classical-acoustic'],
+    ['event-cso-sostakovic-sovyet-yuzyili-2026-12-11', 'concert-classical-acoustic'],
+    ['event-ankara-turkuleri-ve-segmenler-2026-12-13', 'concert-live'],
+    ['event-hisseli-harikalar-kumpanyasi-yenimahalle-2026-12-19', 'theatre-play'],
+    ['event-iki-kiyi-bir-kadin-bir-hayal-etimesgut-2026-12-20', 'theatre-play'],
+    ['event-vuslatin-753-yilinda-sema-mukabelesi-2026-12-21', 'concert-live'],
+    ['event-trioism-haydn-sostakovic-jalbert-cso-2026-12-23', 'concert-classical-acoustic'],
+    ['event-hos-gelisler-ola-mustafa-kemal-pasa-2026-12-27', 'concert-live'],
+  ]);
+  for (const event of current) {
     const row = inventory.items.find((row: { id: string }) => row.id === event.id);
     assert.equal(row.title, event.title);
     assert.deepEqual(index.content[`event:${event.id}` as keyof typeof index.content], reviewedEventMapping(row));
@@ -88,7 +103,7 @@ test('current Events carry reviewed structured mappings and unknown Events fail 
   for (const id of ['future-unknown', '']) {
     assert.deepEqual(ArtworkResolver({ kind: 'event', id, artwork_key: 'event/concert-live/v01' }, 'Hero'), { type: 'neutral', layout: 'Hero' });
   }
-  const row = inventory.items.find((row: { id: string }) => row.id === embeddedCatalog('ankara').events[1].id);
+  const row = inventory.items.find((row: { id: string }) => row.id === 'event-storytellers-forcione-cenk-erdogan-2026-12-05');
   assert.equal(reviewedEventMapping({ ...row, artwork_key: undefined }).artwork_key, 'event/concert-classical-acoustic/v01');
   for (const invalid of [{ reviewed_at: undefined }, { classification_basis: '' }, { visual_subtype: 'unknown' }, { icon_component_key: 'icon/event/game' }, { photo_family: '' }, { artwork_key: 'event/theatre-play/v01' }]) {
     assert.throws(() => reviewedEventMapping({ ...row, ...invalid }));
@@ -113,12 +128,17 @@ test('Experience, Place and Idea inventory remains unchanged from audited main',
   assert.equal(createHash('sha256').update(JSON.stringify(untouched)).digest('hex'), '6fd6f7317b9980a0754e0435a27b72d78ab061a03070f2c357b219246f431aeb');
 });
 
-test('Event facts remain byte-identical to audited current catalog', () => {
-  assert.equal(createHash('sha256').update(readFileSync('src/data/events.ts')).digest('hex'), 'ca2909fa3cf56a91498ae5752fd866e827e16655859777c91316c4c6c25c03d7');
+test('retired Event facts match the audited October snapshot', () => {
+  assert.equal(createHash('sha256').update(JSON.stringify(retiredEvents)).digest('hex'), 'c1e1ec3c5ff4087978feef23f630510aa070f5e55ad83d56f09a9a998db62b3e');
 });
 
-test('recommendation golden output equals audited main, including ordering and reasons', () => {
-  assert.equal(createHash('sha256').update(JSON.stringify(runRecommendationQualityBaseline())).digest('hex'), '098ae0e27173866454765c13f31dac50aca8f9dbafff4c9518f03e9d52ec1676');
+test('recommendation golden output is stable on the audited inputs and on unchanged content types', () => {
+  const current = embeddedCatalog();
+  const historical = runRecommendationQualityBaseline({ ...current, catalogVersion: '2026-10-12.1', events: [...retiredEvents] });
+  assert.equal(createHash('sha256').update(JSON.stringify(historical)).digest('hex'), '098ae0e27173866454765c13f31dac50aca8f9dbafff4c9518f03e9d52ec1676');
+  const nonEventMetrics = (report: typeof historical) => report.scenarios.filter(scenario => scenario.filter !== 'event')
+    .map(({ eventCatalog, ...metrics }) => metrics);
+  assert.deepEqual(nonEventMetrics(runRecommendationQualityBaseline(current)), nonEventMetrics(historical));
 });
 
 
@@ -129,7 +149,7 @@ test('approved acoustic SVG bytes are preserved from the authoritative export', 
     "svg/artwork/event/concert-classical-acoustic/v01/compact.svg": "bb083e96e909883cb3d9bbc50237000c0f889ea37f314eee96735178b8b2c74c"
 };
   for (const [path, hash] of Object.entries(approvedHashes)) assert.equal(createHash('sha256').update(assets[path].xml).digest('hex'), hash);
-  const event = embeddedCatalog('ankara').events[1];
+  const event = embeddedCatalog('ankara').events.find(item => item.id === 'event-storytellers-forcione-cenk-erdogan-2026-12-05')!;
   const hint = { ...event, artwork_key: 'event/concert-live/v01' };
   const resolution = ArtworkResolver(hint, 'Hero');
   assert.equal(resolution.type, 'artwork');

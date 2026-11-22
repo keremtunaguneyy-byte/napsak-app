@@ -13,6 +13,7 @@ import { Ankara101FontGate, Ankara101ReaderHost } from './src/components/gezek/A
 import { ankara101Return, openAnkara101Reader, resolveAnkara101Reader, Ankara101Session } from './src/ankara101Reader';
 import { SavedScreen } from './src/components/gezek/SavedScreen';
 import { resolveSavedEntries, SavedEntry, SavedReturnRequest } from './src/saved';
+import { eventsForPersonalHistory } from './src/data/retiredEvents';
 import { BrandLogo } from './src/components/gezek/BrandLogo';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
@@ -292,15 +293,16 @@ function AppContent() {
   const results = useMemo(() => homeDisplayItems(recommendationMeasurement.items, displayCoordinates), [recommendationMeasurement, displayCoordinates]);
   const eventDiagnosticSets = recommendationMeasurement.eventDiagnostics;
   const eventState = eventDiagnosticSets && resolveEventPresentation({ ...catalogLoad, ...eventDiagnosticSets, dismissed, visibleIds: results.map(item => item.id) });
+  const historyEvents = useMemo(() => eventsForPersonalHistory(events, catalog.cityId), [events, catalog.cityId]);
   const catalogItems = useMemo<(Place | Idea | Event | Experience)[]>(() => {
     const placesById = new Map(places.map(place => [place.id, place]));
     return [
       ...experiences.filter(experience => isExperiencePubliclyResolvable(experience, placesById)),
       ...places.filter(isPlacePubliclyResolvable),
       ...ideas,
-      ...events,
+      ...historyEvents,
     ];
-  }, [experiences, places, ideas, events]);
+  }, [experiences, places, ideas, historyEvents]);
   const hiddenItems = useMemo(() => resolveHiddenItems(catalogItems, dismissed), [catalogItems, dismissed]);
   useEffect(() => { restoredIds.current.clear(); }, [dismissed]);
   const savedEntries = useMemo(() => resolveSavedEntries(saved, catalogItems, guides, insiderRoutes), [catalogItems, guides, saved]);
@@ -905,7 +907,7 @@ function AppContent() {
     {detailSession && <DetailHost session={detailSession}
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: filterRuns[resultFilter].run, now: eligibilityNow }}
       recommendationLocation={recommendationLocation}
-      ideas={ideas} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
+      ideas={ideas} detailEvents={historyEvents} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
       onOpenEventMap={async url => { if (!(await Linking.canOpenURL(url))) throw new Error('unsupported map URL'); trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'event' } }); await Linking.openURL(url); }}
       saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}

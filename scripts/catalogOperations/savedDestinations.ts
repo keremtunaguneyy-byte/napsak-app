@@ -2,18 +2,23 @@ import { CLASSICS_COLLECTION_ID } from '../../src/ankara101';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable } from '../../src/contentPolicy';
 import { CatalogSnapshot } from '../../src/data/catalog';
 import { insiderRoutes } from '../../src/data/insiderRoutes';
+import { eventsForPersonalHistory, retiredEvents } from '../../src/data/retiredEvents';
 import { resolveSavedEntries } from '../../src/saved';
 import { compare } from './records';
 
 export function savedDestinations(c: CatalogSnapshot) {
-  // Match the catalogItems supplied by App.tsx, including public inactive Places and expired Events.
   const placesById = new Map(c.places.map(p => [p.id, p]));
   const catalog = [
     ...c.experiences.filter(e => Array.isArray(e.points) && e.points.every(p => p?.placeId) && isExperiencePubliclyResolvable(e, placesById)),
-    ...c.places.filter(isPlacePubliclyResolvable), ...c.ideas, ...c.events,
+    ...c.places.filter(isPlacePubliclyResolvable), ...c.ideas, ...eventsForPersonalHistory(c.events, c.cityId),
   ];
+  // A historical snapshot can still contain the original occurrence. A different
+  // occurrence with a reserved ID is a competing destination and fails the audit.
+  const reusedEvents = c.events.filter(event => retiredEvents.some(retired =>
+    retired.cityId === c.cityId && retired.id === event.id
+    && (retired.startsAt !== event.startsAt || retired.venue !== event.venue || retired.title !== event.title)));
   const candidates = [
-    ...catalog.map(item => ({ id: item.id, family: 'kind' in item ? item.kind : 'place',
+    ...[...catalog, ...reusedEvents].map(item => ({ id: item.id, family: 'kind' in item ? item.kind : 'place',
       title: 'name' in item ? item.name : item.title, item })),
     ...c.guides.map(item => ({ id: item.id, family: 'guide', title: item.title, item })),
     { id: CLASSICS_COLLECTION_ID, family: 'classics', title: 'Ankara Klasikleri', item: undefined },
