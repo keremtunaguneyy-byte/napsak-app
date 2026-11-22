@@ -2,7 +2,7 @@ import { Firestore, collection, doc, getDoc, getDocs, limit, query, where } from
 
 import { CATALOG_SCHEMA_VERSION, CatalogMeta, CatalogSnapshot } from '../data/catalog';
 import { isCity, isEvent, isExperience, isGuide, isIdea, isPlace, parseCatalogMeta, parseCatalogSnapshot } from '../data/catalogValidation';
-import { publicationHeadPath, releasePath, MAX_CATALOG_PAYLOAD_BYTES, FIRESTORE_READ_LIMITS } from '../data/catalogPublication';
+import { publicationHeadPath, releasePath, catalogPayloadFits, FIRESTORE_READ_LIMITS } from '../data/catalogPublication';
 import { ContentRepository } from '../data/contentRepository';
 import { CityId } from '../types';
 
@@ -55,7 +55,7 @@ export class FirestoreContentRepository implements ContentRepository {
     if (meta.publishedRelease) {
       const release = await getDoc(doc(this.db, releasePath(cityId, meta.catalogVersion)));
       const payload: unknown = release.get('payload');
-      if (typeof payload !== 'string' || payload.length > MAX_CATALOG_PAYLOAD_BYTES) throw new Error('Missing or oversized catalog release.');
+      if (typeof payload !== 'string' || !catalogPayloadFits(payload)) throw new Error('Missing or oversized catalog release.');
       const snapshot = validateFirestoreCatalogSnapshot(JSON.parse(payload));
       if (snapshot.cityId !== cityId || snapshot.catalogVersion !== meta.catalogVersion) throw new Error('Catalog release identity mismatch.');
       return snapshot;

@@ -1,13 +1,16 @@
 import { createHash } from 'node:crypto';
 import { CatalogSnapshot } from '../src/data/catalog';
-import { FIRESTORE_READ_LIMITS, MAX_CATALOG_PAYLOAD_BYTES } from '../src/data/catalogPublication';
+import { FIRESTORE_READ_LIMITS, catalogPayloadFits } from '../src/data/catalogPublication';
 import { parseCatalogSnapshot } from '../src/data/catalogValidation';
 import { compareCatalogVersions } from '../src/data/catalogVersion';
+import { insiderRoutes } from '../src/data/insiderRoutes';
+import { resolveHiddenItems } from '../src/hiddenItems';
+import { resolveSavedEntries } from '../src/saved';
 import { retiredEvents } from '../src/data/retiredEvents';
 import { guideMedia } from './catalogOperations/guideMedia';
 import { eventHealth, geography } from './catalogOperations/health';
 import { instant } from './catalogOperations/records';
-import { savedDestinations } from './catalogOperations/savedDestinations';
+import { personalCatalogItems, savedDestinations } from './catalogOperations/savedDestinations';
 
 export function requireNewer(version: string, base: string) {
   if (compareCatalogVersions(version, base) !== 1) throw Error(`Release ${version} must be newer than ${base}.`);
@@ -18,7 +21,7 @@ export function candidateDigest(base: string, payload: string) {
 }
 
 export function checkSize(payload: string) {
-  if (Buffer.byteLength(payload, 'utf8') > MAX_CATALOG_PAYLOAD_BYTES) throw Error('Catalog exceeds the release document byte limit.');
+  if (!catalogPayloadFits(payload)) throw Error('Catalog exceeds the release document byte limit.');
 }
 
 export function parsePayload(payload: string) {
@@ -55,9 +58,32 @@ export function validateCandidate(payload: string, previous: CatalogSnapshot, no
   if (!guides.passed || guides.unexpectedCatalogIds.length) throw Error('Guide approval or media mismatch: ' + [...guides.missingGuideMedia, ...guides.unexpectedCatalogIds].join(', '));
   const geo = geography(snapshot);
   if (geo.invalid.length || geo.failures.length) throw Error('Invalid coordinates or route: ' + [...geo.invalid, ...geo.failures.map(f => f.id)].join(', '));
+  validateEventHealth(snapshot, now);
+  return snapshot;
+}
+
+export function validateRollback(payload: string, active: CatalogSnapshot, now: Date) {
+  const target = parsePayload(payload);
+  const saved = savedDestinations(target);
+  if (!saved.passed) throw Error('Saved destination collision: ' + saved.issues.map(issue => issue.id).join(', '));
+
+  const currentItems = personalCatalogItems(active);
+  const targetItems = personalCatalogItems(target);
+  const ids = [...new Set([...currentItems, ...active.guides].map(item => item.id))];
+  const savedAfter = new Map(resolveSavedEntries(ids, targetItems, target.guides, insiderRoutes).map(row => [row.id, row.type]));
+  const hiddenAfter = new Map(resolveHiddenItems(targetItems, ids).map(row => [row.id, row.kind]));
+  const missingSaved = resolveSavedEntries(ids, currentItems, active.guides, insiderRoutes)
+    .filter(row => savedAfter.get(row.id) !== row.type);
+  const missingHidden = resolveHiddenItems(currentItems, ids).filter(row => hiddenAfter.get(row.id) !== row.kind);
+  const missing = [...new Set([...missingSaved, ...missingHidden].map(row => row.id))].sort();
+  if (missing.length) throw Error('Rollback would lose Saved/Hidden destinations: ' + missing.join(', '));
+
+  validateEventHealth(target, now);
+}
+
+function validateEventHealth(snapshot: CatalogSnapshot, now: Date) {
   const events = eventHealth(snapshot, now);
   if (!events.healthy || events.records.some(e => e.startQuality !== 'zoned_iso' || e.endState === 'invalid')) {
     throw Error('Event timing or health failed: ' + events.issues.map(issue => issue.code).join(', '));
   }
-  return snapshot;
 }

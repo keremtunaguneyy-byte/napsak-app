@@ -6,12 +6,16 @@ import { eventsForPersonalHistory, retiredEvents } from '../../src/data/retiredE
 import { resolveSavedEntries } from '../../src/saved';
 import { compare } from './records';
 
-export function savedDestinations(c: CatalogSnapshot) {
+export function personalCatalogItems(c: CatalogSnapshot) {
   const placesById = new Map(c.places.map(p => [p.id, p]));
-  const catalog = [
+  return [
     ...c.experiences.filter(e => Array.isArray(e.points) && e.points.every(p => p?.placeId) && isExperiencePubliclyResolvable(e, placesById)),
     ...c.places.filter(isPlacePubliclyResolvable), ...c.ideas, ...eventsForPersonalHistory(c.events, c.cityId),
   ];
+}
+
+export function savedDestinations(c: CatalogSnapshot) {
+  const catalog = personalCatalogItems(c);
   // A historical snapshot can still contain the original occurrence. A different
   // occurrence with a reserved ID is a competing destination and fails the audit.
   const reusedEvents = c.events.filter(event => retiredEvents.some(retired =>

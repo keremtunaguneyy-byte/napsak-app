@@ -6,7 +6,7 @@ import { initializeApp, deleteApp, type FirebaseApp } from 'firebase/app';
 import { connectFirestoreEmulator, disableNetwork, doc, Firestore, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { CatalogPublisher, emulatorProject, openPublishingEmulator } from '../scripts/catalogPublishing';
 import { embeddedCatalog, CatalogSnapshot } from '../src/data/catalog';
-import { publicationHeadPath, releasePath } from '../src/data/catalogPublication';
+import { MAX_CATALOG_PAYLOAD_BYTES, publicationHeadPath, releasePath } from '../src/data/catalogPublication';
 import { loadBestCatalog } from '../src/data/catalogService';
 import { FirestoreContentRepository } from '../src/firebase/firestoreContentRepository';
 import { retiredEvents, eventsForPersonalHistory } from '../src/data/retiredEvents';
@@ -171,6 +171,92 @@ test('forward rollback replaces a persisted bad catalog, restores offline and re
   assert.deepEqual(resolveSavedEntries(saved, personal, s.guides, []).map(row => row.id), [...saved].reverse());
   assert.deepEqual(resolveHiddenItems(personal, hidden).map(row => row.id), hidden);
   assert.ok(retiredEvents.every(old => !s.events.some(e => e.id === old.id)));
+});
+
+test('rollback cannot strand a destination introduced by a later release', async () => {
+  const good = fixture(releaseVersion(2), 'accepted');
+  await publisher.publish(await approved(base, good));
+  await publisher.confirmGood(good.catalogVersion);
+  const later = fixture(releaseVersion(3), 'later');
+  const idea = { ...later.ideas[0], id: 'idea-emulator-new-destination' };
+  later.ideas.push(idea);
+  await publisher.publish(await approved(good.catalogVersion, later));
+
+  const head = await publisher.status();
+  const version = releaseVersion(4);
+  await assert.rejects(publisher.rollback(later.catalogVersion, good.catalogVersion, version),
+    /Rollback would lose Saved\/Hidden destinations: idea-emulator-new-destination/);
+  assert.deepEqual(await publisher.status(), head);
+  assert.equal((await admin.db.doc(releasePath(city, version)).get()).exists, false);
+  const loaded = await loadBestCatalog(city, reader, storage());
+  assert.equal(loaded.source, 'remote');
+  assert.deepEqual(loaded.snapshot, later);
+  assert.deepEqual(resolveSavedEntries([idea.id], loaded.snapshot.ideas, loaded.snapshot.guides, []),
+    [{ type: 'catalog', id: idea.id, item: idea }]);
+  assert.deepEqual(resolveHiddenItems(loaded.snapshot.ideas, [idea.id]),
+    [{ kind: 'idea', id: idea.id, item: idea }]);
+});
+
+for (const eventGate of ['stale_verification', 'insufficient_upcoming_events'] as const) {
+  test('rollback rechecks Event health at restore time: ' + eventGate, async () => {
+    const good = fixture(releaseVersion(2), 'accepted');
+    if (eventGate === 'insufficient_upcoming_events') {
+      // The first six expire while every verifiedAt is still fresh and four
+      // later Events still meet the horizon gate.
+      for (const event of good.events.slice(0, -4)) {
+        event.startsAt = new Date(at.getTime() + dayMs).toISOString();
+        delete event.endsAt;
+      }
+    }
+    await publisher.publish(await approved(base, good));
+    await publisher.confirmGood(good.catalogVersion);
+    const later = fixture(releaseVersion(3), 'later');
+    await publisher.publish(await approved(good.catalogVersion, later));
+
+    const head = await publisher.status();
+    const version = releaseVersion(4);
+    const elapsed = eventGate === 'stale_verification' ? 7 : 2;
+    const atRollback = new CatalogPublisher(admin.db, () => new Date(at.getTime() + elapsed * dayMs));
+    await assert.rejects(atRollback.rollback(later.catalogVersion, good.catalogVersion, version),
+      { message: 'Event timing or health failed: ' + eventGate });
+    assert.deepEqual(await publisher.status(), head);
+    assert.equal((await admin.db.doc(releasePath(city, version)).get()).exists, false);
+    const pinned = { cityId: city, catalogVersion: good.catalogVersion, schemaVersion: good.schemaVersion,
+      updatedAt: at.toISOString(), publishedRelease: true } as const;
+    assert.deepEqual((await reader.getCatalog(city, pinned)).events, good.events);
+  });
+}
+
+test('publisher and client share the inclusive UTF-8 payload limit', async () => {
+  const exact = fixture(releaseVersion(2), 'boundary');
+  const glyphs = 'é€😀';
+  const remaining = MAX_CATALOG_PAYLOAD_BYTES - Buffer.byteLength(JSON.stringify(exact), 'utf8');
+  const glyphBytes = Buffer.byteLength(glyphs, 'utf8');
+  exact.ideas[0].note += glyphs.repeat(Math.floor(remaining / glyphBytes)) + 'a'.repeat(remaining % glyphBytes);
+  const payload = JSON.stringify(exact);
+  assert.equal(Buffer.byteLength(payload, 'utf8'), MAX_CATALOG_PAYLOAD_BYTES);
+  await publisher.publish(await approved(base, exact));
+  const disk = storage();
+  assert.deepEqual((await loadBestCatalog(city, reader, disk)).snapshot, exact);
+
+  const oversized = structuredClone(exact);
+  oversized.catalogVersion = releaseVersion(3);
+  oversized.ideas[0].note += 'a';
+  const oversizedPayload = JSON.stringify(oversized);
+  assert.equal(Buffer.byteLength(oversizedPayload, 'utf8'), MAX_CATALOG_PAYLOAD_BYTES + 1);
+  assert.ok(oversizedPayload.length < MAX_CATALOG_PAYLOAD_BYTES);
+  await assert.rejects(publisher.stage(exact.catalogVersion, oversized), /byte limit/);
+
+  // Bypass the operator to exercise the client check against an oversized
+  // release that still fits in a Firestore document.
+  const batch = admin.db.batch();
+  batch.create(admin.db.doc(releasePath(city, oversized.catalogVersion)), { payload: oversizedPayload });
+  batch.update(admin.db.doc(publicationHeadPath(city)), { catalogVersion: oversized.catalogVersion });
+  await batch.commit();
+  const fallback = await loadBestCatalog(city, reader, disk);
+  assert.equal(fallback.source, 'cache');
+  assert.match(fallback.remoteError ?? '', /oversized catalog release/);
+  assert.deepEqual(fallback.snapshot, exact);
 });
 
 test('client cannot approve, write releases, flip head or read staging, and anonymous reads are denied', async () => {

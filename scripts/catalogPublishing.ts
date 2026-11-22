@@ -4,7 +4,7 @@ import { embeddedCatalog } from '../src/data/catalog';
 import { FIRESTORE_READ_LIMITS, publicationHeadPath, releasePath } from '../src/data/catalogPublication';
 import { parseCatalogMeta } from '../src/data/catalogValidation';
 import { compareCatalogVersions, isCatalogVersion } from '../src/data/catalogVersion';
-import { candidateDigest, checkSize, parsePayload, requireNewer, validateCandidate } from './catalogPublishingValidation';
+import { candidateDigest, checkSize, parsePayload, requireNewer, validateCandidate, validateRollback } from './catalogPublishingValidation';
 
 const city = 'ankara';
 const embedded = embeddedCatalog(city);
@@ -171,9 +171,11 @@ export class CatalogPublisher {
       if (head.bootstrap || head.version !== from || head.goodVersion !== good || from === good) {
         throw Error('Rollback requires the current bad version and its confirmed known-good version.');
       }
+      const active = await this.readRelease(tx, from);
       const snapshot = await this.readRelease(tx, good);
-      const payload = JSON.stringify({ ...snapshot, catalogVersion: version, fetchedAt: this.now().toISOString() });
-      checkSize(payload);
+      const now = this.now();
+      const payload = JSON.stringify({ ...snapshot, catalogVersion: version, fetchedAt: now.toISOString() });
+      validateRollback(payload, active, now);
       tx.create(ref, { rollbackFrom: from, restoredFrom: good, payload });
       this.setHead(tx, version, good);
       return 'restored';
