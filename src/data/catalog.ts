@@ -17,6 +17,8 @@ export type CatalogMeta = {
   schemaVersion: number;
   catalogVersion: string;
   updatedAt: string;
+  /** Set by the repository when metadata comes from the immutable release channel. */
+  publishedRelease?: true;
 };
 
 export type CatalogSnapshot = {
