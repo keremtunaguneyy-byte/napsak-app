@@ -37,7 +37,7 @@ import { focusDetailControl } from './src/components/gezek/detailFocus';
 import { contentInteractionReducer } from './src/contentInteractions';
 import { createDismissUndo, detailNavigationReducer, DetailNavigationAction, DetailRoute, DetailSession, UndoNotice } from './src/detailFlow';
 import { GezekBottomNavigation, GezekHome, GezekHomeLoading } from './src/components/gezek';
-import { HomeAtmosphere } from './src/components/gezek/GezekHome';
+import { HomeAtmosphere, HomeBackground } from './src/components/gezek/GezekHome';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
@@ -862,10 +862,10 @@ function AppContent() {
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
+      {isHome && <HomeBackground />}
       {!isGuideArticle && !isProductionSurface && <View style={s.header}><BrandLogo color={c.ink} /></View>}
       {step === 'results' && <GezekHome
         proximity={proximity} onToggleProximity={toggleProximity} proximityFocus={proximityFocus}
-        safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={recommendationMeasurement.filter} contextRefreshDue={contextRefreshDue}
         coordinates={displayCoordinates} locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
