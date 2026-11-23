@@ -26,6 +26,7 @@ export const GEZEK_LAYOUT = {
   screenHorizontalInset: 20,
   minimumTouchTarget: 44,
   homeTopInset: 22,
+  homeBottomInset: 26,
   mainImageHeight: 100,
   alternativeImageSize: 112,
   selectorHeight: 74,

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { RecommendationItem } from '../src/recommendations';
-import { homeActionLabel, homeArtwork, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
+import { homeActionLabel, homeArtwork, homeFigureFooterHeight, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
 import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
 import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
 import { createFilterTimingRecorder, FilterTiming } from '../src/components/gezek/homeFilterDiagnostics';
@@ -17,6 +17,16 @@ test('Mekân reuses its static heading beside proximity without category nodes, 
   assert.equal((row.match(/onPress=/g) ?? []).length, 1);
   assert.match(row, /<ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus \?\? 0}/);
   assert.doesNotMatch(source, /(?:set|selected|onSelect|onChange)(?:Place)?Category/);
+});
+
+test('a full Home feed reveals the seated figure when the footer can show it without moving cards', () => {
+  assert.equal(homeFigureFooterHeight(5, 393, 1620, 1518), 23);
+  assert.equal(homeFigureFooterHeight(5, 412, 1684, 1582), 39);
+  assert.equal(homeFigureFooterHeight(5, 393, 1599, 1497), 44);
+  assert.equal(homeFigureFooterHeight(5, 393, 1598, 1496), 0);
+  assert.equal(homeFigureFooterHeight(5, 393, 1632, 1530), 0);
+  assert.equal(homeFigureFooterHeight(5, 393, 1643, 1520), 0);
+  for (const count of [0, 1, 4]) assert.equal(homeFigureFooterHeight(count, 393, 1620, 1518), 0);
 });
 
 test('filter diagnostics separate cold/warm commits and discard superseded frame opportunities', () => {

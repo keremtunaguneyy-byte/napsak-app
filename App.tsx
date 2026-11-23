@@ -986,7 +986,7 @@ function RecommendationCard({ item, rank, saved, coordinates, onSave, onDismiss,
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, gezekTransparent: { backgroundColor: 'transparent' }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
-  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
+  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: GEZEK_LAYOUT.homeBottomInset, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
   gezekLoadingText: { color: GEZEK_COLORS.mutedText, fontFamily: GEZEK_FONT_FAMILIES.regular, fontSize: 11, lineHeight: 16 },
   readingProgressTrack: { height: 3, backgroundColor: '#352F29', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#8F2938' },
   guideLandingPage: { paddingHorizontal: 18, paddingBottom: 24 }, guideArticlePage: { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 0 },

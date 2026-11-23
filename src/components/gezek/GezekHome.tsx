@@ -4,7 +4,7 @@ import { Coordinates } from '../../domain';
 import { experienceStartDistanceLabel } from '../../experienceStartDistance';
 import { Component, ErrorInfo, memo, Profiler, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, type LayoutRectangle, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   GEZEK_COLORS as C, GEZEK_FONT_FAMILIES as F, GEZEK_LAYOUT as L,
   GEZEK_RADII as R, GEZEK_SPACING as S, GEZEK_SURFACE_SHADOW as shadow, GEZEK_TYPE as T,
@@ -20,7 +20,7 @@ import { PRODUCTION_ASSET_INDEX } from './productionAssetIndex';
 import { discoveryDestinations } from './ArtworkResolver';
 import { itemIconKey } from './ContextualIconResolver';
 import { HOME_PROFILING_ENABLED, recordHomeCommit, recordHomeContentCommit, recordHomeRender } from './homePerformance';
-import { homeActionLabel, homeItemMeta, homeItemTitle } from './gezekHomePresentation';
+import { homeActionLabel, homeFigureFooterHeight, homeItemMeta, homeItemTitle } from './gezekHomePresentation';
 
 import type { UndoNotice } from '../../detailFlow';
 import { UndoNoticeTransition } from './UndoNoticeTransition';
@@ -30,6 +30,7 @@ import type { PreferenceReturnFocus } from '../../preferenceEditor';
 import { focusDetailControl } from './detailFocus';
 
 const RADAR = require('../../../assets/gezek/home-loading-radar.png');
+const HOME_FOREGROUND_BOTTOM_PADDING = 20;
 const tabs: readonly { value: ResultFilter; label: string; color: string }[] = [
   { value: 'experience', label: 'Gezek', color: C.cobalt },
   { value: 'place', label: 'Mekân', color: C.venue },
@@ -72,6 +73,8 @@ function HomeContentCommitProbe({ filter, results }: { filter: ResultFilter; res
 function HomeContent(p: GezekHomeProps) {
   recordHomeRender('home');
   const [main, ...alternatives] = p.results;
+  const [foreground, setForeground] = useState<LayoutRectangle>();
+  const [utilityHeight, setUtilityHeight] = useState<number>();
   const labels = copy[p.selectedFilter];
   const hasProximity = !!p.proximity && (p.selectedFilter === 'experience' || p.selectedFilter === 'place');
   const preferenceNode = useRef<View>(null);
@@ -88,7 +91,16 @@ function HomeContent(p: GezekHomeProps) {
     p.mood, p.interests.length ? p.interests.join(' + ') : 'Her şeye açığım',
     p.duration, p.budget === 'Ücretsiz' ? 'Bedava' : p.budget, p.groupSize,
   ].filter(Boolean).join(' · ');
-  return <View style={s.screen}>
+  const figureFooter = foreground && utilityHeight !== undefined && !eventEmpty
+    ? homeFigureFooterHeight(
+      p.results.length,
+      foreground.width + 2 * L.screenHorizontalInset,
+      foreground.y + foreground.height + L.homeBottomInset,
+      foreground.y + foreground.height - HOME_FOREGROUND_BOTTOM_PADDING - S.section - utilityHeight,
+    )
+    : 0;
+  return <>
+    <View style={s.screen} onLayout={event => setForeground(event.nativeEvent.layout)}>
     <View style={[s.content, hasProximity && { maxWidth: 353 }]}>
     <View style={s.top}>
       <BrandLogo />
@@ -131,8 +143,10 @@ function HomeContent(p: GezekHomeProps) {
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
       {hasProximity ? <>
         <View style={s.proximityRow}>
-          {p.selectedFilter === 'experience' ? <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.proximityHeading}>{labels.main}</Text> :
-            <Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI</Text>}
+          <View testID="home-heading-surface" style={[s.headingSurface, s.proximityHeadingSurface, p.selectedFilter === 'place' && s.placeHeadingSurface]}>
+            {p.selectedFilter === 'experience' ? <Text accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.proximityHeading}>{labels.main}</Text> :
+              <Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI</Text>}
+          </View>
           <ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus ?? 0} />
         </View>
       </> : <Heading title={labels.main} />}
@@ -153,18 +167,20 @@ function HomeContent(p: GezekHomeProps) {
       <View style={s.yellowMarker}><GezekAsset name="refresh" /></View>
     </TouchableOpacity>}
     <View style={s.discovery}>
-      <Text accessibilityRole="header" style={s.sectionTitle}>Başka neye bakalım?</Text>
+      <Heading title="Başka neye bakalım?" discovery />
       <View style={s.discoveryGrid}>
         {discoveryDestinations(p.selectedFilter).map(filter => <Discovery key={filter} filter={filter} onSelectFilter={p.onSelectFilter} />)}
       </View>
     </View>
-    <View style={s.utilities}>
-      {p.hasCoordinates && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konumu yeniden güncelle" onPress={p.onRequestLocation} style={s.utilityHit}><Text style={s.utilityText}>Konumu güncelle</Text></TouchableOpacity>}
-      <TouchableOpacity ref={hiddenNode} accessibilityRole="button" accessibilityLabel={`Gizlediğim ${p.hiddenCount} öneriyi göster`} onPress={p.onShowHidden} style={s.utilityHit}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity>
-      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Plan tercihlerini baştan seç" onPress={p.onReset} style={s.utilityHit}><Text style={s.utilityText}>Baştan başla</Text></TouchableOpacity>
+    <View testID="home-utilities" style={s.utilities} onLayout={event => setUtilityHeight(event.nativeEvent.layout.height)}>
+      {p.hasCoordinates && <TouchableOpacity accessibilityRole="button" accessibilityLabel="Konumu yeniden güncelle" onPress={p.onRequestLocation} style={[s.utilityHit, s.utilityButton]}><Text style={s.utilityText}>Konumu güncelle</Text></TouchableOpacity>}
+      <TouchableOpacity ref={hiddenNode} accessibilityRole="button" accessibilityLabel={`Gizlediğim ${p.hiddenCount} öneriyi göster`} onPress={p.onShowHidden} style={[s.utilityHit, s.utilityButton]}><Text style={s.utilityText}>Gizlediklerim ({p.hiddenCount})</Text></TouchableOpacity>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Plan tercihlerini baştan seç" onPress={p.onReset} style={[s.utilityHit, s.utilityButton]}><Text style={s.utilityText}>Baştan başla</Text></TouchableOpacity>
     </View>
     </View>
-  </View>;
+    </View>
+    {figureFooter > 0 && <View testID="home-figure-footer" accessible={false} pointerEvents="none" style={{ height: figureFooter }} />}
+  </>;
 }
 
 export const HomeBackground = memo(function HomeBackground() {
@@ -257,8 +273,10 @@ function QuickActions({ item, saved, rank, onSave, onDismiss }: Omit<CardProps, 
   </View>;
 }
 
-function Heading({ title }: { title: string }) {
-  return <Text accessibilityRole="header" style={s.heading}>{title}</Text>;
+function Heading({ title, discovery = false }: { title: string; discovery?: boolean }) {
+  return <View testID="home-heading-surface" style={[s.headingSurface, discovery ? s.discoveryHeadingSurface : s.recommendationHeadingSurface]}>
+    <Text accessibilityRole="header" style={s.heading}>{title}</Text>
+  </View>;
 }
 
 function CategoryIcon({ filter, selected = false }: { filter: ResultFilter; selected?: boolean }) {
@@ -351,7 +369,7 @@ export function GezekBottomNavigation({ active, onHome, onSaved, onGuides, backg
 
 const s = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center' },
-  screen: { paddingBottom: 20 }, flex: { flex: 1, minWidth: 0 },
+  screen: { paddingBottom: HOME_FOREGROUND_BOTTOM_PADDING }, flex: { flex: 1, minWidth: 0 },
   background: { ...StyleSheet.absoluteFill, overflow: 'hidden' },
   atmosphere: { position: 'absolute', top: -L.homeTopInset, left: -L.screenHorizontalInset, right: -L.screenHorizontalInset },
   top: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
@@ -373,9 +391,14 @@ const s = StyleSheet.create({
   undo: { marginTop: S.section, minHeight: 48, borderRadius: R.image, backgroundColor: C.navy, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12 },
   undoText: { ...T.label, fontFamily: F.semiBold, color: C.surface }, undoAction: { ...T.label, fontFamily: F.semiBold, color: C.yellow },
   proximityRow: { marginTop: 12, marginBottom: 12, minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' },
-  proximityHeading: { ...T.section, color: C.navy, fontFamily: F.bold, flexShrink: 1 },
+  headingSurface: { alignSelf: 'flex-start', maxWidth: '100%', paddingHorizontal: 8, paddingVertical: 2, borderRadius: R.image, backgroundColor: C.surface },
+  proximityHeadingSurface: { alignSelf: 'center', flexShrink: 1 },
+  placeHeadingSurface: { alignSelf: 'flex-start' },
+  proximityHeading: { ...T.section, color: C.navy, fontFamily: F.bold },
   placeHeading: { fontSize: 10, lineHeight: 14, letterSpacing: 0.6, color: C.venue, fontFamily: F.semiBold, width: 128, alignSelf: 'stretch' },
-  heading: { ...T.section, color: C.navy, fontFamily: F.bold, marginTop: S.section, marginBottom: S.section },
+  heading: { ...T.section, color: C.navy, fontFamily: F.bold },
+  recommendationHeadingSurface: { marginVertical: S.section },
+  discoveryHeadingSurface: { marginBottom: S.section },
   mainCard: { ...shadow, padding: 12, borderWidth: 1, borderColor: C.border, backgroundColor: C.surface, borderRadius: R.surfaceLarge },
   mainContent: { gap: 6 },
   cardBody: { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderRadius: R.surface }, cardPressed: { backgroundColor: C.blueWhisper },
@@ -400,15 +423,16 @@ const s = StyleSheet.create({
   exhausted: { marginTop: S.section, minHeight: 60, borderRadius: R.image, padding: 12, gap: 10, backgroundColor: C.lavender, flexDirection: 'row', alignItems: 'center' },
   refresh: { ...shadow, marginTop: S.section, minHeight: 44, paddingHorizontal: 8, paddingVertical: 6, gap: 8, backgroundColor: C.blueWhisper, borderWidth: 1, borderColor: C.cobalt, borderRadius: R.surface, flexDirection: 'row', alignItems: 'center' },
   refreshText: { ...T.button, color: C.navy, fontFamily: F.semiBold, flex: 1, minWidth: 0, textAlign: 'center' },
-  discovery: { marginTop: S.section }, sectionTitle: { ...T.section, color: C.navy, fontFamily: F.bold, marginBottom: S.section },
+  discovery: { marginTop: S.section },
   discoveryGrid: { flexDirection: 'row', gap: S.section, alignItems: 'stretch' },
   discoveryCard: { minHeight: 142, paddingHorizontal: 10, paddingTop: 11, paddingBottom: 8, gap: 3, borderRadius: R.image, flex: 1, minWidth: 0, overflow: 'hidden' },
   discoveryLabel: { ...T.label, color: C.navy, fontFamily: F.semiBold },
   discoveryCopy: { ...T.small, color: C.mutedText, fontFamily: F.medium },
   discoveryArt: { flex: 1, minHeight: 72, alignItems: 'flex-end', justifyContent: 'flex-end', marginTop: 3 },
-  utilities: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, marginTop: S.section },
+  utilities: { alignSelf: 'flex-end', maxWidth: '52%', flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, marginTop: S.section, paddingHorizontal: 8, borderRadius: R.image, backgroundColor: C.surface },
   utilityHit: { minHeight: 44, minWidth: 44, justifyContent: 'center' },
-  utilityText: { ...T.small, color: C.mutedText, fontFamily: F.medium },
+  utilityButton: { maxWidth: '100%' },
+  utilityText: { ...T.small, color: C.navy, fontFamily: F.medium },
   stateCard: { ...shadow, minHeight: 336, borderWidth: 1, borderColor: C.border, borderRadius: R.surface, backgroundColor: C.surface, paddingHorizontal: 20, paddingVertical: 18, gap: 10 },
   stateIcon: { width: 64, height: 64, borderRadius: R.full, backgroundColor: C.lavender, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' },
   stateTitle: { ...T.card, fontFamily: F.bold, color: C.navy, textAlign: 'center' },
