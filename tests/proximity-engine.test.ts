@@ -34,7 +34,10 @@ test('pure contribution returns finite locationless zero for absent or invalid d
 
 for (const policy of [undefined, 'default'] as const) {
   test(`${policy ?? 'omitted'} policy matches the pre-edit full JSON baseline across 1,920 cases / 28,800 calls`, () => {
-    const { baselineCommit: _base, ...expected } = JSON.parse(readFileSync(new URL('../docs/evidence/proximity-engine-b2/default-baseline.json', import.meta.url), 'utf8'));
+    // B2's proximity-engine-b2/default-baseline.json stays as historical evidence. The fresh-first
+    // rotation change re-pinned parity; every differing call (1,803 of 57,600 across both event
+    // sets) was a refresh whose unseen pool was smaller than the requested limit.
+    const { baselineCommit: _base, change: _change, ...expected } = JSON.parse(readFileSync(new URL('../docs/evidence/recommendation-fresh-first-rotation/default-baseline.json', import.meta.url), 'utf8'));
     assert.deepEqual(defaultFingerprint(engine, policy, [...retiredEvents]), expected);
   });
 }

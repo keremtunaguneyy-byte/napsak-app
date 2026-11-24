@@ -187,17 +187,23 @@ export function recommendExperiences(options: {
 
   const fresh = candidates.filter(item => !previous.has(item.id));
   const fallback = candidates.filter(item => previous.has(item.id));
-  const pool = fresh.length >= limit ? fresh : [...fresh, ...fallback];
   const selected: (ExperienceRecommendation & { interestTier: number })[] = [];
-  while (pool.length && selected.length < limit) {
-    pool.sort((a, b) => {
-      const adjusted = (item: ExperienceRecommendation & { interestTier: number }) => item.score
-        - selected.filter(chosen => chosen.category === item.category).length * 16
-        - selected.filter(chosen => chosen.district === item.district).length * 7;
-      return b.interestTier - a.interestTier || adjusted(b) - adjusted(a) || a.title.localeCompare(b.title, 'tr');
-    });
-    selected.push(pool.shift()!);
+  // Unseen eligible plans are always taken before any repeat. Previously-shown plans
+  // only fill the remaining slots, so a refresh over a small pool rotates instead of
+  // re-sorting the old batch back to the top.
+  for (const pool of [fresh, fallback]) {
+    while (pool.length && selected.length < limit) {
+      pool.sort((a, b) => {
+        const adjusted = (item: ExperienceRecommendation & { interestTier: number }) => item.score
+          - selected.filter(chosen => chosen.category === item.category).length * 16
+          - selected.filter(chosen => chosen.district === item.district).length * 7;
+        return b.interestTier - a.interestTier || adjusted(b) - adjusted(a) || a.title.localeCompare(b.title, 'tr');
+      });
+      selected.push(pool.shift()!);
+    }
   }
+  // Primary-interest plans still lead the visible batch (stable sort keeps rotation order within a tier).
+  selected.sort((a, b) => b.interestTier - a.interestTier);
   return selected.map(({ interestTier: _interestTier, ...item }) => item);
 }
 
@@ -265,17 +271,19 @@ export function recommendPlaces(options: {
   // eligible catalogue has a complete new batch. Old items remain a safe fallback.
   const fresh = candidates.filter(place => !previous.has(place.id));
   const fallback = candidates.filter(place => previous.has(place.id));
-  const pool = fresh.length >= limit ? fresh : [...fresh, ...fallback];
-  while (pool.length && selected.length < limit) {
-    pool.sort((a, b) => {
-      const adjusted = (place: Recommendation) => place.score
-        // Repetition penalties only re-rank eligible candidates; they never let an
-        // unrelated item through the hard interest gate.
-        - selected.filter(item => item.category === place.category).length * 16
-        - selected.filter(item => item.district === place.district).length * 7;
-      return adjusted(b) - adjusted(a) || a.name.localeCompare(b.name, 'tr');
-    });
-    selected.push(pool.shift()!);
+  // Unseen places fill first; repeats only top up a short fresh pool.
+  for (const pool of [fresh, fallback]) {
+    while (pool.length && selected.length < limit) {
+      pool.sort((a, b) => {
+        const adjusted = (place: Recommendation) => place.score
+          // Repetition penalties only re-rank eligible candidates; they never let an
+          // unrelated item through the hard interest gate.
+          - selected.filter(item => item.category === place.category).length * 16
+          - selected.filter(item => item.district === place.district).length * 7;
+        return adjusted(b) - adjusted(a) || a.name.localeCompare(b.name, 'tr');
+      });
+      selected.push(pool.shift()!);
+    }
   }
   return selected;
 }

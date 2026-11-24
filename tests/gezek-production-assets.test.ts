@@ -143,7 +143,8 @@ test('retired Event facts match the audited October snapshot', () => {
 test('recommendation golden output is stable on the audited inputs and on unchanged content types', () => {
   const current = embeddedCatalog();
   const historical = runRecommendationQualityBaseline({ ...current, catalogVersion: '2026-10-12.1', events: [...retiredEvents] });
-  assert.equal(createHash('sha256').update(JSON.stringify(historical)).digest('hex'), '098ae0e27173866454765c13f31dac50aca8f9dbafff4c9518f03e9d52ec1676');
+  // Fresh-first rotation re-pin: only summary.repeatedSlotCount changed (67 → 65); prior hash 098ae0e2…1676.
+  assert.equal(createHash('sha256').update(JSON.stringify(historical)).digest('hex'), '1425e3b745ca7773ca5fc17c7487898e137b0552acfeab24ad3723a1dac8109a');
   const nonEventMetrics = (report: typeof historical) => report.scenarios.filter(scenario => scenario.filter !== 'event')
     .map(({ eventCatalog, ...metrics }) => metrics);
   assert.deepEqual(nonEventMetrics(runRecommendationQualityBaseline(current)), nonEventMetrics(historical));
