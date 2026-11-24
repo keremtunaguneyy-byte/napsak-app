@@ -37,7 +37,7 @@ import { focusDetailControl } from './src/components/gezek/detailFocus';
 import { contentInteractionReducer } from './src/contentInteractions';
 import { createDismissUndo, detailNavigationReducer, DetailNavigationAction, DetailRoute, DetailSession, UndoNotice } from './src/detailFlow';
 import { GezekBottomNavigation, GezekHome, GezekHomeLoading } from './src/components/gezek';
-import { HomeAtmosphere } from './src/components/gezek/GezekHome';
+import { HomeBackground } from './src/components/gezek/GezekHome';
 import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
@@ -837,8 +837,8 @@ function AppContent() {
   };
 
 
-  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekTransparent]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage, s.gezekTransparent]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView></View>;
-  if (!hydrated || (!fontsLoaded && !fontError)) return <View style={[s.safe, s.gezekSafe]}><HomeAtmosphere width={width} topInset={0} horizontalInset={0} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekTransparent]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView></View>;
+  if (hydrated && step === 'results' && !fontsLoaded && !fontError) return <View style={[s.safe, s.gezekSafe]}><HomeBackground initialWidth={width} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.gezekTransparent]}><StatusBar style="dark" /><ScrollView contentContainerStyle={[s.page, s.gezekHomePage, s.gezekTransparent]}><BrandLogo /><View style={{ marginTop: 24 }}><GezekHomeLoading /></View></ScrollView></SafeAreaView></View>;
+  if (!hydrated || (!fontsLoaded && !fontError)) return <View style={[s.safe, s.gezekSafe]}><HomeBackground initialWidth={width} /><SafeAreaView edges={['top', 'right', 'bottom', 'left']} style={[s.safe, s.loading, s.gezekTransparent]}><StatusBar style="dark" /><ActivityIndicator accessibilityLabel="Tercihler yükleniyor" color={GEZEK_COLORS.cobalt} size="large" /><Text accessibilityLiveRegion="polite" style={s.gezekLoadingText}>Tercihlerin hazırlanıyor…</Text></SafeAreaView></View>;
 
   if (onboardingSession && !onboardingCompleted) return <OnboardingHost session={onboardingSession} onAction={navigateOnboarding} onComplete={finishOnboarding} />;
   const isGuideArticle = step === 'guides' && guideView === 'insider';
@@ -862,10 +862,10 @@ function AppContent() {
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
+      {isHome && <HomeBackground initialWidth={width - safeInsets.left - safeInsets.right} />}
       {!isGuideArticle && !isProductionSurface && <View style={s.header}><BrandLogo color={c.ink} /></View>}
       {step === 'results' && <GezekHome
         proximity={proximity} onToggleProximity={toggleProximity} proximityFocus={proximityFocus}
-        safeTopInset={safeInsets.top}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={recommendationMeasurement.filter} contextRefreshDue={contextRefreshDue}
         coordinates={displayCoordinates} locating={locating} hasCoordinates={!!coordinates} locationMessage={locationMessage}
@@ -986,8 +986,8 @@ function RecommendationCard({ item, rank, saved, coordinates, onSave, onDismiss,
 const c = { ink: '#F8F4EA', muted: '#AAA79F', bg: '#11120F', card: '#1B1D18', lime: '#D5FF4B', line: '#32352C' };
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.bg }, gezekSafe: { backgroundColor: GEZEK_COLORS.canvas }, gezekTransparent: { backgroundColor: 'transparent' }, page: { flexGrow: 1, width: '100%', paddingHorizontal: 22, paddingTop: 18, paddingBottom: 32 }, pageWide: { maxWidth: 720, alignSelf: 'center', paddingHorizontal: 32 },
-  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: 26, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
-  gezekLoadingText: { color: GEZEK_COLORS.mutedText, fontFamily: GEZEK_FONT_FAMILIES.regular, fontSize: 11, lineHeight: 16 },
+  gezekHomePage: { backgroundColor: GEZEK_COLORS.canvas, paddingBottom: GEZEK_LAYOUT.homeBottomInset, paddingHorizontal: GEZEK_LAYOUT.screenHorizontalInset, paddingTop: GEZEK_LAYOUT.homeTopInset, overflow: 'hidden' },
+  gezekLoadingText: { alignSelf: 'stretch', textAlign: 'center', color: GEZEK_COLORS.navy, fontFamily: GEZEK_FONT_FAMILIES.regular, fontSize: 11, lineHeight: 16 },
   readingProgressTrack: { height: 3, backgroundColor: '#352F29', overflow: 'hidden' }, readingProgressFill: { height: 3, backgroundColor: '#8F2938' },
   guideLandingPage: { paddingHorizontal: 18, paddingBottom: 24 }, guideArticlePage: { paddingHorizontal: 0, paddingTop: 0, paddingBottom: 0 },
   editorialTopBar: { minHeight: 61, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#0E100E' }, editorialTopAction: { width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center' }, editorialBack: { color: '#F2E7CF', fontFamily: 'CormorantGaramond_400Regular', fontSize: 46, lineHeight: 48 }, editorialTopTitle: { flex: 1, color: '#F2E7CF', fontFamily: 'SourceSans3_600SemiBold', fontSize: 12, letterSpacing: 1.8, textAlign: 'center' }, editorialTopActions: { flexDirection: 'row', alignItems: 'center' }, editorialContentsAction: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 7 }, editorialContentsActionText: { color: '#D8C8AB', fontFamily: 'SourceSans3_700Bold', fontSize: 10 }, editorialBookmark: { color: '#F2E7CF', fontFamily: 'SourceSans3_400Regular', fontSize: 27 }, editorialBookmarkSaved: { color: '#A73343' },
