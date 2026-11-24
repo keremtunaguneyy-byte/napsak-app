@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { RecommendationItem } from '../src/recommendations';
-import { homeActionLabel, homeArtwork, homeFigureFooterHeight, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
+import { homeActionLabel, homeArtwork, homeDiscoveryHeadingInset, homeFigureFooterHeight, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
 import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
 import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
 import { createFilterTimingRecorder, FilterTiming } from '../src/components/gezek/homeFilterDiagnostics';
@@ -17,6 +17,14 @@ test('Mekân reuses its static heading beside proximity without category nodes, 
   assert.equal((row.match(/onPress=/g) ?? []).length, 1);
   assert.match(row, /<ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus \?\? 0}/);
   assert.doesNotMatch(source, /(?:set|selected|onSelect|onChange)(?:Place)?Category/);
+});
+
+test('discovery headings flow to the right of scaled dark artwork with 12 dp clearance', () => {
+  assert.equal(homeDiscoveryHeadingInset(393, 20, 1300, 26), 0);
+  assert.equal(homeDiscoveryHeadingInset(393, 20, 1380, 26), 87);
+  assert.equal(homeDiscoveryHeadingInset(393, 20, 1597, 47), 199);
+  assert.equal(homeDiscoveryHeadingInset(412, 29.5, 1600, 47), 200);
+  assert.equal(homeDiscoveryHeadingInset(768, 207.5, 1700, 47), 0);
 });
 
 test('a full Home feed reveals the seated figure when the footer can show it without moving cards', () => {

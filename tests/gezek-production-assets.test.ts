@@ -37,9 +37,9 @@ test('every package record and live recommendation item resolves with intact res
 });
 
 test('Home background preserves the approved SVG bytes and logical canvas', () => {
-  const path = index.ui.Gezek_Home_Background_V8C_L2_Final_v1;
+  const path = index.ui.Gezek_Home_Background_V8C_L1_Final_v2;
   const source = readFileSync(`assets/gezek/production/${path}`);
-  assert.equal(createHash('sha256').update(source).digest('hex'), '97aa014f8fb821626e2e95873620fd3b56781d0cda15bcbde5a7af2621adad52');
+  assert.equal(createHash('sha256').update(source).digest('hex'), '0f1c630ad5eb7060b04291595507262fbb0d1a8f063ef28ad1b2a974ec191fa7');
   assert.deepEqual(assets[path], { xml: source.toString('utf8'), width: 393, height: 1713 });
   assert.match(assets[path].xml, /^<svg width="393" height="1713" viewBox="0 0 393 1713"/);
 });

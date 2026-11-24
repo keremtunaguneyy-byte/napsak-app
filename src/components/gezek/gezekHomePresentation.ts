@@ -42,3 +42,22 @@ export function homeFigureFooterHeight(resultCount: number, scrollWidth: number,
   const gap = Math.ceil(READER_BOTTOM * scale - contentEnd);
   return gap > 0 && gap <= GEZEK_LAYOUT.minimumTouchTarget ? gap : 0;
 }
+
+// Bounds of the tree and bench/reader groups in the approved SVG's viewBox.
+const DISCOVERY_ARTWORK = [
+  { top: 1403.806, bottom: 1561, right: 94.158 },
+  { top: 1528.424, bottom: 1649.710, right: 206.706 },
+] as const;
+const HEADING_ARTWORK_CLEARANCE = 12;
+
+export function homeDiscoveryHeadingInset(scrollWidth: number, columnLeft: number, headingTop: number, headingHeight: number): number {
+  const scale = scrollWidth / 393;
+  let left = columnLeft;
+  for (const art of DISCOVERY_ARTWORK) {
+    if (headingTop - HEADING_ARTWORK_CLEARANCE < art.bottom * scale
+      && headingTop + headingHeight + HEADING_ARTWORK_CLEARANCE > art.top * scale) {
+      left = Math.max(left, art.right * scale + HEADING_ARTWORK_CLEARANCE);
+    }
+  }
+  return Math.ceil(left - columnLeft);
+}

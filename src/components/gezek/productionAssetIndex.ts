@@ -687,7 +687,7 @@ export const PRODUCTION_ASSET_INDEX = {
     "discoveryEvent": "svg/ui/discoveryEvent.svg",
     "discoveryIdea": "svg/ui/discoveryIdea.svg",
     "discoveryExperience": "svg/ui/discoveryExperience.svg",
-    "Gezek_Home_Background_V8C_L2_Final_v1": "svg/ui/Gezek_Home_Background_V8C_L2_Final_v1.svg"
+    "Gezek_Home_Background_V8C_L1_Final_v2": "svg/ui/Gezek_Home_Background_V8C_L1_Final_v2.svg"
   },
   "content": {
     "event:event-kerem-gorsev-quartet-2026-11-29": {
