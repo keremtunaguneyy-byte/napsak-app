@@ -62,8 +62,8 @@ export async function initializeDataBackbone(preferences: PersistedPreferences, 
     return (await loadBestCatalog(cityId)).snapshot;
   }
   const userRepository = new FirestoreUserRepository(client.db);
-  const userStateInitialized = await userDataBoundary.initializeUserState(user.uid, userRepository, preferences);
-  if (!userStateInitialized) return (await loadBestCatalog(cityId)).snapshot;
+  // The personal-sync guard does not restrict reads of the shared catalog.
+  await userDataBoundary.initializeUserState(user.uid, userRepository, preferences);
 
   const contentRepository = new FirestoreContentRepository(client.db);
   const result = await loadBestCatalog(cityId, contentRepository);
