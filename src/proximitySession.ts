@@ -31,9 +31,10 @@ export const NEARBY_LOCATION_REUSE_MS = 60_000;
  * Every read lazily clears expired/invalid provenance; off does not renew it. */
 export function createProximitySession(options: {
   servicesEnabled: () => Promise<boolean>;
-  foregroundPermission: () => Promise<{ status: string }>;
+  foregroundPermission: () => Promise<{ status: string; canAskAgain?: boolean }>;
   requestPermission: () => Promise<{ status: string }>;
   currentPosition: () => Promise<{ coords: Coordinates }>;
+  usesAndroidPermissionActivity?: boolean;
   changed: (state: ProximityState, failure?: ProximityFailure) => void;
   acquired: (coordinates: Coordinates) => void;
   now?: () => number;
@@ -42,6 +43,8 @@ export function createProximitySession(options: {
   let state: ProximityState = { status: 'off', generation: 0 };
   let reusable: { coordinates: Coordinates; acceptedAt: number } | undefined;
   let disposed = false;
+  let isForeground = true;
+  let promptingGeneration: number | undefined;
   const now = options.now ?? (() => performance.now());
   let timer: ReturnType<typeof setTimeout> | undefined;
   const clear = () => { if (timer !== undefined) (options.cancel ?? clearTimeout)(timer); timer = undefined; };
@@ -70,7 +73,7 @@ export function createProximitySession(options: {
   return {
     state: () => state,
     async activate() {
-      if (disposed || state.status !== 'off') return;
+      if (disposed || !isForeground || state.status !== 'off') return;
       send({ type: 'activate' });
       const generation = state.generation;
       const current = () => !disposed && state.status === 'acquiring' && state.generation === generation;
@@ -99,9 +102,21 @@ export function createProximitySession(options: {
         }
         if (!await options.servicesEnabled()) { fail('services_unavailable'); return; }
         if (!current()) return;
-        const permission = await options.requestPermission();
+        let permission = options.usesAndroidPermissionActivity ? await options.foregroundPermission() : undefined;
         if (!current()) return;
-        if (permission.status !== 'granted') { fail('permission_denied'); return; }
+        if (permission?.status !== 'granted' && permission?.canAskAgain !== false) {
+          promptingGeneration = generation;
+          try {
+            permission = await options.requestPermission();
+          } finally {
+            if (promptingGeneration === generation) promptingGeneration = undefined;
+          }
+        }
+        if (!current()) return;
+        // Android delivers the permission result on resume. An answer while
+        // backgrounded cannot start GPS or reactivate the session later.
+        if (!isForeground) { send({ type: 'cancel' }); return; }
+        if (permission?.status !== 'granted') { fail('permission_denied'); return; }
         const position = await options.currentPosition();
         if (!current()) return;
         if (!isValidCoordinates(position.coords)) { fail('acquisition_failed'); return; }
@@ -121,6 +136,12 @@ export function createProximitySession(options: {
     },
     off() { readReusable(); send({ type: 'off' }); },
     cancel() { readReusable(); send({ type: 'cancel' }); },
+    setForeground(active: boolean) {
+      isForeground = active;
+      if (!active && !(options.usesAndroidPermissionActivity && promptingGeneration === state.generation)) {
+        send({ type: 'cancel' });
+      }
+    },
     invalidate() {
       reusable = undefined;
       send({ type: 'invalidate' }, state.status === 'active' ? 'location_invalidated' : undefined);
