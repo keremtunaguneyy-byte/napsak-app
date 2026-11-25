@@ -35,6 +35,8 @@ jobs:
         run: npm test
       - name: Internal preview build configuration
         run: npm run check:build -- --profile=preview
+      - name: Android runtime configuration for preview and connected beta
+        run: npm run check:android-runtime
       - name: Recommendation stress tests
         run: npm run test:stress
       - name: Catalog parity

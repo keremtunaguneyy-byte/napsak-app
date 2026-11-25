@@ -18,7 +18,18 @@ const authStorage = AsyncStorage as unknown as {
 
 export function getFirebaseClient(): FirebaseClient | undefined {
   if (singleton !== undefined) return singleton ?? undefined;
-  const settings = resolveFirebaseRuntimeSettings(process.env);
+  // Use direct public environment references for Expo's standalone bundle.
+  const settings = resolveFirebaseRuntimeSettings({
+    EXPO_PUBLIC_APP_ENV: process.env.EXPO_PUBLIC_APP_ENV,
+    EXPO_PUBLIC_SERVICE_TIER: process.env.EXPO_PUBLIC_SERVICE_TIER,
+    EXPO_PUBLIC_FIREBASE_API_KEY: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+    EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    EXPO_PUBLIC_FIREBASE_PROJECT_ID: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+    EXPO_PUBLIC_FIREBASE_APP_ID: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+    EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    EXPO_PUBLIC_FIREBASE_EMULATOR_HOST: process.env.EXPO_PUBLIC_FIREBASE_EMULATOR_HOST,
+  });
   if (settings.mode === 'local') {
     singleton = null;
     return undefined;

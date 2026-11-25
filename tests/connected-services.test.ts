@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
+import Module from 'node:module';
 import test from 'node:test';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Auth } from '@firebase/auth';
 import { ensureAnonymousUser } from '../src/firebase/auth';
 import { catalogCacheKey, CatalogSnapshot, embeddedCatalog, EMBEDDED_CATALOG_VERSION } from '../src/data/catalog';
@@ -22,7 +24,7 @@ import {
   USER_SYNC_QUEUE_KEY,
   UserSyncStorage,
 } from '../src/firebase/userSync';
-import { createRemoteUserState, UserRepository } from '../src/firebase/userRepository';
+import { createRemoteUserState, FirestoreUserRepository, UserRepository } from '../src/firebase/userRepository';
 import { emptyPreferences, serializePreferences } from '../src/persistence';
 
 function memoryStore(data = new Map<string, string>()): { data: Map<string, string>; store: UserSyncStorage } {
@@ -293,6 +295,89 @@ function catalogStore(snapshot?: unknown) {
   return memoryStore(snapshot === undefined ? new Map() : new Map([
     [catalogCacheKey('ankara'), JSON.stringify(snapshot)],
   ]));
+}
+
+for (const scenario of ['normal', 'blocked personal sync', 'remote unavailable'] as const) {
+  test('backend catalog startup: ' + scenario, async t => {
+    const blocked = scenario === 'blocked personal sync';
+    let unavailable = scenario === 'remote unavailable';
+    const uid = 'synthetic-uid';
+    const preferences = { ...emptyPreferences, saved: ['synthetic-saved-item'] };
+    const snapshot = snapshotAt('2099-01-01.2');
+    const { data, store } = catalogStore(snapshotAt('2099-01-01.1'));
+    if (blocked) {
+      await enqueueUserSync(uid, preferences, store);
+      await blockDeletedUserSync(uid, store);
+    }
+    const pending = data.get(USER_SYNC_QUEUE_KEY);
+    t.mock.method(AsyncStorage, 'getItem', store.getItem);
+    t.mock.method(AsyncStorage, 'setItem', store.setItem);
+    t.mock.method(AsyncStorage, 'removeItem', store.removeItem);
+
+    const loadUser = t.mock.method(FirestoreUserRepository.prototype, 'load', async () => undefined);
+    const saveUser = t.mock.method(FirestoreUserRepository.prototype, 'save', async () => {});
+    const deleteUser = t.mock.method(FirestoreUserRepository.prototype, 'delete', async () => {});
+    const authStateReady = t.mock.fn(async () => {});
+    const repository = remoteCatalog(snapshot);
+    const getMeta = t.mock.fn(async (cityId: string) => {
+      assert.equal(authStateReady.mock.callCount(), 1);
+      if (unavailable) throw new Error('Synthetic catalog unavailable');
+      return repository.getCatalogMeta(cityId);
+    });
+    const getCatalog = t.mock.method(repository, 'getCatalog');
+    const reportError = t.mock.fn();
+    const stubs = {
+      '../src/firebase/client': { getFirebaseClient: () => ({ auth: { authStateReady, currentUser: { uid } } }) },
+      '../src/firebase/firestoreContentRepository': {
+        FirestoreContentRepository: class {
+          getCatalogMeta = getMeta;
+          getCatalog = getCatalog;
+        },
+      },
+      '../src/observability': { captureOperationalError: reportError },
+    };
+    // Load the real startup module with only its native/service adapters replaced.
+    for (const [name, exports] of Object.entries(stubs)) {
+      const path = require.resolve(name);
+      const original = require.cache[path];
+      require.cache[path] = Object.assign(new Module(path), { loaded: true, exports });
+      t.after(() => {
+        if (original) require.cache[path] = original;
+        else delete require.cache[path];
+      });
+    }
+    const { initializeDataBackbone, queuePreferencesForRemoteSync, refreshActiveCatalog } =
+      require('../src/backend') as typeof import('../src/backend');
+    t.after(() => { delete require.cache[require.resolve('../src/backend')]; });
+
+    const result = await initializeDataBackbone(preferences);
+    if (blocked) {
+      await queuePreferencesForRemoteSync({ ...preferences, saved: ['different-synthetic-item'] });
+      assert.equal(await isDeletedUserSyncBlocked(uid), true);
+      assert.equal(loadUser.mock.callCount(), 0);
+      assert.equal(saveUser.mock.callCount(), 0);
+    } else {
+      assert.deepEqual(loadUser.mock.calls.map(call => call.arguments), [[uid]]);
+      assert.deepEqual(saveUser.mock.calls.map(call => call.arguments), [[uid, createRemoteUserState(preferences)]]);
+    }
+    assert.equal(deleteUser.mock.callCount(), 0);
+    assert.equal(data.get(USER_SYNC_QUEUE_KEY), pending);
+    const expectedVersion = unavailable ? '2099-01-01.1' : snapshot.catalogVersion;
+    assert.equal(result.catalogVersion, expectedVersion);
+    assert.equal(getMeta.mock.callCount(), 1);
+    assert.equal(getCatalog.mock.callCount(), unavailable ? 0 : 1);
+    assert.equal(reportError.mock.callCount(), unavailable ? 1 : 0);
+    assert.equal((await loadCachedCatalog('ankara', store))?.catalogVersion, expectedVersion);
+
+    if (unavailable) {
+      unavailable = false;
+      assert.equal((await refreshActiveCatalog()).catalogVersion, snapshot.catalogVersion);
+      assert.equal(authStateReady.mock.callCount(), 1);
+      assert.equal(loadUser.mock.callCount(), 1);
+      assert.equal(saveUser.mock.callCount(), 1);
+      assert.equal(deleteUser.mock.callCount(), 0);
+    }
+  });
 }
 
 test('catalog versions compare calendar dates and numeric revisions, rejecting malformed values', () => {
