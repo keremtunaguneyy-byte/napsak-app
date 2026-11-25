@@ -33,9 +33,9 @@ SENTRY_AUTH_TOKEN=secret-build-token
 
 `SENTRY_AUTH_TOKEN` repoya veya `EXPO_PUBLIC_*` değişkenine yazılmaz. Sentry DSN yoksa development uygulaması hata raporlamayı kapalı tutarak çalışır. Production release kapısı DSN, organizasyon, proje ve build tokenını zorunlu tutar.
 
-EAS `development` ve `preview` profilleri local modda Sentry yapılandırması olmadan build edilir. Ayrı `connected-beta` profili `beta` EAS ortamı, beta/development adlı Sentry projesi ve `environment=beta` olay etiketi gerektirir. Production profili `environment=production` kullanır ve beta/development adlı Sentry projesini reddeder. DSN public config olsa da hedef projeye ait olduğu yalnız canlı dashboard kanıtıyla doğrulanabilir; build preflight DSN ile proje slug'ının aynı hesaba ait olduğunu ispatlamaz. Beta ve production için ayrı Sentry projeleri kullanılmalıdır.
+EAS `development` ve `preview` profilleri local modda Sentry yapılandırması olmadan build edilir. Ayrı `connected-beta` profili `beta` EAS ortamında Firebase ile bağlı kalır. Sentry kapalıyken `EXPO_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, `SENTRY_PROJECT` ve `SENTRY_AUTH_TOKEN` boş bırakılır. Kısmi ya da geçersiz yapılandırma build ön-kontrolünde reddedilir. Sentry açıksa dört geçerli değer, beta/development adlı Sentry projesi ve `environment=beta` olay etiketi gerekir. Production profili `environment=production` kullanır ve beta/development adlı Sentry projesini reddeder. DSN public config olsa da hedef projeye ait olduğu yalnız canlı dashboard kanıtıyla doğrulanabilir; build preflight DSN ile proje slug'ının aynı hesaba ait olduğunu ispatlamaz. Beta ve production için ayrı Sentry projeleri kullanılmalıdır.
 
-`app.json` içindeki `@sentry/react-native/expo` eklentisi kaynak haritası yükleme yoludur. EAS build ortamında `SENTRY_ORG`, `SENTRY_PROJECT` ve gizli `SENTRY_AUTH_TOKEN` bulunmalıdır. Expo/Sentry tarafından üretilen release ve dağıtım kimliği dashboard olayında build artifact'iyle karşılaştırılır; başarılı preflight veya eklentinin varlığı okunabilir stack ya da başarılı upload kanıtı değildir. Normal repository testleri token istemez, canlı olay göndermez.
+`app.json` içindeki `@sentry/react-native/expo` eklentisi kaynak haritası yükleme yoludur. Sentry açıkken EAS build ortamında `SENTRY_ORG`, `SENTRY_PROJECT` ve gizli `SENTRY_AUTH_TOKEN` bulunmalıdır. Expo/Sentry tarafından üretilen release ve dağıtım kimliği dashboard olayında build artifact'iyle karşılaştırılır; başarılı preflight veya eklentinin varlığı okunabilir stack ya da başarılı upload kanıtı değildir. Normal repository testleri token istemez, canlı olay göndermez.
 
 ```bash
 npm run check:observability
@@ -43,7 +43,7 @@ npm run check:observability:release
 npm run check:build -- --profile=connected-beta
 ```
 
-## Canlı doğrulama
+## Sentry açıkken canlı doğrulama
 
 1. Ayrı beta ve production Sentry projeleri oluştur.
 2. Beta DSN ve build sırlarını yalnız beta EAS ortamına ekle; production değerlerini ayrı tut.
