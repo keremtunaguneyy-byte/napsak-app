@@ -6,15 +6,18 @@ import { embeddedCatalog } from '../src/data/catalog';
 import { recommendAll, recommendExperiencesForPlace } from '../src/recommendations';
 const fix = { latitude: 39.92, longitude: 32.85 };
 const deferred = <T>() => { let resolve!: (value: T) => void; let reject!: (reason: Error) => void; const promise = new Promise<T>((a,b) => {resolve=a;reject=b;}); return {promise,resolve,reject}; };
-function fixture() {
+function fixture(android = false) {
   const permission = deferred<{status:string}>(), position = deferred<{coords:typeof fix}>();
-  let services = true, calls = 0, disposedTimer = 0, timeout!: () => void;
+  let services = true, foregroundStatus = 'undetermined', calls = 0, gps = 0, disposedTimer = 0, timeout!: () => void;
   const states: ProximityState[] = [], failures: string[] = [], acquired: object[] = [];
-  const session = createProximitySession({ servicesEnabled: async () => services, foregroundPermission: async () => ({status:'granted'}), requestPermission: () => {calls++;return permission.promise;}, currentPosition: () => position.promise,
+  const session = createProximitySession({ servicesEnabled: async () => services,
+    foregroundPermission: async () => ({status:foregroundStatus}),
+    requestPermission: async () => {calls++;const result = await permission.promise; foregroundStatus = result.status; return result;},
+    currentPosition: () => { gps++; return position.promise; }, usesAndroidPermissionActivity: android,
     changed: (state,failure) => {states.push(state);if(failure)failures.push(failure);}, acquired: value => acquired.push(value),
     schedule: ((callback:()=>void) => {timeout=callback;return 1;}) as unknown as typeof setTimeout,
     cancel: (() => {disposedTimer++;}) as typeof clearTimeout });
-  return { session, permission, position, states, failures, acquired, setServices:(value:boolean)=>services=value, calls:()=>calls, expire:()=>timeout(), cancelled:()=>disposedTimer };
+  return { session, permission, position, states, failures, acquired, setServices:(value:boolean)=>services=value, calls:()=>calls, gps:()=>gps, expire:()=>timeout(), cancelled:()=>disposedTimer };
 }
 const tick = async () => { await Promise.resolve(); await Promise.resolve(); };
 test('state machine legal transitions, duplicate actions and stale generations', () => {
@@ -37,6 +40,87 @@ test('fresh activation locks rapid taps, publishes one finite fix, active reuse 
   f.permission.resolve({status:'granted'}); await tick(); f.position.resolve({coords:fix}); await pending;
   assert.equal(f.session.state().status,'active'); assert.equal(f.acquired.length,1); assert.equal(f.cancelled(),1);
   void f.session.activate(); assert.equal(f.calls(),1); assert.equal(f.states.length,2);
+});
+test('Android resumes its foreground permission prompt and acquires exactly once', async () => {
+  const f = fixture(true), pending = f.session.activate();
+  await tick();
+  assert.equal(f.calls(), 1);
+  f.session.setForeground(false);
+  assert.equal(f.session.state().status, 'acquiring');
+  assert.equal(f.gps(), 0);
+  f.session.setForeground(true);
+  f.permission.resolve({ status: 'granted' });
+  f.position.resolve({ coords: fix });
+  await pending;
+  assert.equal(f.session.state().status, 'active');
+  assert.equal(f.gps(), 1);
+  assert.deepEqual(f.acquired, [fix]);
+});
+
+test('Android denial survives the permission activity round trip and leaves a retryable off state', async () => {
+  let prompts = 0, granted = false;
+  const first = deferred<{status: string}>(), second = deferred<{status: string}>();
+  const failures: string[] = [];
+  const session = createProximitySession({
+    usesAndroidPermissionActivity: true,
+    servicesEnabled: async () => true,
+    foregroundPermission: async () => ({ status: granted ? 'granted' : 'denied' }),
+    requestPermission: () => ++prompts === 1 ? first.promise : second.promise,
+    currentPosition: async () => ({ coords: fix }),
+    changed: (_, failure) => { if (failure) failures.push(failure); },
+    acquired: () => {},
+  });
+  const denied = session.activate();
+  await tick();
+  session.setForeground(false);
+  session.setForeground(true);
+  first.resolve({ status: 'denied' });
+  await denied;
+  assert.equal(session.state().status, 'off');
+  assert.deepEqual(failures, ['permission_denied']);
+
+  const retried = session.activate();
+  await tick();
+  session.setForeground(false);
+  session.setForeground(true);
+  granted = true;
+  second.resolve({ status: 'granted' });
+  await retried;
+  assert.equal(session.state().status, 'active');
+  assert.equal(prompts, 2);
+});
+
+for (const end of ['background result', 'navigation', 'timeout', 'background during GPS'] as const) {
+  test(`Android discards an obsolete permission/GPS request after ${end}`, async () => {
+    const f = fixture(true), pending = f.session.activate();
+    await tick();
+    f.session.setForeground(false);
+    if (end === 'navigation') f.session.cancel();
+    if (end === 'timeout') f.expire();
+    if (end !== 'background result') f.session.setForeground(true);
+    f.permission.resolve({ status: 'granted' });
+    await tick();
+    if (end === 'background during GPS') {
+      assert.equal(f.gps(), 1);
+      f.session.setForeground(false);
+    } else assert.equal(f.gps(), 0);
+    f.position.resolve({ coords: fix });
+    await pending;
+    f.session.setForeground(true);
+    assert.equal(f.session.state().status, 'off');
+    assert.deepEqual(f.acquired, []);
+  });
+}
+
+test('a permission activity pause is still cancelled on other platforms', async () => {
+  const f = fixture(), pending = f.session.activate();
+  await tick();
+  f.session.setForeground(false);
+  f.session.setForeground(true);
+  f.permission.resolve({ status: 'granted' });
+  await pending;
+  assert.equal(f.gps(), 0);
+  assert.equal(f.session.state().status, 'off');
 });
 for (const action of ['off','cancel','invalidate','dispose'] as const) test(`${action} rejects late permission/GPS results without publication`, async () => {
   const f=fixture(), pending=f.session.activate(); await tick(); f.permission.resolve({status:'granted'}); await tick(); f.session[action]();
@@ -92,6 +176,7 @@ test('both modes use merged engine; dismissed records never leak and related rec
 function leaseFixture() {
   let clock = 0, services = true, permission = 'granted', gps = 0, prompts = 0, reads = 0;
   const session = createProximitySession({
+    usesAndroidPermissionActivity: true,
     now: () => clock, servicesEnabled: async () => { reads++; return services; },
     foregroundPermission: async () => ({status:permission}),
     requestPermission: async () => { prompts++; return {status:permission}; },
@@ -127,9 +212,9 @@ test('explicit location refresh bypasses the lease and renews it only on accepte
   const active=f.session.state();if(active.status==='active')assert.equal(active.coordinates,accepted);
   f.session.off();f.time(90_000);await f.session.activate();assert.equal(f.counts().gps,2);f.session.dispose();
 });
-test('restart/new owner has no reusable location', async () => {
+test('restart takes a fresh fix and reuses the existing foreground grant without a prompt', async () => {
   const first=leaseFixture();await first.session.activate();first.session.off();first.session.dispose();
-  const next=leaseFixture();await next.session.activate();assert.equal(next.counts().gps,1);assert.equal(next.counts().prompts,1);next.session.dispose();
+  const next=leaseFixture();await next.session.activate();assert.equal(next.counts().gps,1);assert.equal(next.counts().prompts,0);next.session.dispose();
 });
 test('lease expiring during a held validity check requires fresh acquisition', async () => {
   let clock=0,gps=0;let held:ReturnType<typeof deferred<{status:string}>>|undefined;
@@ -165,6 +250,6 @@ for(const invalid of ['permission','services'] as const) test(`fresh GPS result 
 });
 test('late final status reads cannot accept a fix after cancellation', async () => {
   const statuses=deferred<{status:string}>();let reads=0;const published:object[]=[];
-  const session=createProximitySession({servicesEnabled:async()=>true,foregroundPermission:()=>{reads++;return statuses.promise;},requestPermission:async()=>({status:'granted'}),currentPosition:async()=>({coords:fix}),changed:()=>{},acquired:value=>published.push(value)});
-  const pending=session.activate();await tick();await tick();assert.equal(reads,1);session.cancel();statuses.resolve({status:'granted'});await pending;assert.equal(published.length,0);assert.equal(session.state().status,'off');session.dispose();
+  const session=createProximitySession({usesAndroidPermissionActivity:true,servicesEnabled:async()=>true,foregroundPermission:()=>++reads===1?Promise.resolve({status:'granted'}):statuses.promise,requestPermission:async()=>({status:'granted'}),currentPosition:async()=>({coords:fix}),changed:()=>{},acquired:value=>published.push(value)});
+  const pending=session.activate();await tick();await tick();assert.equal(reads,2);session.cancel();statuses.resolve({status:'granted'});await pending;assert.equal(published.length,0);assert.equal(session.state().status,'off');session.dispose();
 });

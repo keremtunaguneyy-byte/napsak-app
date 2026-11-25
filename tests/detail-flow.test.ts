@@ -10,6 +10,7 @@ import { createRemoteUserState } from '../src/firebase/userRepository';
 import { enqueueUserSync, flushUserSync, USER_SYNC_QUEUE_KEY } from '../src/firebase/userSync';
 import { ArtworkResolver } from '../src/components/gezek/ArtworkResolver';
 import { DETAIL_ASSET_XML } from '../src/components/gezek/detailAssetXml';
+import { openMapUrl } from '../src/mapLinks';
 
 const catalog = embeddedCatalog('ankara');
 const plan = catalog.experiences.find(item => item.id === 'xp-kugulu-segmenler')!;
@@ -265,6 +266,51 @@ test('Event Maps requires structured data and exact city-matched Place; Idea nev
   const idea = catalog.ideas.find(i => i.actionUrl)!;
   assert.equal(detailExternalActions(idea).source, idea.actionUrl);
   assert.equal(detailExternalActions(idea).maps, undefined);
+});
+
+test('Android launches Place, ordered Plans, and a structured Event fixture despite a false visibility result', async () => {
+  const place = catalog.places[0];
+  const eventFixture = { ...catalog.events[0], placeId: place.id };
+  const orderedPlan = catalog.experiences.find(item => item.points.length > 2)!;
+  const items = [place, { ...plan, points: plan.points.slice(0, 1) }, orderedPlan, eventFixture];
+  const launches: string[] = [];
+  let preflights = 0, tracked = 0;
+  for (const item of items) {
+    await openMapUrl(detailExternalActions(item, catalog.places).maps, 'android', {
+      canOpenURL: async () => { preflights++; return false; },
+      openURL: async url => { launches.push(url); },
+    }, () => { tracked++; });
+  }
+  assert.equal(preflights, 0);
+  assert.equal(tracked, items.length);
+  const directions = new URL(launches[2]);
+  assert.equal(directions.searchParams.get('travelmode'), 'walking');
+  assert.deepEqual([
+    directions.searchParams.get('origin'),
+    ...directions.searchParams.get('waypoints')!.split('|'),
+    directions.searchParams.get('destination'),
+  ], orderedPlan.points.map(point => `${point.latitude},${point.longitude}`));
+  for (const url of [launches[0], launches[1], launches[3]]) {
+    const search = new URL(url);
+    assert.equal(search.pathname, '/maps/search/');
+    assert.deepEqual([...search.searchParams.keys()], ['api', 'query']);
+  }
+});
+
+test('Android map launch errors reach the caller and invalid destinations never launch', async () => {
+  let attempts = 0, tracked = 0;
+  const linking = {
+    canOpenURL: async () => true,
+    openURL: async () => { attempts++; throw new Error('ActivityNotFoundException'); },
+  };
+  const onLaunch = () => { tracked++; };
+  await assert.rejects(openMapUrl(detailExternalActions(catalog.places[0]).maps, 'android', linking, onLaunch), /ActivityNotFoundException/);
+  await assert.rejects(openMapUrl('http://www.google.com/maps/search/?api=1', 'android', linking, onLaunch), /Unsupported/);
+  await assert.rejects(openMapUrl('https://www.google.com.evil.test/maps/search/?api=1', 'android', linking, onLaunch), /Unsupported/);
+  await assert.rejects(openMapUrl(undefined, 'android', linking, onLaunch), /Missing/);
+  await assert.rejects(openMapUrl('maps:0,0?q=fixture', 'ios', { ...linking, canOpenURL: async () => false }, onLaunch), /handler/);
+  assert.equal(attempts, 1);
+  assert.equal(tracked, 1);
 });
 
 test('Home inspects every family internally; Saved always includes internal inspection, no legacy Idea Alert', () => {

@@ -42,7 +42,7 @@ import { AppErrorBoundary } from './src/components/AppErrorBoundary';
 import { captureOperationalError, setObservabilityScreen } from './src/observability';
 import { trackProductEvent } from './src/analytics';
 import { AnalyticsItemKind, AnalyticsScreen } from './src/analyticsPolicy';
-import { googleMapsUrlForExperiencePoints } from './src/mapLinks';
+import { googleMapsUrlForExperiencePoints, openMapUrl } from './src/mapLinks';
 import { recordHomeFilterPress, recordHomeRecommendation } from './src/components/gezek/homePerformance';
 import { performanceDurationBucket } from './src/performancePolicy';
 import { isExperiencePubliclyResolvable, isPlacePubliclyResolvable, nextContentEligibilityChange } from './src/contentPolicy';
@@ -212,7 +212,11 @@ function AppContent() {
     servicesEnabled: Location.hasServicesEnabledAsync,
     foregroundPermission: Location.getForegroundPermissionsAsync,
     requestPermission: Location.requestForegroundPermissionsAsync,
-    currentPosition: () => Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
+    usesAndroidPermissionActivity: Platform.OS === 'android',
+    currentPosition: () => Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+      ...(Platform.OS === 'android' ? { mayShowUserSettingsDialog: false } : {}),
+    }),
     acquired: publishExplicitLocation,
     changed: (next, failure) => {
       scrollAfterRotation.current = false;
@@ -258,8 +262,9 @@ function AppContent() {
     });
     locationValidity.current = monitor;
     const change = AppState.addEventListener('change', state => {
+      proximitySession.setForeground(state === 'active');
       if (state === 'active') monitor.resume();
-      else { proximitySession.cancel(); monitor.pause(); }
+      else monitor.pause();
     });
     const focus = Platform.OS === 'android' ? AppState.addEventListener('focus', () => monitor.resume()) : undefined;
     const blur = Platform.OS === 'android' ? AppState.addEventListener('blur', () => monitor.pause()) : undefined;
@@ -596,18 +601,21 @@ function AppContent() {
     batchTrigger.current = 'filter';
     setResultFilter(filter);
   }, [resultFilter, undo]);
+  const launchMap = (url: string | undefined, itemKind: 'place' | 'experience' | 'event') =>
+    openMapUrl(url, Platform.OS, Linking, () => {
+      trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind } });
+    });
   const openInMaps = async (place: Place) => {
     const label = encodeURIComponent(place.name);
-    const url = Platform.select({
+    const url = isValidCoordinates(place) ? Platform.select({
       ios: `maps:0,0?q=${label}@${place.latitude},${place.longitude}`,
-      default: `https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}`,
-    });
-    if (!url || !(await Linking.canOpenURL(url))) {
+      default: googleMapsUrlForExperiencePoints([{ ...place, placeId: place.id }]),
+    }) : undefined;
+    try {
+      await launchMap(url, 'place');
+    } catch {
       Alert.alert('Harita açılamadı', 'Bu cihazda kullanılabilir bir harita uygulaması bulunamadı.');
-      return;
     }
-    trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'place' } });
-    await Linking.openURL(url);
   };
   const openSource = async (place: Place) => {
     try {
@@ -649,10 +657,7 @@ function AppContent() {
   };
   const openExperienceMap = async (experience: Experience) => {
     try {
-      const url = googleMapsUrlForExperiencePoints(experience.points);
-      if (!url || !(await Linking.canOpenURL(url))) throw new Error('unsupported map URL');
-      trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'experience' } });
-      await Linking.openURL(url);
+      await launchMap(googleMapsUrlForExperiencePoints(experience.points), 'experience');
     } catch {
       Alert.alert('Rota açılamadı', 'Bu planın harita rotası şu anda açılamıyor. Lütfen tekrar dene.');
     }
@@ -908,7 +913,7 @@ function AppContent() {
       context={{ experiences, places, events, mood, interests: chosen, dismissed, budget, groupSize, duration, coordinates: displayCoordinates, seed: filterRuns[resultFilter].run, now: eligibilityNow }}
       recommendationLocation={recommendationLocation}
       ideas={ideas} detailEvents={historyEvents} onOpenEventSource={openEvent} onOpenIdeaAction={openIdea}
-      onOpenEventMap={async url => { if (!(await Linking.canOpenURL(url))) throw new Error('unsupported map URL'); trackProductEvent({ name: 'external_action', properties: { action: 'map', itemKind: 'event' } }); await Linking.openURL(url); }}
+      onOpenEventMap={url => launchMap(url, 'event')}
       saved={saved} onNavigate={navigateDetails} undoNotice={undoNotice} onUndo={undoHomeDismiss}
       onSave={id => toggleSaved(id)} onDismiss={dismissPlace} onRestore={restorePlace}
       onOpenMaps={openInMaps} onOpenSource={openSource} onOpenPlanMap={openExperienceMap} onOpenPlanSource={openExperienceSource} />}
