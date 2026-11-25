@@ -1,6 +1,6 @@
 # Gezek teknik devir notu
 
-25 Kasım 2026 · Başlangıç referansı: `0a17bcdbad462f0f5b9aaef597b50554187ec0dd`
+25 Kasım 2026 · Doğrulanan `main`: `aed45c1c188a29e5f7e0810fc52a7594268d4adb`
 
 ## Yeni çalışma oturumu
 
@@ -16,7 +16,7 @@
 | Etkinlik kataloğu yenilemesi | [PR #85](https://github.com/keremtunaguneyy-byte/napsak-app/pull/85) ve [uygulama raporu](EVENT_REFRESH_NOV_2026_REPORT.md) |
 | Katalog yayınlama ve geri alma | [PR #86](https://github.com/keremtunaguneyy-byte/napsak-app/pull/86) ve [operatör rehberi](CATALOG_PUBLISHING_RUNBOOK.md) |
 | Home L1 v2 | [PR #87](https://github.com/keremtunaguneyy-byte/napsak-app/pull/87) |
-| Android çalışma zamanı yapılandırması ve katalog açılışı | [PR #88](https://github.com/keremtunaguneyy-byte/napsak-app/pull/88) · 25 Kasım kontrolünde Draft |
+| Android çalışma zamanı yapılandırması ve katalog açılışı | [PR #88](https://github.com/keremtunaguneyy-byte/napsak-app/pull/88) · Birleştirildi · `aed45c1` |
 
 ## Android doğrulaması
 
