@@ -15,6 +15,8 @@ const connected = {
   EXPO_PUBLIC_FIREBASE_APP_ID: '1:123:web:abc',
   EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET: 'gezek-runtime-fixture-beta.appspot.com',
   EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: '5835092041',
+};
+const sentry = {
   EXPO_PUBLIC_SENTRY_DSN: 'https://gezek-runtime-fixture@o123.ingest.sentry.io/456',
   SENTRY_ORG: 'gezek-runtime-fixture',
   SENTRY_PROJECT: 'gezek-runtime-fixture-beta',
@@ -28,19 +30,21 @@ const hostEnv = Object.fromEntries(Object.entries(process.env).filter(([name]) =
   !/^(EXPO_|EAS_|SENTRY_|NAPSAK_|NODE_ENV$|BABEL_ENV$|DEBUG$)/.test(name),
 ));
 
-function check(profile: 'connected-beta' | 'preview', output: string): void {
+function check(profile: 'connected-beta' | 'preview', output: string, sentryEnabled = false): void {
   const isConnected = profile === 'connected-beta';
+  const label = isConnected ? `${profile} (Sentry ${sentryEnabled ? 'on' : 'off'})` : profile;
   const env: NodeJS.ProcessEnv = {
     ...hostEnv,
     ...eas.build[profile].env,
     ...(isConnected ? connected : {}),
+    ...(sentryEnabled ? sentry : {}),
     EAS_BUILD_PROFILE: profile,
     NODE_ENV: 'production',
     EXPO_NO_DOTENV: '1',
     EXPO_OFFLINE: '1',
   };
   execFileSync(process.execPath, ['--import', 'tsx', 'scripts/checkBuildConfig.ts'], { env, stdio: 'ignore' });
-  console.log(profile + ' preflight passed');
+  console.log(label + ' preflight passed');
   // Expo can reuse transforms between exports when only the shell environment changes.
   execFileSync(process.execPath, [
     require.resolve('expo/bin/cli'), 'export', '--platform', 'android', '--no-bytecode', '--no-minify',
@@ -74,15 +78,22 @@ function check(profile: 'connected-beta' | 'preview', output: string): void {
     ...sharedKeys, 'EXPO_PUBLIC_SENTRY_DSN',
   ]));
   assert.equal(firebase.mode, isConnected ? 'firebase' : 'local');
-  assert.equal(observability.mode, isConnected ? 'sentry' : 'disabled');
+  assert.equal(observability.mode, sentryEnabled ? 'sentry' : 'disabled');
   assert.equal(observability.environment, isConnected ? 'beta' : 'development');
-  assert.ok(!bundle.includes(connected.SENTRY_AUTH_TOKEN), 'Build-only token was included in the Android bundle');
-  console.log(profile + ' Android bundle verified');
+  if (sentryEnabled) {
+    assert.ok(bundle.includes(sentry.EXPO_PUBLIC_SENTRY_DSN), 'Sentry-enabled Android bundle is missing its configured DSN');
+  } else {
+    assert.ok(!/https:\/\/[^\s"'<>]+@(?:[a-z0-9-]+\.)*sentry\.io\/\d+/i.test(bundle),
+      'Sentry-disabled Android bundle contains a Sentry DSN');
+  }
+  assert.ok(!bundle.includes(sentry.SENTRY_AUTH_TOKEN), 'Build-only token was included in the Android bundle');
+  console.log(label + ' Android bundle verified');
 }
 
 const output = mkdtempSync(join(tmpdir(), 'gezek-android-runtime-'));
 try {
-  check('connected-beta', join(output, 'connected'));
+  check('connected-beta', join(output, 'connected-sentry-on'), true);
+  check('connected-beta', join(output, 'connected-sentry-off'));
   check('preview', join(output, 'preview'));
 } finally {
   rmSync(output, { recursive: true, force: true });

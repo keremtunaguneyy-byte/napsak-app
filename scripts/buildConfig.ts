@@ -1,6 +1,6 @@
 import { resolveFirebaseRuntimeSettings } from '../src/firebase/config';
 import { resolveObservabilitySettings } from '../src/observabilityPolicy';
-import { requireSentryBuildSettings } from './observabilityBuildConfig';
+import { requireSentryBuildSettings, validateOptionalSentryBuildSettings } from './observabilityBuildConfig';
 
 type Environment = Record<string, string | undefined>;
 type ProfileName = 'development' | 'preview' | 'connected-beta' | 'production';
@@ -85,13 +85,14 @@ export function validateBuildConfiguration(
   }
 
   const firebase = resolveFirebaseRuntimeSettings(effective);
+  if (profile === 'connected-beta') validateOptionalSentryBuildSettings(effective);
   const sentry = resolveObservabilitySettings(effective);
   if (profile === 'production' || profile === 'connected-beta') {
     if (firebase.mode !== 'firebase') throw new Error(`${profile} build requires Firebase configuration.`);
     if (!validFirebaseWebConfig(firebase.config)) throw new Error(`${profile} Firebase public config has invalid key shape.`);
-    requireSentryBuildSettings(effective);
+    if (profile === 'production') requireSentryBuildSettings(effective);
     const sentryProject = effective.SENTRY_PROJECT ?? '';
-    if (profile === 'connected-beta' && (!/(^|[-_])(dev|development|beta)([-_]|$)/i.test(sentryProject)
+    if (profile === 'connected-beta' && sentry.mode === 'sentry' && (!/(^|[-_])(dev|development|beta)([-_]|$)/i.test(sentryProject)
       || /(^|[-_])(prod|production|live)([-_]|$)/i.test(sentryProject))) {
       throw new Error('Connected beta requires a beta/development Sentry project identity.');
     }

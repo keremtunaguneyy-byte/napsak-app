@@ -23,6 +23,10 @@ const betaValues = {
   SENTRY_PROJECT: 'napsak-beta',
 };
 
+const sentryKeys = ['EXPO_PUBLIC_SENTRY_DSN', 'SENTRY_ORG', 'SENTRY_PROJECT', 'SENTRY_AUTH_TOKEN'] as const;
+const noSentry = Object.fromEntries(sentryKeys.map(key => [key, undefined]));
+const betaWithoutSentry = { ...betaValues, ...noSentry };
+
 test('development and preview are explicitly bound to local development runtime', () => {
   assert.deepEqual(validateBuildConfiguration(app, eas, 'development', {}), {
     profile: 'development', runtime: 'development', mode: 'local',
@@ -54,11 +58,53 @@ test('connected beta requires its explicit profile and non-production services',
   }), /no emulator/);
 });
 
+test('connected beta accepts Firebase with all four Sentry settings absent or blank', () => {
+  const blankSentry = Object.fromEntries(sentryKeys.map((key, index) => [key, index % 2 ? '' : '  ']));
+  for (const env of [betaWithoutSentry, { ...betaWithoutSentry, ...blankSentry }]) {
+    assert.deepEqual(validateBuildConfiguration(app, eas, 'connected-beta', env), {
+      profile: 'connected-beta', runtime: 'development', mode: 'connected',
+    });
+  }
+});
+
+test('connected beta rejects every nonempty proper subset of Sentry settings', () => {
+  const allSettings = (1 << sentryKeys.length) - 1;
+  for (let mask = 1; mask < allSettings; mask++) {
+    const present = sentryKeys.filter((_, index) => mask & (1 << index));
+    const supplied = Object.fromEntries(present.map(key => [key, betaValues[key]]));
+    assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {
+      ...betaWithoutSentry, ...supplied,
+    }), /partial Sentry configuration/i, present.join(', '));
+  }
+});
+
+test('connected beta rejects invalid or placeholder Sentry settings and observability test mode', () => {
+  for (const [key, value] of [
+    ['EXPO_PUBLIC_SENTRY_DSN', 'https://your-key@o123.ingest.sentry.io/456'],
+    ['EXPO_PUBLIC_SENTRY_DSN', 'not-a-dsn'],
+    ['SENTRY_ORG', 'your-org'],
+    ['SENTRY_PROJECT', 'replace-with-beta-project'],
+    ['SENTRY_AUTH_TOKEN', 'example-token'],
+  ]) {
+    assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {
+      ...betaValues, [key]: value,
+    }), /partial Sentry configuration/i);
+  }
+  for (const env of [betaWithoutSentry, betaValues]) {
+    assert.throws(() => validateBuildConfiguration(app, eas, 'connected-beta', {
+      ...env, EXPO_PUBLIC_OBSERVABILITY_TEST_MODE: 'true',
+    }), /cannot enable observability test mode/);
+  }
+});
+
 test('production requires complete Firebase and Sentry build settings', () => {
   assert.deepEqual(validateBuildConfiguration(app, eas, 'production', productionValues), {
     profile: 'production', runtime: 'production', mode: 'connected',
   });
   assert.throws(() => validateBuildConfiguration(app, eas, 'production', {}), /Firebase config/);
+  assert.throws(() => validateBuildConfiguration(app, eas, 'production', {
+    ...productionValues, ...noSentry,
+  }), /requires EXPO_PUBLIC_SENTRY_DSN/);
   assert.throws(() => validateBuildConfiguration(app, eas, 'production', {
     ...productionValues, SENTRY_AUTH_TOKEN: undefined,
   }), /SENTRY_AUTH_TOKEN/);
