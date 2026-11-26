@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { embeddedCatalog } from '../src/data/catalog';
 import type { RecommendationItem } from '../src/recommendations';
-import { homeActionLabel, homeArtwork, homeDiscoveryHeadingInset, homeFigureFooterHeight, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
+import { homeActionLabel, homeArtwork, homeArtworkLayout, homeDiscoveryHeadingInset, homeItemMeta, homeItemTitle } from '../src/components/gezek/gezekHomePresentation';
 import { homeExperienceDetailEntry, openHomeRecommendation } from '../src/homeNavigation';
 import { googleMapsUrlForExperiencePoints } from '../src/mapLinks';
 import { createFilterTimingRecorder, FilterTiming } from '../src/components/gezek/homeFilterDiagnostics';
@@ -11,8 +11,8 @@ import { createFilterTimingRecorder, FilterTiming } from '../src/components/geze
 test('Mekân reuses its static heading beside proximity without category nodes, handlers or state', () => {
   const source = readFileSync(new URL('../src/components/gezek/GezekHome.tsx', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /contextChips?|>Kahve<|>Sanat</);
-  const row = source.slice(source.indexOf('<View style={s.proximityRow}>'), source.indexOf('</> : <Heading'));
-  assert.match(row, /<Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI<\/Text>/);
+  const row = source.slice(source.indexOf('<View style={s.proximityRow}>'), source.indexOf('</> : <Text'));
+  assert.match(row, /<Text accessibilityRole="header" style={\[s.plainHeading, s.proximityHeading\]}/);
   assert.equal(source.match(/BUGÜNÜN MEKÂNI/g)?.length, 1);
   assert.equal((row.match(/onPress=/g) ?? []).length, 1);
   assert.match(row, /<ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus \?\? 0}/);
@@ -25,16 +25,26 @@ test('discovery headings flow to the right of scaled dark artwork with 12 dp cle
   assert.equal(homeDiscoveryHeadingInset(393, 20, 1597, 47), 199);
   assert.equal(homeDiscoveryHeadingInset(412, 29.5, 1600, 47), 200);
   assert.equal(homeDiscoveryHeadingInset(768, 207.5, 1700, 47), 0);
+  assert.equal(homeDiscoveryHeadingInset(412, 207.5, 1520, 26, 178), 82);
 });
 
-test('a full Home feed reveals the seated figure when the footer can show it without moving cards', () => {
-  assert.equal(homeFigureFooterHeight(5, 393, 1620, 1518), 23);
-  assert.equal(homeFigureFooterHeight(5, 412, 1684, 1582), 39);
-  assert.equal(homeFigureFooterHeight(5, 393, 1599, 1497), 44);
-  assert.equal(homeFigureFooterHeight(5, 393, 1598, 1496), 0);
-  assert.equal(homeFigureFooterHeight(5, 393, 1632, 1530), 0);
-  assert.equal(homeFigureFooterHeight(5, 393, 1643, 1520), 0);
-  for (const count of [0, 1, 4]) assert.equal(homeFigureFooterHeight(count, 393, 1620, 1518), 0);
+test('full Home feeds clear the complete reader scene, including shortfalls over 44 dp', () => {
+  assert.deepEqual(homeArtworkLayout(5, 393, 1620), { width: 393, footerHeight: 30 });
+  assert.deepEqual(homeArtworkLayout(5, 412, 1614), { width: 412, footerHeight: 116 });
+  assert.deepEqual(homeArtworkLayout(5, 393, 1650), { width: 393, footerHeight: 0 });
+});
+
+test('wide short feeds fit the illustration proportionally and keep clearance within one reader scene', () => {
+  const naturalEnd = 1586;
+  const { width, footerHeight } = homeArtworkLayout(5, 768, naturalEnd);
+  const scale = width / 393;
+  assert.ok(width < 768);
+  assert.ok(Math.abs(1528.544 * scale - naturalEnd) < 0.01);
+  assert.ok(naturalEnd + footerHeight >= 1649.710 * scale);
+  assert.ok(footerHeight <= Math.ceil((1649.710 - 1528.544) * scale));
+  for (const count of [0, 1, 4]) {
+    assert.deepEqual(homeArtworkLayout(count, 768, 1100), { width: 768, footerHeight: 0 });
+  }
 });
 
 test('filter diagnostics separate cold/warm commits and discard superseded frame opportunities', () => {
