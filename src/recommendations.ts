@@ -120,6 +120,19 @@ export function eventStartEligible(event: Event, now: Date): boolean {
   return isEventRecommendationEligible(event, now);
 }
 
+/**
+ * Refresh fill order over eligible, scored candidates: unseen items first, previously shown items only top up.
+ * In Yakınımda, an unseen item whose total score is negative (its distance penalty outweighs every preference
+ * signal) is taken only after the previously shown items, so a refresh never swaps a nearby repeat for a far,
+ * net-negative card. It still fills a short list as the last resort. First batches, the default policy and
+ * locationless calls are unaffected.
+ */
+function refreshPools<T extends { score: number; distance?: number }>(fresh: T[], fallback: T[], policy: RecommendationProximityPolicy): T[][] {
+  if (policy !== 'nearby' || !fallback.length) return [fresh, fallback];
+  const outweighedByDistance = (item: T) => item.distance !== undefined && item.score < 0;
+  return [fresh.filter(item => !outweighedByDistance(item)), fallback, fresh.filter(outweighedByDistance)];
+}
+
 export function recommendExperiences(options: {
   experiences: Experience[];
   places: Place[];
@@ -191,7 +204,7 @@ export function recommendExperiences(options: {
   // Unseen eligible plans are always taken before any repeat. Previously-shown plans
   // only fill the remaining slots, so a refresh over a small pool rotates instead of
   // re-sorting the old batch back to the top.
-  for (const pool of [fresh, fallback]) {
+  for (const pool of refreshPools(fresh, fallback, proximityPolicy)) {
     while (pool.length && selected.length < limit) {
       pool.sort((a, b) => {
         const adjusted = (item: ExperienceRecommendation & { interestTier: number }) => item.score
@@ -272,7 +285,7 @@ export function recommendPlaces(options: {
   const fresh = candidates.filter(place => !previous.has(place.id));
   const fallback = candidates.filter(place => previous.has(place.id));
   // Unseen places fill first; repeats only top up a short fresh pool.
-  for (const pool of [fresh, fallback]) {
+  for (const pool of refreshPools(fresh, fallback, proximityPolicy)) {
     while (pool.length && selected.length < limit) {
       pool.sort((a, b) => {
         const adjusted = (place: Recommendation) => place.score
