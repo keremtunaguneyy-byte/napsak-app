@@ -6,6 +6,7 @@ import { SavedEntry, SavedReturnRequest, savedFocusAfterRemoval, savedPresentati
 import { BrandLogo } from './BrandLogo';
 import { DETAIL_ASSET_XML } from './detailAssetXml';
 import { GezekAsset } from './GezekArtwork';
+import { HomeBackground } from './GezekHome';
 import { ProductionArtwork } from './ProductionArtwork';
 import { focusDetailControl } from './detailFocus';
 
@@ -69,7 +70,7 @@ export function SavedScreen(p: Props) {
     p.onUnsave(id);
   };
   return <View testID="production-saved" accessibilityElementsHidden={p.hidden} importantForAccessibility={p.hidden ? 'no-hide-descendants' : 'auto'} style={[s.screen, p.hidden && s.hidden]}>
-    <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={s.atmosphere}><GezekAsset name="header" scale={width / 393} /></View>
+    <HomeBackground initialWidth={width} subdued />
     <View style={[s.header, { paddingTop: 94 + p.safeTopInset, paddingBottom: large ? 56 : 16 }]}>
       <View ref={heading} accessible focusable tabIndex={-1} accessibilityRole="header" accessibilityLabel="Kaydedilenler"><Text accessible={false} style={s.title}>Kaydedilenler</Text></View>
       <Text style={s.summary}>Son kaydettiklerin en üstte.</Text>
@@ -100,7 +101,6 @@ function Bookmark({ scale = 1 }: { scale?: number }) {
   return <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" pointerEvents="none" style={{ width: 22 * scale, height: 22 * scale }}><View style={{ width: 22, height: 22, transformOrigin: 'top left', transform: [{ scale }] }}><SvgXml accessible={false} xml={DETAIL_ASSET_XML.saved.xml} /></View></View>;
 }
 const s = StyleSheet.create({
-  atmosphere: { position: 'absolute', top: 0, left: 0, opacity: 0.32 },
   screen: { flex: 1, backgroundColor: C.canvas }, hidden: { display: 'none' },
   header: { paddingHorizontal: L.screenHorizontalInset, paddingBottom: 16 }, top: { position: 'absolute', left: L.screenHorizontalInset, right: L.screenHorizontalInset, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   settings: { width: L.minimumTouchTarget, height: L.minimumTouchTarget, borderRadius: R.full, backgroundColor: C.surface, alignItems: 'center', justifyContent: 'center' },

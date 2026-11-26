@@ -867,9 +867,9 @@ function AppContent() {
       const maxScroll = Math.max(1, contentSize.height - layoutMeasurement.height);
       setGuideScrollProgress(Math.min(100, Math.max(0, (contentOffset.y / maxScroll) * 100)));
     }} onContentSizeChange={() => { if (scrollAfterRotation.current && recommendationMeasurement.run === recommendationRun) { scrollAfterRotation.current = false; requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, recommendationsY.current - 10), animated: true })); } }}>
-      {isHome && <HomeBackground initialWidth={width - safeInsets.left - safeInsets.right} />}
       {!isGuideArticle && !isProductionSurface && <View style={s.header}><BrandLogo color={c.ink} /></View>}
       {step === 'results' && <GezekHome
+        backgroundWidth={width - safeInsets.left - safeInsets.right}
         proximity={proximity} onToggleProximity={toggleProximity} proximityFocus={proximityFocus}
         mood={mood} interests={chosen} budget={budget} groupSize={groupSize} duration={duration}
         results={results} savedIds={saved} selectedFilter={recommendationMeasurement.filter} contextRefreshDue={contextRefreshDue}

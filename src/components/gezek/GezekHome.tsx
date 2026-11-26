@@ -20,7 +20,7 @@ import { PRODUCTION_ASSET_INDEX } from './productionAssetIndex';
 import { discoveryDestinations } from './ArtworkResolver';
 import { itemIconKey } from './ContextualIconResolver';
 import { HOME_PROFILING_ENABLED, recordHomeCommit, recordHomeContentCommit, recordHomeRender } from './homePerformance';
-import { homeActionLabel, homeDiscoveryHeadingInset, homeFigureFooterHeight, homeItemMeta, homeItemTitle } from './gezekHomePresentation';
+import { homeActionLabel, homeArtworkLayout, homeDiscoveryHeadingInset, homeItemMeta, homeItemTitle } from './gezekHomePresentation';
 
 import type { UndoNotice } from '../../detailFlow';
 import { UndoNoticeTransition } from './UndoNoticeTransition';
@@ -45,6 +45,7 @@ const copy: Record<ResultFilter, { main: string; alternatives: string; refresh: 
 };
 
 export type GezekHomeProps = {
+  backgroundWidth: number;
   proximity?: ProximityState; onToggleProximity?: () => void; proximityFocus?: number;
   mood?: Mood; interests: Interest[]; budget: BudgetPreference; groupSize?: GroupSizePreference; duration: DurationPreference;
   results: RecommendationItem[]; savedIds: string[]; selectedFilter: ResultFilter; contextRefreshDue: boolean;
@@ -96,19 +97,21 @@ function HomeContent(p: GezekHomeProps) {
   const discoveryEnd = foreground && utilityHeight !== undefined
     ? foreground.y + foreground.height - HOME_FOREGROUND_BOTTOM_PADDING - S.section - utilityHeight
     : undefined;
-  const scrollWidth = foreground ? foreground.width + 2 * L.screenHorizontalInset : 0;
-  const figureFooter = foreground && discoveryEnd !== undefined && !eventEmpty
-    ? homeFigureFooterHeight(p.results.length, scrollWidth, foreground.y + foreground.height + L.homeBottomInset, discoveryEnd)
-    : 0;
+  const scrollWidth = foreground ? foreground.width + 2 * L.screenHorizontalInset : p.backgroundWidth;
+  const artwork = foreground
+    ? homeArtworkLayout(eventEmpty ? 0 : p.results.length, scrollWidth, foreground.y + foreground.height + L.homeBottomInset)
+    : undefined;
   const discoveryHeadingInset = foreground && discoveryLayout && discoveryEnd !== undefined && discoveryHeadingHeight > 0
     ? homeDiscoveryHeadingInset(
-      scrollWidth,
+      artwork?.width ?? scrollWidth,
       L.screenHorizontalInset + (foreground.width - discoveryLayout.width) / 2,
       discoveryEnd - discoveryLayout.height,
       discoveryHeadingHeight,
+      (scrollWidth - (artwork?.width ?? scrollWidth)) / 2,
     )
     : 0;
   return <>
+    <HomeBackground initialWidth={p.backgroundWidth} artworkWidth={artwork?.width} />
     <View style={s.screen} onLayout={event => setForeground(event.nativeEvent.layout)}>
     <View style={[s.content, hasProximity && { maxWidth: 353 }]}>
     <View style={s.top}>
@@ -152,14 +155,10 @@ function HomeContent(p: GezekHomeProps) {
     <View onLayout={event => p.onRecommendationsLayout(event.nativeEvent.layout.y)}>
       {hasProximity ? <>
         <View style={s.proximityRow}>
-          {p.selectedFilter === 'experience'
-            ? <Text accessibilityRole="header" style={[s.plainHeading, s.proximityHeading]}>{labels.main}</Text>
-            : <View testID="home-heading-surface" style={[s.headingSurface, s.placeHeadingSurface]}>
-              <Text accessibilityRole="header" style={s.placeHeading}>BUGÜNÜN MEKÂNI</Text>
-            </View>}
+          <Text accessibilityRole="header" style={[s.plainHeading, s.proximityHeading]}>{p.selectedFilter === 'place' ? 'BUGÜNÜN MEKÂNI' : labels.main}</Text>
           <ProximityControl state={p.proximity!} onPress={p.onToggleProximity!} focusSequence={p.proximityFocus ?? 0} />
         </View>
-      </> : <Heading title={labels.main} plain={p.selectedFilter === 'experience'} />}
+      </> : <Text accessibilityRole="header" style={[s.plainHeading, s.recommendationHeading]}>{labels.main}</Text>}
       {eventEmpty ? <EventEmptyStatePanel state={eventEmpty} onAction={p.onEventEmptyAction ?? (() => {})} focusAction={p.focusRequest?.target === 'event_action' ? p.focusRequest.id : undefined} /> : main ? <MainCard key={main.id} focusRef={firstCardNode} coordinates={p.coordinates} item={main} saved={p.savedIds.includes(main.id)} onOpen={p.onOpenRecommendation}
         onSave={p.onToggleSaved} onDismiss={p.onDismiss} /> :
         <EmptyCard filter={p.selectedFilter} onEdit={p.onEditPreferences} onHidden={p.onShowHidden} />}
@@ -193,25 +192,29 @@ function HomeContent(p: GezekHomeProps) {
     </View>
     </View>
     </View>
-    {figureFooter > 0 && <View testID="home-figure-footer" accessible={false} pointerEvents="none" style={{ height: figureFooter }} />}
+    {!!artwork?.footerHeight && <View testID="home-figure-footer" accessible={false} pointerEvents="none" style={{ height: artwork.footerHeight }} />}
   </>;
 }
 
-export const HomeBackground = memo(function HomeBackground({ initialWidth }: { initialWidth: number }) {
+export const HomeBackground = memo(function HomeBackground({ initialWidth, artworkWidth, subdued = false }: {
+  initialWidth: number; artworkWidth?: number; subdued?: boolean;
+}) {
   const [measuredWidth, setMeasuredWidth] = useState<number>();
-  const width = measuredWidth ?? initialWidth;
+  const width = Math.min(measuredWidth ?? initialWidth, artworkWidth ?? Infinity);
   return <View
     testID="home-background"
     accessible={false}
     accessibilityElementsHidden
     importantForAccessibility="no-hide-descendants"
     pointerEvents="none"
-    style={s.background}
+    style={[s.background, subdued && s.subduedBackground]}
     onLayout={event => setMeasuredWidth(event.nativeEvent.layout.width)}
   >
-    {/* Match the SVG's bottom edge where content runs longer than the artwork. */}
-    <LinearGradient colors={['#E5DAF5', '#E9DFF8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} />
-    {width > 0 && <ProductionSvg path={PRODUCTION_ASSET_INDEX.ui.Gezek_Home_Background_V8C_L1_Final_v2} width={width} />}
+    {width > 0 && <View style={{ width, flex: 1 }}>
+      {/* Continue the SVG's bottom colors beneath a taller Home feed. */}
+      {!subdued && <LinearGradient colors={['#E5DAF5', '#E9DFF8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={StyleSheet.absoluteFill} />}
+      <ProductionSvg path={PRODUCTION_ASSET_INDEX.ui.Gezek_Home_Background_V8C_L1_Final_v2} width={width} />
+    </View>}
   </View>;
 });
 
@@ -268,13 +271,6 @@ function QuickActions({ item, saved, rank, onSave, onDismiss }: Omit<CardProps, 
       onPress={async event => { event.stopPropagation(); setDismissState('loading'); try { await onDismiss(item, rank); setDismissState('dismissed'); } catch { setDismissState('default'); } }} style={s.quickAction}>
       {({ pressed }) => <ProductionSvg path={PRODUCTION_ASSET_INDEX.ui[dismissState === 'loading' ? 'dismissLoading' : dismissState === 'dismissed' ? 'dismissDismissed' : pressed ? 'dismissPressed' : 'dismissDefault']} />}
     </Pressable>
-  </View>;
-}
-
-function Heading({ title, plain }: { title: string; plain: boolean }) {
-  if (plain) return <Text accessibilityRole="header" style={[s.plainHeading, s.recommendationHeadingSurface]}>{title}</Text>;
-  return <View testID="home-heading-surface" style={[s.headingSurface, s.recommendationHeadingSurface]}>
-    <Text accessibilityRole="header" style={s.heading}>{title}</Text>
   </View>;
 }
 
@@ -369,7 +365,8 @@ export function GezekBottomNavigation({ active, onHome, onSaved, onGuides, backg
 const s = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center' },
   screen: { paddingBottom: HOME_FOREGROUND_BOTTOM_PADDING }, flex: { flex: 1, minWidth: 0 },
-  background: { ...StyleSheet.absoluteFill, overflow: 'hidden' },
+  background: { ...StyleSheet.absoluteFill, overflow: 'hidden', alignItems: 'center' },
+  subduedBackground: { opacity: 0.32 },
   top: { height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   settings: { width: 44, height: 44, borderRadius: R.full, backgroundColor: C.surface, alignItems: 'center', justifyContent: 'center' },
   intro: { gap: 3, marginTop: S.section }, eyebrow: { ...T.eyebrow, color: C.cobalt, fontFamily: F.semiBold },
@@ -389,13 +386,9 @@ const s = StyleSheet.create({
   undo: { marginTop: S.section, minHeight: 48, borderRadius: R.image, backgroundColor: C.navy, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12 },
   undoText: { ...T.label, fontFamily: F.semiBold, color: C.surface }, undoAction: { ...T.label, fontFamily: F.semiBold, color: C.yellow },
   proximityRow: { marginTop: 12, marginBottom: 12, minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' },
-  headingSurface: { alignSelf: 'flex-start', maxWidth: '100%', paddingHorizontal: 8, paddingVertical: 2, borderRadius: R.image, backgroundColor: C.surface },
-  placeHeadingSurface: { flexShrink: 1 },
   plainHeading: { fontSize: 18, lineHeight: 26, color: C.navy, fontFamily: F.bold },
   proximityHeading: { flexShrink: 1 },
-  placeHeading: { fontSize: 10, lineHeight: 14, letterSpacing: 0.6, color: C.venue, fontFamily: F.semiBold, width: 128, alignSelf: 'stretch' },
-  heading: { ...T.section, color: C.navy, fontFamily: F.bold },
-  recommendationHeadingSurface: { marginVertical: S.section },
+  recommendationHeading: { marginVertical: S.section },
   discoveryHeading: { marginBottom: S.section },
   mainCard: { ...shadow, padding: 12, borderWidth: 1, borderColor: C.border, backgroundColor: C.surface, borderRadius: R.surfaceLarge },
   mainContent: { gap: 6 },
@@ -427,10 +420,10 @@ const s = StyleSheet.create({
   discoveryLabel: { ...T.label, color: C.navy, fontFamily: F.semiBold },
   discoveryCopy: { ...T.small, color: C.mutedText, fontFamily: F.medium },
   discoveryArt: { flex: 1, minHeight: 72, alignItems: 'flex-end', justifyContent: 'flex-end', marginTop: 3 },
-  utilities: { alignSelf: 'flex-end', maxWidth: '52%', flexDirection: 'row', flexWrap: 'wrap', columnGap: 16, marginTop: S.section, paddingHorizontal: 8, borderRadius: R.image, backgroundColor: C.surface },
+  utilities: { alignSelf: 'flex-end', maxWidth: '52%', flexDirection: 'row', flexWrap: 'wrap', columnGap: S.section, marginTop: S.section },
   utilityHit: { minHeight: 44, minWidth: 44, justifyContent: 'center' },
   utilityButton: { maxWidth: '100%' },
-  utilityText: { ...T.small, color: C.navy, fontFamily: F.medium },
+  utilityText: { ...T.small, color: C.navy, fontFamily: F.medium, textDecorationLine: 'underline' },
   stateCard: { ...shadow, minHeight: 336, borderWidth: 1, borderColor: C.border, borderRadius: R.surface, backgroundColor: C.surface, paddingHorizontal: 20, paddingVertical: 18, gap: 10 },
   stateIcon: { width: 64, height: 64, borderRadius: R.full, backgroundColor: C.lavender, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' },
   stateTitle: { ...T.card, fontFamily: F.bold, color: C.navy, textAlign: 'center' },
