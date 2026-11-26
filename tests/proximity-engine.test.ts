@@ -34,7 +34,10 @@ test('pure contribution returns finite locationless zero for absent or invalid d
 
 for (const policy of [undefined, 'default'] as const) {
   test(`${policy ?? 'omitted'} policy matches the pre-edit full JSON baseline across 1,920 cases / 28,800 calls`, () => {
-    const { baselineCommit: _base, ...expected } = JSON.parse(readFileSync(new URL('../docs/evidence/proximity-engine-b2/default-baseline.json', import.meta.url), 'utf8'));
+    // B2's proximity-engine-b2/default-baseline.json stays as historical evidence. The fresh-first
+    // rotation change re-pinned parity; every differing call (1,803 of 57,600 across both event
+    // sets) was a refresh whose unseen pool was smaller than the requested limit.
+    const { baselineCommit: _base, change: _change, ...expected } = JSON.parse(readFileSync(new URL('../docs/evidence/recommendation-fresh-first-rotation/default-baseline.json', import.meta.url), 'utf8'));
     assert.deepEqual(defaultFingerprint(engine, policy, [...retiredEvents]), expected);
   });
 }
@@ -157,6 +160,35 @@ test('small nearby pools keep far candidates, repeat fallback, and partial/empty
     assert.equal(first.length, 1); assert.ok('distance' in first[0] && first[0].distance! > 30);
     assert.deepEqual(engine.recommendAll({ ...options, ...selected, previousBatch: ids(first) }), first);
     assert.deepEqual(engine.recommendAll({ ...options, ...selected, dismissed: ids(first) }), []);
+  }
+});
+
+test('a Yakınımda refresh keeps nearby repeats ahead of an unseen net-negative far candidate', () => {
+  // Synthetic fixture of the PR #93 review case (an 85 km Plan in a sparse Kahve pool): not a catalog edit.
+  const far = { latitude: origins[0].latitude + 0.77, longitude: origins[0].longitude };
+  const near = { latitude: origins[0].latitude, longitude: origins[0].longitude };
+  for (const filter of ['experience', 'place'] as const) {
+    const template = filter === 'experience' ? catalog.experiences[0] : catalog.places[0];
+    const items = [...Array.from({ length: 6 }, (_, i) => ({ ...template, ...near, id: `near-${i}` })), { ...template, ...far, id: 'far' }];
+    const pool = filter === 'experience' ? { experiences: items as Experience[] } : { places: items as Place[] };
+    const options = { ...base, ...pool, filter, coordinates: origins[0], proximityPolicy: 'nearby' as const, limit: 5 };
+    const scored = engine.recommendAll({ ...options, limit: 1000 });
+    assert.ok(scored.find(item => item.id === 'far')!.score < 0, 'fixture needs a net-negative far candidate');
+    const first = engine.recommendAll(options);
+    assert.ok(!ids(first).includes('far'));
+    const refresh = { ...options, seed: 38, previousBatch: ids(first) };
+    const second = engine.recommendAll(refresh);
+    // The unseen nearby item still leads; a repeat fills the slot the far candidate would have taken.
+    assert.equal(second.length, 5);
+    assert.ok(!ids(second).includes('far'));
+    assert.ok(second.some(item => !ids(first).includes(item.id)));
+    assert.deepEqual(engine.recommendAll(refresh), second);
+    // Explicit sparse-pool fallback: without enough repeats the far candidate still fills the list.
+    const sparse = { ...refresh, dismissed: ids(first).slice(1) };
+    assert.ok(ids(engine.recommendAll(sparse)).includes('far'));
+    // Normal discovery and missing location keep plain fresh-first: the unseen far candidate is shown.
+    assert.ok(ids(engine.recommendAll({ ...refresh, proximityPolicy: 'default' })).includes('far'));
+    assert.deepEqual(engine.recommendAll({ ...refresh, coordinates: undefined }), engine.recommendAll({ ...refresh, coordinates: undefined, proximityPolicy: 'default' }));
   }
 });
 

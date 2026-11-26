@@ -1,0 +1,9 @@
+{
+  "baselineCommit": "0a17bcdbad462f0f5b9aaef597b50554187ec0dd",
+  "change": "fresh-first rotation fill (Experience, Place); supersedes proximity-engine-b2/default-baseline.json for current-engine parity; B2 file retained as historical evidence",
+  "cases": 1920,
+  "calls": 28800,
+  "eligiblePlaces": 127728,
+  "eligibleExperiences": 29392,
+  "fullResultsSha256": "1545e965b99e148775b33683dec3efc33fef9485e9f17220f392cb0860a1c32f"
+}

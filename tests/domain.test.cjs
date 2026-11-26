@@ -1340,6 +1340,33 @@ test('rotation avoids the previous batch and safely falls back for a small pool'
   assert.equal(recommendPlaces({ places: small, interests: ['Kahve'], dismissed: [], limit: 5, previousBatch: small.map(place => place.id) }).length, 3);
 });
 
+test('a refresh over a short fresh pool shows every unseen eligible item before repeats', () => {
+  const now = new Date('2026-11-24T12:00:00+03:00');
+  const common = { experiences, places, events, mood: 'Sakin', interests: ['Kahve'], budget: '₺', groupSize: 'Tek', dismissed: [], limit: 5, now };
+  const eligible = recommendExperiences({ ...common, limit: 50 });
+  assert.ok(eligible.length > 5 && eligible.length < 10, `fixture needs a 6–9 item pool, got ${eligible.length}`);
+  const first = recommendExperiences({ ...common, seed: 0 });
+  const second = recommendExperiences({ ...common, seed: 1, previousBatch: first.map(item => item.id) });
+  const unseen = eligible.filter(item => !first.some(shown => shown.id === item.id)).map(item => item.id);
+  assert.equal(second.length, 5);
+  assert.ok(unseen.every(id => second.some(item => item.id === id)), 'an unseen eligible Experience was buried by a repeat');
+  // Primary-interest plans still precede secondary-only plans inside the refreshed batch.
+  const firstSecondary = second.findIndex(item => !item.primaryInterests.includes('Kahve'));
+  assert.ok(firstSecondary === -1 || second.slice(firstSecondary).every(item => !item.primaryInterests.includes('Kahve')));
+  // Replaying the same refresh is deterministic, and Hidden still wins over rotation.
+  assert.deepEqual(recommendExperiences({ ...common, seed: 1, previousBatch: first.map(item => item.id) }), second);
+  assert.ok(!recommendExperiences({ ...common, seed: 1, previousBatch: first.map(item => item.id), dismissed: [unseen[0]] }).some(item => item.id === unseen[0]));
+
+  const smallPlaces = places.filter(place => isPlaceRecommendationEligible(place) && place.interests.includes('Kahve')).slice(0, 7);
+  const placeOptions = { places: smallPlaces, interests: ['Kahve'], dismissed: [], limit: 5 };
+  const firstPlaces = recommendPlaces({ ...placeOptions, seed: 0 });
+  const secondPlaces = recommendPlaces({ ...placeOptions, seed: 1, previousBatch: firstPlaces.map(place => place.id) });
+  const unseenPlaces = smallPlaces.filter(place => !firstPlaces.some(shown => shown.id === place.id));
+  assert.equal(unseenPlaces.length, 2);
+  assert.deepEqual(secondPlaces.slice(0, 2).map(place => place.id).sort(), unseenPlaces.map(place => place.id).sort());
+  assert.equal(secondPlaces.length, 5);
+});
+
 
 const { deserializePreferences, migratePreferences, serializePreferences, shouldRefreshContext } = require('../.test-build/persistence.js');
 const { resolveFirebaseRuntimeSettings } = require('../.test-build/firebase/config.js');
