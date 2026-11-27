@@ -60,6 +60,21 @@ npm run catalog:publish -- status
 
 The active version should be `2026-11-22.10`, with `2026-11-22.2` recorded as good. Exact retries return `already published` or `already restored`. These are receipts for the earlier operation. Check `status` for the current head. A stale base or conflicting target version requires a fresh review. If a publish returns an unknown outcome, retry the same digest and check the head before making another candidate.
 
+## First publication with schema-1 legacy metadata
+
+Use this emulator-only path when the Ankara publication head is absent and `catalogMeta/ankara` contains schema `1` with a known version. Plain `status` still refuses this starting state. Check it explicitly, then stage against the **embedded** version:
+
+```sh
+npm run catalog:publish -- status --expect-schema-1 2026-08-09.2
+npm run catalog:publish -- stage 2026-11-22.1 /path/to/approved-fixture.json --expect-schema-1 2026-08-09.2
+```
+
+Use the observed legacy version and current embedded version in any other rehearsal. The candidate digest binds the legacy expectation, base and payload. Review and approve the returned digest with the standard commands. Activation rechecks the exact Ankara schema and version and the absent head in the same transaction that writes the first release. The candidate must be newer than both the legacy and embedded versions. A staged receipt alone does not activate anything.
+
+The transaction preserves the legacy metadata and collections. It creates an immutable embedded baseline and the first release, then advances the versioned head. Before activation, the publisher checks that this embedded baseline is a valid rollback target, including Saved and Hidden resolution and current Event health. A candidate that adds a destination the baseline cannot restore, or an embedded baseline with stale Events, stops the cutover. Stop for an approved recovery plan if either check fails. After the first publication, use ordinary `status` and omit the schema-1 flag for subsequent candidates. Exact retries return the original receipt.
+
+This path never imports old schema-1 records. Review any legacy-only IDs and unresolved personal-history references before a later live test. The reader already falls back to the embedded catalog while the versioned head is absent. Rehearsing this path requires no edits to the old collections or their metadata.
+
 ## How activation and restoration work
 
 - The candidate digest binds its expected base version and serialized payload. Validation applies the app's snapshot checks and the catalog operations checks for Saved destinations, retired Event IDs, stable identities, approved Guide media, geography, and Event health. Publish rechecks the candidate and its base inside the transaction.

@@ -20,7 +20,7 @@ export function openPublishingEmulator() {
   return { app, db };
 }
 
-type Candidate = { base: string; payload: string; approved: boolean };
+type Candidate = { base: string; payload: string; approved: boolean; expectedSchema1Version?: string };
 
 export class CatalogPublisher {
   constructor(private readonly db: Firestore, private readonly now = () => new Date()) {}
@@ -35,14 +35,18 @@ export class CatalogPublisher {
     return this.db.doc('catalogCandidates/' + id);
   }
 
-  async stage(base: string, value: unknown) {
+  async stage(base: string, value: unknown, expectedSchema1Version?: string) {
     if (!isCatalogVersion(base)) throw Error('Invalid expected base version.');
+    if (expectedSchema1Version !== undefined && !isCatalogVersion(expectedSchema1Version)) throw Error('Invalid expected schema-1 version.');
     const payload = JSON.stringify(value);
     checkSize(payload);
-    const id = candidateDigest(base, payload);
+    const id = candidateDigest(base, payload, expectedSchema1Version);
     const ref = this.candidate(id);
     await this.db.runTransaction(async tx => {
-      if (!(await tx.get(ref)).exists) tx.create(ref, { base, payload, approved: false });
+      if (!(await tx.get(ref)).exists) tx.create(ref, {
+        base, payload, approved: false,
+        ...(expectedSchema1Version !== undefined && { expectedSchema1Version }),
+      });
     });
     return id;
   }
@@ -50,13 +54,15 @@ export class CatalogPublisher {
   private async readCandidate(tx: Transaction, id: string): Promise<Candidate> {
     const data = (await tx.get(this.candidate(id))).data();
     if (!data || !isCatalogVersion(data.base) || typeof data.payload !== 'string'
-      || candidateDigest(data.base, data.payload) !== id) throw Error('Missing candidate or digest mismatch.');
-    return { base: data.base, payload: data.payload, approved: data.approved === true };
+      || (data.expectedSchema1Version !== undefined && !isCatalogVersion(data.expectedSchema1Version))
+      || candidateDigest(data.base, data.payload, data.expectedSchema1Version) !== id) throw Error('Missing candidate or digest mismatch.');
+    return { base: data.base, payload: data.payload, approved: data.approved === true, expectedSchema1Version: data.expectedSchema1Version };
   }
 
-  private async readHead(tx: Transaction) {
+  private async readHead(tx: Transaction, expectedSchema1Version?: string) {
     const head = (await tx.get(this.db.doc(this.headPath))).data();
     if (head) {
+      if (expectedSchema1Version !== undefined) throw Error('Schema-1 cutover requires an absent publication head.');
       const meta = parseCatalogMeta(head);
       if (!meta || meta.cityId !== city || meta.schemaVersion !== embedded.schemaVersion || !isCatalogVersion(head.goodVersion)) {
         throw Error('Invalid publication head.');
@@ -64,8 +70,16 @@ export class CatalogPublisher {
       return { version: meta.catalogVersion, goodVersion: head.goodVersion, bootstrap: false as const };
     }
     const legacy = (await tx.get(this.db.doc('catalogMeta/' + city))).data();
+    const meta = parseCatalogMeta(legacy);
+    if (expectedSchema1Version !== undefined) {
+      if (!isCatalogVersion(expectedSchema1Version)) throw Error('Invalid expected schema-1 version.');
+      if (meta?.cityId !== city || meta.schemaVersion !== 1 || meta.catalogVersion !== expectedSchema1Version) {
+        throw Error('Legacy metadata does not match the expected Ankara schema-1 version.');
+      }
+      return { version: embedded.catalogVersion, goodVersion: embedded.catalogVersion,
+        bootstrap: 'embedded' as const, expectedSchema1Version };
+    }
     if (legacy) {
-      const meta = parseCatalogMeta(legacy);
       if (!meta || meta.cityId !== city || meta.schemaVersion !== embedded.schemaVersion) throw Error('Invalid legacy metadata.');
       if (compareCatalogVersions(meta.catalogVersion, embedded.catalogVersion) !== -1) {
         return { version: meta.catalogVersion, goodVersion: meta.catalogVersion, bootstrap: 'legacy' as const };
@@ -96,8 +110,8 @@ export class CatalogPublisher {
       fetchedAt: this.now().toISOString(), cities: [owner.data()], places, experiences, events, ideas, guides }));
   }
 
-  status() {
-    return this.db.runTransaction(tx => this.readHead(tx));
+  status(expectedSchema1Version?: string) {
+    return this.db.runTransaction(tx => this.readHead(tx, expectedSchema1Version));
   }
 
   private async readRelease(tx: Transaction, version: string) {
@@ -109,12 +123,18 @@ export class CatalogPublisher {
   }
 
   private async review(tx: Transaction, candidate: Candidate) {
-    const head = await this.readHead(tx);
+    const head = await this.readHead(tx, candidate.expectedSchema1Version);
     if (head.version !== candidate.base) throw Error('Active version changed. Stage and approve against the current base.');
     const previous = head.bootstrap === 'legacy' ? await this.readLegacy(tx, head.version)
       : head.bootstrap === 'embedded' ? embedded : await this.readRelease(tx, head.version);
-    const snapshot = validateCandidate(candidate.payload, previous, this.now());
+    const now = this.now();
+    const snapshot = validateCandidate(candidate.payload, previous, now);
     requireNewer(snapshot.catalogVersion, embedded.catalogVersion);
+    if (candidate.expectedSchema1Version !== undefined) {
+      requireNewer(snapshot.catalogVersion, candidate.expectedSchema1Version);
+      // The first release must be able to restore the catalog the shipped reader used.
+      validateRollback(JSON.stringify(previous), snapshot, now);
+    }
     return { head, previous, snapshot };
   }
 

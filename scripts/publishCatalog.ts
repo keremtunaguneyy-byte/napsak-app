@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { deleteApp } from 'firebase-admin/app';
 import { CatalogPublisher, openPublishingEmulator } from './catalogPublishing';
 
-const usage = 'Use status | stage <base-version> <snapshot.json> | validate <digest> | approve <digest> | publish <digest> | confirm-good <active-version> | rollback <bad-version> <good-version> <new-version>.';
+const usage = 'Use status [--expect-schema-1 <legacy-version>] | stage <base-version> <snapshot.json> [--expect-schema-1 <legacy-version>] | validate <digest> | approve <digest> | publish <digest> | confirm-good <active-version> | rollback <bad-version> <good-version> <new-version>.';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);
@@ -10,7 +10,10 @@ async function main() {
   try {
     const publisher = new CatalogPublisher(db);
     if (command === 'status' && !args.length) return await publisher.status();
-    if (command === 'stage' && args.length === 2) return await publisher.stage(args[0], JSON.parse(readFileSync(args[1], 'utf8')));
+    if (command === 'status' && args.length === 2 && args[0] === '--expect-schema-1') return await publisher.status(args[1]);
+    if (command === 'stage' && (args.length === 2 || (args.length === 4 && args[2] === '--expect-schema-1'))) {
+      return await publisher.stage(args[0], JSON.parse(readFileSync(args[1], 'utf8')), args[3]);
+    }
     if (command === 'validate' && args.length === 1) return await publisher.reviewCandidate(args[0]);
     if (command === 'approve' && args.length === 1) return await publisher.reviewCandidate(args[0], true);
     if (command === 'publish' && args.length === 1) return await publisher.publish(args[0]);
