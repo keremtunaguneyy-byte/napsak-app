@@ -10,7 +10,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Ankara Caz Festivali’nde Kerem Görsev’in besteleri ve doğaçlamaları, piyano, tenor saksofon, kontrbas ve davulla sahnede.',
     sourceUrl: 'https://www.bubilet.com.tr/ankara/etkinlik/30-uluslararasi-ankara-caz-festivali-kerem-gorsev-quartet/seans/307048',
     sourceLabel: 'Bubilet', priceNote: 'Tam bilet 1.000 ₺’den',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-kesanli-ali-destani-kayseri-dt-2026-12-02', kind: 'event', title: 'Keşanlı Ali Destanı — Kayseri DT',
@@ -19,8 +19,8 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     priceLevel: 1, editorialScore: 4.5,
     note: 'Kayseri Devlet Tiyatrosu, Ali ile Zilha’nın hikâyesini şarkılar ve mizahla Ankara’da sahneliyor. İki perde, 170 dakika. 13 yaş ve üzeri.',
     sourceUrl: 'https://biletinial.com/tr-tr/tiyatro/kesanli-ali-destani-kayseri-dt?cinemaBranchId=1246#seans-18664878',
-    sourceLabel: 'Biletinial', priceNote: 'Tam bilet 200,01 ₺’den. Öğrenci ve öğretmen 120,01 ₺’den.',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    sourceLabel: 'Biletinial', priceNote: 'Tam bilet 200,01 ₺’den. İndirimli bilet 120,01 ₺’den.',
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-storytellers-forcione-cenk-erdogan-2026-12-05', kind: 'event', title: 'Storytellers — Antonio Forcione & Cenk Erdoğan',
@@ -30,7 +30,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Antonio Forcione parmak tekniğiyle, Cenk Erdoğan perdesiz gitarıyla ortak Storytellers albümünü sahneye taşıyor. 6 yaş altı alınmıyor. 6–18 yaş aralığında ebeveyn gerekiyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/muzik/storytellers-antonio-forcione-cenk-erdogan#seans-18716386',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 822 ₺’den',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-cso-sostakovic-sovyet-yuzyili-2026-12-11', kind: 'event', title: 'Şostakoviç: Sovyet Yüzyılı',
@@ -40,7 +40,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Aziz Shokhakimov yönetimindeki CSO, Harutyunyan’ın Trompet Konçertosu ile Şostakoviç’in 1. Piyano Konçertosu ve 5. Senfonisi’ni seslendiriyor. 6 yaş ve altı alınmıyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/muzik/sostakovic-sovyet-yuzyili-cso?cinemaBranchId=2015#seans-18877885',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 150,01 ₺’den. Öğrenci 75,01 ₺’den.',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-ankara-turkuleri-ve-segmenler-2026-12-13', kind: 'event', title: 'Ankara Türküleri ve Seğmenler',
@@ -50,7 +50,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Atatürk’ün Ankara’ya gelişinin 107. yılı için Ankara türküleri ve Seğmen halk oyunları aynı programda. 6 yaş ve altı alınmıyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/muzik/ataturkun-ankaraya-gelisinin-107-yili-ankara-turkuleri-ve-segmenler-csoada?cinemaBranchId=1280#seans-18831811',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 260,01 ₺’den',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-hisseli-harikalar-kumpanyasi-yenimahalle-2026-12-19', kind: 'event', title: 'Hisseli Harikalar Kumpanyası',
@@ -60,7 +60,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Bir turne kumpanyasının başına gelenleri müzik ve komediyle anlatan oyun. 140 dakika, 10 yaş ve üzeri. Öğrenci biletinde kimlik isteniyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/tiyatro/hisseli-harikalar-kumpanyasi-tiyatro-cafe?cinemaBranchId=15826#seans-18850225',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 784 ₺. Öğrenci 672 ₺.',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-iki-kiyi-bir-kadin-bir-hayal-etimesgut-2026-12-20', kind: 'event', title: 'İki Kıyı, Bir Kadın, Bir Hayal',
@@ -70,7 +70,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Makbule Eksert’in vokali, canlı orkestra ve dansçılar tango ile flamenkoyu aynı hikâyede buluşturuyor. Her katılımcı için bilet gerekiyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/tiyatro/iki-kiyi-bir-kadin-bir-hayal-tango#seans-18826849',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 1.315 ₺',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-vuslatin-753-yilinda-sema-mukabelesi-2026-12-21', kind: 'event', title: 'Vuslatın 753. Yılında Semâ Mukâbelesi',
@@ -80,7 +80,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Mevlânâ’nın vuslat yıldönümünde Mevlevî müziği eşliğinde semâ mukâbelesi. 6 yaş ve altı alınmıyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/muzik/vuslatin-753yilinda-sema-mukabelesi-csoada#seans-18857019',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 150,01 ₺’den. Öğrenci 75,01 ₺’den.',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-trioism-haydn-sostakovic-jalbert-cso-2026-12-23', kind: 'event', title: 'TRİO’İSM — Haydn, Şostakoviç, Jalbert',
@@ -90,7 +90,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'CSO sanatçılarıyla piyano üçlüsü repertuvarının farklı dönemlerinden Haydn, Şostakoviç ve Jalbert eserleri. 6 yaş ve altı alınmıyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/muzik/trioism-haydn-sostakovic-jalbert-cso?branchId=2015#seans-18877828',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 300,01 ₺’den. Öğrenci 150,01 ₺’den.',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
   {
     id: 'event-hos-gelisler-ola-mustafa-kemal-pasa-2026-12-27', kind: 'event', title: 'Hoş Gelişler Ola Mustafa Kemal Paşa',
@@ -100,7 +100,7 @@ const ankaraEvents: Omit<Event, 'cityId'>[] = [
     note: 'Atatürk’ün Ankara’ya gelişinin 107. yılı için hazırlanan anma konseri. 6 yaş ve altı alınmıyor.',
     sourceUrl: 'https://biletinial.com/tr-tr/muzik/107-yili-anisina-hos-gelisler-ola-mustafa-kemal-pasa-csoada?cinemaBranchId=1280#seans-18854501',
     sourceLabel: 'Biletinial', priceNote: 'Tam bilet 375,01 ₺’den',
-    verifiedAt: '2026-11-22', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
+    verifiedAt: '2026-11-27', groupSizes: ['Tek', '2 kişi', '3–4 kişi', '5+'],
   },
 ];
 

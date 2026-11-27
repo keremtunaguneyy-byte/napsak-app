@@ -102,7 +102,7 @@ test('failed remote refresh with usable embedded/cache fallback never becomes to
   const embedded = await loadBestCatalog('ankara', remote);
   assert.equal(embedded.source, 'embedded');
   assert.equal(state({ ...base, events: embedded.snapshot.events }, { ...safe, totalFailure: true }), 'populated');
-  const snapshot = { ...embeddedCatalog('ankara'), catalogVersion: '2026-11-23.1' };
+  const snapshot = { ...embeddedCatalog('ankara'), catalogVersion: '2099-01-01.1' };
   const cache = await loadBestCatalog('ankara', remote, { getItem: async key => key === catalogCacheKey('ankara') ? JSON.stringify(snapshot) : null, setItem: async () => {} });
   assert.equal(cache.source, 'cache');
   assert.equal(state({ ...base, events: cache.snapshot.events }), 'populated');
