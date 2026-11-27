@@ -27,6 +27,7 @@
     "@types/react": "~19.2.2",
     "firebase-admin": "^13.5.0",
     "firebase-tools": "^15.26.0",
+    "google-auth-library": "^9.15.1",
     "tsx": "^4.20.6",
     "typescript": "~6.0.3"
   },
@@ -62,6 +63,7 @@
     "check:assets": "node --import tsx scripts/buildGezekAssets.ts --check",
     "check:assets:android": "node --import tsx scripts/checkEventArtworkExport.ts",
     "catalog:publish": "node --import tsx scripts/publishCatalog.ts",
+    "catalog:publish:napsak-dev": "node --import tsx scripts/publishCatalogNapsakDev.ts",
     "test:catalog-publishing": "firebase emulators:exec --project demo-napsak --only firestore \"node --import tsx --test tests/catalog-publishing.test.ts\"",
     "check:android-runtime": "node --import tsx scripts/checkAndroidRuntimeConfig.ts"
   }

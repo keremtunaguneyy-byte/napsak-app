@@ -53,7 +53,7 @@ npm run check:build -- --profile=connected-beta
 | `ideas/{id}` | Şehirden bağımsız evergreen fikir | Auth gerekli | Hayır |
 | `users/{uid}` | Kaydet/gizle/kalıcı ilgiler | Yalnız sahibi | Yalnız sahibi |
 
-Katalog yazıları yalnız güvenilir seed/admin pipeline’ından gelir. Mobil istemci katalog belgesi yazamaz. Sürümlü yayını ve geri almayı denemek için [Catalog Publishing Runbook](CATALOG_PUBLISHING_RUNBOOK.md) adımlarını izleyin. MVP yazma aracı yalnız yerel emülatöre bağlanır.
+Katalog yazıları yalnız güvenilir seed/admin pipeline’ından gelir. Mobil istemci katalog belgesi yazamaz. Sürümlü yayını ve geri almayı denemek için [Catalog Publishing Runbook](CATALOG_PUBLISHING_RUNBOOK.md) adımlarını izleyin. Emülatör komutu yalnız yerel emülatöre bağlanır. Ayrı Napsak Dev komutu yalnız `napsak-dev/(default)` içindeki Ankara ilk yayını ve ileri sürümle geri dönüş için kullanılır.
 
 ## Okuma ve maliyet sınırları
 
