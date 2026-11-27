@@ -16,8 +16,9 @@ export function requireNewer(version: string, base: string) {
   if (compareCatalogVersions(version, base) !== 1) throw Error(`Release ${version} must be newer than ${base}.`);
 }
 
-export function candidateDigest(base: string, payload: string) {
-  return createHash('sha256').update(JSON.stringify([base, payload])).digest('hex');
+export function candidateDigest(base: string, payload: string, expectedSchema1Version?: string) {
+  const input = expectedSchema1Version === undefined ? [base, payload] : [base, payload, expectedSchema1Version];
+  return createHash('sha256').update(JSON.stringify(input)).digest('hex');
 }
 
 export function checkSize(payload: string) {
