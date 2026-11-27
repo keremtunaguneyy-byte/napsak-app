@@ -9,6 +9,7 @@ import { deleteApp as deleteAdminApp } from 'firebase-admin/app';
 import { initializeApp, deleteApp, type FirebaseApp } from 'firebase/app';
 import { connectFirestoreEmulator, disableNetwork, doc, Firestore, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { CatalogPublisher, emulatorProject, openPublishingEmulator } from '../scripts/catalogPublishing';
+import { candidateDigest, payloadDigest } from '../scripts/catalogPublishingValidation';
 import { embeddedCatalog, CatalogSnapshot } from '../src/data/catalog';
 import { MAX_CATALOG_PAYLOAD_BYTES, publicationHeadPath, releasePath } from '../src/data/catalogPublication';
 import { loadBestCatalog } from '../src/data/catalogService';
@@ -113,35 +114,57 @@ test('schema-1 legacy CLI fails closed by default and the shipped reader falls b
   console.info('reader before publication:', before.source, before.snapshot.catalogVersion, before.remoteError);
 });
 
-test('explicit schema-1 cutover keeps legacy and history, adopts A and B, then restores A under a newer version', async () => {
+function cutoverFixtures() {
+  const timestamp = new Date();
+  const day = timestamp.toISOString().slice(0, 10);
+  const version = (revision: number) => day > baseDay ? `${day}.${revision}` : releaseVersion(revision + 1);
+  return { timestamp, version,
+    rollback: fixture(version(1), 'Synthetic approved rollback content', timestamp),
+    candidate: fixture(version(2), 'Synthetic proposed active content', timestamp) };
+}
+
+test('schema-1 atomically activates reviewed same-ID content and restores the explicit snapshot', async () => {
   const { documents, saved, dismissed } = await seedSchemaOneLegacy();
+  const { timestamp, version, candidate, rollback } = cutoverFixtures();
+  const cutover = new CatalogPublisher(admin.db);
   const headRef = admin.db.doc(publicationHeadPath(city));
-  const good = fixture(releaseVersion(2), 'Synthetic cutover A');
+  const snapshotRef = admin.db.doc(releasePath(city, rollback.catalogVersion));
+  const candidateRef = admin.db.doc(releasePath(city, candidate.catalogVersion));
   const directory = mkdtempSync(join(tmpdir(), 'gezek-schema-one-'));
   const file = join(directory, 'snapshot.json');
+  const rollbackFile = join(directory, 'rollback.json');
   const cli = (...args: string[]) => spawnSync(process.execPath, ['--import', 'tsx', 'scripts/publishCatalog.ts', ...args], { encoding: 'utf8' });
   let id: string;
   try {
     const status = cli('status', '--expect-schema-1', legacyVersion);
     assert.equal(status.status, 0, status.stderr);
     assert.match(status.stdout, /bootstrap: 'embedded'/);
-    writeFileSync(file, JSON.stringify(good));
-    const stage = cli('stage', base, file, '--expect-schema-1', legacyVersion);
-    assert.equal(stage.status, 0, stage.stderr);
-    id = stage.stdout.trim();
+    writeFileSync(file, JSON.stringify(candidate));
+    writeFileSync(rollbackFile, JSON.stringify(rollback));
+    const staged = cli('stage', base, file, '--expect-schema-1', legacyVersion, '--rollback-snapshot', rollbackFile);
+    assert.equal(staged.status, 0, staged.stderr);
+    id = staged.stdout.trim();
   } finally { rmSync(directory, { recursive: true, force: true }); }
   assert.match(id, /^[0-9a-f]{64}$/);
-  assert.equal(await publisher.stage(base, good, legacyVersion), id);
-  assert.notEqual(await publisher.stage(base, good), id);
-  await assert.rejects(publisher.publish(id), /explicit digest approval/);
-  await publisher.reviewCandidate(id, true);
+  assert.equal(await cutover.stage(base, candidate, legacyVersion, rollback), id);
+  assert.notEqual(await cutover.stage(base, candidate, legacyVersion, { ...rollback, fetchedAt: new Date(timestamp.getTime() + 1).toISOString() }), id);
+  assert.notEqual(await cutover.stage(base, candidate), id);
+  await assert.rejects(cutover.publish(id), /explicit digest approval/);
+  const approval = await cutover.reviewCandidate(id, true);
+  const rollbackPayload = JSON.stringify(rollback);
+  const approvedRollbackDigest = payloadDigest(rollbackPayload);
+  assert.deepEqual(approval, { digest: id, base, version: candidate.catalogVersion, approved: true,
+    rollbackVersion: rollback.catalogVersion, rollbackDigest: approvedRollbackDigest });
 
   await admin.db.doc(legacyPath).update({ catalogVersion: '2026-08-09.3' });
-  await assert.rejects(publisher.publish(id), /does not match the expected Ankara schema-1 version/);
+  await assert.rejects(cutover.publish(id), /does not match the expected Ankara schema-1 version/);
   assert.equal((await headRef.get()).exists, false);
-  assert.equal((await admin.db.doc(releasePath(city, base)).get()).exists, false);
-  assert.equal((await admin.db.doc(releasePath(city, good.catalogVersion)).get()).exists, false);
+  assert.equal((await snapshotRef.get()).exists, false);
+  assert.equal((await candidateRef.get()).exists, false);
   await admin.db.doc(legacyPath).set(documents.get(legacyPath)!);
+  const competing = fixture(version(4), 'Competing first publication', timestamp);
+  const competingId = await cutover.stage(base, competing, legacyVersion, rollback);
+  await cutover.reviewCandidate(competingId, true);
 
   const assertHistory = (snapshot: CatalogSnapshot) => {
     const items = [...snapshot.places, ...snapshot.experiences, ...snapshot.ideas, ...eventsForPersonalHistory(snapshot.events, city)];
@@ -152,22 +175,24 @@ test('explicit schema-1 cutover keeps legacy and history, adopts A and B, then r
   const before = await loadBestCatalog(city, reader, disk);
   assert.equal(before.source, 'embedded');
   assertHistory(before.snapshot);
-  const competing = fixture(releaseVersion(4), 'Competing first publication');
-  const competingId = await publisher.stage(base, competing, legacyVersion);
-  await publisher.reviewCandidate(competingId, true);
-  assert.equal(await publisher.publish(id), 'published');
+  const publishResult = await cutover.publish(id);
+  assert.equal(publishResult, 'published');
   const firstHead = (await headRef.get()).data();
-  assert.equal(firstHead?.goodVersion, base);
-  const baseline = (await admin.db.doc(releasePath(city, base)).get()).data();
-  assert.deepEqual(baseline, { source: 'embedded', payload: JSON.stringify(embeddedCatalog()) });
-  await assert.rejects(publisher.publish(competingId), /requires an absent publication head/);
-  assert.equal(await publisher.publish(id), 'already published');
+  assert.equal(firstHead?.goodVersion, rollback.catalogVersion);
+  const rollbackReceipt = (await snapshotRef.get()).data();
+  assert.deepEqual(rollbackReceipt, { source: 'explicit-cutover', cutoverCandidate: id,
+    rollbackDigest: approvedRollbackDigest, payload: rollbackPayload });
+  const candidateReceipt = (await candidateRef.get()).data();
+  assert.deepEqual(candidateReceipt, { candidate: id, payload: JSON.stringify(candidate),
+    rollbackVersion: rollback.catalogVersion, rollbackDigest: approvedRollbackDigest });
+  await assert.rejects(cutover.publish(competingId), /requires an absent publication head/);
+  assert.equal(await cutover.publish(id), 'already published');
   assert.deepEqual((await headRef.get()).data(), firstHead);
   assert.equal((await admin.db.doc(releasePath(city, competing.catalogVersion)).get()).exists, false);
 
   const adopted = await loadBestCatalog(city, reader, disk);
   assert.equal(adopted.source, 'remote', adopted.remoteError ?? 'expected cutover remote');
-  assert.deepEqual(adopted.snapshot, good);
+  assert.deepEqual(adopted.snapshot, candidate);
   const offlineApp = initializeApp({ projectId: emulatorProject, apiKey: 'emulator-only' }, 'schema1-offline-reader');
   apps.push(offlineApp);
   const offlineClient = getFirestore(offlineApp);
@@ -178,97 +203,119 @@ test('explicit schema-1 cutover keeps legacy and history, adopts A and B, then r
   const offline = await loadBestCatalog(city, offlineReader, disk);
   assert.equal(offline.source, 'cache');
   assert.ok(offline.remoteError);
-  assert.deepEqual(offline.snapshot, good);
+  assert.deepEqual(offline.snapshot, candidate);
   assertHistory(offline.snapshot);
-  await publisher.confirmGood(good.catalogVersion);
 
-  const bad = fixture(releaseVersion(9), 'Synthetic cutover B');
-  const badId = await approved(good.catalogVersion, bad);
-  assert.equal(await publisher.publish(badId), 'published');
-  assert.deepEqual((await loadBestCatalog(city, reader, disk)).snapshot, bad);
-  const secondHead = (await headRef.get()).data();
-  assert.equal(await publisher.publish(id), 'already published');
-  assert.deepEqual((await headRef.get()).data(), secondHead);
-  const restoreVersion = releaseVersion(10);
-  assert.equal(await publisher.rollback(bad.catalogVersion, good.catalogVersion, restoreVersion), 'restored');
+  const restoreVersion = version(3);
+  await snapshotRef.update({ payload: JSON.stringify({ ...rollback, fetchedAt: new Date(timestamp.getTime() + 1).toISOString() }) });
+  await assert.rejects(cutover.rollback(candidate.catalogVersion, rollback.catalogVersion, restoreVersion), /Rollback snapshot digest mismatch/);
+  assert.deepEqual((await headRef.get()).data(), firstHead);
+  await snapshotRef.update({ payload: rollbackPayload });
+  const restoreResult = await cutover.rollback(candidate.catalogVersion, rollback.catalogVersion, restoreVersion);
+  assert.equal(restoreResult, 'restored');
   const restoredHead = (await headRef.get()).data();
   assert.equal(restoredHead?.catalogVersion, restoreVersion);
-  assert.equal(restoredHead?.goodVersion, good.catalogVersion);
-  assert.equal(await publisher.rollback(bad.catalogVersion, good.catalogVersion, restoreVersion), 'already restored');
-  assert.equal(await publisher.publish(badId), 'already published');
+  assert.equal(restoredHead?.goodVersion, rollback.catalogVersion);
+  assert.equal(await cutover.rollback(candidate.catalogVersion, rollback.catalogVersion, restoreVersion), 'already restored');
+  assert.equal(await cutover.publish(id), 'already published');
   assert.deepEqual((await headRef.get()).data(), restoredHead);
-  const restoredRelease = (await admin.db.doc(releasePath(city, restoreVersion)).get()).data();
-  assert.equal(restoredRelease?.rollbackFrom, bad.catalogVersion);
-  assert.equal(restoredRelease?.restoredFrom, good.catalogVersion);
+  const restoredRelease = (await admin.db.doc(releasePath(city, restoreVersion)).get()).data()!;
+  assert.equal(restoredRelease.rollbackFrom, candidate.catalogVersion);
+  assert.equal(restoredRelease.restoredFrom, rollback.catalogVersion);
   const restored = await loadBestCatalog(city, reader, disk);
   assert.equal(restored.source, 'remote', restored.remoteError ?? 'expected restored remote');
-  assert.deepEqual(restored.snapshot, { ...good, catalogVersion: restoreVersion });
-  assert.deepEqual((await loadBestCatalog(city, offlineReader, disk)).snapshot, restored.snapshot);
+  assert.deepEqual(restored.snapshot, { ...rollback, catalogVersion: restoreVersion, fetchedAt: restored.snapshot.fetchedAt });
+  const offlineRestored = await loadBestCatalog(city, offlineReader, disk);
+  assert.equal(offlineRestored.source, 'cache');
+  assert.deepEqual(offlineRestored.snapshot, restored.snapshot);
   assertHistory(restored.snapshot);
 
   for (const [path, expected] of documents) assert.deepEqual((await admin.db.doc(path).get()).data(), expected, path);
-  console.info(`schema-1 cutover: embedded ${base} -> remote/cache ${good.catalogVersion} -> remote ${bad.catalogVersion} -> restored remote/cache ${restoreVersion}`);
+  console.info('CUTOVER_RECEIPTS ' + JSON.stringify({ environment: emulatorProject, sourceVerification: 'synthetic',
+    validationClock: timestamp.toISOString(), approval,
+    publish: { result: publishResult, head: firstHead, payloadDigest: payloadDigest(candidateReceipt!.payload) },
+    rollbackSnapshot: { version: rollback.catalogVersion, source: rollbackReceipt!.source, digest: approvedRollbackDigest },
+    restore: { result: restoreResult, head: restoredHead, restoredFrom: restoredRelease.restoredFrom,
+      rollbackFrom: restoredRelease.rollbackFrom, payloadDigest: payloadDigest(restoredRelease.payload) },
+    client: { before: before.source, active: adopted.source, activeOffline: offline.source,
+      restored: restored.source, restoredOffline: offlineRestored.source } }));
 });
 
-test('schema-1 cutover refuses wrong metadata, version floors, digest edits and unsafe initial rollback', async () => {
+test('schema-1 cutover rejects mismatches and any changes to an approved pair', async () => {
   const { documents } = await seedSchemaOneLegacy();
   const legacy = admin.db.doc(legacyPath);
   const metadata = documents.get(legacyPath)!;
-  const version = releaseVersion(2);
-  const snapshot = fixture(version, 'Synthetic candidate gate');
-  const checkRejected = async (candidate: CatalogSnapshot, expected: string, error: RegExp, candidateBase = base) => {
-    const id = await publisher.stage(candidateBase, candidate, expected);
-    await assert.rejects(publisher.reviewCandidate(id, true), error);
-    await assert.rejects(publisher.publish(id), /explicit digest approval/);
+  const { timestamp, candidate, rollback } = cutoverFixtures();
+  const cutover = new CatalogPublisher(admin.db);
+  const checkRejected = async (next: CatalogSnapshot, fallback: CatalogSnapshot, expected: string, error: RegExp, candidateBase = base) => {
+    const id = await cutover.stage(candidateBase, next, expected, fallback);
+    await assert.rejects(cutover.reviewCandidate(id, true), error);
+    await assert.rejects(cutover.publish(id), /explicit digest approval/);
     assert.equal((await admin.db.doc(publicationHeadPath(city)).get()).exists, false);
-    assert.equal((await admin.db.doc(releasePath(city, candidate.catalogVersion)).get()).exists, false);
+    assert.equal((await admin.db.doc(releasePath(city, next.catalogVersion)).get()).exists, false);
   };
-  await assert.rejects(publisher.stage(base, snapshot, '2026-08-09.0'), /Invalid expected schema-1 version/);
-  await checkRejected(snapshot, '2026-08-09.3', /does not match/);
+  await assert.rejects(cutover.stage(base, candidate, legacyVersion), /explicit rollback snapshot/);
+  const oldPayload = JSON.stringify(candidate);
+  const oldId = candidateDigest(base, oldPayload, legacyVersion);
+  await admin.db.doc('catalogCandidates/' + oldId).create({ base, payload: oldPayload, expectedSchema1Version: legacyVersion, approved: true });
+  await assert.rejects(cutover.publish(oldId), /Restage schema-1 cutover/);
+  await assert.rejects(cutover.stage(base, candidate, '2026-08-09.0', rollback), /Invalid expected schema-1 version/);
+  await checkRejected(candidate, rollback, '2026-08-09.3', /does not match/);
   for (const change of [{ cityId: 'other' }, { schemaVersion: 2 }, { schemaVersion: 3 }, { updatedAt: null }]) {
     await legacy.set({ ...metadata, ...change });
-    await checkRejected(snapshot, legacyVersion, /does not match/);
+    await checkRejected(candidate, rollback, legacyVersion, /does not match/);
   }
   await legacy.delete();
-  await checkRejected(snapshot, legacyVersion, /does not match/);
+  await checkRejected(candidate, rollback, legacyVersion, /does not match/);
   await legacy.set(metadata);
-  await checkRejected(snapshot, legacyVersion, /Active version changed/, legacyVersion);
-  await checkRejected(fixture(base, 'equal to embedded'), legacyVersion, /must be newer/);
-  await legacy.update({ catalogVersion: version });
-  await checkRejected(snapshot, version, /must be newer/);
+  await checkRejected(candidate, rollback, legacyVersion, /Active version changed/, legacyVersion);
+  await checkRejected(fixture(base, 'equal to embedded', timestamp), rollback, legacyVersion, /must be newer/);
+  await checkRejected(candidate, { ...rollback, catalogVersion: candidate.catalogVersion }, legacyVersion, /must be newer/);
+  await legacy.update({ catalogVersion: rollback.catalogVersion });
+  await checkRejected(candidate, rollback, rollback.catalogVersion, /must be newer/);
   await legacy.set(metadata);
 
-  const newDestination = structuredClone(snapshot);
+  const newDestination = structuredClone(candidate);
   newDestination.ideas.push({ ...newDestination.ideas[0], id: 'idea-schema1-cutover-new' });
-  await checkRejected(newDestination, legacyVersion, /Rollback would lose Saved\/Hidden destinations/);
-  const oversized = structuredClone(snapshot);
-  oversized.ideas[0].note += 'é'.repeat(MAX_CATALOG_PAYLOAD_BYTES);
-  await assert.rejects(publisher.stage(base, oversized, legacyVersion), /byte limit/);
-  assert.equal((await admin.db.doc(publicationHeadPath(city)).get()).exists, false);
+  await checkRejected(newDestination, rollback, legacyVersion, /Rollback would lose Saved\/Hidden destinations/);
+  const missingDestination = structuredClone(rollback);
+  missingDestination.ideas.pop();
+  await checkRejected(candidate, missingDestination, legacyVersion, /Removing ideas/);
+  const missingStop = structuredClone(rollback);
+  missingStop.experiences[0].points[0].placeId = 'missing-cutover-stop';
+  await checkRejected(candidate, missingStop, legacyVersion, /Invalid Ankara catalog snapshot/);
 
-  const id = await publisher.stage(base, snapshot, legacyVersion);
-  await publisher.reviewCandidate(id, true);
-  await admin.db.doc('catalogCandidates/' + id).update({ expectedSchema1Version: '2026-08-09.3' });
-  await assert.rejects(publisher.publish(id), /digest mismatch/);
+  const id = await cutover.stage(base, candidate, legacyVersion, rollback);
+  await cutover.reviewCandidate(id, true);
+  const staged = admin.db.doc('catalogCandidates/' + id);
+  const stagedRollback = staged.collection('cutover').doc('rollback');
+  for (const [ref, snapshot] of [[staged, candidate], [stagedRollback, rollback]] as const) {
+    await ref.update({ payload: JSON.stringify({ ...snapshot, fetchedAt: new Date(timestamp.getTime() + 1).toISOString() }) });
+    await assert.rejects(cutover.publish(id), /digest mismatch/);
+    await ref.update({ payload: JSON.stringify(snapshot) });
+  }
+  await staged.update({ expectedSchema1Version: '2026-08-09.3' });
+  await assert.rejects(cutover.publish(id), /digest mismatch/);
   assert.equal((await admin.db.doc(publicationHeadPath(city)).get()).exists, false);
 });
 
-test('schema-1 cutover stops if the embedded rollback target has expired', async () => {
+test('cutover rejects stale candidate or rollback Events, including expiry after approval', async () => {
   await seedSchemaOneLegacy();
-  const later = new Date('2026-11-29T09:00:00Z');
-  const laterPublisher = new CatalogPublisher(admin.db, () => later);
-  const candidate = fixture(releaseVersion(2), 'Fresh candidate with an expired fallback', later);
-  const id = await laterPublisher.stage(base, candidate, legacyVersion);
-  // The same payload validates on the ordinary embedded path. This refusal is
-  // specifically about the incompatible-legacy cutover's initial fallback.
-  const regular = await laterPublisher.stage(base, candidate);
-  const legacy = admin.db.doc(legacyPath);
-  const original = (await legacy.get()).data()!;
-  await legacy.delete();
-  await laterPublisher.reviewCandidate(regular);
-  await legacy.create(original);
-  await assert.rejects(laterPublisher.reviewCandidate(id, true), { message: 'Event timing or health failed: stale_verification' });
+  const { timestamp, candidate, rollback } = cutoverFixtures();
+  let clock = timestamp;
+  const cutover = new CatalogPublisher(admin.db, () => clock);
+  for (const [active, fallback, stale] of [[candidate, rollback, 'candidate'], [candidate, rollback, 'rollback']] as const) {
+    const target = structuredClone(stale === 'candidate' ? active : fallback);
+    target.events[0].verifiedAt = new Date(timestamp.getTime() - 8 * dayMs).toISOString().slice(0, 10);
+    const id = await cutover.stage(base, stale === 'candidate' ? target : active, legacyVersion, stale === 'rollback' ? target : fallback);
+    await assert.rejects(cutover.reviewCandidate(id, true), { message: 'Event timing or health failed: stale_verification' });
+  }
+  const approvedId = await cutover.stage(base, candidate, legacyVersion, rollback);
+  await cutover.reviewCandidate(approvedId, true);
+  clock = new Date(timestamp.getTime() + 8 * dayMs);
+  await assert.rejects(cutover.publish(approvedId), /Event timing or health failed:.*stale_verification/);
   assert.equal((await admin.db.doc(publicationHeadPath(city)).get()).exists, false);
+  assert.equal((await admin.db.doc(releasePath(city, rollback.catalogVersion)).get()).exists, false);
 });
 
 test('publishing CLI refuses a missing or non-loopback emulator host', () => {
@@ -441,21 +488,26 @@ for (const eventGate of ['stale_verification', 'insufficient_upcoming_events'] a
 
 test('publisher and client share the inclusive UTF-8 payload limit on the first cutover', async () => {
   await seedSchemaOneLegacy();
-  const exact = fixture(releaseVersion(2), 'boundary');
+  const { candidate: exact, rollback, version } = cutoverFixtures();
+  const cutover = new CatalogPublisher(admin.db);
   const glyphs = 'é€😀';
-  const remaining = MAX_CATALOG_PAYLOAD_BYTES - Buffer.byteLength(JSON.stringify(exact), 'utf8');
-  const glyphBytes = Buffer.byteLength(glyphs, 'utf8');
-  exact.ideas[0].note += glyphs.repeat(Math.floor(remaining / glyphBytes)) + 'a'.repeat(remaining % glyphBytes);
-  const payload = JSON.stringify(exact);
-  assert.equal(Buffer.byteLength(payload, 'utf8'), MAX_CATALOG_PAYLOAD_BYTES);
-  const id = await publisher.stage(base, exact, legacyVersion);
-  await publisher.reviewCandidate(id, true);
-  await publisher.publish(id);
+  for (const snapshot of [exact, rollback]) {
+    const remaining = MAX_CATALOG_PAYLOAD_BYTES - Buffer.byteLength(JSON.stringify(snapshot), 'utf8');
+    const glyphBytes = Buffer.byteLength(glyphs, 'utf8');
+    snapshot.ideas[0].note += glyphs.repeat(Math.floor(remaining / glyphBytes)) + 'a'.repeat(remaining % glyphBytes);
+    assert.equal(Buffer.byteLength(JSON.stringify(snapshot), 'utf8'), MAX_CATALOG_PAYLOAD_BYTES);
+  }
+  const oversizedRollback = structuredClone(rollback);
+  oversizedRollback.ideas[0].note += 'a';
+  await assert.rejects(cutover.stage(base, exact, legacyVersion, oversizedRollback), /byte limit/);
+  const id = await cutover.stage(base, exact, legacyVersion, rollback);
+  await cutover.reviewCandidate(id, true);
+  await cutover.publish(id);
   const disk = storage();
   assert.deepEqual((await loadBestCatalog(city, reader, disk)).snapshot, exact);
 
   const oversized = structuredClone(exact);
-  oversized.catalogVersion = releaseVersion(3);
+  oversized.catalogVersion = version(3);
   oversized.ideas[0].note += 'a';
   const oversizedPayload = JSON.stringify(oversized);
   assert.equal(Buffer.byteLength(oversizedPayload, 'utf8'), MAX_CATALOG_PAYLOAD_BYTES + 1);
@@ -477,8 +529,11 @@ test('publisher and client share the inclusive UTF-8 payload limit on the first 
 test('client cannot approve, write releases, flip head or read staging, and anonymous reads are denied', async () => {
   const id = await approved(base, fixture(releaseVersion(2), 'approved'));
   await publisher.publish(id);
-  const paths = ['catalogCandidates/' + id, publicationHeadPath(city), releasePath(city, releaseVersion(2))];
-  await assertFails(getDoc(doc(client, paths[0])));
+  const { candidate, rollback } = cutoverFixtures();
+  const cutoverId = await publisher.stage(base, candidate, '2026-08-09.2', rollback);
+  const stagedPaths = ['catalogCandidates/' + id, 'catalogCandidates/' + cutoverId + '/cutover/rollback'];
+  for (const path of stagedPaths) await assertFails(getDoc(doc(client, path)));
+  const paths = [...stagedPaths, publicationHeadPath(city), releasePath(city, releaseVersion(2))];
   for (const path of paths) {
     await assertFails(setDoc(doc(client, path), { approved: true }));
     await assertFails(getDoc(doc(environment.unauthenticatedContext().firestore(), path)));
