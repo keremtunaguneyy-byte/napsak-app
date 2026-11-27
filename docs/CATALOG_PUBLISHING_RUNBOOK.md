@@ -1,6 +1,6 @@
 # Catalog publishing and rollback MVP
 
-The operator stages a complete Ankara catalog, validates and approves its SHA-256 digest, then publishes it to a local Firestore emulator. The CLI fixes the project to `demo-napsak` and requires `FIRESTORE_EMULATOR_HOST=127.0.0.1:<port>`. Run it from the repository root with the locked dependencies installed and Java 21 available.
+The emulator CLI stages a complete Ankara catalog, validates and approves its SHA-256 digest, then publishes it to a local Firestore emulator. It fixes the project to `demo-napsak` and requires `FIRESTORE_EMULATOR_HOST=127.0.0.1:<port>`. Run it from the repository root with the locked dependencies installed and Java 21 available.
 
 ## Rehearse locally
 
@@ -80,13 +80,41 @@ This path never imports old schema-1 records. Review any legacy-only IDs and unr
 - The candidate digest binds its expected base version and serialized payload. Validation applies the app's snapshot checks and the catalog operations checks for Saved destinations, retired Event IDs, stable identities, approved Guide media, geography, and Event health. Publish rechecks the candidate and its base inside the transaction.
 - The transaction creates the immutable versioned snapshot and updates `catalogMeta/ankara-published` together. A reader pins the version from the head and reads exactly that release. Concurrent writers on one base have one winner. Existing readers continue to use the legacy path. With compatible metadata, the first publish captures the current legacy seed or the embedded snapshot when the seed is absent or older. With a schema-1 cutover, it uses the explicitly approved rollback snapshot.
 - Rollback copies the confirmed good snapshot under a new version and advances the head atomically. The loader accepts remote content only if its version exceeds the embedded/cache fallback. A pointer reset to an old version would leave a client holding the bad cache. The existing numeric revision comparator correctly orders `.10` after `.9`.
-- The publisher and client enforce the same inclusive 900 KiB UTF-8 payload cap, which leaves room under Firestore's document limit. Signed-in clients can get published releases. Rules deny client writes and access to staged candidates. The admin CLI is emulator-only.
+- The publisher and client enforce the same inclusive 900 KiB UTF-8 payload cap, which leaves room under Firestore's document limit. Signed-in clients can get published releases. Rules deny client writes and access to staged candidates. The emulator CLI is local. The separate Napsak Dev command below is for Ankara's first cutover and forward restore.
 
 ## If rollback is blocked
 
 The transaction leaves the active version and its confirmed good reference intact and creates no release. Run `status` to verify the head. Rollback checks that current Saved and Hidden destinations still resolve under their original IDs, including the nine retired Events shipped with PR #85. It also rechecks Event timing, verification age, upcoming inventory and horizon using the rollback clock. Rollback preserves each Event's original `verifiedAt`.
 
 If the target would lose a destination, prepare a forward candidate from the active version that keeps the affected IDs and corrects the bad content. If Event health blocks the target, follow the [Event operations runbook](EVENT_OPERATIONS_RUNBOOK.md) and change verification dates only after checking the sources. Stage, validate and explicitly approve the corrected candidate under a new version. If the correction requires retiring an ID that the shipped client still resolves, stop for review of its personal-history treatment.
+
+## Napsak Dev first cutover
+
+`catalog:publish:napsak-dev` fixes the target to Ankara in `napsak-dev/(default)`. It rejects `FIRESTORE_EMULATOR_HOST` and requires `--target='napsak-dev/(default)'` and an expected `--operator` email on every call. Supply a short-lived Google OAuth access token from the authorized operator's existing session in `GEZEK_CATALOG_ACCESS_TOKEN`. It must cover Firestore and Google userinfo email. The command verifies the token's email and uses that same token for Firestore. Keep it out of arguments, shell tracing, logs, and receipts.
+
+Read-only actions are `status [<expected-legacy-version>]` and `validate <digest>`. When the head is absent and the legacy metadata is schema 1, pass the observed legacy version to `status`. Plain `status` is the default action.
+
+Before any live write, verify the operator's effective access, the exact target, live legacy metadata, the absent head and free release versions, Saved and Hidden reference counts, and current Event health. Obtain the owner's explicit approval for the exact operation and pair. Each write needs `--allow-write`, a matching command, and an operation-specific manifest kept outside Git. The flag and manifest record operating intent. Owner approval is a separate step.
+
+For `stage`, `approve`, and `publish`, use a manifest with the following fields. Use the approved real receipt values in place of the illustrative values. The two snapshot file paths are relative to the manifest file, and the JSON bytes must match the reviewed pair.
+
+```json
+{
+  "target": "napsak-dev/(default)",
+  "city": "ankara",
+  "operator": "operator@example.com",
+  "operation": "stage",
+  "base": "2026-11-27.1",
+  "legacy": "2026-08-09.2",
+  "digest": "<approved paired SHA-256>",
+  "candidateFile": "candidate.json",
+  "rollbackFile": "rollback.json"
+}
+```
+
+The wrapper verifies the manifest and paired bytes before requesting a connection. The matching `approve` and `publish` manifests name those operations with the same pair. Firestore activation still rechecks the expected legacy metadata and absent head in the existing transaction, then records both releases and advances the head atomically. If a publish outcome is ambiguous, retry the exact operation and check the current head separately. An exact retry reports the existing release.
+
+A separately approved forward restore uses a `rollback` manifest with the same target, city and operator. Its operation is `rollback` and its version fields are `from`, `good`, and `version` for the active release, recorded known-good release, and new release. The shared publisher rechecks the head, validates the known-good release, and restores it under the new version. This command keeps the first cutover's known-good pointer available while acceptance is in progress.
 
 ## Before production use
 

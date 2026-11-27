@@ -10,6 +10,7 @@ import { initializeApp, deleteApp, type FirebaseApp } from 'firebase/app';
 import { connectFirestoreEmulator, disableNetwork, doc, Firestore, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { CatalogPublisher, emulatorProject, openPublishingEmulator } from '../scripts/catalogPublishing';
 import { candidateDigest, payloadDigest } from '../scripts/catalogPublishingValidation';
+import { runNapsakDevPublisher } from '../scripts/publishCatalogNapsakDev';
 import { embeddedCatalog, CatalogSnapshot } from '../src/data/catalog';
 import { MAX_CATALOG_PAYLOAD_BYTES, publicationHeadPath, releasePath } from '../src/data/catalogPublication';
 import { loadBestCatalog } from '../src/data/catalogService';
@@ -561,4 +562,106 @@ test('legacy reader and first rollback use the actual seeded content even when n
   assert.deepEqual((await loadBestCatalog(city, reader, disk)).snapshot,
     { ...original.snapshot, catalogVersion: version, fetchedAt: at.toISOString() });
   assert.deepEqual((await admin.db.doc('catalogMeta/' + city).get()).data(), legacy);
+});
+
+const devTarget = 'napsak-dev/(default)';
+const devOperator = 'operator@example.test';
+const devArgs = ['--target=' + devTarget, '--operator=' + devOperator];
+
+test('Napsak Dev CLI rejects wrong targets, emulator overrides and writes without explicit opt-in', async () => {
+  const open = async () => { throw Error('Unexpected connection'); };
+  for (const target of [undefined, 'project-production/(default)', 'napsak-dev/other-db', 'demo-napsak/(default)']) {
+    const args = target === undefined ? [] : ['--target=' + target];
+    await assert.rejects(runNapsakDevPublisher(args, {}, open), /exact target/);
+  }
+  for (const value of ['127.0.0.1:8080', '']) {
+    await assert.rejects(runNapsakDevPublisher(devArgs, { FIRESTORE_EMULATOR_HOST: value }, open), /Unset FIRESTORE_EMULATOR_HOST/);
+  }
+  for (const command of ['stage', 'approve', 'publish', 'rollback']) {
+    await assert.rejects(runNapsakDevPublisher([...devArgs, command, 'missing.json'], {}, open), /requires explicit --allow-write/);
+  }
+  await assert.rejects(runNapsakDevPublisher([...devArgs, '--allow-write'], {}, open), /Use --target/);
+});
+
+test('Napsak Dev CLI verifies the token identity before opening Firestore', async t => {
+  const input = { GEZEK_CATALOG_ACCESS_TOKEN: 'synthetic-token' };
+  const endpoint = t.mock.method(globalThis, 'fetch', async (url: string, init: RequestInit) => {
+    assert.equal(url, 'https://www.googleapis.com/oauth2/v2/userinfo');
+    assert.equal(new Headers(init.headers).get('authorization'), 'Bearer synthetic-token');
+    return Response.json({ email: 'other@example.test', verified_email: true });
+  });
+  await assert.rejects(runNapsakDevPublisher(devArgs, {}), /Provide a short-lived Google operator token/);
+  assert.equal(endpoint.mock.callCount(), 0);
+  await assert.rejects(runNapsakDevPublisher(devArgs, input), /identity must match --operator/);
+  assert.equal(endpoint.mock.callCount(), 1);
+});
+
+test('Napsak Dev CLI uses the approved pair and preserves emulator activation and restore semantics', async () => {
+  await seedSchemaOneLegacy();
+  const { timestamp, version, candidate, rollback } = cutoverFixtures();
+  const directory = mkdtempSync(join(tmpdir(), 'gezek-publisher-napsak-dev-'));
+  const manifestPath = join(directory, 'approval.json');
+  const candidateFile = 'candidate.json';
+  const rollbackFile = 'rollback.json';
+  const candidateBytes = JSON.stringify(candidate);
+  const rollbackBytes = JSON.stringify(rollback);
+  const digest = candidateDigest(base, candidateBytes, legacyVersion, rollbackBytes);
+  const manifest = { target: devTarget, city, operator: devOperator, base, legacy: legacyVersion, digest, candidateFile, rollbackFile };
+  const writeManifest = (operation: string, overrides = {}) =>
+    writeFileSync(manifestPath, JSON.stringify({ ...manifest, operation, ...overrides }));
+  const head = admin.db.doc(publicationHeadPath(city));
+  const connection = new CatalogPublisher(admin.db, () => timestamp);
+  let connected = 0;
+  let closed = 0;
+  const call = (...args: string[]) => runNapsakDevPublisher([...devArgs, ...args], {}, async operator => {
+    assert.equal(operator, devOperator);
+    connected++;
+    return { publisher: connection, close: async () => { closed++; } };
+  });
+  const write = (command: string) => call('--allow-write', command, manifestPath);
+  try {
+    writeFileSync(join(directory, candidateFile), candidateBytes);
+    writeFileSync(join(directory, rollbackFile), rollbackBytes);
+    assert.equal((await call('status', legacyVersion)).target, devTarget);
+    assert.equal(connected, 1);
+    for (const mismatch of [{ target: 'napsak-dev/other-db' }, { city: 'istanbul' }, { operator: 'other@example.test' }, { operation: 'publish' }]) {
+      writeManifest('stage', mismatch);
+      await assert.rejects(write('stage'), /manifest must match/);
+    }
+    writeManifest('stage');
+    writeFileSync(join(directory, rollbackFile), JSON.stringify({ ...rollback, fetchedAt: '2026-11-29T00:00:00Z' }));
+    await assert.rejects(write('stage'), /match the approved paired digest/);
+    writeFileSync(join(directory, rollbackFile), Buffer.concat([Buffer.from(rollbackBytes), Buffer.from([0xff])]));
+    await assert.rejects(write('stage'), /not valid for encoding utf-8/i);
+    assert.equal(connected, 1);
+    assert.equal((await admin.db.collection('catalogCandidates').get()).size, 0);
+
+    writeFileSync(join(directory, rollbackFile), rollbackBytes);
+    assert.equal((await write('stage')).result, digest);
+    assert.equal((await write('stage')).result, digest);
+    assert.deepEqual((await call('validate', digest)).result, {
+      digest, base, version: candidate.catalogVersion, approved: false,
+      rollbackVersion: rollback.catalogVersion, rollbackDigest: payloadDigest(rollbackBytes),
+    });
+    writeManifest('publish');
+    await assert.rejects(write('publish'), /requires explicit digest approval/);
+    writeManifest('approve');
+    await write('approve');
+    assert.equal((await head.get()).exists, false);
+    writeManifest('publish');
+    assert.equal((await write('publish')).result, 'published');
+    assert.equal((await write('publish')).result, 'already published');
+    assert.equal((await head.get()).get('goodVersion'), rollback.catalogVersion);
+
+    writeManifest('rollback', { from: candidate.catalogVersion, good: rollback.catalogVersion, version: version(3) });
+    assert.equal((await write('rollback')).result, 'restored');
+    assert.equal((await write('rollback')).result, 'already restored');
+    assert.equal((await head.get()).get('catalogVersion'), version(3));
+    writeManifest('publish');
+    assert.equal((await write('publish')).result, 'already published');
+    assert.equal((await head.get()).get('catalogVersion'), version(3));
+    assert.equal(connected, closed);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
