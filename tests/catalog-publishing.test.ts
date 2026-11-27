@@ -631,6 +631,8 @@ test('Napsak Dev CLI uses the approved pair and preserves emulator activation an
     writeManifest('stage');
     writeFileSync(join(directory, rollbackFile), JSON.stringify({ ...rollback, fetchedAt: '2026-11-29T00:00:00Z' }));
     await assert.rejects(write('stage'), /match the approved paired digest/);
+    writeFileSync(join(directory, rollbackFile), Buffer.concat([Buffer.from(rollbackBytes), Buffer.from([0xff])]));
+    await assert.rejects(write('stage'), /not valid for encoding utf-8/i);
     assert.equal(connected, 1);
     assert.equal((await admin.db.collection('catalogCandidates').get()).size, 0);
 

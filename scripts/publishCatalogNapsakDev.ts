@@ -59,7 +59,9 @@ function loadWriteOperation(command: string, file: string, operator: string) {
     throw Error('A first cutover requires the exact base, legacy version, paired digest and both snapshot files.');
   }
   function readSnapshot(snapshotFile: string) {
-    const bytes = readFileSync(resolve(dirname(file), snapshotFile), 'utf8');
+    const input = readFileSync(resolve(dirname(file), snapshotFile));
+    // Keep a BOM visible to the JSON parser and reject malformed UTF-8 before hashing.
+    const bytes = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(input);
     parsePayload(bytes);
     const value: unknown = JSON.parse(bytes);
     if (JSON.stringify(value) !== bytes) throw Error('Use the exact serialized JSON snapshot bytes from the approval receipt.');
