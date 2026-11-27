@@ -4,7 +4,7 @@ import { embeddedCatalog } from '../src/data/catalog';
 import { FIRESTORE_READ_LIMITS, publicationHeadPath, releasePath } from '../src/data/catalogPublication';
 import { parseCatalogMeta } from '../src/data/catalogValidation';
 import { compareCatalogVersions, isCatalogVersion } from '../src/data/catalogVersion';
-import { candidateDigest, checkSize, parsePayload, requireNewer, validateCandidate, validateRollback } from './catalogPublishingValidation';
+import { candidateDigest, checkSize, parsePayload, payloadDigest, requireNewer, requireSavedHiddenContinuity, validateCandidate, validateRollback } from './catalogPublishingValidation';
 
 const city = 'ankara';
 const embedded = embeddedCatalog(city);
@@ -20,7 +20,13 @@ export function openPublishingEmulator() {
   return { app, db };
 }
 
-type Candidate = { base: string; payload: string; approved: boolean; expectedSchema1Version?: string };
+type Candidate = {
+  base: string;
+  payload: string;
+  approved: boolean;
+  expectedSchema1Version?: string;
+  rollbackPayload?: string;
+};
 
 export class CatalogPublisher {
   constructor(private readonly db: Firestore, private readonly now = () => new Date()) {}
@@ -35,28 +41,42 @@ export class CatalogPublisher {
     return this.db.doc('catalogCandidates/' + id);
   }
 
-  async stage(base: string, value: unknown, expectedSchema1Version?: string) {
+  async stage(base: string, value: unknown, expectedSchema1Version?: string, rollbackValue?: unknown) {
     if (!isCatalogVersion(base)) throw Error('Invalid expected base version.');
     if (expectedSchema1Version !== undefined && !isCatalogVersion(expectedSchema1Version)) throw Error('Invalid expected schema-1 version.');
+    if ((expectedSchema1Version === undefined) !== (rollbackValue === undefined)) {
+      throw Error('Schema-1 cutover requires both an expected legacy version and an explicit rollback snapshot.');
+    }
     const payload = JSON.stringify(value);
     checkSize(payload);
-    const id = candidateDigest(base, payload, expectedSchema1Version);
+    const rollbackPayload = rollbackValue === undefined ? undefined : JSON.stringify(rollbackValue);
+    if (rollbackPayload !== undefined) checkSize(rollbackPayload);
+    const id = candidateDigest(base, payload, expectedSchema1Version, rollbackPayload);
     const ref = this.candidate(id);
     await this.db.runTransaction(async tx => {
-      if (!(await tx.get(ref)).exists) tx.create(ref, {
-        base, payload, approved: false,
-        ...(expectedSchema1Version !== undefined && { expectedSchema1Version }),
-      });
+      if ((await tx.get(ref)).exists) return;
+      tx.create(ref, { base, payload, approved: false, ...(expectedSchema1Version !== undefined && { expectedSchema1Version }) });
+      // Each payload keeps the existing per-document size limit independently.
+      if (rollbackPayload !== undefined) tx.create(ref.collection('cutover').doc('rollback'), { payload: rollbackPayload });
     });
     return id;
   }
 
   private async readCandidate(tx: Transaction, id: string): Promise<Candidate> {
-    const data = (await tx.get(this.candidate(id))).data();
+    const ref = this.candidate(id);
+    const data = (await tx.get(ref)).data();
     if (!data || !isCatalogVersion(data.base) || typeof data.payload !== 'string'
-      || (data.expectedSchema1Version !== undefined && !isCatalogVersion(data.expectedSchema1Version))
-      || candidateDigest(data.base, data.payload, data.expectedSchema1Version) !== id) throw Error('Missing candidate or digest mismatch.');
-    return { base: data.base, payload: data.payload, approved: data.approved === true, expectedSchema1Version: data.expectedSchema1Version };
+      || (data.expectedSchema1Version !== undefined && !isCatalogVersion(data.expectedSchema1Version))) {
+      throw Error('Missing candidate or digest mismatch.');
+    }
+    const rollbackPayload = data.expectedSchema1Version === undefined ? undefined
+      : (await tx.get(ref.collection('cutover').doc('rollback'))).data()?.payload;
+    if ((rollbackPayload !== undefined && typeof rollbackPayload !== 'string')
+      || candidateDigest(data.base, data.payload, data.expectedSchema1Version, rollbackPayload) !== id) {
+      throw Error('Missing candidate or digest mismatch.');
+    }
+    return { base: data.base, payload: data.payload, approved: data.approved === true,
+      expectedSchema1Version: data.expectedSchema1Version, rollbackPayload };
   }
 
   private async readHead(tx: Transaction, expectedSchema1Version?: string) {
@@ -117,6 +137,7 @@ export class CatalogPublisher {
   private async readRelease(tx: Transaction, version: string) {
     const data = (await tx.get(this.release(version))).data();
     if (typeof data?.payload !== 'string') throw Error('Missing release: ' + version);
+    if (data.source === 'explicit-cutover' && payloadDigest(data.payload) !== data.rollbackDigest) throw Error('Rollback snapshot digest mismatch.');
     const snapshot = parsePayload(data.payload);
     if (snapshot.catalogVersion !== version) throw Error('Release identity mismatch.');
     return snapshot;
@@ -130,20 +151,25 @@ export class CatalogPublisher {
     const now = this.now();
     const snapshot = validateCandidate(candidate.payload, previous, now);
     requireNewer(snapshot.catalogVersion, embedded.catalogVersion);
-    if (candidate.expectedSchema1Version !== undefined) {
-      requireNewer(snapshot.catalogVersion, candidate.expectedSchema1Version);
-      // The first release must be able to restore the catalog the shipped reader used.
-      validateRollback(JSON.stringify(previous), snapshot, now);
-    }
-    return { head, previous, snapshot };
+    if (candidate.expectedSchema1Version === undefined) return { head, previous, snapshot };
+    if (candidate.rollbackPayload === undefined) throw Error('Restage schema-1 cutover with an explicit rollback snapshot.');
+    const rollbackPayload = candidate.rollbackPayload;
+    const rollback = validateCandidate(rollbackPayload, previous, now);
+    requireNewer(rollback.catalogVersion, candidate.expectedSchema1Version);
+    requireNewer(snapshot.catalogVersion, rollback.catalogVersion);
+    requireSavedHiddenContinuity(previous, snapshot, 'Cutover');
+    requireSavedHiddenContinuity(previous, rollback, 'Cutover');
+    validateRollback(rollbackPayload, snapshot, now);
+    return { head, previous, snapshot, rollback: { version: rollback.catalogVersion, payload: rollbackPayload, digest: payloadDigest(rollbackPayload) } };
   }
 
   async reviewCandidate(id: string, approve = false) {
     return this.db.runTransaction(async tx => {
       const candidate = await this.readCandidate(tx, id);
-      const { snapshot } = await this.review(tx, candidate);
+      const { snapshot, rollback } = await this.review(tx, candidate);
       if (approve) tx.update(this.candidate(id), { approved: true });
-      return { digest: id, base: candidate.base, version: snapshot.catalogVersion, approved: approve || candidate.approved };
+      return { digest: id, base: candidate.base, version: snapshot.catalogVersion, approved: approve || candidate.approved,
+        ...(rollback && { rollbackVersion: rollback.version, rollbackDigest: rollback.digest }) };
     });
   }
 
@@ -161,10 +187,14 @@ export class CatalogPublisher {
       const existing = (await tx.get(ref)).data();
       if (existing?.candidate === id) return 'already published';
       if (existing) throw Error('Release version already used.');
-      const { head, previous } = await this.review(tx, candidate);
-      if (head.bootstrap) tx.create(this.release(head.version), { payload: JSON.stringify(previous), source: head.bootstrap });
-      tx.create(ref, { candidate: id, payload: candidate.payload });
-      this.setHead(tx, catalogVersion, head.goodVersion);
+      const { head, previous, rollback } = await this.review(tx, candidate);
+      if (rollback) tx.create(this.release(rollback.version), {
+        payload: rollback.payload, source: 'explicit-cutover', cutoverCandidate: id, rollbackDigest: rollback.digest,
+      });
+      else if (head.bootstrap) tx.create(this.release(head.version), { payload: JSON.stringify(previous), source: head.bootstrap });
+      tx.create(ref, { candidate: id, payload: candidate.payload,
+        ...(rollback && { rollbackVersion: rollback.version, rollbackDigest: rollback.digest }) });
+      this.setHead(tx, catalogVersion, rollback?.version ?? head.goodVersion);
       return 'published';
     });
   }

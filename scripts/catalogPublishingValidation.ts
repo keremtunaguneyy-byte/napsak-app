@@ -16,9 +16,14 @@ export function requireNewer(version: string, base: string) {
   if (compareCatalogVersions(version, base) !== 1) throw Error(`Release ${version} must be newer than ${base}.`);
 }
 
-export function candidateDigest(base: string, payload: string, expectedSchema1Version?: string) {
+export function payloadDigest(payload: string) {
+  return createHash('sha256').update(payload).digest('hex');
+}
+
+export function candidateDigest(base: string, payload: string, expectedSchema1Version?: string, rollbackPayload?: string) {
   const input = expectedSchema1Version === undefined ? [base, payload] : [base, payload, expectedSchema1Version];
-  return createHash('sha256').update(JSON.stringify(input)).digest('hex');
+  if (rollbackPayload !== undefined) input.push(payloadDigest(rollbackPayload));
+  return payloadDigest(JSON.stringify(input));
 }
 
 export function checkSize(payload: string) {
@@ -68,6 +73,11 @@ export function validateRollback(payload: string, active: CatalogSnapshot, now: 
   const saved = savedDestinations(target);
   if (!saved.passed) throw Error('Saved destination collision: ' + saved.issues.map(issue => issue.id).join(', '));
 
+  requireSavedHiddenContinuity(active, target, 'Rollback');
+  validateEventHealth(target, now);
+}
+
+export function requireSavedHiddenContinuity(active: CatalogSnapshot, target: CatalogSnapshot, operation: 'Cutover' | 'Rollback') {
   const currentItems = personalCatalogItems(active);
   const targetItems = personalCatalogItems(target);
   const ids = [...new Set([...currentItems, ...active.guides].map(item => item.id))];
@@ -77,9 +87,7 @@ export function validateRollback(payload: string, active: CatalogSnapshot, now: 
     .filter(row => savedAfter.get(row.id) !== row.type);
   const missingHidden = resolveHiddenItems(currentItems, ids).filter(row => hiddenAfter.get(row.id) !== row.kind);
   const missing = [...new Set([...missingSaved, ...missingHidden].map(row => row.id))].sort();
-  if (missing.length) throw Error('Rollback would lose Saved/Hidden destinations: ' + missing.join(', '));
-
-  validateEventHealth(target, now);
+  if (missing.length) throw Error(`${operation} would lose Saved/Hidden destinations: ${missing.join(', ')}`);
 }
 
 function validateEventHealth(snapshot: CatalogSnapshot, now: Date) {
