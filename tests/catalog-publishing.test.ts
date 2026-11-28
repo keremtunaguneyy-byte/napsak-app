@@ -665,3 +665,104 @@ test('Napsak Dev CLI uses the approved pair and preserves emulator activation an
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+test('a subsequent manifest binds its mode and requires the same published base throughout', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'gezek-next-release-'));
+  const head = admin.db.doc(publicationHeadPath(city));
+  const candidate = fixture(releaseVersion(2), 'Subsequent fixture');
+  const payload = JSON.stringify(candidate);
+  const manifestPath = join(directory, 'next.json');
+  const digest = candidateDigest(base, payload, undefined, undefined, true);
+  const manifest = { target: devTarget, city, operator: devOperator, mode: 'subsequent', base, digest, candidateFile: 'candidate.json' };
+  const call = (...args: string[]) => runNapsakDevPublisher([...devArgs, ...args], {}, async () => ({
+    publisher, close: async () => {},
+  }));
+  const write = (operation: string, overrides = {}) => {
+    writeFileSync(manifestPath, JSON.stringify({ ...manifest, operation, ...overrides }));
+    return call('--allow-write', operation, manifestPath);
+  };
+  try {
+    writeFileSync(join(directory, 'candidate.json'), payload);
+    await assert.rejects(write('stage', { legacy: legacyVersion }), /must not include schema-1/);
+    await assert.rejects(write('stage', { mode: 'unknown' }), /Unknown catalog publication mode/);
+    await assert.rejects(write('stage', { digest: candidateDigest(base, payload) }), /approved subsequent digest/);
+    await assert.rejects(write('stage'), /requires an existing Ankara publication head/);
+    assert.equal((await admin.db.collection('catalogCandidates').get()).size, 0);
+
+    await admin.db.doc(releasePath(city, base)).create({ payload: JSON.stringify(fixture(base, 'Active fixture')) });
+    const originalHead = { cityId: city, schemaVersion: 3, catalogVersion: base, goodVersion: base, updatedAt: at.toISOString() };
+    await head.create(originalHead);
+    assert.equal((await write('stage')).result, digest);
+    assert.deepEqual((await call('validate', digest)).result, { digest, base, version: candidate.catalogVersion, approved: false });
+    await assert.rejects(write('publish'), /requires explicit digest approval/);
+    assert.deepEqual((await write('approve')).result, { digest, base, version: candidate.catalogVersion, approved: true });
+
+    await head.delete();
+    await assert.rejects(call('validate', digest), /requires an existing Ankara publication head/);
+    await assert.rejects(write('publish'), /requires an existing Ankara publication head/);
+    assert.equal((await admin.db.doc(releasePath(city, candidate.catalogVersion)).get()).exists, false);
+    assert.equal((await head.get()).exists, false);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test('a subsequent publication supports one race winner, forward correction, and retry without rewinding', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'gezek-next-race-'));
+  const activeVersion = releaseVersion(3);
+  const goodVersion = releaseVersion(2);
+  const head = admin.db.doc(publicationHeadPath(city));
+  const call = (operation: string, file: string) => runNapsakDevPublisher(
+    [...devArgs, '--allow-write', operation, file], {}, async () => ({ publisher, close: async () => {} }),
+  );
+  try {
+    for (const version of [goodVersion, activeVersion]) {
+      await admin.db.doc(releasePath(city, version)).create({ payload: JSON.stringify(fixture(version, 'Existing content')) });
+    }
+    await head.create({ cityId: city, schemaVersion: 3, catalogVersion: activeVersion, goodVersion, updatedAt: at.toISOString() });
+    async function approveFixture(revision: number, base: string, note: string) {
+      const version = releaseVersion(revision);
+      const payload = JSON.stringify(fixture(version, note));
+      const candidateFile = version + '.json';
+      const digest = candidateDigest(base, payload, undefined, undefined, true);
+      const manifest = { target: devTarget, city, operator: devOperator, mode: 'subsequent', base, digest, candidateFile };
+      const files = Object.fromEntries(['stage', 'approve', 'publish'].map(operation => {
+        const file = join(directory, version + '-' + operation + '.json');
+        writeFileSync(file, JSON.stringify({ ...manifest, operation }));
+        return [operation, file];
+      }));
+      writeFileSync(join(directory, candidateFile), payload);
+      assert.equal((await call('stage', files.stage)).result, digest);
+      assert.deepEqual((await call('approve', files.approve)).result, { digest, base, version, approved: true });
+      return { version, payload, digest, files };
+    }
+    const contenders = await Promise.all([
+      approveFixture(4, activeVersion, 'First fixture'),
+      approveFixture(5, activeVersion, 'Second fixture'),
+    ]);
+    const outcomes = await Promise.allSettled(contenders.map(({ files }) => call('publish', files.publish)));
+    const winningIndex = outcomes.findIndex(result => result.status === 'fulfilled');
+    assert.notEqual(winningIndex, -1);
+    const [winner, loser] = [contenders[winningIndex], contenders[1 - winningIndex]];
+    const rejected = outcomes[1 - winningIndex];
+    assert.equal(rejected.status, 'rejected');
+    assert.match(rejected.reason.message, /Active version changed/);
+    assert.equal((await head.get()).get('catalogVersion'), winner.version);
+    assert.equal((await head.get()).get('goodVersion'), goodVersion);
+    assert.equal((await admin.db.doc(releasePath(city, winner.version)).get()).get('payload'), winner.payload);
+    assert.equal((await admin.db.doc(releasePath(city, loser.version)).get()).exists, false);
+    assert.equal((await call('stage', winner.files.stage)).result, winner.digest);
+    assert.equal((await call('publish', winner.files.publish)).result, 'already published');
+    assert.equal((await head.get()).get('catalogVersion'), winner.version);
+
+    const correction = await approveFixture(6, winner.version, 'Corrected fixture');
+    assert.equal((await call('publish', correction.files.publish)).result, 'published');
+    assert.equal((await admin.db.doc(releasePath(city, correction.version)).get()).get('payload'), correction.payload);
+    assert.equal((await call('stage', winner.files.stage)).result, winner.digest);
+    assert.equal((await call('publish', winner.files.publish)).result, 'already published');
+    assert.equal((await head.get()).get('catalogVersion'), correction.version);
+    assert.equal((await head.get()).get('goodVersion'), goodVersion);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});

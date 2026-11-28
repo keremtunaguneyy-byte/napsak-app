@@ -26,6 +26,7 @@ type Candidate = {
   approved: boolean;
   expectedSchema1Version?: string;
   rollbackPayload?: string;
+  requirePublishedHead?: true;
 };
 
 export class CatalogPublisher {
@@ -41,21 +42,27 @@ export class CatalogPublisher {
     return this.db.doc('catalogCandidates/' + id);
   }
 
-  async stage(base: string, value: unknown, expectedSchema1Version?: string, rollbackValue?: unknown) {
+  async stage(base: string, value: unknown, expectedSchema1Version?: string, rollbackValue?: unknown, requirePublishedHead = false) {
     if (!isCatalogVersion(base)) throw Error('Invalid expected base version.');
     if (expectedSchema1Version !== undefined && !isCatalogVersion(expectedSchema1Version)) throw Error('Invalid expected schema-1 version.');
     if ((expectedSchema1Version === undefined) !== (rollbackValue === undefined)) {
       throw Error('Schema-1 cutover requires both an expected legacy version and an explicit rollback snapshot.');
     }
+    if (requirePublishedHead && expectedSchema1Version !== undefined) throw Error('Choose either a subsequent release or a schema-1 cutover.');
     const payload = JSON.stringify(value);
     checkSize(payload);
     const rollbackPayload = rollbackValue === undefined ? undefined : JSON.stringify(rollbackValue);
     if (rollbackPayload !== undefined) checkSize(rollbackPayload);
-    const id = candidateDigest(base, payload, expectedSchema1Version, rollbackPayload);
+    const id = candidateDigest(base, payload, expectedSchema1Version, rollbackPayload, requirePublishedHead);
     const ref = this.candidate(id);
     await this.db.runTransaction(async tx => {
       if ((await tx.get(ref)).exists) return;
-      tx.create(ref, { base, payload, approved: false, ...(expectedSchema1Version !== undefined && { expectedSchema1Version }) });
+      if (requirePublishedHead) {
+        const head = await this.readHead(tx, undefined, true);
+        if (head.version !== base) throw Error('Active version changed. Stage and approve against the current base.');
+      }
+      tx.create(ref, { base, payload, approved: false, ...(expectedSchema1Version !== undefined && { expectedSchema1Version }),
+        ...(requirePublishedHead && { requirePublishedHead: true }) });
       // Each payload keeps the existing per-document size limit independently.
       if (rollbackPayload !== undefined) tx.create(ref.collection('cutover').doc('rollback'), { payload: rollbackPayload });
     });
@@ -66,20 +73,21 @@ export class CatalogPublisher {
     const ref = this.candidate(id);
     const data = (await tx.get(ref)).data();
     if (!data || !isCatalogVersion(data.base) || typeof data.payload !== 'string'
-      || (data.expectedSchema1Version !== undefined && !isCatalogVersion(data.expectedSchema1Version))) {
+      || (data.expectedSchema1Version !== undefined && !isCatalogVersion(data.expectedSchema1Version))
+      || (data.requirePublishedHead !== undefined && (data.requirePublishedHead !== true || data.expectedSchema1Version !== undefined))) {
       throw Error('Missing candidate or digest mismatch.');
     }
     const rollbackPayload = data.expectedSchema1Version === undefined ? undefined
       : (await tx.get(ref.collection('cutover').doc('rollback'))).data()?.payload;
     if ((rollbackPayload !== undefined && typeof rollbackPayload !== 'string')
-      || candidateDigest(data.base, data.payload, data.expectedSchema1Version, rollbackPayload) !== id) {
+      || candidateDigest(data.base, data.payload, data.expectedSchema1Version, rollbackPayload, data.requirePublishedHead) !== id) {
       throw Error('Missing candidate or digest mismatch.');
     }
     return { base: data.base, payload: data.payload, approved: data.approved === true,
-      expectedSchema1Version: data.expectedSchema1Version, rollbackPayload };
+      expectedSchema1Version: data.expectedSchema1Version, rollbackPayload, requirePublishedHead: data.requirePublishedHead };
   }
 
-  private async readHead(tx: Transaction, expectedSchema1Version?: string) {
+  private async readHead(tx: Transaction, expectedSchema1Version?: string, requirePublishedHead = false) {
     const head = (await tx.get(this.db.doc(this.headPath))).data();
     if (head) {
       if (expectedSchema1Version !== undefined) throw Error('Schema-1 cutover requires an absent publication head.');
@@ -89,6 +97,7 @@ export class CatalogPublisher {
       }
       return { version: meta.catalogVersion, goodVersion: head.goodVersion, bootstrap: false as const };
     }
+    if (requirePublishedHead) throw Error('A subsequent release requires an existing Ankara publication head.');
     const legacy = (await tx.get(this.db.doc('catalogMeta/' + city))).data();
     const meta = parseCatalogMeta(legacy);
     if (expectedSchema1Version !== undefined) {
@@ -144,7 +153,7 @@ export class CatalogPublisher {
   }
 
   private async review(tx: Transaction, candidate: Candidate) {
-    const head = await this.readHead(tx, candidate.expectedSchema1Version);
+    const head = await this.readHead(tx, candidate.expectedSchema1Version, candidate.requirePublishedHead);
     if (head.version !== candidate.base) throw Error('Active version changed. Stage and approve against the current base.');
     const previous = head.bootstrap === 'legacy' ? await this.readLegacy(tx, head.version)
       : head.bootstrap === 'embedded' ? embedded : await this.readRelease(tx, head.version);

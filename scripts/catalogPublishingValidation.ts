@@ -20,9 +20,10 @@ export function payloadDigest(payload: string) {
   return createHash('sha256').update(payload).digest('hex');
 }
 
-export function candidateDigest(base: string, payload: string, expectedSchema1Version?: string, rollbackPayload?: string) {
+export function candidateDigest(base: string, payload: string, expectedSchema1Version?: string, rollbackPayload?: string, requirePublishedHead = false) {
   const input = expectedSchema1Version === undefined ? [base, payload] : [base, payload, expectedSchema1Version];
   if (rollbackPayload !== undefined) input.push(payloadDigest(rollbackPayload));
+  if (requirePublishedHead) input.push('published-head');
   return payloadDigest(JSON.stringify(input));
 }
 

@@ -80,7 +80,7 @@ This path never imports old schema-1 records. Review any legacy-only IDs and unr
 - The candidate digest binds its expected base version and serialized payload. Validation applies the app's snapshot checks and the catalog operations checks for Saved destinations, retired Event IDs, stable identities, approved Guide media, geography, and Event health. Publish rechecks the candidate and its base inside the transaction.
 - The transaction creates the immutable versioned snapshot and updates `catalogMeta/ankara-published` together. A reader pins the version from the head and reads exactly that release. Concurrent writers on one base have one winner. Existing readers continue to use the legacy path. With compatible metadata, the first publish captures the current legacy seed or the embedded snapshot when the seed is absent or older. With a schema-1 cutover, it uses the explicitly approved rollback snapshot.
 - Rollback copies the confirmed good snapshot under a new version and advances the head atomically. The loader accepts remote content only if its version exceeds the embedded/cache fallback. A pointer reset to an old version would leave a client holding the bad cache. The existing numeric revision comparator correctly orders `.10` after `.9`.
-- The publisher and client enforce the same inclusive 900 KiB UTF-8 payload cap, which leaves room under Firestore's document limit. Signed-in clients can get published releases. Rules deny client writes and access to staged candidates. The emulator CLI is local. The separate Napsak Dev command below is for Ankara's first cutover and forward restore.
+- The publisher and client enforce the same inclusive 900 KiB UTF-8 payload cap, which leaves room under Firestore's document limit. Signed-in clients can get published releases. Rules deny client writes and access to staged candidates. The emulator CLI is local. The separate Napsak Dev command below is for Ankara's first cutover, subsequent releases, and forward restore.
 
 ## If rollback is blocked
 
@@ -115,6 +115,14 @@ For `stage`, `approve`, and `publish`, use a manifest with the following fields.
 The wrapper verifies the manifest and paired bytes before requesting a connection. The matching `approve` and `publish` manifests name those operations with the same pair. Firestore activation still rechecks the expected legacy metadata and absent head in the existing transaction, then records both releases and advances the head atomically. If a publish outcome is ambiguous, retry the exact operation and check the current head separately. An exact retry reports the existing release.
 
 A separately approved forward restore uses a `rollback` manifest with the same target, city and operator. Its operation is `rollback` and its version fields are `from`, `good`, and `version` for the active release, recorded known-good release, and new release. The shared publisher rechecks the head, validates the known-good release, and restores it under the new version. This command keeps the first cutover's known-good pointer available while acceptance is in progress.
+
+## Napsak Dev subsequent releases
+
+Use the same target, verified operator and per-operation write opt-in as above. For each of `stage`, `approve` and `publish`, use a manifest with `mode: "subsequent"`, the expected published `base`, the exact `candidateFile`, and its approved `digest`. The manifest also needs the same `target`, `city`, `operator` and matching `operation`. Omit `legacy` and `rollbackFile`. Existing first-cutover manifests keep their paired digest and require an absent head.
+
+The subsequent digest is SHA-256 of the UTF-8 bytes of `JSON.stringify([base, payload, 'published-head'])`. Here `payload` is the exact serialized snapshot string. The publisher requires the expected live head when staging a new digest. Validation, approval and activation recheck that head and the candidate's continuity against the current release in the transaction. A competing update requires a freshly reviewed base. An exact retry keeps its original receipt and leaves the current head as it is.
+
+A forward correction is another subsequent release. Start from the currently active snapshot, preserve Saved and Hidden destinations, and assign a newer version to the corrected content. Removing an expired Event from discovery happens at its start time. Retain its catalog record while older app builds depend on it for personal history. Verify Event freshness before either approval or activation. The normal publish keeps the recorded known-good pointer. A forward restore of an older release is a separate authorized operation and can fail when that release lacks newly published IDs.
 
 ## Before production use
 

@@ -53,9 +53,16 @@ function loadWriteOperation(command: string, file: string, operator: string) {
     return (publisher: CatalogPublisher) => publisher.rollback(from, good, version);
   }
 
-  const { base, legacy, digest, candidateFile, rollbackFile } = manifest;
-  if (!isCatalogVersion(base) || !isCatalogVersion(legacy) || typeof digest !== 'string' || !digestPattern.test(digest)
-    || typeof candidateFile !== 'string' || typeof rollbackFile !== 'string') {
+  const { mode, base, legacy, digest, candidateFile, rollbackFile } = manifest;
+  const subsequent = mode === 'subsequent';
+  if (mode !== undefined && !subsequent) throw Error('Unknown catalog publication mode.');
+  if (!isCatalogVersion(base) || typeof digest !== 'string' || !digestPattern.test(digest) || typeof candidateFile !== 'string') {
+    throw Error('Specify the exact base, SHA-256 digest and candidate snapshot file.');
+  }
+  if (subsequent && (legacy !== undefined || rollbackFile !== undefined)) {
+    throw Error('A subsequent release must not include schema-1 cutover fields.');
+  }
+  if (!subsequent && (!isCatalogVersion(legacy) || typeof rollbackFile !== 'string')) {
     throw Error('A first cutover requires the exact base, legacy version, paired digest and both snapshot files.');
   }
   function readSnapshot(snapshotFile: string) {
@@ -68,11 +75,14 @@ function loadWriteOperation(command: string, file: string, operator: string) {
     return { bytes, value };
   }
   const candidate = readSnapshot(candidateFile);
-  const rollback = readSnapshot(rollbackFile);
-  if (candidateDigest(base, candidate.bytes, legacy, rollback.bytes) !== digest) {
-    throw Error('The snapshot files do not match the approved paired digest.');
+  const rollback = typeof rollbackFile === 'string' ? readSnapshot(rollbackFile) : undefined;
+  const expectedLegacy = isCatalogVersion(legacy) ? legacy : undefined;
+  if (candidateDigest(base, candidate.bytes, expectedLegacy, rollback?.bytes, subsequent) !== digest) {
+    throw Error(subsequent ? 'The snapshot file does not match the approved subsequent digest.'
+      : 'The snapshot files do not match the approved paired digest.');
   }
-  if (command === 'stage') return (publisher: CatalogPublisher) => publisher.stage(base, candidate.value, legacy, rollback.value);
+  if (command === 'stage') return (publisher: CatalogPublisher) =>
+    publisher.stage(base, candidate.value, expectedLegacy, rollback?.value, subsequent);
   if (command === 'approve') return (publisher: CatalogPublisher) => publisher.reviewCandidate(digest, true);
   return (publisher: CatalogPublisher) => publisher.publish(digest);
 }
